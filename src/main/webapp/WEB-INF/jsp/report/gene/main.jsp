@@ -203,13 +203,13 @@
                     <%@ include file="../relatedStrains.jsp"%>
                     <%@ include file="../geneticModels.jsp"%>
                     <!---Above expression table-->
-                    <a name="expression"></a>
-                    <br>
-                    <div class="subTitle" id="expression">Expression</div>
-                    <br>
-                    <%try {%>
-                    <jsp:include page="expressionDataNew.jsp"/>
-                    <%} catch (Exception e){e.printStackTrace();}%>
+<%--                    <a name="expression"></a>--%>
+<%--                    <br>--%>
+<%--                    <div class="subTitle" id="expression">Expression</div>--%>
+<%--                    <br>--%>
+<%--                    <%try {%>--%>
+<%--                    <jsp:include page="expressionDataNew.jsp"/>--%>
+<%--                    <%} catch (Exception e){e.printStackTrace();}%>--%>
                     <!--above sequence table--->
                     <a name="sequence"></a>
                     <br>
