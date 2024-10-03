@@ -380,7 +380,8 @@
 <div id="Day2" class="tab-content">
     <h2 class="day">October 4 (Friday)</h2>
     <br>
-    <h2 class="session-title">Session 4 - Workshop</h2>
+    <h2 class="session-title">Session 4 - <a style="font-size: 22px;color:#2865a3 ;font-weight: 500" href="${pageContext.request.contextPath}/common/abstracts/CTC-RG 24 Workshop.pdf"download target="_blank">Workshop</a></h2>
+<%--    <a href="${pageContext.request.contextPath}/common/abstracts/CTC-RG 24 Workshop.pdf">(View Workshop agenda)</a>--%>
     <div class="moderator-text">Moderated by David Samuelson</div>
     <hr class="session-divider">
     <ul class="session-details">
