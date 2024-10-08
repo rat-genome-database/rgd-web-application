@@ -464,7 +464,7 @@
 </div>
 <% } if ( !listGwas.isEmpty() ){ %>
 <div class="reportTable light-table-border" id="importedAnnotationsGWASTableWrapper">
-<div class="sectionHeading" id="importedAnnotationsGWAS"><h4>Imported Disease Annotations - GWAS Catalog </h4></div>
+  <div class="sectionHeading" id="importedAnnotationsGWAS">Disease Annotations - GWAS Catalog</div>
 
 
 <div class="search-and-pager">
