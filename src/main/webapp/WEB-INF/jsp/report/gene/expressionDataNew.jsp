@@ -64,11 +64,11 @@
     OntologyXDAO xdao = new OntologyXDAO();
     List<String> terms = xdao.getAllSlimTermsOrdered("UBERON","AGR");
     List<String> include = new ArrayList<>();
-    HashMap<String,Integer> termCnt = new HashMap<>();
+    HashMap<String,String> termCnt = new HashMap<>();
     for (String term : terms){
-        int sampleCnt = gedao.getGeneExpressionCountByTermRgdIdUnit(term,obj.getRgdId(),"TPM");
+        String sampleCnt = gedao.getGeneExprReValCountForGeneBySlim(obj.getRgdId(), "TPM", "all", term);
 //        System.out.println(sampleCnt);
-        if (sampleCnt!=0){
+        if (sampleCnt!=null){
             include.add(term);
             termCnt.put(term,sampleCnt);
         }
