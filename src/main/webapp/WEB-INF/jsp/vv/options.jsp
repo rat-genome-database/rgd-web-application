@@ -9,7 +9,10 @@
     String headContent = "";
     String pageDescription = "Select Options";
 
-    edu.mcw.rgd.datamodel.Map currentMap = MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey")));
+    int mapKey=372;
+    if(request.getParameter("mapKey")!=null)
+        mapKey=Integer.parseInt(request.getParameter("mapKey"));
+    edu.mcw.rgd.datamodel.Map currentMap = MapManager.getInstance().getMap(mapKey);
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
 %>
 <%@ include file="/common/headerarea.jsp" %>
