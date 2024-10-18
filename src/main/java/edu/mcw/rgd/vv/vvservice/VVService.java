@@ -136,6 +136,7 @@ public class VVService {
             return null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
+        if(vsb.genes.contains("a2m"))
        System.out.println("VV QUERY:"+ builder);
 
        if(req.getParameter("showDifferences").equals("true")){

@@ -395,6 +395,7 @@ public class DistributionController extends HaplotyperController {
                     //      sampleIdsFromResultSet.add(String.valueOf(b.getKey()));
                     variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
                     // }
+                    if(variantGeneCountMap.keySet().contains("a2m"))
                     System.out.println("variantGeneCountMap:"+ variantGeneCountMap.toString());
                 }
 
