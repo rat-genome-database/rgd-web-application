@@ -1,5 +1,6 @@
 package edu.mcw.rgd.vv;
 
+import com.google.gson.Gson;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
@@ -364,6 +365,10 @@ public class DistributionController extends HaplotyperController {
             SearchResponse sr=service.getAggregations(vsb, req);
 
             Terms samplesAgg = sr.getAggregations().get("sampleId");
+            if(vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
+                Gson gson = new Gson();
+                System.out.println("SR:" + gson.toJson(samplesAgg));
+            }
             List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
             for (Terms.Bucket b : samplebkts) {
                 Map<String, Integer> geneCountMap = new HashMap<>();
