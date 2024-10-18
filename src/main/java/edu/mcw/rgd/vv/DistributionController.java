@@ -43,7 +43,6 @@ public class DistributionController extends HaplotyperController {
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         List<String> regionList = new ArrayList<>();
-     //   List<String> regionList1=new ArrayList<>();
         Map<String,Map<String,Integer>> resultHash = Collections.emptyMap();
         String[][] matrix= null;
         StringBuilder sb=new StringBuilder();
@@ -70,7 +69,6 @@ public class DistributionController extends HaplotyperController {
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
         index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+mapKey);
         VVService.setVariantIndex(index);
-        List<String> symbols=new ArrayList<>();
         List<MappedGene> mgs = new ArrayList<MappedGene>();
         Set<String> masterKeySet = new HashSet<String>();
 
@@ -395,7 +393,7 @@ public class DistributionController extends HaplotyperController {
                     //      sampleIdsFromResultSet.add(String.valueOf(b.getKey()));
                     variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
                     // }
-                    if(variantGeneCountMap.keySet().contains("a2m"))
+                    if(variantGeneCountMap.containsKey("A2m"))
                     System.out.println("variantGeneCountMap:"+ variantGeneCountMap.toString());
                 }
 

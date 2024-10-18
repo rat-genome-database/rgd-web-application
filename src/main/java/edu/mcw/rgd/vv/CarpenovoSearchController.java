@@ -29,17 +29,22 @@ public class CarpenovoSearchController implements Controller {
         VariantDAO vdao = new VariantDAO();
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
-        int sampleId;
-        String chr;
-        Long start;
-        Long end;
-        int fmt;
+        int sampleId=0;
+        String chr=new String();
+        long start=0L;
+        long end=0L;
+        int fmt=0;
 
         try {
+            if(request.getParameter("sampleId")!=null)
             sampleId = Integer.parseInt(request.getParameter("sampleId"));
+            if(request.getParameter("chr")!=null)
             chr = request.getParameter("chr");
+            if(request.getParameter("start")!=null)
             start = Long.parseLong(request.getParameter("start"));
+            if(request.getParameter("end")!=null)
             end = Long.parseLong(request.getParameter("end"));
+            if(request.getParameter("fmt")!=null)
             fmt = Integer.parseInt(request.getParameter("fmt"));
 
         } catch(Exception e) {
