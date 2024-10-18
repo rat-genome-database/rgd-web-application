@@ -34,6 +34,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by jthota on 7/10/2019.
@@ -136,7 +137,8 @@ public class VVService {
             return null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
-        if(vsb.genes.contains("a2m"))
+        System.out.println("VSB GENES:"+ vsb.getGenes());
+        if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m"))
        System.out.println("VV QUERY:"+ builder);
 
        if(req.getParameter("showDifferences").equals("true")){
