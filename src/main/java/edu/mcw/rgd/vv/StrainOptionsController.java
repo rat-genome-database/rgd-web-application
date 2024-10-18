@@ -29,7 +29,7 @@ public class StrainOptionsController extends HaplotyperController {
 
             VariantSearchBean vsb = this.fillBean(req);
             request.setAttribute("vsb",vsb);
-
+            request.setAttribute("mapKey",vsb.getMapKey());
             if (!req.getParameter("chr").equals("") && !req.getParameter("start").equals("") && !req.getParameter("stop").equals("")) {
                 hasPos=true;
             }

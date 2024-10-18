@@ -158,8 +158,7 @@
     <td style="padding:8px;">
         <table align="center">
             <tr>
-                <td ><span style="font-size:14px;color:#8A0000;">&nbsp;RGD virtual office hours are available by appointment. </span> <a href="/rgdweb/contact/contactus.html">Contact us</a> to schedule a time.</td>
-            </tr>
+            <td ><span style="font-size:14px;color:#8A0000;">&nbsp;The 21st annual meeting of the Complex Trait Community will be hosted at the Medical College of Wisconsin October 2-5, 2024.</span> (<a href="https://rgd.mcw.edu/rgdweb/ctc-rg2024/program.html">View Agenda</a>)</td></tr>
         </table>
     </td>
     </tr>
