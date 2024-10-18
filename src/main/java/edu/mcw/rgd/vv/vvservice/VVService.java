@@ -193,7 +193,7 @@ public class VVService {
          aggs= AggregationBuilders.terms(fieldName).field(fieldName)
                .size(1000).order(BucketOrder.key(true))
                 .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword")
-                 .size(10000));
+                 .size(1000));
      }
 
   if(fieldName.equalsIgnoreCase("regionName")){
