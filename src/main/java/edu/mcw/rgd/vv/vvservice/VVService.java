@@ -136,6 +136,7 @@ public class VVService {
         if(builder==null)
             return null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
+        srb.size(0);
         srb.query(builder);
 
         if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
