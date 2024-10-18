@@ -136,7 +136,9 @@ public class VVService {
             return null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
-        if(req.getParameter("showDifferences").equals("true")){
+       System.out.println("VV QUERY:"+ builder);
+
+       if(req.getParameter("showDifferences").equals("true")){
              srb.aggregation(this.buildAggregations("regionName"));
           }else
             srb.aggregation(this.buildAggregations("sampleId"));
@@ -148,7 +150,6 @@ public class VVService {
            throw new VVException(e.getMessage());
 
        }
-
    }
     public List<SearchHit> excludeCommonVariants( List<SearchHit> searchHitList,VariantSearchBean vsb){
 
