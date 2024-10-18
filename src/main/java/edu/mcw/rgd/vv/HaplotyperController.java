@@ -398,7 +398,7 @@ public abstract class HaplotyperController implements Controller {
         List<String> symbols=null;
         int speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey());
         if(!geneList.contains("|")) {
-            symbols= Utils.symbolSplit(geneList).stream().map(g -> g.toLowerCase()).collect(Collectors.toList());
+            symbols= Utils.symbolSplit(geneList).stream().map(String::toLowerCase).collect(Collectors.toList());
         } else
             symbols= Collections.singletonList(geneList.toLowerCase());
 

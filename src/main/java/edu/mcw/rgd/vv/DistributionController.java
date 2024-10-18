@@ -313,17 +313,12 @@ public class DistributionController extends HaplotyperController {
                 SampleDAO sdao = new SampleDAO();
                 sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
                 List<Sample> samples = sdao.getSampleBySampleId(al);
-
-                int cnt = 0;
                 for (Sample sampleObj: samples)  {
                     sampleIds.add(sampleObj.getId() + "");
-                    cnt++;
                 }
             }
         }
-       for (String id : sampleIds){
-      //     System.out.println(SampleManager.getInstance().getSampleName(Integer.parseInt(id)).getAnalysisName());
-       }
+
         return sampleIds;
     }
 
@@ -361,7 +356,6 @@ public class DistributionController extends HaplotyperController {
     }
     public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
 
-
         Set<String> geneKeys=new HashSet<>();
         List<String> symbols = new ArrayList<>();
         Map<String, Map<String, Integer>> variantGeneCountMap=new HashMap<>();
@@ -371,7 +365,6 @@ public class DistributionController extends HaplotyperController {
 
             Terms samplesAgg = sr.getAggregations().get("sampleId");
             List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
-            List<String> sampleIdsFromResultSet= new ArrayList<>();
             for (Terms.Bucket b : samplebkts) {
                 Map<String, Integer> geneCountMap = new HashMap<>();
                 Terms geneAggs = b.getAggregations().get("region");
@@ -380,26 +373,14 @@ public class DistributionController extends HaplotyperController {
                     totalDocCount = totalDocCount + (int) gb.getDocCount();
                     geneCountMap.put( gb.getKey().toString().toLowerCase(), (int) gb.getDocCount());
                     geneKeys.add((gb.getKey().toString().toLowerCase()));
-
                 }
                 if (totalDocCount > 0) {
-                     /*   boolean flag=false;
-                        for(int id:vsb.sampleIds){
-                            if(id==(((Long) b.getKey()))){
-                                flag=true;
-                            }
-                        }*/
-                    //  if(flag) {
-                    //      sampleIdsFromResultSet.add(String.valueOf(b.getKey()));
                     variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
-                    // }
-                    if(variantGeneCountMap.containsKey("A2m"))
+                    if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m"))
                     System.out.println("variantGeneCountMap:"+ variantGeneCountMap.toString());
                 }
 
             }
-            //    Collections.sort(sampleIdsFromResultSet);
-            //   this.setSampleIdsFromResultSet(sampleIdsFromResultSet);
 
         }  else{
 

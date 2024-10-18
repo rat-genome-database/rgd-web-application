@@ -137,10 +137,11 @@ public class VVService {
             return null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.query(builder);
-        System.out.println("VSB GENES:"+ vsb.getGenes());
-        if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m"))
-       System.out.println("VV QUERY:"+ builder);
 
+        if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
+            System.out.println("VSB GENES:"+ vsb.getGenes());
+            System.out.println("VV QUERY:" + builder);
+        }
        if(req.getParameter("showDifferences").equals("true")){
              srb.aggregation(this.buildAggregations("regionName"));
           }else
