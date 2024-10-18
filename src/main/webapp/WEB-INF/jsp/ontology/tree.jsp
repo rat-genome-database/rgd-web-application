@@ -127,10 +127,16 @@
               prevType = syn.getType();
           }
           synonymsPerType++;
+
+          if (synonymsPerType > 10) continue;
+
           if( synonymsPerType>1 ) {
           %>
             ; &nbsp;
           <%
+
+
+
           }
           // turn synonym name into a link from MESH and MIM ids
           if( syn.getName().startsWith("MESH:") ) { %>
