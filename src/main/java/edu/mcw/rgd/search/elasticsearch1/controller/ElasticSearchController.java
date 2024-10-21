@@ -279,8 +279,11 @@ public class ElasticSearchController extends RGDSearchController {
             }
         if(mapKey==0 && species!=null && !species.equals("")){
             Map referenceAssemblyMap=MapManager.getInstance().getReferenceAssembly(SpeciesType.parse(species));
+            if(referenceAssemblyMap!=null)
             mapKey=referenceAssemblyMap.getKey();
         }
+        if(mapKey==0)
+            mapKey=372;
         return mapKey;
     }
     public boolean existsIn(List<String> idsTouched, String id){
