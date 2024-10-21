@@ -139,10 +139,10 @@ public class VVService {
         srb.size(0);
         srb.query(builder);
 
-        if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
-            System.out.println("VSB GENES:"+ vsb.getGenes());
-            System.out.println("VV QUERY:" + builder);
-        }
+//        if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
+//            System.out.println("VSB GENES:"+ vsb.getGenes());
+//            System.out.println("VV QUERY:" + builder);
+//        }
        if(req.getParameter("showDifferences").equals("true")){
              srb.aggregation(this.buildAggregations("regionName"));
           }else
@@ -229,7 +229,7 @@ public class VVService {
                 synStats.add("synonymous");
             }
             if (synStats.size() > 0) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantTranscripts.synStatus", synStats.toArray())));
+                builder.filter(QueryBuilders.termsQuery("variantTranscripts.synStatus", synStats.toArray()));
             }
             if (req.getParameter("genic").equals("true")) {
                 genicStats.add("GENIC");
@@ -238,7 +238,7 @@ public class VVService {
                 genicStats.add("INTERGENIC");
             }
             if (genicStats.size() > 0) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("genicStatus.keyword", genicStats.toArray())));
+                builder.filter(QueryBuilders.termsQuery("genicStatus.keyword", genicStats.toArray()));
             }
             if (req.getParameter("snv").equals("true")) {
                 vTypes.add("snv");
@@ -252,7 +252,7 @@ public class VVService {
                 vTypes.add("deletion");
             }
             if (vTypes.size() > 0) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantType.keyword", vTypes.toArray())));
+                builder.filter(QueryBuilders.termsQuery("variantType.keyword", vTypes.toArray()));
             }
             if (req.getParameter("intron").equals("true")) {
                 locs.add("INTRON");
@@ -271,13 +271,13 @@ public class VVService {
                 builder.filter(qb);
             }
             if (req.getParameter("nearSpliceSite").equals("true")) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("variantTranscripts.nearSpliceSite.keyword", "T")));
+                builder.filter(QueryBuilders.termQuery("variantTranscripts.nearSpliceSite.keyword", "T"));
             }
             if (req.getParameter("proteinCoding").equals("true")) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.existsQuery("variantTranscripts.refAA.keyword")));
+                builder.filter(QueryBuilders.existsQuery("variantTranscripts.refAA.keyword"));
             }
             if (req.getParameter("frameshift").equals("true")) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("variantTranscripts.frameShift.keyword", "T")));
+                builder.filter(QueryBuilders.termQuery("variantTranscripts.frameShift.keyword", "T"));
 
             }
             List<String> pPredictions = new ArrayList<>();
@@ -291,7 +291,7 @@ public class VVService {
                 pPredictions.add("probably damaging");
             }
             if (pPredictions.size() > 0) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray())));
+                builder.filter(QueryBuilders.termsQuery("variantTranscripts.polyphenStatus.keyword", pPredictions.toArray()));
             }
 
             List<String> clinicalSignificance = new ArrayList<>();
@@ -308,13 +308,13 @@ public class VVService {
                 clinicalSignificance.add("uncertain significance");
             }
             if (req.getParameter("cs_pathogenic").equals("true")) {
-                builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.matchPhraseQuery("clinicalSignificance", "pathogenic")));
+                builder.filter(QueryBuilders.matchPhraseQuery("clinicalSignificance", "pathogenic"));
             }
             if (req.getParameter("cs_benign").equals("true")) {
-                builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.matchPhraseQuery("clinicalSignificance", "benign")));
+                builder.filter(QueryBuilders.matchPhraseQuery("clinicalSignificance", "benign"));
             }
             if (req.getParameter("cs_other").equals("true")) {
-                builder.filter(QueryBuilders.boolQuery().must(QueryBuilders.matchPhraseQuery("clinicalSignificance", "uncertain significance")));
+                builder.filter(QueryBuilders.matchPhraseQuery("clinicalSignificance", "uncertain significance"));
             }
 
             /***************************zygosity************************************/
@@ -328,7 +328,7 @@ public class VVService {
                 zygosity.add("possibly homozygous");
             }
             if (zygosity.size() > 0) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("zygosityStatus.keyword", zygosity.toArray())));
+                builder.filter(QueryBuilders.termsQuery("zygosityStatus.keyword", zygosity.toArray()));
             }
             /**********************alleleCount********************************/
             if (req.getParameter("alleleCount1").equals("true"))
@@ -340,15 +340,15 @@ public class VVService {
             if (req.getParameter("alleleCount4").equals("true"))
                 alleleCount.add(4);
             if (alleleCount.size() > 0) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termsQuery("zygosityNumAllele", alleleCount.toArray())));
+                builder.filter(QueryBuilders.termsQuery("zygosityNumAllele", alleleCount.toArray()));
 
             }
             /********exclude possible error not working because new table structure doesn't have this data in the DB******/
             if (req.getParameter("excludePossibleError").equals("true")) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("zygosityPossError.keyword", "N")));
+                builder.filter(QueryBuilders.termQuery("zygosityPossError.keyword", "N"));
             }
             if (req.getParameter("hetDiffFromRef").equals("true")) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("zygosityRefAllele.keyword", "N")));
+                builder.filter(QueryBuilders.termQuery("zygosityRefAllele.keyword", "N"));
             }
             /**************************************LIMIT TO**********************************************/
 
@@ -391,8 +391,8 @@ public class VVService {
     public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
 
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-        if(vsb.genes!=null && vsb.genes.size()>0){
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.genes.stream().map(g->g.toLowerCase()).toArray()))
+        if(vsb.getGenes()!=null && vsb.getGenes().size()>0){
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.getGenes().stream().map(g->g.toLowerCase()).toArray()))
               .filter(QueryBuilders.termsQuery("sampleId", vsb.getSampleIds())));
 
         }
@@ -412,8 +412,8 @@ public class VVService {
                 qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
 
             }
-            if(vsb.genes.size()>0)
-                qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.genes.toArray()));
+            if(vsb.getGenes().size()>0)
+                qb.filter(QueryBuilders.termsQuery("regionNameLc.keyword", vsb.getGenes().toArray()));
             dqb.add(qb);
         }else{
 

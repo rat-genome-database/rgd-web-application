@@ -32,8 +32,6 @@ import java.util.stream.Collectors;
  */
 public class DistributionController extends HaplotyperController {
     private List<String> gSymbols;
-    //  private List<String> sampleIdsFromResultSet;
-
 
     VVService service= new VVService();
     GeneLociDAO geneLociDAO=new GeneLociDAO();
@@ -45,8 +43,8 @@ public class DistributionController extends HaplotyperController {
 
         List<String> regionList = new ArrayList<>();
         Map<String,Map<String,Integer>> resultHash = Collections.emptyMap();
-        String[][] matrix= null;
-        StringBuilder sb=new StringBuilder();
+//        String[][] matrix= null;
+//        StringBuilder sb=new StringBuilder();
         VariantSearchBean vsb = null;
         int maxValue =0;
 
@@ -70,7 +68,7 @@ public class DistributionController extends HaplotyperController {
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
         index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+mapKey);
         VVService.setVariantIndex(index);
-        List<MappedGene> mgs = new ArrayList<MappedGene>();
+//        List<MappedGene> mgs = new ArrayList<MappedGene>();
         Set<String> masterKeySet = new HashSet<String>();
 
         vsb = new VariantSearchBean(mapKey);
@@ -135,18 +133,12 @@ public class DistributionController extends HaplotyperController {
             vsb.setPolyphen(req.getParameter("benign"), req.getParameter("possibly"), req.getParameter("probably"));
             vsb.setClinicalSignificance(req.getParameter("cs_pathogenic"), req.getParameter("cs_benign"), req.getParameter("cs_other"));
 
-            // resultHash = vdao.getVariantToGeneCountMap(vsb);
             try {
                 resultHash = this.getVariantToGeneCountMap(vsb, req);
             }catch (VVException e){
                 throw e;
             }
 
-            //System.out.println("RESULT HASH SIZE: "+ resultHash.size());
-
-         /*   if(symbols.size()==0){
-                vsb.genes.addAll(gSymbols);
-            }*/
 
             for(Map<String,Integer> map: resultHash.values()) {
                 masterKeySet.addAll(map.keySet());
@@ -166,7 +158,7 @@ public class DistributionController extends HaplotyperController {
 
         //need to be different for functional search
 
-        if (vsb.genes.size()==0) {
+        if (vsb.getGenes().size()==0) {
             if(resultHash.size()>0) {
                 List<MappedGene> mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
                 lastGene = "";
@@ -211,10 +203,10 @@ public class DistributionController extends HaplotyperController {
                 }
             }
         }else {
-            regionList = vsb.genes;
-            if (req.getParameter("geneList").indexOf("|") != -1 && mgs.size()>0) {
-                regionList.add(req.getParameter("geneList"));
-            }
+            regionList = vsb.getGenes();
+//            if (req.getParameter("geneList").indexOf("|") != -1 && mgs.size()>0) {
+//                regionList.add(req.getParameter("geneList"));
+//            }
         }
 
         if (!errors.isEmpty()) {
@@ -244,29 +236,19 @@ public class DistributionController extends HaplotyperController {
                     }
                 }
             }
-        }else{
-          //  regionList1=gSymbols;
         }
      String geneList=  regionList.stream().filter(p->!p.contains("|")).collect(Collectors.joining("+"));
-    //    request.setAttribute("regionList", regionList1); //uncomment this if decided not to show genes with 0 variants
         request.setAttribute("regionList", regionList);
         request.setAttribute("geneListStr", geneList);
 
         request.setAttribute("sampleIds", sampleIds);
         request.setAttribute("resultHash", resultHash);
-        request.setAttribute("json",sb.toString() );
+//        request.setAttribute("json",sb.toString() );
         request.setAttribute("vsb", vsb);
         request.setAttribute("maxValue", maxValue);
-        ModelMap model=new ModelMap();
-        model.addAttribute("matrix", matrix);
-     /*   for(Map.Entry e:resultHash.entrySet()) {
-            System.out.println("KEY:"+e.getKey() );
-            Map<String, Integer> map= (Map<String, Integer>) e.getValue();
-            for(Map.Entry x:map.entrySet()){
-                System.out.println(x.getKey() +"\t"+ x.getValue());
-            }
-        }*/
-        return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp", model);
+      //  ModelMap model=new ModelMap();
+        //model.addAttribute("matrix", matrix);
+        return new ModelAndView("/WEB-INF/jsp/vv/dist.jsp");
 
        }catch (Exception e) {
           /*  if(e.getMessage().contains("Elasticsearch exception"))
@@ -365,10 +347,10 @@ public class DistributionController extends HaplotyperController {
             SearchResponse sr=service.getAggregations(vsb, req);
 
             Terms samplesAgg = sr.getAggregations().get("sampleId");
-            if(vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
-                Gson gson = new Gson();
-                System.out.println("SR:" + gson.toJson(samplesAgg));
-            }
+//            if(vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
+//                Gson gson = new Gson();
+//                System.out.println("SR:" + gson.toJson(samplesAgg));
+//            }
             List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
             for (Terms.Bucket b : samplebkts) {
                 Map<String, Integer> geneCountMap = new HashMap<>();
@@ -381,8 +363,8 @@ public class DistributionController extends HaplotyperController {
                 }
                 if (totalDocCount > 0) {
                     variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
-                    if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m"))
-                    System.out.println("variantGeneCountMap:"+ variantGeneCountMap.toString());
+//                    if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m"))
+//                    System.out.println("variantGeneCountMap:"+ variantGeneCountMap.toString());
                 }
 
             }
