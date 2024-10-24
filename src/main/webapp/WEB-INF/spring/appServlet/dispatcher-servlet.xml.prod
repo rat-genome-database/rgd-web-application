@@ -59,7 +59,7 @@
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
                 <prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
-                <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
+<!--                <prop key="report/gene/expressionData.html">ExpressionDataController</prop>-->
 
                 <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
