@@ -352,7 +352,7 @@
     <div class="moderator-text">Introduction by Aron Geurts</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>1:00 PM to 2:00 PM</strong> - Sex chromosome-modified mice and rats to identify factors causing sex differences in physiology and disease by <strong class="author">Arthur Arnold</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Arnold_AP.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Keynote-1/Arnold-MCW-Oct-2024.pdf"target="_blank">(Presentation)</a>
+    <li><strong>1:00 PM to 2:00 PM</strong> - Sex chromosome-modified mice and rats to identify factors causing sex differences in physiology and disease by <strong class="author">Arthur Arnold</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Arnold_AP.pdf" download target="_blank">(Download Abstract)</a>
     </li>
     </ul>
     <h2 class="session-title">Session 3 - Data Science and Resources</h2>
@@ -440,7 +440,9 @@
         <li><strong>2:15 PM to 2:30 PM</strong> - Developmental systems genomics identifies expression quantitative trait loci underlying strain differences in skeletal differentiation and developmental pace by <strong class="author">Ian Welsh</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Welsh_IC.pdf" download target="_blank">(Download Abstract)</a></li>
         <li><strong>2:30 PM to 2:45 PM</strong> - Machine learning reveals genetic modifiers of the immune microenvironment of cancer by <strong class="author">Michael Flister</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Flister_MJ.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Session-7/Flister_MCW.pdf"target="_blank">(Presentation)</a>
         </li>
-        <li><strong>2:45 PM to 3:00 PM</strong> - Linking brain cell types with predisposition to alcohol consumption in rats by <strong class="author">Laura Saba</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Saba_LM.pdf" download target="_blank">(Download Abstract)</a></li>
+<%--        <li><strong>2:45 PM to 3:00 PM</strong> - Linking brain cell types with predisposition to alcohol consumption in rats by <strong class="author">Laura Saba</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Saba_LM.pdf" download target="_blank">(Download Abstract)</a></li>--%>
+        <li><strong>2:45 PM to 3:00 PM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Leger_bsl.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/BSL_2024.pdf"target="_blank">(Presentation)</a>
+        </li>
     </ul>
     <h2 class="session-title">Session 8 - Genome Biology II</h2>
     <div class="moderator-text">Moderated by Denghui Chen and Chris Jin</div>
@@ -481,8 +483,8 @@
     <ul class="session-details">
     <li><strong>9:15 AM to 9:30 AM</strong> - Genome-wide association study of cocaine use in Heterogeneous Stock rats by <strong class="author">Montana Lara</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Lara_MKL.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/MKL_CTC_2024.pdf"target="_blank">(Presentation)</a>
     </li>
-    <li><strong>9:30 AM to 9:45 AM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Leger_bsl.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/BSL_2024.pdf"target="_blank">(Presentation)</a>
-    </li>
+<%--    <li><strong>9:30 AM to 9:45 AM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Leger_bsl.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/BSL_2024.pdf"target="_blank">(Presentation)</a>--%>
+<%--    </li>--%>
     <li><strong>9:45 AM to 10:00 AM</strong> - Improved representation of behavior data in the Rat Genome Database's PhenoMiner tool by <strong class="author">Jennifer Smith</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Smith_JR.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/Smith_Behavior_Saturday_Session9.pdf"target="_blank">(Presentation)</a>
     </li>
     </ul>
