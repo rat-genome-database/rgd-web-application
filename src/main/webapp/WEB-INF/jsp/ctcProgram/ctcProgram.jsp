@@ -418,9 +418,9 @@
     <h2 class="day">October 4 (Friday)</h2>
     <br>
     <div class="video-links">
+        <a href="https://www.youtube.com/watch?v=VCUQQXG2J60&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Workshop Talk</a>
         <a href="https://www.youtube.com/watch?v=n43CcKu_G8U&t=19s&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Morning Talks</a>
         <a href="https://www.youtube.com/watch?v=-F4tHJ753ps&pp=ygULQ1RDLXJnIDIwMjQ%3D"class="video-button" target="_blank">Watch Afternoon Talks</a>
-        <a href="https://www.youtube.com/watch?v=VCUQQXG2J60&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Workshop Talk</a>
     </div>
     <h2 class="session-title">Session 4 - <a style="font-size: 22px;color:#2865a3 ;font-weight: 500" href="${pageContext.request.contextPath}/common/abstracts/CTC-RG-24-Workshop.pdf"download target="_blank">Workshop</a></h2>
 <%--    <a href="${pageContext.request.contextPath}/common/abstracts/CTC-RG 24 Workshop.pdf">(View Workshop agenda)</a>--%>
