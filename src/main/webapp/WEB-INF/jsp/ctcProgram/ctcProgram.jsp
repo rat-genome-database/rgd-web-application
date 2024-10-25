@@ -254,6 +254,26 @@
         vertical-align: middle;
     }
 
+    .video-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .video-button {
+        background-color: #007bff;
+        text-decoration: none;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        font-size: 11pt;
+    }
+
+    .video-button:hover{
+        text-decoration: none;
+    }
 
     @media (max-width: 600px) {
         .tab-links {
@@ -306,6 +326,10 @@
 <div id="Day1" class="tab-content">
     <h2 class="day">October 3 (Thursday)</h2>
     <br>
+    <div class="video-links">
+        <a href="https://www.youtube.com/watch?v=f6jc9-ILclA&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Morning Talks</a>
+        <a href="https://www.youtube.com/watch?v=7NkewSi7zp8&pp=ygULQ1RDLXJnIDIwMjQ%3D"class="video-button" target="_blank">Watch Afternoon Talks</a>
+    </div>
     <h2>Registration and Introduction</h2>
     <hr class="session-divider">
     <ul class="session-details">
@@ -393,6 +417,11 @@
 <div id="Day2" class="tab-content">
     <h2 class="day">October 4 (Friday)</h2>
     <br>
+    <div class="video-links">
+        <a href="https://www.youtube.com/watch?v=n43CcKu_G8U&t=19s&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Morning Talks</a>
+        <a href="https://www.youtube.com/watch?v=-F4tHJ753ps&pp=ygULQ1RDLXJnIDIwMjQ%3D"class="video-button" target="_blank">Watch Afternoon Talks</a>
+        <a href="https://www.youtube.com/watch?v=VCUQQXG2J60&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Workshop Talk</a>
+    </div>
     <h2 class="session-title">Session 4 - <a style="font-size: 22px;color:#2865a3 ;font-weight: 500" href="${pageContext.request.contextPath}/common/abstracts/CTC-RG-24-Workshop.pdf"download target="_blank">Workshop</a></h2>
 <%--    <a href="${pageContext.request.contextPath}/common/abstracts/CTC-RG 24 Workshop.pdf">(View Workshop agenda)</a>--%>
     <div class="moderator-text">Moderated by David Samuelson</div>
@@ -477,6 +506,9 @@
 <div id="Day3" class="tab-content">
     <h2 class="day">October 5 (Saturday)</h2>
     <br>
+    <div class="video-links">
+        <a href="https://www.youtube.com/watch?v=DbVFpdY6YEc&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Morning Talks</a>
+    </div>
     <h2 class="session-title">Session 9 - Substance Use Disorders and Behavior</h2>
     <div class="moderator-text">Moderated by Apurva Chitre</div>
     <hr class="session-divider">
