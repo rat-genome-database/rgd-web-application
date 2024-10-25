@@ -208,50 +208,6 @@
         document.getElementById("stop").value = stopVal;
     }
 
-    // // Function to handle the zoom-in operation
-    // function zoomIn(factor) {
-    //     isManualEdit = false;
-    //     let originalStart = parseInt(document.getElementById("start").value.replace(/,/g, ''), 10);
-    //     let originalStop = parseInt(document.getElementById("stop").value.replace(/,/g, ''), 10);
-    //
-    //     let regionSize = originalStop-originalStart;
-    //     let delta = Math.round((factor*regionSize)/2);
-    //
-    //     let newStart = originalStart + delta;  // Potential new start value
-    //     let newStop = originalStop - delta;    // Potential new stop value
-    //
-    //     if (newStop - newStart > 0) {
-    //         document.getElementById("start").value = newStart;
-    //         document.getElementById("stop").value = newStop;
-    //         updatePage();
-    //     } else {
-    //         console.log("Start: " + originalStart + ", Stop: " + originalStop);
-    //         alert("Maximum zoom limit reached");
-    //     }
-    // }
-    //
-    // // Function to handle the zoom-out operation
-    // function zoomOut(factor) {
-    //     isManualEdit = false;
-    //     let originalStart = parseInt(document.getElementById("start").value.replace(/,/g, ''), 10);
-    //     let originalStop = parseInt(document.getElementById("stop").value.replace(/,/g, ''), 10);
-    //
-    //     let regionSize = originalStop-originalStart;
-    //     let delta = Math.round((factor*regionSize)/2);
-    //
-    //     let newStart = originalStart - delta;  // Potential new start value
-    //     let newStop = originalStop + delta;    // Potential new stop value
-    //
-    //     if (newStart > 0) {
-    //         document.getElementById("start").value = newStart;
-    //         document.getElementById("stop").value = newStop;
-    //         updatePage();
-    //     } else {
-    //         console.log("Start: " + originalStart + ", Stop: " + originalStop);
-    //         alert("Minimum zoom limit reached or invalid range");
-    //     }
-    // }
-
     // Function to handle the zoom-in operation
     function zoomIn(factor) {
         isManualEdit = false;
@@ -290,11 +246,17 @@
         let newStart = Math.max(1, originalStart - Math.round(delta));
         let newStop = originalStop + Math.round(delta);
 
-        if (newStart > 0) {
+        // if (newStart > 0) {
+        //     document.getElementById('start').value = newStart;
+        //     document.getElementById('stop').value = newStop;
+        //     updatePage();
+        // }
+        if(newStop-newStart<=30000000){
             document.getElementById('start').value = newStart;
             document.getElementById('stop').value = newStop;
             updatePage();
-        } else {
+        }
+        else {
             alert('Maximum zoom-out limit reached');
         }
     }
@@ -307,7 +269,7 @@
     function validateSearchInput() {
         let input = document.getElementById("search").value;
         // Regular expression to match the pattern "Chr#:startpos..stoppos"
-        let pattern = /^Chr([A-Za-z0-9]+):([\d,]+)\.\.([\d,]+)$/;
+        let pattern = /^Chr([A-Za-z0-9]+):([\d,]+)\.\.([\d,]+)$/i;
         if (!pattern.test(input)) {
             alert("Please enter a valid format: 'Chr#:startpos..stoppos'");
         }
