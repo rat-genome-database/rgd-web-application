@@ -126,7 +126,7 @@
                 </td>
                 <td>
                     <div class="zoomButton" id="zIn3x">
-                        <img src="/rgdweb/common/images/zoom/zoom-in-double-right-1.png" alt=">>">
+                        <img src="/rgdweb/common/images/zoom/zoom-in-double-right.png" alt=">>">
                         <span class="zoomLabel">3x</span>
                     </div>
                 </td>
