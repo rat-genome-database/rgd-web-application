@@ -158,7 +158,7 @@
     <td style="padding:8px;">
         <table align="center">
             <tr>
-            <td ><span style="font-size:14px;color:#8A0000;">&nbsp;The 21st annual meeting of the Complex Trait Community will be hosted at the Medical College of Wisconsin October 2-5, 2024.</span> (<a href="https://rgd.mcw.edu/rgdweb/ctc-rg2024/program.html">View Agenda</a>)</td></tr>
+            <td ><span style="font-size:14px;color:#8A0000;">&nbsp;RGD is the Global Core Biodata Resource of the week!</span>&nbsp;(<a href="https://www.linkedin.com/pulse/rat-genome-database-global-biodata-coalition-wy1he/">View details at LinkedIn</a>)</td></tr>
         </table>
     </td>
     </tr>
