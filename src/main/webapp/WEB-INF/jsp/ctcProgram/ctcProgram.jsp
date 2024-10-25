@@ -254,6 +254,26 @@
         vertical-align: middle;
     }
 
+    .video-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .video-button {
+        background-color: #007bff;
+        text-decoration: none;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        font-size: 11pt;
+    }
+
+    .video-button:hover{
+        text-decoration: none;
+    }
 
     @media (max-width: 600px) {
         .tab-links {
@@ -306,6 +326,10 @@
 <div id="Day1" class="tab-content">
     <h2 class="day">October 3 (Thursday)</h2>
     <br>
+    <div class="video-links">
+        <a href="https://www.youtube.com/watch?v=f6jc9-ILclA&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Morning Talks</a>
+        <a href="https://www.youtube.com/watch?v=7NkewSi7zp8&pp=ygULQ1RDLXJnIDIwMjQ%3D"class="video-button" target="_blank">Watch Afternoon Talks</a>
+    </div>
     <h2>Registration and Introduction</h2>
     <hr class="session-divider">
     <ul class="session-details">
@@ -316,11 +340,14 @@
     <div class="moderator-text">Moderated by Andrea Guarracino and Kai Li</div>
     <hr class="session-divider">
     <ul class="session-details">
-        <li><strong>9:15 AM to 9:30 AM</strong> - Pangenome mapping enhances genotype-phenotype associations in BXD mouse family by <strong class="author">Flavia Villani</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Villani_FV.pdf" download target="_blank">(Download Abstract)</a>
+        <li><strong>9:15 AM to 9:30 AM</strong> - Pangenome mapping enhances genotype-phenotype associations in BXD mouse family by <strong class="author">Flavia Villani</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Villani_FV.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-1/1-Villani.pdf"target="_blank">(Presentation)</a>
         </li>
-        <li><strong>9:30 AM to 9:45 AM</strong> - Haplotype-based analyses of phylogeny and regional genome diversity in laboratory rats by <strong class="author">Yanchao Pan</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Pan_Y.pdf" download target="_blank">(Download Abstract)</a></li>
-        <li><strong>9:45 AM to 10:00 AM</strong> - Genomics and Genetics of Immunoglobulin in the Rat by <strong class="author">Peter Doris</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Doris_PA.pdf" download target="_blank">(Download Abstract)</a></li>
-        <li><strong>10:00 AM to 10:15 AM</strong> - Y and mitochondrial chromosomes in the heterogeneous stock rat population by <strong class="author">Faith Okamoto</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Okamoto_F.pdf" download target="_blank">(Download Abstract)</a></li>
+        <li><strong>9:30 AM to 9:45 AM</strong> - Haplotype-based analyses of phylogeny and regional genome diversity in laboratory rats by <strong class="author">Yanchao Pan</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Pan_Y.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-1/2-Pan.pdf"target="_blank">(Presentation)</a>
+        </li>
+        <li><strong>9:45 AM to 10:00 AM</strong> - Genomics and Genetics of Immunoglobulin in the Rat by <strong class="author">Peter Doris</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Doris_PA.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-1/3-Doris.pdf"target="_blank">(Presentation)</a>
+        </li>
+        <li><strong>10:00 AM to 10:15 AM</strong> - Y and mitochondrial chromosomes in the heterogeneous stock rat population by <strong class="author">Faith Okamoto</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Okamoto_F.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-1/4-Okamoto.pdf"target="_blank">(Presentation)</a>
+        </li>
         <li><strong>10:15 AM to 10:30 AM</strong> - Discussion</li>
     </ul>
     <div class="break-item">
@@ -331,10 +358,14 @@
     <div class="moderator-text">Moderated by Montana Lara</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>10:45 AM to 11:00 AM</strong> - Genome-wide association of adiposity in heterogeneous stock rats by <strong class="author">Apurva Chitre</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Chitre.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>11:00 AM to 11:15 AM</strong> - Identification of genes that link obesity and stress/emotional behaviors using outbred rats by <strong class="author">Leah Solberg-Woods</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/SolbergWoods.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>11:15 AM to 11:30 AM</strong> - Complex metabolic traits are mediated by genes with distal heritability by <strong class="author">Greg Carter</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Carter_GW.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>11:30 AM to 11:45 AM</strong> - Health Outcomes of PFAS Exposure Through Genetics and Environmental Interactions in Heterogenous Stock Founder Rats by <strong class="author">Katie Holl</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Holl.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>10:45 AM to 11:00 AM</strong> - Genome-wide association of adiposity in heterogeneous stock rats by <strong class="author">Apurva Chitre</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Chitre.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-2/CTC_Apurva_Chitre_2024.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>11:00 AM to 11:15 AM</strong> - Identification of genes that link obesity and stress/emotional behaviors using outbred rats by <strong class="author">Leah Solberg-Woods</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/SolbergWoods.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-2/2-SolbergWoods.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>11:15 AM to 11:30 AM</strong> - Complex metabolic traits are mediated by genes with distal heritability by <strong class="author">Greg Carter</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Carter_GW.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-2/3-Carter.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>11:30 AM to 11:45 AM</strong> - Health Outcomes of PFAS Exposure Through Genetics and Environmental Interactions in Heterogenous Stock Founder Rats by <strong class="author">Katie Holl</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Holl.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-2/4-Holl.pdf"target="_blank">(Presentation)</a>
+    </li>
         <li><strong>11:45 AM to 12:00 PM</strong> - Discussion</li>
     </ul>
     <div class="break-item">
@@ -345,24 +376,30 @@
     <div class="moderator-text">Introduction by Aron Geurts</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>1:00 PM to 2:00 PM</strong> - Sex chromosome-modified mice and rats to identify factors causing sex differences in physiology and disease by <strong class="author">Arthur Arnold</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Arnold_AP.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>1:00 PM to 2:00 PM</strong> - Sex chromosome-modified mice and rats to identify factors causing sex differences in physiology and disease by <strong class="author">Arthur Arnold</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Arnold_AP.pdf" download target="_blank">(Download Abstract)</a>
+    </li>
     </ul>
     <h2 class="session-title">Session 3 - Data Science and Resources</h2>
     <div class="moderator-text">Moderated by Faith Okamoto and Farnaz Salehi</div>
     <hr class="session-divider">
     <ul class="session-Details">
-    <li><strong>2:00 PM to 2:15 PM</strong> - ClassifyGxT: Probabilistic classification of gene-by-treatment effects in molecular count phenotypes by <strong class="author">William Valdar</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Valdar_W.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>2:15 PM to 2:30 PM</strong> - PipeRat: A high-throughput python package to perform and visualize large-scale genetic association analysis by <strong class="author">Thiago Missfeldt Sanches</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/MissfeldtSanches.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>2:00 PM to 2:15 PM</strong> - ClassifyGxT: Probabilistic classification of gene-by-treatment effects in molecular count phenotypes by <strong class="author">William Valdar</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Valdar_W.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-3/Valdar_CTC-RG_2024.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>2:15 PM to 2:30 PM</strong> - PipeRat: A high-throughput python package to perform and visualize large-scale genetic association analysis by <strong class="author">Thiago Missfeldt Sanches</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/MissfeldtSanches.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-3/2-MissfeldtSanches.pdf"target="_blank">(Presentation)</a>
+    </li>
     <li><strong>2:30 PM to 2:45 PM</strong> - 2024 Update on GeneNetwork.org by <strong class="author">Pjotr Prins</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Prins_P.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>2:45 PM to 3:00 PM</strong> - MoTrPAC Data Hub: Multi-omic, Multi-tissue Collection of Exercise Molecular Responses in Young Adult Rats by <strong class="author">Christopher Jin</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Jin_CJ_Physiological.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>2:45 PM to 3:00 PM</strong> - MoTrPAC Data Hub: Multi-omic, Multi-tissue Collection of Exercise Molecular Responses in Young Adult Rats by <strong class="author">Christopher Jin</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Jin_CJ_Physiological.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-3/4-Jin.pdf"target="_blank">(Presentation)</a>
+    </li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
         <strong>3:00 PM to 3:30 PM - BREAK</strong>
     </div>
     <ul class="session-Details">
-    <li><strong>3:30 PM to 3:45 PM</strong> - Introducing the center for genetics, genomics, and epigenetics of substance use disorders in outbred rats by <strong class="author">Abraham Palmer</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Palmer.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>3:45 PM to 4:00 PM</strong> - HRDP Update by <strong class="author">Melinda Dwinell</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Dwinell_MR.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>3:30 PM to 3:45 PM</strong> - Introducing the center for genetics, genomics, and epigenetics of substance use disorders in outbred rats by <strong class="author">Abraham Palmer</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Palmer.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-3/Palmer-talk.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>3:45 PM to 4:00 PM</strong> - HRDP Update by <strong class="author">Melinda Dwinell</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Dwinell_MR.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-3rd/Session-3/6-Dwinell.pdf"target="_blank">(Presentation)</a>
+    </li>
     <li><strong>4:00 PM to 4:45 PM</strong> - <strong>Panel Discussion:</strong> Expanding the use of biological and data resources.</li>
     </ul>
     <div class="break-item">
@@ -380,12 +417,19 @@
 <div id="Day2" class="tab-content">
     <h2 class="day">October 4 (Friday)</h2>
     <br>
+    <div class="video-links">
+        <a href="https://www.youtube.com/watch?v=n43CcKu_G8U&t=19s&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Morning Talks</a>
+        <a href="https://www.youtube.com/watch?v=-F4tHJ753ps&pp=ygULQ1RDLXJnIDIwMjQ%3D"class="video-button" target="_blank">Watch Afternoon Talks</a>
+        <a href="https://www.youtube.com/watch?v=VCUQQXG2J60&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Workshop Talk</a>
+    </div>
     <h2 class="session-title">Session 4 - <a style="font-size: 22px;color:#2865a3 ;font-weight: 500" href="${pageContext.request.contextPath}/common/abstracts/CTC-RG-24-Workshop.pdf"download target="_blank">Workshop</a></h2>
+<%--    <a href="${pageContext.request.contextPath}/common/abstracts/CTC-RG 24 Workshop.pdf">(View Workshop agenda)</a>--%>
     <div class="moderator-text">Moderated by David Samuelson</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>8:30 AM to 9:30 AM</strong> - <strong>Use case 1:</strong> Navigating the public resources for quantitative genetics, phenotypes and omics data for my research.</li>
-    <li><strong>9:30 AM to 10:30 AM</strong> - <strong>Use case 2:</strong> Using online resources to find a model for my disease of interest (in this case, obesity).</li>
+    <li><strong>8:30 AM to 9:30 AM</strong> - <strong>Use case 1:</strong> Navigating the public resources for quantitative genetics, phenotypes and omics data for my research. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Workshop/Use-Case-1/Vedi-use-case-1.pdf"target="_blank">(Presentation)</a></li>
+    <li><strong>9:30 AM to 10:30 AM</strong> - <strong>Use case 2:</strong> Using online resources to find a model for my disease of interest (in this case, obesity). <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Workshop/Use-Case-2/RGD_model.pdf"target="_blank">(Presentation 1)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Workshop/Use-Case-2/Workshop_Alliance.pdf"target="_blank">(Presentation 2)</a>
+    </li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
@@ -395,15 +439,18 @@
     <div class="moderator-text">Moderated by Flavia Villani</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>10:45 AM to 11:00 AM</strong> - Hemodynamic abnormalities and tissue electrolyte accumulation during initiation of salt-induced hypertension in a rat model of primary aldosteronism by <strong class="author">Michal Pravenec</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Pravenec_M.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>10:45 AM to 11:00 AM</strong> - Hemodynamic abnormalities and tissue electrolyte accumulation during initiation of salt-induced hypertension in a rat model of primary aldosteronism by <strong class="author">Michal Pravenec</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Pravenec_M.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Session-5/Pravenec_M.pdf"target="_blank">(Presentation)</a>
+    </li>
     <li><strong>11:00 AM to 11:15 AM</strong> - From rats to humans: revealing conserved molecular networks of addiction through gene expression and GWAS integration by <strong class="author">Yanning Zuo</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Zuo_Y.pdf" download target="_blank">(Download Abstract)</a></li>
     </ul>
     <h2 class="session-title">Session 6 - The Microbiome</h2>
     <div class="moderator-text">Moderated by Flavia Villani</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>11:15 AM to 11:30 AM</strong> - Differences in gut microbiota significantly modulate colon cancer susceptibility in the rat genetic model of familial colon cancer by <strong class="author">James Amos-Landgraf</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Amos-Landgraf.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>11:30 AM to 11:45 AM</strong> - Multi-cohort analysis identifies robust host genetic effects on the rat gut microbiome by <strong class="author">Amelie Baud</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Baud_A.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>11:15 AM to 11:30 AM</strong> - Differences in gut microbiota significantly modulate colon cancer susceptibility in the rat genetic model of familial colon cancer by <strong class="author">James Amos-Landgraf</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Amos-Landgraf.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Session-6/AmosLandgraf.ctcRat.10.4.24.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>11:30 AM to 11:45 AM</strong> - Multi-cohort analysis identifies robust host genetic effects on the rat gut microbiome by <strong class="author">Amelie Baud</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Baud_A.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Session-6/Presentation_ABaud.pdf"target="_blank">(Presentation)</a>
+    </li>
         <li><strong>11:45 AM to 12:00 PM</strong> - Discussion</li>
     </ul>
     <div class="break-item">
@@ -420,15 +467,20 @@
     <hr class="session-divider">
     <ul class="session-details">
         <li><strong>2:15 PM to 2:30 PM</strong> - Developmental systems genomics identifies expression quantitative trait loci underlying strain differences in skeletal differentiation and developmental pace by <strong class="author">Ian Welsh</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Welsh_IC.pdf" download target="_blank">(Download Abstract)</a></li>
-        <li><strong>2:30 PM to 2:45 PM</strong> - Machine learning reveals genetic modifiers of the immune microenvironment of cancer by <strong class="author">Michael Flister</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Flister_MJ.pdf" download target="_blank">(Download Abstract)</a></li>
-        <li><strong>2:45 PM to 3:00 PM</strong> - Linking brain cell types with predisposition to alcohol consumption in rats by <strong class="author">Laura Saba</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Saba_LM.pdf" download target="_blank">(Download Abstract)</a></li>
+        <li><strong>2:30 PM to 2:45 PM</strong> - Machine learning reveals genetic modifiers of the immune microenvironment of cancer by <strong class="author">Michael Flister</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Flister_MJ.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Session-7/Flister_MCW.pdf"target="_blank">(Presentation)</a>
+        </li>
+<%--        <li><strong>2:45 PM to 3:00 PM</strong> - Linking brain cell types with predisposition to alcohol consumption in rats by <strong class="author">Laura Saba</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Saba_LM.pdf" download target="_blank">(Download Abstract)</a></li>--%>
+        <li><strong>2:45 PM to 3:00 PM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Leger_bsl.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/BSL_2024.pdf"target="_blank">(Presentation)</a>
+        </li>
     </ul>
     <h2 class="session-title">Session 8 - Genome Biology II</h2>
     <div class="moderator-text">Moderated by Denghui Chen and Chris Jin</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>3:00 PM to 3:15 PM</strong> - Multi-platform genome assembly of an SHR/OlaIpcv X BN-Lx/Cub F1 rat trio by <strong class="author">Andrea Guarracino</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Guarracino_AG.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>3:15 PM to 3:30 PM</strong> - Telomere-to-Telomere Assembly of the SHRSP/BbbUtx (SHR-A3) Rat by <strong class="author">Kai Li</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Li_K.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>3:00 PM to 3:15 PM</strong> - Multi-platform genome assembly of an SHR/OlaIpcv X BN-Lx/Cub F1 rat trio by <strong class="author">Andrea Guarracino</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Guarracino_AG.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Session-8/Guarracino_MultiPlatformSHRXBNLxF1Trio_CTC-RG2024.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>3:15 PM to 3:30 PM</strong> - Telomere-to-Telomere Assembly of the SHRSP/BbbUtx (SHR-A3) Rat by <strong class="author">Kai Li</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Li_K.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-4th/Session-8/CTC2024_Kai_Li_v2.pdf"target="_blank">(Presentation)</a>
+    </li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
@@ -454,13 +506,19 @@
 <div id="Day3" class="tab-content">
     <h2 class="day">October 5 (Saturday)</h2>
     <br>
+    <div class="video-links">
+        <a href="https://www.youtube.com/watch?v=DbVFpdY6YEc&pp=ygULQ1RDLXJnIDIwMjQ%3D" class="video-button" target="_blank">Watch Morning Talks</a>
+    </div>
     <h2 class="session-title">Session 9 - Substance Use Disorders and Behavior</h2>
     <div class="moderator-text">Moderated by Apurva Chitre</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>9:15 AM to 9:30 AM</strong> - Genome-wide association study of cocaine use in Heterogeneous Stock rats by <strong class="author">Montana Lara</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Lara_MKL.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>9:30 AM to 9:45 AM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Leger_bsl.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>9:45 AM to 10:00 AM</strong> - Improved representation of behavior data in the Rat Genome Database's PhenoMiner tool by <strong class="author">Jennifer Smith</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Smith_JR.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>9:15 AM to 9:30 AM</strong> - Genome-wide association study of cocaine use in Heterogeneous Stock rats by <strong class="author">Montana Lara</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Lara_MKL.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/MKL_CTC_2024.pdf"target="_blank">(Presentation)</a>
+    </li>
+<%--    <li><strong>9:30 AM to 9:45 AM</strong> - Identifying the shared genetic signal from genome-wide association studies of externalizing and locomotor activity by <strong class="author">Brittany Leger</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Leger_bsl.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/BSL_2024.pdf"target="_blank">(Presentation)</a>--%>
+<%--    </li>--%>
+    <li><strong>9:45 AM to 10:00 AM</strong> - Improved representation of behavior data in the Rat Genome Database's PhenoMiner tool by <strong class="author">Jennifer Smith</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Smith_JR.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-9/Smith_Behavior_Saturday_Session9.pdf"target="_blank">(Presentation)</a>
+    </li>
     </ul>
     <div class="break-item">
         <i class="fa fa-coffee"></i>
@@ -470,10 +528,14 @@
     <div class="moderator-text">Moderated by Brittany Leger</div>
     <hr class="session-divider">
     <ul class="session-details">
-    <li><strong>10:30 AM to 10:45 AM</strong> - Oxidative stress induced suppression of metabolism pathways in Dahl Salt-Sensitive rat by <strong class="author">Satoshi Shimada</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Shimada.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>10:45 AM to 11:00 AM</strong> - Meta-analysis of hundreds of seizure-related traits reveals putative modifiers of epilepsy resilience and susceptibility by <strong class="author">Matt Mahoney</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Mahoney%20final.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>11:00 AM to 11:15 AM</strong> - Genome-wide association study for age-related hearing loss in CFW mice by <strong class="author">Oksana Polesskaya</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Polesskaya.pdf" download target="_blank">(Download Abstract)</a></li>
-    <li><strong>11:15 AM to 11:30 PM</strong> - The dark matter of the genome and blood pressure regulation – modeling non-coding genetic mechanisms in cellular models and rats by <strong class="author">Aron Geurts</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Geurts_AM.pdf" download target="_blank">(Download Abstract)</a></li>
+    <li><strong>10:30 AM to 10:45 AM</strong> - Oxidative stress induced suppression of metabolism pathways in Dahl Salt-Sensitive rat by <strong class="author">Satoshi Shimada</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Shimada.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-10/Shimada-CTC2024.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>10:45 AM to 11:00 AM</strong> - Meta-analysis of hundreds of seizure-related traits reveals putative modifiers of epilepsy resilience and susceptibility by <strong class="author">Matt Mahoney</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Mahoney%20final.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-10/Mahoney_CTC_2024.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>11:00 AM to 11:15 AM</strong> - Genome-wide association study for age-related hearing loss in CFW mice by <strong class="author">Oksana Polesskaya</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Polesskaya.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-10/CTC%202024-ARHL-Polesskaya-v1.pdf"target="_blank">(Presentation)</a>
+    </li>
+    <li><strong>11:15 AM to 11:30 PM</strong> - The dark matter of the genome and blood pressure regulation – modeling non-coding genetic mechanisms in cellular models and rats by <strong class="author">Aron Geurts</strong>. <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/Geurts_AM.pdf" download target="_blank">(Download Abstract)</a> <a class="abstract" href="${pageContext.request.contextPath}/common/abstracts/presentation/October-5th/Session-10/CTC-RG%20-%20Geurts.pdf"target="_blank">(Presentation)</a>
+    </li>
         <li><strong>11:30 AM to Noon</strong> - Parting comments</li>
     </ul>
     <div class="break-item">
