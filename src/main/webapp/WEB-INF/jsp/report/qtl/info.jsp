@@ -124,7 +124,7 @@
             <a title="browse term tree" href="<%=Link.ontView(term.getAccId())%>"><img border="0" alt="" src="/rgdweb/common/images/tree.png"></a>
             <br>
         <% } else { %>
-            <td><%=term.getTerm()%><br>
+            <%=term.getTerm()%><br>
         <% }
         } %>
         </td>

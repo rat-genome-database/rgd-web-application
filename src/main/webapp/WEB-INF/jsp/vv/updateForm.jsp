@@ -16,19 +16,7 @@
          font-weight:700;
          color:#2865A3;
      }
-
-     /*#zIn, #zOut {*/
-     /*    cursor: pointer;*/
-     /*    border-radius: 45%;*/
-     /*    !*padding: 8px; !* Space around the image inside the circle *!*!*/
-     /*    padding:2px;*/
-     /*}*/
-
-     /*!* Styles when hovering over the images *!*/
-     /*#zIn:hover, #zOut:hover {*/
-     /*    background-color: lightgrey; !* Light grey background on hover *!*/
-     /*}*/
-
+     
      .zoomButton {
          display: flex;
          flex-direction: column;
@@ -88,7 +76,6 @@
                 <td><input type="button" value="Update" onClick="updatePage()"/></td>
                 <td>&nbsp;&nbsp;</td>
                 <td style="color: #495057;font-size:.85em;padding-right:.5em;">Zoom Out</td>
-<%--                <td>&nbsp;</td>--%>
                 <td>
                     <div class="zoomButton" id="zOut100x">
                         <img src="/rgdweb/common/images/zoom/zoom-out-double-left.png" alt="<<">
@@ -113,10 +100,7 @@
                         <span class="zoomLabel">1.5x</span>
                     </div>
                 </td>
-<%--                <td><img id="zOut" src="/rgdweb/common/images/zoom/zoom-out-double-left-1.png"  alt="-"></td>--%>
-<%--                <td><img id="zOut" src="/rgdweb/common/images/zoom/zoom-out-double-left-1.png"  alt="-"></td>--%>
-<%--                <td><img id="zOut" src="/rgdweb/common/images/zoom/zoom-out-double-left-1.png"  alt="-"></td>--%>
-<%--                <td><img id="zOut" src="/rgdweb/common/images/zoom/zoom-out-double-left-1.png"  alt="-"></td>--%>
+
                 <td>&nbsp;&nbsp;</td>
                 <td>
                     <div class="zoomButton" id="zIn1.5x">
@@ -142,10 +126,6 @@
                         <span class="zoomLabel">100x</span>
                     </div>
                 </td>
-<%--                <td><img id="zIn" src="/rgdweb/common/images/zoom/zoom-in-double-right-1.png"  alt="+"></td>--%>
-<%--                <td><img id="zIn" src="/rgdweb/common/images/zoom/zoom-in-double-right-1.png"  alt="+"></td>--%>
-<%--                <td><img id="zIn" src="/rgdweb/common/images/zoom/zoom-in-double-right-1.png"  alt="+"></td>--%>
-<%--                <td><img id="zIn" src="/rgdweb/common/images/zoom/zoom-in-double-right-1.png"  alt="+"></td>--%>
                 <td style="color: #495057;font-size:.85em;padding-left:.5em;">Zoom In</td>
             </tr>
             </table>
@@ -246,18 +226,13 @@
         let newStart = Math.max(1, originalStart - Math.round(delta));
         let newStop = originalStop + Math.round(delta);
 
-        // if (newStart > 0) {
-        //     document.getElementById('start').value = newStart;
-        //     document.getElementById('stop').value = newStop;
-        //     updatePage();
-        // }
         if(newStop-newStart<=30000000){
             document.getElementById('start').value = newStart;
             document.getElementById('stop').value = newStop;
             updatePage();
         }
         else {
-            alert('Maximum zoom-out limit reached');
+            alert('Maximum zoom-out limit reached.');
         }
     }
 
