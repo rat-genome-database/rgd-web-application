@@ -401,8 +401,6 @@ public abstract class HaplotyperController implements Controller {
             symbols= Utils.symbolSplit(geneList).stream().map(String::toLowerCase).collect(Collectors.toList());
         } else
             symbols= Collections.singletonList(geneList.toLowerCase());
-        if(geneList.toLowerCase().contains("a2m"))
-        System.out.println("GENE LIST SYMBOLS:"+ geneList);
         List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
         edu.mcw.rgd.process.mapping.ObjectMapper om = new edu.mcw.rgd.process.mapping.ObjectMapper();
         om.mapSymbols(symbolsWithoutMutants, speciesTypeKey);
