@@ -130,7 +130,7 @@
                         Iterator it = sampleIds.iterator();
                         while (it.hasNext()) {
                             j++;
-                            String sample = (String) it.next();
+                            String sample = String.valueOf( it.next());
                     %>
                     <tr>
 
@@ -233,7 +233,7 @@
 
                             while (it.hasNext()) {%>
                         <tr>
-                            <%      String sample = (String) it.next();
+                            <%      String sample = String.valueOf( it.next());
                                 Map<String, Integer> results = (Map<String, Integer>) resultHash.get(sample);
                                 if (results == null) {
                                     results = Collections.emptyMap();
