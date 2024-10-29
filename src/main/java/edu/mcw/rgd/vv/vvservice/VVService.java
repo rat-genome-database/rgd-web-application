@@ -13,6 +13,7 @@ import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchScrollRequest;
@@ -40,46 +41,20 @@ import java.util.stream.Collectors;
  * Created by jthota on 7/10/2019.
  */
 public class VVService {
-    VariantTranscriptDao dao=new VariantTranscriptDao();
     private static String variantIndex;
-   // private static String env="cur";
+    private final VariantSearchBean vsb;
+    private final HttpRequestFacade req;
 
-    public static String getVariantIndex() {
-        return variantIndex;
-    }
-
-    public static void setVariantIndex(String variantIndex) {
-        VVService.variantIndex = variantIndex;
-    }
-
-   /* public static String getEnv() {
-        return env;
-    }
-
-    public static void setEnv(String env) {
-        VVService.env = env;
-    }
-*/
-    public long getVariantsCount(VariantSearchBean vsb, HttpRequestFacade req) throws IOException {
-
-        BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        srb.query(builder);
-        srb.size(0);
-        SearchRequest searchRequest=new SearchRequest(variantIndex);
-        searchRequest.source(srb);
-     //   searchRequest.scroll(TimeValue.timeValueMinutes(1L));
-
-   //     SearchResponse sr= VariantIndexClient.getClient().search(searchRequest, RequestOptions.DEFAULT);
-          SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-
-        return sr.getHits().getTotalHits().value;
+    public VVService(VariantSearchBean vsb, HttpRequestFacade req){
+        this.vsb=vsb;
+        this.req=req;
+        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey())).replace(" ","");
+           variantIndex=RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
 
     }
 
-    public List<SearchHit> getVariants(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
-
-        BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
+    public List<SearchHit> getVariants() throws VVException {
+        BoolQueryBuilder builder=this.boolQueryBuilder();
         if(builder==null)
             return null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
@@ -104,7 +79,7 @@ public class VVService {
                     scrollId = sr.getScrollId();
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
                 } while (sr.getHits()!=null && sr.getHits().getHits()!=null && sr.getHits().getHits().length != 0);
-                return this.excludeCommonVariants(searchHits, vsb);
+                return this.excludeCommonVariants(searchHits);
 
             } else {
                 SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
@@ -119,8 +94,6 @@ public class VVService {
                     scrollId = sr.getScrollId();
                     searchHits.addAll(Arrays.asList(sr.getHits().getHits()));
                 } while (sr.getHits().getHits().length != 0);
-
-              //  System.out.println("search Hits:"+ searchHits);
                 return searchHits;
             }
         }catch (Exception e) {
@@ -131,18 +104,14 @@ public class VVService {
 
     }
 
-   public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
-        BoolQueryBuilder builder=this.boolQueryBuilder(vsb,req);
+   public SearchResponse getAggregations() throws VVException {
+        BoolQueryBuilder builder=this.boolQueryBuilder();
         if(builder==null)
             return null;
         SearchSourceBuilder srb=new SearchSourceBuilder();
         srb.size(0);
         srb.query(builder);
 
-//        if(vsb.getGenes()!=null && vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
-//            System.out.println("VSB GENES:"+ vsb.getGenes());
-//            System.out.println("VV QUERY:" + builder);
-//        }
        if(req.getParameter("showDifferences").equals("true")){
              srb.aggregation(this.buildAggregations("regionName"));
           }else
@@ -156,7 +125,7 @@ public class VVService {
 
        }
    }
-    public List<SearchHit> excludeCommonVariants( List<SearchHit> searchHitList,VariantSearchBean vsb){
+    public List<SearchHit> excludeCommonVariants( List<SearchHit> searchHitList){
 
         List<SearchHit> nonSharedVariants=new ArrayList<>();
         List<Integer> verifiedPositions=new ArrayList<>();
@@ -208,8 +177,8 @@ public class VVService {
 
      return aggs;
  }
-    public BoolQueryBuilder boolQueryBuilder(VariantSearchBean vsb, HttpRequestFacade req){
-        QueryBuilder dqb=this.getDisMaxQuery(vsb, req);
+    public BoolQueryBuilder boolQueryBuilder(){
+        QueryBuilder dqb=this.getDisMaxQuery();
         if(dqb!=null) {
             BoolQueryBuilder builder=new BoolQueryBuilder();
 
@@ -388,7 +357,7 @@ public class VVService {
         }
         return null;
     }
-    public QueryBuilder getDisMaxQuery(VariantSearchBean vsb, HttpRequestFacade req){
+    public QueryBuilder getDisMaxQuery(){
 
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
         if(vsb.getGenes()!=null && vsb.getGenes().size()>0){
@@ -406,7 +375,6 @@ public class VVService {
             }
             if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0
             && (vsb.getGenes()==null || vsb.getGenes().size()==0)) {
-            //    qb.filter(QueryBuilders.rangeQuery("startPos").from(vsb.getStartPosition()).to(vsb.getStopPosition()).includeLower(true).includeUpper(true));
                 qb.filter(QueryBuilders.rangeQuery("startPos").gte(vsb.getStartPosition()).lt(vsb.getStopPosition()).includeLower(true).includeUpper(true));
                 qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
 
@@ -430,162 +398,6 @@ public class VVService {
         if(dqb.innerQueries().size()>0) {
             return dqb;
         }else return null;
-
-    }
-
-    List<TranscriptResult> getVariantTranscriptResults(int variantId, int mapKey) throws IOException {
-        List<TranscriptResult> trs=new ArrayList<>();
-        List<VariantTranscript> transcripts=new ArrayList<>();
-        try {
-            transcripts= dao.getVariantTranscripts(variantId,mapKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            for(VariantTranscript t:transcripts ){
-
-                TranscriptResult tr = new TranscriptResult();
-                AminoAcidVariant aa = new AminoAcidVariant();
-                aa.setTripletError(t.getTripletError());
-                aa.setSynonymousFlag(t.getSynStatus());
-                aa.setPolyPhenStatus(t.getPolyphenStatus());
-                aa.setNearSpliceSite(t.getNearSpliceSite());
-
-                // tr.set.setFrameShift((String) source.get("frameShift"));
-                tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
-                aa.setLocation(t.getLocationName());
-                aa.setReferenceAminoAcid(t.getRefAA());
-                aa.setVariantAminoAcid(t.getVarAA());
-           /*  if (source.get("fullRefAA") != null)
-                 aa.setAASequence(source.get("fullRefAA").toString());
-             if (source.get("fullRefNuc") != null)
-                 aa.setDNASequence(source.get("fullRefNuc").toString());*/
-                if (t.getFullRefAASeqKey() != 0) {
-                    aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
-                }
-                if (t.getFullRefNucSeqKey() != 0) {
-                    aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
-                }
-                if (t.getFullRefAAPos() != null) {
-                    //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefAAPos());
-                    aa.setAaPosition(t.getFullRefAAPos());
-                }
-                if (t.getFullRefNucPos() != null) {
-                    //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefNucPos());
-                    aa.setDnaPosition(t.getFullRefNucPos());
-                }
-                String trSymbol = getTranscriptSymbol(tr.getTranscriptId());
-                if (trSymbol != null)
-                    aa.setTranscriptSymbol(trSymbol);
-                tr.setAminoAcidVariant(aa);
-                //********************************************Polyphenprediction********//
-                List<PolyPhenPrediction> polyPhenPredictions = getPolphenPredictionByVariantId(variantId,t.getTranscriptRgdId());
-                if (polyPhenPredictions != null && polyPhenPredictions.size() > 0)
-                    tr.setPolyPhenPrediction(polyPhenPredictions);
-                trs.add(tr);
-            }
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return  trs;
-    }
-    public List<PolyPhenPrediction> getPolphenPredictionByVariantId(int variantId, int transcriptId)
-    {
-        PolyphenDAO pdao=new PolyphenDAO();
-
-        try {
-            //   return pdao.getPloyphenDataByVariantId(86880133);
-            return pdao.getPloyphenDataByVariantId(variantId, transcriptId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public String getSequence(int seqKey){
-        SequenceDAO sequenceDAO=new SequenceDAO();
-        List<Sequence>  sequences=new ArrayList<>();
-        try {
-            sequences= sequenceDAO.getObjectSequencesBySeqKey(seqKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(sequences!=null){
-            return sequences.get(0).getSeqData();
-        }
-        return null;
-    }
-    public String getTranscriptSymbol(String transcriptId){
-        TranscriptDAO tdao=new TranscriptDAO();
-        Transcript tr= null;
-        try {
-            tr = tdao.getTranscript(Integer.parseInt(transcriptId));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(tr!=null)
-            return tr.getAccId();
-        return null;
-    }
-    VariantInfo getClinvarInfo(long variantRGDId) throws Exception {
-
-        VariantInfoDAO dao= new VariantInfoDAO();
-        return dao.getVariant((int) variantRGDId);
-
-    }
-    public ConservationScore mapConservation(java.util.Map m)  {
-        List conScores= (List) m.get("conScores");
-//        System.out.println(conScores.toString());
-        ConservationScore  cs = new ConservationScore();
-
-        try{
-            if(conScores!=null && conScores.size()>=1 ) {
-                if(conScores.get(0) instanceof Integer){
-                    BigDecimal score=  BigDecimal.valueOf((Integer) conScores.get(0));
-                    cs.setScore(score);
-                    cs.setChromosome((String) m.get("chromosome"));
-                    cs.setPosition((Integer) m.get("startPos"));
-                    cs.setNuc((String) m.get("refNuc"));
-                }else{
-                    if(conScores.get(0) instanceof Double){
-                        BigDecimal score= BigDecimal.valueOf((Double) conScores.get(0));
-                        cs.setScore(score);
-                        cs.setChromosome((String) m.get("chromosome"));
-                        cs.setPosition((Integer) m.get("startPos"));
-                        cs.setNuc((String) m.get("refNuc"));
-                    }else{
-                        if(conScores.get(0) instanceof BigDecimal){
-                            BigDecimal score= (BigDecimal) conScores.get(0);
-                            cs.setScore(score);
-                            cs.setChromosome((String) m.get("chromosome"));
-                            cs.setPosition((Integer) m.get("startPos"));
-                            cs.setNuc((String) m.get("refNuc"));
-                        }else{
-                            if(conScores.get(0) instanceof String){
-                                cs.setScore(BigDecimal.valueOf(Double.parseDouble((String) conScores.get(0))));
-                                cs.setChromosome((String) m.get("chromosome"));
-                                cs.setPosition((Integer) m.get("startPos"));
-                                cs.setNuc((String) m.get("refNuc"));
-                            }
-
-                        }
-                    }
-                }
-            }else{
-
-                cs.setScore(BigDecimal.valueOf(-1));
-                cs.setChromosome((String) m.get("chromosome"));
-                cs.setPosition((Integer) m.get("startPos"));
-                cs.setNuc((String) m.get("refNuc"));
-
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return cs;
-
-
 
     }
 }

@@ -12,6 +12,8 @@
 <%@ page import="edu.mcw.rgd.datamodel.VariantResult" %>
 <%@ page import="edu.mcw.rgd.util.Zygosity" %>
 <%@ page import="java.io.StreamCorruptedException" %>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
 <%
     String pageTitle = "Variant Visualizer (Variants)";
     String headContent = "";
@@ -649,7 +651,7 @@
                 <script>
                     document.getElementById('cell<%=k%>-<%=j%>').onclick=displayVariant;
                     document.getElementById('cell<%=k%>-<%=j%>').pos=<%=pos%>;
-                    document.getElementById('cell<%=k%>-<%=j%>').vid='<%=variantID%>';
+                    document.getElementById('cell<%=k%>-<%=j%>').vid='<%=URLEncoder.encode(variantID,StandardCharsets.UTF_8)%>';
                     document.getElementById('cell<%=k%>-<%=j%>').sid=<%=sample%>;
                     document.getElementById('cell<%=k%>-<%=j%>').style.backgroundColor="<%=backColor%>";
                     document.getElementById('cell<%=k%>-<%=j%>').style.color="<%=fontColor%>";
