@@ -2,6 +2,7 @@ package edu.mcw.rgd.vv;
 
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
+import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.vvservice.VVService;
 import edu.mcw.rgd.dao.impl.TranscriptDAO;
@@ -54,7 +55,7 @@ public class DetailController extends HaplotyperController {
         String sid = req.getParameter("sid");
         String sampleIdJbrowse = req.getParameter("sample");
 
-        int mapKey = 360; // map key defaults to rat assembly 6.0
+        int mapKey = MapManager.getInstance().getReferenceAssembly(3).getKey(); // map key defaults to rat referecne assembly
         String mapKeyStr = request.getParameter("mapKey");
         if( mapKeyStr!=null && !mapKeyStr.isEmpty() )
             mapKey = Integer.parseInt(mapKeyStr);
@@ -82,15 +83,9 @@ public class DetailController extends HaplotyperController {
 
             vsb.setPosition(req.getParameter("chr"), req.getParameter("start"), req.getParameter("stop"));
 
-            List<VariantResult> vr = ctrl.getVariantResults(vsb, req, false);
-            for(VariantResult variantResult:vr){
-                List<TranscriptResult> trs=getTranscriptResultsOfVariant(variantResult.getVariant(),vsb.getMapKey());
-                if(trs!=null && trs.size()>0)
-                    variantResult.setTranscriptResults(trs);
-            }
+            mapTranscripts(req, vsb);
             SearchResult sr = new SearchResult();
-
-            sr.setVariantResults(vr);
+            sr.setVariantResults( mapTranscripts(req, vsb));
             allResults.add(sr);
             request.setAttribute("searchResults", allResults);
             return new ModelAndView("/WEB-INF/jsp/vv/detail.jsp", "searchResult", sr);
@@ -104,13 +99,7 @@ public class DetailController extends HaplotyperController {
                      SearchResult sr = new SearchResult();
 
                      vsb.setVariantId(Long.parseLong(vids[i]));
-                     List<VariantResult> vr = ctrl.getVariantResults(vsb, req, false);
-                     for(VariantResult variantResult:vr){
-                         List<TranscriptResult> trs=getTranscriptResultsOfVariant(variantResult.getVariant(),vsb.getMapKey());
-                         if(trs!=null && trs.size()>0)
-                         variantResult.setTranscriptResults(trs);
-                     }
-                     sr.setVariantResults(vr);
+                     sr.setVariantResults( mapTranscripts(req, vsb));
                      allResults.add(sr);
                  }}
             request.setAttribute("searchResults", allResults);
@@ -118,6 +107,17 @@ public class DetailController extends HaplotyperController {
 
        }
     }
+
+    private  List<VariantResult> mapTranscripts(HttpRequestFacade req, VariantSearchBean vsb) throws Exception {
+        List<VariantResult> vr = ctrl.getVariantResults(vsb, req, false);
+        for(VariantResult variantResult:vr){
+            List<TranscriptResult> trs=getTranscriptResultsOfVariant(variantResult.getVariant(),vsb.getMapKey());
+            if(trs!=null && trs.size()>0)
+            variantResult.setTranscriptResults(trs);
+        }
+        return vr;
+    }
+
     public List<TranscriptResult> getTranscriptResultsOfVariant(Variant v, int mapKey) throws IOException {
         List<TranscriptResult> trs = new ArrayList<>();
         trs.addAll(ctrl.getVariantTranscriptResults((int) v.getId(),mapKey ));
@@ -125,7 +125,6 @@ public class DetailController extends HaplotyperController {
     }
 
 
-    //   public List<TranscriptResult> getTranscriptResults(String chr, long startPos,long endPos, String refNuc, String varNuc) throws IOException {
         public List<TranscriptResult> getTranscriptResults(Variant v, int mapKey) throws IOException {
         int speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(mapKey);
             List<TranscriptResult> tds = new ArrayList<>();
