@@ -63,11 +63,6 @@ public class DetailController extends HaplotyperController {
             mapKey=vdao.getMapKeyByVariantId(Integer.parseInt(vid));
         }
 
-        String index = new String();
-        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + mapKey);
-        VVService.setVariantIndex(index);
-
         List<SearchResult> allResults = new ArrayList<SearchResult>();
 
         VariantSearchBean vsb = new VariantSearchBean(mapKey);

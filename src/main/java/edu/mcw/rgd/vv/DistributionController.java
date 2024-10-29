@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 public class DistributionController extends HaplotyperController {
     private List<String> gSymbols;
 
-    VVService service= new VVService();
     GeneLociDAO geneLociDAO=new GeneLociDAO();
     GeneDAO gdao = new GeneDAO();
 
@@ -43,8 +42,6 @@ public class DistributionController extends HaplotyperController {
 
         List<String> regionList = new ArrayList<>();
         Map<String,Map<String,Integer>> resultHash = Collections.emptyMap();
-//        String[][] matrix= null;
-//        StringBuilder sb=new StringBuilder();
         VariantSearchBean vsb = null;
         int maxValue =0;
 
@@ -64,11 +61,6 @@ public class DistributionController extends HaplotyperController {
         // derive species from mapKey
         int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
         request.setAttribute("speciesTypeKey", speciesTypeKey);
-        String index=new String();
-        String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+mapKey);
-        VVService.setVariantIndex(index);
-//        List<MappedGene> mgs = new ArrayList<MappedGene>();
         Set<String> masterKeySet = new HashSet<String>();
 
         vsb = new VariantSearchBean(mapKey);
@@ -344,7 +336,7 @@ public class DistributionController extends HaplotyperController {
         Map<String, Map<String, Integer>> variantGeneCountMap=new HashMap<>();
 
         if(!req.getParameter("showDifferences").equals("true")){
-            SearchResponse sr=service.getAggregations(vsb, req);
+            SearchResponse sr=getAggregations(vsb, req);
 
             Terms samplesAgg = sr.getAggregations().get("sampleId");
 //            if(vsb.getGenes().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains("a2m")) {
@@ -371,7 +363,7 @@ public class DistributionController extends HaplotyperController {
 
         }  else{
 
-            SearchResponse sr=service.getAggregations(vsb, req);
+            SearchResponse sr=getAggregations(vsb, req);
 
             Terms regionAgg = sr.getAggregations().get("regionName");
 
@@ -441,20 +433,11 @@ public class DistributionController extends HaplotyperController {
         return variantGeneCountMap;
     }
 
-
-    public VVService getService() {
-        return service;
+    public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
+        VVService vvService=new VVService(vsb,req);
+       return vvService.getAggregations();
     }
 
-    public void setService(VVService service) {
-        this.service = service;
-    }
-
-
-
-    public List<String> getgSymbols() {
-        return gSymbols;
-    }
     public void setgSymbols(List<String> gSymbols) {
         this.gSymbols = gSymbols;
     }

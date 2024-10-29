@@ -63,10 +63,6 @@ public class VariantController extends HaplotyperController {
             }
             VariantSearchBean vsb = this.fillBean(req);
             mapGeneSymbols(geneList,vsb);
-            String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey())).replace(" ","");
-            String index=new String();
-            index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
-            VVService.setVariantIndex(index);
             if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
                 long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
                 throw new Exception("Maximum Region size is 30MB. Current region is " + region + "MB.");
@@ -126,23 +122,14 @@ public class VariantController extends HaplotyperController {
             return new ModelAndView("/WEB-INF/jsp/vv/region.jsp");
         }
     }
-
-    public List<MappedGene> getActiveMappedGenes(VariantSearchBean vsb) throws Exception {
-        GeneDAO gdao= new GeneDAO();
-        List<MappedGene> mappedGenes= gdao.getActiveMappedGenes(vsb.getChromosome(),vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
-        return mappedGenes;
-    }
-
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
-        VVService service= new VVService();
-        List<SearchHit> hits=service.getVariants(vsb,req);
+        VVService service= new VVService(vsb,req);
+        List<SearchHit> hits=service.getVariants();
         if(hits==null){
             throw new VVException("0 results found. Please verify query parameters");
 
         }
         List<VariantResult> variantResults=new ArrayList<>();
-        //System.out.println("HITS SIZE:" + hits.size());
-        Map<Integer, List<TranscriptResult>> transcriptMap=new HashMap<>();
         for (SearchHit h : hits) {
             java.util.Map<String, Object> m = h.getSourceAsMap();
             VariantResult vr = new VariantResult();
@@ -175,15 +162,6 @@ public class VariantController extends HaplotyperController {
             vr.setVariant(v);
             if(requiredTranscripts) {
                 List<TranscriptResult> trs = new ArrayList<>();
-             //   List<VariantTranscript> transcripts = (List<VariantTranscript>) m.get("variantTranscripts");
-             //   System.out.println(gson.toJson(transcripts));
-              /*  if(transcriptMap.get(m.get("variant_id"))==null) {
-                     trs.addAll(this.getVariantTranscriptResults((Integer) m.get("variant_id"), vsb.getMapKey()));
-                     transcriptMap.put((Integer) m.get("variant_id"), transcriptMap.get(m.get("variant_id")));
-                }else{
-                    trs.addAll(transcriptMap.get(m.get("variant_id")));
-                }*/
-
                 if (m.get("variantTranscripts")!=null) {
                     try {
                         trs = getTranscriptResults(m.get("variantTranscripts"), (Integer) m.get("variant_id"));
@@ -197,7 +175,6 @@ public class VariantController extends HaplotyperController {
 
             if(vsb.getMapKey()==38){
                 VariantInfo clinvar=getClinvarInfo(v.getId());
-//                            System.out.println("CLINVAR: "+ clinvar.getClinicalSignificance()+"\t"+ clinvar.getTraitName());
                 vr.setClinvarInfo(clinvar);
             }
             variantResults.add(vr);
@@ -221,7 +198,6 @@ public class VariantController extends HaplotyperController {
              if(o!=null){
                 t= objectMapper.readValue(gson.toJson(o),VariantTranscript.class);
              }
-          //  for (VariantTranscript t : transcripts) {
                 if (t != null && t.getTranscriptRgdId() != 0) {
                     TranscriptResult tr = new TranscriptResult();
                     AminoAcidVariant aa = new AminoAcidVariant();
@@ -243,10 +219,6 @@ public class VariantController extends HaplotyperController {
                         aa.setReferenceAminoAcid(t.getRefAA());
                     if (t.getVarAA() != null)
                         aa.setVariantAminoAcid(t.getVarAA());
-       /*  if (source.get("fullRefAA") != null)
-             aa.setAASequence(source.get("fullRefAA").toString());
-         if (source.get("fullRefNuc") != null)
-             aa.setDNASequence(source.get("fullRefNuc").toString());*/
                     if (t.getFullRefAASeqKey() != 0) {
                         aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
                     }
@@ -254,11 +226,9 @@ public class VariantController extends HaplotyperController {
                         aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
                     }
                     if (t.getFullRefAAPos() != null) {
-                        //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefAAPos());
                         aa.setAaPosition(t.getFullRefAAPos());
                     }
                     if (t.getFullRefNucPos() != null) {
-                        //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefNucPos());
                         aa.setDnaPosition(t.getFullRefNucPos());
                     }
                     if (tr.getTranscriptId() != null && !tr.getTranscriptId().equals("0")) {
@@ -287,7 +257,7 @@ public class VariantController extends HaplotyperController {
                         tr.setPolyPhenPrediction(polyPhenPredictions);
                     trs.add(tr);
                 }
-           // }
+
         }
         return  trs;
     }
@@ -308,16 +278,10 @@ public class VariantController extends HaplotyperController {
                 aa.setSynonymousFlag(t.getSynStatus());
                 aa.setPolyPhenStatus(t.getPolyphenStatus());
                 aa.setNearSpliceSite(t.getNearSpliceSite());
-
-                // tr.set.setFrameShift((String) source.get("frameShift"));
                 tr.setTranscriptId(String.valueOf(t.getTranscriptRgdId()));
                 aa.setLocation(t.getLocationName());
                 aa.setReferenceAminoAcid(t.getRefAA());
                 aa.setVariantAminoAcid(t.getVarAA());
-           /*  if (source.get("fullRefAA") != null)
-                 aa.setAASequence(source.get("fullRefAA").toString());
-             if (source.get("fullRefNuc") != null)
-                 aa.setDNASequence(source.get("fullRefNuc").toString());*/
                 if (t.getFullRefAASeqKey() != 0) {
                     aa.setAASequence(getSequence(t.getFullRefAASeqKey()));
                 }
@@ -325,11 +289,9 @@ public class VariantController extends HaplotyperController {
                     aa.setDNASequence(getSequence(t.getFullRefNucSeqKey()));
                 }
                 if (t.getFullRefAAPos() != null) {
-                    //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefAAPos());
                     aa.setAaPosition(t.getFullRefAAPos());
                 }
                 if (t.getFullRefNucPos() != null) {
-                    //    System.out.println("FULL REF AA PSOTION:" + t.getFullRefNucPos());
                     aa.setDnaPosition(t.getFullRefNucPos());
                 }
                 String trSymbol = getTranscriptSymbol(tr.getTranscriptId());
@@ -353,7 +315,6 @@ public class VariantController extends HaplotyperController {
         PolyphenDAO pdao=new PolyphenDAO();
 
         try {
-            //   return pdao.getPloyphenDataByVariantId(86880133);
             return pdao.getPloyphenDataByVariantId(variantId, transcriptId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -386,7 +347,6 @@ public class VariantController extends HaplotyperController {
     }
     public ConservationScore mapConservation(java.util.Map m)  {
         List conScores= (List) m.get("conScores");
-//        System.out.println(conScores.toString());
         ConservationScore  cs = new ConservationScore();
 
         try{
@@ -439,9 +399,6 @@ public class VariantController extends HaplotyperController {
 
 
 
-    }
-    private Object getLast(List list) {
-        return list.size() > 0?list.get(list.size() - 1):null;
     }
     protected VariantSearchBean fillBeanNew(HttpRequestFacade req) throws Exception {
 

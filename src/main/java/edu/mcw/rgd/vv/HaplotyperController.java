@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.mvc.Controller;
 
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -327,12 +328,12 @@ public abstract class HaplotyperController implements Controller {
 
 
         String chromosome = req.getParameter("chr");
-        String start = URLDecoder.decode(req.getParameter("start"), "UTF-8").replaceAll(",", "");
-        String stop = URLDecoder.decode(req.getParameter("stop"), "UTF-8").replaceAll(",", "");
+        String start = URLDecoder.decode(req.getParameter("start"), StandardCharsets.UTF_8).replaceAll(",", "");
+        String stop = URLDecoder.decode(req.getParameter("stop"), StandardCharsets.UTF_8).replaceAll(",", "");
 
         if (chromosome.equals("") || start.equals("") || stop.equals("")) {
 
-            Position p = this.getPosition(req.getParameter("geneList"), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
+            Position p = this.getPosition(URLDecoder.decode(req.getParameter("geneList"),StandardCharsets.UTF_8), req.getParameter("geneStart"), req.getParameter("geneStop"), mapKey);
             chromosome = p.getChromosome();
             start = p.getStart() + "";
             stop = p.getStop() + "";
