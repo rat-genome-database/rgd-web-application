@@ -30,9 +30,6 @@ import java.util.stream.Stream;
  */
 public class DownloadController extends VariantController {
 
-    VVService service=new VVService();
-    GeneDAO gdao = new GeneDAO();
-
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         /*
@@ -50,10 +47,7 @@ public class DownloadController extends VariantController {
         HttpRequestFacade req = new HttpRequestFacade(request);
         String geneList = java.net.URLDecoder.decode(req.getParameter("geneList"), "UTF-8");
         VariantSearchBean vsb = this.fillBean(req);
-        String index=new String();
-        String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
-        index= RgdContext.getESVariantIndexName("variants_"+species.toLowerCase().replace(" ", "")+vsb.getMapKey());
-        VVService.setVariantIndex(index);
+
         if ((vsb.getStopPosition() - vsb.getStartPosition()) > 30000000) {
             long region = (vsb.getStopPosition() - vsb.getStartPosition()) / 1000000;
 

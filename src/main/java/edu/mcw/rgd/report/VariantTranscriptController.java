@@ -35,12 +35,6 @@ public class VariantTranscriptController implements Controller {
         int mapKey = s.getMapKey(); // will be sample mapKey
         List<SearchResult> allResults = new ArrayList<SearchResult>();
         VariantSearchBean vsb = new VariantSearchBean(mapKey); // sample contains the mapKey
-
-        // put transcript vsb stuff here
-        String index = new String();
-        String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey));
-        index = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase().replace(" ", "") + mapKey);
-        VVService.setVariantIndex(index);
         vsb.sampleIds.add(sampleId);
         vsb.setVariantId(rgdId);
         try {
