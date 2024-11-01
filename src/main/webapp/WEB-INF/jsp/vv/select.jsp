@@ -85,7 +85,7 @@
     <input type="hidden" name="geneStart" value="<%=req.getParameter("geneStart")%>" />
     <input type="hidden" name="geneStop" value="<%=req.getParameter("geneStop")%>" />
 
-    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
+<%--    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />--%>
 
     <br>
     <div class="typerMat">
