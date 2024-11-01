@@ -90,7 +90,7 @@ String pageDescription = "Define Region";
     <input type="hidden" name="stop" value="<%=req.getParameter("stop")%>" />
     <input type="hidden" name="geneStart" value="<%=req.getParameter("geneStart")%>" />
     <input type="hidden" name="geneStop" value="<%=req.getParameter("geneStop")%>" />
-    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
+<%--    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />--%>
 
     <%
     int samplesSize=100;
