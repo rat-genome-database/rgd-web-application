@@ -79,78 +79,91 @@
     <p class="poster-name">Al Hefzi</p>
     <p class="poster-title">Investigating the role of the Spp1 gene in cardiac hypertrophy and fibrosis utilising normotensive and spontaneously hypertensive rat strains.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Al%20Hefzi.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/Al%20Hefzi_poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Ashbrook</p>
     <p class="poster-title">Mouse Longevity Data Explorer App.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Ashbrook_DG.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/Ashbrook_poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Bryda</p>
     <p class="poster-title">Rat Resource and Research Center.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Bryda_E.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/BRYDA_poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Chen DC</p>
     <p class="poster-title">Structural variants in heterogeneous stock rats.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Chen_DC.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/DenghuiChen_poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Chen H</p>
     <p class="poster-title">Quantification and genetic mapping of oxycodone self-administration behaviors in nearly isogenic rat strains.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/ChenHao.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/Chen_CTC_Poster_RCC_Oxy.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Demos</p>
     <p class="poster-title">Rat gene expression data expansion at the Rat Genome Database, an update.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Demos_W.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/Wendy_poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Hayman</p>
     <p class="poster-title">The Virtual Comparative Map tool at the Rat Genome Database facilitates comparative and translational studies.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Hayman_GT%20Final.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/Hayman_Poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Jacob</p>
     <p class="poster-title">Identification of Targets for Delayed Mammary Tumor Onset and Aggressiveness Using Diversity Outbred Mice Expressing the Delta 16 Variant of HER2/neu.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Jacob_J.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/Jacob_CTC2024_poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Jin</p>
     <p class="poster-title">MoTrPAC Data Hub: Multi-omic, Multi-tissue Collection of Exercise Molecular Responses in Young Adult Rats.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Jin_CJ_datahub.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/CTCRG2024%20C%20Jin%20poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Kaldunski</p>
     <p class="poster-title">Finding a rat model for researching human disease using RGD resources.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Kaldunski_M.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/CTCRG2024_MLK.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Laulederkind</p>
     <p class="poster-title">Mapping of EFO terms from the GWAS catalog data to multiple ontologies at the Rat Genome Database.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Laulederkind.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/CTCRG2024_SJFL.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Purdy</p>
     <p class="poster-title">Genetic mapping of cardiomyocyte ploidy phenotypes that influence basal cardiac physiology.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Purdy_AL.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/Purdy_CTC-RG_2024_Poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Ray</p>
     <p class="poster-title">Comparative Genomic Maps of Kidney Proximal Tubules and Medullary Thick Ascending Limbs between Humans and Rats reveal Enrichment for Human Blood Pressure Associated Polymorphisms.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Ray_A.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/AtrayeeRay_RGD%20poster.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
@@ -169,6 +182,7 @@
     <p class="poster-name">Smith</p>
     <p class="poster-title">Integration of data from the human GWAS Catalog into the Rat Genome Database.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Smith_JR_GWAS.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/CTCRG2024_JRS.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
@@ -187,24 +201,28 @@
     <p class="poster-name">Tutaj</p>
     <p class="poster-title">Building a Comparative Genomic Atlas of Epigenetic Variation in Rat Tissues.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Tutaj.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/CTCRG2024_MT.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Vanden Avond</p>
     <p class="poster-title">Targeted disruption of CTCF binding in the Dahl salt-sensitive rat reveals Renin transcriptional dynamics.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/VandenAvond_MV.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/ctcrg2024%20Vanden%20Avond.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Vedi</p>
     <p class="poster-title">Exploring Rat Quantitative Phenotype Data with the Rat Genome Database (RGD).</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Vedi_MV.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/CTCRG2024_MV.pdf" download target="_blank">(Download Poster)</a>
 </div>
 
 <div class="poster-entry">
     <p class="poster-name">Wang</p>
     <p class="poster-title">Updated Hybrid Rat Diversity Panel Portal at RGD.</p>
     <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/Wang_sj.pdf" download target="_blank">(Download Abstract)</a>
+    <a class="abstract-link" href="${pageContext.request.contextPath}/common/posters/presentation/CTCRG2024_SJW.pdf" download target="_blank">(Download Poster)</a>
 </div>
 </div>
 
