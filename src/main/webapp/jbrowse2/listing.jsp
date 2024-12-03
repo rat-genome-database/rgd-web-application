@@ -118,6 +118,11 @@ RGD is transitioning to JBrowse 2.   JBrowse 1 will be retired in late 2024.
                     <li>Domestic Dog</li>
                     <ul>
                                 <li><a href="/jbrowse2/?loc=Chr1:1,000,000..2,000,000&assembly=CanFam3.1&tracklist=true&tracks=Dog CanFam3.1 (canFam3) Genes and Transcripts-CanFam3.1">CanFam3.1</a></li>
+
+                        <li><a href="/jbrowse2/?loc=Chr1:1,000,000..2,000,000&assembly=Dog10K_Boxer_Tasha&tracklist=true&tracks=Dog Dog10K_Boxer_Tasha (canFam6) Genes and Transcripts-Dog10K_Boxer_Tasha">Dog10K_Boxer_Tasha</a></li>
+                        <li><a href="/jbrowse2/?loc=Chr1:1,000,000..2,000,000&assembly=ROS_Cfam_1.0&tracklist=true&tracks=Dog ROS_Cfam_1.0 (rOS_Cfam_1) Genes and Transcripts-ROS_Cfam_1.0">ROS_Cfam_1.0</a></li>
+                        <li><a href="/jbrowse2/?loc=Chr1:1,000,000..2,000,000&assembly=UU_Cfam_GSD_1.0&tracklist=true&tracks=Dog UU_Cfam_GSD_1.0 (canFam4) Genes and Transcripts-UU_Cfam_GSD_1.0">UU_Cfam_GSD_1.0</a></li>
+
                     </ul>
                     <li>Bonobo</li>
                     <ul>
