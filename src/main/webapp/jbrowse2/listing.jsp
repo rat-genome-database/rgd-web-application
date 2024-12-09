@@ -149,7 +149,7 @@ RGD is transitioning to JBrowse 2.   JBrowse 1 will be retired in late 2024.
                     <li>Green Monkey/Vervet</li>
                     <ul>
 
-                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Chlorocebus_sabeus1.1&tracklist=true&tracks=">Chlorocebus_sabeus 1.1</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Chlorocebus_sabeus1.1&tracklist=true&tracks=Green Monkey Chlorocebus_sabeus 1.1 (chlSab2) Genes and Transcripts-Chlorocebus_sabeus1.1">Chlorocebus_sabeus 1.1</a></li>
                                 <li><a href="/jbrowse2/?loc=NW_023666033:1..81,790,585&assembly=Vero_WHO_p1.0&tracklist=true&tracks=Green Monkey Vero_WHO_p1.0 (vero_WHO_p1) Genes and Transcripts-Vero_WHO_p1.0">Vero_WHO_p1.0</a></li>
                     </ul>
                     <li>Naked Mole-Rat</li>
