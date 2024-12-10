@@ -223,6 +223,12 @@
         <td><%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%></td>
     </tr>
     <% } %>
+    <%if(new HrdpPortalCacheDAO().checkAvailableStrainExists(String.valueOf(obj.getRgdId()))){%>
+    <tr>
+        <td class="label">Portals:</td>
+        <td><a href="/rgdweb/hrdp_panel.html">HRDP portal</a></td>
+    </tr>
+    <%}%>
 </table>
 
 <br>
