@@ -7,6 +7,7 @@
 
 <%@ page import="org.elasticsearch.common.recycler.Recycler" %>
 <%@ page import="org.locationtech.jts.awt.PointShapeFactory" %>
+<%@ page import="edu.mcw.rgd.datamodel.variants.VariantSSId" %>
 <%@ include file="../sectionHeader.jsp"%>
 <style>
     .wrap660 {
@@ -47,13 +48,12 @@ boolean isEva = false;
                 geneList.add(g);
         }
     }
+    List<VariantSSId> ssIds = vdao.getVariantSSIdsByRgdId(obj.getRgdId());
 
     String genicStatus = "INTERGENIC";
     if (geneList.size()>0)
         genicStatus = "GENIC";
-%>
 
-<%
     RGDManagementDAO rdao = new RGDManagementDAO();
     RgdId rid = rdao.getRgdId2(obj.getRgdId());
     if (!rid.getObjectStatus().equals("ACTIVE")) {
@@ -99,6 +99,22 @@ boolean isEva = false;
         <% } else { %>
         <td><a href="https://www.ebi.ac.uk/eva/?variant&accessionID=<%=var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a></td>
         <% } %>
+    </tr>
+    <% } else if (ssIds != null && !ssIds.isEmpty()) { %>
+    <tr>
+        <td class="label">
+            Associated ss Id(s):
+        </td>
+        <td>
+            <%for (int i = 0; i < ssIds.size(); i++) {
+                VariantSSId ssId = ssIds.get(i);
+                if (i == ssIds.size()-1){%>
+                <%=ssId.getSSId()%>
+                <% } else {%>
+                <%=ssId.getSSId()%>,&nbsp;
+            <%  }
+            } %>
+        </td>
     </tr>
     <% } %>
     <%if (!Utils.isStringEmpty(var.getClinvarId())) {%>
