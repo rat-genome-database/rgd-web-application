@@ -48,7 +48,6 @@ boolean isEva = false;
                 geneList.add(g);
         }
     }
-    List<VariantSSId> ssIds = vdao.getVariantSSIdsByRgdId(obj.getRgdId());
 
     String genicStatus = "INTERGENIC";
     if (geneList.size()>0)
@@ -91,16 +90,18 @@ boolean isEva = false;
         <td class="label">RGD ID:</td>
         <td><%=obj.getRgdId()%></td>
     </tr>
-    <%if (!Utils.isStringEmpty(var.getRsId()) && !var.getRsId().equals(".")) {%>
+    <%if (!Utils.isStringEmpty(var.getRsId()) && !var.getRsId().equals(".")) {
+    String evaUrl = xdbDAO.getXdbUrlnoSpecies(158);%>
     <tr>
         <td class="label">RS ID:</td>
         <% if (!isEva){%>
         <td><%=var.getRsId()%></td>
         <% } else { %>
-        <td><a href="https://www.ebi.ac.uk/eva/?variant&accessionID=<%=var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a></td>
+        <td><a href="<%=evaUrl+var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a></td>
         <% } %>
     </tr>
-    <% } else if (ssIds != null && !ssIds.isEmpty()) { %>
+    <% }
+        if (ssIds != null && !ssIds.isEmpty()) { %>
     <tr>
         <td class="label">
             Associated ss Id(s):
@@ -222,6 +223,7 @@ boolean isEva = false;
                 dbJBrowse = "data_chlSab2";
                 break;
             case 631:
+            case 634:
                 dbJBrowse = "data_dog3_1";
                 break;
             case 910:

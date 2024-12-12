@@ -97,6 +97,7 @@
             col.add(vsd);
         }
     }
+    List<VariantSSId> ssIds = vdao.getVariantSSIdsByRgdId(obj.getRgdId());
     HashMap<String,List<Integer>> breedMap = new HashMap<>();
     List<String> breeds = new ArrayList<>();
     if(mapKey == 631){
@@ -184,6 +185,11 @@
                     <div id="gwasAssociation">
                         <%@ include file="gwasData.jsp"%>
                     </div>
+                        <% }
+                            if (!ssIds.isEmpty()){%>
+                        <div id="evaSSIdAssociation">
+                            <%@include file="associatedStrains.jsp"%>
+                        </div>
                         <% } %>
                     <br><div class="subTitle" id="variantDetails">Variant Details</div>
                     <div id="transcripts">

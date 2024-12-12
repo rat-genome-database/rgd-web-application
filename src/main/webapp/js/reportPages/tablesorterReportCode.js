@@ -57,6 +57,12 @@ function tableSorterReport() {
                 size: 20
             });
 
+        $('#ssIDTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['zebra']
+            });
+
         $('#ClinVarTable')
             .tablesorter({
                 theme: 'blue',
