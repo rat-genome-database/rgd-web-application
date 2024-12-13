@@ -6,6 +6,23 @@
     String headContent = "";
     String pageDescription = "Contents of all the bin Categories and their assignee details.";
 %>
+<style>
+    .clear-all-button {
+        padding: 6px 8px;
+        border: none;
+        border-radius: 4px;
+        background-color: #FF0000;
+        color: white;
+        font-size: 13px;
+        cursor: pointer;
+        width: 100px;
+        transition: background-color 0.2s;
+    }
+
+    .clear-all-button:hover {
+        background-color: #CC0000;
+    }
+</style>
 <script>
     //Function To Display Popup
     function div_show() {
@@ -39,7 +56,13 @@
 
 <%--    Sidebar for displaying all the bin categories--%>
     <div class="sidebar">
-        <h3>Bin Categories</h3>
+<%--        <h3>Bin Categories</h3>--%>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>Bin Categories</h3>
+            <button class="clear-all-button" onclick="clearAllBins()">
+                Clear All
+            </button>
+        </div>
         <ul class="tree">
             <c:forEach var="term" items="${model.assignees}">
                 <c:choose>
@@ -362,6 +385,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    function clearAllBins() {
+        if(confirm('Are you sure you want to clear all genes from bins?')) {
+            // Create a form dynamically and submit
+            let form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/rgdweb/curation/geneBinning/bins.html';
+
+            // Add required hidden fields
+            let fields = {
+                'clearAll': 'delete',
+                'termAcc': '${model.termAccString}',
+                'term': '${model.termString}',
+                'parent': '${model.parent}',
+                'username': '${model.username}',
+                'accessToken': '${model.accessToken}'
+            };
+
+            // Add child term fields if they exist
+            if('${model.childTermAccString}' !== '') {
+                fields['childTermAcc'] = '${model.childTermAccString}';
+                fields['childTerm'] = '${model.childTermString}';
+            }
+
+            // Create and append hidden inputs
+            for(let name in fields) {
+                let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = fields[name];
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
 
 <%--Footer of the Page--%>
 <%@ include file="../../../../common/footerarea.jsp" %>

@@ -225,7 +225,7 @@
     <% } %>
     <%if(new HrdpPortalCacheDAO().checkAvailableStrainExists(String.valueOf(obj.getRgdId()))){%>
     <tr>
-        <td class="label">Portals:</td>
+        <td class="label">Portal(s):</td>
         <td><a href="/rgdweb/hrdp_panel.html">HRDP portal</a></td>
     </tr>
     <%}%>

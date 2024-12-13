@@ -133,9 +133,21 @@ public class PerformBinningController implements Controller {
         String unassignFlag = request.getParameter("unassignFlag");
         String username = request.getParameter("username");
         String accessToken = request.getParameter("accessToken");
+        String clearAll = request.getParameter("clearAll");
         ModelMap model = new ModelMap();
 
-
+        //clear All button logic
+        if(clearAll!=null && clearAll.equals("delete")){
+            // Clear all genes from bins
+            geneBinDAO.deleteAllGeneBins();
+            //Set the total gene count to 0
+            List<GeneBinAssignee>allAssignees = geneBinAssigneeDAO.getAllAssignees();
+            for(GeneBinAssignee assignee:allAssignees){
+                geneBinAssigneeDAO.updateTotalGenes(assignee.getTermAcc(),0);
+            }
+            return new ModelAndView("redirect:/curation/geneBinning/bins.html?accessToken="+accessToken+
+                    "&termAcc=GO:0008233&term=peptidase%20activity&parent=1&username="+username);
+        }
 //      Fetch all the child termAcc for bin category
         parentChildTermsAcc = getBinChildren();
 
