@@ -21,9 +21,16 @@ import java.util.*;
 
 
 public class PerformBinningController implements Controller {
-    private static final String[] binCategories = {"GO:0008233","GO:0009975","GO:0016874","GO:0016491",
-            "GO:0016740","GO:0032451","GO:0140223","GO:0140110","GO:0140104","GO:0140299","GO:0005198",
-            "GO:0005215","GO:0003774"};
+//    private static final String[] binCategories = {"GO:0008233","GO:0009975","GO:0016874","GO:0016491",
+//            "GO:0016740","GO:0032451","GO:0140223","GO:0140110","GO:0140104","GO:0140299","GO:0005198",
+//            "GO:0005215","GO:0003774"};
+    private static final String[] binCategories = {"GO:0016209", "GO:0140657", "GO:0005488", "GO:0038024", "GO:0003824", "GO:0102910",
+        "GO:0009055", "GO:0140522", "GO:0180020", "GO:0060090", "GO:0140912", "GO:0180024",
+        "GO:0098772", "GO:0140313", "GO:0141047", "GO:0140489", "GO:0060089", "GO:0045735",
+        "GO:0140911", "GO:0044183", "GO:0140776", "GO:0140777", "GO:0140691", "GO:0090729",
+        "GO:0045182", "GO:0008233", "GO:0009975", "GO:0016874", "GO:0016491", "GO:0016740",
+        "GO:0032451", "GO:0140223", "GO:0140110", "GO:0140104", "GO:0140299", "GO:0005198",
+        "GO:0005215", "GO:0003774"};
     private GeneDAO gdao;
     private GeneBinDAO geneBinDAO;
     private OntologyXDAO ontologyXDAO;
@@ -74,6 +81,44 @@ public class PerformBinningController implements Controller {
         }
         return parentChildTermsAcc;
     }
+//    private HashMap<String, List<GeneBinAssignee>> getBinChildren() throws Exception {
+//        HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
+//        // Keep track of processed terms to avoid duplicate insertions
+//        Set<String> processedTerms = new HashSet<>();
+//
+//        for (String binCategory : binCategories) {
+//            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
+//            List<GeneBinAssignee> allChildterms = new ArrayList<>();
+//            Set<String> keys = childTermAccs.keySet();
+//
+//            for (String key : keys) {
+//                if (!processedTerms.contains(key)) {  // Only process if we haven't seen this term before
+//                    Term term = ontologyXDAO.getTermByAccId(key);
+//                    GeneBinChild child = new GeneBinChild(term.getAccId(), term.getTerm());
+//                    List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
+//
+//                    if (assigneeObjChild.isEmpty()) {
+//                        // Only insert if the term doesn't exist in database
+//                        geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0);
+//                    }
+//                    processedTerms.add(key);  // Mark this term as processed
+//                }
+//
+//                // Always add to allChildterms for this parent category
+//                List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(key);
+//                if (!assigneeObjChild.isEmpty()) {
+//                    allChildterms.add(assigneeObjChild.get(0));
+//                }
+//            }
+//
+//            List<GeneBinAssignee> selfChild = geneBinAssigneeDAO.getTerm(binCategory);
+//            if (!selfChild.isEmpty()) {
+//                allChildterms.add(selfChild.get(0));
+//            }
+//            parentChildTermsAcc.put(binCategory, allChildterms);
+//        }
+//        return parentChildTermsAcc;
+//    }
 
     public void geneInsertionToBin(List<GeneBin> geneExists, int i, int rgdId, String geneSymbol) throws Exception{
         boolean binAcquiredFlag = false;
