@@ -224,12 +224,10 @@
                                 <%
 
                                 %>
-
-
                                 <table border="0" width="100%" style="border:  5px solid #D8D8DB; background-color:white; color:#053867;font-size:12px;">
                                     <% try { %>
                                     <tr>
-                                        <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol()%></td>
+                                        <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol(),"protein-coding").get(0).getSymbol()%></td>
                                     </tr>
                                     <% } catch (Exception e) { %>
 
