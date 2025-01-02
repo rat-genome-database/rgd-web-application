@@ -36,6 +36,7 @@
                 String qtlFacet="";
                 if(bkt.getKey().toString().length()>50){
                     qtlFacet+=bkt.getKey().toString().substring(0,50);
+                    qtlFacet+="...";
                 }else
                     qtlFacet=bkt.getKey().toString();
         %>
