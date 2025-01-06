@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.reporting.SearchReportStrategy" %>
 <%@ page import="edu.mcw.rgd.datamodel.Reference" %>
+<%@ page import="dev.langchain4j.model.ollama.OllamaChatModel" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -70,6 +71,26 @@
         <td>
             <%@ include file="info.jsp"%>
 
+
+            <%
+
+                OllamaChatModel model = OllamaChatModel.builder()
+                        .baseUrl("http://grudge.rgd.mcw.edu:11434") // Ollama's default port
+                        .modelName("rgdAnnotatorModel") // Replace with your downloaded model
+                        .build();
+
+                String prompt = "Please find any gene to disease relationships in this scientific abstract. <abstract>" + obj.getRefAbstract() + "</abstract>";
+                String genes = model.generate(prompt);
+
+            %>
+
+
+            <br>
+            <div style="border:2px solid black;padding:5px;">
+                AI Curator Notes...<br><br>
+                <%=genes%>
+            </div>
+
             <%
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
@@ -105,6 +126,9 @@
  </table>
     </div>
 </div>
+
+
+
 <% }%>
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
