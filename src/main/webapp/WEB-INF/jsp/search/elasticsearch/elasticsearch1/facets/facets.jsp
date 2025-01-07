@@ -2,6 +2,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
+<%@ page import="java.net.URLEncoder" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -32,8 +35,15 @@
     <%}%>
     <% if(docCounts.get("QTL")!=null){%>
     <li> <button style="border:none;background-color: transparent" onclick="filterClick('QTL', '<%=species%>','','')"><span>QTL (<%=docCounts.get("QTL")%>)</span></button>
-        <ul><%for(Terms.Bucket bkt:aggregations.get(qtl)){%>
-            <li onclick="filterClick('QTL', '<%=species%>','', '<%=bkt.getKey()%>','trait')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+        <ul><%for(Terms.Bucket bkt:aggregations.get(qtl)){
+                String qtlFacet="";
+                if(bkt.getKey().toString().length()>50){
+                    qtlFacet+=bkt.getKey().toString().substring(0,50);
+                    qtlFacet+="...";
+                }else{
+                    qtlFacet=bkt.getKey().toString();}
+        %>
+            <li onclick="filterClick('QTL', '<%=species%>','', '<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8")%>','trait')" title="<%=bkt.getKey()%>"><%=qtlFacet%> (<%=bkt.getDocCount()%>)</li>
             <%}%>
         </ul>
     </li>
