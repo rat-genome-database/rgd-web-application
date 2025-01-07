@@ -2,6 +2,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
+<%@ page import="java.net.URLEncoder" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -37,10 +40,10 @@
                 if(bkt.getKey().toString().length()>50){
                     qtlFacet+=bkt.getKey().toString().substring(0,50);
                     qtlFacet+="...";
-                }else
-                    qtlFacet=bkt.getKey().toString();
+                }else{
+                    qtlFacet=bkt.getKey().toString();}
         %>
-            <li onclick="filterClick('QTL', '<%=species%>','', '<%=bkt.getKey()%>','trait')" title="<%=bkt.getKey()%>"><%=qtlFacet%> (<%=bkt.getDocCount()%>)</li>
+            <li onclick="filterClick('QTL', '<%=species%>','', '<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8")%>','trait')" title="<%=bkt.getKey()%>"><%=qtlFacet%> (<%=bkt.getDocCount()%>)</li>
             <%}%>
         </ul>
     </li>
