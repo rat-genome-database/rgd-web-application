@@ -215,7 +215,7 @@ td.three {
     background-color:transparent;
     color:black;
 }
-#highlight span{
+.highlight span{
     color:grey;
 
 }

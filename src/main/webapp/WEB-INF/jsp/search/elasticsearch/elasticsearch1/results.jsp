@@ -615,7 +615,7 @@
                     </td>
                     <td class="id">${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}</td>
                     <%if(!RgdContext.isProduction()){%>
-                    <td id="highlight" onmouseover="link=false;" onmouseout="link=true;">
+                    <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">
                         <%@include file="highlights.jsp"%>
                     </td>
                     <%}%>
