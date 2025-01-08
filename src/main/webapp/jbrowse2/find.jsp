@@ -67,6 +67,10 @@ Vero_WHO_p1.0
         tracks="Human GRCh38.p14 (hg38) Genes and Transcripts-GRCh38.p14";
     }else if (assembly.equals("Sscrofa10.2")) {
         tracks="Pig Sscrofa10.2 (susScr3) Genes and Transcripts-Sscrofa10.2";
+    }else if (assembly.equals("Dog10K_Boxer_Tasha")) {
+        tracks="Dog Dog10K_Boxer_Tasha (canFam6) Genes and Transcripts-Dog10K_Boxer_Tasha";
+    }else if (assembly.equals("UU_Cfam_GSD_1.0")) {
+        tracks="Dog UU_Cfam_GSD_1.0 (canFam4) Genes and Transcripts-UU_Cfam_GSD_1.0";
     }else {
         throw new Exception("Assembly " + assembly + " Not Found");
     }
