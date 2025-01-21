@@ -72,8 +72,7 @@ public class WebsiteFeedbackController implements Controller {
                 "Reply to: "+sender+"\n"+
                 "Webpage: " + page;
 
-//        MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, rgdMessage);
-        MyRGDLookupController.send("akundurthi@mcw.edu", "Send message form from " + page, rgdMessage);
+        MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, rgdMessage);
         MyRGDLookupController.send(sender, "Thanks for your comment", usrMsg);
 
         String storedMessage = message + "\t Recipients email:"+sender;
