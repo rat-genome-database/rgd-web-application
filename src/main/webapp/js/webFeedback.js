@@ -59,6 +59,9 @@ function hideButtons() {
                         })
                     .then(function (response) {
                         closeForm();
+                        messageVue.email="";
+                        messageVue.message="";
+                        alert("Thank you!  Your message has been sent to the RGD.")
                     }).catch(function (error) {
                     console.log(error)
                 })
