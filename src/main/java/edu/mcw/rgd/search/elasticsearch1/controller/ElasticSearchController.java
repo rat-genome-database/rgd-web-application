@@ -273,12 +273,12 @@ public class ElasticSearchController extends RGDSearchController {
                     }
             }
         if(mapKey==0 && species!=null && !species.equals("")){
-            Map referenceAssemblyMap=MapManager.getInstance().getReferenceAssembly(SpeciesType.parse(species));
-            if(referenceAssemblyMap!=null)
-            mapKey=referenceAssemblyMap.getKey();
+            mapKey=getReferenceAssemblyMapKey(species);
         }
-        if(mapKey==0)
-            mapKey=372;
+        if(mapKey==0) {
+            mapKey=getReferenceAssemblyMapKey("rat");
+
+        }
         return mapKey;
     }
     public boolean existsIn(List<String> idsTouched, String id){
@@ -288,5 +288,11 @@ public class ElasticSearchController extends RGDSearchController {
             }
         }
         return false;
+    }
+    public int getReferenceAssemblyMapKey(String species) throws Exception {
+        Map referenceAssemblyMap=MapManager.getInstance().getReferenceAssembly(SpeciesType.parse(species));
+        if(referenceAssemblyMap!=null)
+           return referenceAssemblyMap.getKey();
+        return 0;
     }
 }
