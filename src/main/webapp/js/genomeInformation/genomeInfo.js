@@ -28,6 +28,9 @@ function runGviewer() {
     var bandURL=null;
     if(species=='Rat') {
         bandURL="/rgdweb/gviewer/data/rgd_rat_ideo.xml";
+        if(mapKey==380) {
+            URL  = URL + "data_rn8";
+        }else
         if(mapKey==372) {
             URL  = URL + "data_rn7_2";
         }
