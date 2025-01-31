@@ -60,13 +60,8 @@ public class ElasticSearchController extends RGDSearchController {
     }
 
     @Override
-
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req=new HttpRequestFacade(request);
-        boolean invalidInput=sanitizeInput(req);
-        if(invalidInput){
-            throw new RuntimeException("Invalid character in the URL");
-        }
         ModelMap model = new ModelMap();
 
         ArrayList error = new ArrayList();
@@ -278,12 +273,12 @@ public class ElasticSearchController extends RGDSearchController {
                     }
             }
         if(mapKey==0 && species!=null && !species.equals("")){
-            Map referenceAssemblyMap=MapManager.getInstance().getReferenceAssembly(SpeciesType.parse(species));
-            if(referenceAssemblyMap!=null)
-            mapKey=referenceAssemblyMap.getKey();
+            mapKey=getReferenceAssemblyMapKey(species);
         }
-        if(mapKey==0)
-            mapKey=372;
+        if(mapKey==0) {
+            mapKey=getReferenceAssemblyMapKey("rat");
+
+        }
         return mapKey;
     }
     public boolean existsIn(List<String> idsTouched, String id){
@@ -294,24 +289,10 @@ public class ElasticSearchController extends RGDSearchController {
         }
         return false;
     }
-    public boolean sanitizeInput(HttpRequestFacade req){
-        if(req.getParameter("assembly")!=null && req.getParameter("assembly").toString().contains("<script>") )
-            return true;
-        if(req.getParameter("term")!=null && req.getParameter("term").toString().contains("<script>") )
-            return true;
-        if(req.getParameter("chr")!=null && req.getParameter("chr").toString().contains("<script>") )
-            return true;
-        if(req.getParameter("start")!=null && req.getParameter("start").toString().contains("<script>") )
-            return true;
-        if(req.getParameter("stop")!=null && req.getParameter("stop").toString().contains("<script>") )
-            return true;
-        if(req.getParameter("speciesType")!=null && req.getParameter("speciesType").toString().contains("<script>") )
-            return true;
-        if(req.getParameter("category")!=null && req.getParameter("category").toString().contains("<script>") )
-            return true;
-        if(req.getParameter("objectSearch")!=null && req.getParameter("objectSearch").toString().contains("<script>") )
-            return true;
-        return req.getParameter("match_type") != null && req.getParameter("match_type").toString().contains("<script>");
+    public int getReferenceAssemblyMapKey(String species) throws Exception {
+        Map referenceAssemblyMap=MapManager.getInstance().getReferenceAssembly(SpeciesType.parse(species));
+        if(referenceAssemblyMap!=null)
+           return referenceAssemblyMap.getKey();
+        return 0;
     }
-
 }
