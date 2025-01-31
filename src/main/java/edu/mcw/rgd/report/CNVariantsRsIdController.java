@@ -88,6 +88,9 @@ public class CNVariantsRsIdController implements Controller {
                         Gene g = getGene(rgdId);
                         final MapManager mm = MapManager.getInstance();
                         Map activeMap = mm.getReferenceAssembly(g.getSpeciesTypeKey());
+                        if (g.getSpeciesTypeKey()==3){
+                            activeMap.setKey(372);
+                        }
                         MapData mapData = getMapData(rgdId, activeMap);
                         if (mapData == null) {
                             error.add("We have no variants in given assembly for " + g.getSymbol() + "!");
