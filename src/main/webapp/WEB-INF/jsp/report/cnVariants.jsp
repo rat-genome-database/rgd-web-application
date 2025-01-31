@@ -15,7 +15,10 @@
     }
     int totalVars = 0;
     try {
-        totalVars = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), map.getChromosome(), map.getStartPos(), map.getStopPos());
+        int mapKey = activeMap.getKey();
+        if (obj.getSpeciesTypeKey()==3)
+            mapKey=372;
+        totalVars = vdao.getVariantsCountWithGeneLocation(mapKey, map.getChromosome(), map.getStartPos(), map.getStopPos());
     }catch (Exception e){
 //        System.out.println(e);
     }
