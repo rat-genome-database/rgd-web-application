@@ -232,7 +232,7 @@ public abstract class HaplotyperController implements Controller {
             SampleDAO sdao = new SampleDAO();
             sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
 
-            int mapKey = 380;
+            int mapKey = 372;
             try {
                mapKey= Integer.parseInt(req.getParameter("mapKey"));
             }catch (Exception e){throw new VVException("INVALIED MAPKEY:"+ req.getParameter("mapKey"));}
