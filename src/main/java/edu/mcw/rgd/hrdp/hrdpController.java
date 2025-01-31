@@ -60,6 +60,12 @@ public class hrdpController implements Controller {
             Map mapKey = new MapDAO().getPrimaryRefAssembly(3);
             int key = mapKey.getKey();
 
+            // remove me when we get variants for GRCr8
+            if (key==380){
+                key=372;
+            }
+            // remove me when we get variants for GRCr8
+
             Set<String> uniqueIds = new LinkedHashSet<>();
 
             // Add each individual sample ID to the Set
