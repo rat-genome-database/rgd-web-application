@@ -211,6 +211,7 @@ $(document).ready(function(){
                 <tr>
                     <td style="font-weight:700; color: #2865A3;">Assembly Version:
                         <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary" style="background-color:#2B84C8;">
+                            <option value='372' <% if (mapKey==380) out.print("selected");%>>RAT Genome Assembly v7.2</option>
                             <option value='372' <% if (mapKey==372) out.print("selected");%>>RAT Genome Assembly v7.2</option>
                             <option value='360' <% if (mapKey==360) out.print("selected");%>>RAT Genome Assembly v6.0</option>
                             <option value='70' <% if (mapKey==70) out.print("selected");%>>RAT Genome Assembly v5.0</option>
