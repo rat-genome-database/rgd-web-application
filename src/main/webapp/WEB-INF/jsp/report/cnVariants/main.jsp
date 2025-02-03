@@ -185,11 +185,6 @@
                     <div id="gwasAssociation">
                         <%@ include file="gwasData.jsp"%>
                     </div>
-                        <% }
-                            if (!ssIds.isEmpty()){%>
-                        <div id="evaSSIdAssociation">
-                            <%@include file="associatedStrains.jsp"%>
-                        </div>
                         <% } %>
                     <br><div class="subTitle" id="variantDetails">Variant Details</div>
                     <div id="transcripts">

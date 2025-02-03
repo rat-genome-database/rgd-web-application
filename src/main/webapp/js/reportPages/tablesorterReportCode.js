@@ -41,7 +41,7 @@ function tableSorterReport() {
         })
             .tablesorterPager({
                 container: $('.sampleDetailsPager'),
-                size: 10
+                size: 9999
             });
 
         $('#gwasDataTable').tablesorter({

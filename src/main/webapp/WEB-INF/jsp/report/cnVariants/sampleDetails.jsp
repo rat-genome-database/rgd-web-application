@@ -25,12 +25,12 @@ if (!sampleDetailList.isEmpty() ) {
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                     <select class="pagesize">
-                        <option selected="selected" value="10">10</option>
+                        <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
-                        <option  value="40">40</option>
-                        <option   value="100">100</option>
-                        <option value="9999">All Rows</option>
+                        <option value="40">40</option>
+                        <option value="100">100</option>
+                        <option selected="selected" value="9999">All Rows</option>
                     </select>
                 </form>
             </div>
@@ -55,13 +55,13 @@ if (!sampleDetailList.isEmpty() ) {
                 long stop = var.getEndPos() + 1;
                 String vvUrl = "/rgdweb/front/variants.html?start="+ start +"&stop="+stop+"&chr=" + var.getChromosome() +
                         "&geneStart=&geneStop=&geneList=&mapKey="+s.getMapKey()+"&con=&depthLowBound=1&depthHighBound=&sample1="+s.getId();
-            if (i % 4 == 0){%>
+            if (i % 6 == 0){%>
             <tr>
                 <%}%>
                 <td><a href="<%=vvUrl%>" title="View in Variant Visualizer"><%=s.getAnalysisName()%></a></td>
 <%--                <td><%=vsd.getVariantFrequency()%>/<%=vsd.getDepth()%>&nbsp;(<%=vsd.getZygosityPercentRead()%>%)</td>--%>
 <%--                <td><%=vsd.getZygosityStatus()%></td>--%>
-                <%if (i % 4 == 3){%>
+                <%if (i % 6 == 5){%>
             </tr>
             <% }
             i++;} %>
@@ -81,9 +81,9 @@ if (!sampleDetailList.isEmpty() ) {
                     <option selected="selected" value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
+                    <option value="40">40</option>
+                    <option value="100">100</option>
+                    <option selected="selected" value="9999">All Rows</option>
                 </select>
             </form>
         </div>

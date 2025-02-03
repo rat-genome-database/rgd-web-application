@@ -101,7 +101,8 @@ boolean isEva = false;
         <% } %>
     </tr>
     <% }
-        if (ssIds != null && !ssIds.isEmpty()) { %>
+        if (ssIds != null && !ssIds.isEmpty()) {
+            String evaUrl = xdbDAO.getXdbUrlnoSpecies(158);%>
     <tr>
         <td class="label">
             Associated ss Id(s):
@@ -110,9 +111,9 @@ boolean isEva = false;
             <%for (int i = 0; i < ssIds.size(); i++) {
                 VariantSSId ssId = ssIds.get(i);
                 if (i == ssIds.size()-1){%>
-                <%=ssId.getSSId()%>
+                <a href="<%=evaUrl+ssId.getSSId()%>"><%=ssId.getSSId()%></a>
                 <% } else {%>
-                <%=ssId.getSSId()%>,&nbsp;
+                <a href="<%=evaUrl+ssId.getSSId()%>"><%=ssId.getSSId()%></a>,&nbsp;
             <%  }
             } %>
         </td>
