@@ -159,7 +159,12 @@
                      .append("MONDO_").append(syn.getName().substring(6))
                      .append("\" title=\"view term at EBI\">").append(syn.getName()).append("</a>");
               }
-
+              else if( syn.getName().startsWith("OBA:") ) {
+                  out.append("<a href=\"").append(XDBIndex.getInstance().getXDB(159).getUrl())
+                     .append("OBA_").append(syn.getName().substring(4))
+                     .append("\" title=\"view term at EBI\">").append(syn.getName()).append("</a>");
+              }
+              
               // link outs to strain report pages for rat strain ontology terms having assigned rgd ids
               else if( syn.getName().startsWith("RGD ID:") ) {
                   out.append("<a href=\"").append(Link.strain(Integer.parseInt(syn.getName().substring(8))))
