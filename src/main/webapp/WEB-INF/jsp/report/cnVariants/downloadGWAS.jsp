@@ -1,4 +1,4 @@
-<%@ page import="edu.mcw.rgd.datamodel.GWASCatalog" %><%@ page import="java.util.List" %><%@ page import="edu.mcw.rgd.process.Utils" %><%@ page import="edu.mcw.rgd.dao.impl.GWASCatalogDAO" %><%@ page contentType="text/csv;charset=UTF-8" language="java" %><%
+<%@ page import="edu.mcw.rgd.datamodel.GWASCatalog" %><%@ page import="java.util.List" %><%@ page import="edu.mcw.rgd.process.Utils" %><%@ page import="edu.mcw.rgd.dao.impl.GWASCatalogDAO" %><%@ page contentType="text/plain;charset=UTF-8" language="java" %><%
     response.setHeader("Content-disposition","attachment;filename=\"related_gwas_data.csv\"");
     GWASCatalogDAO gdao = new GWASCatalogDAO();
     String rsId = (String) request.getAttribute("rsId");

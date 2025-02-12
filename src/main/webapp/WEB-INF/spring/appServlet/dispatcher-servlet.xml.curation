@@ -24,6 +24,7 @@
                 <prop key="curation/pathway/pathwayCreate.html">PathwayRecordController</prop>
 				<prop key="curation/expression/experiments.html">GeoExperimentController</prop>
                 <prop key="curation/expression/editSamples.html">SampleEditController</prop>
+                <prop key="curation/expression/downloadMetaData.html">DownloadExpressionMetaDataController</prop>
 
                 <prop key="curation/phenominer/reference.html">PhenominerReferenceController</prop>
                 <prop key="curation/phenominer/search.html">PhenominerSearchController</prop>
@@ -394,6 +395,7 @@
 
 	<bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
     <bean id="SampleEditController" class="edu.mcw.rgd.expression.SampleEditController"/>
+    <bean id="DownloadExpressionMetaDataController" class="edu.mcw.rgd.expression.DownloadMetaDataController"/>
     <bean id="CurationController" class="edu.mcw.rgd.edit.CurationController" />
     <bean id="CurationLoginController" class="edu.mcw.rgd.edit.CurationLoginController" />
     <bean id="AliasesEditObjectController" class="edu.mcw.rgd.edit.AliasesEditObjectController"/>
