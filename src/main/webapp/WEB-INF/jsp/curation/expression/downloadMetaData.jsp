@@ -11,8 +11,10 @@ if (error.isEmpty()){
     HashMap<String, Term> tissueMap = (HashMap<String, Term>) request.getAttribute("tissueMap");
     HashMap<String, Term> strainMap = (HashMap<String, Term>) request.getAttribute("strainMap");
     HashMap<String, List<String>> sampleSrrMap = (HashMap<String, List<String>>) request.getAttribute("sampleSrrMap");
+    HashMap<String, String> strainSynMap = (HashMap<String, String>) request.getAttribute("strainSynMap");
     String pmids = (String) request.getAttribute("pmids");
     String geoPath = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="+gse;
+    String strainPath = "https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=";
 
     out.print("Run");
     out.print("\t");
@@ -30,17 +32,23 @@ if (error.isEmpty()){
     out.print("\t");
     out.print("Title");
     out.print("\t");
-    out.println("Sample_characteristics");
+    out.print("Sample_characteristics");
+    out.print("\t");
+    out.println("StrainInfo");
 //System.out.println("Before for");
     for(Sample s: samples){
 //        System.out.println(s.getGeoSampleAcc());
         Term tis = tissueMap.get(s.getTissueAccId());
         Term str = strainMap.get(s.getStrainAccId());
-        String strain = str.getTerm().replaceAll("[-+*!<>?\"|]","");
+        String strain = str.getTerm().replaceAll("[+*!<>?\"|]","");
         strain = strain.replaceAll("[:\\\\/() .]","_");
+        strain = strain.replace("__","_");
+        if (strain.endsWith("_"))
+            strain=strain.substring(0,strain.length()-1);
         String conds = conditionMap.get(s.getGeoSampleAcc());
 //        System.out.println(tis.getTerm()+"|"+str.getTerm()+"|"+conds);
         List<String> srrIds = sampleSrrMap.get(s.getGeoSampleAcc());
+        String strainId = strainSynMap.get(s.getGeoSampleAcc());
 //        System.out.println(srrIds);
 //        System.out.println(srrIds.size());
         if (srrIds.size()>1){
@@ -63,13 +71,18 @@ if (error.isEmpty()){
                     out.print("not_specified");
                 }
                 out.print("\t");
-                out.print(pmids);
+                out.print(Utils.NVL(pmids,"NA"));
                 out.print("\t");
                 out.print(geoPath);
                 out.print("\t");
                 out.print(title);
                 out.print("\t");
-                out.println(conds);
+                out.print(Utils.NVL(conds,"NA"));
+                out.print("\t");
+                if (!Utils.isStringEmpty(strainId))
+                    out.println(strainPath+strainId);
+                else
+                    out.println("NA");
             }
         }
         else if (srrIds.size()==1){
@@ -93,16 +106,21 @@ if (error.isEmpty()){
             }
 
             out.print("\t");
-            out.print(pmids);
+            out.print(Utils.NVL(pmids,"NA"));
             out.print("\t");
             out.print(geoPath);
             out.print("\t");
             out.print(title);
             out.print("\t");
-            out.println(conds);
+            out.print(Utils.NVL(conds,"NA"));
+            out.print("\t");
+            if (!Utils.isStringEmpty(strainId))
+                out.println(strainPath+strainId);
+            else
+                out.println("NA");
         }
         else{
-            out.print("");
+            out.print("NA");
             out.print("\t");
             out.print(s.getGeoSampleAcc());
             out.print("\t");
@@ -120,13 +138,18 @@ if (error.isEmpty()){
                 out.print("not_specified");
             }
             out.print("\t");
-            out.print(pmids);
+            out.print(Utils.NVL(pmids,"NA"));
             out.print("\t");
             out.print(geoPath);
             out.print("\t");
             out.print(title);
             out.print("\t");
-            out.println(conds);
+            out.print(Utils.NVL(conds,"NA"));
+            out.print("\t");
+            if (!Utils.isStringEmpty(strainId))
+                out.println(strainPath+strainId);
+            else
+                out.println("NA");
         }
     }
 //    System.out.println("After for");

@@ -4,6 +4,7 @@ import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.Reference;
 import edu.mcw.rgd.datamodel.XdbId;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
+import edu.mcw.rgd.datamodel.ontologyx.TermSynonym;
 import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.GeneExpressionRecord;
 import edu.mcw.rgd.datamodel.pheno.Sample;
@@ -73,6 +74,7 @@ public class DownloadMetaDataController implements Controller {
             HashMap<String, String> sampleConditionsMap = new HashMap<>();
             HashMap<String, Term> tissueMap = new HashMap<>();
             HashMap<String, Term> strainMap = new HashMap<>();
+            HashMap<String, String> strainLinkMap = new HashMap<>();
             HashMap<String, List<String>> sampleSRR = new HashMap<>();
             for (Sample s : samples){
                 // get conditions and apply to map
@@ -83,6 +85,16 @@ public class DownloadMetaDataController implements Controller {
                 if (!Utils.isStringEmpty(s.getStrainAccId()) && strainMap.get(s.getStrainAccId())==null){
                     Term strain = xdao.getTermByAccId(s.getStrainAccId());
                     strainMap.put(s.getStrainAccId(), strain);
+                    List<TermSynonym> syns = xdao.getTermSynonyms(strain.getAccId());
+
+                    for (TermSynonym syn : syns){
+                        if (syn.getName().startsWith("RGD")){
+                            String strainSyn = syn.getName().replace("RGD ID: ","");
+                            strainLinkMap.put(s.getGeoSampleAcc(),strainSyn);
+                            break;
+                        }
+                    }
+                    strainLinkMap.putIfAbsent(s.getGeoSampleAcc(), "");
                 }
 
                 Document doc = Jsoup.connect(eSearchUrl+s.getGeoSampleAcc()).get(); // getting ncbi ID for GSM
@@ -150,6 +162,7 @@ public class DownloadMetaDataController implements Controller {
             request.setAttribute("strainMap", strainMap);
             request.setAttribute("sampleSrrMap", sampleSRR);
             request.setAttribute("pmIds", pmids);
+            request.setAttribute("strainSynMap", strainLinkMap);
 
         }
         catch (Exception e){
