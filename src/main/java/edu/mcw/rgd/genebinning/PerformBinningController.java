@@ -334,7 +334,7 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
             }
 
             return anyGenesRedistributed;
-            
+
     }
 
     private String findMostSpecificTerm(int rgdId, List<TermWithStats> terms) throws Exception {
@@ -350,9 +350,6 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
             // If not, get children and check recursively
             List<TermWithStats> childTerms = ontologyXDAO.getActiveChildTerms(term.getAccId(), 0);
             if(!childTerms.isEmpty()) {
-                for(TermWithStats child : childTerms) {
-                }
-
                 String foundTerm = findMostSpecificTerm(rgdId, childTerms);
                 if(foundTerm != null) {
                     return foundTerm;
