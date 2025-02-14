@@ -59,84 +59,7 @@ public class PerformBinningController implements Controller {
         childBinCountMap = new HashMap<>();
     }
 
-//    private HashMap<String, List<GeneBinAssignee>> getBinChildren() throws Exception {
-//        HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
-//        for (String binCategory : binCategories) {
-//            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
-//            List<GeneBinAssignee> allChildterms = new ArrayList<>();
-//            Set<String> keys = childTermAccs.keySet();
-//            for (String key : keys) {
-//                Term term = ontologyXDAO.getTermByAccId(key);
-//                GeneBinChild child = new GeneBinChild(term.getAccId(), term.getTerm());
-//                List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
-//                if( !assigneeObjChild.isEmpty() ) {
-//                    allChildterms.add(assigneeObjChild.get(0));
-//                }
-//
-///*              Use it for initialization of the database table
-//                Insert all the children into the bin assignee table
-//                geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0);
-//*/
-//            }
-//            //Add child bin terms from genebin table
-////            List<String> binChildTerms = geneBinDAO.getChildTermsForParent(binCategory);
-////            for (String childTerm : binChildTerms) {
-////                // Original logic for child terms not in ontology hierarchy
-////                if (!childTermAccs.containsKey(childTerm)) {
-////                    List<GeneBinAssignee> assigneeObj = geneBinAssigneeDAO.getAssigneeName(childTerm);
-////                    if (!assigneeObj.isEmpty()) {
-////                        allChildterms.add(assigneeObj.get(0));
-////                    }
-////                }
-////
-////                // New logic for subset handling
-////                List<GeneBinAssignee> subsets = geneBinAssigneeDAO.getAssigneeRecordsWithSubsets(childTerm+" (%)");
-////                for (GeneBinAssignee subset : subsets) {
-////                    System.out.println("subset"+subset.getTermAcc());
-////                        if (subset.getSubsetNum() > 0) {
-////                            System.out.println("Inserted subset: " + subset.getTermAcc());
-////                            allChildterms.add(subset);
-////                        }
-////                }
-////            }
-//            // Get child bins from genebin table
-//            List<String> binChildTerms = geneBinDAO.getChildTermsForParent(binCategory);
-//            Set<String> termsWithSubsets = new HashSet<>();  // Keep track of terms that have subsets
-//
-//            // First find all terms that have subsets
-//            for (String childTerm : binChildTerms) {
-//                List<GeneBinAssignee> subsets = geneBinAssigneeDAO.getAssigneeRecordsWithSubsets(childTerm+" (%)");
-//                if (!subsets.isEmpty()) {
-//                    termsWithSubsets.add(childTerm);  // Add the base term to our set
-//                    // Add all subsets
-//                    for (GeneBinAssignee subset : subsets) {
-//                        if (subset.getSubsetNum() > 0) {
-//                            allChildterms.add(subset);
-//                        }
-//                    }
-//                }
-//            }
-//            System.out.println("Terms with subsets: " + termsWithSubsets);
-//            // Then add regular terms only if they don't have subsets
-//            for (String childTerm : binChildTerms) {
-//                if (!termsWithSubsets.contains(childTerm) && !childTermAccs.containsKey(childTerm)) {
-//                    List<GeneBinAssignee> assigneeObj = geneBinAssigneeDAO.getAssigneeName(childTerm);
-//                    if (!assigneeObj.isEmpty()) {
-//                        System.out.println("Adding regular child term: " + assigneeObj.get(0).getTermAcc());
-//                        allChildterms.add(assigneeObj.get(0));
-//                    }
-//                }
-//            }
-//            List<GeneBinAssignee> selfChild = geneBinAssigneeDAO.getTerm(binCategory);
-//            if( !selfChild.isEmpty() ) {
-//                allChildterms.add(selfChild.get(0));
-//            }
-//
-//            parentChildTermsAcc.put(binCategory, allChildterms);
-//        }
-//        return parentChildTermsAcc;
-//    }
-// First version - only ontology terms
+// First call - only ontology terms
 private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws Exception {
         System.out.println("entered the first call of generating child bins");
     HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
@@ -168,7 +91,7 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
 }
 
 
-    // Final version - complete relationships
+    // Final call - complete relationships
     private HashMap<String, List<GeneBinAssignee>> getBinChildren() throws Exception {
         HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
         System.out.println("In the final tree");
@@ -197,7 +120,7 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
                 if (!termsWithSubsets.contains(key)) {
                     Term term = ontologyXDAO.getTermByAccId(key);
                     List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
-                    if (!assigneeObjChild.isEmpty()) {
+                    if (!assigneeObjChild.isEmpty()&&childBinCountMap.containsKey(term.getAccId())) {
                         allChildterms.add(assigneeObjChild.get(0));
                     }
                 }
@@ -217,44 +140,6 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
         }
         return parentChildTermsAcc;
     }
-//    private HashMap<String, List<GeneBinAssignee>> getBinChildren() throws Exception {
-//        HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
-//        // Keep track of processed terms to avoid duplicate insertions
-//        Set<String> processedTerms = new HashSet<>();
-//
-//        for (String binCategory : binCategories) {
-//            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
-//            List<GeneBinAssignee> allChildterms = new ArrayList<>();
-//            Set<String> keys = childTermAccs.keySet();
-//
-//            for (String key : keys) {
-//                if (!processedTerms.contains(key)) {  // Only process if we haven't seen this term before
-//                    Term term = ontologyXDAO.getTermByAccId(key);
-//                    GeneBinChild child = new GeneBinChild(term.getAccId(), term.getTerm());
-//                    List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
-//
-//                    if (assigneeObjChild.isEmpty()) {
-//                        // Only insert if the term doesn't exist in database
-//                        geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0);
-//                    }
-//                    processedTerms.add(key);  // Mark this term as processed
-//                }
-//
-//                // Always add to allChildterms for this parent category
-//                List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(key);
-//                if (!assigneeObjChild.isEmpty()) {
-//                    allChildterms.add(assigneeObjChild.get(0));
-//                }
-//            }
-//
-//            List<GeneBinAssignee> selfChild = geneBinAssigneeDAO.getTerm(binCategory);
-//            if (!selfChild.isEmpty()) {
-//                allChildterms.add(selfChild.get(0));
-//            }
-//            parentChildTermsAcc.put(binCategory, allChildterms);
-//        }
-//        return parentChildTermsAcc;
-//    }
 
     public void geneInsertionToBin(List<GeneBin> geneExists, int i, int rgdId, String geneSymbol) throws Exception{
         boolean binAcquiredFlag = false;
@@ -512,7 +397,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
             System.out.println("Finished subdividing");
             List<GeneBinCountGenes> finalCounts = geneBinDAO.getGeneChildCounts();
             for(GeneBinCountGenes binCount : finalCounts) {
-                if(binCount.getTotalGenes() > 15) {
+                if(binCount.getTotalGenes() > 10) {
                     createSubsetsForBin(binCount.getTermAcc(), binCount.getTotalGenes());
                 }
             }
@@ -543,7 +428,9 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
 //        HashMap<String, String> childBinCountMap = new HashMap<>();
         List<GeneBinCountGenes> childBinCounts = geneBinDAO.getGeneChildCounts();
         for(int i=0;i<childBinCounts.size();i++){
-            childBinCountMap.put(childBinCounts.get(i).getTermAcc(), Integer.toString(childBinCounts.get(i).getTotalGenes()));
+            if(childBinCounts.get(i).getTotalGenes()>0) {
+                childBinCountMap.put(childBinCounts.get(i).getTermAcc(), Integer.toString(childBinCounts.get(i).getTotalGenes()));
+            }
         }
 
         List<GeneBinCountGenes> subsetBinCounts = geneBinAssigneeDAO.getGeneChildCounts();
@@ -638,11 +525,6 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
             assigneeName = geneBinAssigneeDAO.getAssigneeName(inputChildTermAcc);
             model.put("assignee", assigneeName.get(0));
         }
-//        for(GeneBinCountGenes binCount:childBinCounts){
-//            if(binCount.getTotalGenes()>15){
-//                createSubsetsForBin(binCount.getTermAcc(),binCount.getTotalGenes());
-//            }
-//        }
 
 //      Fetch all the bin details
         allAssignees = geneBinAssigneeDAO.getAllAssignees();
