@@ -673,8 +673,7 @@ public class OntAnnotController implements Controller {
     }
 
     static void loadGviewerRgdIds(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount) throws Exception {
-        OntologyXDAO xdao = new OntologyXDAO();
-        TermWithStats tws = xdao.getTermWithStatsCached(bean.getAccId());
+        TermWithStats tws = dao.getTermWithStatsCached(bean.getAccId());
         OntAnnotBean bean2 = new OntAnnotBean();
         int withChildren = 0;
         if(bean.isWithChildren())
@@ -700,13 +699,16 @@ public class OntAnnotController implements Controller {
     }
 
     static String addRgdIds(Map<Term, List<OntAnnotation>> mapWithAnnots) {
-        Set<Integer> rgdIds = new HashSet<>();
+        StringBuilder rgdIds = new StringBuilder();
         for( Map.Entry<Term, List<OntAnnotation>> entry: mapWithAnnots.entrySet() ) {
             for( OntAnnotation annot: entry.getValue() ) {
-                rgdIds.add(annot.getRgdId());
+                if( rgdIds.length()>0 ) {
+                    rgdIds.append(",");
+                }
+                rgdIds.append(annot.getRgdId());
             }
         }
-        return Utils.concatenate(rgdIds, ",");
+        return rgdIds.toString();
     }
 
     static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount, String oKey) throws Exception {
