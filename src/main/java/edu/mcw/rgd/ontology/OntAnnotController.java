@@ -702,23 +702,20 @@ public class OntAnnotController implements Controller {
         }
         return;
     }
+    
     static String addRgdIds(Map<Term, List<OntAnnotation>> mapWithAnnots) throws Exception {
-        String rgdIds = "";
+        StringBuilder rgdIds = new StringBuilder();
         for( Map.Entry<Term, List<OntAnnotation>> entry: mapWithAnnots.entrySet() ) {
-            int size = entry.getValue().size();
-            int i = 0;
             for( OntAnnotation annot: entry.getValue() ) {
-                if (i < (size-1)){
-                    rgdIds += annot.getRgdId()+",";
+                if( rgdIds.length()>0 ) {
+                    rgdIds.append(",");
                 }
-                else{
-                    rgdIds += annot.getRgdId();
-                }
-                i++;
+                rgdIds.append(annot.getRgdId());
             }
         }
-        return rgdIds;
+        return rgdIds.toString();
     }
+
     static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount, String oKey) throws Exception {
 
         loadAnnotations(bean, dao,
