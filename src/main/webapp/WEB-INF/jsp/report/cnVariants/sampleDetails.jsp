@@ -8,11 +8,12 @@ for (VariantSampleDetail vsd : sampleDetails){
         sampleDetailList.add(vsd);
 }
 if (!sampleDetailList.isEmpty() ) {
+    int i = 0;
 %>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 
 <div class="sampleDetailsTable light-table-border" id="sampleDetailsTableWrapper">
-    <div class="sectionHeading" id="sampleDetails">Variant Sample Details</div>
+    <div class="sectionHeading" id="sampleDetails">Variant Samples</div>
 
     <div class="search-and-pager">
         <div class="modelsViewContent" >
@@ -24,12 +25,12 @@ if (!sampleDetailList.isEmpty() ) {
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                     <select class="pagesize">
-                        <option selected="selected" value="10">10</option>
+                        <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
-                        <option  value="40">40</option>
-                        <option   value="100">100</option>
-                        <option value="9999">All Rows</option>
+                        <option value="40">40</option>
+                        <option value="100">100</option>
+                        <option selected="selected" value="9999">All Rows</option>
                     </select>
                 </form>
             </div>
@@ -38,27 +39,35 @@ if (!sampleDetailList.isEmpty() ) {
         <input class="search table-search" id="sampleDetailsSearch" type="search" data-column="all" placeholder="Search table">
     </div>
 
-    <div id="sampleDetailsTableDiv" class="annotation-detail">
+<%--    <div id="sampleDetailsTableDiv" class="annotation-detail">--%>
         <table id="sampleDetailsTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' aria-describedby="sampleDetailsTable_pager_info">
-            <tr>
-                <td>Sample</td>
-                <td>Variant Allele Depth</td>
-                <td>Variant Zygosity in Sample</td>
-            </tr>
+            <thead>
+<%--            <tr>--%>
+<%--                <td>Sample</td>--%>
+<%--                <td>Variant Allele Depth</td>--%>
+<%--                <td>Variant Zygosity in Sample</td>--%>
+<%--            </tr>--%>
+            </thead>
+            <tbody>
             <%for (VariantSampleDetail vsd : sampleDetailList) {
                 Sample s = sdao.getSampleBySampleId(vsd.getSampleId());
                 long start = var.getStartPos() - 1;
                 long stop = var.getEndPos() + 1;
                 String vvUrl = "/rgdweb/front/variants.html?start="+ start +"&stop="+stop+"&chr=" + var.getChromosome() +
-                        "&geneStart=&geneStop=&geneList=&mapKey="+s.getMapKey()+"&con=&depthLowBound=1&depthHighBound=&sample1="+s.getId();%>
+                        "&geneStart=&geneStop=&geneList=&mapKey="+s.getMapKey()+"&con=&depthLowBound=1&depthHighBound=&sample1="+s.getId();
+            if (i % 6 == 0){%>
             <tr>
+                <%}%>
                 <td><a href="<%=vvUrl%>" title="View in Variant Visualizer"><%=s.getAnalysisName()%></a></td>
-                <td><%=vsd.getVariantFrequency()%>/<%=vsd.getDepth()%>&nbsp;(<%=vsd.getZygosityPercentRead()%>%)</td>
-                <td><%=vsd.getZygosityStatus()%></td>
+<%--                <td><%=vsd.getVariantFrequency()%>/<%=vsd.getDepth()%>&nbsp;(<%=vsd.getZygosityPercentRead()%>%)</td>--%>
+<%--                <td><%=vsd.getZygosityStatus()%></td>--%>
+                <%if (i % 6 == 5){%>
             </tr>
-            <% } %>
+            <% }
+            i++;} %>
+            </tbody>
         </table>
-    </div>
+<%--    </div>--%>
 
     <div class="modelsViewContent" >
         <div class="pager sampleDetailsPager" >
@@ -72,9 +81,9 @@ if (!sampleDetailList.isEmpty() ) {
                     <option selected="selected" value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
-                    <option  value="40">40</option>
-                    <option   value="100">100</option>
-                    <option value="9999">All Rows</option>
+                    <option value="40">40</option>
+                    <option value="100">100</option>
+                    <option selected="selected" value="9999">All Rows</option>
                 </select>
             </form>
         </div>

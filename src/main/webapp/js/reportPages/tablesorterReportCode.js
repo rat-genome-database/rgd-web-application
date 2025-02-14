@@ -41,7 +41,7 @@ function tableSorterReport() {
         })
             .tablesorterPager({
                 container: $('.sampleDetailsPager'),
-                size: 10
+                size: 9999
             });
 
         $('#gwasDataTable').tablesorter({
@@ -55,6 +55,12 @@ function tableSorterReport() {
             .tablesorterPager({
                 container: $('.gwasDataPager'),
                 size: 20
+            });
+
+        $('#ssIDTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['zebra']
             });
 
         $('#ClinVarTable')
