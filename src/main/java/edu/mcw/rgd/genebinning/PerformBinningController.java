@@ -120,6 +120,8 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
                 if (!termsWithSubsets.contains(key)) {
                     Term term = ontologyXDAO.getTermByAccId(key);
                     List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
+//                    System.out.println("Term: " + term.getAccId() + " in map: " + childBinCountMap.containsKey(term.getAccId()) +
+//                            " assignee empty?: " + assigneeObjChild.isEmpty());
                     if (!assigneeObjChild.isEmpty()&&childBinCountMap.containsKey(term.getAccId())) {
                         allChildterms.add(assigneeObjChild.get(0));
                     }
