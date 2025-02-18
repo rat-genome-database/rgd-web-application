@@ -120,8 +120,6 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
                 if (!termsWithSubsets.contains(key)) {
                     Term term = ontologyXDAO.getTermByAccId(key);
                     List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
-//                    System.out.println("Term: " + term.getAccId() + " in map: " + childBinCountMap.containsKey(term.getAccId()) +
-//                            " assignee empty?: " + assigneeObjChild.isEmpty());
                     if (!assigneeObjChild.isEmpty()&&childBinCountMap.containsKey(term.getAccId())) {
                         allChildterms.add(assigneeObjChild.get(0));
                     }
@@ -304,6 +302,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
         if(clearAll!=null && clearAll.equals("delete")){
             // Clear all genes from bins
             geneBinDAO.deleteAllGeneBins();
+            geneBinAssigneeDAO.deleteSubsetRecords();
             //Set the total gene count to 0
             List<GeneBinAssignee>allAssignees = geneBinAssigneeDAO.getAllAssignees();
             for(GeneBinAssignee assignee:allAssignees){
