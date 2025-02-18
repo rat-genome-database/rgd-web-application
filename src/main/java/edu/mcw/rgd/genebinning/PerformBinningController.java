@@ -531,8 +531,17 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
         allAssignees = geneBinAssigneeDAO.getAllAssignees();
 //      Fetch updated children of each bin
         parentChildTermsAcc = getBinChildren();
+        
+        // Filter out parent bins with zero genes
+        List<GeneBinAssignee> filteredAssignees = new ArrayList<>();
+        for (GeneBinAssignee assignee : allAssignees) {
+            if (assignee.getIsParent() == 0 || assignee.getTotalGenes() > 0) {
+                filteredAssignees.add(assignee);
+            }
+        }
+        model.put("assignees", filteredAssignees);
 
-        model.put("assignees", allAssignees);
+//        model.put("assignees", allAssignees);
         model.put("termAccString", inputTermAcc);
         model.put("termString", WordUtils.capitalize(inputTerm));
         model.put("genes", genes);
