@@ -77,10 +77,7 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
 
 /*              Use it for initialization of the database table
                 Insert all the children into the bin assignee table
-            List<GeneBinAssignee> geneBinAssigneeCheck = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
-            if(geneBinAssigneeCheck.isEmpty()) {
                 geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0);
-            }
 */
         }
         List<GeneBinAssignee> selfChild = geneBinAssigneeDAO.getTerm(binCategory);
@@ -312,6 +309,8 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
             genesAliasList = new ArrayList<>();
             incorrectGenesList = new ArrayList<>();
 
+//            // Force re-initialization of key structures
+//            parentChildTermsAcc = getOntologyBinChildren();
             //Set the total gene count to 0
             List<GeneBinAssignee>allAssignees = geneBinAssigneeDAO.getAllAssignees();
             for(GeneBinAssignee assignee:allAssignees){
