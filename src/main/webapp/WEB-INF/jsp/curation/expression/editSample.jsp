@@ -217,14 +217,23 @@
                     <td><%=samples.get(0).getPubmedId()%></td>
                     <td><label style="color: #24609c; font-weight: bold;">Pub Med IDs:</label></td>
                     <% int x = 0;
+                    boolean refExist = false;
                     if (s != null){
                         for (x = 0; x < s.getRefRgdIds().size() ; x++){
                             List<XdbId> pms = xdbDAO.getXdbIdsByRgdId(2, s.getRefRgdIds().get(x));
+                            if (Utils.stringsAreEqual(pms.get(0).getAccId(),samples.get(0).getPubmedId()) )
+                                refExist = true;
                         %>
                     <td>
                         <input type="number" name="refRgdId<%=x%>" id="refRgdId<%=x%>" value="<%=existingSample && !pms.isEmpty() ? pms.get(0).getAccId() : ""%>">
                     </td>
                     <%}
+                    }
+                    if(!Utils.isStringEmpty(samples.get(0).getPubmedId()) && !refExist){ //System.out.println("I do exist");  %>
+                    <td>
+                        <input type="number" name="refRgdId<%=x%>" id="refRgdId<%=x%>" value="<%=samples.get(0).getPubmedId()%>">
+                    </td>
+                    <% x++;
                     }
                     for (int y=x ; y < refSize ; y++){%>
                     <td>

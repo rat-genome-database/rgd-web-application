@@ -56,8 +56,9 @@ public class DownloadMetaDataController implements Controller {
             String species = obj.get("species").toString();
 
             Study study = gdao.getStudyByGeoIdWithReferences(gse);
-            String pmids = "";
+            String pmids = null;
             for (int i = 0; i < study.getRefRgdIds().size(); i++){
+                pmids = "";
                 Integer rgdId = study.getRefRgdIds().get(i);
                 Reference r = rdao.getReferenceByRgdId(rgdId);
                 List<XdbId> xdbs = xdbIdDAO.getXdbIdsByRgdId(2,r.getRgdId());
@@ -92,7 +93,7 @@ public class DownloadMetaDataController implements Controller {
                     for (TermSynonym syn : syns){
                         if (syn.getName().startsWith("RGD")){
                             String strainSyn = syn.getName().replace("RGD ID: ","");
-                            strainLinkMap.put(s.getGeoSampleAcc(),strainSyn);
+                            strainLinkMap.put(strain.getAccId(),strainSyn);
                             break;
                         }
                     }
