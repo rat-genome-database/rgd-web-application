@@ -75,7 +75,7 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
                 allChildterms.add(assigneeObjChild.get(0));
             }
             List<GeneBinAssignee> geneBinAssigneeCheck = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
-            if(geneBinAssigneeCheck.size()>0) {
+            if(geneBinAssigneeCheck.isEmpty()) {
                 geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0);
             }
 
