@@ -30,6 +30,19 @@
         document.getElementById('changeCurator').style.display = "none";
     }
 </script>
+<style>
+    .clear-all-button {
+        padding: 6px 8px;
+        border: none;
+        border-radius: 4px;
+        background-color: #FF0000;
+        color: white;
+        font-size: 13px;
+        cursor: pointer;
+        width: 100px;
+        transition: background-color 0.2s;
+    }
+</style>
 
 <%--Header of the page--%>
 <%@ include file="../../../../common/headerarea.jsp" %>
@@ -39,7 +52,12 @@
 
 <%--    Sidebar for displaying all the bin categories--%>
     <div class="sidebar">
-        <h3>Bin Categories</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>Bin Categories</h3>
+            <button class="clear-all-button" onclick="clearAllBins()">
+                Clear All
+            </button>
+        </div>
         <ul class="tree">
             <c:forEach var="term" items="${model.assignees}">
                 <c:choose>
