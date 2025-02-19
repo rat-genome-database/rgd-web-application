@@ -56,9 +56,8 @@ public class DownloadMetaDataController implements Controller {
             String species = obj.get("species").toString();
 
             Study study = gdao.getStudyByGeoIdWithReferences(gse);
-            String pmids = null;
+            String pmids = "";
             for (int i = 0; i < study.getRefRgdIds().size(); i++){
-                pmids = "";
                 Integer rgdId = study.getRefRgdIds().get(i);
                 Reference r = rdao.getReferenceByRgdId(rgdId);
                 List<XdbId> xdbs = xdbIdDAO.getXdbIdsByRgdId(2,r.getRgdId());
@@ -72,6 +71,8 @@ public class DownloadMetaDataController implements Controller {
                 }
 
             }
+            if (Utils.isStringEmpty(pmids))
+                pmids=null;
             request.setAttribute("pmids",pmids);
             List<Sample> samples = pdao.getGeoRecordSamplesByStatus(gse,species,"loaded");
             HashMap<String, String> sampleConditionsMap = new HashMap<>();
