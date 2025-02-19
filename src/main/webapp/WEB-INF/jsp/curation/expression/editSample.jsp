@@ -112,6 +112,7 @@
     HashMap<String,String> cellTypeMap = new HashMap<>();
     HashMap<String,String> cellLineMap = new HashMap<>();
     Set<String> notes = new TreeSet<>();
+    String title = "";
     for(GeoRecord s:samples){
         if(s.getSampleTissue() != null)
             tissueMap.put(s.getSampleTissue(),Objects.toString(s.getRgdTissueTermAcc(),""));
@@ -145,6 +146,7 @@
             StringBuilder pubmedIds = new StringBuilder();
             Study study = pdao.getStudyByGeoIdWithReferences(samples.get(0).getGeoAccessionId());
             List<XdbId> pmIds = new ArrayList<>();
+            title = samples.get(0).getStudyTitle();
             if (study!=null){
                 for (Integer rgdId : study.getRefRgdIds()){
                     List<XdbId> dbs = xdbDAO.getXdbIdsByRgdId(2, rgdId);
@@ -168,7 +170,7 @@
                 <tr>
                     <input type="hidden" id="geoId" name="geoId" value=<%=gse%> />
                     <td style="color: #24609c; font-weight: bold;">Geo Accession Id: </td><td><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=samples.get(0).getGeoAccessionId()%>" target="_blank"><%=samples.get(0).getGeoAccessionId()%></a></td>
-                    <td style="color: #24609c; font-weight: bold;">Study Title: </td><td><%=samples.get(0).getStudyTitle()%></td>
+                    <td style="color: #24609c; font-weight: bold;">Study Title: </td><td><%=title%></td>
                     <td style="color: #24609c; font-weight: bold;">PubMed Id: </td><td><%=pubmedIds%></td>
                     <td style="color: #24609c; font-weight: bold;">Select status: </td>
                     <td><select id="status" name="status" >
@@ -191,6 +193,12 @@
     %>
     <div>
         <p style="color: red;font-size: xx-large;">Mappings already exist. Changes will apply to all samples! </p>
+    </div>
+    <div>
+        <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
+        <form method="POST" id="downloadMetaVue">
+            <input id="downloadBtn" type="button"  v-on:click="downloadMetaData" value="Download Meta Data">
+        </form>
     </div>
     <% } %>
 
@@ -938,4 +946,50 @@ if (tissueMap.isEmpty()){ %>
         document.getElementsByName("cOrdinality")[i].style.border = "1px solid black";
         document.getElementById("xcoId"+i).style.border = "1px solid black";
     }
+
+    var downloadMetaVue = new Vue ({
+        el: '#downloadMetaVue',
+        data: {
+            gse: '<%=gse%>',
+            title: '<%=title%>',
+            species: '<%=species%>'
+        },
+        methods: {
+            downloadMetaData: function () {
+                var btn = document.getElementById('downloadBtn');
+                var spin = document.getElementById('spinner');
+                btn.style.display = 'none';
+                spin.style.display = 'block';
+                // alert("Start vue");
+                axios
+                    .post('/rgdweb/curation/expression/downloadMetaData.html',
+                        {
+                            gse: downloadMetaVue.gse,
+                            title: downloadMetaVue.title,
+                            species: downloadMetaVue.species
+                        },
+                        {responseType: 'blob'})
+                    .then(function (response) {
+                        // alert("done");
+                        // console.log(response);
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        let blob = new Blob([response.data], { type: 'text/plain' }),
+                            url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = "<%=gse%>_AccList.txt";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        btn.style.display = 'block';
+                        spin.style.display = 'none';
+                        // window.open(url)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        // console.log(error.response.data);
+                    })
+            }
+        }
+    });
 </script>

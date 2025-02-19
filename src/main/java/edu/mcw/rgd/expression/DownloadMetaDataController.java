@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -166,7 +168,11 @@ public class DownloadMetaDataController implements Controller {
 
         }
         catch (Exception e){
-            error.add(e.getMessage());
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            String sStackTrace = sw.toString();
+            error.add(sStackTrace);
         }
         request.setAttribute("error",error);
         return new ModelAndView("/WEB-INF/jsp/curation/expression/downloadMetaData.jsp");
