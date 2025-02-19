@@ -89,6 +89,63 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
     }
     return parentChildTermsAcc;
 }
+//    private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws Exception {
+//        System.out.println("DEBUG: Starting getOntologyBinChildren");
+//        HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
+//
+//        for (String binCategory : binCategories) {
+//            System.out.println("DEBUG: Processing bin category: " + binCategory);
+//            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
+//            System.out.println("DEBUG: Total child terms found: " + childTermAccs.size());
+//
+//            List<GeneBinAssignee> allChildterms = new ArrayList<>();
+//            Set<String> keys = childTermAccs.keySet();
+//
+//            for (String key : keys) {
+//                if (key.equals("GO:0044877")) {
+//                    System.out.println("DEBUG: Found GO:0044877 in descendants of " + binCategory);
+//                }
+//
+//                Term term = ontologyXDAO.getTermByAccId(key);
+//                List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
+//
+//                if (key.equals("GO:0044877")) {
+//                    System.out.println("DEBUG: GO:0044877 assignee empty? " + assigneeObjChild.isEmpty());
+//                    if (!assigneeObjChild.isEmpty()) {
+//                        System.out.println("DEBUG: GO:0044877 total genes: " + assigneeObjChild.get(0).getTotalGenes());
+//                    }
+//                }
+//
+//                if (!assigneeObjChild.isEmpty()) {
+//                    if (key.equals("GO:0044877")) {
+//                        System.out.println("DEBUG: Adding GO:0044877 to allChildterms in getOntologyBinChildren");
+//                    }
+//                    allChildterms.add(assigneeObjChild.get(0));
+//                }
+//            }
+//
+//            // Check if GO:0044877 was added for this binCategory
+//            for (GeneBinAssignee term : allChildterms) {
+//                if (term.getTermAcc().equals("GO:0044877")) {
+//                    System.out.println("DEBUG: GO:0044877 is in final allChildterms for bin " + binCategory);
+//                }
+//            }
+//
+//            parentChildTermsAcc.put(binCategory, allChildterms);
+//        }
+//
+//        // Final check across all categories
+//        for (String binCategory : parentChildTermsAcc.keySet()) {
+//            List<GeneBinAssignee> terms = parentChildTermsAcc.get(binCategory);
+//            for (GeneBinAssignee term : terms) {
+//                if (term.getTermAcc().equals("GO:0044877")) {
+//                    System.out.println("DEBUG: GO:0044877 is in final map for bin " + binCategory);
+//                }
+//            }
+//        }
+//
+//        return parentChildTermsAcc;
+//    }
 
 
     // Final call - complete relationships
@@ -140,6 +197,130 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
         }
         return parentChildTermsAcc;
     }
+//    private HashMap<String, List<GeneBinAssignee>> getBinChildren() throws Exception {
+//        System.out.println("DEBUG: Starting getBinChildren");
+//        HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
+//
+//        for (String binCategory : binCategories) {
+//            System.out.println("DEBUG: Processing bin category: " + binCategory);
+//            List<GeneBinAssignee> allChildterms = new ArrayList<>();
+//            Set<String> termsWithSubsets = new HashSet<>();
+//
+//            // First identify terms that have subsets
+//            List<String> binChildTerms = geneBinDAO.getChildTermsForParent(binCategory);
+//            System.out.println("DEBUG: binChildTerms size: " + binChildTerms.size());
+//            if (binChildTerms.contains("GO:0044877")) {
+//                System.out.println("DEBUG: GO:0044877 found in binChildTerms for " + binCategory);
+//            }
+//
+//            for (String childTerm : binChildTerms) {
+//                if (childTerm.equals("GO:0044877")) {
+//                    System.out.println("DEBUG: Processing GO:0044877 for subsets");
+//                }
+//
+//                List<GeneBinAssignee> subsets = geneBinAssigneeDAO.getAssigneeRecordsWithSubsets(childTerm+" (%)");
+//                if (!subsets.isEmpty()) {
+//                    if (childTerm.equals("GO:0044877")) {
+//                        System.out.println("DEBUG: GO:0044877 has subsets: " + subsets.size());
+//                    }
+//
+//                    termsWithSubsets.add(childTerm);
+//                    for (GeneBinAssignee subset : subsets) {
+//                        if (subset.getSubsetNum() > 0) {
+//                            if (childTerm.equals("GO:0044877")) {
+//                                System.out.println("DEBUG: Adding GO:0044877 subset to allChildterms");
+//                            }
+//                            allChildterms.add(subset);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // Get regular children from ontology
+//            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
+//            System.out.println("DEBUG: childTermAccs size: " + childTermAccs.size());
+//
+//            Set<String> keys = childTermAccs.keySet();
+//            for (String key : keys) {
+//                if (key.equals("GO:0044877")) {
+//                    System.out.println("DEBUG: Found GO:0044877 in ontology descendants");
+//                    System.out.println("DEBUG: Is in termsWithSubsets? " + termsWithSubsets.contains(key));
+//                }
+//
+//                if (!termsWithSubsets.contains(key)) {
+//                    Term term = ontologyXDAO.getTermByAccId(key);
+//                    List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
+//
+//                    if (key.equals("GO:0044877")) {
+//                        System.out.println("DEBUG: GO:0044877 assignee empty? " + assigneeObjChild.isEmpty());
+//                        System.out.println("DEBUG: GO:0044877 in childBinCountMap? " + childBinCountMap.containsKey(term.getAccId()));
+//
+//                        if (!assigneeObjChild.isEmpty()) {
+//                            System.out.println("DEBUG: GO:0044877 total genes: " + assigneeObjChild.get(0).getTotalGenes());
+//                        }
+//                    }
+//
+//                    if (!assigneeObjChild.isEmpty() && childBinCountMap.containsKey(term.getAccId())) {
+//                        if (key.equals("GO:0044877")) {
+//                            System.out.println("DEBUG: Adding GO:0044877 to allChildterms in getBinChildren");
+//                        }
+//                        allChildterms.add(assigneeObjChild.get(0));
+//                    }
+//                }
+//            }
+//
+//            // Add regular child terms that aren't from ontology and don't have subsets
+//            for (String childTerm : binChildTerms) {
+//                if (childTerm.equals("GO:0044877")) {
+//                    System.out.println("DEBUG: Processing GO:0044877 as potential non-ontology term");
+//                    System.out.println("DEBUG: Is in termsWithSubsets? " + termsWithSubsets.contains(childTerm));
+//                    System.out.println("DEBUG: Is in childTermAccs? " + childTermAccs.containsKey(childTerm));
+//                }
+//
+//                if (!termsWithSubsets.contains(childTerm) && !childTermAccs.containsKey(childTerm)) {
+//                    List<GeneBinAssignee> assigneeObj = geneBinAssigneeDAO.getAssigneeName(childTerm);
+//
+//                    if (childTerm.equals("GO:0044877")) {
+//                        System.out.println("DEBUG: GO:0044877 assignee empty? " + assigneeObj.isEmpty());
+//                        if (!assigneeObj.isEmpty()) {
+//                            System.out.println("DEBUG: GO:0044877 total genes: " + assigneeObj.get(0).getTotalGenes());
+//                        }
+//                    }
+//
+//                    if (!assigneeObj.isEmpty()) {
+//                        if (childTerm.equals("GO:0044877")) {
+//                            System.out.println("DEBUG: Adding GO:0044877 to allChildterms as non-ontology term");
+//                        }
+//                        allChildterms.add(assigneeObj.get(0));
+//                    }
+//                }
+//            }
+//
+//            // Final check for GO:0044877
+//            for (GeneBinAssignee term : allChildterms) {
+//                if (term.getTermAcc().equals("GO:0044877")) {
+//                    System.out.println("DEBUG: GO:0044877 is in final allChildterms for bin " + binCategory);
+//                    System.out.println("DEBUG: GO:0044877 details - total genes: " + term.getTotalGenes() +
+//                            ", isParent: " + term.getIsParent() +
+//                            ", completed: " + term.getCompleted());
+//                }
+//            }
+//
+//            parentChildTermsAcc.put(binCategory, allChildterms);
+//        }
+//
+//        // Final check across all categories
+//        for (String binCategory : parentChildTermsAcc.keySet()) {
+//            List<GeneBinAssignee> terms = parentChildTermsAcc.get(binCategory);
+//            for (GeneBinAssignee term : terms) {
+//                if (term.getTermAcc().equals("GO:0044877")) {
+//                    System.out.println("DEBUG: GO:0044877 is in final map for bin " + binCategory);
+//                }
+//            }
+//        }
+//
+//        return parentChildTermsAcc;
+//    }
 
     public void geneInsertionToBin(List<GeneBin> geneExists, int i, int rgdId, String geneSymbol) throws Exception{
         boolean binAcquiredFlag = false;
@@ -303,6 +484,15 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
             // Clear all genes from bins
             geneBinDAO.deleteAllGeneBins();
             geneBinAssigneeDAO.deleteSubsetRecords();
+            // Reset internal state variables
+            parentChildTermsAcc = new HashMap<>();
+            childBinCountMap = new HashMap<>();
+            genesList = new ArrayList<>();
+            genesAliasList = new ArrayList<>();
+            incorrectGenesList = new ArrayList<>();
+
+            // Force re-initialization of key structures
+            parentChildTermsAcc = getOntologyBinChildren();
             //Set the total gene count to 0
             List<GeneBinAssignee>allAssignees = geneBinAssigneeDAO.getAllAssignees();
             for(GeneBinAssignee assignee:allAssignees){
@@ -532,7 +722,16 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
 //      Fetch updated children of each bin
         parentChildTermsAcc = getBinChildren();
 
-        model.put("assignees", allAssignees);
+//        // Filter out parent bins with zero genes
+        List<GeneBinAssignee> filteredAssignees = new ArrayList<>();
+        for (GeneBinAssignee assignee : allAssignees) {
+            if (assignee.getTotalGenes() > 0 || assignee.getTermAcc().equals("NA")) {
+                filteredAssignees.add(assignee);
+            }
+        }
+        model.put("assignees", filteredAssignees);
+
+//        model.put("assignees", allAssignees);
         model.put("termAccString", inputTermAcc);
         model.put("termString", WordUtils.capitalize(inputTerm));
         model.put("genes", genes);
