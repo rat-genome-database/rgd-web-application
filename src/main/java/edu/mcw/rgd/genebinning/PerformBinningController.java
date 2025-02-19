@@ -74,7 +74,10 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
             if( !assigneeObjChild.isEmpty() ) {
                 allChildterms.add(assigneeObjChild.get(0));
             }
-            geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0);
+            List<GeneBinAssignee> geneBinAssigneeCheck = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
+            if(geneBinAssigneeCheck.size()>0) {
+                geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0);
+            }
 
 /*              Use it for initialization of the database table
                 Insert all the children into the bin assignee table
