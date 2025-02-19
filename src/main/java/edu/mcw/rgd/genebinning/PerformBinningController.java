@@ -543,7 +543,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
 //        // Filter out parent bins with zero genes
         List<GeneBinAssignee> filteredAssignees = new ArrayList<>();
         for (GeneBinAssignee assignee : allAssignees) {
-            if (assignee.getTotalGenes() > 0 || assignee.getTermAcc().equals("NA")) {
+            if (assignee.getIsParent() == 0 || assignee.getTotalGenes() > 0) {
                 filteredAssignees.add(assignee);
             }
         }
