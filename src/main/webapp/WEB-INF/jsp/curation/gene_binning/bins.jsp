@@ -42,6 +42,9 @@
         width: 100px;
         transition: background-color 0.2s;
     }
+    .clear-all-button:hover {
+        background-color: #CC0000;
+    }
 </style>
 
 <%--Header of the page--%>
@@ -380,6 +383,40 @@
         </div>
     </div>
 </div>
+<script>
+    function clearAllBins() {
+        if(confirm('Are you sure you want to clear all genes from bins?')) {
+            // Create a form dynamically and submit
+            let form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/rgdweb/curation/geneBinning/bins.html';
+            // Add required hidden fields
+            let fields = {
+                'clearAll': 'delete',
+                'termAcc': '${model.termAccString}',
+                'term': '${model.termString}',
+                'parent': '${model.parent}',
+                'username': '${model.username}',
+                'accessToken': '${model.accessToken}'
+            };
+            // Add child term fields if they exist
+            if('${model.childTermAccString}' !== '') {
+                fields['childTermAcc'] = '${model.childTermAccString}';
+                fields['childTerm'] = '${model.childTermString}';
+            }
+            // Create and append hidden inputs
+            for(let name in fields) {
+                let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = fields[name];
+                form.appendChild(input);
+            }
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
 
 <%--Footer of the Page--%>
 <%@ include file="../../../../common/footerarea.jsp" %>
