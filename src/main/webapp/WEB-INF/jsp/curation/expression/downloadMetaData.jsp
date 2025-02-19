@@ -1,8 +1,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Sample"%><%@ page import="java.util.List"%><%@ page import="java.util.HashMap"%><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term"%><%@ page import="edu.mcw.rgd.process.Utils"%><%@ page import="java.util.ArrayList"%><%@ page import="java.io.StringWriter"%><%@ page import="java.io.PrintWriter"%><%@ page contentType="text/plain;charset=UTF-8" language="java" %><%
-String gse = request.getParameter("gse");
+String gse = (String) request.getAttribute("gse");
 response.setHeader("Content-disposition","attachment;filename=\""+gse+"_AccList.txt\"");
 ArrayList<String> error = (ArrayList<String>) request.getAttribute("error");
-//System.out.println(error.size());
 
 if (error.isEmpty()){
     try{
@@ -47,7 +46,7 @@ if (error.isEmpty()){
         String strain = null;
         if (str != null){
             strain = str.getTerm().replaceAll("[+*!<>?\"|]","");
-            strain.replaceAll("[:\\\\/() .]","_");
+            strain = strain.replaceAll("[:\\\\/() .]","_");
             strain = strain.replace("__","_");
             if (strain.endsWith("_"))
                 strain=strain.substring(0,strain.length()-1);

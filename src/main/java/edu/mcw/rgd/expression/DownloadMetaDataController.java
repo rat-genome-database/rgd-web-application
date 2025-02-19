@@ -158,6 +158,7 @@ public class DownloadMetaDataController implements Controller {
                 sampleConditionsMap.put(s.getGeoSampleAcc(),condNames);
             }
 
+            request.setAttribute("gse", gse);
             request.setAttribute("samples",samples);
             request.setAttribute("title",title);
             request.setAttribute("conditionMap", sampleConditionsMap);
