@@ -39,9 +39,11 @@ if (error.isEmpty()){
     for(Sample s: samples){
 //        System.out.println(s.getGeoSampleAcc());
         Term tis = tissueMap.get(s.getTissueAccId());
-        String term = "";
-        if (tis != null)
+        String term = null;
+        if (tis != null){
             term = tis.getTerm();
+            term = term.replace(" ","_");
+        }
         Term str = strainMap.get(s.getStrainAccId());
         String strain = null;
         if (str != null){
