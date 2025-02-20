@@ -50,8 +50,8 @@ if (error.isEmpty()){
             strain = str.getTerm().replaceAll("[+*!<>?\"|]","");
             strain = strain.replaceAll("[:\\\\/() .]","_");
             strain = strain.replace("__","_");
-            strain = strain.replace("-_+","HET");
-            strain = strain.replace("+_-","HET");
+            strain = strain.replace("-_+","MUT");
+            strain = strain.replace("+_-","MUT");
             strain = strain.replace("-_-","MUT");
             strain = strain.replace("+_+","WT");
             if (strain.endsWith("_"))
