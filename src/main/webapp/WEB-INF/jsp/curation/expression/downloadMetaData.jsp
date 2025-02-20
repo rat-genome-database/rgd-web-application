@@ -47,7 +47,7 @@ if (error.isEmpty()){
         Term str = strainMap.get(s.getStrainAccId());
         String strain = null;
         if (str != null){
-            strain = str.getTerm().replaceAll("[+*!<>?\"|]","");
+            strain = str.getTerm().replaceAll("[*!<>?\"|]","");
             strain = strain.replaceAll("[:\\\\/() .]","_");
             strain = strain.replace("__","_");
             strain = strain.replace("-_+","MUT");
