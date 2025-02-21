@@ -156,7 +156,10 @@ public class DownloadMetaDataController implements Controller {
                         condNames += t.getTerm()+";";
                     }
                 }
-                sampleConditionsMap.put(s.getGeoSampleAcc(),condNames);
+                if (Utils.isStringEmpty(condNames))
+                    sampleConditionsMap.put(s.getGeoSampleAcc(),null);
+                else
+                    sampleConditionsMap.put(s.getGeoSampleAcc(),condNames);
             }
 
             request.setAttribute("gse", gse);
