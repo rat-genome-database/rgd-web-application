@@ -673,9 +673,7 @@ public class OntAnnotController implements Controller {
     }
 
     static void loadGviewerRgdIds(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount) throws Exception {
-        String rgd_ids = "";
-        OntologyXDAO xdao = new OntologyXDAO();
-        TermWithStats tws = xdao.getTermWithStatsCached(bean.getAccId());
+        TermWithStats tws = dao.getTermWithStatsCached(bean.getAccId());
         OntAnnotBean bean2 = new OntAnnotBean();
         int withChildren = 0;
         if(bean.isWithChildren())
@@ -683,42 +681,36 @@ public class OntAnnotController implements Controller {
 
         if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),1,withChildren) > 0) {
             loadAnnotations(bean2, dao, request, maxAnnotCount, "1"); //5,6
-            rgd_ids += addRgdIds(bean2.getAnnots());
+            String rgd_ids = addRgdIds(bean2.getAnnots());
             bean.setGeneRgdids(rgd_ids);
         }
         if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),6,withChildren) > 0) {
-            rgd_ids = "";
             bean2 = new OntAnnotBean();
             loadAnnotations(bean2, dao, request, maxAnnotCount, "6");
-            rgd_ids += addRgdIds(bean2.getAnnots());
+            String rgd_ids = addRgdIds(bean2.getAnnots());
             bean.setQtlRgdids(rgd_ids);
         }
         if (tws.getStat("annotated_object_count",bean.getSpeciesTypeKey(),5,withChildren) > 0) {
-            rgd_ids = "";
             bean2 = new OntAnnotBean();
             loadAnnotations(bean2, dao, request, maxAnnotCount, "5");
-            rgd_ids += addRgdIds(bean2.getAnnots());
+            String rgd_ids = addRgdIds(bean2.getAnnots());
             bean.setStrainRgdids(rgd_ids);
         }
-        return;
     }
-    static String addRgdIds(Map<Term, List<OntAnnotation>> mapWithAnnots) throws Exception {
-        String rgdIds = "";
+
+    static String addRgdIds(Map<Term, List<OntAnnotation>> mapWithAnnots) {
+        StringBuilder rgdIds = new StringBuilder();
         for( Map.Entry<Term, List<OntAnnotation>> entry: mapWithAnnots.entrySet() ) {
-            int size = entry.getValue().size();
-            int i = 0;
             for( OntAnnotation annot: entry.getValue() ) {
-                if (i < (size-1)){
-                    rgdIds += annot.getRgdId()+",";
+                if( rgdIds.length()>0 ) {
+                    rgdIds.append(",");
                 }
-                else{
-                    rgdIds += annot.getRgdId();
-                }
-                i++;
+                rgdIds.append(annot.getRgdId());
             }
         }
-        return rgdIds;
+        return rgdIds.toString();
     }
+
     static public void loadAnnotations(OntAnnotBean bean, OntologyXDAO dao, HttpServletRequest request, int maxAnnotCount, String oKey) throws Exception {
 
         loadAnnotations(bean, dao,
