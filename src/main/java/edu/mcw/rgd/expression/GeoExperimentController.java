@@ -77,6 +77,11 @@ public class GeoExperimentController implements Controller {
                 String gse = request.getParameter("gse");
                 String title = request.getParameter("title");
                 String species = request.getParameter("species");
+
+                request.setAttribute("gse",gse);
+                request.setAttribute("title",title);
+                request.setAttribute("species",species);
+
                 List<Experiment> eList = new ArrayList<>();
                 List<Experiment> newExp = new ArrayList<>();
                 Study study = new Study(); //geDAO.getStudyByGeoIdWithReferences(gse);
@@ -520,7 +525,6 @@ public class GeoExperimentController implements Controller {
 
                 }
                 r.append(header);
-
                 for (Sample s : sampleList){
                     Record rec = new Record();
                     rec.append(s.getId()+"");
@@ -601,6 +605,7 @@ public class GeoExperimentController implements Controller {
                     catch (Exception e){ }
 
                 }
+//                request.setAttribute("refPmId", refRgdIds);
                     // compare both integer lists and insert new, delete ones that no longer exist
                 List<Integer> existingRefs = study.getRefRgdIds();
                 if (existingRefs==null)

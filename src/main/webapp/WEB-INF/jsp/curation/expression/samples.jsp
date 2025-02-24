@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Sample" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -54,6 +55,9 @@
     String pageTitle="View GEO Samples";
     String headContent="View GEO Samples";
     String pageDescription = "View GEO Samples";
+    String title = (String) request.getAttribute("title");
+    String gse = (String) request.getAttribute("gse");
+    String species = (String) request.getAttribute("species");
 %>
 <%@ include file="/common/headerarea.jsp"%>
 <div class="rgd-panel rgd-panel-default">
@@ -69,7 +73,21 @@
 
 <h2>View GEO Samples</h2>
 
-<a href="/rgdweb/curation/expression/experiments.html">View Geo Experiments</a><br><br>
+<table>
+    <tr>
+        <td><a href="/rgdweb/curation/expression/experiments.html">View Geo Experiments</a></td>
+        <td></td>
+        <td>
+            <div>
+                <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
+                <form method="POST" id="downloadMetaVue">
+                    <input id="downloadBtn" type="button"  v-on:click="downloadMetaData" value="Download Meta Data">
+                </form>
+            </div>
+        </td>
+    </tr>
+</table>
+<br><br>
 <div class="container-fluid">
     <%
         Report report = (Report) request.getAttribute("report");
@@ -143,8 +161,7 @@
         session.setAttribute("cultureUnit", cultureUnit);
         session.setAttribute("conditions",conditions);
         session.setAttribute("refRgdIds",refRgdIds);
-        String gse = request.getParameter("gse");
-        String species = request.getParameter("species");
+//        String species = request.getParameter("species");
 
 %>
 <form id="nextSmapleBatch" action="/rgdweb/curation/expression/experiments.html" method="POST">
@@ -161,4 +178,50 @@
     function submitMyForm(){
         document.getElementById("nextSmapleBatch").submit();
     }
+
+    var downloadMetaVue = new Vue ({
+        el: '#downloadMetaVue',
+        data: {
+            gse: '<%=gse%>',
+            title: '<%=title%>',
+            species: '<%=species%>'
+        },
+        methods: {
+            downloadMetaData: function () {
+                var btn = document.getElementById('downloadBtn');
+                var spin = document.getElementById('spinner');
+                btn.style.display = 'none';
+                spin.style.display = 'block';
+                // alert("Start vue");
+                axios
+                    .post('/rgdweb/curation/expression/downloadMetaData.html',
+                        {
+                            gse: downloadMetaVue.gse,
+                            title: downloadMetaVue.title,
+                            species: downloadMetaVue.species
+                        },
+                        {responseType: 'blob'})
+                    .then(function (response) {
+                        // alert("done");
+                        // console.log(response);
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        let blob = new Blob([response.data], { type: 'text/plain' }),
+                            url = window.URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = "<%=gse%>_AccList.txt";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        btn.style.display = 'block';
+                        spin.style.display = 'none';
+                        // window.open(url)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        // console.log(error.response.data);
+                    })
+            }
+        }
+    });
 </script>
