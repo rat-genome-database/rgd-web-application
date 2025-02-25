@@ -960,7 +960,7 @@ if (tissueMap.isEmpty()){ %>
         el: '#downloadMetaVue',
         data: {
             gse: '<%=gse%>',
-            title: '<%=title%>',
+            title: "<%=title%>",
             species: '<%=species%>'
         },
         methods: {
