@@ -100,49 +100,53 @@ public class DownloadMetaDataController implements Controller {
                     }
                     strainLinkMap.putIfAbsent(s.getGeoSampleAcc(), "");
                 }
-
-                Document doc = Jsoup.connect(eSearchUrl+s.getGeoSampleAcc()).get(); // getting ncbi ID for GSM
-                Elements idlist = doc.select("IdList");
-                Element gsmList = idlist.get(0);
-                String gsmId = gsmList.text();
+                try {
+                    Document doc = Jsoup.connect(eSearchUrl + s.getGeoSampleAcc()).get(); // getting ncbi ID for GSM
+                    Elements idlist = doc.select("IdList");
+                    Element gsmList = idlist.get(0);
+                    String gsmId = gsmList.text();
 //                String body = doc.data();
-                TimeUnit.MILLISECONDS.sleep(500); // wait a second to not hammer ncbi with requests
-                Document sra = Jsoup.connect(eLinkUrl+gsmId).get(); // getting SRA ID from GSM Id
-                Elements sraLink = sra.select("Link");
-                Element linkId = sraLink.get(0);
-                String sraId = linkId.text();
-                TimeUnit.MILLISECONDS.sleep(500);
-                Document summary = Jsoup.connect(eSummaryUrl+sraId).get();
-                Elements items = summary.select("Item");
-                Element runs = null;
-                for (int i = 0; i < items.size(); i++){
-                    Element e = items.get(i);
-                    String name = e.attr("Name");
-                    if (Utils.stringsAreEqualIgnoreCase(name,"Runs")) {
-                        runs = e;
-                        break;
+                    TimeUnit.MILLISECONDS.sleep(500); // wait a second to not hammer ncbi with requests
+                    Document sra = Jsoup.connect(eLinkUrl + gsmId).get(); // getting SRA ID from GSM Id
+                    Elements sraLink = sra.select("Link");
+                    Element linkId = sraLink.get(0);
+                    String sraId = linkId.text();
+                    TimeUnit.MILLISECONDS.sleep(500);
+                    Document summary = Jsoup.connect(eSummaryUrl + sraId).get();
+                    Elements items = summary.select("Item");
+                    Element runs = null;
+                    for (int i = 0; i < items.size(); i++) {
+                        Element e = items.get(i);
+                        String name = e.attr("Name");
+                        if (Utils.stringsAreEqualIgnoreCase(name, "Runs")) {
+                            runs = e;
+                            break;
+                        }
                     }
-                }
-                String[] accSplit = runs.text().split("<Run acc=\"");
+                    String[] accSplit = runs.text().split("<Run acc=\"");
 
-                List<String> srrIds = new ArrayList<>();
-                if (accSplit.length>2){
-                    for (int x = 1; x < accSplit.length; x++){
-                        if (!accSplit[x].startsWith("SRR"))
-                            continue;
-                        int index = accSplit[x].indexOf("\"");
-                        String srrId = accSplit[x].substring(0,index);
+                    List<String> srrIds = new ArrayList<>();
+                    if (accSplit.length > 2) {
+                        for (int x = 1; x < accSplit.length; x++) {
+                            if (!accSplit[x].startsWith("SRR"))
+                                continue;
+                            int index = accSplit[x].indexOf("\"");
+                            String srrId = accSplit[x].substring(0, index);
+                            srrIds.add(srrId);
+                        }
+                    } else {
+                        int index = accSplit[1].indexOf("\"");
+                        String srrId = accSplit[1].substring(0, index);
                         srrIds.add(srrId);
                     }
-                }
-                else {
-                    int index = accSplit[1].indexOf("\"");
-                    String srrId = accSplit[1].substring(0,index);
-                    srrIds.add(srrId);
-                }
 //                System.out.println("SRR IDS for "+s.getGeoSampleAcc()+": "+srrIds.size());
-                sampleSRR.put(s.getGeoSampleAcc(),srrIds);
-                TimeUnit.MILLISECONDS.sleep(500);
+                    sampleSRR.put(s.getGeoSampleAcc(), srrIds);
+                    TimeUnit.MILLISECONDS.sleep(500);
+                }
+                catch (Exception e){
+                    // unable to find SRR
+                    sampleSRR.put(s.getGeoSampleAcc(),new ArrayList<>());
+                }
                 GeneExpressionRecord r = gdao.getGeneExpressionRecordBySampleId(s.getId());
                 List<Condition> conditions = gdao.getConditions(r.getId());
                 String condNames = "";
