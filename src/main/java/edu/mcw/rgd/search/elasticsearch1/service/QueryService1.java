@@ -234,7 +234,6 @@ public class QueryService1 {
             dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(2000));
             dqb.add(QueryBuilders.termQuery("term.symbol", term).boost(2000));
             dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("synonyms.symbol", term)).must(QueryBuilders.termQuery("category.keyword", "Ontology")).boost(2000));
-            if (!sb.getCategory().equalsIgnoreCase("ontology")) {
                 dqb.add(QueryBuilders.multiMatchQuery(term)
                                 .field("symbol.symbol", 100)
                                 .field("term.symbol", 100)
@@ -247,7 +246,7 @@ public class QueryService1 {
                 //  if(tokens.length>0){
                 dqb.add(QueryBuilders.multiMatchQuery(term)
                         .operator(Operator.AND));
-            }
+
         }
         return dqb;
 
