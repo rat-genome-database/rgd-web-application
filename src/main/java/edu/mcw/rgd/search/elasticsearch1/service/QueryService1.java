@@ -233,19 +233,21 @@ public class QueryService1 {
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.termQuery("category.keyword", "Strain")).boost(200));
             dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(2000));
             dqb.add(QueryBuilders.termQuery("term.symbol", term).boost(2000));
-
-            dqb.add(QueryBuilders.multiMatchQuery(term)
-                            .field("symbol.symbol", 100)
-                            .field("term.symbol", 100)
-                            .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
-                    .add(QueryBuilders.multiMatchQuery(term)
-                            .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
-                    .add(QueryBuilders.multiMatchQuery(term)
-                            .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-            //   String[] tokens=term.split("[\\s,]+");
-            //  if(tokens.length>0){
-            dqb.add(QueryBuilders.multiMatchQuery(term)
-                    .operator(Operator.AND));
+            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("synonyms.symbol", term)).must(QueryBuilders.termQuery("category.keyword", "Ontology")).boost(2000));
+            if (!sb.getCategory().equalsIgnoreCase("ontology")) {
+                dqb.add(QueryBuilders.multiMatchQuery(term)
+                                .field("symbol.symbol", 100)
+                                .field("term.symbol", 100)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
+                        .add(QueryBuilders.multiMatchQuery(term)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
+                        .add(QueryBuilders.multiMatchQuery(term)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
+                //   String[] tokens=term.split("[\\s,]+");
+                //  if(tokens.length>0){
+                dqb.add(QueryBuilders.multiMatchQuery(term)
+                        .operator(Operator.AND));
+            }
         }
         return dqb;
 
