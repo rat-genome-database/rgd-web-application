@@ -211,7 +211,7 @@ $(document).ready(function(){
                 <tr>
                     <td style="font-weight:700; color: #2865A3;">Assembly Version:
                         <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary" style="background-color:#2B84C8;">
-                            <option value='372' <% if (mapKey==380) out.print("selected");%>>GRCr8</option>
+                            <option value='380' <% if (mapKey==380) out.print("selected");%>>GRCr8</option>
                             <option value='372' <% if (mapKey==372) out.print("selected");%>>RAT Genome Assembly v7.2</option>
                             <option value='360' <% if (mapKey==360) out.print("selected");%>>RAT Genome Assembly v6.0</option>
                             <option value='70' <% if (mapKey==70) out.print("selected");%>>RAT Genome Assembly v5.0</option>
@@ -403,33 +403,26 @@ $(document).ready(function(){
             <td>
                 <table class="multibox" border=0>
                     <tr>
-                        <% if ((speciesTypeKey==2 || speciesTypeKey==1) && oKey==5) { %>
-                            <td>RGD only contains Rat Strains.  Please change your species or object type.</td>
 
-                        <% } else { %>
-
-
+                        <% if (speciesTypeKey==1) { %>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('rdo')" >Disease Ontology</a><br>
                         </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('hp')" style="olor:white;">Human Phenotype</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('vt')" style="olor:white;">Vertebrate Trait</a><br>
+                        </td>
+
 
                         <% if (oKey==1) { %>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('pw')" style="olor:white;">Pathway Ontology</a><br>
                         </td>
-                        <% } %>
-                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
-                        <td width="150" valign="center" align="center" >
-                            <a href="javascript:showOntInput('mp')" style="olor:white;">Mammalian Phenotype</a><br>
-                        </td>
-                        <% if (oKey == 1 && speciesTypeKey ==1) { %>
-                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
-                        <td width="150" valign="center" align="center" >
-                            <a href="javascript:showOntInput('hp')" style="olor:white;">Human Phenotype</a><br>
-                        </td>
-                        <% } %>
-                        <% if (oKey==1) { %>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('bp')" style="olor:white;">GO: Biological Process</a><br>
@@ -442,21 +435,136 @@ $(document).ready(function(){
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('cc')" style="olor:white;">GO: Cellular Component</a><br>
                         </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('chebi')" style="olor:white;">CHEBI</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('mmo')" style="olor:white;">Measurement Method</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
+                        </td>
+
+                            <% } %>
+                            <% if (oKey==6) { %>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('efo')" >Experimental Factor</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('cmo')" style="olor:white;">Clinical Measurement</a><br>
+                        </td>
+
+
+                            <% } %>
+
+
+
                         <% } %>
-                        <% if (oKey != 1 && speciesTypeKey ==3) { %>
+
+                        <% if (speciesTypeKey==2) { %>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('mp')" style="olor:white;">Mammalian Phenotype</a><br>
+                        </td>
+
+                        <% if (oKey==1) { %>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('rdo')" >Disease Ontology</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('pw')" style="olor:white;">Pathway Ontology</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('bp')" style="olor:white;">GO: Biological Process</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('mf')" style="olor:white;">GO: Molecular Function</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('cc')" style="olor:white;">GO: Cellular Component</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('chebi')" style="olor:white;">CHEBI</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('vt')" style="olor:white;">Vertebrate Trait</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
+                        </td>
+
+                        <% } %>
+                        <% } %>
+
+
+                        <% if (speciesTypeKey==3) { %>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('rdo')" >Disease Ontology</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('mp')" style="olor:white;">Mammalian Phenotype</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('vt')" style="olor:white;">Vertebrate Trait</a><br>
+                        </td>
+
+                        <% if (oKey==1) { %>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('pw')" style="olor:white;">Pathway Ontology</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('bp')" style="olor:white;">GO: Biological Process</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('mf')" style="olor:white;">GO: Molecular Function</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('cc')" style="olor:white;">GO: Cellular Component</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('chebi')" style="olor:white;">CHEBI</a><br>
+                        </td>
+
+                        <% } %>
+                        <% if (oKey==5) { %>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('bp')" style="olor:white;">GO: Biological Process</a><br>
+                        </td>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('rs')" style="olor:white;">Strain Ontology</a><br>
                         </td>
+
                         <% } %>
-                        <% if (oKey==1) { %>
+                        <% if (oKey==6) { %>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
-                            <a href="javascript:showOntInput('chebi')" style="olor:white;">CHEBI</a><br>
-                            Chemical Entities of Biological Interest
+                            <a href="javascript:showOntInput('rs')" style="olor:white;">Strain Ontology</a><br>
                         </td>
-                        <% }%>
-                        <% if (speciesTypeKey ==3 && oKey==6) { %>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('cmo')" style="olor:white;">Clinical Measurement</a><br>
@@ -469,15 +577,93 @@ $(document).ready(function(){
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('xco')" style="olor:white;">Experimental Condition</a><br>
                         </td>
-                        <% }
-                        }
-                        %>
-                        <% if (oKey==6 && speciesTypeKey==3) { %>
+
+                        <% } %>
+
+
+                        <% } %>
+
+
+                        <% if (speciesTypeKey == 4 || speciesTypeKey==5 || speciesTypeKey==7 || speciesTypeKey==13) { %>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('rdo')" >Disease Ontology</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('pw')" style="olor:white;">Pathway Ontology</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('bp')" style="olor:white;">GO: Biological Process</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('mf')" style="olor:white;">GO: Molecular Function</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('cc')" style="olor:white;">GO: Cellular Component</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
+                        </td>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('vt')" style="olor:white;">Vertebrate Trait</a><br>
                         </td>
+
                         <% } %>
+
+                        <% if (speciesTypeKey == 6 || speciesTypeKey == 9 || speciesTypeKey==14) { %>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('rdo')" >Disease Ontology</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('pw')" style="olor:white;">Pathway Ontology</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('bp')" style="olor:white;">GO: Biological Process</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('mf')" style="olor:white;">GO: Molecular Function</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('cc')" style="olor:white;">GO: Cellular Component</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
+                        </td>
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('vt')" style="olor:white;">Vertebrate Trait</a><br>
+                        </td>
+
+
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('mp')" style="olor:white;">Mammalian Phenotype</a><br>
+                        </td>
+
+                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('chebi')" style="olor:white;">CHEBI</a><br>
+                        </td>
+
+
+                        <% } %>
+                        <% if (speciesTypeKey == 8) { %>
+                        <td width="150" valign="center" align="center" >
+                            <a href="javascript:showOntInput('rdo')" >Disease Ontology</a><br>
+                        </td>
+
+                        <% } %>
+
                     </tr>
                 </table>
 
