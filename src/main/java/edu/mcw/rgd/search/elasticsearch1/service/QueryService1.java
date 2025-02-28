@@ -233,19 +233,23 @@ public class QueryService1 {
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.termQuery("category.keyword", "Strain")).boost(200));
             dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(2000));
             dqb.add(QueryBuilders.termQuery("term.symbol", term).boost(2000));
+            if(termIsAccId(term)) {
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("synonyms.symbol", term)).must(QueryBuilders.termQuery("category.keyword", "Ontology")).boost(2000));
 
-            dqb.add(QueryBuilders.multiMatchQuery(term)
-                            .field("symbol.symbol", 100)
-                            .field("term.symbol", 100)
-                            .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
-                    .add(QueryBuilders.multiMatchQuery(term)
-                            .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
-                    .add(QueryBuilders.multiMatchQuery(term)
-                            .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
-            //   String[] tokens=term.split("[\\s,]+");
-            //  if(tokens.length>0){
-            dqb.add(QueryBuilders.multiMatchQuery(term)
-                    .operator(Operator.AND));
+            }else {
+                dqb.add(QueryBuilders.multiMatchQuery(term)
+                                .field("symbol.symbol", 100)
+                                .field("term.symbol", 100)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
+                        .add(QueryBuilders.multiMatchQuery(term)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
+                        .add(QueryBuilders.multiMatchQuery(term)
+                                .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
+                //   String[] tokens=term.split("[\\s,]+");
+                //  if(tokens.length>0){
+//                dqb.add(QueryBuilders.multiMatchQuery(term)
+//                        .operator(Operator.AND));
+            }
         }
         return dqb;
 
@@ -262,6 +266,12 @@ public class QueryService1 {
 
 
     }
+    public boolean termIsAccId(String term){
+        if(term.contains(":"))
+            return true;
+        return false;
+    }
+
     public void exactMatchQuery(DisMaxQueryBuilder dqb, SearchBean sb){
         dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
         dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));

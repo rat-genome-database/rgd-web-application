@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +71,8 @@ public class DownloadMetaDataController implements Controller {
                 }
 
             }
+            if (Utils.isStringEmpty(pmids))
+                pmids=null;
             request.setAttribute("pmids",pmids);
             List<Sample> samples = pdao.getGeoRecordSamplesByStatus(gse,species,"loaded");
             HashMap<String, String> sampleConditionsMap = new HashMap<>();
@@ -90,55 +94,59 @@ public class DownloadMetaDataController implements Controller {
                     for (TermSynonym syn : syns){
                         if (syn.getName().startsWith("RGD")){
                             String strainSyn = syn.getName().replace("RGD ID: ","");
-                            strainLinkMap.put(s.getGeoSampleAcc(),strainSyn);
+                            strainLinkMap.put(strain.getAccId(),strainSyn);
                             break;
                         }
                     }
                     strainLinkMap.putIfAbsent(s.getGeoSampleAcc(), "");
                 }
-
-                Document doc = Jsoup.connect(eSearchUrl+s.getGeoSampleAcc()).get(); // getting ncbi ID for GSM
-                Elements idlist = doc.select("IdList");
-                Element gsmList = idlist.get(0);
-                String gsmId = gsmList.text();
+                try {
+                    Document doc = Jsoup.connect(eSearchUrl + s.getGeoSampleAcc()).get(); // getting ncbi ID for GSM
+                    Elements idlist = doc.select("IdList");
+                    Element gsmList = idlist.get(0);
+                    String gsmId = gsmList.text();
 //                String body = doc.data();
-                TimeUnit.MILLISECONDS.sleep(500); // wait a second to not hammer ncbi with requests
-                Document sra = Jsoup.connect(eLinkUrl+gsmId).get(); // getting SRA ID from GSM Id
-                Elements sraLink = sra.select("Link");
-                Element linkId = sraLink.get(0);
-                String sraId = linkId.text();
-                TimeUnit.MILLISECONDS.sleep(500);
-                Document summary = Jsoup.connect(eSummaryUrl+sraId).get();
-                Elements items = summary.select("Item");
-                Element runs = null;
-                for (int i = 0; i < items.size(); i++){
-                    Element e = items.get(i);
-                    String name = e.attr("Name");
-                    if (Utils.stringsAreEqualIgnoreCase(name,"Runs")) {
-                        runs = e;
-                        break;
+                    TimeUnit.MILLISECONDS.sleep(500); // wait a second to not hammer ncbi with requests
+                    Document sra = Jsoup.connect(eLinkUrl + gsmId).get(); // getting SRA ID from GSM Id
+                    Elements sraLink = sra.select("Link");
+                    Element linkId = sraLink.get(0);
+                    String sraId = linkId.text();
+                    TimeUnit.MILLISECONDS.sleep(500);
+                    Document summary = Jsoup.connect(eSummaryUrl + sraId).get();
+                    Elements items = summary.select("Item");
+                    Element runs = null;
+                    for (int i = 0; i < items.size(); i++) {
+                        Element e = items.get(i);
+                        String name = e.attr("Name");
+                        if (Utils.stringsAreEqualIgnoreCase(name, "Runs")) {
+                            runs = e;
+                            break;
+                        }
                     }
-                }
-                String[] accSplit = runs.text().split("<Run acc=\"");
+                    String[] accSplit = runs.text().split("<Run acc=\"");
 
-                List<String> srrIds = new ArrayList<>();
-                if (accSplit.length>2){
-                    for (int x = 1; x < accSplit.length; x++){
-                        if (!accSplit[x].startsWith("SRR"))
-                            continue;
-                        int index = accSplit[x].indexOf("\"");
-                        String srrId = accSplit[x].substring(0,index);
+                    List<String> srrIds = new ArrayList<>();
+                    if (accSplit.length > 2) {
+                        for (int x = 1; x < accSplit.length; x++) {
+                            if (!accSplit[x].startsWith("SRR"))
+                                continue;
+                            int index = accSplit[x].indexOf("\"");
+                            String srrId = accSplit[x].substring(0, index);
+                            srrIds.add(srrId);
+                        }
+                    } else {
+                        int index = accSplit[1].indexOf("\"");
+                        String srrId = accSplit[1].substring(0, index);
                         srrIds.add(srrId);
                     }
-                }
-                else {
-                    int index = accSplit[1].indexOf("\"");
-                    String srrId = accSplit[1].substring(0,index);
-                    srrIds.add(srrId);
-                }
 //                System.out.println("SRR IDS for "+s.getGeoSampleAcc()+": "+srrIds.size());
-                sampleSRR.put(s.getGeoSampleAcc(),srrIds);
-                TimeUnit.MILLISECONDS.sleep(500);
+                    sampleSRR.put(s.getGeoSampleAcc(), srrIds);
+                    TimeUnit.MILLISECONDS.sleep(500);
+                }
+                catch (Exception e){
+                    // unable to find SRR
+                    sampleSRR.put(s.getGeoSampleAcc(),new ArrayList<>());
+                }
                 GeneExpressionRecord r = gdao.getGeneExpressionRecordBySampleId(s.getId());
                 List<Condition> conditions = gdao.getConditions(r.getId());
                 String condNames = "";
@@ -152,9 +160,13 @@ public class DownloadMetaDataController implements Controller {
                         condNames += t.getTerm()+";";
                     }
                 }
-                sampleConditionsMap.put(s.getGeoSampleAcc(),condNames);
+                if (Utils.isStringEmpty(condNames))
+                    sampleConditionsMap.put(s.getGeoSampleAcc(),null);
+                else
+                    sampleConditionsMap.put(s.getGeoSampleAcc(),condNames);
             }
 
+            request.setAttribute("gse", gse);
             request.setAttribute("samples",samples);
             request.setAttribute("title",title);
             request.setAttribute("conditionMap", sampleConditionsMap);
@@ -166,7 +178,11 @@ public class DownloadMetaDataController implements Controller {
 
         }
         catch (Exception e){
-            error.add(e.getMessage());
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            String sStackTrace = sw.toString();
+            error.add(sStackTrace);
         }
         request.setAttribute("error",error);
         return new ModelAndView("/WEB-INF/jsp/curation/expression/downloadMetaData.jsp");

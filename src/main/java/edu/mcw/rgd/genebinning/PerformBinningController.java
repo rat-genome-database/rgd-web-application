@@ -90,7 +90,6 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren() throws E
     return parentChildTermsAcc;
 }
 
-
     // Final call - complete relationships
     private HashMap<String, List<GeneBinAssignee>> getBinChildren() throws Exception {
         HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
@@ -303,6 +302,15 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
             // Clear all genes from bins
             geneBinDAO.deleteAllGeneBins();
             geneBinAssigneeDAO.deleteSubsetRecords();
+            // Reset internal state variables
+            parentChildTermsAcc = new HashMap<>();
+            childBinCountMap = new HashMap<>();
+            genesList = new ArrayList<>();
+            genesAliasList = new ArrayList<>();
+            incorrectGenesList = new ArrayList<>();
+
+//            // Force re-initialization of key structures
+//            parentChildTermsAcc = getOntologyBinChildren();
             //Set the total gene count to 0
             List<GeneBinAssignee>allAssignees = geneBinAssigneeDAO.getAllAssignees();
             for(GeneBinAssignee assignee:allAssignees){
@@ -531,8 +539,8 @@ private void createSubsetsForBin(String termAcc, int totalGenes) throws Exceptio
         allAssignees = geneBinAssigneeDAO.getAllAssignees();
 //      Fetch updated children of each bin
         parentChildTermsAcc = getBinChildren();
-        
-        // Filter out parent bins with zero genes
+
+//        // Filter out parent bins with zero genes
         List<GeneBinAssignee> filteredAssignees = new ArrayList<>();
         for (GeneBinAssignee assignee : allAssignees) {
             if (assignee.getIsParent() == 0 || assignee.getTotalGenes() > 0) {

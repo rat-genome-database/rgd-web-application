@@ -1,10 +1,10 @@
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Sample"%><%@ page import="java.util.List"%><%@ page import="java.util.HashMap"%><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term"%><%@ page import="edu.mcw.rgd.process.Utils"%><%@ page import="java.util.ArrayList"%><%@ page contentType="text/plain;charset=UTF-8" language="java" %><%
-String gse = request.getParameter("gse");
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Sample"%><%@ page import="java.util.List"%><%@ page import="java.util.HashMap"%><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term"%><%@ page import="edu.mcw.rgd.process.Utils"%><%@ page import="java.util.ArrayList"%><%@ page import="java.io.StringWriter"%><%@ page import="java.io.PrintWriter"%><%@ page contentType="text/plain;charset=UTF-8" language="java" %><%
+String gse = (String) request.getAttribute("gse");
 response.setHeader("Content-disposition","attachment;filename=\""+gse+"_AccList.txt\"");
 ArrayList<String> error = (ArrayList<String>) request.getAttribute("error");
-//System.out.println(error.size());
 
 if (error.isEmpty()){
+    try{
     ArrayList<Sample> samples = (ArrayList<Sample>) request.getAttribute("samples");
     String title = (String) request.getAttribute("title");
     HashMap<String, String> conditionMap = (HashMap<String, String>) request.getAttribute("conditionMap");
@@ -39,16 +39,28 @@ if (error.isEmpty()){
     for(Sample s: samples){
 //        System.out.println(s.getGeoSampleAcc());
         Term tis = tissueMap.get(s.getTissueAccId());
+        String term = null;
+        if (tis != null){
+            term = tis.getTerm();
+            term = term.replace(" ","_");
+        }
         Term str = strainMap.get(s.getStrainAccId());
-        String strain = str.getTerm().replaceAll("[+*!<>?\"|]","");
-        strain = strain.replaceAll("[:\\\\/() .]","_");
-        strain = strain.replace("__","_");
-        if (strain.endsWith("_"))
-            strain=strain.substring(0,strain.length()-1);
+        String strain = null;
+        if (str != null){
+            strain = str.getTerm().replaceAll("[*!<>?\"|]","");
+            strain = strain.replaceAll("[:\\\\/() .]","_");
+            strain = strain.replace("__","_");
+            strain = strain.replace("-_+","MUT");
+            strain = strain.replace("+_-","MUT");
+            strain = strain.replace("-_-","MUT");
+            strain = strain.replace("+_+","WT");
+            if (strain.endsWith("_"))
+                strain=strain.substring(0,strain.length()-1);
+        }
         String conds = conditionMap.get(s.getGeoSampleAcc());
 //        System.out.println(tis.getTerm()+"|"+str.getTerm()+"|"+conds);
         List<String> srrIds = sampleSrrMap.get(s.getGeoSampleAcc());
-        String strainId = strainSynMap.get(s.getGeoSampleAcc());
+        String strainId = strainSynMap.get(s.getStrainAccId());
 //        System.out.println(srrIds);
 //        System.out.println(srrIds.size());
         if (srrIds.size()>1){
@@ -57,9 +69,9 @@ if (error.isEmpty()){
                 out.print("\t");
                 out.print(s.getGeoSampleAcc());
                 out.print("\t");
-                out.print(tis.getTerm());
+                out.print(Utils.NVL(term,"NA"));
                 out.print("\t");
-                out.print(strain);
+                out.print(Utils.NVL(strain,"NA"));
                 out.print("\t");
                 if (Utils.stringsAreEqualIgnoreCase(s.getSex(),"male")){
                     out.print("M");
@@ -91,9 +103,9 @@ if (error.isEmpty()){
             out.print("\t");
             out.print(s.getGeoSampleAcc());
             out.print("\t");
-            out.print(tis.getTerm());
+            out.print(Utils.NVL(term,"NA"));
             out.print("\t");
-            out.print(strain);
+            out.print(Utils.NVL(strain,"NA"));
             out.print("\t");
             if (Utils.stringsAreEqualIgnoreCase(s.getSex(),"male")){
                 out.print("M");
@@ -124,9 +136,9 @@ if (error.isEmpty()){
             out.print("\t");
             out.print(s.getGeoSampleAcc());
             out.print("\t");
-            out.print(tis.getTerm());
+            out.print(Utils.NVL(term,"NA"));
             out.print("\t");
-            out.print(strain);
+            out.print(Utils.NVL(strain,"NA"));
             out.print("\t");
             if (Utils.stringsAreEqualIgnoreCase(s.getSex(),"male")){
                 out.print("M");
@@ -153,6 +165,13 @@ if (error.isEmpty()){
         }
     }
 //    System.out.println("After for");
+    }catch (Exception e){
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        String sStackTrace = sw.toString();
+        out.print(sStackTrace);
+    }
 }
 else {
     for (String err : error){

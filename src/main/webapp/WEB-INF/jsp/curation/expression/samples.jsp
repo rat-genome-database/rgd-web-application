@@ -73,14 +73,21 @@
 
 <h2>View GEO Samples</h2>
 
-<div>
-    <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
-    <form method="POST" id="downloadMetaVue">
-        <input id="downloadBtn" type="button"  v-on:click="downloadMetaData" value="Download Meta Data">
-    </form>
-</div>
-
-<a href="/rgdweb/curation/expression/experiments.html">View Geo Experiments</a><br><br>
+<table>
+    <tr>
+        <td><a href="/rgdweb/curation/expression/experiments.html">View Geo Experiments</a></td>
+        <td></td>
+        <td>
+            <div>
+                <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
+                <form method="POST" id="downloadMetaVue">
+                    <input id="downloadBtn" type="button"  v-on:click="downloadMetaData" value="Download Meta Data">
+                </form>
+            </div>
+        </td>
+    </tr>
+</table>
+<br><br>
 <div class="container-fluid">
     <%
         Report report = (Report) request.getAttribute("report");
@@ -176,7 +183,7 @@
         el: '#downloadMetaVue',
         data: {
             gse: '<%=gse%>',
-            title: '<%=title%>',
+            title: "<%=title%>",
             species: '<%=species%>'
         },
         methods: {
