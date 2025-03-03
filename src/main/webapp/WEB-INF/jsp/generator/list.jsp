@@ -443,11 +443,6 @@ $(document).ready(function(){
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('mmo')" style="olor:white;">Measurement Method</a><br>
                         </td>
-                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
-                        <td width="150" valign="center" align="center" >
-                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
-                        </td>
-
                             <% } %>
                             <% if (oKey==6) { %>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
@@ -500,10 +495,6 @@ $(document).ready(function(){
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('vt')" style="olor:white;">Vertebrate Trait</a><br>
                         </td>
-                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
-                        <td width="150" valign="center" align="center" >
-                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
-                        </td>
 
                         <% } %>
                         <% } %>
@@ -516,10 +507,6 @@ $(document).ready(function(){
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('mp')" style="olor:white;">Mammalian Phenotype</a><br>
-                        </td>
-                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
-                        <td width="150" valign="center" align="center" >
-                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
                         </td>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
@@ -606,16 +593,12 @@ $(document).ready(function(){
                         </td>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
-                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
-                        </td>
-                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
-                        <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('vt')" style="olor:white;">Vertebrate Trait</a><br>
                         </td>
 
                         <% } %>
 
-                        
+
                         <% if (speciesTypeKey == 6 || speciesTypeKey == 9 || speciesTypeKey==14) { %>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('rdo')" >Disease Ontology</a><br>
@@ -635,10 +618,6 @@ $(document).ready(function(){
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('cc')" style="olor:white;">GO: Cellular Component</a><br>
-                        </td>
-                        <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
-                        <td width="150" valign="center" align="center" >
-                            <a href="javascript:showOntInput('nbo')" style="olor:white;">Neuro Behavioral</a><br>
                         </td>
                         <td style="background-color:#B7B7B7; width:1px; padding:3px;"></td>
                         <td width="150" valign="center" align="center" >
