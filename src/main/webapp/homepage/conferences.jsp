@@ -4,7 +4,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Date" %>
 <div class="" style="border-color: transparent;margin-top:20px;">
-        <h5 class="card-title">Conference Watch</h5>
+        <h5 class="card-title">Conferences, Courses and Workshops</h5>
 </div>
 <table style="width: 690px" class="conference">
 
