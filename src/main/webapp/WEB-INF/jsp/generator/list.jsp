@@ -615,6 +615,7 @@ $(document).ready(function(){
 
                         <% } %>
 
+                        
                         <% if (speciesTypeKey == 6 || speciesTypeKey == 9 || speciesTypeKey==14) { %>
                         <td width="150" valign="center" align="center" >
                             <a href="javascript:showOntInput('rdo')" >Disease Ontology</a><br>
