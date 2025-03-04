@@ -47,7 +47,7 @@
 <%@ include file="sectionHeader.jsp"%>
 <%//ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
 <div class="light-table-border">
-<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status</div>
+<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status (No longer updated)</div>
     <% if( confirmedCount>0 ) {
 
         String pubmedUrl = xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
