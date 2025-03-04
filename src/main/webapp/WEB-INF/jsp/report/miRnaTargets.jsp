@@ -4,6 +4,8 @@
 <%@ page import="edu.mcw.rgd.datamodel.MiRnaTarget" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MiRnaTargetDAO" %>
 <%@ page import="edu.mcw.rgd.reporting.Record" %>
+<%@ page import="edu.mcw.rgd.reporting.Report" %>
+<%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <script>
     $(document).ready(function(){
         var IEversion = detectIE();
@@ -45,7 +47,7 @@
 <%@ include file="sectionHeader.jsp"%>
 <%//ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
 <div class="light-table-border">
-<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status</div>
+<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status (No longer updated)</div>
     <% if( confirmedCount>0 ) {
 
         String pubmedUrl = xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
