@@ -82,11 +82,11 @@ public class DownloadMetaDataController implements Controller {
             HashMap<String, List<String>> sampleSRR = new HashMap<>();
             for (Sample s : samples){
                 // get conditions and apply to map
-                if (!Utils.isStringEmpty(s.getTissueAccId()) && tissueMap.get(s.getTissueAccId())==null) {
+                if (!Utils.isStringEmpty(s.getTissueAccId()) && tissueMap.get(s.getTissueAccId())!=null) {
                     Term tissue = xdao.getTermByAccId(s.getTissueAccId());
                     tissueMap.put(s.getTissueAccId(), tissue);
                 }
-                if (!Utils.isStringEmpty(s.getStrainAccId()) && strainMap.get(s.getStrainAccId())==null){
+                if (!Utils.isStringEmpty(s.getStrainAccId()) && strainMap.get(s.getStrainAccId())!=null){
                     Term strain = xdao.getTermByAccId(s.getStrainAccId());
                     strainMap.put(s.getStrainAccId(), strain);
                     List<TermSynonym> syns = xdao.getTermSynonyms(strain.getAccId());
