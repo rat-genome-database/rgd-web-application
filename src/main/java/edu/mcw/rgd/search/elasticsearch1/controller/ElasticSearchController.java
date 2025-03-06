@@ -21,13 +21,11 @@ import org.elasticsearch.action.search.SearchResponse;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by jthota on 2/22/2017.
