@@ -145,18 +145,18 @@ public class QueryService1 {
                 builder.filter(QueryBuilders.termQuery("species.keyword", sb.getSpecies()));
             }
             if(sb.getAssembly()!=null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
-                builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.map", sb.getAssembly())),ScoreMode.None));
+                builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.termQuery("mapDataList.map", sb.getAssembly())),ScoreMode.None));
             }
                 if (!sb.getChr().equals("") && !sb.getChr().equalsIgnoreCase("all") ) {
-                    builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("mapDataList.chromosome", sb.getChr())),ScoreMode.None));
+                    builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.termQuery("mapDataList.chromosome", sb.getChr())),ScoreMode.None));
 
             }
                 if (!sb.getStart().equals("") && !sb.getStop().equals("")) {
                         builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
                                 nestedQuery("mapDataList", QueryBuilders.boolQuery()
-
-                                        .must(QueryBuilders.rangeQuery("mapDataList.startPos").from(1).to(sb.getStop()).includeUpper(true).includeUpper(false))
-                                        .must(QueryBuilders.rangeQuery("mapDataList.stopPos").from(sb.getStart()).includeLower(true).includeLower(false)), ScoreMode.None)));
+                                        .must(QueryBuilders.termQuery("mapDataList.map", sb.getAssembly()))
+                                        .must(QueryBuilders.rangeQuery("mapDataList.startPos").from(sb.getStart()).includeUpper(true))
+                                       .must(QueryBuilders.rangeQuery("mapDataList.stopPos").to(sb.getStop()).includeLower(true)), ScoreMode.None)));
                 }
             if (!sb.getPolyphenStatus().equals("")) {
                 builder.filter(QueryBuilders.termQuery("polyphenStatus.keyword", sb.getPolyphenStatus()));
@@ -233,7 +233,10 @@ public class QueryService1 {
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.termQuery("category.keyword", "Strain")).boost(200));
             dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(2000));
             dqb.add(QueryBuilders.termQuery("term.symbol", term).boost(2000));
-            dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("synonyms.symbol", term)).must(QueryBuilders.termQuery("category.keyword", "Ontology")).boost(2000));
+            if(termIsAccId(term)) {
+                dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("synonyms.symbol", term)).must(QueryBuilders.termQuery("category.keyword", "Ontology")).boost(2000));
+
+            }else {
                 dqb.add(QueryBuilders.multiMatchQuery(term)
                                 .field("symbol.symbol", 100)
                                 .field("term.symbol", 100)
@@ -244,9 +247,9 @@ public class QueryService1 {
                                 .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
                 //   String[] tokens=term.split("[\\s,]+");
                 //  if(tokens.length>0){
-                dqb.add(QueryBuilders.multiMatchQuery(term)
-                        .operator(Operator.AND));
-
+//                dqb.add(QueryBuilders.multiMatchQuery(term)
+//                        .operator(Operator.AND));
+            }
         }
         return dqb;
 
@@ -263,6 +266,12 @@ public class QueryService1 {
 
 
     }
+    public boolean termIsAccId(String term){
+        if(term.contains(":"))
+            return true;
+        return false;
+    }
+
     public void exactMatchQuery(DisMaxQueryBuilder dqb, SearchBean sb){
         dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("symbol.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
         dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("name.symbol", sb.getTerm())).must(QueryBuilders.termQuery("category.keyword", sb.getCategory()).caseInsensitive(true)).boost(1000));
