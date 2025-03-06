@@ -159,6 +159,14 @@ public class GeoExperimentController implements Controller {
                     s.setAgeDaysFromLowBound(Integer.parseInt(request.getParameter("ageLow" + i)));
 
                 s.setNumberOfAnimals(1);
+
+                if (Utils.isStringEmpty(s.getStrainAccId()))
+                    s.setStrainAccId(s.getStrainAccId().trim());
+                if (Utils.isStringEmpty(s.getStrainAccId()))
+                    s.setTissueAccId(s.getTissueAccId().trim());
+                if (Utils.isStringEmpty(s.getCellTypeAccId()))
+                    s.setCellTypeAccId(s.getCellTypeAccId().trim());
+
                 int sampleId = 0;
                 Sample sample = geDAO.getSampleByGeoId(s.getBioSampleId());
                 boolean loadIt = Utils.stringsAreEqual(curAction, "load") || Utils.stringsAreEqual(curAction, "edit");
