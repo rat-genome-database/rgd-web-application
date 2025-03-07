@@ -1,12 +1,14 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.dao.impl.SearchLogDAO;
 import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.SearchLog;
 import edu.mcw.rgd.datamodel.SpeciesType;
+import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.reporting.Report;
@@ -159,6 +161,7 @@ public class ElasticSearchController extends RGDSearchController {
 
     public String getRedirectUrl(HttpServletRequest request, String term, SearchBean sb){
         RGDManagementDAO rdao = new RGDManagementDAO();
+        OntologyXDAO xdao=new OntologyXDAO();
         String redirUrl =null;
         try {
             if(term.matches("[0-9]+") && !sb.isRedirect()) { // if the seartch term is RGDID
@@ -176,16 +179,23 @@ public class ElasticSearchController extends RGDSearchController {
                     return request.getScheme() + "://" + request.getServerName() + redirUrl;
 
                 }
-            }else if (term.toLowerCase().startsWith("rs") && term.substring(2).matches("[0-9]+" ))
+            }else
+                if (term.toLowerCase().startsWith("rs") && term.substring(2).matches("[0-9]+" ))
             {
                 redirUrl=Link.rsId(term);
                 return request.getScheme() + "://" + request.getServerName() + redirUrl;
 
-            }
+            }else if(term.contains(":")){
+                    Term termByAccId=xdao.getTermByAccId(term.toUpperCase());
+                    if(termByAccId!=null){
+                        redirUrl=Link.ontAnnot(term.toUpperCase());
+                        return request.getScheme() + "://" + request.getServerName() + redirUrl;
+                    }
+                }
             else {
                 SearchService service = new SearchService();
                 SearchResponse sr;
-             // if in the summarys results there is only one result, then redirect to report page directly.
+             // if in the summary results there is only one result, then redirect to report page directly.
                 if(sb.isRedirect()) {
                     sr = service.getSearchResponse(request, term, sb);
                     if (sr != null) {
