@@ -147,17 +147,23 @@ public class QueryService1 {
             if(sb.getAssembly()!=null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
                 builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.termQuery("mapDataList.map", sb.getAssembly())),ScoreMode.None));
             }
-                if (!sb.getChr().equals("") && !sb.getChr().equalsIgnoreCase("all") ) {
+            if (!sb.getChr().equals("") && !sb.getChr().equalsIgnoreCase("all") ) {
                     builder.filter(QueryBuilders.nestedQuery("mapDataList", QueryBuilders.boolQuery().must(QueryBuilders.termQuery("mapDataList.chromosome", sb.getChr())),ScoreMode.None));
 
             }
-                if (!sb.getStart().equals("") && !sb.getStop().equals("")) {
+                if (!sb.getStart().equals("") && !sb.getStop().equals("") && sb.getAssembly()!=null && !sb.getAssembly().equalsIgnoreCase("all")) {
                         builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
                                 nestedQuery("mapDataList", QueryBuilders.boolQuery()
                                         .must(QueryBuilders.termQuery("mapDataList.map", sb.getAssembly()))
                                         .must(QueryBuilders.rangeQuery("mapDataList.startPos").from(sb.getStart()).includeUpper(true))
                                        .must(QueryBuilders.rangeQuery("mapDataList.stopPos").to(sb.getStop()).includeLower(true)), ScoreMode.None)));
+                }else{
+                    builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
+                            nestedQuery("mapDataList", QueryBuilders.boolQuery()
+                                    .must(QueryBuilders.rangeQuery("mapDataList.startPos").from(sb.getStart()).includeUpper(true))
+                                    .must(QueryBuilders.rangeQuery("mapDataList.stopPos").to(sb.getStop()).includeLower(true)), ScoreMode.None)));
                 }
+
             if (!sb.getPolyphenStatus().equals("")) {
                 builder.filter(QueryBuilders.termQuery("polyphenStatus.keyword", sb.getPolyphenStatus()));
 
