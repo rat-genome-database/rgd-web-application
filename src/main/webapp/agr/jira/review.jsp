@@ -13,6 +13,8 @@
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.nio.file.Paths" %>
+<%@ page import="java.nio.file.Files" %>
 <%--
   Created by IntelliJ IDEA.
   User: jdepons
@@ -30,7 +32,7 @@
 
 <%
 
-    String apiToken="ATATT3xFfGF0dgMX0s4lPJN89OV-FAvAcJs4u_VbA5BZM4foM_5Xz579hWad31R_xjQVLsQClweAtdJWMa5Ve538-3uU0FNnFi62F7UGnbZa2nzcj1hdqq_HTnmsGZq5sMwDXxtnjL8O6vzcto00LSdZiBpVaG7mbpA2RU-e1lrKDV5OIpKPr5U=070133F3";
+    String apiToken = new String(Files.readAllBytes(Paths.get("/data/properties/jira.properties")));
     String valueToEncode = "jdepons@mcw.edu:" + apiToken;
 
     HttpRequest restRequest = HttpRequest.newBuilder()

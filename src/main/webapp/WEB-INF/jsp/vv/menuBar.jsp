@@ -92,9 +92,17 @@
     }
 
     String selectTitle="Edit&nbsp;Strains";
-    int map=0;
-    if(req2.getParameter("mapKey")!=null && !req2.getParameter("mapKey").equals(""))
-          map=  Integer.parseInt(req2.getParameter("mapKey"));
+    int map= 0;
+    try {
+        map = MapManager.getInstance().getReferenceAssembly(3,"NCBI").getKey();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    if(req2.getParameter("mapKey")!=null && !req2.getParameter("mapKey").equals("")) {
+        try {
+            map = Integer.parseInt(req2.getParameter("mapKey"));
+        }catch (Exception ignored){}
+    }
     // if (MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey() == 1) {
     if (map==37 || map==38 || map==17) {
         selectTitle="Edit&nbsp;Sequences";
