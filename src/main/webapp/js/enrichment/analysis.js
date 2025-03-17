@@ -61,7 +61,7 @@ function EnrichmentVue(divId, hostname) {
             download: function (arrData) {
                 var data = "data:text/csv;charset=utf-8,";
                 data += "Species: " + this.getSpecies(this.species[0]) + "\n";
-                data += "Ontology" + this.getOntologyTitle(this.ontology[0]) + "\n";
+                data += "Ontology: " + this.getOntologyTitle(this.ontology[0]) + "\n";
                 data += "No of genes in the input set: " + (this.genes.length) + "\n";
                 data += "Input Genes: "+this.genes + "\n";
                 data += [
@@ -74,7 +74,7 @@ function EnrichmentVue(divId, hostname) {
 
                 var convertedData = encodeURI(data);
                 var link = document.createElement("a");
-                link.setAttribute("href", data);
+                link.setAttribute("href", convertedData);
                 link.setAttribute("download", "MOET Results.csv");
                 link.click();
             },
