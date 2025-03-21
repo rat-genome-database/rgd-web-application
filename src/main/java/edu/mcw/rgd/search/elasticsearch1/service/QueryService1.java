@@ -155,14 +155,14 @@ public class QueryService1 {
                 builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
                         nestedQuery("mapDataList", QueryBuilders.boolQuery()
                                 .must(QueryBuilders.termQuery("mapDataList.map", sb.getAssembly()))
-                                .must(QueryBuilders.rangeQuery("mapDataList.startPos").lte(sb.getStop()).includeUpper(true))
-                                .must(QueryBuilders.rangeQuery("mapDataList.stopPos").gte(sb.getStart()).includeLower(true)), ScoreMode.None)));
+                                .must(QueryBuilders.rangeQuery("mapDataList.startPos").lte(sb.getStop()))
+                                .must(QueryBuilders.rangeQuery("mapDataList.stopPos").gte(sb.getStart())), ScoreMode.None)));
             }else{
                 if (!sb.getStart().equals("") && !sb.getStop().equals("")) {
                     builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
                             nestedQuery("mapDataList", QueryBuilders.boolQuery()
-                                    .must(QueryBuilders.rangeQuery("mapDataList.startPos").lte(sb.getStop()).includeUpper(true))
-                                    .must(QueryBuilders.rangeQuery("mapDataList.stopPos").gte(sb.getStart()).includeLower(true)), ScoreMode.None)));
+                                    .must(QueryBuilders.rangeQuery("mapDataList.startPos").lte(sb.getStop()))
+                                    .must(QueryBuilders.rangeQuery("mapDataList.stopPos").gte(sb.getStart())), ScoreMode.None)));
                 }
             }
             if (!sb.getPolyphenStatus().equals("")) {
