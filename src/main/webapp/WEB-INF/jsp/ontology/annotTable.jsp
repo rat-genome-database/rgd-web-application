@@ -2,6 +2,8 @@
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="edu.mcw.rgd.dao.impl.QTLDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.QTL" %>
 <%-- requires the following declarations in the master file:
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -260,26 +262,60 @@
                  </table>
              </tr>
              <tr class='headerRow'>
-                 <colgroup>
-                     <col span="1" style="width: 1%;"> <%-- gene, qtl, ect --%>
-                     <col span="1" style="width: 6%;"> <%-- Symbol --%>
-                     <col span="1" style="width: 14%;"> <%-- Obj name --%>
-                     <col span="1" style="width: 7%;"> <%-- Qualifiers --%>
-                     <col span="1" style="width: 4%;"> <%-- Evidence --%>
-                     <col span="1" style="width: 22%;"><%-- notes --%>
-                     <col span="1" style="width: 5%;"><%-- source --%>
-                     <col span="1" style="width: 13%;"><%-- original references/ xref / PubMed reference--%>
-                     <col span="1" style="width: 13%;"><%-- RGD Reference --%>
-                     <col span="1" style="width: 11%;"><%-- Position --%>
-                     <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
-                 </colgroup>
+<%--                 <colgroup>--%>
+<%--                     <col span="1" style="width: 1%;"> &lt;%&ndash; gene, qtl, ect &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 6%;"> &lt;%&ndash; Symbol &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 14%;"> &lt;%&ndash; Obj name &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 7%;"> &lt;%&ndash; Qualifiers &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 4%;"> &lt;%&ndash; Evidence &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 22%;">&lt;%&ndash; notes &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 5%;">&lt;%&ndash; source &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 13%;">&lt;%&ndash; original references/ xref / PubMed reference&ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 13%;">&lt;%&ndash; RGD Reference &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 11%;">&lt;%&ndash; Position &ndash;%&gt;--%>
+<%--                     <col span="1" style="width: 6%;">&lt;%&ndash; Jbrowse link &ndash;%&gt;--%>
+<%--                 </colgroup>--%>
+    <% if (bean.getObjectKey()==6) { %>
+    <colgroup>
+        <col span="1" style="width: 1%;"> <%-- gene, qtl, ect --%>
+        <col span="1" style="width: 6%;"> <%-- Symbol --%>
+        <col span="1" style="width: 14%;"> <%-- Obj name --%>
+        <col span="1" style="width: 7%;"> <%-- Qualifiers --%>
+        <col span="1" style="width: 4%;"> <%-- Evidence --%>
+        <col span="1" style="width: 5%;"> <%-- P Value --%>
+        <col span="1" style="width: 5%;"> <%-- LOD Value --%>
+        <col span="1" style="width: 12%;"><%-- notes --%>
+        <col span="1" style="width: 5%;"><%-- source --%>
+        <col span="1" style="width: 13%;"><%-- original references/ xref / PubMed reference--%>
+        <col span="1" style="width: 13%;"><%-- RGD Reference --%>
+        <col span="1" style="width: 9%;"><%-- Position --%>
+        <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
+    </colgroup>
+    <% } else { %>
+    <colgroup>
+        <col span="1" style="width: 1%;"> <%-- gene, qtl, ect --%>
+        <col span="1" style="width: 6%;"> <%-- Symbol --%>
+        <col span="1" style="width: 14%;"> <%-- Obj name --%>
+        <col span="1" style="width: 7%;"> <%-- Qualifiers --%>
+        <col span="1" style="width: 4%;"> <%-- Evidence --%>
+        <col span="1" style="width: 22%;"><%-- notes --%>
+        <col span="1" style="width: 5%;"><%-- source --%>
+        <col span="1" style="width: 13%;"><%-- original references/ xref / PubMed reference--%>
+        <col span="1" style="width: 13%;"><%-- RGD Reference --%>
+        <col span="1" style="width: 11%;"><%-- Position --%>
+        <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
+    </colgroup>
+    <% } %>
                  <td 10%></td>
                  <%=bean.getSpeciesTypeKey()==0 ? "<td></td>" : ""%>
                  <td><b>Symbol</b></td>
                  <td><b>Object Name</b></td>
                  <td><%=bean.getHasQualifiers() ? "<b>Qualifiers</b>" : ""%></td>
                  <td><b>Evidence</b></td>
-
+                 <% if (bean.getObjectKey()==6) { %>
+                        <td><b>P Value</b></td>
+                        <td><b>LOD</b></td>
+                <% } %>
                  <td><b>Notes</b></td>
                  <td><b>Source</b></td>
                  <td><b>PubMed Reference(s)</b></td>
@@ -309,6 +345,8 @@
                 <td><%=annot.getName()%></td>
                     <td><%=annot.getQualifier()%></td>
                 <td><%=annot.getEvidence()%></td>
+                <td>test</td>
+                <td>test</td>
 <%--                <td><a href="/rgdweb/report/annotation/<%--%>
 <%--                    if( term.getAccId().startsWith("CHEBI") ) { out.print("table"); } else { out.print("main"); }--%>
 <%--                   %>.html?term=<%=term.getAccId()%>&id=<%=annot.getRgdId()%>" title="view annotation report"><%=annot.getEvidence()%></a></td>--%>
@@ -442,6 +480,16 @@
                     if( jbrowseLink!=null ) {%>
                     <a href="<%=jbrowseLink%>"><img alt="JBrowse link" border="0" title="JBrowse link" height="19" width="30" src="/rgdweb/common/images/jbrowse2.png"/></a>
                     <%}%></td>
+<%--            <%if(annot.isQtl()){--%>
+<%--                QTL qtl = new QTLDAO().getQTL(annot.getRgdId());--%>
+<%--            %>--%>
+<%--                <td>--%>
+<%--                    <%=qtl.getPValue()!=null?qtl.getPValue():""%>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <%=qtl.getLod()!=null?qtl.getLod():""%>--%>
+<%--                </td>--%>
+<%--            <% }%>--%>
               </tr>
             <% }    } %>
 
