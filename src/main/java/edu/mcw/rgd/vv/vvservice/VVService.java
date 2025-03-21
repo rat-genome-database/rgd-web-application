@@ -340,10 +340,10 @@ public class VVService {
             if (!req.getParameter("depthHighBound").equals(""))
                 depthHighBound = Integer.parseInt(req.getParameter("depthHighBound"));
             if ((depthLowBound > 0 && depthHighBound > 0) || (depthLowBound == 0 && depthHighBound > 0)) {
-                builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound).to(depthHighBound).includeLower(true).includeUpper(true));
+                builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound).to(depthHighBound));
 
             } else if (depthLowBound > 0) {
-                builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound).includeLower(true));
+                builder.filter(QueryBuilders.rangeQuery("totalDepth").from(depthLowBound));
 
             }
             if ((vsb.getMinConservation() == 0.0F) && (vsb.getMaxConservation() == 0.0F)) {
@@ -351,7 +351,7 @@ public class VVService {
             } else {
                 if (vsb.getMinConservation() > 0 && vsb.getMaxConservation() > 0)
                     builder.filter(QueryBuilders.rangeQuery("conScores").from(vsb.getMinConservation())
-                            .to(vsb.getMaxConservation()).includeLower(true).includeUpper(true));
+                            .to(vsb.getMaxConservation()));
             }
             return builder;
         }
@@ -375,8 +375,8 @@ public class VVService {
             }
             if (vsb.getStartPosition() != null && vsb.getStartPosition() >= 0 && vsb.getStopPosition() != null && vsb.getStopPosition() > 0
             && (vsb.getGenes()==null || vsb.getGenes().size()==0)) {
-                qb.filter(QueryBuilders.rangeQuery("startPos").gte(vsb.getStartPosition()).lt(vsb.getStopPosition()).includeLower(true).includeUpper(true));
-                qb.filter(QueryBuilders.rangeQuery("endPos").gt(vsb.getStartPosition()).lte(vsb.getStopPosition()).includeLower(true).includeUpper(true));
+                qb.filter(QueryBuilders.rangeQuery("startPos").lte(vsb.getStopPosition()));
+                qb.filter(QueryBuilders.rangeQuery("endPos").gte(vsb.getStartPosition()));
 
             }
             if(vsb.getGenes().size()>0)
