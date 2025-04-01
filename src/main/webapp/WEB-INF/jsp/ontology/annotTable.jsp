@@ -434,8 +434,17 @@
                 try {
                     QTL qtl = new QTLDAO().getQTL(annot.getRgdId());
             %>
-            <td><%=qtl.getPValue() != null ? qtl.getPValue() : ""%>
-            </td>
+            <% if ((qtl.getPValue() == null || qtl.getPValue() == 0) && qtl.getpValueMlog()!=null) {
+                double w = qtl.getpValueMlog();
+                int x = (int) Math.ceil(w);
+                double y = x-w;
+                int z = (int) Math.round(Math.pow(10,y));
+                String convertedPVal = z+"E-"+x;
+            %>
+            <td><%=convertedPVal%></td>
+            <%} else {%>
+            <td><%=qtl.getPValue() != null ? qtl.getPValue() : ""%></td>
+            <% } %>
             <td><%=qtl.getLod() != null ? qtl.getLod() : ""%>
             </td>
             <%
