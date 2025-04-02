@@ -730,7 +730,9 @@ public class GeoExperimentController implements Controller {
             geDAO.deleteConditionBatch(delete);
         }
 
-        Collection<Condition> insert = CollectionUtils.intersection(conds, dbConds);
+        Collection<Condition> update = CollectionUtils.intersection(conds, dbConds);
+        Collection<Condition> insert = CollectionUtils.subtract(conds, dbConds);
+        insert.addAll(update);
         for (Condition c : insert){
             // insert/update
             if (c.getId()==-1){
