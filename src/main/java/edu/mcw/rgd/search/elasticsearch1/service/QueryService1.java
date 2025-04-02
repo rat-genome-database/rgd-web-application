@@ -247,11 +247,18 @@ public class QueryService1 {
                 dqb.add(QueryBuilders.multiMatchQuery(term)
                                 .field("symbol.symbol", 100)
                                 .field("term.symbol", 100)
+                                .analyzer("standard")
                                 .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(10))
                         .add(QueryBuilders.multiMatchQuery(term)
-                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX).boost(5))
+                                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX)
+                                .analyzer("standard")
+                                .boost(5))
                         .add(QueryBuilders.multiMatchQuery(term)
-                                .type(MultiMatchQueryBuilder.Type.PHRASE).boost(2));
+                                .type(MultiMatchQueryBuilder.Type.PHRASE)
+                                .analyzer("standard")
+                                .boost(2))
+
+                ;
                 //   String[] tokens=term.split("[\\s,]+");
                 //  if(tokens.length>0){
 //                dqb.add(QueryBuilders.multiMatchQuery(term)
