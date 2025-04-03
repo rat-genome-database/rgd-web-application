@@ -14,6 +14,7 @@ import edu.mcw.rgd.web.RgdContext;
 import edu.mcw.rgd.xml.XomAnalyzer;
 import nu.xom.Element;
 import nu.xom.Elements;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.math3.analysis.function.Exp;
 import org.jaxen.XPath;
 import org.jaxen.xom.XOMXPath;
@@ -137,6 +138,7 @@ public class GeoExperimentController implements Controller {
                 s.setBioSampleId(request.getParameter("sampleId" + i));
                 String[] lifeStages = request.getParameterValues("lifeStage"+i);
                 String stage = "";
+                int geId = 0;
 //                System.out.println(s.getGeoSampleAcc());
                 if (lifeStages!=null) {
                     for (int j = 0; j < lifeStages.length; j++) {
@@ -159,6 +161,14 @@ public class GeoExperimentController implements Controller {
                     s.setAgeDaysFromLowBound(Integer.parseInt(request.getParameter("ageLow" + i)));
 
                 s.setNumberOfAnimals(1);
+
+                if (Utils.isStringEmpty(s.getStrainAccId()))
+                    s.setStrainAccId(s.getStrainAccId().trim());
+                if (Utils.isStringEmpty(s.getStrainAccId()))
+                    s.setTissueAccId(s.getTissueAccId().trim());
+                if (Utils.isStringEmpty(s.getCellTypeAccId()))
+                    s.setCellTypeAccId(s.getCellTypeAccId().trim());
+
                 int sampleId = 0;
                 Sample sample = geDAO.getSampleByGeoId(s.getBioSampleId());
                 boolean loadIt = Utils.stringsAreEqual(curAction, "load") || Utils.stringsAreEqual(curAction, "edit");
@@ -273,7 +283,7 @@ public class GeoExperimentController implements Controller {
 //                        for (Experiment ex : eList) {
                         if (sampleId == 0)
                             continue;
-                        int geId = 0;
+//                        int geId = 0;
                         if (gre==null)
                             gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sampleId);
                         Integer oldCmoId;
@@ -399,7 +409,7 @@ public class GeoExperimentController implements Controller {
 //                        }
                 } // end condition addons
                 if (loadIt) {
-                    insertConditions(conditions);
+                    insertConditions(conditions, geId);
                     sampleConditions.put(sampleId, conditions);
                 }
 
@@ -702,7 +712,7 @@ public class GeoExperimentController implements Controller {
         return Condition.convertStringToDurationBound(units);
     }
 
-    private void insertConditions(List<Condition> conds) throws Exception{
+    private void insertConditions(List<Condition> conds, int expRecId) throws Exception{
         List<String> ords = new ArrayList<>();
         for (int i = conds.size()-1; i >= 0 ; i--){
             // check ordinality
@@ -713,7 +723,17 @@ public class GeoExperimentController implements Controller {
                     conds.get(conds.indexOf(c)).setOrdinality(1);
                 }
         }
-        for (Condition c : conds){
+        // compare with DB and add/remove xco
+        List<Condition> dbConds = geDAO.getConditions(expRecId);
+        Collection<Condition> delete = CollectionUtils.subtract(dbConds, conds);
+        if ( !delete.isEmpty()){
+            geDAO.deleteConditionBatch(delete);
+        }
+
+        Collection<Condition> update = CollectionUtils.intersection(conds, dbConds);
+        Collection<Condition> insert = CollectionUtils.subtract(conds, dbConds);
+        insert.addAll(update);
+        for (Condition c : insert){
             // insert/update
             if (c.getId()==-1){
                 geDAO.insertCondition(c);
