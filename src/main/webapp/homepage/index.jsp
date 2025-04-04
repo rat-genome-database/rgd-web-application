@@ -158,7 +158,7 @@
     <td style="padding:8px;">
         <table align="center">
             <tr>
-                <td ><span style="font-size:12px;color:#8A0000;">&nbsp;This repository is under review for potential modification in compliance with Administration directives.</td>
+                <td ><span style="font-size:12px;color:#8A0000;">&nbsp;This repository is under review for potential modification in compliance with Administration directives.</span></td>
             </tr>
         </table>
     </td>
