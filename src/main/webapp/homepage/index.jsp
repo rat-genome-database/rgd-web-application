@@ -153,12 +153,12 @@
         //location.href="https://rgd.mcw.edu/wg/portals/covid-19-disease-portal-related-links/";
     }
 </script>
-<table style="border:2px; background-color:#f9dede; solid: #8A0000;margin-bottom:10px;" align="center" width="80%">
+<table style="border:2px; background-color:#eaf2f8; solid: #8A0000;margin-bottom:10px;" align="center" width="80%">
     <tr>
     <td style="padding:8px;">
         <table align="center">
             <tr>
-                <td ><span style="font-size:12px;color:#8A0000;">&nbsp;This repository is under review for potential modification in compliance with Administration directives.</span></td>
+                <td ><span style="font-size:14px;color:#8A0000;">&nbsp;This repository is under review for potential modification in compliance with Administration directives.</span></td>
             </tr>
         </table>
     </td>
