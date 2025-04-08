@@ -16,7 +16,7 @@ edu.mcw.rgd.dao.impl.VariantInfoDAO"
     response.setHeader("Content-Type", "text/tab");
     response.setHeader("Content-Disposition","attachment; filename=annotation.tab" );
     if(bean.getObjectKey()==6){
-        out.println("Species\tTerm Accession\tTerm\tObject\tRGD ID\tSymbol\tName\tType\tQualifiers\tEvidence\tP Value\tLOD Score\tChr\tStart\tStop\tReference(s)\tSource(s)\tOriginal Reference(s)\tNotes");
+        out.println("Species\tTerm Accession\tTerm\tObject\tRGD ID\tSymbol\tName\tType\tQualifiers\tEvidence\trsID\tP Value\tLOD Score\tChr\tStart\tStop\tReference(s)\tSource(s)\tOriginal Reference(s)\tNotes");
     }
     else {
         out.println("Species\tTerm Accession\tTerm\tObject\tRGD ID\tSymbol\tName\tType\tQualifiers\tEvidence\tChr\tStart\tStop\tReference(s)\tSource(s)\tOriginal Reference(s)\tNotes");
@@ -69,7 +69,7 @@ edu.mcw.rgd.dao.impl.VariantInfoDAO"
                     .append(annot.getQualifier().replaceAll("<BR>",",")).append("\t")
                     .append(annot.getEvidence().replaceAll("<BR>",",")).append("\t");
 
-            // Add P Value and LOD score for QTLs
+            // Add rsID, P Value and LOD score for QTLs
             if(bean.getObjectKey()==6) {
                 try {
                     QTL qtl = new QTLDAO().getQTL(annot.getRgdId());
@@ -85,10 +85,10 @@ edu.mcw.rgd.dao.impl.VariantInfoDAO"
                         pValueStr = qtl.getPValue() != null ? qtl.getPValue().toString() : "";
                     }
 
-                    sb.append(pValueStr).append("\t")
+                    sb.append(qtl.getPeakRsId() != null ? qtl.getPeakRsId(): "").append("\t").append(pValueStr).append("\t")
                             .append(qtl.getLod() != null ? qtl.getLod().toString() : "").append("\t");
                 } catch (Exception e) {
-                    sb.append("\t\t");
+                    sb.append("\t\t\t");
                 }
             }
 

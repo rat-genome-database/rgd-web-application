@@ -330,37 +330,25 @@
                 <%--                 </colgroup>--%>
                 <% if (bean.getObjectKey() == 6) { %>
                 <colgroup>
-                    <col span="1" style="width: 1%;">
-                    <%-- gene, qtl, ect --%>
-                    <col span="1" style="width: 6%;">
-                    <%-- Symbol --%>
-                    <col span="1" style="width: 14%;">
-                    <%-- Obj name --%>
-                    <col span="1" style="width: 7%;">
-                    <%-- Qualifiers --%>
-                    <col span="1" style="width: 4%;">
-                    <%-- Evidence --%>
-                    <col span="1" style="width: 5%;">
-                    <%-- P Value --%>
-                    <col span="1" style="width: 5%;">
-                    <%-- LOD Value --%>
-                    <col span="1" style="width: 12%;">
-                    <%-- notes --%>
-                    <col span="1" style="width: 5%;">
-                    <%-- source --%>
-                    <col span="1" style="width: 13%;">
-                    <%-- original references/ xref / PubMed reference--%>
-                    <col span="1" style="width: 13%;">
-                    <%-- RGD Reference --%>
-                    <col span="1" style="width: 9%;">
-                    <%-- Position --%>
-                    <col span="1" style="width: 6%;">
-                    <%-- Jbrowse link --%>
+                    <col span="1" style="width: 1%;"> <%-- gene, qtl, etc --%>
+                    <col span="1" style="width: 6%;"> <%-- Symbol --%>
+                    <col span="1" style="width: 14%;"> <%-- Obj name --%>
+                    <col span="1" style="width: 7%;"> <%-- Qualifiers --%>
+                    <col span="1" style="width: 4%;"> <%-- Evidence --%>
+                    <col span="1" style="width: 4%;"> <%-- rsID--%>
+                    <col span="1" style="width: 5%;"> <%-- P Value --%>
+                    <col span="1" style="width: 4%;"> <%-- LOD Value --%>
+                    <col span="1" style="width: 10%;"><%-- notes --%>
+                    <col span="1" style="width: 5%;"><%-- source --%>
+                    <col span="1" style="width: 13%;"><%-- original references/ xref / PubMed reference--%>
+                    <col span="1" style="width: 12%;"><%-- RGD Reference --%>
+                    <col span="1" style="width: 9%;"><%-- Position --%>
+                    <col span="1" style="width: 6%;"><%-- Jbrowse link --%>
                 </colgroup>
                 <% } else { %>
                 <colgroup>
                     <col span="1" style="width: 1%;">
-                    <%-- gene, qtl, ect --%>
+                    <%-- gene, qtl, etc --%>
                     <col span="1" style="width: 6%;">
                     <%-- Symbol --%>
                     <col span="1" style="width: 14%;">
@@ -391,6 +379,7 @@
                 </td>
                 <td><b>Evidence</b></td>
                 <% if (bean.getObjectKey() == 6) { %>
+                    <td><b>rsID</b></td>
                 <td><b>P&nbsp;Value</b></td>
                 <td><b>LOD&nbsp;Score</b></td>
                 <% } %>
@@ -434,6 +423,7 @@
                 try {
                     QTL qtl = new QTLDAO().getQTL(annot.getRgdId());
             %>
+            <td><%=qtl.getPeakRsId() != null ? qtl.getPeakRsId(): ""%>
             <% if ((qtl.getPValue() == null || qtl.getPValue() == 0) && qtl.getpValueMlog()!=null) {
                 double w = qtl.getpValueMlog();
                 int x = (int) Math.ceil(w);
