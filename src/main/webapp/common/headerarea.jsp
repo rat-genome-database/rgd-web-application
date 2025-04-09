@@ -5,7 +5,7 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
 <%
-    response.setHeader("CACHE-CONTROL","Cache-Control: must-revalidate, max-age=3000");
+    response.setHeader("CACHE-CONTROL","max-age=3000");
     response.setHeader("EXPIRES","3000");
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
