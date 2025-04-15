@@ -389,20 +389,20 @@ public class GeoExperimentController implements Controller {
                             c.setOrdinality(ord);
                             c.setNotes(cNotes[k]);
                             c.setGeneExpressionRecordId(geId);
-
-                            if (Utils.isStringEmpty(cId[k])) {
-//                                    geDAO.insertCondition(c);
-                                c.setId(-1);
-                                conditions.add(c);
-
-//                                    insConds.add(c);
-                            }
-                            else {
-                                c.setId(Integer.parseInt(cId[k]));
-//                                    geDAO.updateCondition(c);
-                                conditions.add(c);
-//                                    updateConds.add(c);
-                            }
+                            c.setId(-1);
+                            conditions.add(c);
+//                            if (Utils.isStringEmpty(cId[k])) {
+////                                    geDAO.insertCondition(c);
+//
+//
+////                                    insConds.add(c);
+//                            }
+//                            else {
+//                                c.setId(Integer.parseInt(cId[k]));
+////                                    geDAO.updateCondition(c);
+//                                conditions.add(c);
+////                                    updateConds.add(c);
+//                            }
 
                         }
 
@@ -713,7 +713,7 @@ public class GeoExperimentController implements Controller {
     }
 
     private void insertConditions(List<Condition> conds, int expRecId) throws Exception{
-        List<String> ords = new ArrayList<>();
+//        List<String> ords = new ArrayList<>();
         for (int i = conds.size()-1; i >= 0 ; i--){
             // check ordinality
                 Condition c = conds.get(i);
@@ -730,17 +730,11 @@ public class GeoExperimentController implements Controller {
             geDAO.deleteConditionBatch(delete);
         }
 
-        Collection<Condition> update = CollectionUtils.intersection(conds, dbConds);
+//        Collection<Condition> update = CollectionUtils.intersection(conds, dbConds);
         Collection<Condition> insert = CollectionUtils.subtract(conds, dbConds);
-        insert.addAll(update);
+//        insert.addAll(update);
         for (Condition c : insert){
-            // insert/update
-            if (c.getId()==-1){
-                geDAO.insertCondition(c);
-            }
-            else {
-                geDAO.updateCondition(c);
-            }
+            geDAO.insertCondition(c);
         }
     }
 
