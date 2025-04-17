@@ -374,20 +374,30 @@ public class AnnotationFormatter {
         }
 
         String[] multipleInfos;
-        if(!info.contains("|") && !info.contains("UniProt")){
-            multipleInfos = info.split("(,\\b)|\\b,|([|;])");
-        }else{
-            multipleInfos = info.split("(,\\b)|\\b,|\\b\\s|([|;])");
+        multipleInfos = info.split("\\s");
+//        if(!info.contains("|") && !info.contains("UniProt")){
+//            multipleInfos = info.split("(,\\b)|\\b,|([|;])");
+//        }else{
+//            multipleInfos = info.split("(,\\b)|\\b,|\\b|([|;])");
+//        }
+        String infoField = "";
+        if (multipleInfos.length>15){
+            for (int i = 0; i < 15; i++){
+                infoField += multipleInfos[i]+" ";
+            }
+            infoField = formatXdbUrl(infoField,objectKey) + makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
         }
-        String infoField;
-        if( multipleInfos.length==1 ) {
-            infoField = formatXdbUrl(multipleInfos[0], objectKey);
+        else {
+            infoField=info;
         }
-        else if( multipleInfos.length==2 ) {
-            infoField = formatXdbUrl(multipleInfos[0], objectKey)+" and "+ formatXdbUrl(multipleInfos[1], objectKey);
-        } else {
-            infoField = formatXdbUrl(multipleInfos[0], objectKey)+makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
-        }
+//        if( multipleInfos.length==1 ) {
+//            infoField = formatXdbUrl(multipleInfos[0], objectKey);
+//        }
+//        else if( multipleInfos.length==2 ) {
+//            infoField = formatXdbUrl(multipleInfos[0], objectKey)+" and "+ formatXdbUrl(multipleInfos[1], objectKey);
+//        } else {
+//            infoField = formatXdbUrl(multipleInfos[0], objectKey)+makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
+//        }
         return infoField;
     }
 
