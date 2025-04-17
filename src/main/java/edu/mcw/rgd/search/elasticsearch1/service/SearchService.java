@@ -36,7 +36,7 @@ public class SearchService {
         long totalHits=0;
 
         Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
-        String[][] speciesCatArray = new String[7][12];
+        String[][] speciesCatArray = new String[8][12];
         speciesCatArray[0][0]="Gene";
         speciesCatArray[4][0]="Variant";
         speciesCatArray[1][0]="Strain";
@@ -44,7 +44,7 @@ public class SearchService {
         speciesCatArray[3][0]="SSLP";
         speciesCatArray[5][0]="Promoter";
         speciesCatArray[6][0]="Cell line";
-
+        speciesCatArray[7][0]="Expression";
         Terms speciesAgg, categoryAgg, typeAgg, assembly = null;
         Filter chromosomeAgg;
         long totalTerms = 0;
@@ -164,6 +164,10 @@ public class SearchService {
                                 speciesCatArray[6][k] =  String.valueOf(b.getDocCount()) ;
                                 speciesCatArray[6][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
+                                case "Expression":
+                                    speciesCatArray[7][k] =  String.valueOf(b.getDocCount()) ;
+                                    speciesCatArray[7][11] = String.valueOf(bucket.getDocCount()) ;
+                                    break;
 
                             default:
                                 break;
