@@ -219,8 +219,13 @@
     %>
     <tr>
         <td class="label" valign="top">Allele / Splice:</td>
-        <td><% for (Gene gene: variants) { %>
-                 <a href="<%=Link.gene(gene.getRgdId())%>"><%=gene.getSymbol()%></a>&nbsp;&nbsp;
+        <td><%
+            int count =0;
+            for (Gene gene: variants) {
+                ++count;
+                boolean isLast = (count==variants.size());
+                %>
+                 <a href="<%=Link.gene(gene.getRgdId())%>"><%=gene.getSymbol()%></a><%=!isLast?" ; ":""%>
             <% } %>
         </td>
     </tr>
@@ -238,8 +243,13 @@
     <tr>
         <td class="label" valign="top">Genetic Models:</td>
         <td>
-            <% for (GeneticModel m : modelList) {%>
-            <a href=<%=Link.strain(m.getStrainRgdId())%>> <%=m.getStrainSymbol()%></a>
+            <%
+                int count=0;
+                for (GeneticModel m : modelList) {
+                    ++count;
+                    boolean isLast = (count==modelList.size());
+            %>
+                <a href=<%=Link.strain(m.getStrainRgdId())%>> <%=m.getStrainSymbol()%></a><%=!isLast?" ; ":""%>
             <%}%>
         </td>
     </tr>
