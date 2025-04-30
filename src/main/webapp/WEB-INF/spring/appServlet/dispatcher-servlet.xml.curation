@@ -128,6 +128,8 @@
                 <prop key="search/references.html">referenceSearchController</prop>
                 <prop key="search/ge.html">genomicElementSearchController</prop>
                 <prop key="search/variants.html">variantSearchController</prop>
+                <!--<prop key="search/expression.html">expressionSearchController</prop>-->
+               <!-- <prop key="results/advancedExpressionSearchResults.html">advancedExpressionSearchController</prop>-->
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
@@ -434,6 +436,8 @@
     <bean id="referenceSearchController" class="edu.mcw.rgd.search.ReferenceSearchController"/>
     <bean id="genomicElementSearchController" class="edu.mcw.rgd.search.GenomicElementSearchController"/>
     <bean id="variantSearchController" class="edu.mcw.rgd.search.VariantSearchController"/>
+   <!-- <bean id="expressionSearchController" class="edu.mcw.rgd.search.ExpressionSearchController"/>-->
+   <!-- <bean id="advancedExpressionSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.AdvancedExpressionSearchController"/>-->
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
     <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
 
