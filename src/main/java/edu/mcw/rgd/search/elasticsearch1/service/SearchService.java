@@ -73,6 +73,12 @@ public class SearchService {
                        Terms regionFilterAgg=bucket.getAggregations().get("region");
                        Terms sampleFilterAgg=bucket.getAggregations().get("sample");
                        Terms variantCategoryFilterAgg=bucket.getAggregations().get("variantCategory");
+                       Terms expressionLevelFilterAgg=bucket.getAggregations().get("expressionLevel");
+//                       Terms strainTermsFilterAgg=bucket.getAggregations().get("strainTerms");
+//                       Terms tissueTermsFilterAgg=bucket.getAggregations().get("tissueTerms");
+//                       Terms cellTypeTermsFilterAgg=bucket.getAggregations().get("cellTypeTerms");
+
+
 
                        if(bucket.getKey().toString().equalsIgnoreCase("variant")){
                            aggregations.put(species + "Polyphen", polyphenFilterAgg.getBuckets());
@@ -80,6 +86,13 @@ public class SearchService {
                            aggregations.put(species + "Sample", sampleFilterAgg.getBuckets());
                            aggregations.put(species + "VariantCategory", variantCategoryFilterAgg.getBuckets());
 
+                       }
+                       if(bucket.getKey().toString().equalsIgnoreCase("expression")){
+
+                           aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
+//                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
+//                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
+//                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
                        }
                        if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
                            aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
@@ -307,6 +320,7 @@ public class SearchService {
 
         if(request.getParameter("match_type")!=null && !request.getParameter("match_type").equals("") ) sb.setMatchType(request.getParameter("match_type"));
         if(request.getParameter("objectSearch")!=null) sb.setObjectSearch((request.getParameter("objectSearch").equalsIgnoreCase("true")));
+        if(request.getParameter("expressionLevel")!=null) sb.setExpressionLevel(request.getParameter("expressionLevel"));
 
         return sb;
     }

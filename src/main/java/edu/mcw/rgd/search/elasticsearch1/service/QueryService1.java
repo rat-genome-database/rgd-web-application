@@ -181,6 +181,10 @@ public class QueryService1 {
                 builder.filter(QueryBuilders.termQuery("regionName.keyword", sb.getRegion()));
 
             }
+            if (sb.getExpressionLevel()!=null && !sb.getExpressionLevel().equals("")) {
+                builder.filter(QueryBuilders.termQuery("expressionLevel.keyword", sb.getExpressionLevel()));
+
+            }
         }
         return builder;
     }
@@ -329,6 +333,10 @@ public class QueryService1 {
 
                             .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(200))
                             .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
+                            .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
+//                            .subAggregation(AggregationBuilders.terms("cellTypeTerms").field("cellTypeTerms.keyword"))
+//                            .subAggregation(AggregationBuilders.terms("tissueTerms").field("tissueTerms.keyword"))
+//                            .subAggregation(AggregationBuilders.terms("strainTerms").field("strainTerms.keyword"))
 
 
 
@@ -349,7 +357,10 @@ public class QueryService1 {
 
                     .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword"))
                     .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
-
+                    .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
+//                    .subAggregation(AggregationBuilders.terms("cellTypeTerms").field("cellTypeTerms.keyword"))
+//                    .subAggregation(AggregationBuilders.terms("tissueTerms").field("tissueTerms.keyword"))
+//                    .subAggregation(AggregationBuilders.terms("strainTerms").field("strainTerms.keyword"))
                     .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(20).order(BucketOrder.key(true)))
             //  .order(Terms.Order.term(true)))  deprecated in 6.4
             ;
