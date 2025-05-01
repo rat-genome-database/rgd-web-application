@@ -378,6 +378,7 @@ public class  MapDataFormatter {
 
     static void generateJBrowse2Link(StringBuilder buf, int objectKey, MapData md) {
         String assembly=null,tracks=null,link=null;
+        String chrPrefix = "chr"; // Default lowercase
         switch (md.getMapKey()){
             //Rat
             case 380:
@@ -420,18 +421,21 @@ public class  MapDataFormatter {
                 assembly="UTH_Rnor_SHR_Utx";
                 tracks="UTH_Rnor_SHR_Utx%20Genes%20and%20Transcripts-UTH_Rnor_SHR_Utx";
                 link = "Rnor_SHR";
+                chrPrefix = "Chr";
                 break;
 
             case 302:
                 assembly="UTH_Rnor_SHRSP_BbbUtx_1.0";
                 tracks="UTH_Rnor_SHRSP_BbbUtx_1.0%20Genes%20and%20Transcripts-UTH_Rnor_SHRSP_BbbUtx_1.0";
                 link = "Rnor_SHRSP";
+                chrPrefix = "Chr";
                 break;
 
             case 303:
                 assembly="UTH_Rnor_WKY_Bbb_1.0";
                 tracks="UTH_Rnor_WKY_Bbb_1.0%20Genes%20and%20Transcripts-UTH_Rnor_WKY_Bbb_1.0";
                 link = "Rnor_WKY";
+                chrPrefix = "Chr";
                 break;
             //Mouse
             case 239:
@@ -474,24 +478,28 @@ public class  MapDataFormatter {
                 assembly="CanFam3.1";
                 tracks="Dog%20CanFam3.1%20(canFam3)%20Genes%20and%20Transcripts-CanFam3.1";
                 link = "CanFam3.1";
+                chrPrefix = "Chr";
                 break;
 
             case 633:
                 assembly="Dog10K_Boxer_Tasha";
                 tracks="Dog%20Dog10K_Boxer_Tasha%20(canFam6)%20Genes%20and%20Transcripts-Dog10K_Boxer_Tasha";
                 link = "Dog10K Boxer Tasha";
+                chrPrefix = "Chr";
                 break;
 
             case 634: // has an ensemble with map key 638
                 assembly="ROS_Cfam_1.0";
                 tracks="Dog%20ROS_Cfam_1.0%20(rOS_Cfam_1)%20Genes%20and%20Transcripts-ROS_Cfam_1.0";
                 link = "ROS Cfam";
+                chrPrefix = "Chr";
                 break;
 
             case 637: // has an ensemble with map key 639
                 assembly="UU_Cfam_GSD_1.0";
                 tracks="Dog%20UU_Cfam_GSD_1.0%20(canFam4)%20Genes%20and%20Transcripts-UU_Cfam_GSD_1.0";
                 link = "UU Cfam";
+                chrPrefix = "Chr";
                 break;
             //Bonobo
             case 513:
@@ -550,7 +558,7 @@ public class  MapDataFormatter {
         }
         if(assembly!=null&&tracks!=null) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse2/?loc=")
-                    .append(FormUtility.getJBrowse2Loc(md))
+                    .append(FormUtility.getJBrowse2Loc(md,chrPrefix))
                     .append("&assembly=").append(assembly)
                     .append("&tracklist=true")
                     .append("&tracks=").append(tracks)
