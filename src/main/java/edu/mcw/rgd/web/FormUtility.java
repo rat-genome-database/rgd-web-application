@@ -451,6 +451,17 @@ public class FormUtility {
         return (vmd.getChromosome().length()>2?"":"Chr")+vmd.getChromosome()+"%3A"+startPos+".."+stopPos;
     }
 
+    static public String getJBrowse2Loc(MapData md) {
+        // increase the locus region in JBrowse by 30% to left side and by 4% to the right side
+        // for better visibility of the object
+        int locusAdj = (md.getStopPos()-md.getStartPos()) / 10;
+        int startPos = md.getStartPos() - 6*locusAdj;
+        if( startPos<0 )
+            startPos = 1;
+        int stopPos = md.getStopPos() + locusAdj/2;
+        return (md.getChromosome().length()>2?"":"chr")+md.getChromosome()+":"+startPos+"-"+stopPos;
+    }
+
     public String buildHiddenFormFieldsFromQueryString(String queryString) {
         //?chr=&start=&stop=&geneStart=&geneStop=&geneList=a2m&con=&polyphenPrediction=&depthLowBound=&depthHighBound=&sample1=510&sample2=505
         if (queryString.startsWith("?")) {
