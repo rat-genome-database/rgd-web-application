@@ -567,7 +567,8 @@ public class  MapDataFormatter {
     }
 
     static void generateNcbiGDVLink(StringBuilder buf, String objectSymbol, String refSeqAccId, String mapName) {
-        if(refSeqAccId!=null) {
+        //removed mRatBN7.2 Ensembl from the NCBI section as per RGDD-2799
+        if(refSeqAccId!=null&&!(mapName.equals("mRatBN7.2 Ensembl"))) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/genome/gdv/browser/?id=")
                     .append(refSeqAccId)
                     .append("&q=").append(objectSymbol)
@@ -667,6 +668,13 @@ public class  MapDataFormatter {
         String db = null, link = "";
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
             switch(md.getMapKey()) {
+
+                //rat build mRatBN7.2 Ensembl 373
+                case 373:
+                    db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+                    link = "mRatBN7.2";
+                    break;
+
                 case 13: // human build 36
                     db = "http://may2009.archive.ensembl.org/Homo_sapiens/Location/View?r=";
                     link = "NCBI36";
@@ -691,17 +699,18 @@ public class  MapDataFormatter {
                     link = "GRCm38";
                     break;
 
-                case 60: // RGSC 3.4
-                    db = "http://may2012.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
-                    link = "RGSC3.4";
-                    break;
-                case 70: // Rnor5.0
-                    db = "http://mar2015.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
-                    link = "Rnor5.0";
-                    break;
+                //Removing RGSC3.4 and Rnor 5.0 from the ensembl section on the gene report pages as per RGDD-2799
+//                case 60: // RGSC 3.4
+//                    db = "http://may2012.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
+//                    link = "RGSC3.4";
+//                    break;
+//                case 70: // Rnor5.0
+//                    db = "http://mar2015.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
+//                    link = "Rnor5.0";
+//                    break;
                 case 360:
                 case 361:// Rnor6.0
-                    db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+                    db = "https://may2021.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
                     link = "Rnor6.0";
                     break;
 

@@ -452,13 +452,12 @@ public class FormUtility {
     }
 
     static public String getJBrowse2Loc(MapData md,String charPrefix) {
-        // increase the locus region in JBrowse by 30% to left side and by 4% to the right side
         // for better visibility of the object
-        int locusAdj = (md.getStopPos()-md.getStartPos()) / 10;
-        int startPos = md.getStartPos() - 6*locusAdj;
+        int locusAdj = (md.getStopPos()-md.getStartPos());
+        int startPos = (int) (md.getStartPos() - (0.33*locusAdj));
         if( startPos<0 )
             startPos = 1;
-        int stopPos = md.getStopPos() + locusAdj/2;
+        int stopPos = (int) (md.getStopPos() + locusAdj*0.66);
         return (md.getChromosome().length()>2?"":charPrefix)+md.getChromosome()+":"+startPos+"-"+stopPos;
     }
 
