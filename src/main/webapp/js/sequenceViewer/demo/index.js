@@ -69,7 +69,6 @@ function getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId){
     //var url="https://dev.scge.mcw.edu/toolkit/data/guide/guides/"+mappedGeneStart+"/"+mappedGeneStop+"/"+guideId;
     var url="/rgdweb/js/sequenceViewer/sample.js";
 
-    alert(url);
     $.ajax({
         url:url,
         type:"GET",
