@@ -178,15 +178,19 @@ public class  MapDataFormatter {
             }
             ret.append("<td>").append(src).append("</td>");
 
-            // JBrowse links
+            // JBrowse links - removed genes for jbrowse2
             if( objectKey==RgdId.OBJECT_KEY_QTLS ||
                     objectKey==RgdId.OBJECT_KEY_SSLPS ||
-                    objectKey==RgdId.OBJECT_KEY_STRAINS || objectKey==RgdId.OBJECT_KEY_GENES ) {
+                    objectKey==RgdId.OBJECT_KEY_STRAINS) {
                 ret.append("<td>");
                 generateJBrowseLink(ret, objectKey, mdObj);
                 ret.append("</td>");
             }
             if( objectKey==RgdId.OBJECT_KEY_GENES ) {
+                //Jbrowse2 link for genes
+                ret.append("<td>");
+                generateJBrowse2Link(ret, objectKey, mdObj);
+                ret.append("</td>");
                 // NCBI links
                 ret.append("<td>");
                 if( map!=null ) {
@@ -277,6 +281,7 @@ public class  MapDataFormatter {
                 if( track != null && track.equals("ARGD_curated_genes"))
                     track = "Ensembl_genes";
                 break;
+
             case 372:
                 db = "data_rn7_2"; link = "mRatBN7.2";
                 break;
@@ -371,8 +376,199 @@ public class  MapDataFormatter {
         }
     }
 
+    static void generateJBrowse2Link(StringBuilder buf, int objectKey, MapData md) {
+        String assembly=null,tracks=null,link=null;
+        String chrPrefix = "chr"; // Default lowercase
+        switch (md.getMapKey()){
+            //Rat
+            case 380:
+                assembly="GRCr8";
+                tracks="Rat%20GRCr8%20(rn8)%20Genes%20and%20Transcripts-GRCr8";
+                link="GRCr8";
+                break;
+
+            case 372:
+                assembly="mRatBN7.2";
+                tracks="Rat%20mRatBN7.2%20(rn7)%20Genes%20and%20Transcripts-mRatBN7.2";
+                link="mRatBN7.2";
+                break;
+
+            case 360: //has an ensembl with mapkey 361
+                assembly="Rnor_6.0";
+                tracks="Rat%20Rnor_6.0%20(rn6)%20Genes%20and%20Transcripts-Rnor_6.0";
+                link = "Rnor6.0";
+                break;
+            //ensembl
+//            case 361:
+//                assembly="Rnor_6.0";
+//                tracks="Rat%20Rnor_6.0%20(rn6)%20Genes%20and%20Transcripts-Rnor_6.0";
+//                link = "Rnor6.0";
+//                break;
+
+            case 70:
+                assembly = "Rnor_5.0";
+                tracks="Rat%20Rnor_5.0%20(rn5)%20Genes%20and%20Transcripts-Rnor_5.0";
+                link = "Rnor5.0";
+                break;
+
+            case 60:
+                assembly="RGSC_v3.4";
+                tracks="Rat%20RGSC_v3.4%20(rn4)%20Genes%20and%20Transcripts-RGSC_v3.4";
+                link = "RGSC3.4";
+                break;
+
+            case 301:
+                assembly="UTH_Rnor_SHR_Utx";
+                tracks="UTH_Rnor_SHR_Utx%20Genes%20and%20Transcripts-UTH_Rnor_SHR_Utx";
+                link = "Rnor_SHR";
+                chrPrefix = "Chr";
+                break;
+
+            case 302:
+                assembly="UTH_Rnor_SHRSP_BbbUtx_1.0";
+                tracks="UTH_Rnor_SHRSP_BbbUtx_1.0%20Genes%20and%20Transcripts-UTH_Rnor_SHRSP_BbbUtx_1.0";
+                link = "Rnor_SHRSP";
+                chrPrefix = "Chr";
+                break;
+
+            case 303:
+                assembly="UTH_Rnor_WKY_Bbb_1.0";
+                tracks="UTH_Rnor_WKY_Bbb_1.0%20Genes%20and%20Transcripts-UTH_Rnor_WKY_Bbb_1.0";
+                link = "Rnor_WKY";
+                chrPrefix = "Chr";
+                break;
+            //Mouse
+            case 239:
+                assembly="GRCm39";
+                tracks="Mouse%20GRCm39%20(mm39)%20Genes%20and%20Transcripts-GRCm39";
+                link = "GRCm39";
+                break;
+
+            case 35: //has an ensemble with map key 39
+                assembly="GRCm38.p6";
+                tracks="Mouse%20GRCm38.p6%20(mm10)%20Genes%20and%20Transcripts-GRCm38.p6";
+                link = "GRCm38.p6";
+                break;
+
+            case 18:
+                assembly="MGSCv37";
+                tracks="Mouse%20MGSCv37%20(mm9)%20Genes%20and%20Transcripts-MGSCv37";
+                link = "GRCm37";
+                break;
+            //human
+            case 38: // has an ensemble with map key 40
+                assembly="GRCh38.p14";
+                tracks="Human%20GRCh38.p14%20(hg38)%20Genes%20and%20Transcripts-GRCh38.p14";
+                link = "GRCh38";
+                break;
+
+            case 17:
+                assembly="GRCh37.p13";
+                tracks="Human%20GRCh37.p13%20(hg19)%20Genes%20and%20Transcripts-GRCh37.p13";
+                link = "GRCh37";
+                break;
+
+            case 13:
+                assembly="NCBI36";
+                tracks="Human%20NCBI36%20(hg18)%20Genes%20and%20Transcripts-NCBI36";
+                link = "NCBI36";
+                break;
+            //Domestic Dog
+            case 631: // has an ensemble with map key 632
+                assembly="CanFam3.1";
+                tracks="Dog%20CanFam3.1%20(canFam3)%20Genes%20and%20Transcripts-CanFam3.1";
+                link = "CanFam3.1";
+                chrPrefix = "Chr";
+                break;
+
+            case 633:
+                assembly="Dog10K_Boxer_Tasha";
+                tracks="Dog%20Dog10K_Boxer_Tasha%20(canFam6)%20Genes%20and%20Transcripts-Dog10K_Boxer_Tasha";
+                link = "Dog10K Boxer Tasha";
+                chrPrefix = "Chr";
+                break;
+
+            case 634: // has an ensemble with map key 638
+                assembly="ROS_Cfam_1.0";
+                tracks="Dog%20ROS_Cfam_1.0%20(rOS_Cfam_1)%20Genes%20and%20Transcripts-ROS_Cfam_1.0";
+                link = "ROS Cfam";
+                chrPrefix = "Chr";
+                break;
+
+            case 637: // has an ensemble with map key 639
+                assembly="UU_Cfam_GSD_1.0";
+                tracks="Dog%20UU_Cfam_GSD_1.0%20(canFam4)%20Genes%20and%20Transcripts-UU_Cfam_GSD_1.0";
+                link = "UU Cfam";
+                chrPrefix = "Chr";
+                break;
+            //Bonobo
+            case 513:
+                assembly="Mhudiblu_PPA_v0";
+                tracks="Bonobo%20Mhudiblu_PPA_v0%20(panPan3)%20Genes%20and%20Transcripts-Mhudiblu_PPA_v0";
+                link = "Mhudiblu_PPA_v0";
+                break;
+
+            case 511: //has an ensemble with map key 512
+                assembly="panpan1.1";
+                tracks="Bonobo%20panpan1.1%20(panPan2)%20Genes%20and%20Transcripts-panpan1.1";
+                link = "panpan1.1";
+                break;
+            //squirrel
+            case 720: //has an ensemble with map key 721
+                assembly="SpeTri2.0";
+                tracks="Squirrel%20null%20(speTri2)%20Genes%20and%20Transcripts-SpeTri2.0";
+                link = "SpeTri2.0";
+                break;
+            //Chinchilla
+            case 44: // has an ensemble with map key 45
+                assembly="ChiLan1.0";
+                tracks="Chinchilla%20ChiLan1.0%20(chiLan1)%20Genes%20and%20Transcripts-ChiLan1.0";
+                link = "ChiLan1.0";
+                break;
+             //PIG
+            case 911: //has an ensemble with map key 912
+                assembly="Sscrofa11.1";
+                tracks="Pig%20Sscrofa11.1%20(susScr11)%20Genes%20and%20Transcripts-Sscrofa11.1";
+                link = "Sscrofa11.1";
+                break;
+
+            case 910:
+                assembly="Sscrofa10.2";
+                tracks="Pig%20Sscrofa10.2%20(susScr3)%20Genes%20and%20Transcripts-Sscrofa10.2";
+                link = "Sscrofa10.2";
+                break;
+            //Green Monkey/Vervet
+            case 1311: // has an ensemble with map key 1312
+                assembly="Chlorocebus_sabeus1.1";
+                tracks="Green%20Monkey%20Chlorocebus_sabeus%201.1%20(chlSab2)%20Genes%20and%20Transcripts-Chlorocebus_sabeus1.1";
+                link = "ChlSab1.1";
+                break;
+
+            case 1313:
+                assembly="Vero_WHO_p1.0";
+                tracks="Green%20Monkey%20Vero_WHO_p1.0%20(vero_WHO_p1)%20Genes%20and%20Transcripts-Vero_WHO_p1.0";
+                link = "Vero_WHO_p1.0";
+                break;
+            //Naked Mole-Rat
+            case 1410: // has an ensemble with map key 1411
+                assembly="HetGla_female_1.0";
+                tracks="Naked%20Mole-Rat%20HetGla_female_1.0%20(hetGla2)%20Genes%20and%20Transcripts-HetGla_female_1.0";
+                link = "HetGla_female_1.0";
+                break;
+        }
+        if(assembly!=null&&tracks!=null) {
+            buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse2/?loc=")
+                    .append(FormUtility.getJBrowse2Loc(md,chrPrefix))
+                    .append("&assembly=").append(assembly)
+                    .append("&tracklist=true")
+                    .append("&tracks=").append(tracks)
+                    .append("\">").append(link).append("</a>");
+        }
+    }
+
     static void generateNcbiGDVLink(StringBuilder buf, String objectSymbol, String refSeqAccId, String mapName) {
-        if(refSeqAccId!=null) {
+        //removed mRatBN7.2 Ensembl from the NCBI section as per RGDD-2799
+        if(refSeqAccId!=null&&!(mapName.equals("mRatBN7.2 Ensembl"))) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/genome/gdv/browser/?id=")
                     .append(refSeqAccId)
                     .append("&q=").append(objectSymbol)
@@ -472,6 +668,13 @@ public class  MapDataFormatter {
         String db = null, link = "";
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
             switch(md.getMapKey()) {
+
+                //rat build mRatBN7.2 Ensembl 373
+                case 373:
+                    db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+                    link = "mRatBN7.2";
+                    break;
+
                 case 13: // human build 36
                     db = "http://may2009.archive.ensembl.org/Homo_sapiens/Location/View?r=";
                     link = "NCBI36";
@@ -496,17 +699,18 @@ public class  MapDataFormatter {
                     link = "GRCm38";
                     break;
 
-                case 60: // RGSC 3.4
-                    db = "http://may2012.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
-                    link = "RGSC3.4";
-                    break;
-                case 70: // Rnor5.0
-                    db = "http://mar2015.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
-                    link = "Rnor5.0";
-                    break;
+                //Removing RGSC3.4 and Rnor 5.0 from the ensembl section on the gene report pages as per RGDD-2799
+//                case 60: // RGSC 3.4
+//                    db = "http://may2012.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
+//                    link = "RGSC3.4";
+//                    break;
+//                case 70: // Rnor5.0
+//                    db = "http://mar2015.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
+//                    link = "Rnor5.0";
+//                    break;
                 case 360:
                 case 361:// Rnor6.0
-                    db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+                    db = "https://may2021.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
                     link = "Rnor6.0";
                     break;
 

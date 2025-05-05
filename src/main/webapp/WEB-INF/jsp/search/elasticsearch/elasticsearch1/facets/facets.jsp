@@ -121,6 +121,59 @@
 
     </li>
     <%}%>
+    <% if(docCounts.get("Expression")!=null){%>
+    <li><button style="border:none;background-color: transparent" onclick="filterClick('Expression', '<%=species%>','','')"><span>Expression (<%=docCounts.get("Expression")%>)</span></button>
+
+        <ul>
+            <%if(aggregations.get(expressionLevel)!=null && aggregations.get(expressionLevel).size()>0){%>
+
+            <li><span>Expression Level</span>
+                <ul><%for(Terms.Bucket bkt:aggregations.get(expressionLevel)){%>
+                    <li onclick="filterClick('Expression', '<%=species%>','', '<%=bkt.getKey()%>','expressionLevel')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <%}%>
+                </ul>
+            </li>
+            <%}%>
+
+            <li> <button style="border:none;background-color: transparent" onclick="filterClick('Expression', '<%=species%>','','')"><span>Gene Type (<%=docCounts.get("Expression")%>)</span></button>
+                <ul><%for(Terms.Bucket bkt:aggregations.get(geneTypeTerms)){%>
+                    <li onclick="filterClick('Expression', '<%=species%>','', '<%=bkt.getKey()%>')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <%}%>
+                </ul>
+            </li>
+
+<%--            <%if(aggregations.get(strainTerms)!=null && aggregations.get(strainTerms).size()>0){%>--%>
+
+<%--            <li><span>Strains</span>--%>
+<%--                <ul><%for(Terms.Bucket bkt:aggregations.get(strainTerms)){%>--%>
+<%--                    <li onclick="filterClick('Expression', '<%=species%>','', '<%=bkt.getKey()%>','strainTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>--%>
+<%--                    <%}%>--%>
+<%--                </ul>--%>
+<%--            </li>--%>
+<%--            <%}%>--%>
+<%--            <%if(aggregations.get(tissueTerms)!=null && aggregations.get(tissueTerms).size()>0){%>--%>
+
+<%--            <li><span>Tissues</span>--%>
+<%--                <ul><%for(Terms.Bucket bkt:aggregations.get(tissueTerms)){%>--%>
+<%--                    <li onclick="filterClick('Expression', '<%=species%>','', '<%=bkt.getKey()%>','tissueTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>--%>
+<%--                    <%}%>--%>
+<%--                </ul>--%>
+<%--            </li>--%>
+<%--            <%}%>--%>
+<%--            <%if(aggregations.get(cellTypeTerms)!=null && aggregations.get(cellTypeTerms).size()>0){%>--%>
+
+<%--            <li><span>Cell Type</span>--%>
+<%--                <ul><%for(Terms.Bucket bkt:aggregations.get(cellTypeTerms)){%>--%>
+<%--                    <li onclick="filterClick('Expression', '<%=species%>','', '<%=bkt.getKey()%>','cellTypeTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>--%>
+<%--                    <%}%>--%>
+<%--                </ul>--%>
+<%--            </li>--%>
+<%--            <%}%>--%>
+
+        </ul>
+
+    </li>
+    <%}%>
 </ul>
 </li>
 
