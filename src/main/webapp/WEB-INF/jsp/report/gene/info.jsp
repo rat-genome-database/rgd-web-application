@@ -9,6 +9,32 @@
     }
 
 %>
+
+<script>
+    <%
+    List<MapData> mapData = mapDAO.getMapData(obj.getRgdId());
+    MapData currentAssemblyMapData = null;
+    for (MapData md2: mapData) {
+        Map currentMap = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey());
+
+        if (md2.getMapKey() == currentMap.getKey()) {
+            currentAssemblyMapData=md2;
+        %>
+            var chr='<%=md2.getChromosome()%>';
+            var start="<%=md2.getStartPos()%>";
+            var stop="<%=md2.getStopPos()%>";
+            var guideId="10000000089";
+            var guide='{"guide_id":10000000089,"species":"human","targetLocus":"AAVS1","targetSequence":"GTCACCAATCCTGTCCCTAG","pam":"GTCACCAATCCTGTCCCTAGNGG","assembly":"hg38","chr":"chr19","start":"55115744","stop":"55115767","strand":"+","grnaLabId":"AAVS1_site_01","spacerLength":"20","spacerSequence":"GUCACCAAUCCUGUCCCUAG","repeatSequence":"","guide":"AAVS1_site_01","forwardPrimer":"CTGCCTAACAGGAGGTGGGGGTT","reversePrimer":"ACCCGGGCCCCTATGTCCACTTC","linkerSequence":"","antiRepeatSequence":"","stemloop1Sequence":"","stemloop2Sequence":"","stemloop3Sequence":"","source":"lab IVT","guideFormat":"sgRNA","modifications":"none","guideDescription":"Targets AAVS1 safe harbor locus","standardScaffoldSequence":"yes","tier":4,"ivtConstructSource":"Addgene","vectorId":"153997","vectorName":"pCRL01","vectorDescription":"Plasmid for single guide RNA IVT","vectorType":"plasmid","annotatedMap":"addgene-plasmid-153997-sequence-304516","specificityRatio":"0.02","guideCompatibility":"SpyCas9"}';
+        <%
+        }
+    }
+    %>
+
+    function goToJBrowse() {
+        window.open("<%=MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData)%>");
+    }
+</script>
+
 <table width="100%" border="0" id="info-table">
     <tbody>
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
@@ -269,72 +295,23 @@
     </tr>
     <% }
 
-        List<MapData> mapData = mapDAO.getMapData(obj.getRgdId());
+
     %>
 
     <tr>
         <td class="label" valign="top">Position:</td>
         <td><%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%></td>
     </tr>
-
-  <%-- show model JBrowse mini chart for genes having positions on current reference assembly --%>
-    <% if(fu.mapPosIsValid(md)) {
-        String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"
-                : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm39"
-                : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rn7_2"
-                : obj.getSpeciesTypeKey()==SpeciesType.BONOBO ? "data_bonobo2"
-                : obj.getSpeciesTypeKey()==SpeciesType.DOG ? "data_dog3_1"
-                : obj.getSpeciesTypeKey()==SpeciesType.SQUIRREL ? "data_squirrel2_0"
-                : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
-                : obj.getSpeciesTypeKey()==SpeciesType.PIG ? "data_pig11_1"
-                : obj.getSpeciesTypeKey()==SpeciesType.VERVET ? "data_chlSab2"
-                : obj.getSpeciesTypeKey()==SpeciesType.NAKED_MOLE_RAT ? "data_hetGla2"
-                : "";
-        String tracks;
-        if(obj.getGeneSource().equals("Ensembl"))
-            tracks = "Ensembl_genes";
-        else tracks = "ARGD_curated_genes";
-        String jbUrl = "https://rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
-    %>
-    <tr>
+   <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <div style="padding:10px;"><a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(md)%>&tracks=ARGD_curated_genes%2CEnsembl_genes">View Region in Genome Browser (JBrowse)</a></div>
+            <div style="padding:10px;"><a target="blank" href="<%=MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData)%>">View Region in Genome Browser (JBrowse)</a></div>
         </td>
     </tr>
-
-
-    <script>
-        $(document).ready(function() {
-            document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
-          //  document.getElementById('jbrowseMini2').src = 'https://pipelines.rgd.mcw.edu/jbrowse2/index.html?config=config.json&assembly=mRatBN7.2&&loc=chr1:6000-7000&tracks=Rat mRatBN7.2 (rn7) Genes and Transcripts-mRatBN7.2';
-        });
-    </script>
-    <% } %>
     </tbody>
 </table>
 
-<script>
-    <%
-    for (MapData md2: mapData) {
-        Map currentMap = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey());
 
-        if (md2.getMapKey() == currentMap.getKey()) {
-     %>
-    var chr='<%=md2.getChromosome()%>';
-    var start="<%=md2.getStartPos()%>";
-    var stop="<%=md2.getStopPos()%>";
-    var guideId="10000000089";
-    var guide='{"guide_id":10000000089,"species":"human","targetLocus":"AAVS1","targetSequence":"GTCACCAATCCTGTCCCTAG","pam":"GTCACCAATCCTGTCCCTAGNGG","assembly":"hg38","chr":"chr19","start":"55115744","stop":"55115767","strand":"+","grnaLabId":"AAVS1_site_01","spacerLength":"20","spacerSequence":"GUCACCAAUCCUGUCCCUAG","repeatSequence":"","guide":"AAVS1_site_01","forwardPrimer":"CTGCCTAACAGGAGGTGGGGGTT","reversePrimer":"ACCCGGGCCCCTATGTCCACTTC","linkerSequence":"","antiRepeatSequence":"","stemloop1Sequence":"","stemloop2Sequence":"","stemloop3Sequence":"","source":"lab IVT","guideFormat":"sgRNA","modifications":"none","guideDescription":"Targets AAVS1 safe harbor locus","standardScaffoldSequence":"yes","tier":4,"ivtConstructSource":"Addgene","vectorId":"153997","vectorName":"pCRL01","vectorDescription":"Plasmid for single guide RNA IVT","vectorType":"plasmid","annotatedMap":"addgene-plasmid-153997-sequence-304516","specificityRatio":"0.02","guideCompatibility":"SpyCas9"}';
-    <%
-        }
-    }
-    %>
-
-    function goToJBrowse() {
-        alert("hello");
-    }
-</script>
 <br><br>
 <div id="sequenceViewer" onclick="goToJBrowse()">
     <div class="container">
