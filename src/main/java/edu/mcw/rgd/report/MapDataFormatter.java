@@ -375,9 +375,24 @@ public class  MapDataFormatter {
             .append("\">").append(link).append("</a>");
         }
     }
+    static void generateJBrowse2Link(StringBuilder buf, int objectKey, MapData md) throws Exception {
+        String url=generateJbrowse2URL(objectKey,md);
+        if(url!=null) {
+            String linkName= MapManager.getInstance().getMap(md.getMapKey()).getName();
+//                buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse2/?loc=")
+//                        .append(FormUtility.getJBrowse2Loc(md, chrPrefix))
+//                        .append("&assembly=").append(assembly)
+//                        .append("&tracklist=true")
+//                        .append("&tracks=").append(tracks)
+//                        .append("\">").append(link).append("</a>");
+                buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
+                        .append(url).append("\">").append(linkName).append("</a>");
 
-    static void generateJBrowse2Link(StringBuilder buf, int objectKey, MapData md) {
-        String assembly=null,tracks=null,link=null;
+        }
+    }
+
+    public static String generateJbrowse2URL(int objectKey, MapData md) throws Exception {
+        String assembly=null,tracks=null,link=null,url=null;
         String chrPrefix = "chr"; // Default lowercase
         switch (md.getMapKey()){
             //Rat
@@ -392,6 +407,12 @@ public class  MapDataFormatter {
                 tracks="Rat%20mRatBN7.2%20(rn7)%20Genes%20and%20Transcripts-mRatBN7.2";
                 link="mRatBN7.2";
                 break;
+
+//            case 373:
+//                assembly="mRatBN7.2";
+//                tracks="Ensembl%20(mRatBN7.2.110)%20Features-mRatBN7.2";
+//                link="mRatBN7.2.Ensembl";
+//                break;
 
             case 360: //has an ensembl with mapkey 361
                 assembly="Rnor_6.0";
@@ -525,7 +546,7 @@ public class  MapDataFormatter {
                 tracks="Chinchilla%20ChiLan1.0%20(chiLan1)%20Genes%20and%20Transcripts-ChiLan1.0";
                 link = "ChiLan1.0";
                 break;
-             //PIG
+            //PIG
             case 911: //has an ensemble with map key 912
                 assembly="Sscrofa11.1";
                 tracks="Pig%20Sscrofa11.1%20(susScr11)%20Genes%20and%20Transcripts-Sscrofa11.1";
@@ -556,14 +577,13 @@ public class  MapDataFormatter {
                 link = "HetGla_female_1.0";
                 break;
         }
+
         if(assembly!=null&&tracks!=null) {
-            buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse2/?loc=")
-                    .append(FormUtility.getJBrowse2Loc(md,chrPrefix))
-                    .append("&assembly=").append(assembly)
-                    .append("&tracklist=true")
-                    .append("&tracks=").append(tracks)
-                    .append("\">").append(link).append("</a>");
+            url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2Loc(md, chrPrefix) + "&assembly=" + assembly + "&tracklist=true" + "&tracks="
+                    + tracks;
+            System.out.println(url);
         }
+        return url;
     }
 
     static void generateNcbiGDVLink(StringBuilder buf, String objectSymbol, String refSeqAccId, String mapName) {

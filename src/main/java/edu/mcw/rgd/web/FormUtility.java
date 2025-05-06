@@ -454,7 +454,7 @@ public class FormUtility {
     static public String getJBrowse2Loc(MapData md,String charPrefix) {
         // for better visibility of the object
         int locusAdj = (md.getStopPos()-md.getStartPos());
-        int startPos = (int) (md.getStartPos() - (0.35*locusAdj));
+        int startPos = (int) (md.getStartPos() - (0.33*locusAdj));
         if( startPos<0 )
             startPos = 1;
         int stopPos = (int) (md.getStopPos() + locusAdj*0.66);
