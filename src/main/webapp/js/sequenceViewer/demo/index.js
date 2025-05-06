@@ -19,8 +19,11 @@ const BASE_URL = 'https://rest.rgd.mcw.edu/rgdws/scge';
 //mouseExamples();
 //flyExamples();
 //covidExamples();
-currentExamples();
+//window.onload("currentExamples()");
 
+function loadSequenceViewer() {
+    currentExamples();
+}
 
 function getTranscriptTypes(){
  return ['mRNA', 'ncRNA', 'piRNA', 'lincRNA', 'miRNA', 'pre_miRNA', 'snoRNA', 'lnc_RNA', 'tRNA', 'snRNA', 'rRNA', 'ARS', 'antisense_RNA', 'C_gene_segment', 'V_gene_segment', 'pseudogene_attribute','snoRNA_gene','polypeptide_region','mature_protein_region'];

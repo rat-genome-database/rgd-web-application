@@ -350,5 +350,9 @@
 <script src="/rgdweb/js/sequenceViewer/demo/index.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadSequenceViewer();
+    });
+</script>
 <%@ include file="../sectionFooter.jsp"%>
