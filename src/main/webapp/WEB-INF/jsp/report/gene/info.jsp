@@ -7,8 +7,35 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
+    List<MapData> mapData = mapDAO.getMapData(obj.getRgdId());
 
 %>
+
+<script>
+    <%
+    MapData currentAssemblyMapData = null;
+    for (MapData md2: mapData) {
+        Map currentMap = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey());
+
+        if (md2.getMapKey() == currentMap.getKey()) {
+            currentAssemblyMapData=md2;
+        %>
+            var chr='<%=md2.getChromosome()%>';
+            var start="<%=md2.getStartPos()%>";
+            var stop="<%=md2.getStopPos()%>";
+            var guideId="10000000089";
+            var mapKey="<%=md.getMapKey()%>"
+            var guide='{"guide_id":10000000089,"species":"human","targetLocus":"AAVS1","targetSequence":"GTCACCAATCCTGTCCCTAG","pam":"GTCACCAATCCTGTCCCTAGNGG","assembly":"hg38","chr":"chr19","start":"55115744","stop":"55115767","strand":"+","grnaLabId":"AAVS1_site_01","spacerLength":"20","spacerSequence":"GUCACCAAUCCUGUCCCUAG","repeatSequence":"","guide":"AAVS1_site_01","forwardPrimer":"CTGCCTAACAGGAGGTGGGGGTT","reversePrimer":"ACCCGGGCCCCTATGTCCACTTC","linkerSequence":"","antiRepeatSequence":"","stemloop1Sequence":"","stemloop2Sequence":"","stemloop3Sequence":"","source":"lab IVT","guideFormat":"sgRNA","modifications":"none","guideDescription":"Targets AAVS1 safe harbor locus","standardScaffoldSequence":"yes","tier":4,"ivtConstructSource":"Addgene","vectorId":"153997","vectorName":"pCRL01","vectorDescription":"Plasmid for single guide RNA IVT","vectorType":"plasmid","annotatedMap":"addgene-plasmid-153997-sequence-304516","specificityRatio":"0.02","guideCompatibility":"SpyCas9"}';
+        <%
+        }
+    }
+    %>
+
+    function goToJBrowse() {
+        window.open("<%=MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData)%>");
+    }
+</script>
+
 <table width="100%" border="0" id="info-table">
     <tbody>
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
@@ -261,69 +288,67 @@
         <td class="label" valign="top">Latest Assembly:</td>
         <td><%=refMap.getName()%> - <%=refMap.getDescription()%></td>
     </tr>
-
     <% if (obj.getNcbiAnnotStatus() != null) { %>
     <tr>
         <td class="label" valign="top">NCBI Annotation Information:</td>
         <td><%=obj.getNcbiAnnotStatus()%></td>
     </tr>
-    <% }
-
-        List<MapData> mapData = mapDAO.getMapData(obj.getRgdId());
-    %>
-
+    <% } %>
     <tr>
         <td class="label" valign="top">Position:</td>
         <td><%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%></td>
     </tr>
-
-  <%-- show model JBrowse mini chart for genes having positions on current reference assembly --%>
-    <% if(fu.mapPosIsValid(md)) {
-        String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"
-                : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm39"
-                : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rn7_2"
-                : obj.getSpeciesTypeKey()==SpeciesType.BONOBO ? "data_bonobo2"
-                : obj.getSpeciesTypeKey()==SpeciesType.DOG ? "data_dog3_1"
-                : obj.getSpeciesTypeKey()==SpeciesType.SQUIRREL ? "data_squirrel2_0"
-                : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"
-                : obj.getSpeciesTypeKey()==SpeciesType.PIG ? "data_pig11_1"
-                : obj.getSpeciesTypeKey()==SpeciesType.VERVET ? "data_chlSab2"
-                : obj.getSpeciesTypeKey()==SpeciesType.NAKED_MOLE_RAT ? "data_hetGla2"
-                : "";
-        String tracks;
-        if(obj.getGeneSource().equals("Ensembl"))
-            tracks = "Ensembl_genes";
-        else tracks = "ARGD_curated_genes";
-        String jbUrl = "https://rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);
-    %>
-    <tr>
+   <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <a href="https://rgd.mcw.edu/jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(md)%>&tracks=ARGD_curated_genes%2CEnsembl_genes">View Region in Genome Browser (JBrowse)</a>
+            <div style="padding:10px;"><a target="blank" href="<%=MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData)%>">View Region in Genome Browser (JBrowse)</a></div>
         </td>
     </tr>
-    <tr>
-        <td class="label">Model</td>
-        <td>
-            <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
-        </td>
-    </tr>
-    <!--
-    <tr>
-        <td class="label">Model</td>
-        <td>
-            <iframe id="jbrowseMini2" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
-        </td>
-    </tr>
--->
-    <script>
-        $(document).ready(function() {
-            document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
-          //  document.getElementById('jbrowseMini2').src = 'https://pipelines.rgd.mcw.edu/jbrowse2/index.html?config=config.json&assembly=mRatBN7.2&&loc=chr1:6000-7000&tracks=Rat mRatBN7.2 (rn7) Genes and Transcripts-mRatBN7.2';
-        });
-    </script>
-    <% } %>
     </tbody>
 </table>
 
+
+<br><br>
+<div id="sequenceViewer" onclick="goToJBrowse()">
+    <div class="container">
+        <div id="range" style="text-align: center"></div>
+        <svg className="viewer" id="viewerActnFly"/>
+    </div>
+</div>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+<!-- Load our React component. -->
+<!--script src="/toolkit/js/react/like_button.js"></script-->
+<script>
+    //   var range="13:32315508..32400268";
+    //   createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
+
+</script>
+<link rel="stylesheet" href="/rgdweb/js/sequenceViewer/GenomeFeatureViewer.css">
+
+<script src="/rgdweb/js/sequenceViewer/RenderFunctions.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/ApolloService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/ConsequenceService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/LegenedService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/TrackService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/VariantService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformAndVariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformEmbeddedVariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/ReferenceTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/TrackTypeEnum.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/VariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/VariantTrackGlobal.js"></script>
+<script src="/rgdweb/js/sequenceViewer/Drawer.js"></script>
+<script src="/rgdweb/js/sequenceViewer/GenomeFeatureViewer.js"></script>
+<script src="/rgdweb/js/sequenceViewer/demo/index.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadSequenceViewer();
+    });
+</script>
 <%@ include file="../sectionFooter.jsp"%>
