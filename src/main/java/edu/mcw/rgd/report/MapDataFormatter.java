@@ -688,10 +688,14 @@ public class  MapDataFormatter {
         String db = null, link = "";
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
             switch(md.getMapKey()) {
+                case 380:
+                    db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+                    link="GRCr8";
+                    break;
 
                 //rat build mRatBN7.2 Ensembl 373
                 case 373:
-                    db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+                    db = "https://oct2024.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
                     link = "mRatBN7.2";
                     break;
 
