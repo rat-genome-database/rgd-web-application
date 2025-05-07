@@ -21,7 +21,14 @@ const BASE_URL = 'https://rest.rgd.mcw.edu/rgdws/scge';
 //covidExamples();
 //window.onload("currentExamples()");
 
+//var chr='5';
+//var start="121405170";
+//var stop="121417273";
+//var guideId="10000000089";
+//var guide='{"guide_id":10000000089,"species":"human","targetLocus":"AAVS1","targetSequence":"GTCACCAATCCTGTCCCTAG","pam":"GTCACCAATCCTGTCCCTAGNGG","assembly":"hg38","chr":"chr19","start":"55115744","stop":"55115767","strand":"+","grnaLabId":"AAVS1_site_01","spacerLength":"20","spacerSequence":"GUCACCAAUCCUGUCCCUAG","repeatSequence":"","guide":"AAVS1_site_01","forwardPrimer":"CTGCCTAACAGGAGGTGGGGGTT","reversePrimer":"ACCCGGGCCCCTATGTCCACTTC","linkerSequence":"","antiRepeatSequence":"","stemloop1Sequence":"","stemloop2Sequence":"","stemloop3Sequence":"","source":"lab IVT","guideFormat":"sgRNA","modifications":"none","guideDescription":"Targets AAVS1 safe harbor locus","standardScaffoldSequence":"yes","tier":4,"ivtConstructSource":"Addgene","vectorId":"153997","vectorName":"pCRL01","vectorDescription":"Plasmid for single guide RNA IVT","vectorType":"plasmid","annotatedMap":"addgene-plasmid-153997-sequence-304516","specificityRatio":"0.02","guideCompatibility":"SpyCas9"}';
+
 function loadSequenceViewer() {
+
     currentExamples();
 }
 
@@ -36,7 +43,7 @@ var range="";
 function currentExamples(){
 //    createIsoformExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM, false);
 
-    var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/38";
+    var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/" + mapKey;
     getGenomeInfo(url, guide);
 
 //   createExample("X:2023822..2042311", "fly", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,["FB:FBal0212726","FB:FBal0000277","FB:FBal0000276"],['FBtr0070344','FBtr0070346']);
@@ -48,11 +55,13 @@ function currentExamples(){
 var  otherGuides="";
 function getGenomeInfo(url){
 
+    alert(url);
 
     $.ajax({
         url:url,
         type:"GET",
         success:function (geneInfo) {
+            alert(geneInfo[0]);
             const mappedGeneChr=geneInfo[0].chromosome;
             const mappedGeneStart=geneInfo[0].start;
             const mappedGeneStop=geneInfo[0].stop;

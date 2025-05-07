@@ -7,12 +7,12 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
+    List<MapData> mapData = mapDAO.getMapData(obj.getRgdId());
 
 %>
 
 <script>
     <%
-    List<MapData> mapData = mapDAO.getMapData(obj.getRgdId());
     MapData currentAssemblyMapData = null;
     for (MapData md2: mapData) {
         Map currentMap = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey());
@@ -24,6 +24,7 @@
             var start="<%=md2.getStartPos()%>";
             var stop="<%=md2.getStopPos()%>";
             var guideId="10000000089";
+            var mapKey="<%=md.getMapKey()%>"
             var guide='{"guide_id":10000000089,"species":"human","targetLocus":"AAVS1","targetSequence":"GTCACCAATCCTGTCCCTAG","pam":"GTCACCAATCCTGTCCCTAGNGG","assembly":"hg38","chr":"chr19","start":"55115744","stop":"55115767","strand":"+","grnaLabId":"AAVS1_site_01","spacerLength":"20","spacerSequence":"GUCACCAAUCCUGUCCCUAG","repeatSequence":"","guide":"AAVS1_site_01","forwardPrimer":"CTGCCTAACAGGAGGTGGGGGTT","reversePrimer":"ACCCGGGCCCCTATGTCCACTTC","linkerSequence":"","antiRepeatSequence":"","stemloop1Sequence":"","stemloop2Sequence":"","stemloop3Sequence":"","source":"lab IVT","guideFormat":"sgRNA","modifications":"none","guideDescription":"Targets AAVS1 safe harbor locus","standardScaffoldSequence":"yes","tier":4,"ivtConstructSource":"Addgene","vectorId":"153997","vectorName":"pCRL01","vectorDescription":"Plasmid for single guide RNA IVT","vectorType":"plasmid","annotatedMap":"addgene-plasmid-153997-sequence-304516","specificityRatio":"0.02","guideCompatibility":"SpyCas9"}';
         <%
         }
@@ -287,17 +288,12 @@
         <td class="label" valign="top">Latest Assembly:</td>
         <td><%=refMap.getName()%> - <%=refMap.getDescription()%></td>
     </tr>
-
     <% if (obj.getNcbiAnnotStatus() != null) { %>
     <tr>
         <td class="label" valign="top">NCBI Annotation Information:</td>
         <td><%=obj.getNcbiAnnotStatus()%></td>
     </tr>
-    <% }
-
-
-    %>
-
+    <% } %>
     <tr>
         <td class="label" valign="top">Position:</td>
         <td><%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%></td>
