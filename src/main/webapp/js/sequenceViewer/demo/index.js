@@ -55,13 +55,10 @@ function currentExamples(){
 var  otherGuides="";
 function getGenomeInfo(url){
 
-    alert(url);
-
     $.ajax({
         url:url,
         type:"GET",
         success:function (geneInfo) {
-            alert(geneInfo[0]);
             const mappedGeneChr=geneInfo[0].chromosome;
             const mappedGeneStart=geneInfo[0].start;
             const mappedGeneStop=geneInfo[0].stop;
