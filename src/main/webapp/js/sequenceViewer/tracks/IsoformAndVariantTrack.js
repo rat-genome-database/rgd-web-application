@@ -379,7 +379,8 @@ let apolloService = new ApolloService();
         // For each isoform..
         let warningRendered = false ;
         featureChildren.forEach(function (featureChild) {
-              if(featureChild.name.includes("NM")){
+              //if(featureChild.name.includes("NM")){
+                if(true){
           if(!(isoformFilter.indexOf(featureChild.id) >= 0 || isoformFilter.indexOf(featureChild.name) >= 0 ) && isoformFilter.length!==0){
             return;
           }
