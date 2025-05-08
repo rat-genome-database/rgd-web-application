@@ -174,6 +174,16 @@
                         sortable: true
                     },
                     {
+                      key: 'computedSex',
+                        label: 'Computed Sex',
+                        formatter: value => {
+                            if (value == null || value === "")
+                                return "N/A"
+                            return value;
+                        },
+                        sortable: true
+                    },
+                    {
                         key: 'age',
                         sortable: true
                     },
@@ -279,6 +289,7 @@
                                 var tissue = recVal["sample"]["tissueAccId"];
                                 var geoSample = recVal["sample"]["geoSampleAcc"];
                                 var reference = recVal["refRgdId"];
+                                var compSex = recVal['sample']['computedSex'];
 
                                 $.ajax({
                                     type: "GET",
@@ -304,6 +315,7 @@
                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
                                                                 'strain/CellLine': r["term"],
                                                                 sex: sex,
+                                                                computedSex: compSex,
                                                                 age: displayAge,
                                                                 tissue: tissue,
                                                                 GeoSampleId: geoSample,
@@ -326,6 +338,7 @@
                                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
                                                                         'strain/CellLine': r["term"],
                                                                         sex: sex,
+                                                                        computedSex: compSex,
                                                                         age: displayAge,
                                                                         tissue: r2["term"],
                                                                         GeoSampleId: geoSample,
@@ -356,6 +369,7 @@
                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
                                                         'strain/CellLine': 'None Available',
                                                         sex: sex,
+                                                        computedSex: compSex,
                                                         age: displayAge,
                                                         tissue: tissue,
                                                         GeoSampleId: geoSample,
@@ -379,6 +393,7 @@
                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
                                                                 'strain/CellLine': 'None Available',
                                                                 sex: sex,
+                                                                computedSex: compSex,
                                                                 age: displayAge,
                                                                 tissue: r["term"],
                                                                 GeoSampleId: geoSample,
