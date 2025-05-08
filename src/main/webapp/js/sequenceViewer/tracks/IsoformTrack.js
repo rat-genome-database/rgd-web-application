@@ -154,7 +154,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
 
                 // For each isoform..
                  featureChildren.forEach(function (featureChild) {
-                    if(featureChild.name.includes("NM")){
+                    if(true){
+                        //if(featureChild.name.includes("NM")){
                     let featureType = featureChild.type;
 
                     if (display_feats.indexOf(featureType) >= 0) {
