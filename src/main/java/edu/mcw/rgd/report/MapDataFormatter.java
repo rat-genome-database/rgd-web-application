@@ -581,14 +581,14 @@ public class  MapDataFormatter {
         if(assembly!=null&&tracks!=null) {
             url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2Loc(md, chrPrefix) + "&assembly=" + assembly + "&tracklist=true" + "&tracks="
                     + tracks;
-            System.out.println(url);
+//            System.out.println(url);
         }
         return url;
     }
 
     static void generateNcbiGDVLink(StringBuilder buf, String objectSymbol, String refSeqAccId, String mapName) {
         //removed mRatBN7.2 Ensembl from the NCBI section as per RGDD-2799
-        if(refSeqAccId!=null&&!(mapName.equals("mRatBN7.2 Ensembl"))) {
+        if(refSeqAccId!=null&&!(mapName.equals("mRatBN7.2 Ensembl"))&&!(mapName.equals("ROS_Cfam_1.0 Ensembl"))) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/genome/gdv/browser/?id=")
                     .append(refSeqAccId)
                     .append("&q=").append(objectSymbol)
@@ -717,9 +717,16 @@ public class  MapDataFormatter {
                     db = "http://may2012.archive.ensembl.org/Mus_musculus/Location/View?r=";
                     link = "NCBIm37";
                     break;
+
+//                case 239:
+                case 240:
+                    db = "http://useast.ensembl.org/Mus_musculus/Location/View?r=";
+                    link="GRCm39";
+                    break;
+
                 case 35:
                 case 39: // mouse build 38
-                    db = "http://useast.ensembl.org/Mus_musculus/Location/View?r=";
+                    db = "http://nov2020.archive.ensembl.org/Mus_musculus/Location/View?r=";
                     link = "GRCm38";
                     break;
 
@@ -732,6 +739,14 @@ public class  MapDataFormatter {
 //                    db = "http://mar2015.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
 //                    link = "Rnor5.0";
 //                    break;
+
+                //bonobo
+//                case 511: // panpan1.1
+                case 512: // panpan1.1
+                    db = "http://www.ensembl.org/Pan_paniscus/Location/View?r=";
+                    link = "panpan1.1";
+                    break;
+
                 case 360:
                 case 361:// Rnor6.0
                     db = "https://may2021.archive.ensembl.org/Rattus_norvegicus/Location/View?r=";
@@ -740,8 +755,13 @@ public class  MapDataFormatter {
 
                 case 631:
                 case 632:// CanFam3.1
-                    db = "http://useast.ensembl.org/Canis_familiaris/Location/View?r=";
+                    db = "https://may2021.archive.ensembl.org/Canis_lupus_familiaris/Location/View?r=";
                     link = "CanFam3.1";
+                    break;
+
+                case 638:
+                    db="https://www.ensembl.org/Canis_lupus_familiaris/Location/View?r=";
+                    link="ROS_Cfam_1.0 Ensembl";
                     break;
 
                 case 720: // SpeTri2.0
@@ -749,10 +769,21 @@ public class  MapDataFormatter {
                     link = "SpeTri2.0";
                     break;
 
+                    //green monkey
+                case 1312:
+                    db = "http://www.ensembl.org/Chlorocebus_sabaeus/Location/View?r=";
+                    link = "Vervet-AGM";
+                    break;
+
                 case 911:
                 case 912:// PIG
                     db = "http://useast.ensembl.org/Sus_scrofa/Location/View?r=";
                     link = "Sscrofa11.1";
+                    break;
+
+                case 1411:
+                    db = "https://feb2023.archive.ensembl.org/Heterocephalus_glaber_female/Location/View?r=";
+                    link = "HetGla_female_1.0 Ensembl";
                     break;
             }
         }
