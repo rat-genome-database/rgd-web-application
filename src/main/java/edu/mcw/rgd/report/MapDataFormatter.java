@@ -179,13 +179,12 @@ public class  MapDataFormatter {
             ret.append("<td>").append(src).append("</td>");
 
             // JBrowse links - removed genes, qtls for jbrowse2
-            if(objectKey==RgdId.OBJECT_KEY_SSLPS ||
-                    objectKey==RgdId.OBJECT_KEY_STRAINS) {
+            if(objectKey==RgdId.OBJECT_KEY_SSLPS) {
                 ret.append("<td>");
                 generateJBrowseLink(ret, objectKey, mdObj);
                 ret.append("</td>");
             }
-            if(objectKey==RgdId.OBJECT_KEY_QTLS){
+            if(objectKey==RgdId.OBJECT_KEY_QTLS || objectKey==RgdId.OBJECT_KEY_STRAINS){
                 ret.append("<td>");
                 generateJBrowse2Link(ret, objectKey, mdObj);
                 ret.append("</td>");
@@ -416,6 +415,9 @@ public class  MapDataFormatter {
                 else if(objectKey==RgdId.OBJECT_KEY_QTLS){
                     tracks="Rat%20mRatBN7.2%20(rn7)%20QTLs-mRatBN7.2";
                 }
+                else if(objectKey==RgdId.OBJECT_KEY_STRAINS){
+                    tracks="Rat%20mRatBN7.2%20(rn7)%20Congenic%20Strains-mRatBN7.2,Rat%20mRatBN7.2%20(rn7)%20Mutant%20Strains-mRatBN7.2";
+                }
                 link="mRatBN7.2";
                 break;
 
@@ -432,6 +434,9 @@ public class  MapDataFormatter {
                 }
                 else if(objectKey==RgdId.OBJECT_KEY_QTLS){
                     tracks="Rat%20Rnor_6.0%20(rn6)%20QTLs-Rnor_6.0";
+                }
+                else if(objectKey==RgdId.OBJECT_KEY_STRAINS){
+                    tracks="Rat%20Rnor_6.0%20(rn6)%20Congenic%20Strains-Rnor_6.0,Rat%20Rnor_6.0%20(rn6)%20Mutant%20Strains-Rnor_6.0";
                 }
                 link = "Rnor6.0";
                 break;
@@ -450,6 +455,9 @@ public class  MapDataFormatter {
                 else if(objectKey==RgdId.OBJECT_KEY_QTLS){
                     tracks="Rat%20Rnor_5.0%20(rn5)%20QTLs-Rnor_5.0";
                 }
+                else if(objectKey==RgdId.OBJECT_KEY_STRAINS){
+                    tracks="Rat%20Rnor_5.0%20(rn5)%20Congenic%20Strains-Rnor_5.0,Rat%20Rnor_5.0%20(rn5)%20Mutant%20Strains-Rnor_5.0";
+                }
                 link = "Rnor5.0";
                 break;
 
@@ -460,6 +468,9 @@ public class  MapDataFormatter {
                 }
                 else if(objectKey==RgdId.OBJECT_KEY_QTLS){
                     tracks="Rat%20RGSC_v3.4%20(rn4)%20QTLs-RGSC_v3.4";
+                }
+                else if(objectKey==RgdId.OBJECT_KEY_STRAINS){
+                    tracks="Rat%20RGSC_v3.4%20(rn4)%20Congenic%20Strains-RGSC_v3.4,Rat%20RGSC_v3.4%20(rn4)%20Mutant%20Strains-RGSC_v3.4";
                 }
                 link = "RGSC3.4";
                 break;
