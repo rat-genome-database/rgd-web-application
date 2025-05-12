@@ -388,7 +388,7 @@ public class AnnotationFormatter {
             infoField = formatXdbUrl(infoField,objectKey) + makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
         }
         else {
-            infoField=info;
+            infoField=formatXdbUrl(info,objectKey);
         }
 //        if( multipleInfos.length==1 ) {
 //            infoField = formatXdbUrl(multipleInfos[0], objectKey);
