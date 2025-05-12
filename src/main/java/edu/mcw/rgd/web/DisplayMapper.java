@@ -132,6 +132,14 @@ public class DisplayMapper {
         }
     }
 
+    public String outForce(String name, Double value, String nullStr) {
+        if (value == null) {
+            return out(name, nullStr);
+        }else {
+            return out(name, value.toString());
+        }
+    }
+
     public boolean hasErrors() {
         return (errors!=null && errors.size() > 0);
     }
