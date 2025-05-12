@@ -156,9 +156,9 @@ public class GeoExperimentController implements Controller {
                 String curAction = request.getParameter("action"+i);
 
                 if (request.getParameter("ageHigh" + i) != null && !request.getParameter("ageHigh" + i).isEmpty())
-                    s.setAgeDaysFromHighBound(Integer.parseInt(request.getParameter("ageHigh" + i)));
+                    s.setAgeDaysFromHighBound(Double.parseDouble(request.getParameter("ageHigh" + i)));
                 if (request.getParameter("ageLow" + i) != null && !request.getParameter("ageLow" + i).isEmpty() )
-                    s.setAgeDaysFromLowBound(Integer.parseInt(request.getParameter("ageLow" + i)));
+                    s.setAgeDaysFromLowBound(Double.parseDouble(request.getParameter("ageLow" + i)));
 
                 s.setNumberOfAnimals(1);
 

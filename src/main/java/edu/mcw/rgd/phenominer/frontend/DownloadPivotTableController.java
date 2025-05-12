@@ -192,8 +192,8 @@ public class DownloadPivotTableController implements Controller {
                 re.append(termResolver.get(r.getSample().getStrainAccId()).getTerm());
                 re.append(r.getSample().getSex());
 
-                int ageDaysHighBound = r.getSample().getAgeDaysFromHighBound()==null ? 0 : r.getSample().getAgeDaysFromHighBound();
-                int ageDaysLowBound = r.getSample().getAgeDaysFromLowBound()==null ? 0 : r.getSample().getAgeDaysFromLowBound();
+                double ageDaysHighBound = r.getSample().getAgeDaysFromHighBound()==null ? 0 : r.getSample().getAgeDaysFromHighBound();
+                double ageDaysLowBound = r.getSample().getAgeDaysFromLowBound()==null ? 0 : r.getSample().getAgeDaysFromLowBound();
                 if( ageDaysHighBound==ageDaysLowBound ) {
                     re.append(ageDaysHighBound + space + "days");
                 }else {

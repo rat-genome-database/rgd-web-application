@@ -752,13 +752,13 @@ public class PhenominerRecordController extends PhenominerController {
             if (minAge.equalsIgnoreCase("\\") || minAge.equalsIgnoreCase("NA") ||
                     minAge.equalsIgnoreCase("N/A")) {
                 r.getSample().setAgeDaysFromLowBound(null);
-            } else r.getSample().setAgeDaysFromLowBound(Integer.parseInt(minAge));
+            } else r.getSample().setAgeDaysFromLowBound(Double.parseDouble(minAge));
         }
         if (!maxAge.equals("")) {
             if (maxAge.equalsIgnoreCase("\\") || maxAge.equalsIgnoreCase("NA") ||
                     maxAge.equalsIgnoreCase("N/A")) {
                 r.getSample().setAgeDaysFromHighBound(null);
-            } else r.getSample().setAgeDaysFromHighBound(Integer.parseInt(maxAge));
+            } else r.getSample().setAgeDaysFromHighBound(Double.parseDouble(maxAge));
         }
         if (!req.getParameter("sSex").equals("")) {
             r.getSample().setSex(req.getParameter("sSex"));
