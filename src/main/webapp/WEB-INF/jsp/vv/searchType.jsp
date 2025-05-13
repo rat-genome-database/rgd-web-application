@@ -48,6 +48,7 @@ String pageDescription = "Define Region";
             </td>
             <td align="left">
                 <select style="height:26px; font-size:16px; width: 300px" id="mapKey" name="mapKey" onChange='location.href="?mapKey=" + this.options[this.selectedIndex].value'>
+                    <option value='380' <% if (mapKey==380) out.print("selected");%>>Rat Genome Assembly GRCr8</option>
                     <option value='372' <% if (mapKey==372) out.print("selected");%>>mRatBN7.2 Assembly</option>
                     <option value='360' <% if (mapKey==360) out.print("selected");%>>RGSC Genome Assembly v6.0</option>
                 <option value='70' <% if (mapKey==70) out.print("selected");%>>RGSC Genome Assembly v5.0</option>
