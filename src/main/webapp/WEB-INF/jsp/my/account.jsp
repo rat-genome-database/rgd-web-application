@@ -10,13 +10,15 @@
 
 
 <%
-    String name = UserManager.getInstance().getMyUser(request).getUsername();
-
+    String name = null;
+    if(UserManager.getInstance().getMyUser(request)!=null) {
+        name = UserManager.getInstance().getMyUser(request).getUsername();
+    }
 %>
 
 
 
-<% if (name.equals("anonymousUser")) { %>
+<% if (name==null || Objects.equals(name, "anonymousUser")) { %>
 
 
 <table align="center">
