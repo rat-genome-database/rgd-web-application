@@ -270,5 +270,5 @@ if (request.getAttribute("error") != null ) {
     ArrayList errors = (ArrayList) request.getAttribute("error");
     if( !errors.isEmpty() ) {
 %>
-    <br><div style="color:red;"><% for( Object o: errors ) { %>Error: <%=o.toString()%><br><% } %></div>
+    <br><div style="color:red;"><% for( Object o: errors ) { if(o!=null){%>Error: <%=o.toString()%><br><% } }%></div>
 <% }} %>

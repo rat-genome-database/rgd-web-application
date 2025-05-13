@@ -260,7 +260,7 @@
         <tr>
          <td style="font-size:11px; color:white;" >
         <%
-            if (request.getParameter("sample1").equals("all")) {
+            if (request.getParameter("sample1")!=null && request.getParameter("sample1").equals("all")) {
 
                 SampleDAO sdao = new SampleDAO();
                 sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
