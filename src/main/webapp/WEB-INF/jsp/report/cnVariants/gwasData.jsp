@@ -35,8 +35,11 @@
 
         <tbody>
         <tr>
+            <% if (obj.getSpeciesTypeKey() == 1) { // is human%>
             <td>Data has come from the GWAS Catalog&nbsp;&nbsp;&nbsp;</td>
-
+            <% }else {%>
+            <td>Download rat GWAS data&nbsp;&nbsp;&nbsp;</td>
+            <% } %>
             <td><img src='/rgdweb/common/images/bullet_green.png' /></td>
                 <td style="position: absolute;">
                     <form id="downloadGwasVue">
@@ -67,7 +70,7 @@
                 <td>P&nbsp;Value MLOG</td>
                 <td>Peak Marker</td> <!-- change to peak marker -->
                 <td>Reported Odds Ratio or Beta-coefficient</td>
-                <td>Ontology&nbsp;Accession</td>
+                <td>Ontology&nbsp;Terms</td>
                 <td>PubMed</td>
             </tr>
 <%
@@ -153,12 +156,12 @@
             <tr>
                 <td>QTL</td>
                 <td>Mapped&nbsp;Trait</td>
-                <td>Context</td>
+                <td>Trait&nbsp;Detail</td>
                 <td>Risk&nbsp;Allele</td>
                 <td>P&nbsp;Value</td>
                 <td>Peak Marker</td> <!-- change to peak marker -->
                 <td>Reported Odds Ratio or Beta-coefficient</td>
-                <td>Ontology&nbsp;Accession</td>
+                <td>Ontology&nbsp;Terms</td>
             </tr>
             <%
                 for (GWASCatalog gwas : gwasList){
