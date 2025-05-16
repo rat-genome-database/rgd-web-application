@@ -298,12 +298,17 @@
         <td class="label" valign="top">Position:</td>
         <td><%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%></td>
     </tr>
+    <%
+        String jbrowse2Url = MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData);
+        if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){
+    %>
    <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <div style="padding:10px;"><a target="blank" href="<%=MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData)%>">View Region in Genome Browser (JBrowse)</a></div>
+            <div style="padding:10px;"><a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a></div>
         </td>
     </tr>
+    <%}%>
     </tbody>
 </table>
 
