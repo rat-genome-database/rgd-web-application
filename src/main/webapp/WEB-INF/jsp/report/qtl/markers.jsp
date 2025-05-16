@@ -71,10 +71,13 @@
             psymbol = ((ObjectWithName)peak).getName();
         pRgdId = ((Identifiable)peak).getRgdId();
     }
-    int mapKey = 38;
+
+    int mapKey = refMap.getKey();
     if (obj.getPeakRsId()!=null){
         pRsSymbol = obj.getPeakRsId();
-        mapKey = 38;
+
+        if (obj.getSpeciesTypeKey()==3) // don't have it for latest rat assembly
+            mapKey = 372;
     }
 
 %>
