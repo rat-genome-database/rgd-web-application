@@ -152,11 +152,20 @@ public class QueryService1 {
 
             }
             if (!sb.getStart().equals("") && !sb.getStop().equals("") && sb.getAssembly()!=null && !sb.getAssembly().equals("") && !sb.getAssembly().equalsIgnoreCase("all")) {
-                builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
-                        nestedQuery("mapDataList", QueryBuilders.boolQuery()
-                                .must(QueryBuilders.termQuery("mapDataList.map", sb.getAssembly()))
-                                .must(QueryBuilders.rangeQuery("mapDataList.startPos").lte(sb.getStop()))
-                                .must(QueryBuilders.rangeQuery("mapDataList.stopPos").gte(sb.getStart())), ScoreMode.None)));
+               if(sb.getChr()!=null) {
+                   builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
+                           nestedQuery("mapDataList", QueryBuilders.boolQuery()
+                                   .must(QueryBuilders.termQuery("mapDataList.map", sb.getAssembly()))
+                                   .must(QueryBuilders.rangeQuery("mapDataList.chromosome").lte(sb.getStop()))
+                                   .must(QueryBuilders.rangeQuery("mapDataList.startPos").lte(sb.getStop()))
+                                   .must(QueryBuilders.rangeQuery("mapDataList.stopPos").gte(sb.getStart())), ScoreMode.None)));
+               }else{
+                   builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
+                           nestedQuery("mapDataList", QueryBuilders.boolQuery()
+                                   .must(QueryBuilders.termQuery("mapDataList.map", sb.getAssembly()))
+                                   .must(QueryBuilders.rangeQuery("mapDataList.startPos").lte(sb.getStop()))
+                                   .must(QueryBuilders.rangeQuery("mapDataList.stopPos").gte(sb.getStart())), ScoreMode.None)));
+               }
             }else{
                 if (!sb.getStart().equals("") && !sb.getStop().equals("")) {
                     builder.filter(QueryBuilders.boolQuery().filter(QueryBuilders.
