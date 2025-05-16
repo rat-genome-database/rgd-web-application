@@ -1,10 +1,8 @@
 package edu.mcw.rgd.report;
 
-import edu.mcw.rgd.datamodel.MapData;
-import edu.mcw.rgd.datamodel.Map;
+import edu.mcw.rgd.dao.impl.Jbrowse2UrlConfigDAO;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.MapDAO;
-import edu.mcw.rgd.datamodel.RgdId;
-import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
 
@@ -12,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -178,7 +177,7 @@ public class  MapDataFormatter {
             }
             ret.append("<td>").append(src).append("</td>");
 
-            // JBrowse links - removed genes, qtls, strains for jbrowse2
+            // JBrowse links - removed genes, qtls for jbrowse2
             if(objectKey==RgdId.OBJECT_KEY_SSLPS) {
                 ret.append("<td>");
                 generateJBrowseLink(ret, objectKey, mdObj);
@@ -395,293 +394,28 @@ public class  MapDataFormatter {
     }
 
     public static String generateJbrowse2URL(int objectKey, MapData md) throws Exception {
-        String assembly=null,tracks=null,link=null,url=null;
-        String chrPrefix = "chr"; // Default lowercase
-        switch (md.getMapKey()){
-            //Rat
-            case 380:
-                assembly="GRCr8";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Rat%20GRCr8%20(rn8)%20Genes%20and%20Transcripts-GRCr8";
-                }
-                link="GRCr8";
-                break;
+        String tracks=null,url=null;
+        Jbrowse2UrlConfigDAO dao = new Jbrowse2UrlConfigDAO();
+        List<Jbrowse2UrlConfig>urlConfigs = dao.getJbrowse2UrlConfigsByMapAndObjectKey(md.getMapKey(), objectKey);
+        if(urlConfigs.isEmpty()){
+            return null;
+        }
+        Jbrowse2UrlConfig firstConfig = urlConfigs.get(0);
+        if(firstConfig.getAssembly()==null||firstConfig.getAssembly().isEmpty()){
+            return null;
+        }
+        tracks = urlConfigs.stream()
+                .map(Jbrowse2UrlConfig::getTracks)
+                .filter(track -> track != null && !track.isEmpty())
+                .collect(Collectors.joining(","));
 
-            case 372:
-                assembly="mRatBN7.2";
-                if(objectKey==RgdId.OBJECT_KEY_GENES){
-                tracks="Rat%20mRatBN7.2%20(rn7)%20Genes%20and%20Transcripts-mRatBN7.2";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Rat%20mRatBN7.2%20(rn7)%20QTLs-mRatBN7.2";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_STRAINS){
-                    tracks="Rat%20mRatBN7.2%20(rn7)%20Congenic%20Strains-mRatBN7.2,Rat%20mRatBN7.2%20(rn7)%20Mutant%20Strains-mRatBN7.2";
-                }
-                link="mRatBN7.2";
-                break;
-
-//            case 373:
-//                assembly="mRatBN7.2";
-//                tracks="Ensembl%20(mRatBN7.2.110)%20Features-mRatBN7.2";
-//                link="mRatBN7.2.Ensembl";
-//                break;
-
-            case 360: //has an ensembl with mapkey 361
-                assembly="Rnor_6.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Rat%20Rnor_6.0%20(rn6)%20Genes%20and%20Transcripts-Rnor_6.0";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Rat%20Rnor_6.0%20(rn6)%20QTLs-Rnor_6.0";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_STRAINS){
-                    tracks="Rat%20Rnor_6.0%20(rn6)%20Congenic%20Strains-Rnor_6.0,Rat%20Rnor_6.0%20(rn6)%20Mutant%20Strains-Rnor_6.0";
-                }
-                link = "Rnor6.0";
-                break;
-            //ensembl
-//            case 361:
-//                assembly="Rnor_6.0";
-//                tracks="Rat%20Rnor_6.0%20(rn6)%20Genes%20and%20Transcripts-Rnor_6.0";
-//                link = "Rnor6.0";
-//                break;
-
-            case 70:
-                assembly = "Rnor_5.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Rat%20Rnor_5.0%20(rn5)%20Genes%20and%20Transcripts-Rnor_5.0";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Rat%20Rnor_5.0%20(rn5)%20QTLs-Rnor_5.0";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_STRAINS){
-                    tracks="Rat%20Rnor_5.0%20(rn5)%20Congenic%20Strains-Rnor_5.0,Rat%20Rnor_5.0%20(rn5)%20Mutant%20Strains-Rnor_5.0";
-                }
-                link = "Rnor5.0";
-                break;
-
-            case 60:
-                assembly="RGSC_v3.4";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Rat%20RGSC_v3.4%20(rn4)%20Genes%20and%20Transcripts-RGSC_v3.4";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Rat%20RGSC_v3.4%20(rn4)%20QTLs-RGSC_v3.4";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_STRAINS){
-                    tracks="Rat%20RGSC_v3.4%20(rn4)%20Congenic%20Strains-RGSC_v3.4,Rat%20RGSC_v3.4%20(rn4)%20Mutant%20Strains-RGSC_v3.4";
-                }
-                link = "RGSC3.4";
-                break;
-
-            case 301:
-                assembly="UTH_Rnor_SHR_Utx";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "UTH_Rnor_SHR_Utx%20Genes%20and%20Transcripts-UTH_Rnor_SHR_Utx";
-                }
-                link = "Rnor_SHR";
-                chrPrefix = "Chr";
-                break;
-
-            case 302:
-                assembly="UTH_Rnor_SHRSP_BbbUtx_1.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "UTH_Rnor_SHRSP_BbbUtx_1.0%20Genes%20and%20Transcripts-UTH_Rnor_SHRSP_BbbUtx_1.0";
-                }
-                link = "Rnor_SHRSP";
-                chrPrefix = "Chr";
-                break;
-
-            case 303:
-                assembly="UTH_Rnor_WKY_Bbb_1.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "UTH_Rnor_WKY_Bbb_1.0%20Genes%20and%20Transcripts-UTH_Rnor_WKY_Bbb_1.0";
-                }
-                link = "Rnor_WKY";
-                chrPrefix = "Chr";
-                break;
-            //Mouse
-            case 239:
-                assembly="GRCm39";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Mouse%20GRCm39%20(mm39)%20Genes%20and%20Transcripts-GRCm39";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Mouse%20GRCm39%20(mm39)%20QTLs-GRCm39";
-                }
-                link = "GRCm39";
-                break;
-
-            case 35: //has an ensemble with map key 39
-                assembly="GRCm38.p6";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Mouse%20GRCm38.p6%20(mm10)%20Genes%20and%20Transcripts-GRCm38.p6";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Mouse%20GRCm38.p6%20(mm10)%20QTLs-GRCm38.p6";
-                }
-                link = "GRCm38.p6";
-                break;
-
-            case 18:
-                assembly="MGSCv37";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Mouse%20MGSCv37%20(mm9)%20Genes%20and%20Transcripts-MGSCv37";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Mouse%20MGSCv37%20(mm9)%20QTLs-MGSCv37";
-                }
-                link = "GRCm37";
-                break;
-            //human
-            case 38: // has an ensemble with map key 40
-                assembly="GRCh38.p14";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Human%20GRCh38.p14%20(hg38)%20Genes%20and%20Transcripts-GRCh38.p14";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Human%20GRCh38.p14%20(hg38)%20QTLs-GRCh38.p14";
-                }
-                link = "GRCh38";
-                break;
-
-            case 17:
-                assembly="GRCh37.p13";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Human%20GRCh37.p13%20(hg19)%20Genes%20and%20Transcripts-GRCh37.p13";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Human%20GRCh37.p13%20(hg19)%20QTLs-GRCh37.p13";
-                }
-                link = "GRCh37";
-                break;
-
-            case 13:
-                assembly="NCBI36";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Human%20NCBI36%20(hg18)%20Genes%20and%20Transcripts-NCBI36";
-                }
-                else if(objectKey==RgdId.OBJECT_KEY_QTLS){
-                    tracks="Human%20NCBI36%20(hg18)%20QTLs-NCBI36";
-                }
-                link = "NCBI36";
-                break;
-            //Domestic Dog
-            case 631: // has an ensemble with map key 632
-                assembly="CanFam3.1";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Dog%20CanFam3.1%20(canFam3)%20Genes%20and%20Transcripts-CanFam3.1";
-                }
-                link = "CanFam3.1";
-                chrPrefix = "Chr";
-                break;
-
-            case 633:
-                assembly="Dog10K_Boxer_Tasha";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Dog%20Dog10K_Boxer_Tasha%20(canFam6)%20Genes%20and%20Transcripts-Dog10K_Boxer_Tasha";
-                }
-                link = "Dog10K Boxer Tasha";
-                chrPrefix = "Chr";
-                break;
-
-            case 634: // has an ensemble with map key 638
-                assembly="ROS_Cfam_1.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Dog%20ROS_Cfam_1.0%20(rOS_Cfam_1)%20Genes%20and%20Transcripts-ROS_Cfam_1.0";
-                }
-                link = "ROS Cfam";
-                chrPrefix = "Chr";
-                break;
-
-            case 637: // has an ensemble with map key 639
-                assembly="UU_Cfam_GSD_1.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Dog%20UU_Cfam_GSD_1.0%20(canFam4)%20Genes%20and%20Transcripts-UU_Cfam_GSD_1.0";
-                }
-                link = "UU Cfam";
-                chrPrefix = "Chr";
-                break;
-            //Bonobo
-            case 513:
-                assembly="Mhudiblu_PPA_v0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Bonobo%20Mhudiblu_PPA_v0%20(panPan3)%20Genes%20and%20Transcripts-Mhudiblu_PPA_v0";
-                }
-                link = "Mhudiblu_PPA_v0";
-                break;
-
-            case 511: //has an ensemble with map key 512
-                assembly="panpan1.1";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Bonobo%20panpan1.1%20(panPan2)%20Genes%20and%20Transcripts-panpan1.1";
-                }
-                link = "panpan1.1";
-                break;
-            //squirrel
-            case 720: //has an ensemble with map key 721
-                assembly="SpeTri2.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Squirrel%20null%20(speTri2)%20Genes%20and%20Transcripts-SpeTri2.0";
-                }
-                link = "SpeTri2.0";
-                break;
-            //Chinchilla
-            case 44: // has an ensemble with map key 45
-                assembly="ChiLan1.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Chinchilla%20ChiLan1.0%20(chiLan1)%20Genes%20and%20Transcripts-ChiLan1.0";
-                }
-                link = "ChiLan1.0";
-                break;
-            //PIG
-            case 911: //has an ensemble with map key 912
-                assembly="Sscrofa11.1";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Pig%20Sscrofa11.1%20(susScr11)%20Genes%20and%20Transcripts-Sscrofa11.1";
-                }
-                link = "Sscrofa11.1";
-                break;
-
-            case 910:
-                assembly="Sscrofa10.2";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Pig%20Sscrofa10.2%20(susScr3)%20Genes%20and%20Transcripts-Sscrofa10.2";
-                }
-                link = "Sscrofa10.2";
-                break;
-            //Green Monkey/Vervet
-            case 1311: // has an ensemble with map key 1312
-                assembly="Chlorocebus_sabeus1.1";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Green%20Monkey%20Chlorocebus_sabeus%201.1%20(chlSab2)%20Genes%20and%20Transcripts-Chlorocebus_sabeus1.1";
-                }
-                link = "ChlSab1.1";
-                break;
-
-            case 1313:
-                assembly="Vero_WHO_p1.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Green%20Monkey%20Vero_WHO_p1.0%20(vero_WHO_p1)%20Genes%20and%20Transcripts-Vero_WHO_p1.0";
-                }
-                link = "Vero_WHO_p1.0";
-                break;
-            //Naked Mole-Rat
-            case 1410: // has an ensemble with map key 1411
-                assembly="HetGla_female_1.0";
-                if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                    tracks = "Naked%20Mole-Rat%20HetGla_female_1.0%20(hetGla2)%20Genes%20and%20Transcripts-HetGla_female_1.0";
-                }
-                link = "HetGla_female_1.0";
-                break;
+        if (tracks == null || tracks.isEmpty()) {
+            return null;
         }
 
-        if(assembly!=null&&tracks!=null) {
-            url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2Loc(md, chrPrefix) + "&assembly=" + assembly + "&tracklist=true" + "&tracks="
-                    + tracks;
-//            System.out.println(url);
-        }
+        url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2Loc(md, firstConfig.getChrPrefix()) + "&assembly=" + firstConfig.getAssembly() + "&tracklist=true" + "&tracks="
+                + tracks;
+//        System.out.println(url);
         return url;
     }
 
