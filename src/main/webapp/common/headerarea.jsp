@@ -5,7 +5,7 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
 <%
-    response.setHeader("CACHE-CONTROL","public, s-maxage=691200, max-age=0, must-revalidate");
+    //response.setHeader("CACHE-CONTROL","public, s-maxage=691200, max-age=0, must-revalidate");
     //response.setHeader("EXPIRES","Expires: Wed, 10 Apr 2025 12:00:00 GMT");
     //response.setHeader("EXPIRES","3000");
 %>
