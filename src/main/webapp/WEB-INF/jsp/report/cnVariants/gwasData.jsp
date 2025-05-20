@@ -264,7 +264,8 @@
     var downloadGwasVue = new Vue ({
         el: '#downloadGwasVue',
         data: {
-            rsId: '<%=rsId%>'
+            rsId: '<%=rsId%>',
+            species: '<%=obj.getSpeciesTypeKey()%>'
         },
         methods: {
             downloadGwas: function () {
@@ -272,7 +273,8 @@
                 axios
                     .post('/rgdweb/report/variants/downloadGwas.html',
                         {
-                            rsId: downloadGwasVue.rsId
+                            rsId: downloadGwasVue.rsId,
+                            species: downloadGwasVue.species
                         },
                         {responseType: 'blob'})
                     .then(function (response) {
