@@ -394,6 +394,9 @@ public class  MapDataFormatter {
     }
 
     public static String generateJbrowse2URL(int objectKey, MapData md) throws Exception {
+        if(md==null){
+            return null;
+        }
         String tracks=null,url=null;
         Jbrowse2UrlConfigDAO dao = new Jbrowse2UrlConfigDAO();
         List<Jbrowse2UrlConfig>urlConfigs = dao.getJbrowse2UrlConfigsByMapAndObjectKey(md.getMapKey(), objectKey);
