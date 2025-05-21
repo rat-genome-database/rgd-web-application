@@ -115,9 +115,12 @@ public class OntBrowser {
 
     private String generateHeader() {
 
+        System.out.println("here");
         int diagramCount = 0; // set only in diagram mode
         String termName = "";
         TermWithStats ts = (TermWithStats)bean.getTerm();
+        System.out.println(ts);
+        System.out.println(ts.getTerm());
         String annotMsg = "";
         if( ts!=null) {
             diagramCount = ts.getDiagramCount(1);
