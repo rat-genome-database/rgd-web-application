@@ -13,6 +13,9 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.nio.file.Files" %>
 <%@ page import="java.nio.file.Paths" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.FileReader" %>
+<%@ page import="java.io.IOException" %>
 <%--
   Created by IntelliJ IDEA.
   User: jdepons
@@ -39,8 +42,18 @@
 
 
 <%
+    StringBuilder content = new StringBuilder();
 
-    String apiToken = new String(Files.readAllBytes(Paths.get("/data/properties/jira.properties")));
+    try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            content.append(line);
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    String apiToken = content.toString();
 
     String valueToEncode = "jdepons@mcw.edu:" + apiToken;
 
