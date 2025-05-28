@@ -44,9 +44,9 @@
 <%
     StringBuilder content = new StringBuilder();
 
-   // try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
-            String line;
+    //try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
+        String line;
         while ((line = reader.readLine()) != null) {
             content.append(line);
         }
@@ -54,12 +54,9 @@
         e.printStackTrace();
     }
 
-
     String apiToken = content.toString();
-System.out.println(apiToken);
 
     String valueToEncode = "jdepons@mcw.edu:" + apiToken;
-
     HttpRequest restRequest = HttpRequest.newBuilder()
             .GET()
             .uri(java.net.URI.create(request.getParameter("s") +"/issue"))
@@ -70,6 +67,8 @@ System.out.println(apiToken);
     HttpResponse<String> restResponse = null;
         HttpClient client = HttpClient.newHttpClient();
          restResponse = client.send(restRequest, HttpResponse.BodyHandlers.ofString());
+
+         System.out.println(restResponse.body());
 
     //JSONObject objects = new JSONObject ();
     JSONObject objects = new JSONObject(restResponse.body());

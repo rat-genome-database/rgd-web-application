@@ -35,17 +35,19 @@
 <%
     StringBuilder content = new StringBuilder();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
-        //try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            content.append(line);
+    //try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
     }
 
     String apiToken = content.toString();
+
     String valueToEncode = "jdepons@mcw.edu:" + apiToken;
 
     HttpRequest restRequest = HttpRequest.newBuilder()
@@ -59,6 +61,7 @@
     HttpClient client = HttpClient.newHttpClient();
     restResponse = client.send(restRequest, HttpResponse.BodyHandlers.ofString());
 
+    System.out.println(restResponse.body());
     //JSONObject objects = new JSONObject ();
     JSONObject objects = new JSONObject(restResponse.body());
     JSONArray issues = objects.getJSONArray("values");
