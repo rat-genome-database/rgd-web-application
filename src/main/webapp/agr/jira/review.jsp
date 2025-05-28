@@ -32,12 +32,11 @@
 </head>
 <body>
 
-
 <%
-
     StringBuilder content = new StringBuilder();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
+        //try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
         String line;
         while ((line = reader.readLine()) != null) {
             content.append(line);
@@ -46,22 +45,19 @@
         e.printStackTrace();
     }
 
-    String apiToken = content.toString();  String valueToEncode = "jdepons@mcw.edu:" + apiToken;
+    String apiToken = content.toString();
+    String valueToEncode = "jdepons@mcw.edu:" + apiToken;
 
     HttpRequest restRequest = HttpRequest.newBuilder()
             .GET()
             .uri(java.net.URI.create("https://agr-jira.atlassian.net/rest/agile/1.0/board/66/sprint/?startAt=40"))
-
             .header("Content-Type", "application/json")
             .header("Authorization", "Basic  " + Base64.getEncoder().encodeToString(valueToEncode.getBytes()))
             .build();
 
-
     HttpResponse<String> restResponse = null;
-        HttpClient client = HttpClient.newHttpClient();
-         restResponse = client.send(restRequest, HttpResponse.BodyHandlers.ofString());
-
-
+    HttpClient client = HttpClient.newHttpClient();
+    restResponse = client.send(restRequest, HttpResponse.BodyHandlers.ofString());
 
     //JSONObject objects = new JSONObject ();
     JSONObject objects = new JSONObject(restResponse.body());

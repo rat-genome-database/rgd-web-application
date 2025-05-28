@@ -44,8 +44,9 @@
 <%
     StringBuilder content = new StringBuilder();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
-        String line;
+   // try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
+            String line;
         while ((line = reader.readLine()) != null) {
             content.append(line);
         }
@@ -53,7 +54,9 @@
         e.printStackTrace();
     }
 
+
     String apiToken = content.toString();
+System.out.println(apiToken);
 
     String valueToEncode = "jdepons@mcw.edu:" + apiToken;
 
