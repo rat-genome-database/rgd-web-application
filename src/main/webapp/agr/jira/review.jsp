@@ -36,7 +36,7 @@
     StringBuilder content = new StringBuilder();
 
     //try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
+      try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 content.append(line);
@@ -44,7 +44,7 @@
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+
 
     String apiToken = content.toString();
 
