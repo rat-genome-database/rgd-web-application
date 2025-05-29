@@ -97,6 +97,11 @@
             //filter = "RDO:9001567";
             filter = "DOID:0050117";
             break;
+        case 16:
+            title = "Behavior Disease";
+            //filter = "RDO:9001567";
+            filter = "DOID:150";
+            break;
     }
 
 
@@ -385,6 +390,11 @@
             $scope.portalLinks["DOID:0050117"].tools = "/wg/portals/infectious-disease-portal-tools/";
             $scope.portalLinks["DOID:0050117"].links = "/wg/portals/infectious-disease-portal-related-links/";
             $scope.portalLinks["DOID:0050117"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=disease by infectious agent";
+
+            $scope.portalLinks["DOID:150"] = {};
+            $scope.portalLinks["DOID:150"].tools = "/wg/portals/behavior-disease-portal-tools/";
+            $scope.portalLinks["DOID:150"].links = "/wg/portals/behavior-disease-portal-related-links/";
+            $scope.portalLinks["DOID:150"].models = "/rgdweb/models/findModels.html?qualifier=&modelsSearchTerm=disease of mental health";
 
             ctrl.updateCounts = function (ontId, filter) {
                 $scope.ontologyId = ontId;
