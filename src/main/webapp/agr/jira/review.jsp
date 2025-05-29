@@ -15,6 +15,9 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.nio.file.Files" %>
+<%@ page import="java.io.FileReader" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.io.BufferedReader" %>
 <%--
   Created by IntelliJ IDEA.
   User: jdepons
@@ -29,27 +32,36 @@
 </head>
 <body>
 
-
 <%
+    StringBuilder content = new StringBuilder();
 
-    String apiToken = new String(Files.readAllBytes(Paths.get("/data/properties/jira.properties")));
+    //try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    String apiToken = content.toString();
+
     String valueToEncode = "jdepons@mcw.edu:" + apiToken;
 
     HttpRequest restRequest = HttpRequest.newBuilder()
             .GET()
             .uri(java.net.URI.create("https://agr-jira.atlassian.net/rest/agile/1.0/board/66/sprint/?startAt=40"))
-
             .header("Content-Type", "application/json")
             .header("Authorization", "Basic  " + Base64.getEncoder().encodeToString(valueToEncode.getBytes()))
             .build();
 
-
     HttpResponse<String> restResponse = null;
-        HttpClient client = HttpClient.newHttpClient();
-         restResponse = client.send(restRequest, HttpResponse.BodyHandlers.ofString());
+    HttpClient client = HttpClient.newHttpClient();
+    restResponse = client.send(restRequest, HttpResponse.BodyHandlers.ofString());
 
-
-
+    System.out.println(restResponse.body());
     //JSONObject objects = new JSONObject ();
     JSONObject objects = new JSONObject(restResponse.body());
     JSONArray issues = objects.getJSONArray("values");
