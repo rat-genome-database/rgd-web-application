@@ -228,6 +228,8 @@
                         key: 'refRgd',
                         label: 'Reference',
                         formatter: value => {
+                            if (value == null || value === "" || value==="0")
+                                return "N/A"
                             return value;
                         },//'LinkFormatter',
                         sortable: true
