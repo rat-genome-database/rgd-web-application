@@ -1,29 +1,30 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-<!--    <bean id="RGDHandlerInterceptor" class="edu.mcw.rgd.web.RGDHandlerInterceptor">-->
-<!--    </bean>-->
+    <!--    <bean id="RGDHandlerInterceptor" class="edu.mcw.rgd.web.RGDHandlerInterceptor">-->
+    <!--    </bean>-->
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
     </bean>
 
     <bean id="publicUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-<!--        <property name="interceptors">-->
-<!--            <list>-->
-<!--                <ref local="RGDHandlerInterceptor"/>-->
-<!--            </list>-->
-<!--        </property>-->
+        <!--        <property name="interceptors">-->
+        <!--            <list>-->
+        <!--                <ref local="RGDHandlerInterceptor"/>-->
+        <!--            </list>-->
+        <!--        </property>-->
         <property name="mappings">
             <props>
                 <!--<prop key="pathway/error.html">PathwayNewRecordController</prop>-->
                 <prop key="curation/home.html">CurationController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
-				<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
+                <prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>
                 <prop key="curation/pathway/pathwayCreate.html">PathwayRecordController</prop>
-				<prop key="curation/expression/experiments.html">GeoExperimentController</prop>
+                <prop key="curation/expression/experiments.html">GeoExperimentController</prop>
                 <prop key="curation/expression/editSamples.html">SampleEditController</prop>
+                <prop key="curation/expression/downloadMetaData.html">DownloadExpressionMetaDataController</prop>
 
                 <prop key="curation/phenominer/reference.html">PhenominerReferenceController</prop>
                 <prop key="curation/phenominer/search.html">PhenominerSearchController</prop>
@@ -102,7 +103,7 @@
                 <prop key="genes/ensembl.html">PipelineEnsemblController</prop>
                 <prop key="genes/mirnaTargets.html">MirnaTargetsController</prop>
 
-<!--                <prop key="phenotype/img.html">PhenotypeImgController</prop>-->
+                <!--                <prop key="phenotype/img.html">PhenotypeImgController</prop>-->
 
                 <prop key="ontology/search.html">OntologyGeneralSearchController</prop>
                 <prop key="ontology/annotDetail.html">OntologyAnnotController</prop>
@@ -130,8 +131,8 @@
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
-				<prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
-                 <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
+                <prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
+                <!--                 <prop key="report/gene/expressionData.html">ExpressionDataController</prop>-->
 
                 <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
@@ -156,7 +157,7 @@
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
-<!--                <prop key="overgo/find.html">OvergoController</prop>-->
+                <!--                <prop key="overgo/find.html">OvergoController</prop>-->
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
 
                 <prop key="elsevier/rgdLogo.png">ElsevierImageGenerator</prop>
@@ -223,6 +224,7 @@
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
+                <prop key="webservice/entity.html">EntityService</prop>
                 <prop key="webservice/ontology.html">OntologyServiceController</prop>
                 <prop key="webservice/my.html">MyRgdServiceController</prop>
 
@@ -240,17 +242,17 @@
                 <prop key="cytoscape/report.html">cyReportController</prop>
                 <prop key="cytoscape/download.html">cyDownloadController</prop>
 
-<!--                 <prop key="models/upload.html">ImageUploadController</prop>-->
-                 <prop key="models/getGenes.html">AutocompleteController</prop>
-                 <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
-                 <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
-                 <prop key="models/gerrc.html">GeneticModelsController</prop>
+                <!--                 <prop key="models/upload.html">ImageUploadController</prop>-->
+                <prop key="models/getGenes.html">AutocompleteController</prop>
+                <prop key="models/strainSubmissionForm.html">StrainSubmissionFormController</prop>
+                <prop key="models/strainSubmissionFormHelp.html">StrainSubmissionHelp</prop>
+                <prop key="models/gerrc.html">GeneticModelsController</prop>
                 <prop key="models/references.html">ReferencesController</prop>
                 <prop key="models/allModels.html">AllModelsController</prop>
                 <prop key="models/download.html">gerrcModelsDownloadController</prop>
 
                 <prop key="models/findModels.html">findModelsController</prop>
-                 <prop key="models/autocomplete.html">findModelsAutocomplete</prop>
+                <prop key="models/autocomplete.html">findModelsAutocomplete</prop>
 
                 <prop key="phenominer/table.html">PivotTableController</prop>
                 <prop key="phenominer/ontChoices.html">OntChoicesController</prop>
@@ -258,9 +260,9 @@
                 <prop key="phenominer/download.html">DownloadPivotTableController</prop>
                 <prop key="phenominer/treeXml.html">TreeXmlController</prop>
 
-                 <prop key="elasticResults.html">ElasticSearchController</prop>
-                 <prop key="phenominerTermSearch.html">PhenominerTermSearchController</prop>
-                    <prop key="autocompleteList.html">AutocompleteListController</prop>
+                <prop key="elasticResults.html">ElasticSearchController</prop>
+                <prop key="phenominerTermSearch.html">PhenominerTermSearchController</prop>
+                <prop key="autocompleteList.html">AutocompleteListController</prop>
                 <prop key="phenominerLink.html">phenominerLinkController</prop>
                 <prop key="genomeViewer.html">genomeViewerController</prop>
                 <prop key="search/excelDownload.html">downloadController</prop>
@@ -275,43 +277,44 @@
                 <prop key="contact/contactus.html">ContactUsController</prop>
 
 
-                 <prop key="phenominer/phenominerExpectedRanges/views/home.html">expectedRangeHomeController</prop>
-                                <prop key="phenominer/phenominerExpectedRanges/views/selectedMeasurement.html">selectedMeasurementController</prop>
-                                <prop key="phenominer/phenominerExpectedRanges/views/selectedOptions.html">phenotypeOptionsController</prop>
-                                  <prop key="phenominer/phenominerExpectedRanges/views/strain.html">selectedStrainController</prop>
+                <prop key="phenominer/phenominerExpectedRanges/views/home.html">expectedRangeHomeController</prop>
+                <prop key="phenominer/phenominerExpectedRanges/views/selectedMeasurement.html">selectedMeasurementController</prop>
+                <prop key="phenominer/phenominerExpectedRanges/views/selectedOptions.html">phenotypeOptionsController</prop>
+                <prop key="phenominer/phenominerExpectedRanges/views/strain.html">selectedStrainController</prop>
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
-                 <prop key="projects/project.html">ProjectController</prop>
-                 <prop key="report/project/main.html">ProjectReportController</prop>
+                <prop key="projects/project.html">ProjectController</prop>
+                <prop key="report/project/main.html">ProjectReportController</prop>
                 <prop key="ai/output.html">aiController</prop>
 
                 <prop key="/hrdp_panel.html">hrdpController</prop>
                 <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
+                <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
             </props>
         </property>
     </bean>
-        <bean id="aiController" class="edu.mcw.rgd.ai.AIController"/>
+    <bean id="aiController" class="edu.mcw.rgd.ai.AIController"/>
 
     <bean id="strainExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.StrainExpectedRangeController"/>
     <bean id="phenominerERSelectedStrainController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedStrainController"/>
     <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
     <bean id="phenominerERSelectedPhenotypeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedPhenotypeController"/>
-     <bean id="ProjectController" class="edu.mcw.rgd.projects.ProjectController"/>
-     <bean id="ProjectReportController" class="edu.mcw.rgd.report.ProjectReportController"/>
- <bean id="expectedRangeHomeController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.ExpectedRangeHomeController"/>
+    <bean id="ProjectController" class="edu.mcw.rgd.projects.ProjectController"/>
+    <bean id="ProjectReportController" class="edu.mcw.rgd.report.ProjectReportController"/>
+    <bean id="expectedRangeHomeController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.ExpectedRangeHomeController"/>
     <bean id="selectedMeasurementController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedMeasurementController"/>
     <bean id="phenotypeOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.PhenotypeOptionsController"/>
-        <bean id="selectedStrainController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedStrainController"/>
+    <bean id="selectedStrainController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.SelectedStrainController"/>
     <bean id="strainOptionsController" class="edu.mcw.rgd.phenominer.expectedRanges.controller.StrainOptionsController"/>
 
-<bean id="wwwDir" abstract="true">
-    <property name="uploadingDir" value="/rgd/data/pathway/inputFolder/"/><!-- directory where the uploaded files will be stored-->
-    <property name="dataDir" value="/rgd/data/pathway/outputCache/"/>
-</bean>
+    <bean id="wwwDir" abstract="true">
+        <property name="uploadingDir" value="/rgd/data/pathway/inputFolder/"/><!-- directory where the uploaded files will be stored-->
+        <property name="dataDir" value="/rgd/data/pathway/outputCache/"/>
+    </bean>
 
-<bean id="primer3Dir" abstract="true">
-    <property name="primerDir" value="/rgd/data/primer3/"/>
-    <property name="primerInpDir" value="/rgd/data/primer3/createPrimerInp/"/>
-</bean>
+    <bean id="primer3Dir" abstract="true">
+        <property name="primerDir" value="/rgd/data/primer3/"/>
+        <property name="primerInpDir" value="/rgd/data/primer3/createPrimerInp/"/>
+    </bean>
 
     <bean id="PathwayHomeController" class="edu.mcw.rgd.pathway.controller.PathwayHomeController" />
     <bean id="PathwayRecordController" class="edu.mcw.rgd.pathway.controller.PathwayRecordController" parent="wwwDir"> <!-- the parent attribute is being used here to refer to comon property with bean id "uploadingDir"
@@ -339,7 +342,7 @@
     <bean id="GenomicElementReportController" class="edu.mcw.rgd.report.GenomicElementReportController"/>
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
     <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
-       <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
+    <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
     <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
     <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
     <bean id="GwasDownloadController" class="edu.mcw.rgd.report.GwasDownloadController"/>
@@ -347,7 +350,7 @@
     <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
- <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
+    <!-- <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>-->
     <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
@@ -361,9 +364,9 @@
     <bean id="TranscriptsController" class="edu.mcw.rgd.pipeline.TranscriptsController"/>
     <bean id="MirnaTargetsController" class="edu.mcw.rgd.report.MirnaTargetsController"/>
 
-<!--    <bean id="PhenotypeImgController" class="edu.mcw.rgd.phenotype.ImgController">-->
-<!--        <property name="imgDir" value="/rgd/www/common/images/phenodb"/>&lt;!&ndash; directory where the images will be stored&ndash;&gt;-->
-<!--    </bean>-->
+    <!--    <bean id="PhenotypeImgController" class="edu.mcw.rgd.phenotype.ImgController">-->
+    <!--        <property name="imgDir" value="/rgd/www/common/images/phenodb"/>&lt;!&ndash; directory where the images will be stored&ndash;&gt;-->
+    <!--    </bean>-->
 
     <bean id="OntologySearchController" class="edu.mcw.rgd.ontology.OntSearchController"/>
     <bean id="OntologyViewController" class="edu.mcw.rgd.ontology.OntViewController"/>
@@ -391,8 +394,9 @@
     <bean id="CellLineEditObjectController" class="edu.mcw.rgd.edit.CellLineEditObjectController"/>
     <bean id="TermEditObjectController" class="edu.mcw.rgd.edit.TermEditObjectController"/>
 
-	<bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
+    <bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
     <bean id="SampleEditController" class="edu.mcw.rgd.expression.SampleEditController"/>
+    <bean id="DownloadExpressionMetaDataController" class="edu.mcw.rgd.expression.DownloadMetaDataController"/>
     <bean id="CurationController" class="edu.mcw.rgd.edit.CurationController" />
     <bean id="CurationLoginController" class="edu.mcw.rgd.edit.CurationLoginController" />
     <bean id="AliasesEditObjectController" class="edu.mcw.rgd.edit.AliasesEditObjectController"/>
@@ -415,8 +419,8 @@
     <bean id="GeneMergeController" class="edu.mcw.rgd.edit.GeneMergeController"/>
     <bean id="DropManualOrthologsController" class="edu.mcw.rgd.edit.DropManualOrthologsController"/>
     <bean id="TermMergeController" class="edu.mcw.rgd.edit.TermMergeController"/>
-	<bean id="StrainFileUploadController" class="edu.mcw.rgd.edit.StrainFileUploadController" />
-	<bean id="NewsConferenceEditController" class="edu.mcw.rgd.edit.NewsConferenceEditController"/>
+    <bean id="StrainFileUploadController" class="edu.mcw.rgd.edit.StrainFileUploadController" />
+    <bean id="NewsConferenceEditController" class="edu.mcw.rgd.edit.NewsConferenceEditController"/>
     <bean id="EditNewsArticleController" class="edu.mcw.rgd.edit.EditNewsArticleController"/>
 
     <bean id="pathwayDiagramController" class="edu.mcw.rgd.pathway.PathwayDiagramController" parent="wwwDir"/>
@@ -435,9 +439,9 @@
     <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
-<!--    <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>-->
-<bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
-<bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />
+    <!--    <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>-->
+    <bean id="EnrichmentController" class="edu.mcw.rgd.ga.EnrichmentController" />
+    <bean id="EnrichmentSelectController" class="edu.mcw.rgd.ga.EnrichmentSelectController" />
     <bean id="GASearchController" class="edu.mcw.rgd.ga.GASearchController" />
     <bean id="GAUIController" class="edu.mcw.rgd.ga.GAUIController" />
     <bean id="GAReportController" class="edu.mcw.rgd.ga.GAReportController" />
@@ -501,6 +505,7 @@
     <bean id="PrimerCreateController" class="edu.mcw.rgd.primerCreate.PrimerCreateController" parent="primer3Dir"/>
 
     <bean id="GeneServiceController" class="edu.mcw.rgd.webservice.GeneServiceController"/>
+    <bean id="EntityService" class="edu.mcw.rgd.webservice.EntityService"/>
     <bean id="MyRgdServiceController" class="edu.mcw.rgd.webservice.MyRgdServiceController"/>
     <bean id="OntologyServiceController" class="edu.mcw.rgd.webservice.OntologyServiceController"/>
     <bean id="ContextMenuController" class="edu.mcw.rgd.jbrowse.ContextMenuController"/>
@@ -516,17 +521,17 @@
     <bean id="cyReportController" class="edu.mcw.rgd.cytoscape.InteractionsReportController"/>
     <bean id="cyDownloadController" class="edu.mcw.rgd.cytoscape.DownloadController"/>
 
-<!--    <bean id="ImageUploadController" class="edu.mcw.rgd.models.ImageUploadController"/>-->
+    <!--    <bean id="ImageUploadController" class="edu.mcw.rgd.models.ImageUploadController"/>-->
     <bean id="StrainSubmissionHelp" class="edu.mcw.rgd.models.StrainSubmissionHelp"/>
     <bean id="StrainSubmissionFormController" class="edu.mcw.rgd.models.StrainSubmissionFormController"/>
-	<bean id="AutocompleteController" class="edu.mcw.rgd.models.AutocompleteController"/>
+    <bean id="AutocompleteController" class="edu.mcw.rgd.models.AutocompleteController"/>
     <bean id="GeneticModelsController" class="edu.mcw.rgd.models.GeneticModelsController"/>
     <bean id="ReferencesController" class="edu.mcw.rgd.models.ReferencesController"/>
     <bean id="AllModelsController" class="edu.mcw.rgd.models.AllModelsController"/>
-<bean id="gerrcModelsDownloadController" class="edu.mcw.rgd.models.DownloadController"/>
+    <bean id="gerrcModelsDownloadController" class="edu.mcw.rgd.models.DownloadController"/>
 
- <bean id="findModelsController" class="edu.mcw.rgd.models.findModels.FindModelsController"/>
-  <bean id="findModelsAutocomplete" class="edu.mcw.rgd.models.findModels.AutocompleteController"/>
+    <bean id="findModelsController" class="edu.mcw.rgd.models.findModels.FindModelsController"/>
+    <bean id="findModelsAutocomplete" class="edu.mcw.rgd.models.findModels.AutocompleteController"/>
 
 
     <bean id="EditHomePageController" class="edu.mcw.rgd.edit.submittedStrains.EditHomePageController"/>
@@ -566,6 +571,6 @@
 
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
     <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
-
-    </beans>
+    <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
+</beans>
 

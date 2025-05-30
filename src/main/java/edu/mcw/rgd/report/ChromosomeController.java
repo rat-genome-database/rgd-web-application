@@ -32,6 +32,8 @@ public class ChromosomeController implements Controller {
         MapDAO mapDAO= new MapDAO();
         String chr= request.getParameter("chr");
         String locus=request.getParameter("locus");
+        if(request.getParameter("mapKey")==null)
+            return null;
         int mapKey= Integer.parseInt(request.getParameter("mapKey"));
 
       /* ============================================================================*/
@@ -40,16 +42,17 @@ public class ChromosomeController implements Controller {
         String species= SpeciesType.getCommonName(speciesTypeKey);
         /*=============================================================================*/
         ModelMap model= new ModelMap();
-
-        List<SearchHit[]> hits=this.getChromosome(mapKey, chr);
-        model.put("hits", hits);
-        model.put("species", species);
-        if(locus!=null){
-            model.put("locus", locus);
+        if(chr!=null && !chr.equals("")) {
+            List<SearchHit[]> hits = this.getChromosome(mapKey, chr);
+            model.put("hits", hits);
+            model.put("species", species);
+            if (locus != null) {
+                model.put("locus", locus);
+            }
+            ExternalDBLinks xlinks = new ExternalDBLinks();
+            ExternalDbs extDbLinks = xlinks.getXLinks(mapKey, chr, locus);
+            model.addAttribute("xlinks", extDbLinks);
         }
-        ExternalDBLinks xlinks= new ExternalDBLinks();
-        ExternalDbs extDbLinks= xlinks.getXLinks(mapKey,chr, locus);
-        model.addAttribute("xlinks", extDbLinks);
         return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/chromosome.jsp","model", model);
 
     }

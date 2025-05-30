@@ -226,6 +226,7 @@
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
+                <prop key="webservice/entity.html">EntityService</prop>
                 <prop key="webservice/ontology.html">OntologyServiceController</prop>
                 <prop key="webservice/my.html">MyRgdServiceController</prop>
 
@@ -510,6 +511,7 @@
     <bean id="PrimerCreateController" class="edu.mcw.rgd.primerCreate.PrimerCreateController" parent="primer3Dir"/>
 
     <bean id="GeneServiceController" class="edu.mcw.rgd.webservice.GeneServiceController"/>
+    <bean id="EntityService" class="edu.mcw.rgd.webservice.EntityService"/>
     <bean id="MyRgdServiceController" class="edu.mcw.rgd.webservice.MyRgdServiceController"/>
     <bean id="OntologyServiceController" class="edu.mcw.rgd.webservice.OntologyServiceController"/>
     <bean id="ContextMenuController" class="edu.mcw.rgd.jbrowse.ContextMenuController"/>
