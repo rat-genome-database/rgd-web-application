@@ -204,17 +204,18 @@
             <% } %>
         </td>
     </tr>
-    <tr>
-        <td class="label">Model</td>
-        <td><div style="width:750px; align:left;">
-            <iframe id="jbrowseMini" style="border: 1px solid black" width="660"></iframe>
-        </div></td>
-    </tr>
-    <script>
-        $(document).ready(function() {
-            document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
-        });
-    </script>
+<%--    disabling the jbrowse view on the qtl report pages--%>
+<%--    <tr>--%>
+<%--        <td class="label">Model</td>--%>
+<%--        <td><div style="width:750px; align:left;">--%>
+<%--            <iframe id="jbrowseMini" style="border: 1px solid black" width="660"></iframe>--%>
+<%--        </div></td>--%>
+<%--    </tr>--%>
+<%--    <script>--%>
+<%--        $(document).ready(function() {--%>
+<%--            document.getElementById('jbrowseMini').src = '<%=jbUrl%>';--%>
+<%--        });--%>
+<%--    </script>--%>
     <% } %>
 
 
