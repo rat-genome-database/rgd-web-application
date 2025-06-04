@@ -190,6 +190,10 @@ public class QueryService1 {
                 builder.filter(QueryBuilders.termQuery("regionName.keyword", sb.getRegion()));
 
             }
+            if (sb.getExpressionLevel()!=null && !sb.getExpressionLevel().equals("")) {
+                builder.filter(QueryBuilders.termQuery("expressionLevel.keyword", sb.getExpressionLevel()));
+
+            }
         }
         return builder;
     }
@@ -335,6 +339,7 @@ public class QueryService1 {
                             .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword"))
                             .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
                             .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(200))
+                            .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
 
                             .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(200))
                             .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
@@ -355,6 +360,7 @@ public class QueryService1 {
                     .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
                     .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
                     .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword"))
+                    .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
 
                     .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword"))
                     .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))

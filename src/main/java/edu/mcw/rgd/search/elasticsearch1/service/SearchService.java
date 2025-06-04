@@ -89,6 +89,7 @@ public class SearchService {
                        }
                        if(bucket.getKey().toString().equalsIgnoreCase("expression")){
 
+                           if(expressionLevelFilterAgg!=null)
                            aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
 //                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
 //                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
