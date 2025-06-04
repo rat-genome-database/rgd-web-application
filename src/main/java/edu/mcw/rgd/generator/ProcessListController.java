@@ -94,8 +94,8 @@ public class ProcessListController implements Controller {
             String json = gson.toJson(or.getResultSet());
             byte[] jsonBytes = json.getBytes(StandardCharsets.UTF_8);
 
-            System.out.println("setting content length");
-            response.setContentType("application/json;charset=UTF-8");
+            System.out.println("setting content length to " + jsonBytes.length);
+            //response.setContentType("application/json;charset=UTF-8");
             response.setContentLength(jsonBytes.length); // ✅ Ensures Apache can cache it
             response.getOutputStream().write(jsonBytes);
 
