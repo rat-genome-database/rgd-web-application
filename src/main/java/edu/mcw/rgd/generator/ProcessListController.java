@@ -15,6 +15,7 @@ import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.ServletOutputStream;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -87,22 +88,18 @@ public class ProcessListController implements Controller {
         }else if (action.equals("browse")) {
             return new ModelAndView("/WEB-INF/jsp/generator/gviewer.jsp");
         }else if (action.equals("json")) {
+
             Gson gson = new Gson();
 
             String json = gson.toJson(or.getResultSet());
             byte[] jsonBytes = json.getBytes(StandardCharsets.UTF_8);
 
-            System.out.println("setting content length to " + jsonBytes.length);
-
-// ✅ Required for proper header handling
             response.setContentType("application/json;charset=UTF-8");
-            response.setContentLength(jsonBytes.length);
+            response.setContentLength(jsonBytes.length);  // Set BEFORE writing
 
-            response.getOutputStream().write(jsonBytes);
-
-// ✅ Optional: flush and close the stream
-            response.getOutputStream().flush();
-// response.getOutputStream().close(); // if you're sure no filters run afterward
+            ServletOutputStream out = response.getOutputStream();
+            out.write(jsonBytes);
+            out.flush();  // Ensure headers are finalized
 
             return null;
         }else {
