@@ -4,11 +4,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.WatchedTerm" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
-<%
-    //response.setHeader("CACHE-CONTROL","public, s-maxage=691200, max-age=0, must-revalidate");
-    //response.setHeader("EXPIRES","Expires: Wed, 10 Apr 2025 12:00:00 GMT");
-    //response.setHeader("EXPIRES","3000");
-%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="keywords" content="<%=RgdContext.getLongSiteName(request)%>">
@@ -18,8 +13,8 @@
     <meta name="referrer" content="origin">
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="3000" />
+    <!--<meta http-equiv="Pragma" content="no-cache" />-->
+    <!--<meta http-equiv="Expires" content="3000" />-->
     <%
         if (!pageDescription.equals("")) {
     %>

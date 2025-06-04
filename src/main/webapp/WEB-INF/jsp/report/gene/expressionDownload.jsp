@@ -16,6 +16,8 @@
     out.print(",");
     out.print("Sex");
     out.print(",");
+    out.print("Computed Sex");
+    out.print(",");
     out.print("Age");
     out.print(",");
     out.print("Tissue");
@@ -94,6 +96,8 @@
         out.print(strain != null ? strain.getTerm()+"|"+strain.getAccId() : "No Strain Available");
         out.print(",");
         out.print(s.getSex());
+        out.print(",");
+        out.print(Utils.isStringEmpty(s.getComputedSex()) ? "N/A" : s.getComputedSex());
         out.print(",");
         out.print(age);
         out.print(",");

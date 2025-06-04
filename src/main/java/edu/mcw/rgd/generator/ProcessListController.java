@@ -15,6 +15,7 @@ import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.ServletOutputStream;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -25,6 +26,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -85,9 +88,19 @@ public class ProcessListController implements Controller {
         }else if (action.equals("browse")) {
             return new ModelAndView("/WEB-INF/jsp/generator/gviewer.jsp");
         }else if (action.equals("json")) {
+
             Gson gson = new Gson();
 
-            response.getWriter().write(gson.toJson(or.getResultSet()));
+            String json = gson.toJson(or.getResultSet());
+            byte[] jsonBytes = json.getBytes(StandardCharsets.UTF_8);
+
+            response.setContentType("application/json;charset=UTF-8");
+            response.setContentLength(jsonBytes.length);  // Set BEFORE writing
+
+            ServletOutputStream out = response.getOutputStream();
+            out.write(jsonBytes);
+            out.flush();  // Ensure headers are finalized
+
             return null;
         }else {
             return new ModelAndView("/WEB-INF/jsp/generator/list.jsp");

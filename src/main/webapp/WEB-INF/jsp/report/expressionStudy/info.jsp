@@ -28,14 +28,18 @@
         <td class="label">Study&nbsp;Name:</td>
         <td class="labelValue"><%=obj.getName()%></td>
     </tr>
+    <%if(obj.getSource()!=null&&!obj.getSource().isEmpty()){%>
     <tr>
         <td class="label">Study&nbsp;Source:</td>
-        <td class="labelValue"><%=obj.getSource()!=null?obj.getSource():""%></td>
+        <td class="labelValue"><%=obj.getSource()%></td>
     </tr>
+    <%}%>
+    <%if(obj.getType()!=null&&!obj.getType().isEmpty()){%>
     <tr>
         <td class="label">Study&nbsp;Type:</td>
-        <td class="labelValue"><%=obj.getType()!=null?obj.getType():""%></td>
+        <td class="labelValue"><%=obj.getType()%></td>
     </tr>
+    <%}%>
     <%if(obj.getDataType()!=null&&!obj.getDataType().isEmpty()){%>
     <tr>
         <td class="label">Data&nbsp;Type:</td>
