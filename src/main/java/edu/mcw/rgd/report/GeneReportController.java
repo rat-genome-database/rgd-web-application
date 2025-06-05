@@ -26,7 +26,7 @@ public class GeneReportController extends ReportController {
         request.setAttribute("gene", gene);
 
         // Resolve JSP path
-        String jspPath = "/WEB-INF/jsp/" + getViewUrl();
+        String jspPath = "/WEB-INF/jsp/report/" + getViewUrl();
 
         // Buffer output to memory
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
