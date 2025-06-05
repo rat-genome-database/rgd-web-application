@@ -1,3 +1,4 @@
+<%@ page session="false" %>
 <%@ page import="edu.mcw.rgd.dao.impl.ProjectDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.*" %>
 <%@ page import="java.util.List" %>
