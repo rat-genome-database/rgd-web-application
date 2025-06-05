@@ -11,10 +11,9 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -158,6 +157,29 @@ public class ListGeneratorController implements Controller {
                 seen.put(gene, null);
             }
         }
+
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+// Move to next Monday
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int daysUntilMonday = (Calendar.MONDAY - dayOfWeek + 7) % 7;
+        if (daysUntilMonday == 0) {
+            daysUntilMonday = 7;  // Ensure it's the *next* Monday
+        }
+        calendar.add(Calendar.DAY_OF_MONTH, daysUntilMonday);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String expiresHeader = sdf.format(calendar.getTime());
+
+        response.setHeader("Expires", expiresHeader);
+
 
 
         request.setAttribute("mapKey",mapKey);
