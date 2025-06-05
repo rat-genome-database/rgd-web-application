@@ -47,6 +47,7 @@ public class ProjectController implements Controller {
         // If rgdid parameter is not present or no project found, show the list of all projects
         List<Project> proj = pdao.getAllProjects();
         request.setAttribute("test", proj);
+        response.setHeader("Set-Cookie", null);  // removes the header
 
         return new ModelAndView("/WEB-INF/jsp/project/report.jsp");
     }
