@@ -109,10 +109,12 @@ public abstract class ReportController implements Controller {
         writer.flush();
         byte[] content = buffer.toByteArray();
 
+
         // Set Content-Length and finalize response
         response.setContentLength(content.length);
         response.setContentType("text/html;charset=UTF-8");
-        response.getOutputStream().write(content);
+        response.setHeader("Set-Cookie", null);  // removes the header
+        // response.getOutputStream().write(content);
 
         // Return null: response already sent
         return null;
