@@ -14,7 +14,11 @@ import jakarta.servlet.http.HttpServletResponseWrapper;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Buffered ReportController to support Apache mod_cache by setting Content-Length
@@ -114,6 +118,28 @@ public abstract class ReportController implements Controller {
         response.setContentLength(content.length);
         response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Set-Cookie", null);  // removes the header
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+// Move to next Monday
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int daysUntilMonday = (Calendar.MONDAY - dayOfWeek + 7) % 7;
+        if (daysUntilMonday == 0) {
+            daysUntilMonday = 7;  // Ensure it's the *next* Monday
+        }
+        calendar.add(Calendar.DAY_OF_MONTH, daysUntilMonday);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String expiresHeader = sdf.format(calendar.getTime());
+
+        response.setHeader("Expires", expiresHeader);
+
         response.getOutputStream().write(content);
 
         // Return null: response already sent
