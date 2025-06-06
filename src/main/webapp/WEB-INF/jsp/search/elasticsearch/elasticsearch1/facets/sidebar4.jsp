@@ -73,6 +73,11 @@
                     String qtl=species.toLowerCase()+"QTL";
                     String cellLine=species.toLowerCase()+"Cell line";
                     String promoter=species.toLowerCase()+"Promoter";
+                        String expressionLevel=species.toLowerCase()+"ExpressionLevel";
+//                        String strainTerms=species.toLowerCase()+"StrainTerms";
+//                        String tissueTerms=species.toLowerCase()+"TissueTerms";
+//                        String cellTypeTerms=species.toLowerCase()+"CellTypeTerms";
+                        String geneTypeTerms=species.toLowerCase()+"Expression";
                     if(docCount!=0){
         %>
         <%@include file="facets.jsp"%>
