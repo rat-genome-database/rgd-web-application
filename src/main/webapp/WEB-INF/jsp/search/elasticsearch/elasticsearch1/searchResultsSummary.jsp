@@ -98,7 +98,7 @@
                                                         <c:set var="species" value="Green Monkey"/>
                                                     </c:if>
                                                     <c:if test="${loop.index==10}">
-                                                        <c:set var="species" value="Naked Mole-rat"/>
+                                                        <c:set var="species" value="Naked Mole-Rat"/>
                                                     </c:if>
                                                     <c:choose>
                                                         <c:when test="${first==true}">
