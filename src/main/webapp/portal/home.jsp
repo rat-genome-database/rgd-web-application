@@ -486,6 +486,13 @@
 
                  */
 
+                if (speciesType == 1) {
+                    document.getElementById("moetPhenoLabel").innerHTML = "HP: Phenotype Ontology";
+                }else {
+                    document.getElementById("moetPhenoLabel").innerHTML = "MP: Phenotype Ontology";
+
+                }
+
                 $("#loadingModal").modal("show");
                 setTimeout(function () { $("#loadingModal").modal("hide");}, 1000);
 
@@ -1387,7 +1394,7 @@
             <td align="center">
                 <div id="d" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.enrich('RDO')">DO: Diseases Ontology<br><span style="font-size:11px;">Enrichment</span></div>
                 <div id="ph" class="diseasePortalButton" style="background-color:#885D74;" ng-click="portal.enrich('PW')">PW: Pathway Ontology<br><span style="font-size:11px;">Enrichment</span></div>
-                <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('MP')">MP: Phenotype Ontology<br><span style="font-size:11px;">Enrichment</span></div>
+                <div id="bp" class="diseasePortalButton" style="background-color:#548235;" ng-click="portal.enrich('MP')"><div id="moetPhenoLabel" style="display:inline;">MP: Phenotype Ontology</div><br><span style="font-size:11px;">Enrichment</span></div>
                 <div id="pw" class="diseasePortalButton" style="background-color:#002060;" ng-click="portal.enrich('BP')">GO: Biological Process<br><span style="font-size:11px;">Enrichment</span></div>
             </td>
         </tr>
