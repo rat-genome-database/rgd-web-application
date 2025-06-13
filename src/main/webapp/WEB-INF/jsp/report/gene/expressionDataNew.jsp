@@ -234,12 +234,11 @@
                     {
                         key: 'refRgd',
                         label: 'Reference',
-                        formatter: 'createLinks'
+                        formatter: 'createLinks',
                         // formatter: value => {
                         //     return value;
                         // }
-                        //'createLinks'//,//'LinkFormatter',
-                        //sortable: true
+                        sortable: true
                     }
                 ],
                 expItems: []
