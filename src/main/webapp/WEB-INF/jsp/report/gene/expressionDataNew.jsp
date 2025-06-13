@@ -257,7 +257,7 @@
                 var someItems = [];
                 $.ajax({
                     type: "GET",
-                    url: "https://dev.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
+                    url: "https://rest.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
                             result.forEach((recVal) => {
@@ -305,18 +305,9 @@
                                     url: "https://rest.rgd.mcw.edu/rgdws/expression/study/references/" + studyId,
                                     dataType: "json",
                                     success: function (refRes, status, xhr) {
-                                        // reference = "[";
-                                        var resultSize = refRes.length;
-                                        // console.log(resultSize);
                                         refRes.forEach((ref) => {
-                                                // reference.push("value: "+ref);
-                                            // console.log("|"+ref+"|")
-                                            // var link = "/rgdweb/report/reference/main.html?id="+ref;
-                                            // reference.push('<b-link :href='+link+'>RGD:'+ref+'</b-link>');
                                             reference.push(ref);
-                                            // reference+=ref;
                                         })
-                                        // reference += "]";
                                         $.ajax({
                                             type: "GET",
                                             url: "https://rest.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
