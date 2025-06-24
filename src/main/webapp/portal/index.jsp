@@ -63,7 +63,7 @@
         <td width="75"><img src="/rgdweb/common/images/portals/2-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=2'" class="topDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=2" class="diseasePortalName">Cancer & Neoplastic Disease</a></td>
         <td width="75"><img src="/rgdweb/common/images/portals/3-65.png" border="0" class="bottomDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=3'"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=3" class="diseasePortalName">Cardiovascular Disease  </a><img src="/rgdweb/common/images/portals/Updated_Yellow4_75x30.png"></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=3" class="diseasePortalName">Cardiovascular Disease  </a></td>
     </tr>
     <tr>
 
