@@ -98,7 +98,7 @@
             filter = "DOID:0050117";
             break;
         case 16:
-            title = "Behavior Disease";
+            title = "Behavioral & Substance Use Disorder";
             //filter = "RDO:9001567";
             filter = "DOID:150";
             break;
