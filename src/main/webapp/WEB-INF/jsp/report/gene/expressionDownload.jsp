@@ -5,6 +5,7 @@
     RgdId geneId = rdao.getRgdId2(rgdId);
     String termAcc = (String) request.getAttribute("termAcc");
     GeneExpressionDAO gdao = new GeneExpressionDAO();
+    PhenominerDAO pdao = new PhenominerDAO();
     MapDAO mdao = new MapDAO();
     OntologyXDAO xdao = new OntologyXDAO();
     List<GeneExpression> expressionList = gdao.getGeneExpressionObjectsByTermRgdIdUnit(termAcc, rgdId, "TPM");
@@ -36,7 +37,7 @@
         GeneExpressionRecordValue v = ge.getGeneExpressionRecordValue();
         GeneExpressionRecord r = ge.getGeneExpressionRecord();
         Sample s = ge.getSample();
-
+        List<Integer> refs = pdao.getStudyReferences(ge.getStudyId());
         Map asm = mdao.getMap(v.getMapKey());
         Term strain = null;
         if ( !Utils.isStringEmpty(s.getStrainAccId()) )
@@ -111,6 +112,17 @@
         out.print(",");
         out.print(asm.getName());
         out.print(",");
-        out.println("https://rgd.mcw.edu//rgdweb/report/reference/main.html?id="+ge.getRefRgdId());
+        StringBuilder refBuilder = new StringBuilder();
+        for (int i = 0; i < refs.size(); i++){
+            int ref = refs.get(i);
+            if (i == refs.size()-1)
+                refBuilder.append("RGD:").append(ref);
+            else
+                refBuilder.append("RGD:").append(ref).append(", ");
+        }
+        if (Utils.isStringEmpty(refBuilder.toString()) )
+            out.println("N/A");
+        else
+            out.println(refBuilder.toString());
     }
 %>
