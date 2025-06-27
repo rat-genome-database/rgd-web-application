@@ -61,8 +61,8 @@ public class ContactUsController implements Controller {
         fb.setState((String)obj.get("state"));
 
         String message = (String)obj.get("message");
-        String subject = (String)obj.get("subject");
-
+//        String subject = (String)obj.get("subject");
+        String subject = "Inquiry from "+fb.getFirstName()+" "+fb.getLastName();
 
         List<FBPerson> senders = dao.getPersonByEmail(fb.getEmail());
         if (!senders.isEmpty()) {
