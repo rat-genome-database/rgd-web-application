@@ -69,6 +69,7 @@ public class ContactUsController implements Controller {
             if (!fb.equals(senders.get(0))) {
                 FBPerson updated = mergePerson(fb, senders.get(0));
                 dao.updatePerson(updated);
+                fb = updated;
             }
         }
         else{
