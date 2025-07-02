@@ -5,7 +5,7 @@
 <head><title>Protein Interactions Data Table</title>
     <!--link href="/rgdweb/css/cyStyle.css" rel="stylesheet" type="text/css"-->
     <link href="/rgdweb/css/cyTable.css" rel="stylesheet" type="text/css">
-    <script src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+    <script src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 <script src="/rgdweb/js/cyFilter.js"></script>
 <script>
     var terms = ${model.matched};

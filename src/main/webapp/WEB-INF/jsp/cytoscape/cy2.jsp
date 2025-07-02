@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/rgdweb/common/bootstrap/css/bootstrap.min.css" type="text/css"-->
 
 
-    <script src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+    <script src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
     <script src="/rgdweb/common/cytoscape.min.js"></script>
     <!--script src="/rgdweb/common/bootstrap/js/bootstrap.min.js"></script-->
     <link href="/rgdweb/common/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css">
