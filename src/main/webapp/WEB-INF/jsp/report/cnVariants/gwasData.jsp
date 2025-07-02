@@ -162,6 +162,7 @@
                 <td>Peak Marker</td> <!-- change to peak marker -->
                 <td>Reported Odds Ratio or Beta-coefficient</td>
                 <td>Ontology&nbsp;Terms</td>
+                <td>GWAS&nbsp;Version(s)</td>
             </tr>
             <%
                 for (GWASCatalog gwas : gwasList){
@@ -209,6 +210,13 @@
 
                     DecimalFormat df = new DecimalFormat("#.###");
                     df.setRoundingMode(RoundingMode.CEILING);
+                    List<GWASVersion> versions = gdao.getGWASVersionById(gwas.getGwasId());
+                    String ver = "";
+                    for (GWASVersion gv : versions){
+                        ver += gv.getVersion() + "\n";
+                    }
+                    if (Utils.isStringEmpty(ver))
+                        ver = "N/A";
                     if (gwas.getQtlRgdId()!= null && obj.getRgdId()==gwas.getQtlRgdId()){
             %>
             <tr id="rowOfInterest" class="rowOfInterest">
@@ -228,6 +236,7 @@
                     <span class="more" style="display: none;"><%=moreTerms%> </span><a href="" class="moreLink" title="Click to see more"> More...</a>
                     <% } %>
                 </td>
+            <td><pre style="font-size: 13px"><%=Utils.NVL(ver, "N/A")%></pre></td>
             </tr>
             <% } %>
         </table>

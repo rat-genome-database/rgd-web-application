@@ -146,8 +146,15 @@
                         {{data.value}}
                     </tempplate>
                     <template #cell(refRgd)="data">
+<%--                        <div id="expressionReferences"></div>--%>
                         <!-- `data.value` is the value after formatted by the Formatter -->
-                        <b-link :href="'/rgdweb/report/reference/main.html?id='+data.value">RGD:{{ data.value }}</b-link>
+<%--                        <li id="refList" v-for="item in data">--%>
+<%--                            <b-link :href="'/rgdweb/report/reference/main.html?id='+item">RGD:{{ item }}</b-link>--%>
+                            <span v-html="data.value"></span>
+<%--&lt;%&ndash;                            {{item}}&ndash;%&gt;--%>
+<%--                        </li>--%>
+<%--                        <b-link :href="'/rgdweb/report/reference/main.html?id='+data.value">RGD:{{ data.value }}</b-link>--%>
+<%--                        {{ data.value }}--%>
                     </template>
                 </b-table>
             </template>
@@ -227,11 +234,10 @@
                     {
                         key: 'refRgd',
                         label: 'Reference',
-                        formatter: value => {
-                            if (value == null || value === "" || value==="0")
-                                return "N/A"
-                            return value;
-                        },//'LinkFormatter',
+                        formatter: 'createLinks',
+                        // formatter: value => {
+                        //     return value;
+                        // }
                         sortable: true
                     }
                 ],
@@ -290,32 +296,94 @@
                                     displayAge = ageLow + ' - ' + ageHigh + ' days';
                                 var tissue = recVal["sample"]["tissueAccId"];
                                 var geoSample = recVal["sample"]["geoSampleAcc"];
-                                var reference = recVal["refRgdId"];
                                 var compSex = recVal['sample']['computedSex'];
-
+                                var reference = []; //recVal["refRgdId"];
+                                var studyId = recVal["studyId"];
                                 $.ajax({
                                     type: "GET",
-                                    url: "https://rest.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
+                                    url: "https://rest.rgd.mcw.edu/rgdws/expression/study/references/" + studyId,
                                     dataType: "json",
-                                    success: function (resMap) {
-                                        // var json = $.parseJSON(resMap);
-                                        // var speciesName = json.name;
-                                        var speciesName = resMap["name"];
-                                        // console.log("in mapkey");
-                                        // busyState = false;
-                                        if (strainTerm != null && strainTerm !== '') {
-                                            $.ajax({
-                                                type: "GET",
-                                                context: this,
-                                                url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
-                                                dataType: "json",
-                                                success: function (r, s, x) {
-                                                    // console.log("strain: "+r)
-                                                    // console.log('tissue');
-                                                    if (tissue == null || tissue == '') {
+                                    success: function (refRes, status, xhr) {
+                                        refRes.forEach((ref) => {
+                                            reference.push(ref);
+                                        })
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "https://rest.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
+                                            dataType: "json",
+                                            success: function (resMap) {
+                                                // var json = $.parseJSON(resMap);
+                                                // var speciesName = json.name;
+                                                var speciesName = resMap["name"];
+                                                // console.log("in mapkey");
+                                                // busyState = false;
+                                                if (strainTerm != null && strainTerm !== '') {
+                                                    $.ajax({
+                                                        type: "GET",
+                                                        context: this,
+                                                        url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
+                                                        dataType: "json",
+                                                        success: function (r, s, x) {
+                                                            // console.log("strain: "+r)
+                                                            // console.log('tissue');
+                                                            if (tissue == null || tissue == '') {
+                                                                tissue = '';
+                                                                someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
+                                                                        'strain/CellLine': r["term"],
+                                                                        sex: sex,
+                                                                        computedSex: compSex,
+                                                                        age: displayAge,
+                                                                        tissue: tissue,
+                                                                        GeoSampleId: geoSample,
+                                                                        tpmValue: tpmVal,
+                                                                        unit: 'TPM',
+                                                                        assembly: speciesName,
+                                                                        refRgd: reference//{myId: reference, mrLink: link}
+                                                                    }
+                                                                )
+                                                            } else {
+                                                                // console.log("here2")
+                                                                $.ajax({
+                                                                    type: "GET",
+                                                                    context: this,
+                                                                    url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
+                                                                    dataType: "json",
+                                                                    success: function (r2, s, x) {
+                                                                        // console.log('tissue');
+                                                                        // console.log("tissue: "+r)
+                                                                        someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
+                                                                                'strain/CellLine': r["term"],
+                                                                                sex: sex,
+                                                                                computedSex: compSex,
+                                                                                age: displayAge,
+                                                                                tissue: r2["term"],
+                                                                                GeoSampleId: geoSample,
+                                                                                tpmValue: tpmVal,
+                                                                                unit: 'TPM',
+                                                                                assembly: speciesName,
+                                                                                refRgd: reference//{myId: reference, mrLink: link}
+                                                                            }
+                                                                        )
+
+                                                                    },
+                                                                    error: function (x, s, err) {
+                                                                        console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
+                                                                    }
+                                                                })
+                                                            }
+                                                        },
+                                                        complete: function (){
+                                                            tableVue.isBusy = false;
+                                                        }
+                                                    })
+                                                } else {
+                                                    if (tissue == null) {
+                                                        // console.log("here3")
                                                         tissue = '';
+                                                        // console.log('tissue');
+                                                        // console.log(tpmVal);
                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                'strain/CellLine': r["term"],
+                                                                'strain/CellLine': 'None Available',
                                                                 sex: sex,
                                                                 computedSex: compSex,
                                                                 age: displayAge,
@@ -327,22 +395,23 @@
                                                                 refRgd: reference//{myId: reference, mrLink: link}
                                                             }
                                                         )
+                                                        tableVue.isBusy = false;
                                                     } else {
-                                                        // console.log("here2")
+                                                        // console.log("here4")
                                                         $.ajax({
                                                             type: "GET",
                                                             context: this,
                                                             url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
                                                             dataType: "json",
-                                                            success: function (r2, s, x) {
-                                                                // console.log('tissue');
+                                                            success: function (r, s, x) {
                                                                 // console.log("tissue: "+r)
+                                                                // console.log('tissue');
                                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                        'strain/CellLine': r["term"],
+                                                                        'strain/CellLine': 'None Available',
                                                                         sex: sex,
                                                                         computedSex: compSex,
                                                                         age: displayAge,
-                                                                        tissue: r2["term"],
+                                                                        tissue: r["term"],
                                                                         GeoSampleId: geoSample,
                                                                         tpmValue: tpmVal,
                                                                         unit: 'TPM',
@@ -352,77 +421,25 @@
                                                                 )
 
                                                             },
+                                                            complete: function (){
+                                                                tableVue.isBusy = false;
+                                                            },
                                                             error: function (x, s, err) {
                                                                 console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                                             }
-                                                        })
+                                                        });
+
                                                     }
-                                                },
-                                                complete: function (){
-                                                    tableVue.isBusy = false;
                                                 }
-                                            })
-                                        } else {
-                                            if (tissue == null) {
-                                                // console.log("here3")
-                                                tissue = '';
-                                                // console.log('tissue');
-                                                // console.log(tpmVal);
-                                                someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                        'strain/CellLine': 'None Available',
-                                                        sex: sex,
-                                                        computedSex: compSex,
-                                                        age: displayAge,
-                                                        tissue: tissue,
-                                                        GeoSampleId: geoSample,
-                                                        tpmValue: tpmVal,
-                                                        unit: 'TPM',
-                                                        assembly: speciesName,
-                                                        refRgd: reference//{myId: reference, mrLink: link}
-                                                    }
-                                                )
-                                                tableVue.isBusy = false;
-                                            } else {
-                                                // console.log("here4")
-                                                $.ajax({
-                                                    type: "GET",
-                                                    context: this,
-                                                    url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
-                                                    dataType: "json",
-                                                    success: function (r, s, x) {
-                                                        // console.log("tissue: "+r)
-                                                        // console.log('tissue');
-                                                        someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                'strain/CellLine': 'None Available',
-                                                                sex: sex,
-                                                                computedSex: compSex,
-                                                                age: displayAge,
-                                                                tissue: r["term"],
-                                                                GeoSampleId: geoSample,
-                                                                tpmValue: tpmVal,
-                                                                unit: 'TPM',
-                                                                assembly: speciesName,
-                                                                refRgd: reference//{myId: reference, mrLink: link}
-                                                            }
-                                                        )
 
-                                                    },
-                                                    complete: function (){
-                                                        tableVue.isBusy = false;
-                                                    },
-                                                    error: function (x, s, err) {
-                                                        console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
-                                                    }
-                                                });
-
+                                            },
+                                            error: function (x, s, err) {
+                                                console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                             }
-                                        }
-
-                                    },
-                                    error: function (x, s, err) {
-                                        console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
+                                        });
                                     }
-                                });
+                                })
+
                             });
                         // }
                     },
@@ -436,6 +453,25 @@
                 // console.log(this.expItems);
                 showTable(termAcc);
                 // return someItems;
+            },
+            createLinks(data){
+                // console.log(data);
+                var valLen = data.length;
+                var valCopy = data;
+                // var i = 0;
+                // var list = document.getElementById("refList");
+                var value2 = '';
+                // console.log(data);
+                for (var i = 0; i < valLen; i++){
+                    // console.log(data[i]);
+                    var link = "/rgdweb/report/reference/main.html?id="+data[i];
+                    var d2 = '<a href="'+link+'">RGD:'+data[i]+'</a>';
+                    value2 += d2 + "&nbsp;";
+                }
+                // console.log(value2);
+                if (value2 == null || value2 === '')
+                    return "N/A";
+                return value2;
             }
         }
     });

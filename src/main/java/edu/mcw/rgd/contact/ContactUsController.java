@@ -3,6 +3,7 @@ package edu.mcw.rgd.contact;
 import edu.mcw.rgd.datamodel.FBPerson;
 import edu.mcw.rgd.my.MyRGDLookupController;
 import edu.mcw.rgd.dao.impl.RgdFbDAO;
+import edu.mcw.rgd.process.Utils;
 import org.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -60,14 +61,15 @@ public class ContactUsController implements Controller {
         fb.setState((String)obj.get("state"));
 
         String message = (String)obj.get("message");
-        String subject = (String)obj.get("subject");
-
+//        String subject = (String)obj.get("subject");
+        String subject = "Inquiry from "+fb.getFirstName()+" "+fb.getLastName();
 
         List<FBPerson> senders = dao.getPersonByEmail(fb.getEmail());
         if (!senders.isEmpty()) {
             if (!fb.equals(senders.get(0))) {
                 FBPerson updated = mergePerson(fb, senders.get(0));
                 dao.updatePerson(updated);
+                fb = updated;
             }
         }
         else{
@@ -118,22 +120,26 @@ public class ContactUsController implements Controller {
     }
     public FBPerson mergePerson(FBPerson newPerson, FBPerson dbPerson) throws Exception{
         // if fb obj is empty but sender0 obj is not, put obj from sender in fb, update anyway for potential changes
-        newPerson.setPersonId(dbPerson.getPersonId());
-        if (!newPerson.getLastName().equals(dbPerson.getLastName()))
-            newPerson.setLastName(dbPerson.getLastName());
-        if (newPerson.getPhoneNumber()==0 && dbPerson.getPhoneNumber()!=0)
-            newPerson.setPhoneNumber(dbPerson.getPhoneNumber());
-        if ((newPerson.getCountry().isEmpty() && dbPerson.getCountry() != null) && !newPerson.getCountry().equals(dbPerson.getCountry()))
-            newPerson.setCountry(dbPerson.getCountry());
-        if ((newPerson.getInstitute().isEmpty() && dbPerson.getInstitute() != null) && !newPerson.getInstitute().equals(dbPerson.getInstitute()))
-            newPerson.setInstitute(dbPerson.getInstitute());
-        if ((newPerson.getAddress().isEmpty() && dbPerson.getAddress() != null) && !newPerson.getAddress().equals(dbPerson.getAddress()))
-            newPerson.setAddress(dbPerson.getAddress());
-        if ((newPerson.getCity().isEmpty() && dbPerson.getCity() != null) && !newPerson.getCity().equals(dbPerson.getCity()))
-            newPerson.setCity(dbPerson.getCity());
-        if (newPerson.getZipCode() == 0 && dbPerson.getZipCode() != 0)
-            newPerson.setZipCode(dbPerson.getZipCode());
+//        newPerson.setPersonId(dbPerson.getPersonId());
+        if (!Utils.stringsAreEqual(newPerson.getFirstName(),dbPerson.getFirstName()))
+            dbPerson.setFirstName(newPerson.getFirstName());
+        if (!Utils.stringsAreEqual(newPerson.getLastName(),dbPerson.getLastName()))
+            dbPerson.setLastName(newPerson.getLastName());
+        if ( (newPerson.getPhoneNumber()!=0 && dbPerson.getPhoneNumber()==0) && newPerson.getPhoneNumber() != dbPerson.getPhoneNumber())
+            dbPerson.setPhoneNumber(newPerson.getPhoneNumber());
+        if (!Utils.stringsAreEqual(newPerson.getCountry(), dbPerson.getCountry()) && !Utils.isStringEmpty(newPerson.getCountry()))
+            dbPerson.setCountry(newPerson.getCountry());
+        if (!Utils.stringsAreEqual(newPerson.getInstitute(),dbPerson.getInstitute()) && !Utils.isStringEmpty(newPerson.getInstitute()))
+            dbPerson.setInstitute(newPerson.getInstitute());
+        if (!Utils.stringsAreEqual(newPerson.getAddress(), dbPerson.getAddress()) && !Utils.isStringEmpty(newPerson.getAddress()))
+            dbPerson.setAddress(newPerson.getAddress());
+        if (!Utils.stringsAreEqual(newPerson.getCity(),dbPerson.getCity()) && !Utils.isStringEmpty(newPerson.getCity()))
+            dbPerson.setCity(newPerson.getCity());
+        if (newPerson.getZipCode() != 0 && newPerson.getZipCode()!=dbPerson.getZipCode())
+            dbPerson.setZipCode(newPerson.getZipCode());
+        if (!Utils.stringsAreEqual(newPerson.getState(),dbPerson.getState()) && !Utils.isStringEmpty(newPerson.getState()))
+            dbPerson.setState(newPerson.getState());
 
-        return newPerson;
+        return dbPerson;
     }
 }

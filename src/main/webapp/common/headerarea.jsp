@@ -278,6 +278,7 @@
                                         </button>
                                         <div class="rgd-dropdown-content">
                                             <a href="/rgdweb/portal/home.jsp?p=1">Aging & Age-Related Disease</a>
+                                            <a href="/rgdweb/portal/home.jsp?p=16">Behavioral & Substance Use Disorder</a>
                                             <a href="/rgdweb/portal/home.jsp?p=2">Cancer & Neoplastic Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=3">Cardiovascular Disease</a>
                                             <a href="/rgdweb/portal/home.jsp?p=14">Coronavirus Disease</a>

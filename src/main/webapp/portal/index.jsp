@@ -55,50 +55,52 @@
     <tr>
         <td width="75"><img src="/rgdweb/common/images/portals/1-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=1'"/></td>
         <td ><a href="/rgdweb/portal/home.jsp?p=1" class="diseasePortalName">Aging & Age Related Disease</a></td>
-        <td width="75"><img src="/rgdweb/common/images/portals/2-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=2'" class="bottomDiseaseIcon"/></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/16-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=16'" class="bottomDiseaseIcon"/></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=16" class="diseasePortalName">Behavioral & Substance Use Disorder</a></td>
+    </tr>
+    <tr>
+
+        <td width="75"><img src="/rgdweb/common/images/portals/2-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=2'" class="topDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=2" class="diseasePortalName">Cancer & Neoplastic Disease</a></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/3-65.png" border="0" class="bottomDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=3'"/></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=3" class="diseasePortalName">Cardiovascular Disease  </a></td>
     </tr>
     <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/3-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=3'"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=3" class="diseasePortalName">Cardiovascular Disease  </a><img src="/rgdweb/common/images/portals/Updated_Yellow4_75x30.png"></td>
-        <td width="75"><img src="/rgdweb/common/images/portals/14-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=14'" class="bottomDiseaseIcon"/></td>
+
+        <td width="75"><img src="/rgdweb/common/images/portals/14-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=14'" class="topDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=14" class="diseasePortalName">Coronavirus Disease</a></td>
-    </tr>
-    <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/12-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=12'"/></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/12-65.png" border="0" class="bottomDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=12'"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=12" class="diseasePortalName">Developmental Disease</a></td>
-        <td width="75"><img src="/rgdweb/common/images/portals/4-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=4'" class="bottomDiseaseIcon"/></td>
+    </tr>
+    <tr>
+        <td width="75"><img src="/rgdweb/common/images/portals/4-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=4'" class="topDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=4" class="diseasePortalName">Diabetes</a></td>
-    </tr>
-    <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/5-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=5'"/></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/5-65.png" border="0" class="bottomDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=5'"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=5" class="diseasePortalName">Hematologic Disease</a></td>
-        <td width="75"><img src="/rgdweb/common/images/portals/6-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=6'" class="bottomDiseaseIcon"/></td>
+    </tr>
+    <tr>
+        <td width="75"><img src="/rgdweb/common/images/portals/6-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=6'" class="topDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=6" class="diseasePortalName">Immune & Inflammatory Disease</a></td>
-    </tr>
-    <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/15-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=15'"/></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/15-65.png" border="0" class="bottomDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=15'"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=15" class="diseasePortalName">Infectious Disease</a>&nbsp;</td>
-        <td width="75"><img src="/rgdweb/common/images/portals/13-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=13'" class="bottomDiseaseIcon"/></td>
+    </tr>
+    <tr>
+        <td width="75"><img src="/rgdweb/common/images/portals/13-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=13'" class="topDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=13" class="diseasePortalName">Liver Disease</a></td>
-    </tr>
-    <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/7-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=7'"/></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/7-65.png" border="0" class="bottomDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=7'"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=7" class="diseasePortalName">Neurological Disease</a></td>
-        <td width="75"><img src="/rgdweb/common/images/portals/8-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=8'" class="bottomDiseaseIcon"/></td>
+    </tr>
+    <tr>
+        <td width="75"><img src="/rgdweb/common/images/portals/8-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=8'" class="topDiseaseIcon"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=8" class="diseasePortalName">Obesity & Metabolic Syndrome</a></td>
-    </tr>
-    <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/9-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=9'"/></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/9-65.png" border="0" class="bottomDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=9'"/></td>
         <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=9" class="diseasePortalName">Renal Disease</a></td>
-        <td width="75"><img src="/rgdweb/common/images/portals/10-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=10'" class="bottomDiseaseIcon"/></td>
-        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=10" class="diseasePortalName">Respiratory Disease</a></td>
     </tr>
     <tr>
-        <td width="75"><img src="/rgdweb/common/images/portals/11-65.png" border="0" class="topDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=11'"/></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/10-65.png" border="0" onclick="location.href='/rgdweb/portal/home.jsp?p=10'" class="topDiseaseIcon"/></td>
+        <td class="diseasePortalName"><a href="/rgdweb/portal/home.jsp?p=10" class="diseasePortalName">Respiratory Disease</a></td>
+        <td width="75"><img src="/rgdweb/common/images/portals/11-65.png" border="0" class="bottomDiseaseIcon" onclick="location.href='/rgdweb/portal/home.jsp?p=11'"/></td>
         <td class="diseasePortalName" ><a href="/rgdweb/portal/home.jsp?p=11" class="diseasePortalName">Sensory Organ Disease</a></td>
-        <td></td>
-        <td></td>
     </tr>
 </table>
 
