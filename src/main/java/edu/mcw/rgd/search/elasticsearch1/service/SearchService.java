@@ -36,7 +36,7 @@ public class SearchService {
         long totalHits=0;
 
         Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
-        String[][] speciesCatArray = new String[8][12];
+        String[][] speciesCatArray = new String[9][12];
         speciesCatArray[0][0]="Gene";
         speciesCatArray[4][0]="Variant";
         speciesCatArray[1][0]="Strain";
@@ -44,7 +44,8 @@ public class SearchService {
         speciesCatArray[3][0]="SSLP";
         speciesCatArray[5][0]="Promoter";
         speciesCatArray[6][0]="Cell line";
-        speciesCatArray[7][0]="Expression";
+        speciesCatArray[7][0]="Expressed Gene";
+        speciesCatArray[8][0]="Expression Study";
         Terms speciesAgg, categoryAgg, typeAgg, assembly = null;
         Filter chromosomeAgg;
         long totalTerms = 0;
@@ -74,9 +75,9 @@ public class SearchService {
                        Terms sampleFilterAgg=bucket.getAggregations().get("sample");
                        Terms variantCategoryFilterAgg=bucket.getAggregations().get("variantCategory");
                        Terms expressionLevelFilterAgg=bucket.getAggregations().get("expressionLevel");
-//                       Terms strainTermsFilterAgg=bucket.getAggregations().get("strainTerms");
-//                       Terms tissueTermsFilterAgg=bucket.getAggregations().get("tissueTerms");
-//                       Terms cellTypeTermsFilterAgg=bucket.getAggregations().get("cellTypeTerms");
+                       Terms strainTermsFilterAgg=bucket.getAggregations().get("strainTerms");
+                       Terms tissueTermsFilterAgg=bucket.getAggregations().get("tissueTerms");
+                       Terms cellTypeTermsFilterAgg=bucket.getAggregations().get("cellTypeTerms");
 
 
 
@@ -91,6 +92,14 @@ public class SearchService {
 
                            if(expressionLevelFilterAgg!=null)
                            aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
+//                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
+//                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
+//                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                       }
+                       if(bucket.getKey().toString().equalsIgnoreCase("expressionStudy")){
+
+//                           if(expressionLevelFilterAgg!=null)
+//                               aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
 //                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
 //                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
 //                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
@@ -181,6 +190,10 @@ public class SearchService {
                                 case "Expression":
                                     speciesCatArray[7][k] =  String.valueOf(b.getDocCount()) ;
                                     speciesCatArray[7][11] = String.valueOf(bucket.getDocCount()) ;
+                                    break;
+                                case "ExpressionStudy":
+                                    speciesCatArray[8][k] =  String.valueOf(b.getDocCount()) ;
+                                    speciesCatArray[8][11] = String.valueOf(bucket.getDocCount()) ;
                                     break;
 
                             default:
