@@ -41,9 +41,9 @@ boolean isEva = false;
     List<Gene> geneList = new ArrayList<>();
     String genes = "";
     if (mapData.size()>0) {
-        GeneDAO gdao = new GeneDAO();
+        GeneDAO geneDao = new GeneDAO();
         for (MapData m : mapData) {
-            Gene g = gdao.getGene(m.getRgdId());
+            Gene g = geneDao.getGene(m.getRgdId());
             if (g != null)
                 geneList.add(g);
         }
