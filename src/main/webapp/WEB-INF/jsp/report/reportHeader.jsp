@@ -20,10 +20,7 @@
 <script type="text/javascript" src="/rgdweb/js/report.js?v=6">
 </script>
 
-<script
-        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-        crossorigin="anonymous">
+<script src="/rgdweb/common/jquery-ui/jquery-ui.js">
 
 </script>
 

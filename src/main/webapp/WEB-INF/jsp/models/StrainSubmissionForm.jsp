@@ -15,9 +15,10 @@
     DisplayMapper dm = new DisplayMapper(req,errors);
 Strain strain= new Strain();%>
 <%@ include file="headerarea.jsp"%>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<%--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">--%>
+<link rel="stylesheet" href="/rgdweb/common/jquery-ui/jquery-ui.css"/>
 <script src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
 <script>
 
     $(function () {
