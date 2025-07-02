@@ -18,7 +18,7 @@
 
 <link href="/rgdweb/ga/ga.css" rel="stylesheet" type="text/css"/>
 <!--link href="/rgdweb/js/jsor-jcarousel-7bb2e0a/style.css" rel="stylesheet" type="text/css"/-->
-<script src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+<script src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>

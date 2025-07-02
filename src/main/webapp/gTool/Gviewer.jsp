@@ -42,7 +42,7 @@
     <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
 
 <script src="/rgdweb/common/sorttable.js"></script>
-<script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-1.2.0.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-3.5.0.js"></script>
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 
 <!--#F0F6FF    #E3EEFF -->
