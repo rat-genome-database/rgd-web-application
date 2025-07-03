@@ -32,7 +32,7 @@
 <script type="text/javascript" src="/common/modalDialog/common.js"></script>
 <script type="text/javascript" src="/common/modalDialog/subModal.js"></script>
 <script type="text/javascript" src="/common/js/poll.js"></script>
-    <script src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+    <script src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 
     <script src="/rgdweb/js/jquery/jquery-ui-1.8.18.custom.min.js"></script>
     <script src="/rgdweb/js/jquery/jquery_combo_box.js"></script>

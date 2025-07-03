@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+  <script src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 
   <script src="/rgdweb/common/cytoscape.min.js"></script>
 

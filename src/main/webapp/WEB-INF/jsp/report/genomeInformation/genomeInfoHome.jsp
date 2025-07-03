@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="genomeInfoHeader.jsp"/>
-<script type="text/javascript"  src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+<script type="text/javascript"  src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 <script src="/rgdweb/js/genomeInformation/genomeHome.js"></script>
 <style>
 .card-img-top {

@@ -6,7 +6,7 @@
 <script src="/rgdweb/gviewer/script/jkl-parsexml.js"></script>
 
 <script src="/rgdweb/gviewer/script/ZoomPane.js"></script>
-<script type="text/javascript"  src="/rgdweb/js/jquery/jquery-1.12.4.min.js"></script>
+<script type="text/javascript"  src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
 
 <script src="/rgdweb/js/genomeInformation/genomeInfo.js"></script>
