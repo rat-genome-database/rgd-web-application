@@ -25,7 +25,7 @@
 
     <!-- adding link for OntoSolr (Pushkala) -->
 <!--link rel="stylesheet" href="/OntoSolr/files/jquery.autocomplete.css" type="text/css" /-->
-    <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
+    <link rel="stylesheet" href="/solr/OntoSolr/jquery.autocomplete.css" type="text/css" />
 <!-- CSS for Tab Menu #4 -->
 <link rel="stylesheet" type="text/css" href="/common/style/ddcolortabs.css" />
 
