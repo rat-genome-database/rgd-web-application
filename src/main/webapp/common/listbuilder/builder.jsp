@@ -5,7 +5,7 @@
 
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 
-<link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
+<link rel="stylesheet" href="/solr/OntoSolr/jquery.autocomplete.css" type="text/css" />
 
 <style>
 .rootont {
