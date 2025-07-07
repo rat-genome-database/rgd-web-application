@@ -424,7 +424,7 @@ public class  MapDataFormatter {
 
     static void generateNcbiGDVLink(StringBuilder buf, String objectSymbol, String refSeqAccId, String mapName) {
         //removed mRatBN7.2 Ensembl from the NCBI section as per RGDD-2799
-        if(refSeqAccId!=null&&!(mapName.equals("mRatBN7.2 Ensembl"))&&!(mapName.equals("ROS_Cfam_1.0 Ensembl"))) {
+        if(refSeqAccId!=null&&!(mapName.equals("mRatBN7.2 Ensembl"))&&!(mapName.equals("ROS_Cfam_1.0 Ensembl"))&&!(mapName.equals("GRCr8 Ensembl"))) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://www.ncbi.nlm.nih.gov/genome/gdv/browser/?id=")
                     .append(refSeqAccId)
                     .append("&q=").append(objectSymbol)
@@ -525,6 +525,7 @@ public class  MapDataFormatter {
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
             switch(md.getMapKey()) {
                 case 380:
+                case 381:
                     db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
                     link="GRCr8";
                     break;
