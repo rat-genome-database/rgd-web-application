@@ -4,42 +4,50 @@ import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import edu.mcw.rgd.web.HttpRequestFacade;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
- * Created by IntelliJ IDEA.
- * User: jdepons
- * Date: Jun 2, 2008
- * Time: 8:59:47 AM
+ * Buffered ReportController to support Apache mod_cache by setting Content-Length
  */
 public abstract class ReportController implements Controller {
 
     public abstract String getViewUrl() throws Exception;
     public abstract Object getObject(int rgdId) throws Exception;
 
-
     protected HttpServletRequest request = null;
     protected HttpServletResponse response = null;
 
+    @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         this.request = request;
         this.response = response;
 
-        ArrayList error = new ArrayList();
-        ArrayList warning = new ArrayList();
-        ArrayList status = new ArrayList();
+        ArrayList<String> error = new ArrayList<>();
+        ArrayList<String> warning = new ArrayList<>();
+        ArrayList<String> status = new ArrayList<>();
         String path = "/WEB-INF/jsp/report/";
 
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         String strRgdId = req.getParameter("id");
         strRgdId = strRgdId.replaceAll("RGD:", "");
-        strRgdId = strRgdId.replaceAll("\\)","");
+        strRgdId = strRgdId.replaceAll("\\)", "");
 
-        int rgdId=0;
+        int rgdId = 0;
         Object object = null;
 
         try {
@@ -47,29 +55,94 @@ public abstract class ReportController implements Controller {
 
             try {
                 object = this.getObject(rgdId);
-                if( object==null ) {
+                if (object == null) {
                     error.add("Invalid RGD ID for this type of object!");
                 }
-            }
-            catch( Exception e ) {
+            } catch (Exception e) {
                 error.add(e.getMessage());
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             error.add("RGD ID must be Numeric. Please Search Again.");
         }
 
         request.setAttribute("reportObject", object);
         request.setAttribute("requestFacade", req);
-
         request.setAttribute("error", error);
         request.setAttribute("status", status);
         request.setAttribute("warn", warning);
 
+        String jspPath = (error.size() > 0)
+                ? "/WEB-INF/jsp/search/searchByPosition.jsp"
+                : path + getViewUrl();
 
-        if (error.size() > 0) {
-            return new ModelAndView("/WEB-INF/jsp/search/searchByPosition.jsp");
-        }else {
-            return new ModelAndView(path + this.getViewUrl());
+        // === Begin buffering logic to set Content-Length ===
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(buffer, response.getCharacterEncoding()), true);
+
+        HttpServletResponseWrapper wrappedResponse = new HttpServletResponseWrapper(response) {
+            @Override
+            public PrintWriter getWriter() {
+                return writer;
+            }
+
+            @Override
+            public ServletOutputStream getOutputStream() {
+                return new ServletOutputStream() {
+                    @Override
+                    public void write(int b) {
+                        buffer.write(b);
+                    }
+
+                    @Override
+                    public boolean isReady() {
+                        return true;
+                    }
+
+                    @Override
+                    public void setWriteListener(WriteListener listener) {
+                        // Not needed for synchronous IO
+                    }
+                };
+            }
+        };
+
+        // Render the JSP view into the buffer
+        RequestDispatcher dispatcher = request.getRequestDispatcher(jspPath);
+        dispatcher.include(request, wrappedResponse);
+
+        writer.flush();
+        byte[] content = buffer.toByteArray();
+
+
+        // Set Content-Length and finalize response
+        response.setContentLength(content.length);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Set-Cookie", null);  // removes the header
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+// Move to next Monday
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int daysUntilMonday = (Calendar.MONDAY - dayOfWeek + 7) % 7;
+        if (daysUntilMonday == 0) {
+            daysUntilMonday = 7;  // Ensure it's the *next* Monday
         }
+        calendar.add(Calendar.DAY_OF_MONTH, daysUntilMonday);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String expiresHeader = sdf.format(calendar.getTime());
+
+        response.setHeader("Expires", expiresHeader);
+
+        response.getOutputStream().write(content);
+
+        // Return null: response already sent
+        return null;
     }
 }
