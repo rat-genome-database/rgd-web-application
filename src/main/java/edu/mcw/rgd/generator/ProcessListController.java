@@ -25,6 +25,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -87,7 +89,15 @@ public class ProcessListController implements Controller {
         }else if (action.equals("json")) {
             Gson gson = new Gson();
 
-            response.getWriter().write(gson.toJson(or.getResultSet()));
+            //response.getWriter().write(gson.toJson(or.getResultSet()));
+
+            String json = gson.toJson(or.getResultSet());
+            byte[] jsonBytes = json.getBytes(StandardCharsets.UTF_8);
+
+            response.setContentType("application/json;charset=UTF-8");
+            response.setContentLength(jsonBytes.length); // ✅ Ensures Apache can cache it
+            response.getOutputStream().write(jsonBytes);
+
             return null;
         }else {
             return new ModelAndView("/WEB-INF/jsp/generator/list.jsp");
