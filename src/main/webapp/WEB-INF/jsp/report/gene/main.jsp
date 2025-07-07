@@ -10,7 +10,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../dao.jsp"%>
 
+<%
+    request.getSession(false);
 
+    // Remove cookie manually if it exists
+    response.setHeader("Set-Cookie", "");
+%>
 <% boolean includeMapping = true;
     String title = "Genes";
     Gene obj = (Gene) request.getAttribute("reportObject");
