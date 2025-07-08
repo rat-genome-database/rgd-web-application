@@ -156,7 +156,7 @@ public class RgdContext {
     public static String getESVariantIndexName(String index) {
         try {
             if( isProduction() ) {
-                return index+"_cur";
+                return index+"_prod";
             }
             if( isPipelines() ) {
                 return index+"_cur";
