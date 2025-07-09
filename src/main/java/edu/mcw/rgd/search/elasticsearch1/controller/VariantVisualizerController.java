@@ -4,6 +4,7 @@ import edu.mcw.rgd.dao.impl.AssociationDAO;
 import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.datamodel.Gene;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.web.RgdContext;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -75,7 +76,7 @@ public class VariantVisualizerController implements Controller {
                 sample="all";
             }
         }
-        String redirectUrl=request.getScheme() + "://" + request.getServerName() + "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&con=&depthLowBound=8&depthHighBound=&sample1="+sample+"&mapKey=" + mapKey + "&geneList=" + geneList;
+        String redirectUrl= RgdContext.getHostname() + "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&con=&depthLowBound=8&depthHighBound=&sample1="+sample+"&mapKey=" + mapKey + "&geneList=" + geneList;
                 //"/rgdweb/front/config.html?geneList="+geneList+"&sample1="+sample+"&mapKey="+mapKey;
         response.sendRedirect(redirectUrl);
         return null;
