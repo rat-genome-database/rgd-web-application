@@ -10,6 +10,7 @@ import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.ui.ModelMap;
@@ -131,8 +132,8 @@ public class PhenominerSearchController implements Controller {
                 }
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
-                    //   redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-                    redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
+                    //   redirUrl = RgdContext.getHostname() + ":8080" + redirUrl;
+                    redirUrl = RgdContext.getHostname() + redirUrl;
                     return redirUrl;
                 }
             }else {
@@ -191,8 +192,8 @@ public class PhenominerSearchController implements Controller {
               redirUrl = Link.ontAnnot(docId);
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
-            //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-              redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
+            //      redirUrl = RgdContext.getHostname() + ":8080" + redirUrl;
+              redirUrl = RgdContext.getHostname() + redirUrl;
 
             }
         } catch (Exception e) {e.printStackTrace();}

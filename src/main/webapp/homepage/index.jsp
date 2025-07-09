@@ -168,7 +168,7 @@
 <table align="center">
     <tr>
 
-        <% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") ) { %>
+        <% if (RgdContext.getHostname().equals("pipelines.rgd.mcw.edu") || RgdContext.getHostname().equals("dev.rgd.mcw.edu") ) { %>
         <td>
             <a style="font-size:26px;padding-right:40px;" href="/rgdweb/curation/home.html">Enter Curation Portal</a>
         </td>
@@ -261,7 +261,7 @@
 </table>
 
 
-<% if (request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") ) { %>
+<% if (RgdContext.getHostname().equals("pipelines.rgd.mcw.edu") || RgdContext.getHostname().equals("dev.rgd.mcw.edu") ) { %>
 <table style="border: 1px solid black;">
     <tr>
         <td style="color:white; font-weight:700; background-color:black;">RGD Zoom Links</td>

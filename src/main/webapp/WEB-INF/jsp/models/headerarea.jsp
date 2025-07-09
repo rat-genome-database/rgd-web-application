@@ -8,7 +8,7 @@
 
 <%
     String resourcePath = "";
-    if (request.getServerName().equals("localhost") && request.getServerPort() == 8080) {
+    if (RgdContext.getHostname().equals("localhost") && request.getServerPort() == 8080) {
         resourcePath= "http://dev.rgd.mcw.edu";
     }
 %>

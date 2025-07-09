@@ -17,6 +17,7 @@ import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
+import edu.mcw.rgd.web.RgdContext;
 import jakarta.servlet.RequestDispatcher;
 import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
@@ -176,20 +177,21 @@ public class ElasticSearchController extends RGDSearchController {
                 }
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
-                    return request.getScheme() + "://" + request.getServerName() + redirUrl;
+                  //  return RgdContext.getHostname() + redirUrl;
+                    return  RgdContext.getHostname() + redirUrl;
 
                 }
             }else
                 if (term.toLowerCase().startsWith("rs") && term.substring(2).matches("[0-9]+" ))
             {
                 redirUrl=Link.rsId(term);
-                return request.getScheme() + "://" + request.getServerName() + redirUrl;
+                return RgdContext.getHostname() + redirUrl;
 
             }else if(term.contains(":")){
                     Term termByAccId=xdao.getTermByAccId(term.toUpperCase());
                     if(termByAccId!=null){
                         redirUrl=Link.ontAnnot(term.toUpperCase());
-                        return request.getScheme() + "://" + request.getServerName() + redirUrl;
+                        return RgdContext.getHostname() + redirUrl;
                     }
                 }
             else {
@@ -248,8 +250,8 @@ public class ElasticSearchController extends RGDSearchController {
 
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
-            //      redirUrl = request.getScheme() + "://" + request.getServerName() + ":8080" + redirUrl;
-              redirUrl = request.getScheme() + "://" + request.getServerName() + redirUrl;
+            //      redirUrl = RgdContext.getHostname() + ":8080" + redirUrl;
+              redirUrl = RgdContext.getHostname() + redirUrl;
 
             }
         } catch (Exception e) {e.printStackTrace();}
