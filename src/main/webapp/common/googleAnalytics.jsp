@@ -1,4 +1,4 @@
-<% if (request.getServerName().equals("localhost") || request.getServerName().equals("pipelines.rgd.mcw.edu") || request.getServerName().equals("dev.rgd.mcw.edu") ) { %>
+<% if (RgdContext.getHostname().equals("localhost") || RgdContext.getHostname().equals("pipelines.rgd.mcw.edu") || RgdContext.getHostname().equals("dev.rgd.mcw.edu") ) { %>
 
 <% } else { %>
 <script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>

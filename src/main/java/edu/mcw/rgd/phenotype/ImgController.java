@@ -1,5 +1,6 @@
 package edu.mcw.rgd.phenotype;
 
+import edu.mcw.rgd.web.RgdContext;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -61,7 +62,7 @@ public class ImgController implements Controller {
             mv.addObject("img", showFile);
 
             // construct alternate uri
-            String imgUrl = request.getScheme()+"://"+request.getServerName();
+            String imgUrl = RgdContext.getHostname();
             if( request.getServerPort()!=80 )
                 imgUrl += ":"+request.getServerPort();
             imgUrl += "/common/images/phenodb/"+showFile;
