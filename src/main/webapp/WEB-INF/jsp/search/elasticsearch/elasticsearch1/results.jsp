@@ -205,8 +205,11 @@
                 <c:set var="xRecordCount" value="${xRecordCount+ hit.getSourceAsMap().experimentRecordCount}"/>
                 <c:set var="sampleExists" value="${sampleExists+ hit.getSourceAsMap().sampleExists}"/>
                 <c:set var="url" value="/rgdweb/report/${hit.getSourceAsMap().category.toLowerCase()}/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
-                <c:if test="${hit.getSourceAsMap().category=='Expression'}">
+                <c:if test="${hit.getSourceAsMap().category=='Expressed Gene'}">
                     <c:set var="url" value="/rgdweb/report/gene/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}#rnaSeqExpression"/>
+                </c:if>
+                <c:if test="${hit.getSourceAsMap().category=='Expression Study'}">
+                    <c:set var="url" value="/rgdweb/report/expressionStudy/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
                 <c:if test="${hit.getSourceAsMap().category=='Variant'}">
                     <c:if test="${model.searchBean.species!='Human'}">
@@ -223,7 +226,7 @@
                 <c:if test="${hit.getSourceAsMap().category=='SSLP'}">
                     <c:set var="url" value="/rgdweb/report/marker/main.html?id=${hit.getSourceAsMap().id}${hit.getSourceAsMap().term_acc}"/>
                 </c:if>
-                <c:if test="${hit.getSourceAsMap().category!='SSLP'&& hit.getSourceAsMap().category!='Gene' && hit.getSourceAsMap().category!='Strain' && hit.getSourceAsMap().category!='QTL' && hit.getSourceAsMap().category!='Variant' && hit.getSourceAsMap().category!='Reference'&& hit.getSourceAsMap().category!='Expression'}">
+                <c:if test="${hit.getSourceAsMap().category!='SSLP'&& hit.getSourceAsMap().category!='Gene' && hit.getSourceAsMap().category!='Strain' && hit.getSourceAsMap().category!='QTL' && hit.getSourceAsMap().category!='Variant' && hit.getSourceAsMap().category!='Reference'&& hit.getSourceAsMap().category!='Expression Study' && hit.getSourceAsMap().category!='Expressed Gene'}">
                     <c:set var="url" value="/rgdweb/ontology/annot.html?acc_id=${hit.getSourceAsMap().term_acc}&species=-1"/>
                 </c:if>
                 <c:if test="${hit.getSourceAsMap().category=='Promoter'}">
