@@ -105,7 +105,9 @@
                                                             <td style="text-align: left;background-color:#f0f5f5;font-weight: bold">${column}</td>
                                                             <c:set var="first" value="false"/>
                                                             <c:set var="category" value="${column}"/>
-
+                                                            <c:if test="${column.equalsIgnoreCase('Gene (With Expression)')}">
+                                                                <c:set var="category" value="Expressed Gene"/>
+                                                            </c:if>
 
                                                         </c:when>
                                                         <c:otherwise>
