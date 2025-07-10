@@ -187,11 +187,11 @@ public class SearchService {
                                 speciesCatArray[6][k] =  String.valueOf(b.getDocCount()) ;
                                 speciesCatArray[6][11] = String.valueOf(bucket.getDocCount()) ;
                                 break;
-                                case "Expression":
+                                case "Expressed Gene":
                                     speciesCatArray[7][k] =  String.valueOf(b.getDocCount()) ;
                                     speciesCatArray[7][11] = String.valueOf(bucket.getDocCount()) ;
                                     break;
-                                case "ExpressionStudy":
+                                case "Expression Study":
                                     speciesCatArray[8][k] =  String.valueOf(b.getDocCount()) ;
                                     speciesCatArray[8][11] = String.valueOf(bucket.getDocCount()) ;
                                     break;

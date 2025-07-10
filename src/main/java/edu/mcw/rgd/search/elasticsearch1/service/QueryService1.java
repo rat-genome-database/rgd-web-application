@@ -253,7 +253,7 @@ public class QueryService1 {
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.termQuery("category.keyword", "Strain")).boost(200));
             dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(2000));
             dqb.add(QueryBuilders.termQuery("term.symbol", term).boost(2000));
-            dqb.add(QueryBuilders.termQuery("expressedGeneSymbols.symbol", "Adora2b").boost(2000));
+            dqb.add(QueryBuilders.termQuery("expressedGeneSymbols.symbol", term).boost(2000));
             if(termIsAccId(term)) {
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("synonyms.symbol", term)).must(QueryBuilders.termQuery("category.keyword", "Ontology")).boost(2000));
 

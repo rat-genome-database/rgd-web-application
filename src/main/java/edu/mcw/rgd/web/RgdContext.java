@@ -135,7 +135,7 @@ public class RgdContext {
                     if( isDev() ) {
                         indexName= index+"_index_dev"+","+"variant_index_dev";
                     }else
-                        indexName= index+"_index_dev"+","+"variant_index_dev";
+                        indexName= index+"_index_dev"+","+"variant_index_dev"+","+"expression_index_dev";
                     break;
 
                 default:
