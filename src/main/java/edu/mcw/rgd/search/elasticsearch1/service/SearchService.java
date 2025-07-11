@@ -29,7 +29,7 @@ public class SearchService {
 
     public ModelMap getResultsMap(SearchResponse sr, String term ) throws IOException {
         ModelMap model= new ModelMap();
-        List<SearchHit[]> searchHits=new ArrayList<>();
+    //    List<SearchHit[]> searchHits=new ArrayList<>();
 
     //    String scrollId= sr.getScrollId();
 
@@ -226,7 +226,8 @@ public class SearchService {
             }
        TotalHits hits= sr.getHits().getTotalHits();
            totalHits =hits.value ;
-            searchHits.add(sr.getHits().getHits());
+          //  searchHits.add(sr.getHits().getHits());
+            SearchHit[] searchHits=sr.getHits().getHits();
         int matrixResultsExists=0;
 
         if(nvCount<63){
@@ -237,7 +238,8 @@ public class SearchService {
             message="0 results found for \"" + term + "\"";
         }
 
-       model.addAttribute("totalHits", totalHits);
+        System.out.println("SEARCH HITS IN CONTROLLER:"+ searchHits.length)
+;       model.addAttribute("totalHits", totalHits);
         model.addAttribute("aggregations", aggregations);
         model.addAttribute("hitArray", searchHits);
         model.addAttribute("speciesCatArray", speciesCatArray);

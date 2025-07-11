@@ -6,11 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
-</html>
+<thead>
+<th></th>
+<th></th>
+<th>Name</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>Study ID</th>
+<th>Matched By</th>
+</thead>
