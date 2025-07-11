@@ -48,6 +48,13 @@
         selectGroup("all");
     }
 
+    function deselectAll(){
+        const allCheckedBoxes = document.querySelectorAll('input[type="checkbox"]')
+        allCheckedBoxes.forEach(checkbox =>{
+            checkbox.checked=false;
+        })
+    }
+
     function submitPage() {
 
         var checkboxes = document.getElementsByName('strain[]');
@@ -428,7 +435,10 @@
 <%}%>
         <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
-                <td align="right"><input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>
+                <td align="right">
+                    <input class="continueButton"  type="button" value="Clear all" onClick="deselectAll()"/>
+                    &nbsp;&nbsp;
+                    <input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>
             </tr>
         </table>
 
@@ -579,7 +589,10 @@
                 SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
         <table width="90%">
             <tr>
-                <td align="right"><input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>
+                <td align="right">
+                    <input class="continueButton"  type="button" value="Clear all" onClick="deselectAll()"/>
+                    &nbsp;&nbsp;
+                    <input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>
             </tr>
         </table>
         <%}%>
