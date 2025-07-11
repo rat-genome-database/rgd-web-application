@@ -589,9 +589,11 @@
                 SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
         <table width="90%">
             <tr>
-                <input class="continueButton"  type="button" value="Clear all" onClick="deselectAll()"/>
-                &nbsp;&nbsp;
-                <td align="right"><input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/></td>
+                <td align="right">
+                    <input class="continueButton"  type="button" value="Clear all" onClick="deselectAll()"/>
+                    &nbsp;&nbsp;
+                    <input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/>
+                </td>
             </tr>
         </table>
         <%}%>
