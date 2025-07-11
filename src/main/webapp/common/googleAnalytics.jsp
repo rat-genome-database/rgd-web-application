@@ -1,4 +1,4 @@
-<% if (RgdContext.getHostname().equals("localhost") || RgdContext.getHostname().equals("pipelines.rgd.mcw.edu") || RgdContext.getHostname().equals("dev.rgd.mcw.edu") ) { %>
+<% if (edu.mcw.rgd.web.RgdContext.getHostname().equals("localhost") || edu.mcw.rgd.web.RgdContext.getHostname().equals("pipelines.rgd.mcw.edu") || edu.mcw.rgd.web.RgdContext.getHostname().equals("dev.rgd.mcw.edu") ) { %>
 
 <% } else { %>
 <script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
