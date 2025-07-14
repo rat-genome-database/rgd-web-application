@@ -289,6 +289,10 @@
                     // alert("set height to " + document.getElementById("blueBackground").style.height) ;
                 </script>
 
+                <!-- Top scroll bar -->
+                <div id="topScrollWrapper" style="margin-right:20px; overflow-x:scroll; overflow-y:hidden; width:<%=divWidth%>px; height:17px;">
+                    <div style="height:1px; width:<%=horizontalWidth%>px;"></div>
+                </div>
 
                 <div id="wrapperRegion" style="margin-right:20px; overflow-x:scroll; width:<%=divWidth%>px; height:<%=tableHeight + 250 + samples.size() + heightOfOptionalGeneTracks%>">
                     <%
@@ -798,10 +802,26 @@
 
     <script>
 
-        window.onload = checkWidth;
+        window.onload = function() {
+            checkWidth();
+            setupScrollSync();
+        };
         window.onresize=checkWidth;
 
-
+        function setupScrollSync() {
+            var topScroll = document.getElementById("topScrollWrapper");
+            var mainScroll = document.getElementById("wrapperRegion");
+            
+            // Sync main scroll to top scroll
+            topScroll.onscroll = function() {
+                mainScroll.scrollLeft = topScroll.scrollLeft;
+            };
+            
+            // Sync top scroll to main scroll
+            mainScroll.onscroll = function() {
+                topScroll.scrollLeft = mainScroll.scrollLeft;
+            };
+        }
 
         function checkWidth() {
 
@@ -810,6 +830,7 @@
 
             if (divWidth > newWidth) {
                 document.getElementById("wrapperRegion").style.width=newWidth;
+                document.getElementById("topScrollWrapper").style.width=newWidth;
             }
 
             document.getElementById("overview").style.width=newWidth + 150;
