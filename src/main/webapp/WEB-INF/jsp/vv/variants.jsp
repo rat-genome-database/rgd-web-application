@@ -190,22 +190,18 @@
         /* Custom scrollbar styles for better visibility */
         #topScrollWrapper::-webkit-scrollbar,
         #wrapperRegion::-webkit-scrollbar {
-            height: 16px;
-            background-color: #f0f0f0;
+            height: 14px;
         }
         
         #topScrollWrapper::-webkit-scrollbar-track,
         #wrapperRegion::-webkit-scrollbar-track {
-            background: #e0e0e0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            background: #f0f0f0;
         }
         
         #topScrollWrapper::-webkit-scrollbar-thumb,
         #wrapperRegion::-webkit-scrollbar-thumb {
             background: #2865A3;
-            border-radius: 8px;
-            border: 2px solid #e0e0e0;
+            border-radius: 6px;
         }
         
         #topScrollWrapper::-webkit-scrollbar-thumb:hover,
@@ -216,21 +212,8 @@
         /* Firefox scrollbar styles */
         #topScrollWrapper,
         #wrapperRegion {
-            scrollbar-width: thick;
-            scrollbar-color: #2865A3 #e0e0e0;
-        }
-        
-        /* Add border to make scroll areas more visible */
-        #topScrollWrapper {
-            border: 2px solid #2865A3;
-            border-radius: 4px;
-            background-color: #f5f5f5;
-        }
-        
-        #wrapperRegion {
-            border: 2px solid #2865A3;
-            border-top: none;
-            border-radius: 0 0 4px 4px;
+            scrollbar-width: auto;
+            scrollbar-color: #2865A3 #f0f0f0;
         }
     </style>
 
@@ -336,7 +319,7 @@
                 </script>
 
                 <!-- Top scroll bar -->
-                <div id="topScrollWrapper" style="margin-right:20px; overflow-x:scroll; overflow-y:hidden; width:<%=divWidth%>px; height:20px; margin-bottom:2px;">
+                <div id="topScrollWrapper" style="margin-right:20px; overflow-x:scroll; overflow-y:hidden; width:<%=divWidth%>px; height:17px;">
                     <div style="height:1px; width:<%=horizontalWidth%>px;"></div>
                 </div>
 
