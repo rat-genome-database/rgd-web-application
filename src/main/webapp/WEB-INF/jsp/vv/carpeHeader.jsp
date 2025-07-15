@@ -146,10 +146,10 @@
         vertical-align:middle;
 
     }
-    *{
+    #mainTable *{
         box-sizing: unset;
     }
-    table {
+    #mainTable table {
         border-collapse: unset;
     }
 </style>

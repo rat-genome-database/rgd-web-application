@@ -186,6 +186,35 @@
         #mainTable td {
         <!--font-size:5px;-->
         }
+        
+        /* Custom scrollbar styles for better visibility */
+        #topScrollWrapper::-webkit-scrollbar,
+        #wrapperRegion::-webkit-scrollbar {
+            height: 14px;
+        }
+        
+        #topScrollWrapper::-webkit-scrollbar-track,
+        #wrapperRegion::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+        
+        #topScrollWrapper::-webkit-scrollbar-thumb,
+        #wrapperRegion::-webkit-scrollbar-thumb {
+            background: #2865A3;
+            border-radius: 6px;
+        }
+        
+        #topScrollWrapper::-webkit-scrollbar-thumb:hover,
+        #wrapperRegion::-webkit-scrollbar-thumb:hover {
+            background: #1e4a7a;
+        }
+        
+        /* Firefox scrollbar styles */
+        #topScrollWrapper,
+        #wrapperRegion {
+            scrollbar-width: auto;
+            scrollbar-color: #2865A3 #f0f0f0;
+        }
     </style>
 
 
