@@ -32,13 +32,15 @@
             String url="/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id="+sourceMap.get("term_acc");
             String hitSpecies=sourceMap.get("species").toString();
             String  hitCategory=sourceMap.get("category").toString();
+            int xRecordCount=sourceMap.get("experimentRecordCount")!=null?Integer.parseInt(sourceMap.get("experimentRecordCount").toString()):0;
+            int sampleExists=sourceMap.get("sampleExists")!=null?Integer.parseInt(sourceMap.get("sampleExists").toString()):0;;
+
     %>
 
     <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
         <td  class="<%=hitSpecies%>" onmouseover="link=false;" onmouseout="link=true;">
             <%if(!searchBean.getSpecies().equals("") || speciesAggregations.size()==1) {%>
-
-            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="<%=sourceMap.get("term_acc")%>" data-rgdids="<%=sourceMap.get("term_acc")%>" >
+            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="<%=sourceMap.get("term_acc")%>" data-count="<%=sourceMap.get("experimentRecordCount")%>" data-symbol="<%=sourceMap.get("symbol")%>" data-sampleExists="<%=sourceMap.get("sampleExists")%>">
 
             <%}%>
         </td>

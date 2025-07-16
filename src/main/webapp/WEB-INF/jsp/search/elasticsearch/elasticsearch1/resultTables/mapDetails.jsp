@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 7/11/2025
@@ -7,7 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  List<Map<String, Object>> mapDataList= (List<Map<String, Object>>) sourceMap.get("mapDataList");
+  List<Map<String, Object>> mapDataList= new ArrayList<>();
+  if(sourceMap.get("mapDataList")!=null)
+        mapDataList=  (List<Map<String, Object>>) sourceMap.get("mapDataList");
 %>
 <td onmouseover="link=false;" onmouseout="link=true;">
   <div class="filter-list">
