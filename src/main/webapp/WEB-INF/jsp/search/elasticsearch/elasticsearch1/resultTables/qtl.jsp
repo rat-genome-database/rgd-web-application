@@ -51,9 +51,12 @@
         <%@include file="mapDetails.jsp"%>
         <td><%if(sourceMap.get("annotationsCount")!=null){%>
             <%=sourceMap.get("annotationsCount")%><%}%></td>
-        <td><% List<String> strainsCrossed= (List<String>) sourceMap.get("strainsCrossed");
+        <td><%
+            if(sourceMap.get("strainsCrossed")!=null){
+            List<String> strainsCrossed= (List<String>) sourceMap.get("strainsCrossed");
                String crossedStrain=strainsCrossed.stream().collect(Collectors.joining(";"));%>
             <%=crossedStrain%>
+            <%}%>
         </td>
         <td class="id"><%=sourceMap.get("term_acc")%></td>
         <%if(!RgdContext.isProduction()){%>
