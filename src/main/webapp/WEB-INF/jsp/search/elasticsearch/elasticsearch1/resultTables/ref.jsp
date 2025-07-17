@@ -15,13 +15,9 @@
             <%}%>
         </th>
         <th>Category</th>
-        <th>Symbol</th>
-        <th>Name</th>
-        <th>Assembly</th>
-        <th>Chromosome</th>
-        <th>Start</th>
-        <th>Stop</th>
-        <th>Annotations</th>
+        <th>Title</th>
+        <th>Citation</th>
+        <th>Authors</th>
         <th>RGD ID</th>
         <th>Matched By</th>
     </tr>
@@ -59,11 +55,20 @@
         <%--                <%}}%>--%>
         <%--    </td>--%>
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
-        <td><%=sourceMap.get("symbol")%></td>
-        <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>
-        <%@include file="mapDetails.jsp"%>
-        <td><%if(sourceMap.get("annotationsCount")!=null){%>
-            <%=sourceMap.get("annotationsCount")%><%}%></td>
+
+        <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("title")%></a></td>
+        <td>
+          <%=sourceMap.get("citation")%>
+<%--                                    <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">--%>
+<%--                                        ${f:format(hit.getSourceAsMap().citation,t )} </span>--%>
+<%--                                    </c:if>--%>
+                                </td>
+                                <td><%=String.join(" | ", ((List<String>) sourceMap.get("author")))%>
+<%--                                    <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">--%>
+<%--                                        ${f:format(hit.getSourceAsMap().author, t )}--%>
+<%--                                    </c:if>--%>
+
+                                </td>
         <td class="id"><%=sourceMap.get("term_acc")%></td>
         <%if(!RgdContext.isProduction()){%>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">

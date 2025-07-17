@@ -133,7 +133,8 @@ public class ElasticSearchController extends RGDSearchController {
                 }
                 model.putAll(resultsMap);
             }
-            int mapKey=this.getMapKey(assembly, sb.getSpecies());
+
+            int mapKey= this.getMapKey(assembly, sb.getSpecies());
             model.addAttribute("assemblyMaps", assemblyMaps);
             model.addAttribute("assemblyMapsByRank", maps);
             model.addAttribute("mapKey", mapKey);
@@ -274,14 +275,15 @@ public class ElasticSearchController extends RGDSearchController {
     public int getMapKey(String assembly, String species) throws Exception {
 
         int mapKey=0;
-
-       List<edu.mcw.rgd.datamodel.Map> maps= MapManager.getInstance().getAllMaps(SpeciesType.parse(species));
-            for(edu.mcw.rgd.datamodel.Map m:maps){
-                if(m.getDescription().equalsIgnoreCase(assembly)){
-                    mapKey=m.getKey();
+        if(species!=null && !species.equals("")) {
+            List<edu.mcw.rgd.datamodel.Map> maps = MapManager.getInstance().getAllMaps(SpeciesType.parse(species));
+            for (edu.mcw.rgd.datamodel.Map m : maps) {
+                if (m.getDescription().equalsIgnoreCase(assembly)) {
+                    mapKey = m.getKey();
                     break;
-                    }
+                }
             }
+        }
         if(mapKey==0 && species!=null && !species.equals("")){
             mapKey=getReferenceAssemblyMapKey(species);
         }

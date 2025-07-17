@@ -10,7 +10,7 @@
     <thead>
     <tr>
         <th title="Toggle Check All">
-            <%if(searchBean.getSpecies().equals("") || speciesAggregations.size()==1){%>
+            <%if((ontologyAggregations!=null && ontologyAggregations.size()==1) || !searchBean.getSubCat().equals("")){%>
             <input type="checkbox" onclick="toggle(this)">
             <%}%>
         </th>
@@ -28,13 +28,13 @@
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
             String url="/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id="+sourceMap.get("term_acc");
-            String hitSpecies=sourceMap.get("species").toString();
+            String subCat=sourceMap.get("subcat").toString();
             String  hitCategory=sourceMap.get("category").toString();
     %>
 
     <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
-        <td  class="<%=hitSpecies%>" onmouseover="link=false;" onmouseout="link=true;">
-            <%if(!searchBean.getSpecies().equals("") || speciesAggregations.size()==1) {%>
+        <td  class="<%=subCat%>" onmouseover="link=false;" onmouseout="link=true;">
+            <%if((ontologyAggregations!=null && ontologyAggregations.size()==1) || !searchBean.getSubCat().equals("")){%>
 
             <input class="checkedObjects" name="checkedObjects" type="checkbox" value="<%=sourceMap.get("term_acc")%>" data-rgdids="<%=sourceMap.get("term_acc")%>" >
 
