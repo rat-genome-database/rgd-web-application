@@ -332,14 +332,18 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     $content.html('<div style="margin-left:50%"><i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></div>');
     var $type=null;
     if(typeof type!="undefined"){
-        $type=type;
+        if(filterType!="region") {
+            $type = type;
+        }else{
+           $type= encodeURI(type);
+        }
     }
     var term=$('#searchTerm').val();
 
    if($objectSearch == "true"){
-      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + encodeURIComponent($type) + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly+"&match_type="+matchType ;
+      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly+"&match_type="+matchType ;
     } if($objectSearch != "true"){
-        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+encodeURIComponent($type)+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly+"&match_type="+matchType ;
+        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly+"&match_type="+matchType ;
     }
 
     $('.subcategories').css('display', 'block');
