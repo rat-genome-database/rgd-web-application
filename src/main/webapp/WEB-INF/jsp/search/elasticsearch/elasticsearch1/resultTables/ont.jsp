@@ -41,7 +41,7 @@
             <%}%>
         </td>
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
-        <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>
+        <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("term")%></a></td>
         <td><%if(sourceMap.get("annotationsCount")!=null){%>
             <%=sourceMap.get("annotationsCount")%><%}%></td>
         <td class="id"><%=sourceMap.get("term_acc")%></td>
