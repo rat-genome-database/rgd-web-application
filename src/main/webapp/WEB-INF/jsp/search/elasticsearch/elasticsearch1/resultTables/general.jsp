@@ -14,11 +14,13 @@
         <th>Category</th>
         <th>Symbol</th>
         <th>Name</th>
+        <th>RsId</th>
         <th>Assembly</th>
         <th>Chromosome</th>
         <th>Start</th>
         <th>Stop</th>
         <th>Annotations</th>
+        <th>Strains Crossed</th>
         <th>RGD ID</th>
         <th>Matched By</th>
     </tr>
@@ -48,9 +50,18 @@
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
         <td><%=sourceMap.get("symbol")%></td>
         <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>
+        <td><%
+            if(sourceMap.get("rsId")!=null){
+        %><%=sourceMap.get("rsId")%><%}%></td>
         <%@include file="mapDetails.jsp"%>
         <td><%if(sourceMap.get("annotationsCount")!=null){%>
             <%=sourceMap.get("annotationsCount")%><%}%></td>
+        <td><% if(sourceMap.get("strainsCrossed")!=null){
+            List<String> strainsCrossed= (List<String>) sourceMap.get("strainsCrossed");
+            String crossedStrain=strainsCrossed.stream().collect(Collectors.joining(";"));%>
+            <%=crossedStrain%>
+            <%}%>
+        </td>
         <td class="id"><%=sourceMap.get("term_acc")%></td>
         <%if(!RgdContext.isProduction()){%>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">

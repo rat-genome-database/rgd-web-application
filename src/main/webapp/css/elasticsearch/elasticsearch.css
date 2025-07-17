@@ -1,16 +1,5 @@
-body{
-    font-size: small;
-    font-family: 'Lucida Grande', sans-serif;
-}
-/*******************************************************************************************************/
 
-#resultsTable {
-    font: 1em/1.5em Georgia, serif;
-
-  /*  border: 1px solid black;
-    margin: 1em 1em 0 1em;*/
-}
-#resultsTable tbody td {
+#resultsTable tbody td ,#resultsTable thead th{
    /* width: 10em;*/
     line-height: 1.5em;
     padding: 0.25em;
@@ -28,39 +17,7 @@ table.type2 td {
 td.three {
     line-height: 2em;
 }
-/*************************************************************************************************************/
-/*#resultsTable{
-    border-collapse: collapse;
-    border-spacing: 0 5px;
-
-}
-
-#resultsTable thead th {
-    background-color: #006DCC;
-    color: white;
-}
-
-#resultsTable tbody td {
-   /* background-color: #EEEEEE;*/
-
-/*}
-
-#resultsTable tr td:first-child,
-#resultsTable tr th:first-child {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-}
-
-#resultsTable tr td:last-child,
-#resultsTable tr th:last-child {
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-}
-/****************************************************************************************************************/
-/*/#resultsTable td{
-    padding:5px;
-}*/
-#resultsTable thead tr td, #results thead tr td{
+#resultsTable thead tr th, #results thead tr th{
     font-weight:bold;
     font-size: x-small;
   /*  background-color:#d3def6;*/
@@ -68,6 +25,7 @@ td.three {
     background-color:#4484CE;
     color:white;
 }
+
 
 #resultsTable tbody tr td, #resultsTable tbody tr td a{
     color:black;
@@ -268,47 +226,7 @@ td.three {
     height: auto;
 }
 .ui-autocomplete { height: 200px; overflow-y: scroll; overflow-x: hidden;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
-/*****************************************************************************************/
-/*#resultsTable .Rat.R{
 
-
-    border-right:5px solid maroon;
-    border-left:0;
-
-
-}
-#resultsTable .Mouse.R{
-
-    border-right:5px solid lightgreen;
-    border-left:0;
-}
-#resultsTable .Human.R{
-
-
-    border-right:5px solid dodgerblue;
-    border-left:0;
-}
-#resultsTable .Bonobo.R{
-
-    border-right:5px solid dodgerblue;
-    border-left:0;
-}
-#resultsTable .Dog.R{
-
-    border-right:5px solid dodgerblue;
-    border-left:0;
-}
-#resultsTable .Squirrel.R{
-
-    border-right:5px solid dodgerblue;
-    border-left:0;
-}
-#resultsTable .Chinchilla.R{
-
-    border-right:5px solid dodgerblue;
-    border-left:0;
-}*/
-/**************************************************************************************************************/
 .matrix a{
     display: block;
     width:100%;
@@ -364,12 +282,6 @@ td.three {
     visibility: visible;
 }
 
-.boxed{
-  /*  z-index:9999;background-color:white;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.boxedTools{
-   /*   z-index:9999;background-color:white;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-}
 .toolicon{
     width:30px;
     height:30px ;
