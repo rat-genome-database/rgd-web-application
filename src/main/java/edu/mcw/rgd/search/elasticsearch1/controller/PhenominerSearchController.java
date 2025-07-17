@@ -216,14 +216,15 @@ public class PhenominerSearchController implements Controller {
     public int getMapKey(String assembly, String species) throws Exception {
 
         int mapKey=0;
-
-       List<edu.mcw.rgd.datamodel.Map> maps= MapManager.getInstance().getAllMaps(SpeciesType.parse(species));
-            for(edu.mcw.rgd.datamodel.Map m:maps){
-                if(m.getDescription().equalsIgnoreCase(assembly)){
-                    mapKey=m.getKey();
+        if(species!=null && !species.equals("")) {
+            List<edu.mcw.rgd.datamodel.Map> maps = MapManager.getInstance().getAllMaps(SpeciesType.parse(species));
+            for (edu.mcw.rgd.datamodel.Map m : maps) {
+                if (m.getDescription().equalsIgnoreCase(assembly)) {
+                    mapKey = m.getKey();
                     break;
-                    }
+                }
             }
+        }
         return mapKey;
     }
     public boolean existsIn(List<String> idsTouched, String id){
