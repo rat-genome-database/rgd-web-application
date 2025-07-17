@@ -9,20 +9,10 @@
 <table  id="resultsTable" style="width:100%;z-index:999;" >
     <thead>
     <tr>
-<%--        <th title="Toggle Check All">--%>
-<%--            <%if(searchBean.getSpecies().equals("") || speciesAggregations.size()==1){%>--%>
-<%--            <input type="checkbox" onclick="toggle(this)">--%>
-<%--            <%}%>--%>
-<%--        </th>--%>
         <th>Category</th>
-<%--        <th>Symbol</th>--%>
         <th>Name</th>
-<%--        <th>Assembly</th>--%>
-<%--        <th>Chromosome</th>--%>
-<%--        <th>Start</th>--%>
-<%--        <th>Stop</th>--%>
-<%--        <th>Annotations</th>--%>
         <th>Study ID</th>
+        <th>Geo Series Acc</th>
         <th>Matched By</th>
     </tr>
     </thead>
@@ -43,12 +33,17 @@
         <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>
 
         <td class="id"><%=sourceMap.get("term_acc")%></td>
+        <td><%
+            if(sourceMap.get("xdbIdentifiers")!=null){
+        %>
+            <%=sourceMap.get("XdbIdentifiers")%>
+            <%}%>
+        </td>
         <%if(!RgdContext.isProduction()){%>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">
             <%@include file="../highlights.jsp"%>
         </td>
         <%}%>
-        <%--                    <!--td class="" >$-{hit.getScore()}</td-->--%>
 
     </tr>
 
