@@ -337,9 +337,9 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     var term=$('#searchTerm').val();
 
    if($objectSearch == "true"){
-      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly+"&match_type="+matchType ;
+      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + encodeURIComponent($type) + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly+"&match_type="+matchType ;
     } if($objectSearch != "true"){
-        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly+"&match_type="+matchType ;
+        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+encodeURIComponent($type)+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly+"&match_type="+matchType ;
     }
 
     $('.subcategories').css('display', 'block');

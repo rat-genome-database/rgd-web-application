@@ -9,7 +9,7 @@
 <table  id="resultsTable" style="width:100%;z-index:999;" >
     <thead>
     <th title="Toggle Check All">
-        <%if(searchBean.getSpecies().equals("") || speciesAggregations.size()==1){%>
+        <%if(!searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)){%>
         <input type="checkbox" onclick="toggle(this)">
         <%}%>
     </th>
@@ -37,7 +37,7 @@
 
     <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
         <td  class="<%=hitSpecies%>" onmouseover="link=false;" onmouseout="link=true;">
-            <%if(!searchBean.getSpecies().equals("") || speciesAggregations.size()==1) {%>
+            <%if(!searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)) {%>
 
             <input class="checkedObjects" name="checkedObjects" type="checkbox" value="<%=sourceMap.get("term_acc")%>" data-rgdids="<%=sourceMap.get("term_acc")%>" >
 
@@ -45,7 +45,6 @@
         </td>
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
         <td><%=sourceMap.get("symbol")%></td>
-<%--        <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>--%>
         <%@include file="mapDetails.jsp"%>
         <td><%if(sourceMap.get("annotationsCount")!=null){%>
             <%=sourceMap.get("annotationsCount")%><%}%></td>

@@ -129,6 +129,9 @@
     <%if(category.equalsIgnoreCase("Expression Study")){%>
     <%@include file="resultTables/study.jsp"%>
     <%}%>
+    <%if(category.equalsIgnoreCase("General")){%>
+    <%@include file="resultTables/general.jsp"%>
+    <%}%>
 <%--    <table  id="resultsTable" style="width:100%;z-index:999;" >--%>
 <%--        <thead>--%>
 <%--        <tr>--%>

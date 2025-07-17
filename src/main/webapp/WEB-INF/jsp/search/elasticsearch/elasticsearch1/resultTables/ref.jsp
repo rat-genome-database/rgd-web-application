@@ -10,7 +10,7 @@
     <thead>
     <tr>
         <th title="Toggle Check All">
-            <%if(searchBean.getSpecies().equals("") || speciesAggregations.size()==1){%>
+            <%if(searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)){%>
             <input type="checkbox" onclick="toggle(this)">
             <%}%>
         </th>
@@ -35,7 +35,7 @@
 
     <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
         <td  class="<%=hitSpecies%>" onmouseover="link=false;" onmouseout="link=true;">
-            <%if(!searchBean.getSpecies().equals("") || speciesAggregations.size()==1) {%>
+            <%if(!searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)) {%>
 
             <input class="checkedObjects" name="checkedObjects" type="checkbox" value="<%=sourceMap.get("term_acc")%>" data-rgdids="<%=sourceMap.get("term_acc")%>" >
 
