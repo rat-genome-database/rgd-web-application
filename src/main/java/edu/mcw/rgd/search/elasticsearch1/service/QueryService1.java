@@ -337,7 +337,7 @@ public class QueryService1 {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                     .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword")
                             .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
-                            .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword"))
+                            .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword").size(500))
                             .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
                             .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(200))
                             .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
