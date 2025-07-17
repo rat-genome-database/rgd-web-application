@@ -33,15 +33,10 @@
         highlightId=id.replace(":", "");
     }else highlightId=id;
 %>
-<%--<c:set var="hightlightId" value="${hit.sourceAsMap.term_acc}"/>--%>
-<%--<c:if test="${fn:contains(hit.sourceAsMap.term_acc, ':')}">--%>
-<%--    <c:set var="hightlightId" value="${fn:replace(hit.sourceAsMap.term_acc, ':','')}"/>--%>
 
-<%--</c:if>--%>
 <button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-<%=highlightId%>" title="Highlights" style="background-color: transparent">
     <span style="text-decoration:underline">Show Matches</span>
 </button>
-<!--a href="#" class="moreLink" style="color:dodgerblue" title="Matched fragments">Show Matches...</a-->
 <div style="display: none" id="popover-study-<%=highlightId%>">
     <div class="popover-body">
         <%

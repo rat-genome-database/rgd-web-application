@@ -47,7 +47,15 @@
             <%}%>
         </td>
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
-        <td><%=sourceMap.get("symbol")%></td>
+        <td><%=sourceMap.get("symbol")%>
+            <%
+                if(sourceMap.get("sampleExists")!=null){%>
+            <span style="color:red;font-size:20px;font-weight:bold" title='Can be analyzed in Variant Visulizer tool'>
+                <img src="/rgdweb/images/VV_small.gif" ></span>
+            <%}if(sourceMap.get("experimentRecordCount")!=null && (int) sourceMap.get("experimentRecordCount")>0){%>
+            <span style="color:blue;font-size:20px;font-weight:bold" title='Phenominer Data Available'><img src="/rgdweb/images/PM_small.gif" ></span>
+            <%}%>
+        </td>
         <%@include file="mapDetails.jsp"%>
         <td><%if(sourceMap.get("annotationsCount")!=null){%>
             <%=sourceMap.get("annotationsCount")%><%}%></td>

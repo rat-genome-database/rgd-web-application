@@ -41,7 +41,18 @@
             <%}%>
         </td>
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
-        <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("term")%></a></td>
+        <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("term")%></a>
+            <a href="/rgdweb/ontology/view.html?acc_id=<%=sourceMap.get("term_acc")%>" title="click to browse the term" alt="browse term">
+                <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
+                <%
+                    if(sourceMap.get("annotationsCount")!=null && Integer.parseInt(sourceMap.get("annotationsCount").toString())>0){%>
+            &nbsp;<a href="<%=url%>"><img border="0" src="/rgdweb/images/icon-a.gif" title="Show <%=sourceMap.get("annotationsCount")%> annotated objects"></a>
+
+            <%}if(sourceMap.get("pathwayDiagUrl")!=null){%>
+            &nbsp;<a href="<%=sourceMap.get("pathwayDiagUrl")%>"><img border="0" src="/rgdweb/images/icon-d.gif" title="Pathway Diagram"></a>
+
+            <%}%>
+        </td>
         <td><%if(sourceMap.get("annotationsCount")!=null){%>
             <%=sourceMap.get("annotationsCount")%><%}%></td>
         <td class="id"><%=sourceMap.get("term_acc")%></td>
@@ -50,7 +61,6 @@
             <%@include file="../highlights.jsp"%>
         </td>
         <%}%>
-        <%--                    <!--td class="" >$-{hit.getScore()}</td-->--%>
 
     </tr>
 
