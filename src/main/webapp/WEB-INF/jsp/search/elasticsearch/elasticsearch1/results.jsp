@@ -54,29 +54,7 @@
     })
 
 </script>
-<style>
-    .filter-list ul li:nth-child(n + 2) {
-        display: none;
-    }
-    .filter-list ul li.showList:nth-child(n + 2) {
-        display: list-item;
-    }
-    .filter-list label.moremaps {
-        color: #f86843;
-        font-weight: 600;
-        font-style: oblique;
-        display: none;
-    }
-    .filter-list label.moremaps.showMe {
-        display: block;
-    }
-    .filter-list .moremaps {
-        cursor: pointer;
-    }
 
-
-
-</style>
 <%
     ModelMap model= (ModelMap) request.getAttribute("model");
     SearchBean searchBean= (SearchBean) model.get("searchBean");
@@ -90,7 +68,6 @@
     if(searchHits!=null){
 
     String defaultAssembly=model.get("defaultAssembly").toString();
-        System.out.println("Default Assembly :"+ defaultAssembly);
 %>
 <table width="100%">
 
@@ -103,25 +80,26 @@
 <div class="results" id="tableDiv" style=";word-wrap: break-word; " >
     <%if(category.equalsIgnoreCase("Gene") || category.equalsIgnoreCase("Expressed Gene")
                          || category.equalsIgnoreCase("Promoter")){%>
-                        <%@include file="resultTables/gene.jsp"%>
-                   <%}%>
-                <%if(category.equalsIgnoreCase("Qtl")){%>
-                <%@include file="resultTables/qtl.jsp"%>
-                <%}%>
-                <%if(category.equalsIgnoreCase("Strain")){%>
-                <%@include file="resultTables/strain.jsp"%>
-                <%}%>
-                <%if(category.equalsIgnoreCase("Sslp")){%>
-                <%@include file="resultTables/sslp.jsp"%>
-                <%}%>
-                <%if(category.equalsIgnoreCase("Reference")){%>
-                <%@include file="resultTables/ref.jsp"%>
-                <%}%>
-                <%if(category.equalsIgnoreCase("Ontology")){%>
-                <%@include file="resultTables/ont.jsp"%>
-                <%}%>
-                <%if(category.equalsIgnoreCase("Variant")){%>
-                <%@include file="resultTables/variant.jsp"%>
+    <%@include file="resultTables/gene.jsp"%>
+    <%}%>
+    <%if(category.equalsIgnoreCase("Qtl")){%>
+    <%@include file="resultTables/qtl.jsp"%>
+    <%}%>
+    <%if(category.equalsIgnoreCase("Strain")){%>
+    <%@include file="resultTables/strain.jsp"%>
+    <%}%>
+    <%if(category.equalsIgnoreCase("Sslp")){%>
+    <%@include file="resultTables/sslp.jsp"%>
+    <%}%>
+    <%if(category.equalsIgnoreCase("Reference")){%>
+    <%@include file="resultTables/ref.jsp"%>
+    <%}%>
+    <%if(category.equalsIgnoreCase("Ontology")){%>
+    <%@include file="resultTables/ont.jsp"%>
+    <%}%>
+    <%if(category.equalsIgnoreCase("Variant")){%>
+    <%@include file="resultTables/variant.jsp"%>
+
     <%}%>
     <%if(category.equalsIgnoreCase("Cell line")){%>
     <%@include file="resultTables/cellline.jsp"%>

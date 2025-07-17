@@ -354,3 +354,21 @@ td.three {
 #contentTable td{
     vertical-align: top;
 }
+.filter-list ul li:nth-child(n + 2) {
+    display: none;
+}
+.filter-list ul li.showList:nth-child(n + 2) {
+    display: list-item;
+}
+.filter-list label.moremaps {
+    color: #f86843;
+    font-weight: 600;
+    font-style: oblique;
+    display: none;
+}
+.filter-list label.moremaps.showMe {
+    display: block;
+}
+.filter-list .moremaps {
+    cursor: pointer;
+}
