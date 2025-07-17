@@ -9,12 +9,6 @@
 <table  id="resultsTable" style="width:100%;z-index:999;" >
     <thead>
     <tr>
-<%--        <th title="Toggle Check All">--%>
-<%--            <%if(searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)){%>--%>
-<%--            <input type="checkbox" onclick="toggle(this)">--%>
-<%--            <%}%>--%>
-<%--        </th>--%>
-
     <th></th>
     <th>Species</th>
         <th>Category</th>
@@ -41,16 +35,9 @@
     %>
 
     <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
-<%--        <td  class="<%=hitSpecies%>" onmouseover="link=false;" onmouseout="link=true;">--%>
-<%--            <%if(!searchBean.getSpecies().equals("") || speciesAggregations.size()==1) {%>--%>
-
-<%--            <input class="checkedObjects" name="checkedObjects" type="checkbox" value="<%=sourceMap.get("term_acc")%>" data-rgdids="<%=sourceMap.get("term_acc")%>" >--%>
-
-<%--            <%}%>--%>
-<%--        </td>--%>
-            <td class="<%=sourceMap.get("species")%>">
+            <td class="<%=hitSpecies%>">
                         <%if(hitSpecies!=null && !hitSpecies.equalsIgnoreCase("All")){
-                                if(hitSpecies.equals("") && (speciesAggregations!=null && speciesAggregations.size()!=1)){%>
+                                if(!hitSpecies.equals("") && (speciesAggregations!=null && speciesAggregations.size()!=1)){%>
                                     <i class="fa fa-star fa-lg" aria-hidden="true"></i>
                                 <%}}%>
             </td>

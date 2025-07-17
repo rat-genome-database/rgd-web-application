@@ -49,7 +49,9 @@
         </td>
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
         <td><b>(<%=mapData.get(0).get("map")%>)</b>&nbsp;<%=mapData.get(0).get("chromosome")%><b>:</b>&nbsp;<%=mapData.get(0).get("startPos")%>-<%=mapData.get(0).get("stopPos")%><%=sourceMap.get("refNuc")!=null?sourceMap.get("refNuc"):""%>><%=sourceMap.get("varNuc")!=null?sourceMap.get("varNuc"):""%></td>
-        <td><%=sourceMap.get("rsId")%></td>
+        <td><%
+            if(sourceMap.get("rsId")!=null){
+        %><%=sourceMap.get("rsId")%><%}%></td>
         <%@include file="mapDetails.jsp"%>
 
         <td class="id"><%=sourceMap.get("term_acc")%></td>

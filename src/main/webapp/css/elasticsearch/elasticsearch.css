@@ -207,6 +207,21 @@ td.three {
     /*    background-color:lightsteelblue;*/
    /* border-left:10px solid lightsteelblue;*/
 }
+#resultsTable .Pig i{
+    color: pink;
+    /*    background-color:lightsteelblue;*/
+    /* border-left:10px solid lightsteelblue;*/
+}
+#resultsTable .Green i{
+    color: green;
+    /*    background-color:lightsteelblue;*/
+    /* border-left:10px solid lightsteelblue;*/
+}
+#resultsTable .Naked i{
+    color: navajowhite;
+    /*    background-color:lightsteelblue;*/
+    /* border-left:10px solid lightsteelblue;*/
+}
 #resultsTable .All{
 
     border-left:10px solid transparent;

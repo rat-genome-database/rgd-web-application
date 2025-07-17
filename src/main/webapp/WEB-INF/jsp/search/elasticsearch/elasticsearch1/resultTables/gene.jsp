@@ -41,24 +41,9 @@
 <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
     <td  class="<%=hitSpecies%>" onmouseover="link=false;" onmouseout="link=true;">
     <%if(!searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)) {%>
-
         <input class="checkedObjects" name="checkedObjects" type="checkbox" value="<%=sourceMap.get("term_acc")%>" data-rgdids="<%=sourceMap.get("term_acc")%>" >
-
-    <%}%>
+        <%}%>
        </td>
-<%--    <td class="<%=sourceMap.get("species")%>">--%>
-<%--                <%if(hitSpecies!=null && !hitSpecies.equalsIgnoreCase("All")){--%>
-<%--                        if(hitSpecies.equals("") && speciesAggregations.size()!=1){%>--%>
-<%--                            <i class="fa fa-star fa-lg" aria-hidden="true"></i>--%>
-<%--                        <%}}%>--%>
-<%--    </td>--%>
-
-<%--    <td class="<%=sourceMap.get("species")%>">--%>
-<%--                <%if(hitSpecies!=null && !hitSpecies.equalsIgnoreCase("All")){--%>
-<%--                    if(hitSpecies.equals("") && speciesAggregations.size()!=1){%>--%>
-<%--                        <%=hitSpecies%>--%>
-<%--                <%}}%>--%>
-<%--    </td>--%>
     <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
     <td><%=sourceMap.get("symbol")%></td>
     <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>
