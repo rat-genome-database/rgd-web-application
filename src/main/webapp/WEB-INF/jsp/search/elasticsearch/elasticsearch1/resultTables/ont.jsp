@@ -27,7 +27,7 @@
         for(SearchHit hit:searchHits){
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
-            String url="/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id="+sourceMap.get("term_acc");
+            String url="/rgdweb/ontology/annot.html?acc_id="+sourceMap.get("term_acc");
             String subCat=sourceMap.get("subcat").toString();
             String  hitCategory=sourceMap.get("category").toString();
     %>
