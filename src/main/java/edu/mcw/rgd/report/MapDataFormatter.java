@@ -65,6 +65,7 @@ public class  MapDataFormatter {
         final MapManager mm = MapManager.getInstance();
 
         Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
+        int activeMapKey = activeMap.getKey();
         String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
 
         // sort map data by order specified in the database
@@ -72,13 +73,13 @@ public class  MapDataFormatter {
             @Override
             public int compare(MapData o1, MapData o2) {
                 int rank1 = 0, rank2 = 0;
-                Map map = mm.getMap(o1.getMapKey());
-                if( map!=null ) {
-                    rank1 = map.getRank();
+                Map map1 = mm.getMap(o1.getMapKey());
+                if( map1!=null ) {
+                    rank1 = map1.getRank();
                 }
-                map = mm.getMap(o2.getMapKey());
-                if( map!=null ) {
-                    rank2 = map.getRank();
+                Map map2 = mm.getMap(o2.getMapKey());
+                if( map2!=null ) {
+                    rank2 = map2.getRank();
                 }
                 return rank1 - rank2;
             }
@@ -105,30 +106,22 @@ public class  MapDataFormatter {
             }
             ret.append("</tr>");
         }
-      List<String> activeMapChr=new ArrayList<>();
-        for(MapData mdObj: mapData){
-            Map map= mm.getMap(mdObj.getMapKey());
-            if( map==null ) {
-                // map not known
-                //ret.append("<td>&nbsp;</td>");
-                continue;
-            }
 
-            if (map.getKey() == activeMap.getKey()) {
-                activeMapChr.add(mdObj.getChromosome());
+        List<String> activeMapChr = new ArrayList<>();
+        for( MapData md: mapData ){
+            if( md.getMapKey() == activeMapKey ) {
+                activeMapChr.add(md.getChromosome());
             }
         }
+
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
-            if( map==null ) {
-                map = new MapDAO().getMap(mdObj.getMapKey());
-            }
 			if( map==null ) {
                 // map not known
                 ret.append("<td>&nbsp;</td>");
             }
             else
-            if (map.getKey() == activeMap.getKey()) {
+            if( map.getKey() == activeMapKey ) {
 
                 ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
                         .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
@@ -138,6 +131,7 @@ public class  MapDataFormatter {
             }else {
                 ret.append("<td>").append(map.getName()).append("</td>");
             }
+
             if(activeMapChr.size()>1){
                 ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
             }else{
