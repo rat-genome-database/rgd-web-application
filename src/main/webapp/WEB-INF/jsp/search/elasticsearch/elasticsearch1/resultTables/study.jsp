@@ -33,11 +33,10 @@
         <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>
 
         <td class="id"><%=sourceMap.get("term_acc")%></td>
-        <td><%
-            if(sourceMap.get("xdbIdentifiers")!=null){
-        %>
-            <%=sourceMap.get("XdbIdentifiers")%>
-            <%}%>
+        <td>
+<%--            <%if(sourceMap.get("xdbIdentifiers")!=null){%>--%>
+<%--            <%=sourceMap.get("XdbIdentifiers")%>--%>
+<%--            <%}%>--%>
         </td>
         <%if(!RgdContext.isProduction()){%>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">
