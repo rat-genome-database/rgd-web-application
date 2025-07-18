@@ -37,6 +37,9 @@
         if(category.equalsIgnoreCase("Expressed Gene")){
             url+="/rgdweb/report/gene/main.html?id=" + sourceMap.get("term_acc")+"#rnaSeqExpression";
         }else {
+            if(category.equalsIgnoreCase("promoter")){
+                url+="/rgdweb/report/ge/main.html?id="+ sourceMap.get("term_acc");
+            }else
             url += "/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id=" + sourceMap.get("term_acc");
         }
             String hitSpecies=sourceMap.get("species").toString();
