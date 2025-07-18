@@ -54,7 +54,10 @@
             <%}%>
         </td>
         <td><%if(sourceMap.get("annotationsCount")!=null){%>
-            <%=sourceMap.get("annotationsCount")%><%}%></td>
+<%--            <%=sourceMap.get("annotationsCount")%>--%>
+            <%@include file="annotToolTip.jsp"%>
+            <%}%>
+        </td>
         <td class="id"><%=sourceMap.get("term_acc")%></td>
         <%if(!RgdContext.isProduction()){%>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">
