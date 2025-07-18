@@ -33,7 +33,10 @@
     for(SearchHit hit:searchHits){
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
-            String url="/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id="+sourceMap.get("term_acc");
+            String url="/rgdweb/report/gene/main.html?id="+sourceMap.get("term_acc");
+            if(category.equalsIgnoreCase("Expressed Gene")){
+                url+="#rnaSeqExpression";
+            }
             String hitSpecies=sourceMap.get("species").toString();
             String  hitCategory=sourceMap.get("category").toString();
 %>
