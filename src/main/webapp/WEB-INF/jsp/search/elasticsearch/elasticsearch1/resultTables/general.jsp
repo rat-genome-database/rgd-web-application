@@ -31,9 +31,14 @@
         for(SearchHit hit:searchHits){
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
-            String url="/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id="+sourceMap.get("term_acc");
-            String hitSpecies=sourceMap.get("species").toString();
-            String  hitCategory=sourceMap.get("category").toString();
+            String url="";
+            if(category.equalsIgnoreCase("Expressed Gene")){
+                url+="/rgdweb/report/gene/main.html?id=" + sourceMap.get("term_acc")+"#rnaSeqExpression";
+            }else {
+                url += "/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id=" + sourceMap.get("term_acc");
+            }
+            String hitSpecies=sourceMap.get("species")!=null?sourceMap.get("species").toString():"";
+            String  hitCategory=sourceMap.get("category")!=null?sourceMap.get("category").toString():"";
     %>
 
     <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
@@ -48,10 +53,45 @@
                         <%if(hitSpecies!=null){%><%=hitSpecies%><%}%>
             </td>
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
-        <td><%=sourceMap.get("symbol")%></td>
-        <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>
-        <td><%
-            if(sourceMap.get("rsId")!=null){
+        <td><%if(sourceMap.get("symbol")!=null){%>
+            <%=sourceMap.get("symbol")%>
+            <%}if(hitCategory.equalsIgnoreCase("Strain")){%>
+            <%
+                if(sourceMap.get("sampleExists")!=null){%>
+            <span style="color:red;font-size:20px;font-weight:bold" title='Can be analyzed in Variant Visulizer tool'>
+                <img src="/rgdweb/images/VV_small.gif" ></span>
+            <%}if(sourceMap.get("experimentRecordCount")!=null && (int) sourceMap.get("experimentRecordCount")>0){%>
+            <span style="color:blue;font-size:20px;font-weight:bold" title='Phenominer Data Available'><img src="/rgdweb/images/PM_small.gif" ></span>
+            <%}%>
+               <% }
+            %>
+        </td>
+        <td   style="cursor: pointer;">
+            <%String name="";
+                if(sourceMap.get("name")!=null){
+                    name+=sourceMap.get("name");
+                }
+                if(sourceMap.get("title")!=null){
+                    name+=sourceMap.get("title");
+                }
+                if(sourceMap.get("term")!=null){
+                    name+=sourceMap.get("term");
+                }
+                if(!name.equals("")){
+            %>
+            <a href="<%=url%>"><%=name%></a>
+            <%}if(hitCategory.equalsIgnoreCase("Ontology")){%>
+            <a href="/rgdweb/ontology/view.html?acc_id=<%=sourceMap.get("term_acc")%>" title="click to browse the term" alt="browse term">
+                <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
+            <%if(sourceMap.get("annotationsCount")!=null && Integer.parseInt(sourceMap.get("annotationsCount").toString())>0){%>
+            &nbsp;<a href="<%=url%>"><img border="0" src="/rgdweb/images/icon-a.gif" title="Show <%=sourceMap.get("annotationsCount")%> annotated objects"></a>
+
+            <%}if(sourceMap.get("pathwayDiagUrl")!=null){%>
+            &nbsp;<a href="<%=sourceMap.get("pathwayDiagUrl")%>"><img border="0" src="/rgdweb/images/icon-d.gif" title="Pathway Diagram"></a>
+
+            <%}}%>
+        </td>
+        <td><%if(sourceMap.get("rsId")!=null){
         %><%=sourceMap.get("rsId")%><%}%></td>
         <%@include file="mapDetails.jsp"%>
         <td><%if(sourceMap.get("annotationsCount")!=null){%>

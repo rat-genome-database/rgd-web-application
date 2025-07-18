@@ -33,10 +33,12 @@
     for(SearchHit hit:searchHits){
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
-            String url="/rgdweb/report/gene/main.html?id="+sourceMap.get("term_acc");
-            if(category.equalsIgnoreCase("Expressed Gene")){
-                url+="#rnaSeqExpression";
-            }
+        String url="";
+        if(category.equalsIgnoreCase("Expressed Gene")){
+            url+="/rgdweb/report/gene/main.html?id=" + sourceMap.get("term_acc")+"#rnaSeqExpression";
+        }else {
+            url += "/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id=" + sourceMap.get("term_acc");
+        }
             String hitSpecies=sourceMap.get("species").toString();
             String  hitCategory=sourceMap.get("category").toString();
 %>
@@ -49,7 +51,13 @@
        </td>
     <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
     <td><%=sourceMap.get("symbol")%></td>
-    <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("name")%></a></td>
+    <td   style="cursor: pointer;">
+        <%
+            if(sourceMap.get("name")!=null){
+        %>
+        <a href="<%=url%>"><%=sourceMap.get("name")%></a>
+        <%}%>
+    </td>
     <%@include file="mapDetails.jsp"%>
     <td><%if(sourceMap.get("annotationsCount")!=null){%>
         <%=sourceMap.get("annotationsCount")%><%}%></td>
@@ -59,7 +67,6 @@
                 <%@include file="../highlights.jsp"%>
             </td>
             <%}%>
-                <%--                    <!--td class="" >$-{hit.getScore()}</td-->--%>
 
         </tr>
 
