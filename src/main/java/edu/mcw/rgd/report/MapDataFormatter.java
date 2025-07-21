@@ -121,7 +121,7 @@ public class  MapDataFormatter {
                 //ret.append("<td>&nbsp;</td>");
                 continue;
             }
-            System.out.println("checking map key " + map.getKey() + activeMap.getKey());
+            System.out.println("checking map key " + map.getKey() + "-" + activeMap.getKey());
             if (map.getKey() == activeMap.getKey()) {
                 activeMapChr.add(mdObj.getChromosome());
             }
@@ -155,12 +155,14 @@ public class  MapDataFormatter {
             }
             if(activeMapChr.size()>1){
                 System.out.println("hey 6");
-                System.out.println(activeMapChr.toString());
+                System.out.println("active map " + activeMapChr.toString());
                 ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
             }else{
+                System.out.println("hey 7");
                 if(activeMapChr.size()==1) {
+                    System.out.println(activeMapChr.toString());
                     for (String chr : activeMapChr) {
-                        System.out.println(mdObj.getChromosome() + " - " + chr);
+                        System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
                         if (mdObj.getChromosome().equals(chr))
                             ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
                         else
