@@ -15,6 +15,7 @@ import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.process.mapping.ObjectMapper;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.web.HttpRequestFacade;
+import jakarta.servlet.ServletOutputStream;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -27,6 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -87,16 +89,43 @@ public class ProcessListController implements Controller {
         }else if (action.equals("browse")) {
             return new ModelAndView("/WEB-INF/jsp/generator/gviewer.jsp");
         }else if (action.equals("json")) {
-            Gson gson = new Gson();
 
-            //response.getWriter().write(gson.toJson(or.getResultSet()));
+            Gson gson = new Gson();
 
             String json = gson.toJson(or.getResultSet());
             byte[] jsonBytes = json.getBytes(StandardCharsets.UTF_8);
 
             response.setContentType("application/json;charset=UTF-8");
-            response.setContentLength(jsonBytes.length); // ✅ Ensures Apache can cache it
-            response.getOutputStream().write(jsonBytes);
+            response.setContentLength(jsonBytes.length);  // Set BEFORE writing
+
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            calendar.setTime(new Date());
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+// Move to next Monday
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            int daysUntilMonday = (Calendar.MONDAY - dayOfWeek + 7) % 7;
+            if (daysUntilMonday == 0) {
+                daysUntilMonday = 7;  // Ensure it's the *next* Monday
+            }
+            calendar.add(Calendar.DAY_OF_MONTH, daysUntilMonday);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            String expiresHeader = sdf.format(calendar.getTime());
+
+            System.out.println("setting expires");
+            response.setHeader("Expires", expiresHeader);
+
+
+
+            ServletOutputStream out = response.getOutputStream();
+            out.write(jsonBytes);
+            out.flush();  // Ensure headers are finalized
 
             return null;
         }else {

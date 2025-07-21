@@ -27,6 +27,8 @@ public class ListGeneratorController implements Controller {
     protected HttpServletResponse response = null;
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("endtering list generation controller");
+
         HttpRequestFacade req = new HttpRequestFacade(request);
 
         //System.out.println("entering List Gen Controller");
@@ -159,26 +161,7 @@ public class ListGeneratorController implements Controller {
         }
 
 
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        calendar.setTime(new Date());
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
 
-// Move to next Monday
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        int daysUntilMonday = (Calendar.MONDAY - dayOfWeek + 7) % 7;
-        if (daysUntilMonday == 0) {
-            daysUntilMonday = 7;  // Ensure it's the *next* Monday
-        }
-        calendar.add(Calendar.DAY_OF_MONTH, daysUntilMonday);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String expiresHeader = sdf.format(calendar.getTime());
-
-        response.setHeader("Expires", expiresHeader);
 
 
 
