@@ -104,7 +104,13 @@
         <td class="label" valign="top">Aliases:</td>
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
-    <% }  %>
+    <% }
+        if (!Utils.isStringEmpty(obj.getNotes()) ){%>
+    <tr>
+        <td class="label" valign="top">Notes:</td>
+        <td><%=obj.getNotes()%></td>
+    </tr>
+    <% } %>
 
 
 </table>
