@@ -34,12 +34,6 @@
         <td class="labelValue"><%=obj.getSource()%></td>
     </tr>
     <%}%>
-    <%if(obj.getType()!=null&&!obj.getType().isEmpty()){%>
-    <tr>
-        <td class="label">Study&nbsp;Type:</td>
-        <td class="labelValue"><%=obj.getType()%></td>
-    </tr>
-    <%}%>
     <%if(obj.getDataType()!=null&&!obj.getDataType().isEmpty()){%>
     <tr>
         <td class="label">Data&nbsp;Type:</td>
@@ -49,7 +43,7 @@
     <%if(obj.getGeoSeriesAcc()!=null&&!obj.getGeoSeriesAcc().isEmpty()){%>
     <tr>
         <td class="label">Geo&nbsp;Series&nbsp;Acc:</td>
-        <td class="labelValue"><%=obj.getGeoSeriesAcc()%></td>
+        <td class="labelValue"><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=obj.getGeoSeriesAcc()%>" target="_blank"><%=obj.getGeoSeriesAcc()%></a></td>
     </tr>
     <%}%>
 </table>

@@ -37,6 +37,7 @@
                 <td>
                     <br>
                    <%@ include file="info.jsp"%>
+                    <%@ include file="sampleMetadata.jsp"%>
                 </td>
             </tr>
         </table>
