@@ -28,6 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -96,6 +97,31 @@ public class ProcessListController implements Controller {
 
             response.setContentType("application/json;charset=UTF-8");
             response.setContentLength(jsonBytes.length);  // Set BEFORE writing
+
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            calendar.setTime(new Date());
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+// Move to next Monday
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            int daysUntilMonday = (Calendar.MONDAY - dayOfWeek + 7) % 7;
+            if (daysUntilMonday == 0) {
+                daysUntilMonday = 7;  // Ensure it's the *next* Monday
+            }
+            calendar.add(Calendar.DAY_OF_MONTH, daysUntilMonday);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            String expiresHeader = sdf.format(calendar.getTime());
+
+            System.out.println("setting expires");
+            response.setHeader("Expires", expiresHeader);
+
+
 
             ServletOutputStream out = response.getOutputStream();
             out.write(jsonBytes);
