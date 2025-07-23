@@ -115,9 +115,10 @@
                     <% } %>
                 </td>
                 <td>
-                    <% for (Object ref : refRgdIds) {%>
+                    <% if(refRgdIds!=null){
+                        for (Object ref : refRgdIds) {%>
                     <a href="/rgdweb/report/reference/main.html?id=<%=ref%>"><%=ref%></a>&nbsp;
-                    <% } %>
+                    <% } }%>
                 </td>
 
             </tr>
