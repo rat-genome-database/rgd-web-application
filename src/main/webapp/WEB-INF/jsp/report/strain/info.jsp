@@ -128,7 +128,27 @@
         %></td>
     </tr>
     <% } %>
-
+    <%
+        RgdVariantDAO variantDAO = new RgdVariantDAO();
+        List<RgdVariant> variants = variantDAO.getVariantsFromStrainKey(obj.getKey());
+        String joinedLinks="";
+        if(variants.size()>0){
+            Set<String>seenNames = new HashSet<>();
+            List<String>links= new ArrayList<>();
+    %>
+    <tr>
+        <td class="label">Variant(s):</td>
+        <%for(RgdVariant variant:variants){
+            if(!seenNames.contains(variant.getName())){
+                seenNames.add(variant.getName());
+                links.add("<a href=\"/rgdweb/report/rgdvariant/main.html?id=" + variant.getRgdId() + "\">" + variant.getName() + "</a>");
+            }
+        }
+            joinedLinks = String.join("; ",links);
+        %>
+        <td><%=joinedLinks%></td>
+    </tr>
+    <% } %>
     <%
         if( !aliases.isEmpty() ) {
     %>
