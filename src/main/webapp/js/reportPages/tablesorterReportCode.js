@@ -702,7 +702,10 @@ function tableSorterReport() {
             .tablesorter({
                 theme: 'blue',
                 widgets: ['zebra'],
+                // widgets: ['zebra','filter'],
                 widgetOptions: {
+                    // filter_external: '#sampleDataSearch',
+                    // filter_columnFilters: false,
                     resize: true  // Enables column resizing by dragging
                 }
             })
