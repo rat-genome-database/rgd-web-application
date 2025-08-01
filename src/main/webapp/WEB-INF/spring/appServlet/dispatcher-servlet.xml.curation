@@ -292,7 +292,7 @@
                 <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
                 <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
                 <prop key="report/expressionStudy/main.html">ExpressionStudyReportController</prop>
-
+                <prop key="report/expressionStudy/downloadMetadata.html">ExpressionStudyDownloadController</prop>
             </props>
         </property>
     </bean>
@@ -579,5 +579,6 @@
     <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
     <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
     <bean id="ExpressionStudyReportController" class="edu.mcw.rgd.report.ExpressionStudyReportController"/>
+    <bean id="ExpressionStudyDownloadController" class="edu.mcw.rgd.report.ExpressionStudyDownloadController"/>
     </beans>
 
