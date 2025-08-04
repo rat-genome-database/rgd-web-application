@@ -229,7 +229,7 @@
             <th class="col-experimental-conditions">Experimental_Conditions</th>
             <th class="col-cell-type">Cell Type</th>
             <th class="col-dose">Dose</th>
-            <th class="col-duration">Duration</th>
+            <th class="col-duration">Duration(in sec)</th>
             <th class="col-application-method">Application Method</th>
             <th class="col-notes">Notes</th>
         </tr>

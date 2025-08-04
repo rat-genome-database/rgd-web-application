@@ -33,7 +33,7 @@ public class ExpressionStudyDownloadController extends ReportController {
 
             PrintWriter writer = response.getWriter();
 
-            writer.println("\"geo_accession\",\"Tissue\",\"Strain\",\"Sex\",\"Computed Sex\",\"Age(in days)\",\"Life Stage\",\"Experimental_Conditions\",\"Cell Type\",\"Dose\",\"Duration\",\"Application Method\",\"Notes\"");
+            writer.println("\"geo_accession\",\"Tissue\",\"Strain\",\"Sex\",\"Computed Sex\",\"Age(in days)\",\"Life Stage\",\"Experimental_Conditions\",\"Cell Type\",\"Dose\",\"Duration(in sec)\",\"Application Method\",\"Notes\"");
 
             for (StudySampleMetadata data : allData) {
                 StringBuilder row = new StringBuilder();
