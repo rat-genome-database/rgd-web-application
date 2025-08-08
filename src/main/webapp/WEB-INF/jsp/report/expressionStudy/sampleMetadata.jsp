@@ -156,7 +156,7 @@
         <span>Select Columns to Display</span>
         <div class="panel-controls">
             <button class="select-all-btn" id="selectAllBtn">Select All</button>
-            <button class="hide-all-btn" id="hideAllBtn">Hide All</button>
+            <button class="hide-all-btn" id="hideAllBtn">Clear All</button>
         </div>
     </div>
 
