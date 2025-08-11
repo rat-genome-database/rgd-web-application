@@ -67,7 +67,7 @@ public class  MapDataFormatter {
         Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
         System.out.println("  activeMapKey = " + activeMap.getKey());
         if( speciesTypeKey==3 && activeMap.getKey()!=380 ) {
-            activeMap = mm.getMap(380);
+            activeMap = new MapDAO().getMap(380);
             System.out.println("  activeMapKey override = " + activeMap.getKey());
         }
 
