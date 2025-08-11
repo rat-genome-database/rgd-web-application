@@ -250,7 +250,10 @@ boolean isEva = false;
         String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + "/";
         if (baseURL.contains("localhost"))
             baseURL = "https://dev.rgd.mcw.edu/";
-
+        //testing a new fix
+        if (baseURL.contains("127.0.0.1"))
+            baseURL="https://rgd.mcw.edu/";
+        
         String jbUrl = baseURL+"jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(var);
 
     %>
