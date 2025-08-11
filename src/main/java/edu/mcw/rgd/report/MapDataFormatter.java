@@ -69,12 +69,12 @@ public class  MapDataFormatter {
         int activeMapKey;
         {
             Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
-            System.out.println("  activeMapKey = " + activeMap.getKey());
-            if (speciesTypeKey == 3 && activeMap.getKey() != 380) {
-                activeMap = new MapDAO().getMap(380);
-                System.out.println("  activeMapKey override = " + activeMap.getKey());
-            }
             activeMapKey = activeMap.getKey();
+            System.out.println("  activeMapKey = " + activeMapKey);
+            if (speciesTypeKey == 3 && activeMapKey != 380) {
+                activeMapKey = 380;
+                System.out.println("  activeMapKey override = " + activeMapKey);
+            }
         }
 
         String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
@@ -134,7 +134,7 @@ public class  MapDataFormatter {
 
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
-            //System.out.println("hey 1");
+            System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey()="+(map==null?0:map.getKey()));
             if( map==null ) {
                 System.out.println("hey 2: "+mdObj.getMapKey());
                 map = new MapDAO().getMap(mdObj.getMapKey());
