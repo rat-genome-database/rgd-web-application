@@ -57,20 +57,25 @@ public class  MapDataFormatter {
     }
 
     public static String buildTable(int speciesTypeKey, List<MapData> mapData, int objectKey, String objectSymbol) throws Exception{
-        System.out.println("here 1");
+
+        System.out.println("here 1 "+objectSymbol);
         if( mapData.isEmpty() ) {
             return "No map positions available.";
         }
 
         final MapManager mm = MapManager.getInstance();
 
-        Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
-        System.out.println("  activeMapKey = " + activeMap.getKey());
-        if( speciesTypeKey==3 && activeMap.getKey()!=380 ) {
-            activeMap = new MapDAO().getMap(380);
-            System.out.println("  activeMapKey override = " + activeMap.getKey());
-        }
 
+        int activeMapKey;
+        {
+            Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
+            System.out.println("  activeMapKey = " + activeMap.getKey());
+            if (speciesTypeKey == 3 && activeMap.getKey() != 380) {
+                activeMap = new MapDAO().getMap(380);
+                System.out.println("  activeMapKey override = " + activeMap.getKey());
+            }
+            activeMapKey = activeMap.getKey();
+        }
 
         String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
 
@@ -93,7 +98,6 @@ public class  MapDataFormatter {
 
         StringBuilder ret = new StringBuilder("<table border=\"0\" class=\"mapDataTable\" width=\"670\">");
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
-            System.out.println("here 3");
             ret.append("<tr><th align=\"left\" rowspan=\"2\"><b>").append(mapColumnTitle).append("</b></th>");
             ret.append("<th align=\"left\" rowspan=\"2\">Chr</th>");
             ret.append("<th align=\"left\" rowspan=\"2\">Position (strand)</th>");
@@ -102,7 +106,6 @@ public class  MapDataFormatter {
             ret.append("</tr>");
             ret.append("<tr><th>JBrowse</th><th>NCBI</th><th>UCSC</th><th>Ensembl</th></tr>");
         } else {
-            System.out.println("here 4");
             ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
             ret.append("<th align=\"left\">Chr</th>");
             ret.append("<th align=\"left\">Position (strand)</th>");
@@ -124,8 +127,8 @@ public class  MapDataFormatter {
                 //ret.append("<td>&nbsp;</td>");
                 continue;
             }
-            System.out.println("checking map key " + map.getKey() + "-" + activeMap.getKey());
-            if (map.getKey() == activeMap.getKey()) {
+            System.out.println("checking map key " + map.getKey() + "-" + activeMapKey);
+            if (map.getKey() == activeMapKey) {
                 activeMapChr.add(mdObj.getChromosome());
             }
         }
@@ -135,7 +138,7 @@ public class  MapDataFormatter {
             Map map = mm.getMap(mdObj.getMapKey());
             System.out.println("hey 1");
             if( map==null ) {
-                System.out.println("hey 2");
+                System.out.println("hey 2: "+mdObj.getMapKey());
                 map = new MapDAO().getMap(mdObj.getMapKey());
             }
 			if( map==null ) {
@@ -144,7 +147,7 @@ public class  MapDataFormatter {
                 ret.append("<td>&nbsp;</td>");
             }
             else
-            if (map.getKey() == activeMap.getKey()) {
+            if (map.getKey() == activeMapKey) {
 
                 System.out.println("hey 4");
                 ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
