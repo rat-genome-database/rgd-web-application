@@ -65,8 +65,11 @@ public class  MapDataFormatter {
         final MapManager mm = MapManager.getInstance();
 
         Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
-
-        System.out.println("here 2" + activeMap.getKey());
+        System.out.println("  activeMapKey = " + activeMap.getKey());
+        if( speciesTypeKey==3 && activeMap.getKey()!=380 ) {
+            activeMap = mm.getMap(380);
+            System.out.println("  activeMapKey override = " + activeMap.getKey());
+        }
 
 
         String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
