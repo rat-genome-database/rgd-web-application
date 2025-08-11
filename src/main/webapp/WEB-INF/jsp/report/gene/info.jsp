@@ -14,10 +14,23 @@
 <script>
     <%
     MapData currentAssemblyMapData = null;
-    for (MapData md2: mapData) {
+
+    int currentMapKey;
+    {
         Map currentMap = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey());
 
-        if (md2.getMapKey() == currentMap.getKey()) {
+        // paranoia check
+        if( currentMap.getKey()!=380 && obj.getSpeciesTypeKey()==3 ) {
+
+            System.out.println("*** JBrowse2 current map key override to 380 from "+currentMap.getKey());
+            currentMap = mapDAO.getMap(380);
+        }
+        currentMapKey = currentMap.getKey();
+    }
+    
+    for (MapData md2: mapData) {
+
+        if (md2.getMapKey() == currentMapKey) {
             currentAssemblyMapData=md2;
         %>
             var chr='<%=md2.getChromosome()%>';
