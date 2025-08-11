@@ -117,56 +117,55 @@ public class  MapDataFormatter {
             }
             ret.append("</tr>");
         }
-      List<String> activeMapChr=new ArrayList<>();
+
+        List<String> activeMapChr=new ArrayList<>();
         for(MapData mdObj: mapData){
-            System.out.println("in map data ");
-            Map map= mm.getMap(mdObj.getMapKey());
-            System.out.println("map = " + map);
+            Map map = mm.getMap(mdObj.getMapKey());
             if( map==null ) {
                 // map not known
                 //ret.append("<td>&nbsp;</td>");
                 continue;
             }
-            System.out.println("checking map key " + map.getKey() + "-" + activeMapKey);
             if (map.getKey() == activeMapKey) {
                 activeMapChr.add(mdObj.getChromosome());
+                System.out.println("activeMapChr.add(" +mdObj.getChromosome()+") activeMapKey="+ activeMapKey);
             }
         }
-        System.out.println("map data size = " + mapData.size());
 
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
-            System.out.println("hey 1");
+            //System.out.println("hey 1");
             if( map==null ) {
                 System.out.println("hey 2: "+mdObj.getMapKey());
                 map = new MapDAO().getMap(mdObj.getMapKey());
             }
 			if( map==null ) {
-                System.out.println("hey 3");
+                System.out.println("hey 3: "+mdObj.getMapKey());
                 // map not known
                 ret.append("<td>&nbsp;</td>");
             }
             else
             if (map.getKey() == activeMapKey) {
 
-                System.out.println("hey 4");
+                System.out.println(" activeMap hit: "+activeMapKey);
                 ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
                         .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
                         .append("'>").append(map.getName())
                         .append("</a></td>");
 
             }else {
-                System.out.println("hey 5");
+                System.out.println(" map hit: "+mdObj.getMapKey());
                 ret.append("<td>").append(map.getName()).append("</td>");
             }
+
             if(activeMapChr.size()>1){
-                System.out.println("hey 6");
-                System.out.println("active map " + activeMapChr.toString());
+                //System.out.println("hey 6");
+                //System.out.println("active map " + activeMapChr.toString());
                 ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
             }else{
-                System.out.println("hey 7");
+                //System.out.println("hey 7");
                 if(activeMapChr.size()==1) {
-                    System.out.println(activeMapChr.toString());
+                    //System.out.println(activeMapChr.toString());
                     for (String chr : activeMapChr) {
                         System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
                         if (mdObj.getChromosome().equals(chr))

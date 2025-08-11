@@ -27,7 +27,7 @@
         }
         currentMapKey = currentMap.getKey();
     }
-    
+
     for (MapData md2: mapData) {
 
         if (md2.getMapKey() == currentMapKey) {
