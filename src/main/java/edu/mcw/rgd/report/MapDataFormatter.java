@@ -134,7 +134,7 @@ public class  MapDataFormatter {
 
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
-            System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey()="+(map==null?0:map.getKey()));
+            System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
             if( map==null ) {
                 System.out.println("hey 2: "+mdObj.getMapKey());
                 map = new MapDAO().getMap(mdObj.getMapKey());
