@@ -6,7 +6,6 @@ import edu.mcw.rgd.dao.impl.QTLDAO;
 import edu.mcw.rgd.dao.impl.StrainDAO;
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
-import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.variants.VariantMapData;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
@@ -86,44 +85,45 @@ public class CNVariantsRsIdController implements Controller {
                         int maxPage = 0, offset = 1, size = 0;
                         int rgdId = Integer.parseInt(geneId);
                         Gene g = getGene(rgdId);
-                        final MapManager mm = MapManager.getInstance();
-                        Map activeMap = mm.getReferenceAssembly(g.getSpeciesTypeKey());
-                        if (g.getSpeciesTypeKey()==3){
-                            activeMap.setKey(372);
+
+                        int activeMapKey = MapManager.getInstance().getReferenceAssembly(g.getSpeciesTypeKey()).getKey();
+                        if (g.getSpeciesTypeKey() == 3) {
+                            activeMapKey = 372;
                         }
-                        MapData mapData = getMapData(rgdId, activeMap);
+                            
+                        MapData mapData = getMapData(rgdId, activeMapKey);
                         if (mapData == null) {
                             error.add("We have no variants in given assembly for " + g.getSymbol() + "!");
                         } else {
                             if (exon){
-                                size = vdao.getVariantsWithTranscriptLocationNameCount(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon");
+                                size = vdao.getVariantsWithTranscriptLocationNameCount(activeMapKey, mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon");
                                 maxPage = size / 1000;
                                 if (size % 1000 != 0)
                                     maxPage++;
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getActiveVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon", offset);
+                                objects = vdao.getActiveVariantsWithTranscriptLocationNameLimited(activeMapKey, mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Exon", offset);
                             }
                             else if (intron){
-                                size = vdao.getVariantsWithTranscriptLocationNameCount(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron");
+                                size = vdao.getVariantsWithTranscriptLocationNameCount(activeMapKey, mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron");
                                 maxPage = size / 1000;
                                 if (size % 1000 != 0)
                                     maxPage++;
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getActiveVariantsWithTranscriptLocationNameLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron", offset);
+                                objects = vdao.getActiveVariantsWithTranscriptLocationNameLimited(activeMapKey, mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), "Intron", offset);
                             }
                             else {
-                                size = vdao.getVariantsCountWithGeneLocation(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
+                                size = vdao.getVariantsCountWithGeneLocation(activeMapKey, mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos());
                                 maxPage = size / 1000;
                                 if (size % 1000 != 0)
                                     maxPage++;
                                 if (page > maxPage)
                                     page = maxPage;
                                 offset = ((page - 1) * 1000);
-                                objects = vdao.getActiveVariantsWithGeneLocationLimited(activeMap.getKey(), mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), offset);
+                                objects = vdao.getActiveVariantsWithGeneLocationLimited(activeMapKey, mapData.getChromosome(), mapData.getStartPos(), mapData.getStopPos(), offset);
                             }
                             request.setAttribute("p",page);
                             request.setAttribute("maxPage", maxPage);
@@ -135,7 +135,7 @@ public class CNVariantsRsIdController implements Controller {
                             request.setAttribute("chr", mapData.getChromosome());
                             request.setAttribute("locType",locType);
                             request.setAttribute("totalSize", size);
-                            request.setAttribute("mapKey",activeMap.getKey());
+                            request.setAttribute("mapKey",activeMapKey);
                             request.setAttribute("species",g.getSpeciesTypeKey());
                         }
                     } else
@@ -211,13 +211,11 @@ public class CNVariantsRsIdController implements Controller {
         StrainDAO sdao = new StrainDAO();
         return sdao.getStrain(rgdId);
     }
-    public MapData getMapData(int rgdId, Map map) throws Exception{
+    public MapData getMapData(int rgdId, int mapKey) throws Exception{
         MapDAO mapDAO = new MapDAO();
-        MapData md = null;
         List<MapData> mapData = mapDAO.getMapData(rgdId);
         for (MapData m : mapData){
-            if (m.getMapKey()==map.getKey()) {
-                md = m;
+            if (m.getMapKey()==mapKey) {
                 return m;
             }
         }
