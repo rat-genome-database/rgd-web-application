@@ -311,16 +311,16 @@
     <%}%>
     </tbody>
 </table>
-
-
-<br><br>
+<br>
+<%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
+<br>
 <div id="sequenceViewer" onclick="goToJBrowse()">
     <div class="container">
         <div id="range" style="text-align: center"></div>
         <svg className="viewer" id="viewerActnFly"/>
     </div>
 </div>
-
+<%}%>
 <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 

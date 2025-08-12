@@ -389,6 +389,7 @@ public class  MapDataFormatter {
 
     public static String generateJbrowse2URL(int objectKey, MapData md) throws Exception {
         if(md==null){
+            System.out.println("null mapdata");
             return null;
         }
         String tracks=null,url=null;
@@ -412,7 +413,7 @@ public class  MapDataFormatter {
 
         url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2Loc(md, firstConfig.getChrPrefix()) + "&assembly=" + firstConfig.getAssembly() + "&tracklist=true" + "&tracks="
                 + tracks;
-//        System.out.println(url);
+//        System.out.println("url"+url);
         return url;
     }
 
