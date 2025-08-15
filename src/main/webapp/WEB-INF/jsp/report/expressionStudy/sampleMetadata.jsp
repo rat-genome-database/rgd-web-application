@@ -229,7 +229,7 @@
             <th class="col-experimental-conditions">Experimental_Conditions</th>
             <th class="col-cell-type">Cell Type</th>
             <th class="col-dose">Dose</th>
-            <th class="col-duration">Duration(in sec)</th>
+            <th class="col-duration">Duration</th>
             <th class="col-application-method">Application Method</th>
             <th class="col-notes">Notes</th>
         </tr>
@@ -284,13 +284,62 @@
 
                     String durationText = "";
                     if (durLow != null && durHigh != null && durLow != 0.0) {
-                        durationText = durLow.equals(durHigh)
-                                ? durLow.toString()
-                                : durLow + " - " + durHigh;
+                        // Determine the maximum value to decide unit
+                        double maxDuration = Math.max(durLow, durHigh);
+
+                        String unit;
+                        double divisor;
+
+                        if (maxDuration >= 31536000) { // ≥ 1 year
+                            unit = "years";
+                            divisor = 31536000.0;
+                        }
+                        else if (maxDuration >= 86400) { // ≥ 1 day
+                            unit = "days";
+                            divisor = 86400.0;
+                        }
+                        else if (maxDuration >= 3600) { // ≥ 1 hour
+                            unit = "hours";
+                            divisor = 3600.0;
+                        }
+                        else if (maxDuration >= 60) { // ≥ 1 minute
+                            unit = "minutes";
+                            divisor = 60.0;
+                        }
+                        else {
+                            unit = "secs";
+                            divisor = 1.0;
+                        }
+
+                        // Convert values to above unit
+                        double convertedLow = durLow / divisor;
+                        double convertedHigh = durHigh / divisor;
+
+                        // kept single decimal value for now
+                        if (convertedLow == convertedHigh) {
+                            durationText = String.format("%.1f %s", convertedLow, unit);
+                        }
+                        else {
+                            durationText = String.format("%.1f - %.1f %s", convertedLow, convertedHigh, unit);
+                        }
                     }
                 %>
                 <%=durationText%>
             </td>
+<%--            <td class="col-duration">--%>
+<%--                <%--%>
+<%--                    Double durLow = data.getExpCondDurSecLowBound();--%>
+<%--                    Double durHigh = data.getExpCondDurSecHighBound();--%>
+
+<%--                    String durationText = "";--%>
+<%--                    if (durLow != null && durHigh != null && durLow != 0.0) {--%>
+<%--                        durationText = durLow.equals(durHigh)--%>
+<%--                                ? durLow.toString()--%>
+<%--                                : durLow + " - " + durHigh;--%>
+<%--                    }--%>
+<%--                %>--%>
+<%--                <%=durationText%>--%>
+<%--            </td>--%>
 
             <td class="col-application-method"><%=data.getExpCondApplicationMethod()!=null?data.getExpCondApplicationMethod():""%></td>
             <td class="col-notes"><%=data.getExpCondNotes()!=null?data.getExpCondNotes():""%></td>
