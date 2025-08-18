@@ -32,10 +32,10 @@
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
             String url="";
-            if(category.equalsIgnoreCase("Expressed Gene")){
+            if(category.equalsIgnoreCase("Expressed Gene") || sourceMap.get("category").toString().toLowerCase().equalsIgnoreCase("Expressed Gene")){
                 url+="/rgdweb/report/gene/main.html?id=" + sourceMap.get("term_acc")+"#rnaSeqExpression";
             }else {
-                if (category.equalsIgnoreCase("Expression Study")) {
+                if (category.equalsIgnoreCase("Expression Study") || sourceMap.get("category").toString().toLowerCase().equalsIgnoreCase("Expression Study")) {
                     url += "/rgdweb/report/expressionStudy/main.html?id=" + sourceMap.get("term_acc");
                 } else {
                     url += "/rgdweb/report/" + sourceMap.get("category").toString().toLowerCase() + "/main.html?id=" + sourceMap.get("term_acc");
