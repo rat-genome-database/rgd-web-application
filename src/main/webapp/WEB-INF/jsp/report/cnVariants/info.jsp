@@ -41,9 +41,9 @@ boolean isEva = false;
     List<Gene> geneList = new ArrayList<>();
     String genes = "";
     if (mapData.size()>0) {
-        GeneDAO gdao = new GeneDAO();
+        GeneDAO geneDao = new GeneDAO();
         for (MapData m : mapData) {
-            Gene g = gdao.getGene(m.getRgdId());
+            Gene g = geneDao.getGene(m.getRgdId());
             if (g != null)
                 geneList.add(g);
         }
@@ -248,9 +248,16 @@ boolean isEva = false;
 
         String url = request.getRequestURL().toString();
         String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + "/";
+        System.out.println("Original URL: " + url);
+        System.out.println("Initial baseURL: " + baseURL);
+        System.out.println("Server Name: '" + request.getServerName() + "'");
+        System.out.println("Server Port: " + request.getServerPort());
         if (baseURL.contains("localhost"))
             baseURL = "https://dev.rgd.mcw.edu/";
-
+        else if(request.getServerName().equals("127.0.0.1")){
+            baseURL="https://rgd.mcw.edu/";
+        }
+        System.out.println("Final baseURL: " + baseURL);
         String jbUrl = baseURL+"jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(var);
 
     %>
