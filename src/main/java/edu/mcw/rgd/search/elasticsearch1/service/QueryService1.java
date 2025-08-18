@@ -265,11 +265,16 @@ public class QueryService1 {
                         .add(QueryBuilders.multiMatchQuery(term)
                                 .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX)
                                 .analyzer("standard")
-                                .boost(5))
+                                .boost(8))
                         .add(QueryBuilders.multiMatchQuery(term)
                                 .type(MultiMatchQueryBuilder.Type.PHRASE)
                                 .analyzer("standard")
-                                .boost(2))
+                                .boost(5))
+                        .add(QueryBuilders.multiMatchQuery(term)
+                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .operator(Operator.AND)
+
+                                .boost(3))
 
                 ;
                 //   String[] tokens=term.split("[\\s,]+");
