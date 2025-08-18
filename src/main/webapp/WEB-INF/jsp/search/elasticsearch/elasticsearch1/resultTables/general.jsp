@@ -34,7 +34,11 @@
             String url="";
             if(category.equalsIgnoreCase("Expressed Gene")){
                 url+="/rgdweb/report/gene/main.html?id=" + sourceMap.get("term_acc")+"#rnaSeqExpression";
-            }else {
+            }else
+            if(category.equalsIgnoreCase("Expression Study")){
+                url+="/rgdweb/report/expressionStudy/main.html?id=" + sourceMap.get("term_acc")+"#rnaSeqExpression";
+            }else
+            {
                 url += "/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id=" + sourceMap.get("term_acc");
             }
             String hitSpecies=sourceMap.get("species")!=null?sourceMap.get("species").toString():"";
