@@ -127,10 +127,10 @@ public class RgdContext {
                 case "search":
                 case "variant": // variants part of general search
                     if( isProduction() ) {
-                        indexName= index+"_index_cur"+","+"variant_index_prod";
+                        indexName= index+"_index_cur1"+","+"variant_index_prod";
                     }else
                     if( isPipelines() ) {
-                        indexName= index+"_index_cur"+","+"variant_index_cur";
+                        indexName= index+"_index_cur1"+","+"variant_index_cur";
                     }else
                     if( isDev() ) {
                         indexName= index+"_index_dev"+","+"variant_index_dev"+","+"expression-search_index_dev";
