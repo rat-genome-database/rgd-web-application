@@ -244,6 +244,9 @@ function hideAllOrthos() {
             case 14 :
                 imageSource +=  "mole-ratI.png";
                 break;
+            case 17 :
+                imageSource +=  "black-ratI.png";
+                break;
         }
         return imageSource;
     }
