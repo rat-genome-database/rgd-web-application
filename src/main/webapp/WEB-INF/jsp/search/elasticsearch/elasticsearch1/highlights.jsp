@@ -29,14 +29,14 @@
     });
 </script>
 <div>
-    <% Gson gson=new Gson();
+    <%
 
         if (!RgdContext.isProduction()) {
             String id = (String) sourceMap.get("term_acc");
             String highlightId = id != null ? id.replace(":", "") : "";
             Map<String, HighlightField> highlightFields = hit.getHighlightFields();
     %>
-    <p>highlightId: <%=highlightId%><%=gson.toJson(highlightFields)%></p>
+   
     <button type="button" class="btn btn-light btn-sm"
             data-container="body"
             data-trigger="click"
