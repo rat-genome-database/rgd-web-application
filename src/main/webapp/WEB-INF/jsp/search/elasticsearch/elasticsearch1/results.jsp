@@ -62,12 +62,17 @@
     Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
     List<Terms.Bucket> speciesAggregations= (List<Terms.Bucket>) aggregations.get("species");
     List<Terms.Bucket> ontologyAggregations= (List<Terms.Bucket>) aggregations.get("ontology");
+
+    String defaultAssembly= null;
+            if(model.get("defaultAssembly")!=null) {
+                defaultAssembly=    model.get("defaultAssembly").toString();
+            }
     SearchHit[] searchHits= null;
     if(model.get("hitArray")!=null)
         searchHits= (SearchHit[]) model.get("hitArray");
     if(searchHits!=null){
 
-    String defaultAssembly=model.get("defaultAssembly").toString();
+
 %>
 <table width="100%">
 

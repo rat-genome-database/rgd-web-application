@@ -19,7 +19,9 @@
         <th>Citation</th>
         <th>Authors</th>
         <th>RGD ID</th>
+        <%if(!RgdContext.isProduction()){%>
         <th>Matched By</th>
+        <%}%>
     </tr>
     </thead>
     <tbody>
@@ -63,11 +65,15 @@
 <%--                                        ${f:format(hit.getSourceAsMap().citation,t )} </span>--%>
 <%--                                    </c:if>--%>
                                 </td>
-                                <td><%=String.join(" | ", ((List<String>) sourceMap.get("author")))%>
+                                <td><%
+                                    if(sourceMap.get("author")!=null){
+                                %>
+                                    <%=String.join(" | ", ((List<String>) sourceMap.get("author")))%>
 <%--                                    <c:if test="${!model.searchBean.category.equalsIgnoreCase('general')}">--%>
 <%--                                        ${f:format(hit.getSourceAsMap().author, t )}--%>
 <%--                                    </c:if>--%>
 
+                                    <%}%>
                                 </td>
         <td class="id"><%=sourceMap.get("term_acc")%></td>
         <%if(!RgdContext.isProduction()){%>

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 7/11/2025
@@ -22,101 +22,108 @@
         <th>Annotations</th>
         <th>Strains Crossed</th>
         <th>RGD ID</th>
-        <th>Matched By</th>
+        <%
+            if(!RgdContext.isProduction()){%>
+                <th>Matched By</th>
+        <%}%>
     </tr>
     </thead>
     <tbody>
 
     <%
-        for(SearchHit hit:searchHits){
+        for (SearchHit hit : searchHits) {
+            Map<String, Object> sourceMap = hit.getSourceAsMap();
 
-            Map<String, Object> sourceMap=hit.getSourceAsMap();
-            String url="";
-            if(category.equalsIgnoreCase("Expressed Gene") || sourceMap.get("category").toString().toLowerCase().equalsIgnoreCase("Expressed Gene")){
-                url+="/rgdweb/report/gene/main.html?id=" + sourceMap.get("term_acc")+"#rnaSeqExpression";
-            }else {
-                if (category.equalsIgnoreCase("Expression Study") || sourceMap.get("category").toString().toLowerCase().equalsIgnoreCase("Expression Study")) {
-                    url += "/rgdweb/report/expressionStudy/main.html?id=" + sourceMap.get("term_acc");
-                } else {
-                    url += "/rgdweb/report/" + sourceMap.get("category").toString().toLowerCase() + "/main.html?id=" + sourceMap.get("term_acc");
-                }
+            String termAcc = (String) sourceMap.get("term_acc");
+            String categoryValue = (String) sourceMap.get("category");
+            String categoryLower = categoryValue != null ? categoryValue.toLowerCase() : "";
+            String hitSpecies = sourceMap.get("species") != null ? sourceMap.get("species").toString() : "";
+            String hitCategory = categoryValue != null ? categoryValue : "";
+
+            String url;
+            if ("expressed gene".equalsIgnoreCase(category) || "expressed gene".equalsIgnoreCase(categoryValue)) {
+                url = "/rgdweb/report/gene/main.html?id=" + termAcc + "#rnaSeqExpression";
+            } else if ("expression study".equalsIgnoreCase(category) || "expression study".equalsIgnoreCase(categoryValue)) {
+                url = "/rgdweb/report/expressionStudy/main.html?id=" + termAcc;
+            } else {
+                url = "/rgdweb/report/" + categoryLower + "/main.html?id=" + termAcc;
             }
-            String hitSpecies=sourceMap.get("species")!=null?sourceMap.get("species").toString():"";
-            String  hitCategory=sourceMap.get("category")!=null?sourceMap.get("category").toString():"";
+
+            String symbol = (String) sourceMap.get("symbol");
+            String name = "";
+            if (sourceMap.get("name") != null) name += sourceMap.get("name");
+            if (sourceMap.get("title") != null) name += sourceMap.get("title");
+            if (sourceMap.get("term") != null) name += sourceMap.get("term");
+            String rsId = (String) sourceMap.get("rsId");
+            Object annotationsCountObj = sourceMap.get("annotationsCount");
+            Integer annotationsCount = annotationsCountObj != null ? Integer.parseInt(annotationsCountObj.toString()) : null;
+            String pathwayDiagUrl = (String) sourceMap.get("pathwayDiagUrl");
+
+            List<String> strainsCrossed = (List<String>) sourceMap.get("strainsCrossed");
+            String crossedStrain = (strainsCrossed != null) ? strainsCrossed.stream().filter(Objects::nonNull).collect(Collectors.joining(";")) : "";
     %>
 
-    <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
-            <td class="<%=hitSpecies%>">
-                        <%if(hitSpecies!=null && !hitSpecies.equalsIgnoreCase("All")){
-                                if(!hitSpecies.equals("") && (speciesAggregations!=null && speciesAggregations.size()!=1)){%>
-                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <%}}%>
-            </td>
-
-            <td class="<%=hitSpecies%>">
-                        <%if(hitSpecies!=null){%><%=hitSpecies%><%}%>
-            </td>
-        <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
-        <td><%if(sourceMap.get("symbol")!=null){%>
-            <%=sourceMap.get("symbol")%>
-            <%}if(hitCategory.equalsIgnoreCase("Strain")){%>
-            <%
-                if(sourceMap.get("sampleExists")!=null){%>
-            <span style="color:red;font-size:20px;font-weight:bold" title='Can be analyzed in Variant Visulizer tool'>
-                <img src="/rgdweb/images/VV_small.gif" ></span>
-            <%}if(sourceMap.get("experimentRecordCount")!=null && (int) sourceMap.get("experimentRecordCount")>0){%>
-            <span style="color:blue;font-size:20px;font-weight:bold" title='Phenominer Data Available'><img src="/rgdweb/images/PM_small.gif" ></span>
-            <%}%>
-               <% }
-            %>
+    <tr style="cursor: pointer" >
+        <td class="<%=hitSpecies%>">
+            <% if (!"All".equalsIgnoreCase(hitSpecies) && !hitSpecies.isEmpty() && speciesAggregations != null && speciesAggregations.size() != 1) { %>
+            <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+            <% } %>
         </td>
-        <td   style="cursor: pointer;">
-            <%String name="";
-                if(sourceMap.get("name")!=null){
-                    name+=sourceMap.get("name");
-                }
-                if(sourceMap.get("title")!=null){
-                    name+=sourceMap.get("title");
-                }
-                if(sourceMap.get("term")!=null){
-                    name+=sourceMap.get("term");
-                }
-                if(!name.equals("")){
-            %>
+
+        <td class="<%=hitSpecies%>"><%=hitSpecies%></td>
+        <td><span class="<%=hitCategory%>"><%=hitCategory%></span></td>
+
+        <td>
+            <% if (symbol != null) { %><%=symbol%><% } %>
+            <% if ("Strain".equalsIgnoreCase(hitCategory)) {
+                if (sourceMap.get("sampleExists") != null) { %>
+            <span style="color:red;font-size:20px;font-weight:bold" title="Can be analyzed in Variant Visualizer tool">
+                    <img src="/rgdweb/images/VV_small.gif">
+                </span>
+            <%  }
+                if (sourceMap.get("experimentRecordCount") != null && (int) sourceMap.get("experimentRecordCount") > 0) { %>
+            <span style="color:blue;font-size:20px;font-weight:bold" title="Phenominer Data Available">
+                    <img src="/rgdweb/images/PM_small.gif">
+                </span>
+            <%  }
+            } %>
+        </td>
+
+        <td style="cursor: pointer;">
+            <% if (!name.isEmpty()) { %>
             <a href="<%=url%>"><%=name%></a>
-            <%}if(hitCategory.equalsIgnoreCase("Ontology")){%>
-            <a href="/rgdweb/ontology/view.html?acc_id=<%=sourceMap.get("term_acc")%>" title="click to browse the term" alt="browse term">
-                <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>
-            <%if(sourceMap.get("annotationsCount")!=null && Integer.parseInt(sourceMap.get("annotationsCount").toString())>0){%>
-            &nbsp;<a href="<%=url%>"><img border="0" src="/rgdweb/images/icon-a.gif" title="Show <%=sourceMap.get("annotationsCount")%> annotated objects"></a>
-
-            <%}if(sourceMap.get("pathwayDiagUrl")!=null){%>
-            &nbsp;<a href="<%=sourceMap.get("pathwayDiagUrl")%>"><img border="0" src="/rgdweb/images/icon-d.gif" title="Pathway Diagram"></a>
-
-            <%}}%>
+            <% }
+                if ("Ontology".equalsIgnoreCase(hitCategory)) { %>
+            <a href="/rgdweb/ontology/view.html?acc_id=<%=termAcc%>" title="click to browse the term">
+                <img src="/rgdweb/common/images/tree.png" alt="term browser">
+            </a>
+            <% if (annotationsCount != null && annotationsCount > 0) { %>
+            &nbsp;<a href="<%=url%>">
+            <img src="/rgdweb/images/icon-a.gif" title="Show <%=annotationsCount%> annotated objects">
+        </a>
+            <% }
+                if (pathwayDiagUrl != null) { %>
+            &nbsp;<a href="<%=pathwayDiagUrl%>">
+            <img src="/rgdweb/images/icon-d.gif" title="Pathway Diagram">
+        </a>
+            <% }
+            } %>
         </td>
-        <td><%if(sourceMap.get("rsId")!=null){
-        %><%=sourceMap.get("rsId")%><%}%></td>
+
+        <td><%=rsId != null ? rsId : ""%></td>
         <%@include file="mapDetails.jsp"%>
-        <td><%if(sourceMap.get("annotationsCount")!=null){%>
-            <%=sourceMap.get("annotationsCount")%><%}%></td>
-        <td><% if(sourceMap.get("strainsCrossed")!=null){
-            List<String> strainsCrossed= (List<String>) sourceMap.get("strainsCrossed");
-            String crossedStrain=strainsCrossed.stream().collect(Collectors.joining(";"));%>
-            <%=crossedStrain%>
-            <%}%>
-        </td>
-        <td class="id"><%=sourceMap.get("term_acc")%></td>
-        <%if(!RgdContext.isProduction()){%>
+        <td><%=annotationsCount != null ? annotationsCount : ""%></td>
+        <td><%=crossedStrain%></td>
+        <td class="id"><%=termAcc%></td>
+
+        <% if (!RgdContext.isProduction()) { %>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">
             <%@include file="../highlights.jsp"%>
         </td>
-        <%}%>
-        <%--                    <!--td class="" >$-{hit.getScore()}</td-->--%>
-
+        <% } %>
     </tr>
 
-    <%}%>
+    <% } // end for loop %>
 
     </tbody>
 </table>
