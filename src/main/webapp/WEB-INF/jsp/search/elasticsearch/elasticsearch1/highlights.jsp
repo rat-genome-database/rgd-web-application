@@ -36,7 +36,7 @@
             String highlightId = id != null ? id.replace(":", "") : "";
             Map<String, HighlightField> highlightFields = hit.getHighlightFields();
     %>
-   
+
     <button type="button" class="btn btn-light btn-sm"
             data-container="body"
             data-trigger="click"
@@ -65,7 +65,7 @@
                            <% Text[] fragments = hf.getFragments();
                             if (fragments != null && fragments.length > 0) {
                                 for (Text fragment : fragments) {%>
-                                <%=StringEscapeUtils.escapeHtml4(fragment.toString())%>
+                                "<%=fragment.toString()%>"
                                 <%}}%><br>
             <%
                     }
