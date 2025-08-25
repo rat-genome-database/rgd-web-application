@@ -34,10 +34,9 @@
 
         <td class="id"><%=sourceMap.get("term_acc")%></td>
         <td>
-<%--            <%if(sourceMap.get("xdbIdentifiers")!=null){%>--%>
-<%--            <%=sourceMap.get("XdbIdentifiers")%>--%>
-<%--            <%}%>--%>
-            <%=sourceMap.get("geoSeriesAcc")%>
+            <%if(sourceMap.get("geoSeriesAcc")!=null){%>
+               <%=sourceMap.get("geoSeriesAcc")%>
+            <%}%>
         </td>
         <%if(!RgdContext.isProduction()){%>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">
