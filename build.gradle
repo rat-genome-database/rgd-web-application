@@ -249,5 +249,7 @@ war {
     archiveClassifier = ''
 }
 
-// Include deployment tasks
-apply from: 'deploy.gradle'
+// Include deployment tasks only if deploy.gradle exists (for local development)
+if (file('deploy.gradle').exists()) {
+    apply from: 'deploy.gradle'
+}
