@@ -45,7 +45,10 @@
                 url = "/rgdweb/report/gene/main.html?id=" + termAcc + "#rnaSeqExpression";
             } else if ("expression study".equalsIgnoreCase(category) || "expression study".equalsIgnoreCase(categoryValue)) {
                 url = "/rgdweb/report/expressionStudy/main.html?id=" + termAcc;
-            } else {
+            } else if("ontology".equalsIgnoreCase(category) || "ontology".equalsIgnoreCase(categoryValue)){
+                url="/rgdweb/ontology/annot.html?acc_id="+termAcc;
+            }else
+            {
                 url = "/rgdweb/report/" + categoryLower + "/main.html?id=" + termAcc;
             }
 
