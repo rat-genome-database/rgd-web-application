@@ -3,6 +3,8 @@ package edu.mcw.rgd.entityTagger.service;
 import edu.mcw.rgd.entityTagger.exception.PdfProcessingException;
 import edu.mcw.rgd.entityTagger.util.CurationLogger;
 import edu.mcw.rgd.entityTagger.util.MarkdownProcessor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -21,11 +23,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * Service for PDF processing operations using Marker
  */
+@Service
 public class PdfProcessingService {
     
     private static final int MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
     private static final ExecutorService executor = Executors.newFixedThreadPool(5);
     private static final String IMAGES_DIR = "/Users/jdepons/apache-tomcat-10.1.13/webapps/rgdweb/images/";
+    
+    @Value("${python.executable:python3}")
+    private String pythonExecutable;
+    
+    @Value("${python.script.pdf.marker}")
+    private String pythonScriptPath;
     
     private long maxFileSize = MAX_FILE_SIZE;
     
@@ -108,8 +117,7 @@ public class PdfProcessingService {
                 fos.write(fileBytes);
             }
             
-            // Get the Python script path - use absolute path
-            String pythonScript = "/Users/jdepons/claude/varvis/rgd-web-application/src/main/python/pdf_marker_extractor.py";
+            // Get the Python script path from configuration
             
             // Execute Python script
             ProcessBuilder pb = new ProcessBuilder(
@@ -521,26 +529,25 @@ public class PdfProcessingService {
             
             CurationLogger.info("Wrote {} bytes to temp PDF file", fileBytes.length);
             
-            // Get the Python script path - use absolute path
-            String pythonScript = "/Users/jdepons/claude/varvis/rgd-web-application/src/main/python/pdf_marker_extractor.py";
+            // Get the Python script path from configuration
             
             // Check if Python script exists
-            File scriptFile = new File(pythonScript);
+            File scriptFile = new File(pythonScriptPath);
             if (!scriptFile.exists()) {
-                CurationLogger.error("Marker Python script not found at: {}", pythonScript);
+                CurationLogger.error("Marker Python script not found at: {}", pythonScriptPath);
                 return null;
             }
             
-            CurationLogger.info("Found Python script at: {}", pythonScript);
+            CurationLogger.info("Found Python script at: {}", pythonScriptPath);
             
             // Execute Python script
             ProcessBuilder pb = new ProcessBuilder(
-                "python3", pythonScript, tempPdf.getAbsolutePath()
+                pythonExecutable, pythonScriptPath, tempPdf.getAbsolutePath()
             );
             // Don't redirect error stream - handle separately to capture clean JSON output
             pb.redirectErrorStream(false);
             
-            CurationLogger.info("Executing command: python3 {} {}", pythonScript, tempPdf.getAbsolutePath());
+            CurationLogger.info("Executing command: {} {} {}", pythonExecutable, pythonScriptPath, tempPdf.getAbsolutePath());
             
             Process process = pb.start();
             
