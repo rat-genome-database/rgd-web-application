@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- Enable component scanning for entity tagger module -->
+    <context:component-scan base-package="edu.mcw.rgd.entityTagger"/>
+    
+    <!-- Enable annotation-driven configuration -->
+    <context:annotation-config/>
+    
+    <!-- Enable transaction management -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <!-- Enable AOP -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- Curation Module Controllers -->
+    <bean id="PdfUploadController" class="edu.mcw.rgd.entityTagger.controller.PdfUploadController">
+        <property name="pdfProcessingService" ref="pdfProcessingService"/>
+        <property name="sessionService" ref="sessionService"/>
+        <property name="entityRecognitionService" ref="entityRecognitionService"/>
+    </bean>
+    
+    <!-- EntityRecognitionController is auto-discovered via @RestController annotation -->
+    <!-- MaintenanceController is auto-discovered via @Controller annotation -->
+    
+    <bean id="ImageController" class="edu.mcw.rgd.entityTagger.controller.ImageController">
+    </bean>
+
+    <!-- Curation Module Services -->
+    <bean id="pdfProcessingService" class="edu.mcw.rgd.entityTagger.service.PdfProcessingService">
+        <property name="maxFileSize" value="52428800"/> <!-- 50MB -->
+    </bean>
+    
+    <bean id="resilientOllamaService" class="edu.mcw.rgd.entityTagger.service.ResilientOllamaService">
+        <property name="apiUrl" value="${ollama.api.url:http://localhost:11434}"/>
+        <property name="model" value="${ollama.model:deepseek-r1:70b}"/>
+        <property name="connectTimeout" value="30000"/>
+        <property name="readTimeout" value="120000"/>
+    </bean>
+    
+    <bean id="ontologyService" class="edu.mcw.rgd.entityTagger.service.OntologyService">
+        <property name="rdoFilePath" value="${rdo.file.path:/data/ontology/rdo.obo}"/>
+        <property name="goFilePath" value="${go.file.path:/data/ontology/go.obo}"/>
+        <property name="cacheRefreshInterval" value="86400000"/> <!-- 24 hours -->
+    </bean>
+    
+    <bean id="entityRecognitionService" class="edu.mcw.rgd.entityTagger.service.EntityRecognitionService">
+        <property name="ontologyService" ref="ontologyService"/>
+        <property name="chunkSize" value="4000"/>
+        <property name="chunkOverlap" value="200"/>
+    </bean>
+    
+    <bean id="sessionService" class="edu.mcw.rgd.entityTagger.service.SessionService">
+        <property name="sessionTimeout" value="3600000"/> <!-- 1 hour -->
+    </bean>
+
+    <!-- Entity Tagger Module DAOs -->
+    <bean id="recognizedEntityDao" class="edu.mcw.rgd.entityTagger.dao.impl.RecognizedEntityDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    
+    <bean id="curationSessionDao" class="edu.mcw.rgd.entityTagger.dao.impl.CurationSessionDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+    
+    <bean id="batchProcessingJobDao" class="edu.mcw.rgd.entityTagger.dao.impl.BatchProcessingJobDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <!-- File Upload Configuration -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="52428800"/> <!-- 50MB -->
+        <property name="maxInMemorySize" value="1048576"/> <!-- 1MB -->
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- Temporary Directory for File Processing -->
+    <bean id="tempDirectory" class="java.io.File">
+        <constructor-arg value="${curation.temp.dir:/tmp/rgd-curation}"/>
+    </bean>
+
+</beans>
