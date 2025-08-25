@@ -67,7 +67,7 @@
         List<Annotation> listMGI = new ArrayList<>();
         List<Annotation> listOmia = new ArrayList<>();
         List<Annotation> listGwas = new ArrayList<>();
-
+        
         for( Annotation ax: filteredList ) {
             switch(ax.getDataSrc()) {
                 case "ClinVar": listClinVar.add(ax); break;
@@ -81,6 +81,8 @@
             }
         }
 %>
+<div class="reportTable light-table-border">
+    <div class="sectionHeading" id="diseaseAnnotationsCurator">Disease Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('manualAnnotationsTableWrapper', 'diseaseAnnotationsTableWrapper');">Click to see Annotation Detail View</a></div>
 
 <%//ui.dynOpen("diseaseAsscociationC", "Disease Annotations")%>
 <% if( !listManual.isEmpty() ) { %>
@@ -464,7 +466,7 @@
 </div>
 <% } if ( !listGwas.isEmpty() ){ %>
 <div class="reportTable light-table-border" id="importedAnnotationsGWASTableWrapper">
-  <div class="sectionHeading" id="importedAnnotationsGWAS">Disease Annotations - GWAS Catalog</div>
+  <div class="sectionHeading" id="importedAnnotationsGWAS"><h4>Imported Disease Annotations - GWAS Catalog</h4></div>
 
 
 <div class="search-and-pager">
@@ -517,6 +519,7 @@
 </div>
 <% } %>
 <br>
+</div>
 <%//ui.dynClose("diseaseAsscociationC")%>
 <% } %>
 

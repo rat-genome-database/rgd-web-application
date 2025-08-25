@@ -32,7 +32,7 @@
 
     <div id="content-wrap">
         <h1 style="width: 95%;font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></h1>
-        <table>
+        <table style="width:95%;border: none">
             <tr>
                 <td>
                     <br>

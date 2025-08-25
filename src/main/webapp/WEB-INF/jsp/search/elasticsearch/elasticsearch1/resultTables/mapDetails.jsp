@@ -8,12 +8,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   List<Map<String, Object>> mapDataList= new ArrayList<>();
-  if(sourceMap.get("mapDataList")!=null)
-        mapDataList=  (List<Map<String, Object>>) sourceMap.get("mapDataList");
+  if(sourceMap.get("mapDataList")!=null) {
+    mapDataList = (List<Map<String, Object>>) sourceMap.get("mapDataList");
+
+  }
 %>
 <td onmouseover="link=false;" onmouseout="link=true;">
+  <%   if(mapDataList.size()>0) {%>
   <div class="filter-list">
     <%
+
       if(defaultAssembly!=null && !defaultAssembly.equalsIgnoreCase("all")){
         for(Map<String, Object> map:mapDataList){
           if(defaultAssembly.equalsIgnoreCase(map.get("map").toString())){%>
@@ -25,8 +29,10 @@
     <%=map.get("map")%>
     <%break;}}}%>
   </div>
+  <%}%>
 </td>
 <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
+  <%   if(mapDataList.size()>0) {%>
   <div class="filter-list">
     <%
       if(defaultAssembly!=null && !defaultAssembly.equalsIgnoreCase("all")){
@@ -40,9 +46,10 @@
     <% break;}}}%>
   </div>
 
-
+<%}%>
 </td> <!-- END LOCATION--->
 <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
+  <%   if(mapDataList.size()>0) {%>
   <div class="filter-list">
     <%
       if(defaultAssembly!=null && !defaultAssembly.equalsIgnoreCase("all")){
@@ -54,8 +61,10 @@
     <%=map.get("startPos")%>
     <%break;}}}%>
   </div>
+  <%}%>
 </td> <!-- END LOCATION--->
 <td onmouseover="link=false;" onmouseout="link=true;"> <!-- LOCATION--->
+  <%   if(mapDataList.size()>0) {%>
   <div class="filter-list">
     <%
       if(defaultAssembly!=null && !defaultAssembly.equalsIgnoreCase("all")){
@@ -67,6 +76,6 @@
     <%=map.get("stopPos")%>
     <% break;}}}%>
   </div>
-
+<%}%>
 </td> <!-- END LOCATION--->
 

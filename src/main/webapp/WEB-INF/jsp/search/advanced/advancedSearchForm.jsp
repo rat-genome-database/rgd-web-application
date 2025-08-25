@@ -67,6 +67,9 @@
 
 //    System.out.println(mapDefault.getDescription());
 //    System.out.println(mapDefault.getName());
+
+    //adding pipeline check to make equals default in gene search as per RGDD-2763
+    boolean isPipelines = RgdContext.getHostname().equals("https://pipelines.rgd.mcw.edu");
     String assemblyParam = request.getParameter("assembly");
     String selectedAssembly=new String();
     if( assemblyParam!=null ) {
@@ -83,8 +86,8 @@
                 <td colspan="6" ><b style="font-size: 15px">Keyword:</b>
                     <%if(pageTitle.toLowerCase().contains("gene")){%>
                     <select id="match_type" name="match_type">
-                    <option value="equals" >Equals</option>
-                    <option value="contains" selected>Contains</option>
+                    <option value="equals" <%=isPipelines?"selected":""%>>Equals</option>
+                    <option value="contains" <%=isPipelines?"":"selected"%>>Contains</option>
                     <option value="begins">Begins with</option>
                     <option value="ends">Ends with</option>
                 </select>

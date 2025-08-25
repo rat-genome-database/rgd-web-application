@@ -3,6 +3,7 @@ package edu.mcw.rgd.report;
 import edu.mcw.rgd.dao.impl.Jbrowse2UrlConfigDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.datamodel.variants.VariantMapData;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
 
@@ -389,6 +390,7 @@ public class  MapDataFormatter {
 
     public static String generateJbrowse2URL(int objectKey, MapData md) throws Exception {
         if(md==null){
+            System.out.println("null mapdata");
             return null;
         }
         String tracks=null,url=null;
@@ -412,7 +414,37 @@ public class  MapDataFormatter {
 
         url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2Loc(md, firstConfig.getChrPrefix()) + "&assembly=" + firstConfig.getAssembly() + "&tracklist=true" + "&tracks="
                 + tracks;
-//        System.out.println(url);
+//        System.out.println("url"+url);
+        return url;
+    }
+
+    public static String generateJbrowse2URLForVariants(int objectKey, VariantMapData vmd) throws Exception {
+        if(vmd==null){
+            System.out.println("null mapdata");
+            return null;
+        }
+        String tracks=null,url=null;
+        Jbrowse2UrlConfigDAO dao = new Jbrowse2UrlConfigDAO();
+        List<Jbrowse2UrlConfig>urlConfigs = dao.getJbrowse2UrlConfigsByMapAndObjectKey(vmd.getMapKey(), objectKey);
+        if(urlConfigs.isEmpty()){
+            return null;
+        }
+        Jbrowse2UrlConfig firstConfig = urlConfigs.get(0);
+        if(firstConfig.getAssembly()==null||firstConfig.getAssembly().isEmpty()){
+            return null;
+        }
+        tracks = urlConfigs.stream()
+                .map(Jbrowse2UrlConfig::getTracks)
+                .filter(track -> track != null && !track.isEmpty())
+                .collect(Collectors.joining(","));
+
+        if (tracks == null || tracks.isEmpty()) {
+            return null;
+        }
+
+        url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2LocForVariants(vmd, firstConfig.getChrPrefix()) + "&assembly=" + firstConfig.getAssembly() + "&tracklist=true" + "&tracks="
+                + tracks;
+//        System.out.println("url"+url);
         return url;
     }
 

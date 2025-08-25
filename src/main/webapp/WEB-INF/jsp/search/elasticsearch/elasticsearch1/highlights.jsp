@@ -1,6 +1,9 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 <%@ page import="org.elasticsearch.search.fetch.subphase.highlight.HighlightField" %>
 <%@ page import="org.elasticsearch.common.text.Text" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
     $('[data-toggle="popover"]').popover({
@@ -25,34 +28,52 @@
     }
     });
 </script>
+<div>
+    <%
 
-<% if(!RgdContext.isProduction()){
-    String id= (String) sourceMap.get("term_acc");
-    String highlightId=new String();
-    if(id.contains(":")){
-        highlightId=id.replace(":", "");
-    }else highlightId=id;
-%>
+        if (!RgdContext.isProduction()) {
+            String id = (String) sourceMap.get("term_acc");
+            String highlightId = id != null ? id.replace(":", "") : "";
+            Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+    %>
 
-<button type="button" class="btn btn-light btn-sm" data-container="body" data-trigger="click" data-toggle="popover" data-placement="bottom" data-popover-content="#popover-study-<%=highlightId%>" title="Highlights" style="background-color: transparent">
-    <span style="text-decoration:underline">Show Matches</span>
-</button>
-<div style="display: none" id="popover-study-<%=highlightId%>">
-    <div class="popover-body">
-        <%
-            Map<String, HighlightField> highlightFields=hit.getHighlightFields();
-            for(String key:highlightFields.keySet()){
-                if(!key.toLowerCase().contains("category".toLowerCase()) &&
-                        !key.toLowerCase().contains("species".toLowerCase())){
-                  HighlightField hf=  highlightFields.get(key);
-                  if(!hf.getName().contains(".")){%>
-                        <%=hf.getName()%>:
-                   <%for(Text t: hf.getFragments()){%>
-                       <%=t%>
-                   <%}%>
+    <button type="button" class="btn btn-light btn-sm"
+            data-container="body"
+            data-trigger="click"
+            data-toggle="popover"
+            data-placement="bottom"
+            data-popover-content="#popover-study-<%=highlightId%>"
+            title="Highlights"
+            style="background-color: transparent">
+        <span style="text-decoration: underline">Show Matches</span>
+    </button>
 
-                <%}}}%>
+    <div style="display: none" id="popover-study-<%=highlightId%>">
+        <div class="popover-body">
+            <%
+                if (highlightFields != null && !highlightFields.isEmpty()) {
+                    for (Map.Entry<String, HighlightField> entry : highlightFields.entrySet()) {
+                        String key = entry.getKey();
+                        HighlightField hf = entry.getValue();
+                        if (key != null &&
+                                !key.equalsIgnoreCase("category") &&
+                                !key.equalsIgnoreCase("species") &&
+                                hf != null &&
+                                !hf.getName().contains(".")) {%>
 
+                            <%=hf.getName() + ": "%>
+                           <% Text[] fragments = hf.getFragments();
+                            if (fragments != null && fragments.length > 0) {
+                                for (Text fragment : fragments) {%>
+                                "<%=fragment.toString()%>"
+                                <%}}%><br>
+            <%
+                    }
+                }
+            }
+        %>
+        </div>
+    </div>
+
+    <% } %>
 </div>
-</div>
-<%}%>
