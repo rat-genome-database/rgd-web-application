@@ -21,6 +21,14 @@ public class StrainFileUploadController implements Controller {
     String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        try {
+
+            System.out.println("hello");
+            System.out.println(request.getParts().size());
+        }catch (Exception e) {
+            
+        }
+
         ArrayList error = new ArrayList();
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
