@@ -34,10 +34,17 @@
 
         <td class="id"><%=sourceMap.get("term_acc")%></td>
         <td>
-            <%if(sourceMap.get("geoSeriesAcc")!=null){%>
-               <%=sourceMap.get("geoSeriesAcc")%>
+            <%if(sourceMap.get("xdbIdentifiers")!=null){
+                List<String> xdbIdentifiers= (List<String>) sourceMap.get("xdbIdentifiers");
+            %>
+            <%=xdbIdentifiers.stream().collect(Collectors.joining(", "))%>
             <%}%>
         </td>
+<%--        <td>--%>
+<%--            <%if(sourceMap.get("geoSeriesAcc")!=null){%>--%>
+<%--            <%=sourceMap.get("geoSeriesAcc")%>--%>
+<%--            <%}%>--%>
+<%--        </td>--%>
         <%if(!RgdContext.isProduction()){%>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">
             <%@include file="../highlights.jsp"%>
