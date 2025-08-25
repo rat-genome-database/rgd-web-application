@@ -37,6 +37,7 @@
 <%--            <%if(sourceMap.get("xdbIdentifiers")!=null){%>--%>
 <%--            <%=sourceMap.get("XdbIdentifiers")%>--%>
 <%--            <%}%>--%>
+            <%=sourceMap.get("geoSeriesAcc")%>
         </td>
         <%if(!RgdContext.isProduction()){%>
         <td class="highlight" onmouseover="link=false;" onmouseout="link=true;">
