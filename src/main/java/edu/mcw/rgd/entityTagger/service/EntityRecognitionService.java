@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class EntityRecognitionService {
     
-    private static final String OLLAMA_BASE_URL = System.getProperty("ollama.base.url", "http://localhost:11434");
+    private static final String OLLAMA_BASE_URL = System.getProperty("ollama.base.url", "http://grudge.rgd.mcw.edu:11434");
     private static final String DEFAULT_MODEL = "llama3.3:70b";
     private static final int REQUEST_TIMEOUT_SECONDS = 120;
     

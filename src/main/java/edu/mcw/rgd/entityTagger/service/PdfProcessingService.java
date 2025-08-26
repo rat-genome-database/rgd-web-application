@@ -118,10 +118,15 @@ public class PdfProcessingService {
             }
             
             // Get the Python script path from configuration
+            // Resolve paths with user.home
+            String resolvedPythonExecutable = pythonExecutable.replace("${user.home}", System.getProperty("user.home"));
+            String resolvedScriptPath = pythonScriptPath.replace("${user.home}", System.getProperty("user.home"));
+            
+            CurationLogger.info("Executing Python script: {} {} {}", resolvedPythonExecutable, resolvedScriptPath, tempPdf.getAbsolutePath());
             
             // Execute Python script
             ProcessBuilder pb = new ProcessBuilder(
-                "python3", pythonScript, tempPdf.getAbsolutePath()
+                resolvedPythonExecutable, resolvedScriptPath, tempPdf.getAbsolutePath()
             );
             pb.redirectErrorStream(false);
             
@@ -129,21 +134,41 @@ public class PdfProcessingService {
             
             // Read stdout (JSON output)
             StringBuilder output = new StringBuilder();
+            StringBuilder errorOutput = new StringBuilder();
+            
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     if (line.trim().startsWith("{") || line.contains("\"success\"")) {
                         output.append(line).append("\n");
                     }
+                    CurationLogger.debug("Python stdout: {}", line);
                 }
             }
             
-            int exitCode = process.waitFor();
+            // Capture stderr for debugging
+            try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                String line;
+                while ((line = errorReader.readLine()) != null) {
+                    errorOutput.append(line).append("\n");
+                    CurationLogger.warn("Python stderr: {}", line);
+                }
+            }
+            
+            // Wait for process with timeout (3 minutes max)
+            boolean finished = process.waitFor(180, java.util.concurrent.TimeUnit.SECONDS);
+            if (!finished) {
+                System.out.println("DEBUG: Image extraction Python process timed out after 180 seconds, killing it");
+                process.destroyForcibly();
+                tempPdf.delete();
+                throw new PdfProcessingException("Python script timed out after 180 seconds");
+            }
+            int exitCode = process.exitValue();
             tempPdf.delete();
             
             if (exitCode != 0) {
-                CurationLogger.warn("Marker image extraction failed with exit code: {}", exitCode);
-                return new ArrayList<>();
+                CurationLogger.warn("Marker image extraction failed with exit code: {}. Error output: {}", exitCode, errorOutput.toString());
+                throw new PdfProcessingException("Python script failed with exit code: " + exitCode + ". Error: " + errorOutput.toString());
             }
             
             // Parse JSON response
@@ -369,7 +394,17 @@ public class PdfProcessingService {
                 break;
             case "FAILED":
                 status.setProgress(0);
-                status.setMessage("Processing failed");
+                String errorDetails = extractedTextCache.get(uploadId);
+                if (errorDetails != null && errorDetails.startsWith("Error processing PDF:")) {
+                    // Check for timeout-related errors and provide user-friendly message
+                    if (errorDetails.contains("timed out") || errorDetails.contains("too complex")) {
+                        status.setMessage("Processing failed: PDF document is too complex for automated processing. Please try a simpler document or contact support.");
+                    } else {
+                        status.setMessage(errorDetails);
+                    }
+                } else {
+                    status.setMessage("Processing failed");
+                }
                 break;
             default:
                 status.setProgress(0);
@@ -515,6 +550,7 @@ public class PdfProcessingService {
      */
     private String extractTextWithMarker(String filename, byte[] fileBytes) {
         try {
+            System.out.println("DEBUG: Starting Marker extraction for file: " + filename + " with " + fileBytes.length + " bytes");
             CurationLogger.info("Starting Marker extraction for file: {} with {} bytes", filename, fileBytes.length);
             
             // Create temporary file for PDF
@@ -532,24 +568,46 @@ public class PdfProcessingService {
             // Get the Python script path from configuration
             
             // Check if Python script exists
-            File scriptFile = new File(pythonScriptPath);
+            // Resolve the path with user.home
+            String userHome = System.getProperty("user.home");
+            System.out.println("DEBUG: user.home system property is: " + userHome);
+            System.out.println("DEBUG: pythonScriptPath from config: " + pythonScriptPath);
+            String resolvedScriptPath = pythonScriptPath.replace("${user.home}", userHome);
+            System.out.println("DEBUG: Checking Python script at: " + resolvedScriptPath);
+            File scriptFile = new File(resolvedScriptPath);
             if (!scriptFile.exists()) {
-                CurationLogger.error("Marker Python script not found at: {}", pythonScriptPath);
+                System.out.println("DEBUG: Python script NOT found at: " + resolvedScriptPath);
+                CurationLogger.error("Marker Python script not found at: {} (resolved from: {})", resolvedScriptPath, pythonScriptPath);
                 return null;
             }
             
-            CurationLogger.info("Found Python script at: {}", pythonScriptPath);
+            System.out.println("DEBUG: Found Python script at: " + resolvedScriptPath);
+            CurationLogger.info("Found Python script at: {} (resolved from: {})", resolvedScriptPath, pythonScriptPath);
             
             // Execute Python script
+            // Also resolve the Python executable path
+            String resolvedPythonExecutable = pythonExecutable.replace("${user.home}", System.getProperty("user.home"));
+            
             ProcessBuilder pb = new ProcessBuilder(
-                pythonExecutable, pythonScriptPath, tempPdf.getAbsolutePath()
+                resolvedPythonExecutable, resolvedScriptPath, tempPdf.getAbsolutePath()
             );
             // Don't redirect error stream - handle separately to capture clean JSON output
             pb.redirectErrorStream(false);
             
-            CurationLogger.info("Executing command: {} {} {}", pythonExecutable, pythonScriptPath, tempPdf.getAbsolutePath());
+            System.out.println("DEBUG: Executing command: " + resolvedPythonExecutable + " " + resolvedScriptPath + " " + tempPdf.getAbsolutePath());
+            CurationLogger.info("Executing command: {} {} {}", resolvedPythonExecutable, resolvedScriptPath, tempPdf.getAbsolutePath());
             
             Process process = pb.start();
+            
+            // Wait for process with timeout (3 minutes max) FIRST, before trying to read streams
+            boolean finished = process.waitFor(180, java.util.concurrent.TimeUnit.SECONDS);
+            if (!finished) {
+                System.out.println("DEBUG: Python process timed out after 180 seconds, killing it");
+                process.destroyForcibly();
+                tempPdf.delete();
+                return null;
+            }
+            int exitCode = process.exitValue();
             
             // Read stdout (JSON output) and stderr (progress messages) separately
             StringBuilder output = new StringBuilder();
@@ -566,15 +624,13 @@ public class PdfProcessingService {
                 }
             }
             
-            // Read and discard stderr (progress messages)
+            // Read stderr
             try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
                 String line;
                 while ((line = errorReader.readLine()) != null) {
                     errorOutput.append(line).append("\n");
                 }
             }
-            
-            int exitCode = process.waitFor();
             
             CurationLogger.info("Python process exited with code: {}", exitCode);
             CurationLogger.info("Python output: {}", output.toString());
@@ -583,13 +639,29 @@ public class PdfProcessingService {
             tempPdf.delete();
             
             if (exitCode != 0) {
-                CurationLogger.error("Marker extraction failed with exit code: {} and output: {}", exitCode, output.toString());
+                CurationLogger.error("Marker extraction failed with exit code: {}. Stdout: {}. Stderr: {}", exitCode, output.toString(), errorOutput.toString());
                 return null;
             }
             
             // Parse JSON response
+            if (output.toString().trim().isEmpty()) {
+                CurationLogger.error("Marker extraction returned empty output. Stderr: {}", errorOutput.toString());
+                return null;
+            }
+            
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode result = mapper.readTree(output.toString());
+            JsonNode result;
+            try {
+                result = mapper.readTree(output.toString());
+            } catch (Exception e) {
+                CurationLogger.error("Failed to parse JSON response: {}. Raw output: {}", e.getMessage(), output.toString());
+                return null;
+            }
+            
+            if (result == null || result.get("success") == null) {
+                CurationLogger.error("Invalid JSON response format. Raw output: {}", output.toString());
+                return null;
+            }
             
             if (result.get("success").asBoolean()) {
                 String extractedText = result.get("text").asText();
@@ -603,6 +675,13 @@ public class PdfProcessingService {
             } else {
                 String error = result.get("error").asText();
                 CurationLogger.warn("Marker extraction failed: {}", error);
+                
+                // Check if this is a timeout error - provide more helpful message
+                if (error.contains("timed out") || error.contains("too complex")) {
+                    System.out.println("DEBUG: PDF processing timed out - document may be too complex for Marker processing");
+                    CurationLogger.warn("PDF appears to be too complex for current processing capabilities: {}", filename);
+                }
+                
                 return null;
             }
             

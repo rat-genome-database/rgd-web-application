@@ -45,7 +45,7 @@
     </bean>
     
     <bean id="resilientOllamaService" class="edu.mcw.rgd.entityTagger.service.ResilientOllamaService">
-        <property name="apiUrl" value="${ollama.api.url:http://localhost:11434}"/>
+        <property name="apiUrl" value="${ollama.api.url:http://grudge.rgd.mcw.edu:11434}"/>
         <property name="model" value="${ollama.model:deepseek-r1:70b}"/>
         <property name="connectTimeout" value="30000"/>
         <property name="readTimeout" value="120000"/>
