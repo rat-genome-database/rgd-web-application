@@ -61,7 +61,7 @@ String pageDescription = "Define Region";
                     <option value='911' <% if (mapKey==911) out.print("selected");%>>Pig Sscrofa11.1 Assembly</option>
                     <option value='35' <% if (mapKey==35) out.print("selected");%>>Mouse Assembly GRCm38</option>
                     <option value='239' <% if (mapKey==239) out.print("selected");%>>Mouse Assembly GRCm39</option>
-<%--                    <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey Assembly Vervet 1.1</option>--%>
+                    <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey Assembly Vervet 1.1</option>
                 </select>
             </td>
 
