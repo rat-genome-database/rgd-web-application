@@ -12,6 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -548,7 +551,216 @@ public class PdfProcessingService {
     }
     
     /**
-     * Extract text from PDF using Marker library (Python-based)
+     * Log comprehensive system environment information for debugging
+     */
+    private void logEnvironmentInfo() {
+        try {
+            CurationLogger.info("=== SYSTEM ENVIRONMENT DEBUG INFO ===");
+            
+            // Basic system properties
+            CurationLogger.info("Java Version: {}", System.getProperty("java.version"));
+            CurationLogger.info("Java Vendor: {}", System.getProperty("java.vendor"));
+            CurationLogger.info("OS Name: {}", System.getProperty("os.name"));
+            CurationLogger.info("OS Version: {}", System.getProperty("os.version"));
+            CurationLogger.info("OS Arch: {}", System.getProperty("os.arch"));
+            CurationLogger.info("User Name: {}", System.getProperty("user.name"));
+            CurationLogger.info("User Home: {}", System.getProperty("user.home"));
+            CurationLogger.info("User Dir: {}", System.getProperty("user.dir"));
+            CurationLogger.info("Java Home: {}", System.getProperty("java.home"));
+            CurationLogger.info("File Separator: {}", System.getProperty("file.separator"));
+            CurationLogger.info("Path Separator: {}", System.getProperty("path.separator"));
+            
+            // Memory information
+            Runtime runtime = Runtime.getRuntime();
+            long maxMemory = runtime.maxMemory();
+            long totalMemory = runtime.totalMemory();
+            long freeMemory = runtime.freeMemory();
+            CurationLogger.info("Max Memory: {} MB", maxMemory / (1024 * 1024));
+            CurationLogger.info("Total Memory: {} MB", totalMemory / (1024 * 1024));
+            CurationLogger.info("Free Memory: {} MB", freeMemory / (1024 * 1024));
+            CurationLogger.info("Used Memory: {} MB", (totalMemory - freeMemory) / (1024 * 1024));
+            
+            // Environment variables (key ones)
+            Map<String, String> env = System.getenv();
+            String[] importantEnvVars = {"PATH", "PYTHONPATH", "HOME", "USER", "SHELL", "JAVA_HOME", 
+                                        "CONDA_DEFAULT_ENV", "VIRTUAL_ENV", "LD_LIBRARY_PATH"};
+            for (String envVar : importantEnvVars) {
+                String value = env.get(envVar);
+                if (value != null) {
+                    CurationLogger.info("ENV {}: {}", envVar, value.length() > 200 ? value.substring(0, 200) + "..." : value);
+                } else {
+                    CurationLogger.info("ENV {}: NOT SET", envVar);
+                }
+            }
+            
+            // Current working directory and its properties
+            File currentDir = new File(System.getProperty("user.dir"));
+            CurationLogger.info("Current Directory: {}", currentDir.getAbsolutePath());
+            CurationLogger.info("Current Directory Exists: {}", currentDir.exists());
+            CurationLogger.info("Current Directory Readable: {}", currentDir.canRead());
+            CurationLogger.info("Current Directory Writable: {}", currentDir.canWrite());
+            
+            CurationLogger.info("=== END ENVIRONMENT DEBUG INFO ===");
+            
+        } catch (Exception e) {
+            CurationLogger.error("Error logging environment info: {}", e.getMessage());
+        }
+    }
+    
+    /**
+     * Check and log file/directory permissions and properties
+     */
+    private void checkFilePermissions(String filePath, String description) {
+        try {
+            CurationLogger.info("=== FILE PERMISSIONS CHECK: {} ===", description);
+            File file = new File(filePath);
+            
+            CurationLogger.info("Path: {}", file.getAbsolutePath());
+            CurationLogger.info("Exists: {}", file.exists());
+            CurationLogger.info("Is File: {}", file.isFile());
+            CurationLogger.info("Is Directory: {}", file.isDirectory());
+            CurationLogger.info("Can Read: {}", file.canRead());
+            CurationLogger.info("Can Write: {}", file.canWrite());
+            CurationLogger.info("Can Execute: {}", file.canExecute());
+            CurationLogger.info("Length: {} bytes", file.length());
+            
+            if (file.exists()) {
+                CurationLogger.info("Last Modified: {}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(file.lastModified())));
+                
+                // Try to get POSIX permissions if available
+                try {
+                    Path path = file.toPath();
+                    Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(path);
+                    CurationLogger.info("POSIX Permissions: {}", PosixFilePermissions.toString(permissions));
+                } catch (Exception e) {
+                    CurationLogger.info("POSIX Permissions: Not available ({}))", e.getMessage());
+                }
+            }
+            
+            // If it's a directory, list contents
+            if (file.isDirectory()) {
+                File[] contents = file.listFiles();
+                if (contents != null) {
+                    CurationLogger.info("Directory contains {} items", contents.length);
+                    if (contents.length > 0 && contents.length <= 10) {
+                        for (File item : contents) {
+                            CurationLogger.info("  - {} ({})", item.getName(), 
+                                item.isDirectory() ? "DIR" : "FILE " + item.length() + " bytes");
+                        }
+                    }
+                } else {
+                    CurationLogger.info("Directory contents: NULL (permission denied?)");
+                }
+            }
+            
+            CurationLogger.info("=== END FILE PERMISSIONS CHECK ===");
+            
+        } catch (Exception e) {
+            CurationLogger.error("Error checking file permissions for {}: {}", filePath, e.getMessage());
+        }
+    }
+    
+    /**
+     * Test Python executable and environment
+     */
+    private void testPythonEnvironment(String pythonExecutable) {
+        try {
+            CurationLogger.info("=== PYTHON ENVIRONMENT TEST ===");
+            
+            String resolvedPython = pythonExecutable.replace("${user.home}", System.getProperty("user.home"));
+            CurationLogger.info("Testing Python executable: {}", resolvedPython);
+            
+            // Check if Python executable exists and is executable
+            File pythonFile = new File(resolvedPython);
+            if (pythonFile.exists()) {
+                CurationLogger.info("Python executable exists: {}", pythonFile.getAbsolutePath());
+                CurationLogger.info("Python executable can execute: {}", pythonFile.canExecute());
+            } else {
+                CurationLogger.error("Python executable NOT FOUND: {}", resolvedPython);
+                // Try to find Python in common locations
+                String[] commonPaths = {"/usr/bin/python3", "/usr/local/bin/python3", "/opt/homebrew/bin/python3"};
+                for (String path : commonPaths) {
+                    File altPython = new File(path);
+                    if (altPython.exists()) {
+                        CurationLogger.info("Alternative Python found: {}", path);
+                    }
+                }
+            }
+            
+            // Test basic Python execution
+            try {
+                ProcessBuilder pb = new ProcessBuilder(resolvedPython, "--version");
+                pb.redirectErrorStream(true);
+                Process process = pb.start();
+                
+                StringBuilder output = new StringBuilder();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        output.append(line).append("\n");
+                    }
+                }
+                
+                boolean finished = process.waitFor(10, java.util.concurrent.TimeUnit.SECONDS);
+                if (finished) {
+                    int exitCode = process.exitValue();
+                    CurationLogger.info("Python version test exit code: {}", exitCode);
+                    CurationLogger.info("Python version output: {}", output.toString().trim());
+                } else {
+                    CurationLogger.error("Python version test timed out");
+                    process.destroyForcibly();
+                }
+                
+            } catch (Exception e) {
+                CurationLogger.error("Error testing Python executable: {}", e.getMessage());
+            }
+            
+            // Test Python packages
+            try {
+                CurationLogger.info("Testing Python package imports...");
+                ProcessBuilder pb = new ProcessBuilder(resolvedPython, "-c", 
+                    "import sys; print('Python:', sys.version); " +
+                    "try: import marker; print('marker: OK')\n" +
+                    "except Exception as e: print('marker: FAILED -', str(e))\n" +
+                    "try: import torch; print('torch: OK')\n" +
+                    "except Exception as e: print('torch: FAILED -', str(e))\n" +
+                    "try: import PIL; print('PIL: OK')\n" +
+                    "except Exception as e: print('PIL: FAILED -', str(e))");
+                pb.redirectErrorStream(true);
+                
+                Process process = pb.start();
+                
+                StringBuilder output = new StringBuilder();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        output.append(line).append("\n");
+                    }
+                }
+                
+                boolean finished = process.waitFor(30, java.util.concurrent.TimeUnit.SECONDS);
+                if (finished) {
+                    int exitCode = process.exitValue();
+                    CurationLogger.info("Python imports test exit code: {}", exitCode);
+                    CurationLogger.info("Python imports output:\n{}", output.toString());
+                } else {
+                    CurationLogger.error("Python imports test timed out");
+                    process.destroyForcibly();
+                }
+                
+            } catch (Exception e) {
+                CurationLogger.error("Error testing Python packages: {}", e.getMessage());
+            }
+            
+            CurationLogger.info("=== END PYTHON ENVIRONMENT TEST ===");
+            
+        } catch (Exception e) {
+            CurationLogger.error("Error in Python environment test: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Extract text from PDF using Marker library (Python-based) - ENHANCED DEBUG VERSION
      */
     private String extractTextWithMarker(String filename, byte[] fileBytes) {
         try {
@@ -614,9 +826,17 @@ public class PdfProcessingService {
                     
                     // Fix PATH issue: prioritize virtual environment over anaconda
                     String currentPath = pb.environment().get("PATH");
-                    String venvPath = "/Users/jdepons/rgd-python-venv/bin";
-                    String fixedPath = venvPath + ":" + currentPath.replaceAll("/Users/jdepons/anaconda3/bin:?", "").replaceAll("/Users/jdepons/anaconda3/condabin:?", "");
+                    String venvPath = System.getProperty("user.home") + "/rgd-python-venv/bin";
+                    
+                    // Remove any anaconda paths (make them dynamic too)
+                    String currentUserHome = System.getProperty("user.home");
+                    String anacondaPath1 = currentUserHome + "/anaconda3/bin:?";
+                    String anacondaPath2 = currentUserHome + "/anaconda3/condabin:?";
+                    String fixedPath = venvPath + ":" + currentPath.replaceAll(anacondaPath1, "").replaceAll(anacondaPath2, "");
+                    
                     pb.environment().put("PATH", fixedPath);
+                    System.out.println("DEBUG: User home: " + currentUserHome);
+                    System.out.println("DEBUG: Virtual env path: " + venvPath);
                     System.out.println("DEBUG: Fixed PATH: " + pb.environment().get("PATH"));
                     
                     System.out.println("DEBUG: Process builder command: " + pb.command());
@@ -761,10 +981,19 @@ public class PdfProcessingService {
                 String error = result.get("error").asText();
                 CurationLogger.warn("Marker extraction failed: {}", error);
                 
-                // Check if this is a timeout error - provide more helpful message
-                if (error.contains("timed out") || error.contains("too complex")) {
+                // Check for specific error types and provide helpful messages
+                if (error.contains("No module named 'marker")) {
+                    System.out.println("DEBUG: Marker library not found - need to install marker-pdf in virtual environment");
+                    CurationLogger.error("Python Marker library not installed. Run: pip install marker-pdf in virtual environment at: {}", System.getProperty("user.home") + "/rgd-python-venv");
+                } else if (error.contains("timed out") || error.contains("too complex")) {
                     System.out.println("DEBUG: PDF processing timed out - document may be too complex for Marker processing");
                     CurationLogger.warn("PDF appears to be too complex for current processing capabilities: {}", filename);
+                } else if (error.contains("Permission denied") || error.contains("No such file")) {
+                    System.out.println("DEBUG: File access issue - check permissions and paths");
+                    CurationLogger.error("File access error - check file permissions and paths. Error: {}", error);
+                } else {
+                    System.out.println("DEBUG: General Python error: " + error);
+                    CurationLogger.error("Python script error: {}", error);
                 }
                 
                 return null;
