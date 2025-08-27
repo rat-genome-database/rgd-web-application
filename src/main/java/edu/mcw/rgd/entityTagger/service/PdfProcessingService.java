@@ -28,6 +28,8 @@ public class PdfProcessingService {
     
     private static final int MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
     private static final ExecutorService executor = Executors.newFixedThreadPool(5);
+    // Dedicated executor for Python processes to avoid thread blocking from database operations
+    private static final ExecutorService pythonExecutor = Executors.newFixedThreadPool(2);
     private static final String IMAGES_DIR = "/Users/jdepons/apache-tomcat-10.1.13/webapps/rgdweb/images/";
     
     @Value("${python.executable:python3}")
@@ -155,13 +157,13 @@ public class PdfProcessingService {
                 }
             }
             
-            // Wait for process with timeout (3 minutes max)
-            boolean finished = process.waitFor(180, java.util.concurrent.TimeUnit.SECONDS);
+            // Wait for process with timeout (90 seconds max)
+            boolean finished = process.waitFor(90, java.util.concurrent.TimeUnit.SECONDS);
             if (!finished) {
-                System.out.println("DEBUG: Image extraction Python process timed out after 180 seconds, killing it");
+                System.out.println("DEBUG: Image extraction Python process timed out after 90 seconds, killing it");
                 process.destroyForcibly();
                 tempPdf.delete();
-                throw new PdfProcessingException("Python script timed out after 180 seconds");
+                throw new PdfProcessingException("Python script timed out after 90 seconds");
             }
             int exitCode = process.exitValue();
             tempPdf.delete();
@@ -550,19 +552,22 @@ public class PdfProcessingService {
      */
     private String extractTextWithMarker(String filename, byte[] fileBytes) {
         try {
-            System.out.println("DEBUG: Starting Marker extraction for file: " + filename + " with " + fileBytes.length + " bytes");
+            System.out.println("DEBUG: [1] Starting Marker extraction for file: " + filename + " with " + fileBytes.length + " bytes");
+            System.out.println("DEBUG: [2] Current thread: " + Thread.currentThread().getName());
             CurationLogger.info("Starting Marker extraction for file: {} with {} bytes", filename, fileBytes.length);
             
             // Create temporary file for PDF
             File tempPdf = File.createTempFile("pdf_extract_", ".pdf");
             tempPdf.deleteOnExit();
             
+            System.out.println("DEBUG: [3] Created temp PDF file: " + tempPdf.getAbsolutePath());
             CurationLogger.info("Created temp PDF file: {}", tempPdf.getAbsolutePath());
             
             try (FileOutputStream fos = new FileOutputStream(tempPdf)) {
                 fos.write(fileBytes);
             }
             
+            System.out.println("DEBUG: [4] Wrote " + fileBytes.length + " bytes to temp PDF file");
             CurationLogger.info("Wrote {} bytes to temp PDF file", fileBytes.length);
             
             // Get the Python script path from configuration
@@ -570,18 +575,18 @@ public class PdfProcessingService {
             // Check if Python script exists
             // Resolve the path with user.home
             String userHome = System.getProperty("user.home");
-            System.out.println("DEBUG: user.home system property is: " + userHome);
-            System.out.println("DEBUG: pythonScriptPath from config: " + pythonScriptPath);
+            System.out.println("DEBUG: [5] user.home system property is: " + userHome);
+            System.out.println("DEBUG: [6] pythonScriptPath from config: " + pythonScriptPath);
             String resolvedScriptPath = pythonScriptPath.replace("${user.home}", userHome);
-            System.out.println("DEBUG: Checking Python script at: " + resolvedScriptPath);
+            System.out.println("DEBUG: [7] Checking Python script at: " + resolvedScriptPath);
             File scriptFile = new File(resolvedScriptPath);
             if (!scriptFile.exists()) {
-                System.out.println("DEBUG: Python script NOT found at: " + resolvedScriptPath);
+                System.out.println("DEBUG: [8] Python script NOT found at: " + resolvedScriptPath);
                 CurationLogger.error("Marker Python script not found at: {} (resolved from: {})", resolvedScriptPath, pythonScriptPath);
                 return null;
             }
             
-            System.out.println("DEBUG: Found Python script at: " + resolvedScriptPath);
+            System.out.println("DEBUG: [9] Found Python script at: " + resolvedScriptPath);
             CurationLogger.info("Found Python script at: {} (resolved from: {})", resolvedScriptPath, pythonScriptPath);
             
             // Execute Python script
@@ -594,49 +599,129 @@ public class PdfProcessingService {
             // Don't redirect error stream - handle separately to capture clean JSON output
             pb.redirectErrorStream(false);
             
-            System.out.println("DEBUG: Executing command: " + resolvedPythonExecutable + " " + resolvedScriptPath + " " + tempPdf.getAbsolutePath());
+            // Set working directory to ensure consistent environment
+            pb.directory(new File(System.getProperty("user.home")));
+            
+            System.out.println("DEBUG: [10] About to execute Python process in isolated thread...");
+            System.out.println("DEBUG: [11] Command will be: " + resolvedPythonExecutable + " " + resolvedScriptPath + " " + tempPdf.getAbsolutePath());
             CurationLogger.info("Executing command: {} {} {}", resolvedPythonExecutable, resolvedScriptPath, tempPdf.getAbsolutePath());
             
-            Process process = pb.start();
+            // Execute Python process in a separate, isolated thread to avoid database blocking
+            Future<String> pythonResult = pythonExecutor.submit(() -> {
+                try {
+                    System.out.println("DEBUG: Python thread started - about to execute command: " + resolvedPythonExecutable + " " + resolvedScriptPath + " " + tempPdf.getAbsolutePath());
+                    System.out.println("DEBUG: Working directory: " + pb.directory());
+                    
+                    // Fix PATH issue: prioritize virtual environment over anaconda
+                    String currentPath = pb.environment().get("PATH");
+                    String venvPath = "/Users/jdepons/rgd-python-venv/bin";
+                    String fixedPath = venvPath + ":" + currentPath.replaceAll("/Users/jdepons/anaconda3/bin:?", "").replaceAll("/Users/jdepons/anaconda3/condabin:?", "");
+                    pb.environment().put("PATH", fixedPath);
+                    System.out.println("DEBUG: Fixed PATH: " + pb.environment().get("PATH"));
+                    
+                    System.out.println("DEBUG: Process builder command: " + pb.command());
+                    System.out.println("DEBUG: About to call pb.start()...");
+                    
+                    Process process = pb.start();
+                    System.out.println("DEBUG: Process started successfully in Python thread, waiting for completion...");
+                    
+                    return executePythonProcess(process, filename);
+                } catch (Exception e) {
+                    System.out.println("DEBUG: Exception in Python thread: " + e.getMessage());
+                    e.printStackTrace();
+                    return null;
+                }
+            });
             
-            // Wait for process with timeout (3 minutes max) FIRST, before trying to read streams
-            boolean finished = process.waitFor(180, java.util.concurrent.TimeUnit.SECONDS);
-            if (!finished) {
-                System.out.println("DEBUG: Python process timed out after 180 seconds, killing it");
-                process.destroyForcibly();
+            // Wait for the Python process with timeout
+            String result;
+            try {
+                result = pythonResult.get(180, java.util.concurrent.TimeUnit.SECONDS);
+            } catch (java.util.concurrent.TimeoutException e) {
+                System.out.println("DEBUG: Python process execution timed out after 180 seconds");
+                pythonResult.cancel(true);
+                tempPdf.delete();
+                return null;
+            } catch (Exception e) {
+                System.out.println("DEBUG: Error waiting for Python process: " + e.getMessage());
                 tempPdf.delete();
                 return null;
             }
-            int exitCode = process.exitValue();
             
-            // Read stdout (JSON output) and stderr (progress messages) separately
+            tempPdf.delete();
+            return result;
+            
+        } catch (Exception e) {
+            CurationLogger.warn("Error using Marker for PDF extraction: {}", e.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * Execute the Python process and handle the result - runs in isolated thread
+     */
+    private String executePythonProcess(Process process, String filename) {
+        try {
+            // Read stdout (JSON output) and stderr (progress messages) WHILE process is running
+            // This prevents buffer overflow blocking
             StringBuilder output = new StringBuilder();
             StringBuilder errorOutput = new StringBuilder();
             
-            // Read stdout
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    // Only capture lines that look like JSON (start with { or contain "success")
-                    if (line.trim().startsWith("{") || line.contains("\"success\"")) {
-                        output.append(line).append("\n");
+            // Start threads to read output streams to prevent blocking
+            Thread outputReader = new Thread(() -> {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        // Only capture lines that look like JSON (start with { or contain "success")
+                        if (line.trim().startsWith("{") || line.contains("\"success\"")) {
+                            output.append(line).append("\n");
+                        }
+                        System.out.println("DEBUG: Python stdout: " + line);
                     }
+                } catch (IOException e) {
+                    System.err.println("Error reading stdout: " + e.getMessage());
                 }
+            });
+            
+            Thread errorReader = new Thread(() -> {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        errorOutput.append(line).append("\n");
+                        System.out.println("DEBUG: Python stderr: " + line);
+                    }
+                } catch (IOException e) {
+                    System.err.println("Error reading stderr: " + e.getMessage());
+                }
+            });
+            
+            // Start reading threads
+            outputReader.start();
+            errorReader.start();
+            
+            // Wait for process with timeout (180 seconds max)
+            boolean finished = process.waitFor(180, java.util.concurrent.TimeUnit.SECONDS);
+            
+            // Wait for readers to finish (max 5 seconds)
+            try {
+                outputReader.join(5000);
+                errorReader.join(5000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
             
-            // Read stderr
-            try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
-                String line;
-                while ((line = errorReader.readLine()) != null) {
-                    errorOutput.append(line).append("\n");
-                }
+            if (!finished) {
+                System.out.println("DEBUG: Python process timed out after 180 seconds, killing it");
+                System.out.println("DEBUG: Process isAlive: " + process.isAlive());
+                process.destroyForcibly();
+                return null;
             }
+            
+            int exitCode = process.exitValue();
+            System.out.println("DEBUG: Process completed with exit code: " + exitCode);
             
             CurationLogger.info("Python process exited with code: {}", exitCode);
             CurationLogger.info("Python output: {}", output.toString());
-            
-            // Clean up temp file
-            tempPdf.delete();
             
             if (exitCode != 0) {
                 CurationLogger.error("Marker extraction failed with exit code: {}. Stdout: {}. Stderr: {}", exitCode, output.toString(), errorOutput.toString());
