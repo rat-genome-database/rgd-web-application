@@ -274,17 +274,30 @@ function findVariantBinIndexForPosition(variantBins,variant,buffer) {
        change = ref_allele + '->' + alt_allele;
   }*/
   returnString += `<table class="tooltip-table"><tbody>`;
-  returnString += `<tr><th>Name</th><td>${description.name}</td></tr>`;
+  if(description.name){
+      returnString += `<tr><th>Name</th><td>${description.name}</td></tr>`;
+  }
+  if(description.rsId){
+      returnString += `<tr><th>RS ID</th><td>${description.rsId}</td></tr>`;
+  }
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
-  returnString += `<tr><th>Target Locus</th><td>${description.targetLocus}</td></tr>`;
+     if(description.targetLocus && description.targetLocus.trim() !== "") {
+         returnString += `<tr><th>Target Locus</th><td>${description.targetLocus}</td></tr>`;
+     }
   if(description.tragetSequence){
     returnString += `<tr><th>Target Sequence</th><td>${description.tragetSequence}</td></tr>`;
   }
   returnString += `<tr><th>Length</th><td>${length}</td></tr>`;
-  returnString += `<tr><th>PAM</th><td>${description.pam}</td></tr>`;
+  if(description.pam) {
+      returnString += `<tr><th>PAM</th><td>${description.pam}</td></tr>`;
+  }
   returnString += `<tr><th>Location</th><td>${description.location}</td></tr>`;
-     returnString += `<tr><th>Strand</th><td>${description.strand}</td></tr>`;
-     returnString += `<tr><th>Assembly</th><td>${description.assembly}</td></tr>`;
+  if(description.strand) {
+      returnString += `<tr><th>Strand</th><td>${description.strand}</td></tr>`;
+  }
+  if(description.assembly) {
+      returnString += `<tr><th>Assembly</th><td>${description.assembly}</td></tr>`;
+  }
 
      /*  if(description.geneId && description.geneSymbol){
          returnString += `<tr><th>Allele of Genes</th><td> ${description.geneSymbol>descriptionWidth ? description.geneSymbol.substr(0,descriptionWidth) : description.geneSymbol} (${description.geneId})</td></tr>`;
@@ -366,7 +379,7 @@ function findVariantBinIndexForPosition(variantBins,variant,buffer) {
   returnObject.symbol= getVariantSymbol(variant) ;
   returnObject.symbolDetail = getVariantSymbolDetail(variant) ;
   returnObject.location = `${variant.seqId}:${variant.fmin}..${variant.fmax}`;
-//  returnObject.consequence =  getConsequence(variant);
+ returnObject.consequence =  getConsequence(variant);
   returnObject.targetLocus =  variant.targetLocus;
   returnObject.tragetSequence= variant.targetSequence;
   returnObject.type =  variant.type;
@@ -375,6 +388,7 @@ function findVariantBinIndexForPosition(variantBins,variant,buffer) {
   returnObject.pam =  variant.pam;
     returnObject.strand =  variant.strand;
     returnObject.assembly =  variant.assembly;
+    returnObject.rsId=variant.rsId;
 
 
 

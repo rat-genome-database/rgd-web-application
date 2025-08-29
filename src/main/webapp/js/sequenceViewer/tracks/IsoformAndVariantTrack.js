@@ -41,6 +41,7 @@ let apolloService = new ApolloService();
   // TODO: Potentially seperate this large section of code
   // for both testing/extensibility
   DrawTrack() {
+    let renderTooltipDescription = this.renderTooltipDescription;
     let isoformFilter = this.isoformFilter;
     let isoformData= this.trackData;
   //  let variantData = this.filterVariantData(this.variantData, this.variantFilter);
@@ -321,7 +322,6 @@ let apolloService = new ApolloService();
             label_offset = x(fmin)-SNV_WIDTH/2;
           }else {
             label_offset = x(fmin);}
-
           const symbol_string_length = symbol_string.length ? symbol_string.length : 1;
           let label_height=VARIANT_HEIGHT*numVariantTracks+LABEL_PADDING;
           let variant_label = variantContainer.append('text')
@@ -355,7 +355,7 @@ let apolloService = new ApolloService();
     let used_space = [];
     let fmin_display = -1;
     let fmax_display = -1;
-    let renderTooltipDescription = this.renderTooltipDescription;
+    // let renderTooltipDescription = this.renderTooltipDescription;
     // **************************************
     // FOR NOW LETS FOCUS ON ONE GENE ISOFORM
     // **************************************
@@ -677,8 +677,14 @@ let apolloService = new ApolloService();
   async getTrackData(track) {
     let externalLocationString = track["chromosome"] + ':' + track["start"] + '..' + track["end"];
     const isoformUrl = track["isoform_url"];
-    const dataUrl = isoformUrl[0] + encodeURI(track["genome"]) + isoformUrl[1] + encodeURI(externalLocationString) + isoformUrl[2];
+    let dataUrl = isoformUrl[0] + encodeURI(track["genome"]) + isoformUrl[1] + encodeURI(externalLocationString) + isoformUrl[2];
+    if (track["mapKey"]) {
+      console.log('in track mapkey')
+      dataUrl += (dataUrl.includes('?') ? '&' : '?') + 'mapKey=' + track["mapKey"];
+    }
+    console.log('Transcript service URL:', dataUrl);
     this.trackData= await apolloService.fetchDataFromUrl(dataUrl);
+    console.log('Transcript service returned:', this.trackData);
   }
 
   /* Method for isoformTrack service call */

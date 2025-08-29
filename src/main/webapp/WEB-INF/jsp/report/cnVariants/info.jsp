@@ -23,39 +23,26 @@
     var stop = <%=var.getEndPos()%>;
     var mapKey = <%=var.getMapKey()%>;
     var rgdId = <%=obj.getRgdId()%>;
-    var guideId="10000000089";
-    var guide='{"guide_id":10000000089,"species":"human","targetLocus":"AAVS1","targetSequence":"GTCACCAATCCTGTCCCTAG","pam":"GTCACCAATCCTGTCCCTAGNGG","assembly":"hg38","chr":"chr19","start":"55115744","stop":"55115767","strand":"+","grnaLabId":"AAVS1_site_01","spacerLength":"20","spacerSequence":"GUCACCAAUCCUGUCCCUAG","repeatSequence":"","guide":"AAVS1_site_01","forwardPrimer":"CTGCCTAACAGGAGGTGGGGGTT","reversePrimer":"ACCCGGGCCCCTATGTCCACTTC","linkerSequence":"","antiRepeatSequence":"","stemloop1Sequence":"","stemloop2Sequence":"","stemloop3Sequence":"","source":"lab IVT","guideFormat":"sgRNA","modifications":"none","guideDescription":"Targets AAVS1 safe harbor locus","standardScaffoldSequence":"yes","tier":4,"ivtConstructSource":"Addgene","vectorId":"153997","vectorName":"pCRL01","vectorDescription":"Plasmid for single guide RNA IVT","vectorType":"plasmid","annotatedMap":"addgene-plasmid-153997-sequence-304516","specificityRatio":"0.02","guideCompatibility":"SpyCas9"}';
+    var guideId = null;
+    var guide = null;
+    var speciesName = "<%=SpeciesType.getShortName(var.getSpeciesTypeKey())%>";
+    // Create variant data
+    var variantData = '[{' +
+        '"name": "",' +
+        '"type": "<%=ontTerm%>",' +
+        '"fmin": <%=var.getStartPos()%>,' +
+        '"fmax": <%=var.getEndPos()%>,' +
+        '"seqId": "<%=var.getChromosome()%>",' +
+        '"alternative_alleles": "<%=Utils.NVL(var.getVariantNucleotide(), "")%>",' +
+        '"rsId": "<%=Utils.NVL(var.getRsId(), "")%>",' +
+        '"targetLocus": " ",' +
+        '"assembly": "<%=mapDAO.getMap(var.getMapKey()).getName()%>",'+
+        <%--'"targetSequence": "<%=Utils.NVL(var.getReferenceNucleotide(), "")%>",' +--%>
+        '"guide_ids": {"values": ["<%=Utils.NVL(var.getRsId(), String.valueOf(obj.getRgdId()))%>"]}' +
+        '}]';
 
-    console.log('Sequence viewer data from var object:', {
-        chr: chr,
-        start: start,
-        stop: stop,
-        mapKey: mapKey,
-        rgdId: rgdId
-    });
-<%--    <%--%>
-<%--    VariantMapData currentAssemblyVariantData = null;--%>
-
-<%--    Map currentMap = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey());--%>
-
-<%--    for (VariantMapData vmd : vars) {--%>
-<%--        if (vmd.getMapKey() == currentMap.getKey()) {--%>
-<%--            currentAssemblyVariantData = vmd;--%>
-<%--%>--%>
-<%--    var chr = '<%=vmd.getChromosome()%>';--%>
-<%--    var start = <%=vmd.getStartPos()%>;--%>
-<%--    var stop = <%=vmd.getEndPos()%>;--%>
-<%--    var mapKey = <%=vmd.getMapKey()%>;--%>
-<%--    var rgdId = <%=obj.getRgdId()%>;--%>
-<%--    var guideId="10000000089";--%>
-<%--    var guide='{"guide_id":10000000089,"species":"human","targetLocus":"AAVS1","targetSequence":"GTCACCAATCCTGTCCCTAG","pam":"GTCACCAATCCTGTCCCTAGNGG","assembly":"hg38","chr":"chr19","start":"55115744","stop":"55115767","strand":"+","grnaLabId":"AAVS1_site_01","spacerLength":"20","spacerSequence":"GUCACCAAUCCUGUCCCUAG","repeatSequence":"","guide":"AAVS1_site_01","forwardPrimer":"CTGCCTAACAGGAGGTGGGGGTT","reversePrimer":"ACCCGGGCCCCTATGTCCACTTC","linkerSequence":"","antiRepeatSequence":"","stemloop1Sequence":"","stemloop2Sequence":"","stemloop3Sequence":"","source":"lab IVT","guideFormat":"sgRNA","modifications":"none","guideDescription":"Targets AAVS1 safe harbor locus","standardScaffoldSequence":"yes","tier":4,"ivtConstructSource":"Addgene","vectorId":"153997","vectorName":"pCRL01","vectorDescription":"Plasmid for single guide RNA IVT","vectorType":"plasmid","annotatedMap":"addgene-plasmid-153997-sequence-304516","specificityRatio":"0.02","guideCompatibility":"SpyCas9"}';--%>
-<%--    <%--%>
-<%--    }--%>
-<%--}--%>
-<%--%>--%>
-    function goToJBrowse() {
-        window.open("<%=MapDataFormatter.generateJbrowse2URLForVariants( 7, var)%>");
-    }
+    var hasVariantData = true;
+    console.log('Variant data defined in jsp:', variantData);
 </script>
 <%
     String objType = "{unknown object type}";
@@ -63,9 +50,9 @@
     if( obj!=null ) {
         objType = obj.getObjectTypeName();
     }
-
-boolean isEva = false;
-
+    boolean hasGenes= false;
+    boolean isEva = false;
+    String jbrowse2Url="";
     if (mapKey!=631) {
         for (Sample s : samples){
             if (s.getAnalysisName().contains("European Variation Archive")) {
@@ -179,9 +166,8 @@ boolean isEva = false;
         </td>
     </tr>
     <% } %>
-
     <%  if (geneList.size() > 0) {
-
+            hasGenes = true;
             // sort strains by symbol
             Collections.sort(geneList, new Comparator<Gene>() {
                 public int compare(Gene o1, Gene o2) {
@@ -289,19 +275,15 @@ boolean isEva = false;
 
         String url = request.getRequestURL().toString();
         String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + "/";
-        System.out.println("Original URL: " + url);
-        System.out.println("Initial baseURL: " + baseURL);
-        System.out.println("Server Name: '" + request.getServerName() + "'");
-        System.out.println("Server Port: " + request.getServerPort());
         if (baseURL.contains("localhost"))
             baseURL = "https://dev.rgd.mcw.edu/";
         else if(request.getServerName().equals("127.0.0.1")){
             baseURL="https://rgd.mcw.edu/";
         }
-        System.out.println("Final baseURL: " + baseURL);
         String jbUrl = baseURL+"jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(var);
+
         //jbrowse 2 logic
-        String jbrowse2Url = MapDataFormatter.generateJbrowse2URLForVariants( 7, var);
+        jbrowse2Url = MapDataFormatter.generateJbrowse2URLForVariants( 7, var);
         if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){
     %>
     <tr>
@@ -341,39 +323,44 @@ boolean isEva = false;
     <% } %>
 
 </table>
-<%--uncommenting sequence viewer temporarily--%>
-<%--<br>--%>
-<%--<div id="sequenceViewer" onclick="goToJBrowse()">--%>
-<%--    <div class="container">--%>
-<%--        <div id="range" style="text-align: center"></div>--%>
-<%--        <svg className="viewer" id="viewerActnFly"/>--%>
-<%--    </div>--%>
-<%--</div>--%>
-<%--<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>--%>
-<%--<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>--%>
-<%--<link rel="stylesheet" href="/rgdweb/js/sequenceViewer/GenomeFeatureViewer.css">--%>
+<%--commenting sequence viewer temporarily--%>
+<%if(hasGenes&&jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
+<br>
+<div id="sequenceViewer"onclick="goToJBrowse()">
+    <div class="container">
+        <div id="range" style="text-align: center"></div>
+        <svg className="viewer" id="viewerActnFly"/>
+    </div>
+</div>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<link rel="stylesheet" href="/rgdweb/js/sequenceViewer/GenomeFeatureViewer.css">
 
-<%--<script src="/rgdweb/js/sequenceViewer/RenderFunctions.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/services/ApolloService.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/services/ConsequenceService.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/services/LegenedService.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/services/TrackService.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/services/VariantService.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/tracks/IsoformAndVariantTrack.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/tracks/IsoformEmbeddedVariantTrack.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/tracks/IsoformTrack.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/tracks/ReferenceTrack.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/tracks/TrackTypeEnum.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/tracks/VariantTrack.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/tracks/VariantTrackGlobal.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/Drawer.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/GenomeFeatureViewer.js"></script>--%>
-<%--<script src="/rgdweb/js/sequenceViewer/demo/index.js"></script>--%>
-<%--<script src="https://d3js.org/d3.v7.min.js"></script>--%>
+<script src="/rgdweb/js/sequenceViewer/RenderFunctions.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/ApolloService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/ConsequenceService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/LegenedService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/TrackService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/VariantService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformAndVariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformEmbeddedVariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/ReferenceTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/TrackTypeEnum.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/VariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/VariantTrackGlobal.js"></script>
+<script src="/rgdweb/js/sequenceViewer/Drawer.js"></script>
+<script src="/rgdweb/js/sequenceViewer/GenomeFeatureViewer.js"></script>
+<script src="/rgdweb/js/sequenceViewer/demo/index.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
-<%--<script>--%>
-<%--    document.addEventListener("DOMContentLoaded", function() {--%>
-<%--        loadSequenceViewer();--%>
-<%--    });--%>
-<%--</script>--%>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadSequenceViewer();
+    });
+    function goToJBrowse() {
+        window.open("<%=jbrowse2Url%>");
+    }
+</script>
+<% } %>
 <%@ include file="../sectionFooter.jsp"%>
