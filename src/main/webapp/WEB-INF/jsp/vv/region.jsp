@@ -77,11 +77,12 @@ String pageDescription = "Define Region";
                                                                 <% for (String c : chrs) {
                                                                 if (c.startsWith("NW_"))
                                                                     continue;
-                                                                else if (c.equals("1")){%>
+                                                                if (c.equals("1")){%>
                                                                 <option value="<%=c%>" selected><%=c%></option>
-                                                                <% } %>
+                                                                <% } else{ %>
                                                                 <option value="<%=c%>"><%=c%></option>
-                                                                <% } %>
+                                                                <% }// end else if
+                                                                } // end for %>
                                                             </select></td>
                                                         <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="required" id="start" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",start))%>" required></td>
                                                         <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="required" id="stop" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",stop))%>" required></td>

@@ -218,11 +218,13 @@ $(document).ready(function(){
                             <option value='60' <% if (mapKey==60) out.print("selected");%>>RAT Genome Assembly v3.4</option>
                             <option value='38' <% if (mapKey==38) out.print("selected");%>>Human Genome Assembly GRCh38</option>
                             <option value='17' <% if (mapKey==17) out.print("selected");%>>Human Genome Assembly GRCh37</option>
+                            <option value='239' <% if (mapKey==239) out.print("selected");%>>Mouse Genome Assembly GRCm39</option>
                             <option value='35' <% if (mapKey==35) out.print("selected");%>>Mouse Genome Assembly GRCm38</option>
                             <option value='18' <% if (mapKey==18) out.print("selected");%>>Mouse Genome Assembly Build 37</option>
                             <option value='44' <% if (mapKey==44) out.print("selected");%>>Chinchilla ChiLan1.0 Assembly</option>
                             <option value='511' <% if (mapKey==511) out.print("selected");%>>Bonobo panpan1.1 Assembly</option>
                             <option value='513' <% if (mapKey==513) out.print("selected");%>>Bonobo Mhudiblu PPA v0 Assembly</option>
+                            <option value='634' <% if (mapKey==634) out.print("selected");%>>Dog ROS_Cfam_1.0 Assembly</option>
                             <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
                             <option value='720' <% if (mapKey==720) out.print("selected");%>>Squirrel SpeTri2.0 Assembly</option>
                             <option value='910' <% if (mapKey==910) out.print("selected");%>>Pig Sscrofa10.2 Assembly</option>

@@ -1,5 +1,6 @@
 package edu.mcw.rgd.phenominer.frontend;
 
+import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.PhenominerDAO;
 import edu.mcw.rgd.datamodel.ontologyx.Relation;
@@ -7,6 +8,8 @@ import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.process.Utils;
 import org.apache.commons.collections4.CollectionUtils;
+
+import javax.sql.DataSource;
 
 //add collections 4
 import java.util.*;
@@ -18,8 +21,33 @@ import java.util.*;
  * Ontology trees used by phenominer
  */
 public class OTrees {
-    OntologyXDAO odao = new OntologyXDAO();
-    PhenominerDAO pdao = new PhenominerDAO();
+    private OntologyXDAO odao;
+    private PhenominerDAO pdao;
+    
+    // Initialize DAOs - will be lazily initialized to avoid startup conflicts
+    private synchronized void initializeDAOs() {
+        if (odao == null || pdao == null) {
+            try {
+                System.out.println("OTrees: initializing DAOs with proper DataSource...");
+                // Try to get DataSource using DataSourceFactory
+                DataSource dataSource = DataSourceFactory.getInstance().getDataSource();
+                System.out.println("OTrees: DataSource obtained successfully");
+                
+                // Create DAO instances - they should inherit the DataSource configuration
+                odao = new OntologyXDAO();
+                pdao = new PhenominerDAO();
+                
+                System.out.println("OTrees: DAOs initialized successfully");
+            } catch (Exception e) {
+                System.err.println("OTrees: Failed to initialize with DataSourceFactory: " + e.getMessage());
+                System.err.println("OTrees: Falling back to default DAO initialization");
+                
+                // Fall back to default initialization
+                odao = new OntologyXDAO();
+                pdao = new PhenominerDAO();
+            }
+        }
+    }
 
     private Map<String, OTree> oTrees = new HashMap<>();
 
@@ -146,6 +174,9 @@ public class OTrees {
     }
 
     public synchronized OTree getOTree(String ontId, String sex, int speciesTypeKey) throws Exception {
+        // Ensure DAOs are initialized before use
+        initializeDAOs();
+        
         String key = ontId+sex+speciesTypeKey;
         OTree oTree = oTrees.get(key);
         if( oTree==null ) {

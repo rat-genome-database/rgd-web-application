@@ -179,15 +179,12 @@ dependencies {
     implementation 'org.springframework:spring-orm:6.1.8'
     implementation 'org.springframework:spring-oxm:6.1.8'
 
-    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '6.3.0'
-    implementation group: 'org.springframework.security', name: 'spring-security-config', version: '6.3.0'
-    implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '6.3.0'
-    implementation group: 'org.springframework.security', name: 'spring-security-ldap', version: '6.3.0'
-    implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.2.RELEASE'
-
-    implementation group: 'org.springframework.security', name: 'spring-security-taglibs', version: '6.3.0'
-    implementation group: 'org.springframework.security', name: 'spring-security-web', version: '6.3.0'
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.3.0'
+    // Spring Security - only for existing MyRGD components, not for new curation tool
+    implementation 'org.springframework.security:spring-security-core:6.2.4'
+    implementation 'org.springframework.security:spring-security-crypto:6.2.4'
+    implementation 'org.springframework.security:spring-security-web:6.2.4'
+    implementation 'org.springframework.security:spring-security-config:6.2.4'
+    implementation 'org.springframework.security:spring-security-ldap:6.2.4'
     implementation group: 'org.springframework', name: 'spring-tx', version: '6.1.8'
     implementation group: 'org.springframework', name: 'spring-web', version: '6.1.8'
     implementation group: 'org.springframework.webflow', name: 'spring-webflow', version: '3.0.0'
@@ -199,6 +196,42 @@ dependencies {
 
     implementation 'org.apache.tomcat:tomcat-servlet-api:10.1.7'
     implementation fileTree(dir: 'lib', include: '*.jar')
+    
+    // Curation Tool Dependencies
+    // PDF Processing handled by Marker (Python-based)
+    // PDFBox dependencies removed - using Marker exclusively
+    
+    // Enhanced HTTP Client for Ollama API (using 4.5.x to match existing version)
+    // Already included above as httpclient:4.5.14
+    
+    // Connection Pooling
+    implementation 'com.zaxxer:HikariCP:5.1.0'
+    
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    testImplementation 'org.mockito:mockito-core:5.8.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.8.0'
+    testImplementation 'org.springframework:spring-test:6.1.8'
+    
+    // API Documentation (Optional but recommended)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    
+    // Caffeine Cache for ontology caching
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+    
+    // Validation API (Jakarta Validation)
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    
+    // JWT Support removed - not needed without security
+    
+    // AspectJ for AOP
+    implementation 'org.aspectj:aspectjweaver:1.9.22'
+    implementation 'org.aspectj:aspectjrt:1.9.22'
+    
+    // Commons FileUpload (updated version)
+    implementation 'commons-fileupload:commons-fileupload:1.5'
+    implementation 'org.springframework:spring-web:6.1.8' // Already included but ensuring multipart support
 }
 
 
@@ -211,4 +244,12 @@ task update_rgdcore(type:Copy){
 war {
     webAppDirectory = file('src/main/webapp')
     webXml = file('src/templates/war/web.xml')
+    archiveBaseName = 'rgdweb'
+    archiveVersion = ''
+    archiveClassifier = ''
+}
+
+// Include deployment tasks only if deploy.gradle exists (for local development)
+if (file('deploy.gradle').exists()) {
+    apply from: 'deploy.gradle'
 }

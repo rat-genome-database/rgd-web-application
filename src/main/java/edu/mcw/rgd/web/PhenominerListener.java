@@ -18,20 +18,26 @@ public class PhenominerListener implements ServletContextListener {
 
             @Override
             public void run() {
-                try {
-                    System.out.println("phenominer init VT ...");
-                    OTrees.getInstance().getOTree("VT", null, 3);
-                    System.out.println("phenominer init MMO ...");
-                    OTrees.getInstance().getOTree("MMO", null, 3);
-                    System.out.println("phenominer init CMO ...");
-                    OTrees.getInstance().getOTree("CMO", null, 3);
-                    System.out.println("phenominer init XCO ...");
-                    OTrees.getInstance().getOTree("XCO", null, 3);
-                    System.out.println("phenominer init RS ...");
-                    OTrees.getInstance().getOTree("RS", null, 3);
-                    System.out.println("phenominer init done!");
-                } catch(Exception e) {
-                    System.out.println("phenominer init exception: "+e.getMessage());
+                System.out.println("phenominer init: starting ontology tree initialization...");
+                
+                String[] ontologies = {"VT", "MMO", "CMO", "XCO", "RS"};
+                int successCount = 0;
+                
+                for (String ontology : ontologies) {
+                    try {
+                        System.out.println("phenominer init " + ontology + " ...");
+                        OTrees.getInstance().getOTree(ontology, null, 3);
+                        System.out.println(ontology + " loaded successfully");
+                        successCount++;
+                    } catch(Exception e) {
+                        System.err.println("phenominer init exception for " + ontology + ": " + e.getMessage());
+                        // Continue with next ontology instead of failing completely
+                    }
+                }
+                
+                System.out.println("phenominer init completed: " + successCount + "/" + ontologies.length + " ontologies loaded successfully");
+                if (successCount < ontologies.length) {
+                    System.out.println("phenominer init: some ontologies failed to load but will be loaded on demand");
                 }
             }
         };
