@@ -1,4 +1,4 @@
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<d!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
     <!-- Import entity tagger module configuration -->
@@ -38,7 +38,8 @@
 				<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
 				
 				<!-- RGD Entity Tagger URL Mappings -->
-				<prop key="curation/entityTagger/index.html">PdfUploadController</prop>
+				<!--
+                                <prop key="curation/entityTagger/index.html">PdfUploadController</prop>
 				<prop key="curation/entityTagger/main.html">PdfUploadController</prop>
 				<prop key="curation/pdf/upload.html">PdfUploadController</prop>
 				<prop key="curation/pdf/status.html">PdfUploadController</prop>
@@ -48,6 +49,7 @@
 				<prop key="curation/recover-session.html">PdfUploadController</prop>
 				<prop key="curation/annotation/view.html">PdfUploadController</prop>
 				<prop key="curation/entity/recognize.html">PdfUploadController</prop>
+-->
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>
                 <prop key="curation/pathway/pathwayCreate.html">PathwayRecordController</prop>
 				<prop key="curation/expression/experiments.html">GeoExperimentController</prop>
