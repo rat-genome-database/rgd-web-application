@@ -1,11 +1,27 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
+    <!-- Import entity tagger module configuration -->
+    <import resource="entityTagger/entityTagger-context.xml"/>
+
 <!--    <bean id="RGDHandlerInterceptor" class="edu.mcw.rgd.web.RGDHandlerInterceptor">-->
 <!--    </bean>-->
 
+    <!-- Enable annotation-driven MVC configuration -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    
+    <!-- Enable annotation processing for controllers -->
+    <bean class="org.springframework.context.annotation.ConfigurationClassPostProcessor"/>
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+    </bean>
+    
+    <!-- Multipart resolver for file uploads using standard servlet API -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+        <!-- This resolver uses the servlet container's built-in multipart support -->
     </bean>
 
     <bean id="publicUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -20,11 +36,24 @@
                 <prop key="curation/home.html">CurationController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
 				<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
+				
+				<!-- RGD Entity Tagger URL Mappings -->
+				<prop key="curation/entityTagger/index.html">PdfUploadController</prop>
+				<prop key="curation/entityTagger/main.html">PdfUploadController</prop>
+				<prop key="curation/pdf/upload.html">PdfUploadController</prop>
+				<prop key="curation/pdf/status.html">PdfUploadController</prop>
+				<prop key="curation/pdf/cancel.html">PdfUploadController</prop>
+				<prop key="curation/pdf/session-info.html">PdfUploadController</prop>
+				<prop key="curation/terminate-session.html">PdfUploadController</prop>
+				<prop key="curation/recover-session.html">PdfUploadController</prop>
+				<prop key="curation/annotation/view.html">PdfUploadController</prop>
+				<prop key="curation/entity/recognize.html">PdfUploadController</prop>
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>
                 <prop key="curation/pathway/pathwayCreate.html">PathwayRecordController</prop>
 				<prop key="curation/expression/experiments.html">GeoExperimentController</prop>
                 <prop key="curation/expression/editSamples.html">SampleEditController</prop>
                 <prop key="curation/expression/downloadMetaData.html">DownloadExpressionMetaDataController</prop>
+
 
                 <prop key="curation/phenominer/reference.html">PhenominerReferenceController</prop>
                 <prop key="curation/phenominer/search.html">PhenominerSearchController</prop>
@@ -128,6 +157,8 @@
                 <prop key="search/references.html">referenceSearchController</prop>
                 <prop key="search/ge.html">genomicElementSearchController</prop>
                 <prop key="search/variants.html">variantSearchController</prop>
+                <!--<prop key="search/expression.html">expressionSearchController</prop>-->
+               <!-- <prop key="results/advancedExpressionSearchResults.html">advancedExpressionSearchController</prop>-->
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
@@ -224,6 +255,7 @@
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
+                <prop key="webservice/entity.html">EntityService</prop>
                 <prop key="webservice/ontology.html">OntologyServiceController</prop>
                 <prop key="webservice/my.html">MyRgdServiceController</prop>
 
@@ -283,12 +315,18 @@
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
                  <prop key="projects/project.html">ProjectController</prop>
                  <prop key="report/project/main.html">ProjectReportController</prop>
-                 <prop key="/hrdp_panel.html">hrdpController</prop>
-                 <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
-                 <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
+                <prop key="ai/output.html">aiController</prop>
+
+                <prop key="/hrdp_panel.html">hrdpController</prop>
+                <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
+                <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
+                <prop key="report/expressionStudy/main.html">ExpressionStudyReportController</prop>
+                <prop key="report/expressionStudy/downloadMetadata.html">ExpressionStudyDownloadController</prop>
             </props>
         </property>
     </bean>
+        <bean id="aiController" class="edu.mcw.rgd.ai.AIController"/>
+
     <bean id="strainExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.StrainExpectedRangeController"/>
     <bean id="phenominerERSelectedStrainController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedStrainController"/>
     <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
@@ -392,6 +430,9 @@
 	<bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
     <bean id="SampleEditController" class="edu.mcw.rgd.expression.SampleEditController"/>
     <bean id="DownloadExpressionMetaDataController" class="edu.mcw.rgd.expression.DownloadMetaDataController"/>
+    
+    <!-- RGD Entity Tagger Controllers - imported from curation-context.xml -->
+    
     <bean id="CurationController" class="edu.mcw.rgd.edit.CurationController" />
     <bean id="CurationLoginController" class="edu.mcw.rgd.edit.CurationLoginController" />
     <bean id="AliasesEditObjectController" class="edu.mcw.rgd.edit.AliasesEditObjectController"/>
@@ -430,6 +471,8 @@
     <bean id="referenceSearchController" class="edu.mcw.rgd.search.ReferenceSearchController"/>
     <bean id="genomicElementSearchController" class="edu.mcw.rgd.search.GenomicElementSearchController"/>
     <bean id="variantSearchController" class="edu.mcw.rgd.search.VariantSearchController"/>
+   <!-- <bean id="expressionSearchController" class="edu.mcw.rgd.search.ExpressionSearchController"/>-->
+   <!-- <bean id="advancedExpressionSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.AdvancedExpressionSearchController"/>-->
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
     <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
 
@@ -500,6 +543,7 @@
     <bean id="PrimerCreateController" class="edu.mcw.rgd.primerCreate.PrimerCreateController" parent="primer3Dir"/>
 
     <bean id="GeneServiceController" class="edu.mcw.rgd.webservice.GeneServiceController"/>
+    <bean id="EntityService" class="edu.mcw.rgd.webservice.EntityService"/>
     <bean id="MyRgdServiceController" class="edu.mcw.rgd.webservice.MyRgdServiceController"/>
     <bean id="OntologyServiceController" class="edu.mcw.rgd.webservice.OntologyServiceController"/>
     <bean id="ContextMenuController" class="edu.mcw.rgd.jbrowse.ContextMenuController"/>
@@ -562,8 +606,11 @@
 
     <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
+
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
     <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
     <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
+    <bean id="ExpressionStudyReportController" class="edu.mcw.rgd.report.ExpressionStudyReportController"/>
+    <bean id="ExpressionStudyDownloadController" class="edu.mcw.rgd.report.ExpressionStudyDownloadController"/>
     </beans>
 
