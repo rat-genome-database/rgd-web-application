@@ -53,7 +53,9 @@ let apolloService = new ApolloService();
     let distinctVariants= getVariantTrackPositions(variantData);
     let numVariantTracks=distinctVariants.length;
     let source = this.trackData[0].source;
+    // let source = this.trackData && this.trackData.length > 0 ? this.trackData[0].source : "RGD";
     let chr = this.trackData[0].seqId;
+    // let chr = this.trackData && this.trackData.length > 0 ? this.trackData[0].seqId : "";
     let MAX_ROWS = isoformFilter.length===0 ? 9 : 30;
 
     let UTR_feats = ["UTR", "five_prime_UTR", "three_prime_UTR"];
@@ -64,7 +66,11 @@ let apolloService = new ApolloService();
 
     let viewStart = dataRange.fmin;
     let viewEnd = dataRange.fmax;
-
+    //wrote this to display variant which has no genes, transcripts
+    if(viewStart==-1||viewEnd==-1){
+      viewStart=this.trackData[0].fmin;
+      viewEnd=this.trackData[0].fmax;
+    }
     // constants
     const EXON_HEIGHT = 10; // will be white / transparent
     const CDS_HEIGHT = 10; // will be colored in
@@ -142,6 +148,8 @@ let apolloService = new ApolloService();
       let variantBins = generateVariantDataBinsAndDataSets(variantData,(viewEnd-viewStart)*binRatio);
       variantBins.forEach(variant => {
         let {type, fmax, fmin} = variant;
+        console.log('Drawing variant at fmin:', fmin, 'fmax:', fmax);
+        console.log('- viewStart:', viewStart, 'viewEnd:', viewEnd);
         let drawnVariant = true;
         let isPoints = false;
         let viewerWidth = this.width;
@@ -684,6 +692,21 @@ let apolloService = new ApolloService();
     }
     console.log('Transcript service URL:', dataUrl);
     this.trackData= await apolloService.fetchDataFromUrl(dataUrl);
+    //crated a dummy trackdata to display variant in correct position
+    if(!(this.trackData.length>0)){
+      this.trackData=[{
+        children:[],
+        fmin:track["start"],
+        fmax:track["end"],
+        source:"RGD",
+        seqId:"",
+        id:"RGD:7551986",
+        name:"Vmn2r116l-ps30",
+        sourceUrl:"https://rest.rgd.mcw.edu/rgdws/track/rat/All Genes/1/Vmn2r116l-ps30.json?mapKey=372",
+        strand:-1,
+        type:"gene"
+      }]
+    }
     console.log('Transcript service returned:', this.trackData);
   }
 

@@ -50,7 +50,6 @@
     if( obj!=null ) {
         objType = obj.getObjectTypeName();
     }
-    boolean hasGenes= false;
     boolean isEva = false;
     String jbrowse2Url="";
     if (mapKey!=631) {
@@ -167,7 +166,6 @@
     </tr>
     <% } %>
     <%  if (geneList.size() > 0) {
-            hasGenes = true;
             // sort strains by symbol
             Collections.sort(geneList, new Comparator<Gene>() {
                 public int compare(Gene o1, Gene o2) {
@@ -323,8 +321,7 @@
     <% } %>
 
 </table>
-<%--commenting sequence viewer temporarily--%>
-<%if(hasGenes&&jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
+<%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
 <br>
 <div id="sequenceViewer"onclick="goToJBrowse()">
     <div class="container">

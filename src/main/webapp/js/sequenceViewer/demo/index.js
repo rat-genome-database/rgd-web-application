@@ -77,6 +77,17 @@ function getGenomeInfo(url){
         url:url,
         type:"GET",
         success:function (geneInfo) {
+            if ((!geneInfo || geneInfo.length === 0) && typeof hasVariantData !== 'undefined' && hasVariantData) {
+                let viewStart = Math.max(1, start - 5000);
+                let viewEnd = stop + 5000;
+                geneInfo = [{
+                    chromosome: chr,
+                    start: viewStart,
+                    stop: viewEnd,
+                    mapKey: mapKey
+                }];
+                console.log('Created dummy coordinates:', viewStart, 'to', viewEnd);
+            }
             const mappedGeneChr=geneInfo[0].chromosome;
             const mappedGeneStart=geneInfo[0].start;
             const mappedGeneStop=geneInfo[0].stop;
@@ -129,7 +140,8 @@ function handle(data, range){
    var otherGuides=JSON.stringify(data);
     console.log("DATA HANDLER:"+JSON.stringify(data));
     if (typeof hasVariantData !== 'undefined' && hasVariantData) {
-        createExample(range, speciesName, "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true, null, null, guide, otherGuides);
+        var species = typeof speciesName !== 'undefined' ? speciesName : 'rat';
+        createExample(range, species, "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true, null, null, guide, otherGuides);
     }
     else {
         // Original gene logic
@@ -250,7 +262,6 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
             }
         ]
     };
-    console.log(configGlobal1);
    // const gfc = new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
     const gfc=  (new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500));
     const closeButton = document.getElementById(divId + 'CloseButton');
