@@ -2,7 +2,7 @@
 <beans>
 
     <!-- Import entity tagger module configuration -->
-    <import resource="entityTagger/entityTagger-context.xml"/>
+    <!--<import resource="entityTagger/entityTagger-context.xml"/>-->
 
 <!--    <bean id="RGDHandlerInterceptor" class="edu.mcw.rgd.web.RGDHandlerInterceptor">-->
 <!--    </bean>-->
