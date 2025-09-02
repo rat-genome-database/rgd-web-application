@@ -36,7 +36,7 @@ public class SearchService {
         long totalHits=0;
 
         Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
-        String[][] speciesCatArray = new String[9][12];
+        String[][] speciesCatArray = new String[9][13];
         speciesCatArray[0][0]="Gene";
         speciesCatArray[1][0]="Gene (With Expression)";
 
@@ -154,49 +154,52 @@ public class SearchService {
                         }
                         else if (key.equalsIgnoreCase("Naked Mole-rat")) {
                             k = 10;
+                        } else if (key.equalsIgnoreCase("Black Rat")) {
+                            k = 11;
                         }
+                        int all=12;
 
                             switch (bType) {
                             case "Gene":
                                 speciesCatArray[0][k] = String.valueOf(b.getDocCount());
-                                speciesCatArray[0][11] = String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[0][all] = String.valueOf(bucket.getDocCount()) ;
                                 break;
                                 case "Expressed Gene":
                                     speciesCatArray[1][k] =  String.valueOf(b.getDocCount()) ;
-                                    speciesCatArray[1][11] = String.valueOf(bucket.getDocCount()) ;
+                                    speciesCatArray[1][all] = String.valueOf(bucket.getDocCount()) ;
                                     break;
 
                                 case "Strain":
                                 speciesCatArray[2][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[2][11] = String.valueOf(bucket.getDocCount());
+                                speciesCatArray[2][all] = String.valueOf(bucket.getDocCount());
 
                                 break;
                                 case "QTL":
                                 speciesCatArray[3][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[3][11] =  String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[3][all] =  String.valueOf(bucket.getDocCount()) ;
                               //  System.out.println(key + " : "+ b.getDocCount());
                                 break;
                                 case "SSLP":
                                 speciesCatArray[4][k] = String.valueOf(b.getDocCount());
-                                speciesCatArray[4][11] = String.valueOf(bucket.getDocCount());
+                                speciesCatArray[4][all] = String.valueOf(bucket.getDocCount());
                                 break;
                                 case "Variant":
                                     speciesCatArray[5][k] =  String.valueOf(b.getDocCount()) ;
-                                    speciesCatArray[5][11] = String.valueOf(bucket.getDocCount()) ;
+                                    speciesCatArray[5][all] = String.valueOf(bucket.getDocCount()) ;
                                     break;
                                 case "Promoter":
 
                                 speciesCatArray[6][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[6][11] = String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[6][all] = String.valueOf(bucket.getDocCount()) ;
                                 break;
                                 case "Cell line":
                                 speciesCatArray[7][k] =  String.valueOf(b.getDocCount()) ;
-                                speciesCatArray[7][11] = String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[7][all] = String.valueOf(bucket.getDocCount()) ;
                                 break;
 
                                 case "Expression Study":
                                     speciesCatArray[8][k] =  String.valueOf(b.getDocCount()) ;
-                                    speciesCatArray[8][11] = String.valueOf(bucket.getDocCount()) ;
+                                    speciesCatArray[8][all] = String.valueOf(bucket.getDocCount()) ;
                                     break;
 
                             default:
@@ -207,7 +210,7 @@ public class SearchService {
 
              for (int j = 0; j < 7; j++) {
 
-                    for (int l = 0; l < 10; l++) {
+                    for (int l = 0; l < 11; l++) {
                         if (speciesCatArray[j][l] == null || Objects.equals(speciesCatArray[j][l], "")) {
                             nvCount=nvCount+1;
                             speciesCatArray[j][l] = "-";
