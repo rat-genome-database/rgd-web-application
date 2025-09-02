@@ -615,4 +615,3 @@
     <bean id="ExpressionStudyReportController" class="edu.mcw.rgd.report.ExpressionStudyReportController"/>
     <bean id="ExpressionStudyDownloadController" class="edu.mcw.rgd.report.ExpressionStudyDownloadController"/>
     </beans>
-
