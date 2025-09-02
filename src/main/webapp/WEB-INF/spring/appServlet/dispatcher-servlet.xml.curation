@@ -257,7 +257,7 @@
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
-                <prop key="webservice/entity.html">EntityService</prop>
+                <!--<prop key="webservice/entity.html">EntityService</prop>-->
                 <prop key="webservice/ontology.html">OntologyServiceController</prop>
                 <prop key="webservice/my.html">MyRgdServiceController</prop>
 
