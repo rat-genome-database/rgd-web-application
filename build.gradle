@@ -232,6 +232,8 @@ dependencies {
     // Commons FileUpload (updated version)
     implementation 'commons-fileupload:commons-fileupload:1.5'
     implementation 'org.springframework:spring-web:6.1.8' // Already included but ensuring multipart support
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs
+    implementation("org.springframework.security:spring-security-taglibs:6.5.3")
 }
 
 
