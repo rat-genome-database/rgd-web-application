@@ -134,7 +134,7 @@
                 </tr>
 
                 <%}
-                    if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG ) { %>
+                    if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG || currentMap.getSpeciesTypeKey()==SpeciesType.PIG) { %>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Amino Acid Change</td>
