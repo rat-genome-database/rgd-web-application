@@ -110,8 +110,9 @@
             </td>
             <td>
                 <%if (s.getStrain() != null) {%>
+<%--                <a href="/rgdweb/report/gene/main.html?id=<%=s.getStrain().getRgdId()%>"><%=s.getStrain().getRgdId()%></a>--%>
                 <a href="<%=Link.it(s.getStrain().getRgdId())%>"><%=s.getStrain().getRgdId()%></a>
-                <% } %>
+                <%}%>
             </td>
 
             <td><%=s.getDisplayStatus()%></td>
