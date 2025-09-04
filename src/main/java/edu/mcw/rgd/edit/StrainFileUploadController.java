@@ -70,6 +70,26 @@ public class StrainFileUploadController implements Controller {
         String queryString = request.getQueryString();
         System.out.println("StrainFileUploadController: Query string = " + queryString);
         
+        // Try to get parts directly
+        try {
+            System.out.println("StrainFileUploadController: Trying to get parts collection");
+            java.util.Collection<Part> parts = request.getParts();
+            System.out.println("StrainFileUploadController: Found " + parts.size() + " parts");
+            for(Part part : parts) {
+                System.out.println("  Part name: " + part.getName() + ", size: " + part.getSize());
+                if("strainId".equals(part.getName())) {
+                    // Read the strainId from the part
+                    java.io.InputStream is = part.getInputStream();
+                    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+                    strainIdParam = s.hasNext() ? s.next() : "";
+                    System.out.println("StrainFileUploadController: Found strainId in parts: " + strainIdParam);
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("StrainFileUploadController: Error getting parts - " + e.getMessage());
+            e.printStackTrace();
+        }
+        
         if(strainIdParam != null){
             strainId = Integer.parseInt(strainIdParam);
             System.out.println("StrainFileUploadController: Processing strainId=" + strainId);
