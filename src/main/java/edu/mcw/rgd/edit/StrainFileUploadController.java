@@ -52,8 +52,12 @@ public class StrainFileUploadController implements Controller {
         }
         
         try{
-        if(request.getParameter("strainId") != null){
-            strainId = Integer.parseInt(request.getParameter("strainId"));
+        System.out.println("StrainFileUploadController: Checking for strainId parameter");
+        String strainIdParam = request.getParameter("strainId");
+        System.out.println("StrainFileUploadController: strainId parameter = " + strainIdParam);
+        
+        if(strainIdParam != null){
+            strainId = Integer.parseInt(strainIdParam);
             System.out.println("StrainFileUploadController: Processing strainId=" + strainId);
             String[] types = {"Genotype","Highlights","Supplemental"};
                 for (String type : types) {
@@ -108,6 +112,8 @@ public class StrainFileUploadController implements Controller {
 
         }
         }catch(Exception e){
+            System.out.println("StrainFileUploadController: Exception caught - " + e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
             error.add(e.getMessage());
         }
 
