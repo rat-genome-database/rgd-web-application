@@ -21,7 +21,11 @@ public class StrainFileUploadController implements Controller {
     String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
+        // Debug logging
+        System.out.println("StrainFileUploadController: Method=" + request.getMethod());
+        System.out.println("StrainFileUploadController: Content-Type=" + request.getContentType());
+        System.out.println("StrainFileUploadController: Request URI=" + request.getRequestURI());
+        
         ArrayList error = new ArrayList();
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
@@ -50,11 +54,14 @@ public class StrainFileUploadController implements Controller {
         try{
         if(request.getParameter("strainId") != null){
             strainId = Integer.parseInt(request.getParameter("strainId"));
+            System.out.println("StrainFileUploadController: Processing strainId=" + strainId);
             String[] types = {"Genotype","Highlights","Supplemental"};
                 for (String type : types) {
                     boolean isSet = false;
                     try {
+                        System.out.println("StrainFileUploadController: Attempting to get part for type=" + type);
                         Part file = request.getPart(type);
+                        System.out.println("StrainFileUploadController: Got part for type=" + type + ", part=" + file);
                         isSet = true;
                         if (isSet) {
                             String fileName = file.getHeader("content-disposition");
