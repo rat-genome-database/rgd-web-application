@@ -41,8 +41,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         // Skip authentication for POST requests to strainFileUpload (file uploads)
         // Authentication should have already been checked on initial page load (GET)
+        // IMPORTANT: We must return early before calling getParameter() on multipart requests
+        // as it can consume the request body in some servlet containers
         if ("POST".equalsIgnoreCase(request.getMethod()) && 
-            request.getRequestURI().contains("/rgdweb/curation/strainFileUpload")) {
+            request.getRequestURI().contains("strainFileUpload")) {
             System.out.println("AuthenticationInterceptor: Skipping auth for strainFileUpload POST");
             return true;
         }
