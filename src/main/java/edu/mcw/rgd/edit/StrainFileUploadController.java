@@ -53,8 +53,22 @@ public class StrainFileUploadController implements Controller {
         
         try{
         System.out.println("StrainFileUploadController: Checking for strainId parameter");
+        
+        // Debug: Check all parameters
+        System.out.println("StrainFileUploadController: All parameter names:");
+        java.util.Enumeration<String> paramNames = request.getParameterNames();
+        while(paramNames.hasMoreElements()) {
+            String paramName = paramNames.nextElement();
+            System.out.println("  Param: " + paramName + " = " + request.getParameter(paramName));
+        }
+        
+        // Try to get strainId from different sources
         String strainIdParam = request.getParameter("strainId");
-        System.out.println("StrainFileUploadController: strainId parameter = " + strainIdParam);
+        System.out.println("StrainFileUploadController: strainId from getParameter = " + strainIdParam);
+        
+        // Also try getting from query string if it's in the URL
+        String queryString = request.getQueryString();
+        System.out.println("StrainFileUploadController: Query string = " + queryString);
         
         if(strainIdParam != null){
             strainId = Integer.parseInt(strainIdParam);
