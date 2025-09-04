@@ -28,14 +28,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
 
         // no access checking on DEV -- everything is allowed on DEV
-        if( RgdContext.isDev() ) {
-            return true;
-        }
+        // TEMPORARILY REMOVED FOR DEBUGGING
+        // if( RgdContext.isDev() ) {
+        //     return true;
+        // }
 
         // Skip authentication for POST requests to strainFileUpload (file uploads)
         // Authentication should have already been checked on initial page load (GET)
         if ("POST".equalsIgnoreCase(request.getMethod()) && 
-            request.getRequestURI().contains("/curation/strainFileUpload")) {
+            request.getRequestURI().contains("/rgdweb/curation/strainFileUpload")) {
             return true;
         }
 
