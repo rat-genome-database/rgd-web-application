@@ -27,8 +27,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler )  throws Exception {
 
+        // Debug logging for strainFileUpload issues
+        System.out.println("AuthenticationInterceptor: Method=" + request.getMethod() + 
+                          ", URI=" + request.getRequestURI() + 
+                          ", URL=" + request.getRequestURL() +
+                          ", ServletPath=" + request.getServletPath());
+
         // no access checking on DEV -- everything is allowed on DEV
         if( RgdContext.isDev() ) {
+            System.out.println("AuthenticationInterceptor: isDev=true, skipping auth");
             return true;
         }
 
@@ -36,6 +43,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         // Authentication should have already been checked on initial page load (GET)
         if ("POST".equalsIgnoreCase(request.getMethod()) && 
             request.getRequestURI().contains("/rgdweb/curation/strainFileUpload")) {
+            System.out.println("AuthenticationInterceptor: Skipping auth for strainFileUpload POST");
             return true;
         }
 
