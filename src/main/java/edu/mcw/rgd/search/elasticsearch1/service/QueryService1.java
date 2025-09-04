@@ -1,7 +1,5 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
-import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.process.mapping.MapManager;
 
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.services.ClientInit;
@@ -26,11 +24,6 @@ import org.elasticsearch.search.sort.SortOrder;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.boostValues;
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.categories;
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.fields;
 
 
 /**
@@ -339,7 +332,7 @@ public class QueryService1 {
 
         AggregationBuilder   aggs=null;
         if(aggField.equalsIgnoreCase("species")) {
-            aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
+            aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword").size(20)
                     .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword")
                             .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
                             .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword").size(500))
@@ -362,8 +355,8 @@ public class QueryService1 {
         }
         if(aggField.equalsIgnoreCase("category")) {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
-                    .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword"))
-                    .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
+                    .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword").size(20))
+                    .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword").size(20))
                     .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
                     .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword"))
                     .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
@@ -384,7 +377,7 @@ public class QueryService1 {
             return aggs;
         }
         aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
-                .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
+                .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword").size(20))
                 .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(100).order(BucketOrder.key(true)))
         // .order(Terms.Order.term(true)))  deprecated in 6.4
         ;
