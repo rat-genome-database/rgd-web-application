@@ -23,5 +23,3 @@
 </div>
 <!--div class="container"-->
 <hr>
-<div class="card" style="border-color: white" >
-    <div class="card-body">
