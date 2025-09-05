@@ -15,7 +15,7 @@
     float:left;
     padding-left:5px;
     padding-right:20px;
-    width:205px;
+    width:230px;
 }
 
 .credittext {
