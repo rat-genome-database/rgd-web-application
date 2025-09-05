@@ -6,13 +6,18 @@ import edu.mcw.rgd.datamodel.ontologyx.Ontology;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.datamodel.search.GeneralSearchResult;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.search.ReportFactory;
 import edu.mcw.rgd.process.search.SearchBean;
+import edu.mcw.rgd.stats.ScoreBoardManager;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 /**
@@ -46,6 +51,25 @@ public class OntGeneralSearchController implements Controller {
 
             //added by Pushkala 16th May 2012 - RGDD447
             bean.sortOntologiesAlphabetically();
+            Map<String, Integer> annotsCnt = new HashMap<>();
+            ScoreBoardManager sbm = new ScoreBoardManager();
+            LocalDate ld = LocalDate.now();
+            ZoneId z = ZoneId.of( "America/Chicago" );
+            ZonedDateTime zdt = ld.with(TemporalAdjusters.previous(DayOfWeek.THURSDAY)).atStartOfDay( z );
+            Instant instant = zdt.toInstant();
+            Date d = Date.from(instant);
+            Map<String, String> annotMap = sbm.getOntologyAnnotationCount(0, 0, d);
+            for(Ontology o : bean.getOntologies()){
+                String mapCnt = annotMap.get(o.getName());
+                int cnt = 0;
+                if (Utils.isStringEmpty(mapCnt))
+                    annotsCnt.put(o.getRootTermAcc(),cnt);
+                else {
+                    cnt = Integer.parseInt(mapCnt);
+                    annotsCnt.put(o.getRootTermAcc(),cnt);
+                }
+            }
+            bean.setAnnotCount(annotsCnt);
             mv.setViewName("/WEB-INF/jsp/ontology/search.jsp");
             return mv;
         }

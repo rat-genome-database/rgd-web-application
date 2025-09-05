@@ -109,83 +109,123 @@
   <%-- NEW TEMPORARY CODE --%>
   <div><!-- div with all checkboxes for ontologies -->
       <%  Map<String, Ontology> ontMap = new HashMap<String, Ontology>();
+      List<Ontology> withAnnots = new ArrayList<>();
+      List<Ontology> noAnnots = new ArrayList<>();
           for( Ontology o: bean.getOntologies() ) {
-              ontMap.put(o.getId(), o);
-              if( !o.isPublic() )
+//              ontMap.put(o.getId(), o);
+              if (!o.isPublic())
                   continue;
               // show only subset of ontologies for chinchilla
-              if( RgdContext.isChinchilla(request) ) {
-                  if( !(o.getId().equals("BP") || o.getId().equals("CC") || o.getId().equals("MF") ||
-                   o.getId().equals("RDO") || o.getId().equals("MP") || o.getId().equals("PW")))
+              if (RgdContext.isChinchilla(request)) {
+                  if (!(o.getId().equals("BP") || o.getId().equals("CC") || o.getId().equals("MF") ||
+                          o.getId().equals("RDO") || o.getId().equals("MP") || o.getId().equals("PW")))
                       continue;
               }
-         %><div class="rootont"><%
-              String rootTermAcc = bean.getRootTerms().get(o.getId());
-              if( rootTermAcc!=null ) {
-      %>      <table border=0 width="300">
-                <tr>
-                    <td width=20><a href="<%=Link.ontView(rootTermAcc)%>"><img src="/rgdweb/common/images/add.png"></a></td>
-                    <td><label for="ontid_<%=o.getId()%>"><a href="<%=Link.ontView(rootTermAcc)%>" title="click to browse ontology tree"><%=o.getName().replace(" ","&nbsp;")%></a></label></td>
-                </tr>
-              </table>
-            <% } else { %>
-                    <label for="ontid_<%=o.getId()%>"><%=o.getName()%></label><br>
-            <% } %>
-            </div>
-      <%}%>
+              if (bean.getAnnotCount().get(o.getRootTermAcc())!=0)
+                  withAnnots.add(o);
+              else
+                  noAnnots.add(o);
+          }
+      %>
+      <table>
+          <tr>
+              <td>
+                  <h4>Ontologies with Annotations</h4>
+                  <%
+                      for (Ontology o : withAnnots){
+                     %>
+                  <div class="rootont"><%
+                          String rootTermAcc = bean.getRootTerms().get(o.getId());
+                          if( rootTermAcc!=null ) {
+                  %>      <table border=0 width="300">
+                            <tr>
+                                <td width=20><a href="<%=Link.ontView(rootTermAcc)%>"><img src="/rgdweb/common/images/add.png"></a></td>
+                                <td><label for="ontid_<%=o.getId()%>"><a href="<%=Link.ontView(rootTermAcc)%>" title="click to browse ontology tree"><%=o.getName().replace(" ","&nbsp;")%></a></label></td>
+                            </tr>
+                          </table>
+                        <% } else { %>
+                                <label for="ontid_<%=o.getId()%>"><%=o.getName()%></label><br>
+                        <% } %>
+                        </div>
+                  <%}%>
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <h4>Ontologies without Annotations</h4>
+                  <%
+                  for (Ontology o : noAnnots){
+                  %>
+                  <div class="rootont"><%
+                      String rootTermAcc = bean.getRootTerms().get(o.getId());
+                      if( rootTermAcc!=null ) {
+                  %>      <table border=0 width="300">
+                      <tr>
+                          <td width=20><a href="<%=Link.ontView(rootTermAcc)%>"><img src="/rgdweb/common/images/add.png"></a></td>
+                          <td><label for="ontid_<%=o.getId()%>"><a href="<%=Link.ontView(rootTermAcc)%>" title="click to browse ontology tree"><%=o.getName().replace(" ","&nbsp;")%></a></label></td>
+                      </tr>
+                  </table>
+                      <% } else { %>
+                      <label for="ontid_<%=o.getId()%>"><%=o.getName()%></label><br>
+                      <% } %>
+                  </div>
+                  <%}%>
+              </td>
+          </tr>
+      </table>
       <div style="clear:both;"></div>
   </div>
 
 </div>
 </div>
 
-<% if( !RgdContext.isChinchilla(request) ) { %>
-  <hr>
-  <h4>Sources for external ontologies:</h4>
-    <table><%
-        for( Ontology oo: bean.getOntologies() ) {
-            if( !oo.isPublic() || oo.isInternal() || oo.getDescription()==null || oo.getHomePage()==null || oo.getLogoUrl()==null )
-                continue;
-                if( !(oo.getId().equals("BP") || oo.getId().equals("CC") || oo.getId().equals("MF") ||
-                 oo.getId().equals("RDO") || oo.getId().equals("MP") || oo.getId().equals("PW")))
-                    continue;
-        %>
-        <tr>
-            <%
-                switch (oo.getId()){
-                    case "MF":  %>
-                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/go-logo.png" alt="<%=oo.getName()%>"/></a></th>
-                        <td class="credittext"><%=oo.getDescription()%></td>
-            <%      break;
-                    case "MP": %>
-                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/mgi_logo.gif" alt="<%=oo.getName()%>"/></a></th>
-                        <td class="credittext"><%=oo.getDescription()%></td>
-            <%      break;
-                    default:    %>
-                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>
-                        <td class="credittext"><%=oo.getDescription()%></td>
-            <%
-                } // end switch
-            %>
-<%--            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>--%>
-<%--            <td class="credittext"><%=oo.getDescription()%></td>--%>
-        </tr>
-    <% } %>
-    </table>
-    <h4>RGD Ontologies:</h4>
-    <table>
-        <tr>
-          <th style="border: solid 1px #808080" valign="top"><a href="/rgdweb/ontology/search.html"><img width="56" src="/common/images/rgd_logo_phenotypes.gif"/></a>
-              <div style="padding-top:16px;font-size:16px;color:navy">CMO<br>MMO<br>XCO<br>PW<br>RS<br>VT</div></th>
-          <td>
-           <p class="credittext"><%=ontMap.get("CMO").getDescription()%></p>
-           <p class="credittext"><%=ontMap.get("PW").getDescription()%></p>
-           <p class="credittext"><%=ontMap.get("RS").getDescription()%></p>
-           <p class="credittext"><%=ontMap.get("VT").getDescription()%></p>
-          </td>
-        </tr>
-    </table>
-    <% } %>
+<%--<% if( !RgdContext.isChinchilla(request) ) { %>--%>
+<%--  <hr>--%>
+<%--  <h4>Sources for external ontologies:</h4>--%>
+<%--    <table><%--%>
+<%--        for( Ontology oo: bean.getOntologies() ) {--%>
+<%--            if( !oo.isPublic() || oo.isInternal() || oo.getDescription()==null || oo.getHomePage()==null || oo.getLogoUrl()==null )--%>
+<%--                continue;--%>
+<%--                if( !(oo.getId().equals("BP") || oo.getId().equals("CC") || oo.getId().equals("MF") ||--%>
+<%--                 oo.getId().equals("RDO") || oo.getId().equals("MP") || oo.getId().equals("PW")))--%>
+<%--                    continue;--%>
+<%--        %>--%>
+<%--        <tr>--%>
+<%--            <%--%>
+<%--                switch (oo.getId()){--%>
+<%--                    case "MF":  %>--%>
+<%--                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/go-logo.png" alt="<%=oo.getName()%>"/></a></th>--%>
+<%--                        <td class="credittext"><%=oo.getDescription()%></td>--%>
+<%--            <%      break;--%>
+<%--                    case "MP": %>--%>
+<%--                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="/rgdweb/common/images/mgi_logo.gif" alt="<%=oo.getName()%>"/></a></th>--%>
+<%--                        <td class="credittext"><%=oo.getDescription()%></td>--%>
+<%--            <%      break;--%>
+<%--                    default:    %>--%>
+<%--                        <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>--%>
+<%--                        <td class="credittext"><%=oo.getDescription()%></td>--%>
+<%--            <%--%>
+<%--                } // end switch--%>
+<%--            %>--%>
+<%--&lt;%&ndash;            <th><a href="<%=oo.getHomePage()%>"><img width="56" height="30" src="<%=oo.getLogoUrl()%>" alt="<%=oo.getName()%>"/></a></th>&ndash;%&gt;--%>
+<%--&lt;%&ndash;            <td class="credittext"><%=oo.getDescription()%></td>&ndash;%&gt;--%>
+<%--        </tr>--%>
+<%--    <% } %>--%>
+<%--    </table>--%>
+<%--    <h4>RGD Ontologies:</h4>--%>
+<%--    <table>--%>
+<%--        <tr>--%>
+<%--          <th style="border: solid 1px #808080" valign="top"><a href="/rgdweb/ontology/search.html"><img width="56" src="/common/images/rgd_logo_phenotypes.gif"/></a>--%>
+<%--              <div style="padding-top:16px;font-size:16px;color:navy">CMO<br>MMO<br>XCO<br>PW<br>RS<br>VT</div></th>--%>
+<%--          <td>--%>
+<%--           <p class="credittext"><%=ontMap.get("CMO").getDescription()%></p>--%>
+<%--           <p class="credittext"><%=ontMap.get("PW").getDescription()%></p>--%>
+<%--           <p class="credittext"><%=ontMap.get("RS").getDescription()%></p>--%>
+<%--           <p class="credittext"><%=ontMap.get("VT").getDescription()%></p>--%>
+<%--          </td>--%>
+<%--        </tr>--%>
+<%--    </table>--%>
+<%--    <% } %>--%>
   <p>
   </p>
 
