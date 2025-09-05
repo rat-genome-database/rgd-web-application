@@ -332,7 +332,11 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     $content.html('<div style="margin-left:50%"><i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></div>');
     var $type=null;
     if(typeof type!="undefined"){
-        $type=type;
+        if(filterType!="region") {
+            $type = type;
+        }else{
+           $type= encodeURI(type);
+        }
     }
     var term=$('#searchTerm').val();
 
