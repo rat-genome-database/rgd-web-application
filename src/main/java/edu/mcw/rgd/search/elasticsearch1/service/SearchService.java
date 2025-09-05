@@ -92,9 +92,8 @@ public class SearchService {
                  for (Terms.Bucket bucket :catBuckets) {
 
                     String bucketType = bucket.getKey().toString();
-                    String bType = new String();
-                    bType = bucketType;
-
+                    String bType = bucketType;
+                     System.out.println("BKT TYPE:"+ bType);
                     if(bucketType.equalsIgnoreCase("ontology")){
                         Terms ontologySubcatAgg=bucket.getAggregations().get("ontologies");
                         aggregations.put("ontology", ontologySubcatAgg.getBuckets());
@@ -102,9 +101,12 @@ public class SearchService {
 
                     Terms subAgg = bucket.getAggregations().get("subspecies");
                     int k = 0;
-                    for (Terms.Bucket b : subAgg.getBuckets()) {
+        loop:            for (Terms.Bucket b : subAgg.getBuckets()) {
                         String key = (String) b.getKey();
                         int speciesTypeKey= SpeciesType.parse(key);
+                        if(speciesTypeKey==17){
+                            continue loop;
+                        }
                         if(SpeciesType.isSearchable(speciesTypeKey)){
                         if (key.equalsIgnoreCase("Rat")) {
                             k = 1;   //Matrix column 1
@@ -174,6 +176,7 @@ public class SearchService {
              for (int j = 0; j < 7; j++) {
 
                     for (int l = 0; l < 10; l++) {
+//                        System.out.println("SPECIES:"+ speciesCatArray[j][l]);
                         if (speciesCatArray[j][l] == null || Objects.equals(speciesCatArray[j][l], "")) {
                             nvCount=nvCount+1;
                             speciesCatArray[j][l] = "-";
