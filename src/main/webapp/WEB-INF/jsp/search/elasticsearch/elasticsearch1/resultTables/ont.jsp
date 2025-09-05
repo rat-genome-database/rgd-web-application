@@ -40,7 +40,7 @@
 
             <%}%>
         </td>
-        <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
+        <td><span class=<%=hitCategory%>><%=subCat%></span></td>
         <td   style="cursor: pointer;"><a href="<%=url%>"><%=sourceMap.get("term")%></a>
             <a href="/rgdweb/ontology/view.html?acc_id=<%=sourceMap.get("term_acc")%>" title="click to browse the term" alt="browse term">
                 <img border="0" src="/rgdweb/common/images/tree.png" title="click to browse the term" alt="term browser"></a>

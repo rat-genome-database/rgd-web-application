@@ -74,7 +74,15 @@
         </td>
 
         <td class="<%=hitSpecies%>"><%=hitSpecies%></td>
-        <td><span class="<%=hitCategory%>"><%=hitCategory%></span></td>
+        <td>
+            <%
+                if(hitCategory.equalsIgnoreCase("ontology")){%>
+            <span class="<%=hitCategory%>"><%=sourceMap.get("subcat")%></span>
+                <%}else{%>
+            <span class="<%=hitCategory%>"><%=hitCategory%></span>
+                <%}%>
+
+        </td>
 
         <td>
             <% if (symbol != null) { %><%=symbol%><% } %>
