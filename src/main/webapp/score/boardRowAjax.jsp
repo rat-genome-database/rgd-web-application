@@ -9,7 +9,7 @@
 
 <script>
     $(document).ready(function(){
-        $.get("https://<%=RgdContext.getHostname()%><%=boardRowUri%>", function(responseText, status, xhr){
+        $.get("<%=RgdContext.getHostname()%><%=boardRowUri%>", function(responseText, status, xhr){
 
             var html = '';
             if( status=='error') {
