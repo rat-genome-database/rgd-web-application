@@ -280,6 +280,9 @@ public class SearchService {
                 chr= !request.getParameter("chr").equalsIgnoreCase("all")?request.getParameter("chr"):"";
 
         String category = request.getParameter("category");
+        if(category==null || category.equals("")){
+            category="general";
+        }
         String species =  new String();
         int speciesTypeKey = request.getParameter("speciesType")!=null && !request.getParameter("speciesType").equals("")?Integer.parseInt(request.getParameter("speciesType")):0;
         if(speciesTypeKey>0){
