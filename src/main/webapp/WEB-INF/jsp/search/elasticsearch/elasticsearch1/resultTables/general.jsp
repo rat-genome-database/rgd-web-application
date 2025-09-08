@@ -66,7 +66,7 @@
             String crossedStrain = (strainsCrossed != null) ? strainsCrossed.stream().filter(Objects::nonNull).collect(Collectors.joining(";")) : "";
     %>
 
-    <tr style="cursor: pointer" >
+    <tr style="cursor: pointer"  onclick="if (link) window.location.href='<%=url%>'">
         <td class="<%=hitSpecies%>">
             <% if (!"All".equalsIgnoreCase(hitSpecies) && !hitSpecies.isEmpty() && speciesAggregations != null && speciesAggregations.size() != 1) { %>
             <i class="fa fa-star fa-lg" aria-hidden="true"></i>

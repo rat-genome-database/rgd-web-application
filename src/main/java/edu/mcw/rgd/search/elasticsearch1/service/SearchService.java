@@ -37,6 +37,7 @@ public class SearchService {
 
         Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
         String[][] speciesCatArray = new String[9][13];
+        int matrixElements=(9*13);
         speciesCatArray[0][0]="Gene";
         speciesCatArray[1][0]="Gene (With Expression)";
 
@@ -233,7 +234,7 @@ public class SearchService {
             SearchHit[] searchHits=sr.getHits().getHits();
         int matrixResultsExists=0;
 
-        if(nvCount<63){
+        if(nvCount<matrixElements){
           matrixResultsExists=1;
         }
         String message=new String();
