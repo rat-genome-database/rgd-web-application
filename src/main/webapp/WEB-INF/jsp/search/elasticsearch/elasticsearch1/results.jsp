@@ -12,8 +12,8 @@
 
 
 <script>
-    var link=true;
-    var highlightTerm="${model.term}";
+    let link=true;
+    let highlightTerm="${model.term}";
 </script>
 <script>
     $(function () {
