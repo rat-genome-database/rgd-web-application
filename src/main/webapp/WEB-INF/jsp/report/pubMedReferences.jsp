@@ -1,4 +1,3 @@
-<%@ page import="org.springframework.dao.EmptyResultDataAccessException" %>
 <%@ page import="java.util.Collections" %>
 <%@ page import="java.util.Comparator" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
@@ -53,7 +52,7 @@
         <tbody>
 
     <%
-        String pubmedLink=xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
+        String pubmedLink=xdbDAO.getXdbUrlnoSpecies(XdbId.XDB_KEY_PUBMED);
 
         for (int i = 0; i < ei.size(); i++) {
             String link=ei.get(i).getLinkText()==null ? ei.get(i).getAccId() : ei.get(i).getLinkText();
