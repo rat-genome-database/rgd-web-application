@@ -57,8 +57,12 @@
         <property name="cacheRefreshInterval" value="86400000"/> <!-- 24 hours -->
     </bean>
     
+    <bean id="ontologyAccessionService" class="edu.mcw.rgd.entityTagger.service.OntologyAccessionService">
+    </bean>
+    
     <bean id="entityRecognitionService" class="edu.mcw.rgd.entityTagger.service.EntityRecognitionService">
         <property name="ontologyService" ref="ontologyService"/>
+        <property name="ontologyAccessionService" ref="ontologyAccessionService"/>
         <property name="chunkSize" value="4000"/>
         <property name="chunkOverlap" value="200"/>
     </bean>

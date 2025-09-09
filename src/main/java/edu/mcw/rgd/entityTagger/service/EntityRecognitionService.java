@@ -29,6 +29,7 @@ public class EntityRecognitionService {
     private final ObjectMapper objectMapper;
     
     private OntologyService ontologyService;
+    private OntologyAccessionService ontologyAccessionService;
     private int chunkSize = 4000;
     private int chunkOverlap = 200;
     
@@ -38,6 +39,14 @@ public class EntityRecognitionService {
     
     public void setOntologyService(OntologyService ontologyService) {
         this.ontologyService = ontologyService;
+    }
+    
+    public OntologyAccessionService getOntologyAccessionService() {
+        return ontologyAccessionService;
+    }
+    
+    public void setOntologyAccessionService(OntologyAccessionService ontologyAccessionService) {
+        this.ontologyAccessionService = ontologyAccessionService;
     }
     
     public int getChunkSize() {
@@ -199,7 +208,11 @@ public class EntityRecognitionService {
             result.setChemicals(parseEntityList(jsonResponse.get("chemicals")));
             result.setSpecies(parseEntityList(jsonResponse.get("species")));
             result.setPhenotypes(parseEntityList(jsonResponse.get("phenotypes")));
-            result.setCellularComponents(parseEntityList(jsonResponse.get("cellular_components")));
+            
+            // Process cellular components and add GO accession IDs
+            List<BiologicalEntity> cellularComponents = parseEntityList(jsonResponse.get("cellular_components"));
+            enrichCellularComponentsWithAccessionIds(cellularComponents);
+            result.setCellularComponents(cellularComponents);
             
             // Use AI-detected rat strains without ontology validation
             List<BiologicalEntity> aiRatStrains = parseEntityList(jsonResponse.get("rat_strains"));
@@ -333,6 +346,33 @@ public class EntityRecognitionService {
         return null;
     }
     
+    /**
+     * Enrich cellular components with GO accession IDs using the ontology accession service
+     */
+    private void enrichCellularComponentsWithAccessionIds(List<BiologicalEntity> cellularComponents) {
+        CurationLogger.info("=== ENRICHING {} CELLULAR COMPONENTS ===", cellularComponents.size());
+        if (ontologyAccessionService == null) {
+            CurationLogger.warn("OntologyAccessionService not available - cellular components will not have GO accession IDs");
+            return;
+        }
+        
+        for (BiologicalEntity component : cellularComponents) {
+            CurationLogger.info("=== PROCESSING CELLULAR COMPONENT: {} ===", component.getName());
+            try {
+                String goAccession = ontologyAccessionService.getGoAccessionForCellularComponent(component.getName());
+                if (goAccession != null && !goAccession.isEmpty()) {
+                    component.setAccessionId(goAccession);
+                    component.setType("cellular-component");
+                    CurationLogger.info("=== ADDED GO ACCESSION {} TO CELLULAR COMPONENT: {} ===", goAccession, component.getName());
+                } else {
+                    CurationLogger.info("=== NO GO ACCESSION FOUND FOR CELLULAR COMPONENT: {} ===", component.getName());
+                }
+            } catch (Exception e) {
+                CurationLogger.warn("=== ERROR LOOKING UP GO ACCESSION FOR CELLULAR COMPONENT '{}': {} ===", 
+                    component.getName(), e.getMessage());
+            }
+        }
+    }
 
     /**
      * Combine two lists of entities, removing duplicates based on entity name
