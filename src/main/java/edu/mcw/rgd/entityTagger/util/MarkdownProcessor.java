@@ -160,6 +160,9 @@ public class MarkdownProcessor {
         text = text.replaceAll("(?i)<br />", " ");
         
         // Only convert headers - avoid line break conversions that interfere with entity highlighting
+        text = text.replaceAll("(?m)^###### (.+)$", "<h6>$1</h6>");
+        text = text.replaceAll("(?m)^##### (.+)$", "<h5>$1</h5>");
+        text = text.replaceAll("(?m)^#### (.+)$", "<h4>$1</h4>");
         text = text.replaceAll("(?m)^### (.+)$", "<h3>$1</h3>");
         text = text.replaceAll("(?m)^## (.+)$", "<h2>$1</h2>");
         text = text.replaceAll("(?m)^# (.+)$", "<h1>$1</h1>");

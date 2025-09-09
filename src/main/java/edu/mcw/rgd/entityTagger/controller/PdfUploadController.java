@@ -1484,7 +1484,19 @@ public class PdfUploadController implements Controller {
             String trimmedLine = line.trim();
             
             // Handle different markdown header levels
-            if (trimmedLine.startsWith("### ")) {
+            if (trimmedLine.startsWith("###### ")) {
+                // Level 6 header
+                String headerText = trimmedLine.substring(7);
+                result.append("<h6>").append(headerText).append("</h6>");
+            } else if (trimmedLine.startsWith("##### ")) {
+                // Level 5 header
+                String headerText = trimmedLine.substring(6);
+                result.append("<h5>").append(headerText).append("</h5>");
+            } else if (trimmedLine.startsWith("#### ")) {
+                // Level 4 header
+                String headerText = trimmedLine.substring(5);
+                result.append("<h4>").append(headerText).append("</h4>");
+            } else if (trimmedLine.startsWith("### ")) {
                 // Level 3 header
                 String headerText = trimmedLine.substring(4);
                 result.append("<h3>").append(headerText).append("</h3>");
