@@ -86,39 +86,41 @@ public class GeoExperimentController implements Controller {
                 List<Experiment> eList = new ArrayList<>();
                 List<Experiment> newExp = new ArrayList<>();
                 Study study = new Study(); //geDAO.getStudyByGeoIdWithReferences(gse);
-
+                species = species.replace("_"," ");
 //                    List<Study> studyList = new ArrayList<>();
                 List<Sample> sampleList = new ArrayList<>();
                 HashMap<Integer,List<Condition>> sampleConditions = new HashMap<>();
                 HashMap<Integer, Experiment> sampleExperiment = new HashMap<>();
                 int speciesType = SpeciesType.RAT;
                 switch (species.toLowerCase()){
-                    case "mus":
+                    case "mus musculus":
                         speciesType = SpeciesType.MOUSE;
                         break;
-                    case "homo":
+                    case "homo sapiens":
                         speciesType = SpeciesType.HUMAN;
                         break;
-                    case "chinchilla":
+                    case "chinchilla lanigera":
                         speciesType = SpeciesType.CHINCHILLA;
                         break;
-                    case "pan":
+                    case "pan paniscus":
                         speciesType = SpeciesType.BONOBO;
                         break;
-                    case "canis":
+                    case "canis lupus familiaris":
                         speciesType = SpeciesType.DOG;
                         break;
-                    case "ictidomys":
+                    case "Ictidomys tridecemlineatus":
                         speciesType = SpeciesType.SQUIRREL;
                         break;
-                    case "sus":
+                    case "sus scrofa":
                         speciesType = SpeciesType.PIG;
                         break;
-                    case "glaber":
+                    case "heterocephalus glaber":
                         speciesType = SpeciesType.NAKED_MOLE_RAT;
                         break;
-                    case "sabaeus":
+                    case "chlorocebus sabaeus":
                         speciesType = SpeciesType.VERVET;
+                    case "rattus rattus":
+                        speciesType = 17;
                     default:
                         speciesType = SpeciesType.RAT;
                         break;
@@ -652,6 +654,7 @@ public class GeoExperimentController implements Controller {
             String gse = request.getParameter("geoId");
             String species = request.getParameter("species");
             String curationStatus = request.getParameter("status");
+            species = species.replace("_"," ");
             geDAO.updateGeoStudyStatus(gse, curationStatus,species);
             status.add("Status updated successfully for " + gse);
             request.setAttribute("status", status);
@@ -663,7 +666,9 @@ public class GeoExperimentController implements Controller {
         }
         if (request.getParameter("gse") != null) {
             return new ModelAndView("/WEB-INF/jsp/curation/expression/editSample.jsp");
-        } else return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "experiments.jsp");
+        } else {
+            return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "experiments.jsp");
+        }
 
         }
     protected boolean checkToken(String token) throws Exception{

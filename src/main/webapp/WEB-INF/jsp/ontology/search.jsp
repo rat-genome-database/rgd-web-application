@@ -41,9 +41,9 @@
 
 <% if( !RgdContext.isChinchilla(request) ) { %>
 <div style="font-style:italic; padding:3px; margin-bottom:10px;margin-top:5px;">
- RGD uses ontologies: hierarchical, controlled vocabularies to annotate genes, QTLs, strains and homologs:
+ RGD uses ontologies: hierarchical, controlled vocabularies to annotate genes, QTLs, strains, cell lines and variants:
  Gene Ontology, Mammalian Phenotype Ontology, Disease Ontology, Pathway Ontology and others. <br><br><b>The Ontology Browser
- allows you to retrieve all genes, QTLs, strains and homologs annotated to a particular term.</b>
+ allows you to retrieve all genes, QTLs, strains, cell lines and variants annotated to a particular term.</b>
 </div>
 <% } %>
 
@@ -127,7 +127,7 @@
                   noAnnots.add(o);
           }
       %>
-      <table>
+      <table class="ontologyList">
           <tr>
               <td>
                   <h4>Ontologies with Annotations</h4>
@@ -150,6 +150,7 @@
                   <%}%>
               </td>
           </tr>
+          <tr><td style="color: white; font-size: larger; cursor: default;">This is just an illusion</td></tr>
           <tr>
               <td>
                   <h4>Ontologies without Annotations</h4>
