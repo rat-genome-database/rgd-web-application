@@ -124,17 +124,17 @@ public class OntBrowser {
             termName = ts.getTerm();
 
             if (!portalVersion) {
-                annotMsg = " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Rat#annot'>Rat: (" + ts.getAnnotObjectCountForSpecies(3) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Mouse#annot'>Mouse: (" + ts.getAnnotObjectCountForSpecies(2) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Human#annot'>Human: (" + ts.getAnnotObjectCountForSpecies(1) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Chinchilla#annot'>Chinchilla: (" + ts.getAnnotObjectCountForSpecies(4) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Bonobo#annot'>Bonobo: (" + ts.getAnnotObjectCountForSpecies(5) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Dog#annot'>Dog: (" + ts.getAnnotObjectCountForSpecies(6) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Squirrel#annot'>Squirrel: (" + ts.getAnnotObjectCountForSpecies(7) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Pig#annot'>Pig: (" + ts.getAnnotObjectCountForSpecies(9) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Naked Mole-rat#annot'>Naked Mole-rat: (" + ts.getAnnotObjectCountForSpecies(14) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Green Monkey#annot'>Green Monkey: (" + ts.getAnnotObjectCountForSpecies(13) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Black Rat#annot'>Black Rat: (" + ts.getAnnotObjectCountForSpecies(17) + ")</a>";
+                annotMsg = " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Rat#annot'>Rat: (" + ts.getAnnotObjectCountForSpecies(3, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Mouse#annot'>Mouse: (" + ts.getAnnotObjectCountForSpecies(2, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Human#annot'>Human: (" + ts.getAnnotObjectCountForSpecies(1, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Chinchilla#annot'>Chinchilla: (" + ts.getAnnotObjectCountForSpecies(4, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Bonobo#annot'>Bonobo: (" + ts.getAnnotObjectCountForSpecies(5, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Dog#annot'>Dog: (" + ts.getAnnotObjectCountForSpecies(6, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Squirrel#annot'>Squirrel: (" + ts.getAnnotObjectCountForSpecies(7, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Pig#annot'>Pig: (" + ts.getAnnotObjectCountForSpecies(9, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Naked Mole-rat#annot'>Naked Mole-rat: (" + ts.getAnnotObjectCountForSpecies(14, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Green Monkey#annot'>Green Monkey: (" + ts.getAnnotObjectCountForSpecies(13, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Black Rat#annot'>Black Rat: (" + ts.getAnnotObjectCountForSpecies(17, true) + ")</a>";
             }
         }
 
