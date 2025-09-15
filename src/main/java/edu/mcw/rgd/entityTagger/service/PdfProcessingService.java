@@ -213,6 +213,9 @@ public class PdfProcessingService {
                     }
                 }
                 
+                // Replace placeholders with actual figures if available
+                webImageUrls = replacePlaceholdersWithFigures(webImageUrls, uploadId);
+                
                 CurationLogger.info("Extracted {} images using Marker for file: {}", webImageUrls.size(), filename);
                 return webImageUrls;
             } else {
@@ -227,6 +230,66 @@ public class PdfProcessingService {
         }
     }
 
+    /**
+     * Replace placeholder images with actual extracted figures when available
+     */
+    private List<String> replacePlaceholdersWithFigures(List<String> webImageUrls, Long uploadId) {
+        CurationLogger.info("Attempting to replace placeholders for upload {}", uploadId);
+        CurationLogger.info("Input webImageUrls: {}", webImageUrls);
+        
+        File imagesDir = new File(IMAGES_DIR);
+        if (!imagesDir.exists()) {
+            return webImageUrls;
+        }
+        
+        List<String> updatedUrls = new ArrayList<>();
+        
+        // Get all figure files for this upload - look for various patterns
+        File[] figureFiles = imagesDir.listFiles(file -> {
+            String fileName = file.getName();
+            return fileName.startsWith(uploadId + "_") && 
+                   (fileName.contains("Figure") || fileName.contains("_page_") || fileName.contains("placeholder")) && 
+                   (fileName.endsWith(".jpeg") || fileName.endsWith(".png"));
+        });
+        
+        if (figureFiles == null || figureFiles.length == 0) {
+            CurationLogger.info("No figure images found for upload {}, keeping placeholders", uploadId);
+            CurationLogger.info("Looking for files in directory: {}", imagesDir.getAbsolutePath());
+            if (imagesDir.exists()) {
+                File[] allFiles = imagesDir.listFiles();
+                if (allFiles != null) {
+                    CurationLogger.info("Found {} total files in images directory", allFiles.length);
+                    for (File f : allFiles) {
+                        if (f.getName().startsWith(uploadId + "_")) {
+                            CurationLogger.info("Upload file: {}", f.getName());
+                        }
+                    }
+                }
+            }
+            return webImageUrls; // Return original URLs with placeholders
+        }
+        
+        // Sort figure files by name to get consistent ordering
+        Arrays.sort(figureFiles, Comparator.comparing(File::getName));
+        
+        int figureIndex = 0;
+        for (String url : webImageUrls) {
+            if (url.contains("placeholder") && figureIndex < figureFiles.length) {
+                // Replace placeholder with actual figure
+                String figureFileName = figureFiles[figureIndex].getName();
+                String figureUrl = "/rgdweb/images/" + figureFileName;
+                updatedUrls.add(figureUrl);
+                CurationLogger.info("Replaced placeholder with figure: {}", figureUrl);
+                figureIndex++;
+            } else {
+                // Keep original URL
+                updatedUrls.add(url);
+            }
+        }
+        
+        return updatedUrls;
+    }
+    
     /**
      * Extract images from PDF (legacy method) using Marker
      */
@@ -1006,6 +1069,47 @@ public class PdfProcessingService {
     }
     
     /**
+     * Fix common p-value notation issues caused by PDF text extraction
+     */
+    private String fixPValueNotation(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            return text;
+        }
+        
+        String fixedText = text;
+        
+        // Fix p-value notation issues:
+        // \p , 0.05 -> *p < 0.05
+        fixedText = fixedText.replaceAll("\\\\p\\s*,\\s*(0\\.\\d+)", "*p < $1");
+        
+        // \\*p , 0.01 -> **p < 0.01  
+        fixedText = fixedText.replaceAll("\\\\\\*p\\s*,\\s*(0\\.\\d+)", "**p < $1");
+        
+        // Fix escaped single asterisk: \*p < 0.01 -> *p < 0.01
+        fixedText = fixedText.replaceAll("\\\\\\*p\\s*<\\s*(0\\.\\d+)", "*p < $1");
+        
+        // Also fix variations:
+        // *p , 0.05 -> *p < 0.05 (without backslash)
+        fixedText = fixedText.replaceAll("\\*p\\s*,\\s*(0\\.\\d+)", "*p < $1");
+        
+        // p , 0.05 -> p < 0.05 (simple case)
+        fixedText = fixedText.replaceAll("\\bp\\s*,\\s*(0\\.\\d+)", "p < $1");
+        
+        // Fix other common statistical notation issues:
+        // n ¼ 8 -> n = 8 (quarter symbol to equals)
+        fixedText = fixedText.replaceAll("n\\s*¼\\s*(\\d+)", "n = $1");
+        
+        // mean 6 SEM -> mean ± SEM (6 to plus-minus)
+        fixedText = fixedText.replaceAll("\\bmean\\s*6\\s*SEM", "mean ± SEM");
+        
+        // More general patterns for mathematical symbols that get misread:
+        // Fix less-than symbols that became commas in statistical contexts
+        fixedText = fixedText.replaceAll("(\\w+)\\s*,\\s*(0\\.\\d+)(?=\\s*[,.])", "$1 < $2");
+        
+        return fixedText;
+    }
+    
+    /**
      * Clean extracted text by removing HTML tags and unwanted elements that interfere with entity highlighting
      */
     private String cleanExtractedText(String extractedText) {
@@ -1020,6 +1124,9 @@ public class PdfProcessingService {
         // MINIMAL cleaning - preserve markdown formatting!
         // Only remove problematic HTML tags if they exist, but preserve markdown structure
         String cleanedText = extractedText;
+        
+        // Fix common PDF text extraction issues with p-values and statistical notation
+        cleanedText = fixPValueNotation(cleanedText);
         
         // Only remove HTML tags if they actually exist in the text
         if (cleanedText.contains("<") && cleanedText.contains(">")) {
