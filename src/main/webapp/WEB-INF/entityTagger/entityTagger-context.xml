@@ -45,8 +45,8 @@
     </bean>
     
     <bean id="resilientOllamaService" class="edu.mcw.rgd.entityTagger.service.ResilientOllamaService">
-        <property name="apiUrl" value="${ollama.api.url:http://grudge.rgd.mcw.edu:11434}"/>
-        <property name="model" value="${ollama.model:deepseek-r1:70b}"/>
+        <property name="apiUrl" value="${ollama.api.url}"/>
+        <property name="model" value="${ollama.api.model:deepseek-r1:70b}"/>
         <property name="connectTimeout" value="30000"/>
         <property name="readTimeout" value="120000"/>
     </bean>
@@ -69,6 +69,18 @@
     
     <bean id="sessionService" class="edu.mcw.rgd.entityTagger.service.SessionService">
         <property name="sessionTimeout" value="3600000"/> <!-- 1 hour -->
+    </bean>
+    
+    <bean id="ontologyMatchingService" class="edu.mcw.rgd.entityTagger.service.OntologyMatchingService">
+    </bean>
+    
+    <bean id="ontologyUpdateService" class="edu.mcw.rgd.entityTagger.service.OntologyUpdateService">
+    </bean>
+    
+    <bean id="ontologyCacheService" class="edu.mcw.rgd.entityTagger.service.OntologyCacheService">
+    </bean>
+    
+    <bean id="batchProcessingService" class="edu.mcw.rgd.entityTagger.service.BatchProcessingService">
     </bean>
 
     <!-- Entity Tagger Module DAOs -->

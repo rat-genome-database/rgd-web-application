@@ -714,7 +714,7 @@ public class EntityRecognitionController {
                           "timestamp": "2024-01-15T10:30:00",
                           "overallHealthy": true,
                           "aiServiceHealthy": true,
-                          "aiServiceStatus": "Connected to Ollama at localhost:11434",
+                          "aiServiceStatus": "Connected to Ollama at grudge.rgd.mcw.edu:11434",
                           "ontologyLoaded": true,
                           "ontologyTermCount": 45362,
                           "ontologyNamespaces": ["disease_ontology", "gene_ontology"],

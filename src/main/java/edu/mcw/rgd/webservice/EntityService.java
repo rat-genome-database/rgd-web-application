@@ -39,8 +39,11 @@ public class EntityService implements Controller {
             paperText = XMLBodyExtractor.extractBodyText(paper);
         }
 
+        String ollamaHost = System.getProperty("ollama.host", System.getProperty("curation.ollama.host", "grudge.rgd.mcw.edu"));
+        String ollamaPort = System.getProperty("ollama.port", System.getProperty("curation.ollama.port", "11434"));
+        
         OllamaChatModel model = OllamaChatModel.builder()
-                .baseUrl("http://grudge.rgd.mcw.edu:11434") // Ollama's default port
+                .baseUrl("http://" + ollamaHost + ":" + ollamaPort) // Configurable Ollama host
                 .modelName("rgddeepseek70") // Replace with your downloaded model
                 .build();
 
