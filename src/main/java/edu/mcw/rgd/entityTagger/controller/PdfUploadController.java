@@ -16,11 +16,23 @@ import org.springframework.web.servlet.mvc.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.net.URI;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Controller for handling PDF file uploads and processing requests.
@@ -74,6 +86,8 @@ public class PdfUploadController implements Controller {
             return handleSessionInfoRequest(request, response);
         } else if (requestURI.endsWith("curation/entity/recognize.html") && "GET".equals(method)) {
             return handleEntityRecognitionRequest(request, response);
+        } else if (requestURI.endsWith("curation/chat/ask") && "POST".equals(method)) {
+            return handleChatRequest(request, response);
         }
         
         // Default case for unsupported methods
@@ -146,6 +160,12 @@ public class PdfUploadController implements Controller {
         CurationLogger.entering(PdfUploadController.class, "handleFileUpload");
         
         try {
+            // Check if this is a chat request
+            String action = request.getParameter("action");
+            if ("chat".equals(action)) {
+                return handleChatRequest(request, response);
+            }
+            
             // Set response content type to JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -374,10 +394,41 @@ public class PdfUploadController implements Controller {
             long startTime = System.currentTimeMillis();
             
             // Perform entity recognition using Ollama
+            CurationLogger.info("=== STARTING ENTITY RECOGNITION ===");
+            System.out.println("=== STARTING ENTITY RECOGNITION for upload " + uploadId + " ===");
+            System.out.println("Text length: " + extractedText.length() + " characters");
             EntityRecognitionResult result = entityRecognitionService.recognizeEntities(extractedText);
+            System.out.println("=== ENTITY RECOGNITION RETURNED ===");
             
             long processingTime = System.currentTimeMillis() - startTime;
             result.setProcessingTimeMs(processingTime);
+            
+            // Log detailed results
+            CurationLogger.info("=== ENTITY RECOGNITION COMPLETED in {} ms ===", processingTime);
+            CurationLogger.info("Result successful: {}", result.isSuccessful());
+            System.out.println("=== ENTITY RECOGNITION COMPLETED in " + processingTime + " ms ===");
+            System.out.println("Result successful: " + result.isSuccessful());
+            
+            if (!result.isSuccessful()) {
+                CurationLogger.error("Entity recognition failed with error: {}", result.getErrorMessage());
+                System.out.println("ERROR: " + result.getErrorMessage());
+                // Add error message to the HTML response
+                response.setContentType("text/html");
+                response.getWriter().write("<html><body><h1>Entity Recognition Failed</h1><p style='color:red;'>" + 
+                    result.getErrorMessage() + "</p><p>Processing time: " + processingTime + "ms</p></body></html>");
+                response.getWriter().flush();
+                return null;
+            }
+            
+            System.out.println("Genes found: " + (result.getGenes() != null ? result.getGenes().size() : 0));
+            System.out.println("Species found: " + (result.getSpecies() != null ? result.getSpecies().size() : 0));
+            CurationLogger.info("Genes found: {}", result.getGenes() != null ? result.getGenes().size() : 0);
+            CurationLogger.info("Diseases found: {}", result.getDiseases() != null ? result.getDiseases().size() : 0);
+            CurationLogger.info("Chemicals found: {}", result.getChemicals() != null ? result.getChemicals().size() : 0);
+            CurationLogger.info("Species found: {}", result.getSpecies() != null ? result.getSpecies().size() : 0);
+            CurationLogger.info("Phenotypes found: {}", result.getPhenotypes() != null ? result.getPhenotypes().size() : 0);
+            CurationLogger.info("Cellular components found: {}", result.getCellularComponents() != null ? result.getCellularComponents().size() : 0);
+            CurationLogger.info("Rat strains found: {}", result.getRatStrains() != null ? result.getRatStrains().size() : 0);
             
             // Generate HTML response with highlighted text
             String htmlContent = generateEntityRecognitionHtmlWithHighlighting(uploadId, result, extractedText);
@@ -394,6 +445,130 @@ public class PdfUploadController implements Controller {
         }
         
         return null;
+    }
+    
+    /**
+     * Handle chat requests for paper Q&A
+     */
+    private ModelAndView handleChatRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CurationLogger.entering(PdfUploadController.class, "handleChatRequest");
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        try {
+            // Read JSON request body
+            StringBuilder jsonBody = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBody.append(line);
+                }
+            }
+            
+            // Parse JSON
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode requestJson = mapper.readTree(jsonBody.toString());
+            
+            String question = requestJson.get("question").asText();
+            String uploadIdStr = request.getParameter("uploadId");
+            
+            CurationLogger.info("Chat request - Upload ID: {}, Question: {}", uploadIdStr, question);
+            
+            // Get extracted text using uploadId
+            String paperContext = "";
+            if (uploadIdStr != null) {
+                try {
+                    Long uploadId = Long.parseLong(uploadIdStr);
+                    paperContext = pdfProcessingService.getExtractedText(uploadId);
+                    CurationLogger.info("Retrieved paper context with length: {}", paperContext != null ? paperContext.length() : 0);
+                } catch (NumberFormatException e) {
+                    CurationLogger.error("Invalid uploadId format: {}", uploadIdStr);
+                }
+            }
+            
+            // Call Ollama to get answer
+            String answer = getChatResponseFromOllama(question, paperContext);
+            
+            // Create response JSON
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("success", true);
+            responseMap.put("answer", answer);
+            responseMap.put("timestamp", System.currentTimeMillis());
+            
+            String jsonResponse = mapper.writeValueAsString(responseMap);
+            response.getWriter().write(jsonResponse);
+            response.getWriter().flush();
+            
+        } catch (Exception e) {
+            CurationLogger.error("Error handling chat request", e);
+            
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("error", "Failed to process chat request: " + e.getMessage());
+            
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().write(mapper.writeValueAsString(errorResponse));
+            response.getWriter().flush();
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Get chat response from Ollama
+     */
+    private String getChatResponseFromOllama(String question, String paperContext) {
+        try {
+            // Prepare the prompt
+            String prompt = "You are a helpful AI assistant analyzing a scientific paper. " +
+                           "Based on the following paper content, please answer the user's question.\n\n" +
+                           "Paper Content:\n" + paperContext + "\n\n" +
+                           "User Question: " + question + "\n\n" +
+                           "Please provide a clear and concise answer based on the paper content. " +
+                           "If the answer is not found in the paper, say so.";
+            
+            // Call Ollama API - use configurable host
+            String ollamaHost = System.getProperty("ollama.host", System.getProperty("curation.ollama.host", "grudge.rgd.mcw.edu"));
+            String ollamaPort = System.getProperty("ollama.port", System.getProperty("curation.ollama.port", "11434"));
+            String ollamaUrl = "http://" + ollamaHost + ":" + ollamaPort + "/api/generate";
+            
+            HttpClient client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(30))
+                .build();
+            
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("model", "llama3.3:70b");
+            requestBody.put("prompt", prompt);
+            requestBody.put("stream", false);
+            requestBody.put("temperature", 0.7);
+            requestBody.put("max_tokens", 500);
+            
+            ObjectMapper mapper = new ObjectMapper();
+            String requestJson = mapper.writeValueAsString(requestBody);
+            
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(ollamaUrl))
+                .header("Content-Type", "application/json")
+                .timeout(Duration.ofSeconds(120))
+                .POST(HttpRequest.BodyPublishers.ofString(requestJson))
+                .build();
+            
+            HttpResponse<String> httpResponse = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            
+            if (httpResponse.statusCode() == 200) {
+                JsonNode responseJson = mapper.readTree(httpResponse.body());
+                if (responseJson.has("response")) {
+                    return responseJson.get("response").asText();
+                }
+            }
+            
+            return "I apologize, but I couldn't generate a response at this time. Please try again.";
+            
+        } catch (Exception e) {
+            CurationLogger.error("Error calling Ollama for chat", e);
+            return "I encountered an error while processing your question. Please try again later.";
+        }
     }
     
     /**
@@ -452,17 +627,19 @@ public class PdfUploadController implements Controller {
             .append(".tooltip:hover .tooltiptext{visibility:visible;opacity:0.95;}")
             .append(".tooltip .tooltiptext::after{content:'';position:absolute;top:100%;left:50%;margin-left:-5px;border-width:5px;border-style:solid;border-color:#2c3e50 transparent transparent transparent;}")
             .append(".column-header{font-weight:bold;color:#666;border-bottom:1px solid #ddd;padding-bottom:5px;margin-bottom:10px;}")
+            .append(".chat-container{display:flex;flex-direction:column;height:600px;border:1px solid #ddd;border-radius:8px;}")
+            .append(".chat-messages{flex:1;overflow-y:auto;padding:20px;background:#f8f9fa;}")
+            .append(".chat-message{margin-bottom:15px;padding:10px 15px;border-radius:8px;max-width:70%;}")
+            .append(".chat-message.user{background:#007bff;color:white;margin-left:auto;text-align:right;}")
+            .append(".chat-message.assistant{background:#ffffff;border:1px solid #dee2e6;}")
+            .append(".chat-input-container{display:flex;padding:15px;background:#fff;border-top:1px solid #dee2e6;}")
+            .append(".chat-input{flex:1;padding:10px;border:1px solid #ced4da;border-radius:4px;margin-right:10px;font-size:14px;}")
+            .append(".chat-send-btn{padding:10px 20px;background:#007bff;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:500;}")
+            .append(".chat-send-btn:hover{background:#0056b3;}")
+            .append(".chat-send-btn:disabled{background:#6c757d;cursor:not-allowed;}")
+            .append(".chat-typing{font-style:italic;color:#6c757d;padding:5px 15px;}")
+            .append(".chat-timestamp{font-size:11px;color:#6c757d;margin-top:5px;}")
             .append("</style>")
-            .append("<script>")
-            .append("function showTab(tabName) {")
-            .append("  const tabs = document.querySelectorAll('.tab');")
-            .append("  const contents = document.querySelectorAll('.tab-content');")
-            .append("  tabs.forEach(tab => tab.classList.remove('active'));")
-            .append("  contents.forEach(content => content.classList.remove('active'));")
-            .append("  document.getElementById(tabName + '-tab').classList.add('active');")
-            .append("  document.getElementById(tabName + '-content').classList.add('active');")
-            .append("}")
-            .append("</script>")
             .append("</head><body>");
         
         // Header
@@ -502,6 +679,7 @@ public class PdfUploadController implements Controller {
                 .append("<div id='entities-tab' class='tab' onclick='showTab(\"entities\")'>Entity List</div>")
                 .append("<div id='summary-tab' class='tab' onclick='showTab(\"summary\")'>Summary</div>")
                 .append("<div id='significant-tab' class='tab' onclick='showTab(\"significant\")'>Significant Results</div>")
+                .append("<div id='chat-tab' class='tab' onclick='showTab(\"chat\")'>Chat</div>")
                 .append("</div>");
             
             // Highlighted text tab
@@ -559,9 +737,65 @@ public class PdfUploadController implements Controller {
             html.append(significantResults);
             
             html.append("</div>");
+            
+            // Chat tab
+            html.append("<div id='chat-content' class='tab-content'>");
+            html.append("<h3>Chat with Paper</h3>");
+            html.append("<p style='color:#6c757d;margin-bottom:15px;'>Ask questions about this paper and get AI-powered insights.</p>");
+            html.append("<div class='chat-container'>");
+            html.append("<div id='chat-messages' class='chat-messages'>");
+            html.append("<div class='chat-message assistant'>Hello! I can help you understand this paper better. Feel free to ask me questions about the content, findings, methodologies, or any specific aspects you'd like to explore.</div>");
+            html.append("</div>");
+            html.append("<div class='chat-input-container'>");
+            html.append("<input type='text' id='chat-input' class='chat-input' placeholder='Type your question here...' onkeypress='if(event.key===\"Enter\") sendChatMessage()'>");
+            html.append("<button id='chat-send-btn' class='chat-send-btn' onclick='sendChatMessage()'>Send</button>");
+            html.append("</div>");
+            html.append("</div>");
+            html.append("</div>");
         }
         
-        html.append("<p><a href='javascript:history.back()'>← Back to Upload</a></p>")
+        html.append("<script type='text/javascript'>")
+            .append("function showTab(tabName) {")
+            .append("  var tabs = document.querySelectorAll('.tab');")
+            .append("  var contents = document.querySelectorAll('.tab-content');")
+            .append("  for (var i = 0; i < tabs.length; i++) {")
+            .append("    tabs[i].classList.remove('active');")
+            .append("  }")
+            .append("  for (var i = 0; i < contents.length; i++) {")
+            .append("    contents[i].classList.remove('active');")
+            .append("  }")
+            .append("  document.getElementById(tabName + '-tab').classList.add('active');")
+            .append("  document.getElementById(tabName + '-content').classList.add('active');")
+            .append("}")
+            .append("function sendChatMessage() {")
+            .append("  var input = document.getElementById('chat-input');")
+            .append("  var question = input.value.trim();")
+            .append("  if (!question) return;")
+            .append("  var messagesDiv = document.getElementById('chat-messages');")
+            .append("  messagesDiv.innerHTML += '<div class=\"chat-message user\">' + question + '</div>';")
+            .append("  input.value = '';")
+            .append("  messagesDiv.innerHTML += '<div class=\"chat-message assistant typing\">Thinking...</div>';")
+            .append("  messagesDiv.scrollTop = messagesDiv.scrollHeight;")
+            .append("  var xhr = new XMLHttpRequest();")
+            .append("  xhr.open('POST', '/rgdweb/curation/pdf/upload.html?action=chat&uploadId=" + uploadId + "', true);")
+            .append("  xhr.setRequestHeader('Content-Type', 'application/json');")
+            .append("  xhr.onreadystatechange = function() {")
+            .append("    if (xhr.readyState === 4) {")
+            .append("      var typingDiv = messagesDiv.querySelector('.typing');")
+            .append("      if (typingDiv) typingDiv.remove();")
+            .append("      if (xhr.status === 200) {")
+            .append("        var response = JSON.parse(xhr.responseText);")
+            .append("        messagesDiv.innerHTML += '<div class=\"chat-message assistant\">' + response.answer + '</div>';")
+            .append("      } else {")
+            .append("        messagesDiv.innerHTML += '<div class=\"chat-message assistant error\">Sorry, I encountered an error. Please try again.</div>';")
+            .append("      }")
+            .append("      messagesDiv.scrollTop = messagesDiv.scrollHeight;")
+            .append("    }")
+            .append("  };")
+            .append("  xhr.send(JSON.stringify({question: question}));")
+            .append("}")
+            .append("</script>")
+            .append("<p><a href='javascript:history.back()'>← Back to Upload</a></p>")
             .append("</body></html>");
         
         return html.toString();
@@ -629,8 +863,10 @@ public class PdfUploadController implements Controller {
         try {
             Long uploadIdLong = Long.valueOf(uploadId);
             imageUrls = pdfProcessingService.getExtractedImages(uploadIdLong);
+            System.out.println("DEBUG: Retrieved " + imageUrls.size() + " images for upload " + uploadId);
             CurationLogger.info("Retrieved {} images for upload {}", imageUrls.size(), uploadId);
         } catch (Exception e) {
+            System.out.println("DEBUG: Failed to get extracted images: " + e.getMessage());
             CurationLogger.warn("Failed to get extracted images for upload {}: {}", uploadId, e.getMessage());
             imageUrls = new ArrayList<>();
         }
@@ -648,6 +884,8 @@ public class PdfUploadController implements Controller {
      * Format extracted text to match the original PDF layout structure
      */
     private String formatDocumentStructure(String text, List<String> imageUrls) {
+        System.out.println("DEBUG: formatDocumentStructure called with imageUrls.size(): " + imageUrls.size());
+        
         // Split into lines for processing
         String[] lines = text.split("\n");
         StringBuilder formatted = new StringBuilder();
@@ -656,6 +894,9 @@ public class PdfUploadController implements Controller {
         String currentParagraph = "";
         int imageIndex = 0;
         int totalLines = lines.length;
+        
+        // Track which figures have been inserted to avoid duplicates
+        Set<Integer> insertedFigures = new HashSet<>();
         
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i].trim();
@@ -768,7 +1009,9 @@ public class PdfUploadController implements Controller {
             // Check if this line should start a new paragraph
             if (isNewParagraphStart(line, i, lines)) {
                 if (inParagraph && !currentParagraph.trim().isEmpty()) {
-                    formatted.append("<p>").append(currentParagraph.trim()).append("</p>");
+                    // Before closing paragraph, check for figures and insert them
+                    String processedParagraph = insertFiguresInText(currentParagraph.trim(), imageUrls, insertedFigures);
+                    formatted.append("<p>").append(processedParagraph).append("</p>");
                     currentParagraph = "";
                 }
                 currentParagraph = line;
@@ -786,7 +1029,9 @@ public class PdfUploadController implements Controller {
         
         // Close final paragraph if needed
         if (inParagraph && !currentParagraph.trim().isEmpty()) {
-            formatted.append("<p>").append(currentParagraph.trim()).append("</p>");
+            // Process figures in final paragraph
+            String processedParagraph = insertFiguresInText(currentParagraph.trim(), imageUrls, insertedFigures);
+            formatted.append("<p>").append(processedParagraph).append("</p>");
         }
         
         // Insert any remaining images at the end
@@ -1267,6 +1512,47 @@ public class PdfUploadController implements Controller {
     private boolean isFigureCaption(String line) {
         return line.matches("^(Figure|Fig\\.|Table|Supplementary)\\s+\\d+.*") ||
                line.matches("^[A-Z]\\s+.*") && line.length() < 200; // Single letter labels
+    }
+    
+    /**
+     * Insert figures inline when their references are encountered in text
+     */
+    private String insertFiguresInText(String text, List<String> imageUrls, Set<Integer> insertedFigures) {
+        // Debug logging
+        System.out.println("DEBUG: insertFiguresInText called - imageUrls.size(): " + imageUrls.size() + ", text length: " + text.length());
+        
+        // Pattern to match figure references like [Fig. 1](#page-3-0)A, [Figure 2](#page-4-0)B, etc.
+        Pattern figureRefPattern = Pattern.compile("(\\[(Fig\\.|Figure)\\s+(\\d+)\\]\\(#[^)]*\\)[A-Z]?)");
+        Matcher matcher = figureRefPattern.matcher(text);
+        
+        StringBuffer result = new StringBuffer();
+        
+        while (matcher.find()) {
+            String fullMatch = matcher.group(0);
+            int figureNum = Integer.parseInt(matcher.group(3));
+            
+            System.out.println("DEBUG: Found figure reference: " + fullMatch + " (figureNum: " + figureNum + ")");
+            
+            // Check if we have this figure available and haven't inserted it yet
+            if (figureNum <= imageUrls.size() && !insertedFigures.contains(figureNum)) {
+                System.out.println("DEBUG: Inserting figure " + figureNum + " at position");
+                String imageUrl = imageUrls.get(figureNum - 1); // Convert to 0-based index
+                insertedFigures.add(figureNum);
+                
+                // Insert the figure right after the reference
+                String figureHtml = "</p><div class='figure-container'>" +
+                                  "<img src='" + imageUrl + "' alt='Figure " + figureNum + "' class='pdf-image'/>" +
+                                  "</div><p>";
+                                  
+                matcher.appendReplacement(result, fullMatch + figureHtml);
+            } else {
+                // Keep original reference
+                matcher.appendReplacement(result, fullMatch);
+            }
+        }
+        matcher.appendTail(result);
+        
+        return result.toString();
     }
     
     /**

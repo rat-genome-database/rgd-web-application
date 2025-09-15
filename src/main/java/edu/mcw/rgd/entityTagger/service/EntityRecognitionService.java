@@ -21,9 +21,11 @@ import java.util.stream.Collectors;
  */
 public class EntityRecognitionService {
     
-    private static final String OLLAMA_BASE_URL = System.getProperty("ollama.base.url", "http://grudge.rgd.mcw.edu:11434");
+    private static final String OLLAMA_HOST = System.getProperty("ollama.host", System.getProperty("curation.ollama.host", "grudge.rgd.mcw.edu"));
+    private static final String OLLAMA_PORT = System.getProperty("ollama.port", System.getProperty("curation.ollama.port", "11434"));
+    private static final String OLLAMA_BASE_URL = System.getProperty("ollama.base.url", "http://" + OLLAMA_HOST + ":" + OLLAMA_PORT);
     private static final String DEFAULT_MODEL = "llama3.3:70b";
-    private static final int REQUEST_TIMEOUT_SECONDS = 120;
+    private static final int REQUEST_TIMEOUT_SECONDS = 300;
     
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
@@ -77,11 +79,18 @@ public class EntityRecognitionService {
      */
     public EntityRecognitionResult recognizeEntities(String text) {
         CurationLogger.entering(EntityRecognitionService.class, "recognizeEntities", text.length() + " characters");
+        CurationLogger.info("Processing FULL TEXT: {} characters ({} KB)", text.length(), text.length() / 1024);
+        System.out.println("EntityRecognitionService.recognizeEntities called with " + text.length() + " characters");
         
         try {
-            String prompt = buildEntityRecognitionPrompt(text);
-            String response = callOllamaAPI(prompt);
-            return parseEntityResponse(response, text);
+            // If text is large, chunk it for better processing
+            if (text.length() > chunkSize) {
+                System.out.println("Text is large (" + text.length() + " chars), chunking into smaller pieces...");
+                return processTextInChunks(text);
+            } else {
+                System.out.println("Text is small enough, processing as single chunk...");
+                return processSingleChunk(text);
+            }
             
         } catch (Exception e) {
             CurationLogger.error("Entity recognition failed - Ollama service unavailable", e);
@@ -92,60 +101,176 @@ public class EntityRecognitionService {
     }
     
     /**
+     * Process text in chunks to handle large documents
+     */
+    private EntityRecognitionResult processTextInChunks(String text) {
+        System.out.println("=== CHUNKING TEXT: " + text.length() + " characters ===");
+        
+        List<String> chunks = createTextChunks(text);
+        System.out.println("Created " + chunks.size() + " chunks");
+        
+        EntityRecognitionResult combinedResult = new EntityRecognitionResult();
+        combinedResult.setSuccessful(true);
+        combinedResult.setGenes(new ArrayList<>());
+        combinedResult.setDiseases(new ArrayList<>());
+        combinedResult.setChemicals(new ArrayList<>());
+        combinedResult.setSpecies(new ArrayList<>());
+        combinedResult.setPhenotypes(new ArrayList<>());
+        combinedResult.setCellularComponents(new ArrayList<>());
+        combinedResult.setRatStrains(new ArrayList<>());
+        
+        long totalTime = 0;
+        
+        for (int i = 0; i < chunks.size(); i++) {
+            String chunk = chunks.get(i);
+            System.out.println("Processing chunk " + (i + 1) + "/" + chunks.size() + " (" + chunk.length() + " chars)");
+            
+            long chunkStartTime = System.currentTimeMillis();
+            EntityRecognitionResult chunkResult = processSingleChunk(chunk);
+            long chunkTime = System.currentTimeMillis() - chunkStartTime;
+            totalTime += chunkTime;
+            
+            if (chunkResult.isSuccessful()) {
+                // Merge results from this chunk
+                mergeResults(combinedResult, chunkResult);
+                System.out.println("Chunk " + (i + 1) + " completed in " + chunkTime + "ms - found entities: " +
+                    "genes=" + chunkResult.getGenes().size() + 
+                    ", species=" + chunkResult.getSpecies().size() +
+                    ", chemicals=" + chunkResult.getChemicals().size());
+            } else {
+                System.out.println("Chunk " + (i + 1) + " failed: " + chunkResult.getErrorMessage());
+            }
+        }
+        
+        // Remove duplicates and set final counts
+        removeDuplicateEntities(combinedResult);
+        combinedResult.setProcessingTimeMs(totalTime);
+        
+        System.out.println("=== CHUNKING COMPLETE ===");
+        System.out.println("Total processing time: " + totalTime + "ms");
+        System.out.println("Final counts: genes=" + combinedResult.getGenes().size() + 
+            ", species=" + combinedResult.getSpecies().size() + 
+            ", chemicals=" + combinedResult.getChemicals().size() +
+            ", diseases=" + combinedResult.getDiseases().size());
+        
+        return combinedResult;
+    }
+    
+    /**
+     * Process a single chunk of text
+     */
+    private EntityRecognitionResult processSingleChunk(String text) {
+        try {
+            String prompt = buildEntityRecognitionPrompt(text);
+            String response = callOllamaAPI(prompt);
+            return parseEntityResponse(response, text);
+        } catch (Exception e) {
+            return createErrorResult("Failed to process chunk: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Create text chunks with overlap to avoid splitting entities
+     */
+    private List<String> createTextChunks(String text) {
+        List<String> chunks = new ArrayList<>();
+        
+        int start = 0;
+        while (start < text.length()) {
+            int end = Math.min(start + chunkSize, text.length());
+            
+            // If not the last chunk, try to break at a sentence boundary
+            if (end < text.length()) {
+                // Look for sentence endings within the last 200 characters
+                int lastPeriod = text.lastIndexOf('.', end);
+                int lastExclamation = text.lastIndexOf('!', end);
+                int lastQuestion = text.lastIndexOf('?', end);
+                
+                int sentenceEnd = Math.max(lastPeriod, Math.max(lastExclamation, lastQuestion));
+                
+                // If we found a sentence ending within reasonable range, use it
+                if (sentenceEnd > end - 200 && sentenceEnd > start) {
+                    end = sentenceEnd + 1;
+                }
+            }
+            
+            String chunk = text.substring(start, end).trim();
+            if (!chunk.isEmpty()) {
+                chunks.add(chunk);
+            }
+            
+            // Move start position with overlap to avoid splitting entities
+            start = Math.max(end - chunkOverlap, start + chunkSize - chunkOverlap);
+        }
+        
+        return chunks;
+    }
+    
+    /**
+     * Merge results from one chunk into the combined results
+     */
+    private void mergeResults(EntityRecognitionResult combined, EntityRecognitionResult chunk) {
+        if (chunk.getGenes() != null) combined.getGenes().addAll(chunk.getGenes());
+        if (chunk.getDiseases() != null) combined.getDiseases().addAll(chunk.getDiseases());
+        if (chunk.getChemicals() != null) combined.getChemicals().addAll(chunk.getChemicals());
+        if (chunk.getSpecies() != null) combined.getSpecies().addAll(chunk.getSpecies());
+        if (chunk.getPhenotypes() != null) combined.getPhenotypes().addAll(chunk.getPhenotypes());
+        if (chunk.getCellularComponents() != null) combined.getCellularComponents().addAll(chunk.getCellularComponents());
+        if (chunk.getRatStrains() != null) combined.getRatStrains().addAll(chunk.getRatStrains());
+    }
+    
+    /**
+     * Remove duplicate entities based on name (case-insensitive)
+     */
+    private void removeDuplicateEntities(EntityRecognitionResult result) {
+        result.setGenes(removeDuplicates(result.getGenes()));
+        result.setDiseases(removeDuplicates(result.getDiseases()));
+        result.setChemicals(removeDuplicates(result.getChemicals()));
+        result.setSpecies(removeDuplicates(result.getSpecies()));
+        result.setPhenotypes(removeDuplicates(result.getPhenotypes()));
+        result.setCellularComponents(removeDuplicates(result.getCellularComponents()));
+        result.setRatStrains(removeDuplicates(result.getRatStrains()));
+    }
+    
+    /**
+     * Remove duplicates from a list of entities
+     */
+    private List<BiologicalEntity> removeDuplicates(List<BiologicalEntity> entities) {
+        Map<String, BiologicalEntity> uniqueEntities = new LinkedHashMap<>();
+        
+        for (BiologicalEntity entity : entities) {
+            String key = entity.getName().toLowerCase().trim();
+            if (!uniqueEntities.containsKey(key) || 
+                entity.getConfidence() > uniqueEntities.get(key).getConfidence()) {
+                uniqueEntities.put(key, entity);
+            }
+        }
+        
+        return new ArrayList<>(uniqueEntities.values());
+    }
+    
+    /**
      * Build a specialized prompt for biological entity recognition
      */
     private String buildEntityRecognitionPrompt(String text) {
+        CurationLogger.info("Building prompt with FULL TEXT: {} characters ({} KB)", text.length(), text.length() / 1024);
+        CurationLogger.info("Text sample (first 300 chars): {}", text.length() > 300 ? text.substring(0, 300) : text);
+        CurationLogger.info("Text sample (last 300 chars): {}", text.length() > 300 ? text.substring(text.length() - 300) : text);
+        
         return String.format("""
-            You are a biological entity recognition system specialized in identifying genes, proteins, diseases, chemicals, cellular components, rat strains, and other biological entities from scientific text.
+            Extract entities from this text and return ONLY JSON. No explanations.
             
-            Please analyze the following text and identify biological entities. Return your response in the following JSON format:
+            Find: genes, species, chemicals, diseases, phenotypes, cellular_components, rat_strains
             
-            {
-              "genes": [
-                {"name": "GENE_NAME", "description": "Brief description", "confidence": 0.95}
-              ],
-              "diseases": [
-                {"name": "DISEASE_NAME", "description": "Brief description", "confidence": 0.90}
-              ],
-              "chemicals": [
-                {"name": "CHEMICAL_NAME", "description": "Brief description", "confidence": 0.85}
-              ],
-              "species": [
-                {"name": "SPECIES_NAME", "description": "Brief description", "confidence": 0.90}
-              ],
-              "phenotypes": [
-                {"name": "PHENOTYPE_NAME", "description": "Brief description", "confidence": 0.85}
-              ],
-              "cellular_components": [
-                {"name": "CELLULAR_COMPONENT_NAME", "description": "Brief description", "confidence": 0.80}
-              ],
-              "rat_strains": [
-                {"name": "RAT_STRAIN_NAME", "description": "Brief description", "confidence": 0.90}
-              ]
-            }
+            Return ONLY this exact JSON structure:
+            {"genes":[],"diseases":[],"chemicals":[],"species":[],"phenotypes":[],"cellular_components":[],"rat_strains":[]}
             
-            Guidelines:
-            - Only include entities you are confident about (confidence > 0.7)
-            - FOR GENES: Identify ALL of the following:
-              * Gene symbols (e.g., ELOVL4, BRCA1, TP53, APOE)
-              * Gene full names (e.g., elongation of very long chain fatty acids protein 4)
-              * Protein names (e.g., p53, amyloid precursor protein, tau)
-              * Protein abbreviations and common names
-              * Mutant forms (e.g., W246G mutant, p.W246G)
-              * Include both human and model organism (rat, mouse) genes
-            - Provide standard gene/protein names when possible, but also capture variants and mutants
-            - Include common disease names and phenotypes
-            - Include drug names and chemical compounds
-            - For cellular_components, identify GO Cellular Component terms like: nucleus, mitochondria, endoplasmic reticulum, ribosome, cytoplasm, cell membrane, golgi apparatus, lysosome, peroxisome, cytoskeleton, nuclear envelope, plasma membrane, synaptic vesicle, dendritic spine, axon terminal, etc.
-            - For rat_strains, identify laboratory rat strain names used in biological/medical research. Common strains include: SHR (Spontaneously Hypertensive Rat), WKY (Wistar Kyoto), Sprague Dawley, F344 (Fischer 344), LEW (Lewis), BN, ACI, DA (Dark Agouti), Zucker, Wistar, BBDP, GH (Genetically Hypertensive), and strain/substrain notations like SHR/N, WKY/NCrl, F344/N.
-            - Confidence should be between 0.0 and 1.0
-            - If no entities are found in a category, return an empty array
+            Each array contains objects like: {"name":"entityname","description":"brief","confidence":0.9}
             
-            Text to analyze:
-            "%s"
+            Text: %s
             
-            Return only the JSON response, no additional text.
-            """, text.length() > 2000 ? text.substring(0, 2000) + "..." : text);
+            JSON:
+            """, text);
     }
     
     /**
@@ -154,6 +279,8 @@ public class EntityRecognitionService {
     private String callOllamaAPI(String prompt) throws IOException, InterruptedException {
         CurationLogger.info("=== CALLING OLLAMA AI MODEL: {} ===", DEFAULT_MODEL);
         CurationLogger.info("Prompt length: {} characters", prompt.length());
+        System.out.println("=== CALLING OLLAMA at " + OLLAMA_BASE_URL + " with model " + DEFAULT_MODEL + " ===");
+        System.out.println("Prompt length: " + prompt.length() + " characters");
         
         Map<String, Object> requestBody = Map.of(
             "model", DEFAULT_MODEL,
@@ -162,7 +289,7 @@ public class EntityRecognitionService {
             "options", Map.of(
                 "temperature", 0.1,
                 "top_p", 0.9,
-                "num_predict", 2048
+                "num_predict", 4096
             )
         );
         
@@ -186,8 +313,11 @@ public class EntityRecognitionService {
         String generatedText = responseJson.get("response").asText();
         
         CurationLogger.info("=== OLLAMA AI RESPONSE RECEIVED: {} characters ===", generatedText.length());
-        CurationLogger.info("First 200 chars of AI response: {}", 
-            generatedText.length() > 200 ? generatedText.substring(0, 200) + "..." : generatedText);
+        CurationLogger.info("First 500 chars of AI response: {}", 
+            generatedText.length() > 500 ? generatedText.substring(0, 500) + "..." : generatedText);
+        CurationLogger.info("FULL OLLAMA RESPONSE: {}", generatedText);
+        System.out.println("=== OLLAMA RESPONSE RECEIVED: " + generatedText.length() + " characters ===");
+        System.out.println("First 500 chars: " + (generatedText.length() > 500 ? generatedText.substring(0, 500) + "..." : generatedText));
         return generatedText;
     }
     
@@ -195,19 +325,61 @@ public class EntityRecognitionService {
      * Parse the entity recognition response from the LLM
      */
     private EntityRecognitionResult parseEntityResponse(String response, String originalText) {
+        CurationLogger.info("=== PARSING ENTITY RESPONSE ===");
+        CurationLogger.info("Response length: {} characters", response.length());
+        
         try {
             // Try to extract JSON from the response
             String jsonString = extractJsonFromResponse(response);
-            JsonNode jsonResponse = objectMapper.readTree(jsonString);
+            
+            // Validate that we have a JSON string
+            if (jsonString == null || jsonString.trim().isEmpty() || !jsonString.trim().startsWith("{")) {
+                CurationLogger.error("Invalid JSON string extracted: {}", jsonString);
+                return createErrorResult("Invalid JSON response from Ollama");
+            }
+            
+            JsonNode jsonResponse;
+            try {
+                jsonResponse = objectMapper.readTree(jsonString);
+            } catch (Exception jsonEx) {
+                CurationLogger.error("Failed to parse JSON: {}", jsonString);
+                CurationLogger.error("JSON Parse Error: ", jsonEx);
+                
+                // Try to clean up common JSON issues
+                jsonString = jsonString.replaceAll(",\\s*}", "}"); // Remove trailing commas
+                jsonString = jsonString.replaceAll(",\\s*]", "]"); // Remove trailing commas in arrays
+                jsonString = jsonString.replaceAll("'", "\""); // Replace single quotes with double quotes
+                
+                try {
+                    jsonResponse = objectMapper.readTree(jsonString);
+                    CurationLogger.info("Successfully parsed JSON after cleanup");
+                } catch (Exception retryEx) {
+                    return createErrorResult("Failed to parse JSON response: " + jsonEx.getMessage());
+                }
+            }
             
             EntityRecognitionResult result = new EntityRecognitionResult();
             result.setSuccessful(true);
             
             // Parse each entity type from AI response
-            result.setGenes(parseEntityList(jsonResponse.get("genes")));
-            result.setChemicals(parseEntityList(jsonResponse.get("chemicals")));
-            result.setSpecies(parseEntityList(jsonResponse.get("species")));
-            result.setPhenotypes(parseEntityList(jsonResponse.get("phenotypes")));
+            CurationLogger.info("=== PARSING INDIVIDUAL ENTITY TYPES ===");
+            
+            List<BiologicalEntity> genes = parseEntityList(jsonResponse.get("genes"));
+            CurationLogger.info("Parsed {} genes", genes.size());
+            result.setGenes(genes);
+            
+            List<BiologicalEntity> chemicals = parseEntityList(jsonResponse.get("chemicals"));
+            CurationLogger.info("Parsed {} chemicals", chemicals.size());
+            result.setChemicals(chemicals);
+            
+            List<BiologicalEntity> species = parseEntityList(jsonResponse.get("species"));
+            CurationLogger.info("Parsed {} species: {}", species.size(), 
+                species.stream().map(BiologicalEntity::getName).collect(java.util.stream.Collectors.toList()));
+            result.setSpecies(species);
+            
+            List<BiologicalEntity> phenotypes = parseEntityList(jsonResponse.get("phenotypes"));
+            CurationLogger.info("Parsed {} phenotypes", phenotypes.size());
+            result.setPhenotypes(phenotypes);
             
             // Process cellular components and add GO accession IDs
             List<BiologicalEntity> cellularComponents = parseEntityList(jsonResponse.get("cellular_components"));
@@ -248,16 +420,56 @@ public class EntityRecognitionService {
      * Extract JSON content from LLM response (which may contain extra text)
      */
     private String extractJsonFromResponse(String response) {
-        // Look for JSON content between braces
-        int start = response.indexOf('{');
-        int end = response.lastIndexOf('}');
+        CurationLogger.info("=== RAW OLLAMA RESPONSE (first 1000 chars) ===");
+        CurationLogger.info(response.length() > 1000 ? response.substring(0, 1000) + "..." : response);
         
-        if (start != -1 && end != -1 && end > start) {
-            return response.substring(start, end + 1);
+        // Clean up the response
+        String cleaned = response.trim();
+        
+        // Remove markdown code blocks if present
+        if (cleaned.contains("```json")) {
+            int startMarker = cleaned.indexOf("```json");
+            int endMarker = cleaned.indexOf("```", startMarker + 7);
+            if (startMarker != -1 && endMarker != -1) {
+                cleaned = cleaned.substring(startMarker + 7, endMarker).trim();
+            }
+        } else if (cleaned.contains("```")) {
+            // Remove generic code blocks
+            cleaned = cleaned.replaceAll("```[^`]*```", "");
+            cleaned = cleaned.replaceAll("```", "").trim();
         }
         
-        // If no JSON found, assume the entire response is JSON
-        return response.trim();
+        // Find the main JSON object
+        int braceCount = 0;
+        int start = -1;
+        int end = -1;
+        
+        for (int i = 0; i < cleaned.length(); i++) {
+            char c = cleaned.charAt(i);
+            if (c == '{') {
+                if (start == -1) {
+                    start = i;
+                }
+                braceCount++;
+            } else if (c == '}') {
+                braceCount--;
+                if (braceCount == 0 && start != -1) {
+                    end = i;
+                    break;
+                }
+            }
+        }
+        
+        if (start != -1 && end != -1 && end > start) {
+            String jsonString = cleaned.substring(start, end + 1);
+            CurationLogger.info("=== EXTRACTED JSON ===");
+            CurationLogger.info(jsonString.length() > 1000 ? jsonString.substring(0, 1000) + "..." : jsonString);
+            return jsonString;
+        }
+        
+        // If no valid JSON found, log error and return cleaned response
+        CurationLogger.error("Could not extract valid JSON from response. Cleaned response: {}", cleaned);
+        return cleaned;
     }
     
     
@@ -399,19 +611,44 @@ public class EntityRecognitionService {
     private List<BiologicalEntity> parseEntityList(JsonNode entitiesNode) {
         List<BiologicalEntity> entities = new ArrayList<>();
         
-        if (entitiesNode != null && entitiesNode.isArray()) {
-            for (JsonNode entityNode : entitiesNode) {
-                BiologicalEntity entity = new BiologicalEntity();
-                entity.setName(entityNode.get("name") != null ? entityNode.get("name").asText() : "");
-                entity.setDescription(entityNode.get("description") != null ? entityNode.get("description").asText() : "");
-                entity.setConfidence(entityNode.get("confidence") != null ? entityNode.get("confidence").asDouble() : 0.8);
-                
-                if (!entity.getName().isEmpty()) {
-                    entities.add(entity);
-                }
+        CurationLogger.info("parseEntityList called with node: {}", entitiesNode);
+        
+        if (entitiesNode == null) {
+            CurationLogger.info("entitiesNode is null");
+            return entities;
+        }
+        
+        if (!entitiesNode.isArray()) {
+            CurationLogger.info("entitiesNode is not an array, type: {}", entitiesNode.getNodeType());
+            return entities;
+        }
+        
+        CurationLogger.info("entitiesNode is array with {} elements", entitiesNode.size());
+        
+        for (int i = 0; i < entitiesNode.size(); i++) {
+            JsonNode entityNode = entitiesNode.get(i);
+            CurationLogger.info("Processing entity node {}: {}", i, entityNode);
+            
+            BiologicalEntity entity = new BiologicalEntity();
+            String name = entityNode.get("name") != null ? entityNode.get("name").asText() : "";
+            String description = entityNode.get("description") != null ? entityNode.get("description").asText() : "";
+            double confidence = entityNode.get("confidence") != null ? entityNode.get("confidence").asDouble() : 0.8;
+            
+            entity.setName(name);
+            entity.setDescription(description);
+            entity.setConfidence(confidence);
+            
+            CurationLogger.info("Created entity: name='{}', description='{}', confidence={}", name, description, confidence);
+            
+            if (!entity.getName().isEmpty()) {
+                entities.add(entity);
+                CurationLogger.info("Added entity to list");
+            } else {
+                CurationLogger.info("Skipped entity with empty name");
             }
         }
         
+        CurationLogger.info("parseEntityList returning {} entities", entities.size());
         return entities;
     }
     
