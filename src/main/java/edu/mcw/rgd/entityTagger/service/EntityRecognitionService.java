@@ -32,8 +32,8 @@ public class EntityRecognitionService {
     
     private OntologyService ontologyService;
     private OntologyAccessionService ontologyAccessionService;
-    private int chunkSize = 4000;
-    private int chunkOverlap = 200;
+    private int chunkSize = 8000;
+    private int chunkOverlap = 100;
     
     public OntologyService getOntologyService() {
         return ontologyService;
