@@ -75,9 +75,16 @@ public class EntityRecognitionService {
     }
     
     /**
-     * Recognize biological entities in the given text
+     * Recognize biological entities in the given text using default model
      */
     public EntityRecognitionResult recognizeEntities(String text) {
+        return recognizeEntities(text, DEFAULT_MODEL);
+    }
+    
+    /**
+     * Recognize biological entities in the given text using specified model
+     */
+    public EntityRecognitionResult recognizeEntities(String text, String model) {
         CurationLogger.entering(EntityRecognitionService.class, "recognizeEntities", text.length() + " characters");
         CurationLogger.info("Processing FULL TEXT: {} characters ({} KB)", text.length(), text.length() / 1024);
         System.out.println("EntityRecognitionService.recognizeEntities called with " + text.length() + " characters");
@@ -86,10 +93,10 @@ public class EntityRecognitionService {
             // If text is large, chunk it for better processing
             if (text.length() > chunkSize) {
                 System.out.println("Text is large (" + text.length() + " chars), chunking into smaller pieces...");
-                return processTextInChunks(text);
+                return processTextInChunks(text, model);
             } else {
                 System.out.println("Text is small enough, processing as single chunk...");
-                return processSingleChunk(text);
+                return processSingleChunk(text, model);
             }
             
         } catch (Exception e) {
@@ -103,7 +110,7 @@ public class EntityRecognitionService {
     /**
      * Process text in chunks to handle large documents
      */
-    private EntityRecognitionResult processTextInChunks(String text) {
+    private EntityRecognitionResult processTextInChunks(String text, String model) {
         System.out.println("=== CHUNKING TEXT: " + text.length() + " characters ===");
         
         List<String> chunks = createTextChunks(text);
@@ -126,7 +133,7 @@ public class EntityRecognitionService {
             System.out.println("Processing chunk " + (i + 1) + "/" + chunks.size() + " (" + chunk.length() + " chars)");
             
             long chunkStartTime = System.currentTimeMillis();
-            EntityRecognitionResult chunkResult = processSingleChunk(chunk);
+            EntityRecognitionResult chunkResult = processSingleChunk(chunk, model);
             long chunkTime = System.currentTimeMillis() - chunkStartTime;
             totalTime += chunkTime;
             
@@ -159,10 +166,10 @@ public class EntityRecognitionService {
     /**
      * Process a single chunk of text
      */
-    private EntityRecognitionResult processSingleChunk(String text) {
+    private EntityRecognitionResult processSingleChunk(String text, String model) {
         try {
             String prompt = buildEntityRecognitionPrompt(text);
-            String response = callOllamaAPI(prompt);
+            String response = callOllamaAPI(prompt, model);
             return parseEntityResponse(response, text);
         } catch (Exception e) {
             return createErrorResult("Failed to process chunk: " + e.getMessage());
@@ -274,16 +281,23 @@ public class EntityRecognitionService {
     }
     
     /**
-     * Call the Ollama API with the given prompt
+     * Call the Ollama API with the given prompt using default model
      */
     private String callOllamaAPI(String prompt) throws IOException, InterruptedException {
-        CurationLogger.info("=== CALLING OLLAMA AI MODEL: {} ===", DEFAULT_MODEL);
+        return callOllamaAPI(prompt, DEFAULT_MODEL);
+    }
+    
+    /**
+     * Call the Ollama API with the given prompt using specified model
+     */
+    private String callOllamaAPI(String prompt, String model) throws IOException, InterruptedException {
+        CurationLogger.info("=== CALLING OLLAMA AI MODEL: {} ===", model);
         CurationLogger.info("Prompt length: {} characters", prompt.length());
-        System.out.println("=== CALLING OLLAMA at " + OLLAMA_BASE_URL + " with model " + DEFAULT_MODEL + " ===");
+        System.out.println("=== CALLING OLLAMA at " + OLLAMA_BASE_URL + " with model " + model + " ===");
         System.out.println("Prompt length: " + prompt.length() + " characters");
         
         Map<String, Object> requestBody = Map.of(
-            "model", DEFAULT_MODEL,
+            "model", model,
             "prompt", prompt,
             "stream", false,
             "options", Map.of(

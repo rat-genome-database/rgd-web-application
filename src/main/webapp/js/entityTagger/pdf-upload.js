@@ -491,7 +491,9 @@ class PdfUploadManager {
 
     startEntityRecognition() {
         if (this.uploadId) {
-            const url = `${this.config.contextPath}/curation/entity/recognize.html?uploadId=${this.uploadId}`;
+            const modelSelect = document.getElementById('modelSelect');
+            const selectedModel = modelSelect ? modelSelect.value : 'llama3.3:70b';
+            const url = `${this.config.contextPath}/curation/entity/recognize.html?uploadId=${this.uploadId}&model=${encodeURIComponent(selectedModel)}`;
             window.location.href = url;
         }
     }

@@ -371,6 +371,12 @@ public class PdfUploadController implements Controller {
         response.setCharacterEncoding("UTF-8");
         
         String uploadId = request.getParameter("uploadId");
+        String selectedModel = request.getParameter("model");
+        
+        // Default to 70B model if not specified
+        if (selectedModel == null || selectedModel.trim().isEmpty()) {
+            selectedModel = "llama3.3:70b";
+        }
         
         if (uploadId == null || uploadId.trim().isEmpty()) {
             response.getWriter().write(generateErrorHtml("No upload ID provided", uploadId));
@@ -394,10 +400,10 @@ public class PdfUploadController implements Controller {
             long startTime = System.currentTimeMillis();
             
             // Perform entity recognition using Ollama
-            CurationLogger.info("=== STARTING ENTITY RECOGNITION ===");
-            System.out.println("=== STARTING ENTITY RECOGNITION for upload " + uploadId + " ===");
+            CurationLogger.info("=== STARTING ENTITY RECOGNITION with model {} ===", selectedModel);
+            System.out.println("=== STARTING ENTITY RECOGNITION for upload " + uploadId + " with model " + selectedModel + " ===");
             System.out.println("Text length: " + extractedText.length() + " characters");
-            EntityRecognitionResult result = entityRecognitionService.recognizeEntities(extractedText);
+            EntityRecognitionResult result = entityRecognitionService.recognizeEntities(extractedText, selectedModel);
             System.out.println("=== ENTITY RECOGNITION RETURNED ===");
             
             long processingTime = System.currentTimeMillis() - startTime;

@@ -132,6 +132,14 @@
                             </div>
                             <div class="col-md-6">
                                 <h6>Next Steps</h6>
+                                <div class="mb-3">
+                                    <label for="modelSelect" class="form-label">AI Model Selection:</label>
+                                    <select class="form-select" id="modelSelect">
+                                        <option value="llama3.3:70b" selected>llama3.3:70b (Highest accuracy, slower)</option>
+                                        <option value="llama3.1:8b">llama3.1:8b (Faster, good accuracy)</option>
+                                    </select>
+                                    <div class="form-text">Choose between accuracy and speed for entity recognition</div>
+                                </div>
                                 <div class="d-grid gap-2">
                                     <button type="button" class="btn btn-success" id="startCurationBtn">
                                         <i class="fas fa-play"></i> Start Entity Recognition
