@@ -249,11 +249,10 @@
             <jsp:include page="/homepage/popularTools.jsp"/>
             <jsp:include page="/homepage/news.jsp"/>
             <jsp:include page="/homepage/conferences.jsp"/>
-
+            <hr>
+            <jsp:include page="/homepage/scoreboard.jsp"/>
         </td>
         <td valign="top">
-            <br>
-            <jsp:include page="/homepage/scoreboard.jsp"/>
             <br>
             <jsp:include page="/homepage/twitter.jsp"/>
             <jsp:include page="/homepage/tutorials.jsp"/>
