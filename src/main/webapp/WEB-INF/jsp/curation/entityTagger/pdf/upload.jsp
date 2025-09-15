@@ -135,8 +135,8 @@
                                 <div class="mb-3">
                                     <label for="modelSelect" class="form-label">AI Model Selection:</label>
                                     <select class="form-select" id="modelSelect">
-                                        <option value="llama3.3:70b" selected>llama3.3:70b (Highest accuracy, slower)</option>
-                                        <option value="llama3.1:8b">llama3.1:8b (Faster, good accuracy)</option>
+                                        <option value="llama3.3:70b">llama3.3:70b (Highest accuracy, ~30s per chunk)</option>
+                                        <option value="llama3.1:8b" selected>llama3.1:8b (Good accuracy, ~3s per chunk)</option>
                                     </select>
                                     <div class="form-text">Choose between accuracy and speed for entity recognition</div>
                                 </div>

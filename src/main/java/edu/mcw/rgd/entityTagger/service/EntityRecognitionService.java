@@ -90,10 +90,14 @@ public class EntityRecognitionService {
         System.out.println("EntityRecognitionService.recognizeEntities called with " + text.length() + " characters");
         
         try {
+            // Adjust chunk size based on model - smaller models need smaller chunks
+            int effectiveChunkSize = getEffectiveChunkSize(model);
+            System.out.println("Using chunk size: " + effectiveChunkSize + " for model: " + model);
+            
             // If text is large, chunk it for better processing
-            if (text.length() > chunkSize) {
+            if (text.length() > effectiveChunkSize) {
                 System.out.println("Text is large (" + text.length() + " chars), chunking into smaller pieces...");
-                return processTextInChunks(text, model);
+                return processTextInChunks(text, model, effectiveChunkSize);
             } else {
                 System.out.println("Text is small enough, processing as single chunk...");
                 return processSingleChunk(text, model);
@@ -108,12 +112,27 @@ public class EntityRecognitionService {
     }
     
     /**
+     * Get effective chunk size based on model capabilities
+     */
+    private int getEffectiveChunkSize(String model) {
+        if (model.contains("1b")) {
+            return 2000;  // Very small chunks for 1B model
+        } else if (model.contains("3b")) {
+            return 4000;  // Small chunks for 3B model  
+        } else if (model.contains("8b")) {
+            return 6000;  // Medium chunks for 8B model
+        } else {
+            return chunkSize;  // Default (8000) for 70B model
+        }
+    }
+    
+    /**
      * Process text in chunks to handle large documents
      */
-    private EntityRecognitionResult processTextInChunks(String text, String model) {
-        System.out.println("=== CHUNKING TEXT: " + text.length() + " characters ===");
+    private EntityRecognitionResult processTextInChunks(String text, String model, int effectiveChunkSize) {
+        System.out.println("=== CHUNKING TEXT: " + text.length() + " characters with chunk size " + effectiveChunkSize + " ===");
         
-        List<String> chunks = createTextChunks(text);
+        List<String> chunks = createTextChunks(text, effectiveChunkSize);
         System.out.println("Created " + chunks.size() + " chunks");
         
         EntityRecognitionResult combinedResult = new EntityRecognitionResult();
@@ -177,14 +196,21 @@ public class EntityRecognitionService {
     }
     
     /**
-     * Create text chunks with overlap to avoid splitting entities
+     * Create text chunks with overlap to avoid splitting entities (using default chunk size)
      */
     private List<String> createTextChunks(String text) {
+        return createTextChunks(text, chunkSize);
+    }
+    
+    /**
+     * Create text chunks with overlap to avoid splitting entities (using specified chunk size)
+     */
+    private List<String> createTextChunks(String text, int targetChunkSize) {
         List<String> chunks = new ArrayList<>();
         
         int start = 0;
         while (start < text.length()) {
-            int end = Math.min(start + chunkSize, text.length());
+            int end = Math.min(start + targetChunkSize, text.length());
             
             // If not the last chunk, try to break at a sentence boundary
             if (end < text.length()) {
@@ -207,7 +233,7 @@ public class EntityRecognitionService {
             }
             
             // Move start position with overlap to avoid splitting entities
-            start = Math.max(end - chunkOverlap, start + chunkSize - chunkOverlap);
+            start = Math.max(end - chunkOverlap, start + targetChunkSize - chunkOverlap);
         }
         
         return chunks;
@@ -363,6 +389,12 @@ public class EntityRecognitionService {
                 jsonString = jsonString.replaceAll(",\\s*}", "}"); // Remove trailing commas
                 jsonString = jsonString.replaceAll(",\\s*]", "]"); // Remove trailing commas in arrays
                 jsonString = jsonString.replaceAll("'", "\""); // Replace single quotes with double quotes
+                
+                // Fix common small model issues - convert string arrays to object arrays
+                jsonString = jsonString.replaceAll("\"species\":\\s*\\[\"([^\"]+)\"\\]", "\"species\":[{\"name\":\"$1\",\"description\":\"\",\"confidence\":0.8}]");
+                jsonString = jsonString.replaceAll("\"diseases\":\\s*\\[\"([^\"]+)\"\\]", "\"diseases\":[{\"name\":\"$1\",\"description\":\"\",\"confidence\":0.8}]");
+                jsonString = jsonString.replaceAll("\"chemicals\":\\s*\\[\"([^\"]+)\"\\]", "\"chemicals\":[{\"name\":\"$1\",\"description\":\"\",\"confidence\":0.8}]");
+                jsonString = jsonString.replaceAll("\"genes\":\\s*\\[\"([^\"]+)\"\\]", "\"genes\":[{\"name\":\"$1\",\"description\":\"\",\"confidence\":0.8}]");
                 
                 try {
                     jsonResponse = objectMapper.readTree(jsonString);
