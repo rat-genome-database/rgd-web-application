@@ -429,120 +429,93 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
 }
 
 function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
+    const objectTypeMap = {
+        genes: 1,
+        strains: 5,
+        qtls: 6,
+        sslps: 3,
+        variants: 7,
+        reference: 12,
+        ontology: 0,
+        "cell lines": 11,
+        promoters: 16
+    };
 
-    var ortholog1, ortholog2, ortholog3, ortholog4,ortholog5, ortholog6, ortholog7, ortholog8,speciesTypeKey, mapKey, objectkey;
-    objectkey=objectType=='genes'?1:objectType=='strains'?5:objectType=="qtls"?6:objectType=="sslps"?3:objectType=="variants"?7:objectType=="reference"?12:objectType=="ontology"?0:objectType=="cell lines"?11:objectType=="promoters"?16:"unknown";
-    if(species=='Rat'){
-        ortholog1=1;
-        ortholog2=2;
-        ortholog3=4;
-        ortholog4=5;
-        ortholog5=6;
-        ortholog6=7;
-        ortholog7=9;
-        ortholog8=13;
-        speciesTypeKey=3;
-        mapKey=360;
-    }
-    else if(species=='Human'){
-        ortholog1=2;
-        ortholog2=3;
-        ortholog3=4;
-        ortholog4=5;
-        ortholog5=6;
-        ortholog6=7;
-        ortholog7=9;
-        ortholog8=13;
-        speciesTypeKey=1;
-       mapKey=38;
-    }
-    else if(species=='Mouse'){
-        ortholog1=1;
-        ortholog2=3;
-        ortholog3=4;
-        ortholog4=5;
-        ortholog5=6;
-        ortholog6=7;
-        ortholog7=9;
-        ortholog8=13;
-        speciesTypeKey=2;
-        mapKey=35;
-    }
-    else if(species=='Dog'){
-        ortholog1=1;
-        ortholog2=3;
-        ortholog3=4;
-        ortholog4=5;
-        ortholog5=2;
-        ortholog6=7;
-        ortholog7=9;
-        ortholog8=13;
-        speciesTypeKey=6;
-        mapKey=631;
-    }
-    else if(species=='Squirrel'){
-        ortholog1=1;
-        ortholog2=3;
-        ortholog3=4;
-        ortholog4=5;
-        ortholog5=6;
-        ortholog6=2;
-        ortholog7=9;
-        ortholog8=13;
-        speciesTypeKey=7;
-        mapKey=720;
-    }
-    else if(species=='Bonobo'){
-        ortholog1=1;
-        ortholog2=3;
-        ortholog3=4;
-        ortholog4=2;
-        ortholog5=6;
-        ortholog6=7;
-        ortholog7=9;
-        ortholog8=13;
-        speciesTypeKey=5;
-        mapKey=511;
-    }
-    else if(species=='Chinchilla'){
-        ortholog1=1;
-        ortholog2=3;
-        ortholog3=2;
-        ortholog4=5;
-        ortholog5=6;
-        ortholog6=7;
-        ortholog7=9;
-        ortholog8=13;
-        speciesTypeKey=4;
-        mapKey=44;}
-    else if(species=='Pig'){
-        ortholog1=1;
-        ortholog2=3;
-        ortholog3=2;
-        ortholog4=5;
-        ortholog5=6;
-        ortholog6=7;
-        ortholog7=4;
-        ortholog8=13;
-        speciesTypeKey=9;
+    const speciesMap = {
+        Rat: {
+            orthologs: [1, 2, 4, 5, 6, 7, 9, 13, 14, 17],
+            speciesTypeKey: 3,
+            mapKey: 360
+        },
+        Human: {
+            orthologs: [2, 3, 4, 5, 6, 7, 9, 13,14, 17],
+            speciesTypeKey: 1,
+            mapKey: 38
+        },
+        Mouse: {
+            orthologs: [1, 3, 4, 5, 6, 7, 9, 13, 14, 17],
+            speciesTypeKey: 2,
+            mapKey: 35
+        },
+        Dog: {
+            orthologs: [1, 3, 4, 5, 2, 7, 9, 13, 14, 17],
+            speciesTypeKey: 6,
+            mapKey: 631
+        },
+        Squirrel: {
+            orthologs: [1, 3, 4, 5, 6, 2, 9, 13, 14, 17],
+            speciesTypeKey: 7,
+            mapKey: 720
+        },
+        Bonobo: {
+            orthologs: [1, 3, 4, 2, 6, 7, 9, 13,14, 17],
+            speciesTypeKey: 5,
+            mapKey: 511
+        },
+        Chinchilla: {
+            orthologs: [1, 3, 2, 5, 6, 7, 9, 13, 14, 17],
+            speciesTypeKey: 4,
+            mapKey: 44
+        },
+        Pig: {
+            orthologs: [1, 3, 2, 5, 6, 7, 4, 13, 14, 17],
+            speciesTypeKey: 9,
+            mapKey: 911
+        },
+        "Green Monkey": {
+            orthologs: [1, 3, 2, 5, 6, 7, 4, 9, 14, 17],
+            speciesTypeKey: 13,
+            mapKey: 1311
+        },
+        "Black Rat": {
+            orthologs: [1, 3, 2, 5, 6, 7, 4, 9, 13, 14],
+            speciesTypeKey: 17,
+            mapKey: 1701
+        },
+        "Naked Mole-Rat": {
+            orthologs: [1, 3, 2, 5, 6, 7, 4, 9, 13, 17],
+            speciesTypeKey: 14,
+            mapKey: 1410
+        }
+    };
 
-        mapKey=911;
-    }else if(species=='Green Monkey'){
-        ortholog1=1;
-        ortholog2=3;
-        ortholog3=2;
-        ortholog4=5;
-        ortholog5=6;
-        ortholog6=7;
-        ortholog7=4;
-        ortholog8=9;
+// Set objectkey
+    const objectkey = objectTypeMap[objectType] ?? "unknown";
 
-        speciesTypeKey=13;
-        mapKey=1311;
+// Set species-specific data
+    const speciesData = speciesMap[species];
+    let speciesTypeKey, mapKey, orthologs = [];
+
+    if (speciesData) {
+        speciesTypeKey = speciesData.speciesTypeKey;
+        mapKey = mKey !== 0 ? mKey : speciesData.mapKey;
+        orthologs = speciesData.orthologs;
     }
-    if(mKey!=0){
-        mapKey=mKey;
-    }
+
+// Assign ortholog1 through ortholog8
+    const [ortholog1, ortholog2, ortholog3, ortholog4, ortholog5, ortholog6, ortholog7, ortholog8] = orthologs;
+
+
 
     var selected=   $('.checkedObjects:checked').map(function () {
         return this.value;
@@ -554,20 +527,41 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
             //_this.href = href;
             window.open(href);
         }
-        if(tool=='functionalAnnot') {
-            href=  "/rgdweb/ga/ui.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+
-                ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
-                "&species=" + speciesTypeKey + "&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
-            //_this.href=href;
-            window.open(href);
-        }
-        if(tool=='annotDistribution') {
+        if(tool=='functionalAnnot' || tool=='annotDistribution') {
+            let baseUrl="";
+            if(tool=='annotDistribution') {
+                 baseUrl += "/rgdweb/ga/ui.html";
+            }else{
+                baseUrl +="/rgdweb/ga/analysis.html";
+            }
+// Static query parameters
+            const oParams = ["D", "W", "N", "P", "C", "F", "E"].map(o => `o=${o}`).join("&");
+            const xParams = [
+                19, 56, 36, 52, 40, 31, 45, 29, 32, 48,
+                23, 33, 50, 17, 2, 20, 54, 57, 27, 41,
+                35, 49, 5, 55, 42, 10, 38, 3, 6, 15,
+                1, 53, 37, 7, 34, 43, 39, 30, 4, 21,
+                44, 14, 22, 51, 16, 24
+            ].map(x => `x=${x}`).join("&");
 
-            href=  "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+ ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
-                "&species=" + speciesTypeKey +"&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
-           // _this.href=href;
+// Orthologs (only include if defined)
+            const orthologParams = orthologs
+                .filter(val => val !== undefined)
+                .map(o => `ortholog=${o}`)
+                .join("&");
+
+// Final href
+            const href = `${baseUrl}?${oParams}&${xParams}&${orthologParams}&species=${speciesTypeKey}&chr=&start=&stop=&mapKey=${mapKey}&genes=${selected}`;
+
             window.open(href);
         }
+        // if(tool=='annotDistribution') {
+        //
+        //     href=  "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+ ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
+        //         "&species=" + speciesTypeKey +"&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
+        //    // _this.href=href;
+        //     window.open(href);
+        // }
         if(tool=='olga') {
             var strainSymbols=   $('.checkedObjects:checked').map(function () {
                 return this.getAttribute("data-symbol");
