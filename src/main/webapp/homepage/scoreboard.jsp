@@ -4,9 +4,7 @@
 <%@ page import="edu.mcw.rgd.stats.ScoreBoardManager" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.*" %>
-<div id="publicScoreboardHeader" class="" style="border-color: transparent;margin-top:20px;">
-    <h5 class="card-title">Scoreboard</h5>
-</div>
+
 <%
     StatisticsDAO sdao = new StatisticsDAO();
     ScoreBoardManager sbm = new ScoreBoardManager();
@@ -16,6 +14,7 @@
     Date date = formatter.parse(pastDates.get(0));
     Date date2 = formatter.parse(pastDates.get(1));
     String formattedDateString = formatter.format(date2);
+    String latest = formatter.format(date);
 
 
     Map<String,String> map = sdao.getStatMap("Active Object",0,date);
@@ -34,7 +33,9 @@
         annotMap.put(key,String.format("%,d",val));
     }
 %>
-
+<div id="publicScoreboardHeader" class="" style="border-color: transparent;margin-top:20px;">
+    <h5 class="card-title">RGD Data Snapshot <%=latest%></h5>
+</div>
 <table id="publicScoreboard" class="publicScoreboard">
     <tr>
         <td>Genes (All Species)</td>
