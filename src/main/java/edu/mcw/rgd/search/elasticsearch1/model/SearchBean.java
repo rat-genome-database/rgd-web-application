@@ -37,6 +37,16 @@ public class SearchBean {
     int hitsPerPage;//:25
     boolean objectSearch;
 
+    String expressionLevel;
+
+    public String getExpressionLevel() {
+        return expressionLevel;
+    }
+
+    public void setExpressionLevel(String expressionLevel) {
+        this.expressionLevel = expressionLevel;
+    }
+
     public boolean isObjectSearch() {
         return objectSearch;
     }
