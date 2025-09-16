@@ -20,7 +20,7 @@
 
     Map<String,String> map = sdao.getStatMap("Active Object",0,date);
     Map<String,String> map2 = sdao.getStatMap("Active Object",0,date2);
-    Map<String, String> annotMap = sbm.getOntologyManualAnnotationCount(0, 0, date); // species, rgd obj, date - for all rgd objects and species
+    Map<String, String> annotMap = sdao.getStatMap("Ontology Annotations", 0, date); // species, rgd obj, date - for all rgd objects and species
     int geneCur = Integer.parseInt(map.get("GENES"));
     int genePrev = Integer.parseInt(map2.get("GENES"));
     int geneDiff = geneCur - genePrev;
@@ -53,12 +53,15 @@
         <td class="scoreboardAmount"><%=map.get("CLINVAR")%></td>
     </tr>
     <tr>
-        <td>New Genes added since <%=formattedDateString%></td>
-        <td class="scoreboardAmount"><%=geneDiff <= 0 ? "N/A" : geneDiff%></td>
+        <td>References</td>
+        <td class="scoreboardAmount"><%=map.get("REFERENCES")%></td>
     </tr>
     <tr>
-        <td>Manual Annotations</td>
-        <td></td>
+        <td>New Genes added since <%=formattedDateString%></td>
+        <td class="scoreboardAmount"><%=geneDiff <= 0 ? "N/A" : String.format("%,d",geneDiff)%></td>
+    </tr>
+    <tr>
+        <td colspan="2">Ontology Annotations</td>
     </tr>
     <tr>
         <td>RDO: RGD Disease Ontology</td>
@@ -138,7 +141,7 @@
     /*}*/
     
     /* Manual annotations section header */
-    .publicScoreboard tr:nth-child(6) td:first-child {
+    .publicScoreboard tr:nth-child(7) td{
         font-weight: 700;
         color: #8b4513;
         font-size: 15px;
