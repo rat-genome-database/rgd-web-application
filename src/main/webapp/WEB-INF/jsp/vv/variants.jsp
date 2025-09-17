@@ -187,6 +187,15 @@
         <!--font-size:5px;-->
         }
         
+        /* Force consistent row heights for alignment */
+        .snpHeader tr {
+            height: <%=cellWidth + 1%>px;
+        }
+        
+        #colTable tr {
+            height: <%=cellWidth + 1%>px;
+        }
+        
         /* Custom scrollbar styles for better visibility */
         #topScrollWrapper::-webkit-scrollbar,
         #wrapperRegion::-webkit-scrollbar {
@@ -221,7 +230,7 @@
 
     <table id="mainTable" border=0 cellpadding=0 cellspacing=0 align="center" style="z-index:2; border:  4px outset #eeeeee;  background-color:white; padding-top:10px;  padding-bottom:20px; margin-top: 10px;margin-bottom:10px;">
         <tr>
-            <td valign=top>
+            <td valign=top style="vertical-align: top;">
                 <table class="snpHeader" align="center" cellpadding=0 cellspacing=0 style="border-top:1px solid white; margin-top:17px;">
                     <%   if(mapKey != 631 && mapKey != 372) { %>
                     <tr>

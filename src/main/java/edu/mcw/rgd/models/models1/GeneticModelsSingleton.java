@@ -88,12 +88,12 @@ public class GeneticModelsSingleton {
         for(GeneticModel s: strains){
             rgdIds.add(s.getStrainRgdId());  //Listing all strain RGD IDs
         }
-        List<Strain> rgdStrains=strainDAO.getStrains(rgdIds);
+        List<Strain> rgdStrains=getStrainsWithLimit(rgdIds);
         this.setRgdStrains(rgdStrains);
         int experimentRecordCount=0;
         List<String> childTermAccIds;
-        List<Alias> aliasList= aliasDAO.getAliases(rgdIds);  //get the aliases of the list of strain RGD IDs
-        List<Annotation> annotations= annotationDAO.getAnnotationsByRgdIdsListAndAspect(rgdIds, "S"); //get the annotations of list of strain RGD IDs
+        List<Alias> aliasList= getAliases(rgdIds);  //get the aliases of the list of strain RGD IDs
+        List<Annotation> annotations= getAnnotationsByRgdIdsListAndAspect(rgdIds, "S"); //get the annotations of list of strain RGD IDs
 
         List<String> termAccList= new ArrayList<>();
         for(Annotation a: annotations){
@@ -237,6 +237,34 @@ public class GeneticModelsSingleton {
         return strains1;
 
     }
+    public List<Strain> getStrainsWithLimit(List<Integer> rgdIds) throws Exception {
+        List<Strain> result = new ArrayList<>();
+        int chunkSize = 1000;
+        for (int i = 0; i < rgdIds.size(); i += chunkSize) {
+            List<Integer> subList = rgdIds.subList(i, Math.min(i + chunkSize, rgdIds.size()));
+            result.addAll(strainDAO.getStrains(subList));
+        }
+        return result;
+    }
+    public List<Alias> getAliases(List<Integer> rgdIds) throws Exception {
+        List<Alias> result = new ArrayList<>();
+        int chunkSize = 1000;
+        for (int i = 0; i < rgdIds.size(); i += chunkSize) {
+            List<Integer> subList = rgdIds.subList(i, Math.min(i + chunkSize, rgdIds.size()));
+            result.addAll(aliasDAO.getAliases(subList));
+        }
+        return result;
+    }
+    public List<Annotation> getAnnotationsByRgdIdsListAndAspect(List<Integer> rgdIds, String aspect) throws Exception {
+        List<Annotation> result = new ArrayList<>();
+        int chunkSize = 1000;
+        for (int i = 0; i < rgdIds.size(); i += chunkSize) {
+            List<Integer> subList = rgdIds.subList(i, Math.min(i + chunkSize, rgdIds.size()));
+            result.addAll(annotationDAO.getAnnotationsByRgdIdsListAndAspect(subList, aspect));
+        }
+        return result;
+    }
+
 
     public List<Strain> getRgdStrains() {
         return rgdStrains;
