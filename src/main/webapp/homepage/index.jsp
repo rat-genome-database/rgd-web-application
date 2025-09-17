@@ -255,7 +255,7 @@
         <td valign="top">
             <br>
             <div class="" style="border-color: transparent;">
-                <a href="#publicScoreboardHeader"><h5 class="card-title">Data Snapshot</h5></a>
+                <a href="#publicScoreboardHeader"><h5 class="card-title">RGD Data Snapshot</h5></a>
             </div>
             <jsp:include page="/homepage/twitter.jsp"/>
             <jsp:include page="/homepage/tutorials.jsp"/>
