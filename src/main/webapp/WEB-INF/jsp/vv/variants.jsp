@@ -245,8 +245,8 @@
                     </tr>
                     <% if (snplotyper.hasPlusStrandConflict()) {
                         heightOfOptionalGeneTracks+=25;
-                        <!-- DEBUG: Plus strand conflict detected, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     %>
+                    <!-- DEBUG: Plus strand conflict detected, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
                         <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
@@ -258,8 +258,8 @@
                     </tr>
                     <% if (snplotyper.hasMinusStrandConflict()) {
                         heightOfOptionalGeneTracks+=25;
-                        <!-- DEBUG: Minus strand conflict detected, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     %>
+                    <!-- DEBUG: Minus strand conflict detected, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
                         <td ><div class="snpLabel">Genes <span style="color:red;">( - )</span>&nbsp;</div></td>
