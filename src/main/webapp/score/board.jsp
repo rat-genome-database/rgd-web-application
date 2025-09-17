@@ -44,9 +44,9 @@
 
 <h3>SCORE BOARD - GENERAL
  &nbsp; &nbsp;
- <a href="/rgdweb/score/boardAnnot.jsp" title="View Score Board for Annotations">annotations</a>
+ <a href="/rgdweb/score/boardAnnot.jsp?date=<%=inDateStr%>&compare=<%=compDateStr%>" title="View Score Board for Annotations">annotations</a>
  &nbsp; &nbsp;
- <a href="/rgdweb/score/boardPortal.jsp" title="View Score Board for Portals">portals</a>
+ <a href="/rgdweb/score/boardPortal.jsp?date=<%=inDateStr%>&compare=<%=compDateStr%>" title="View Score Board for Portals">portals</a>
 </h3>
 
 <form action="">
