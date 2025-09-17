@@ -108,6 +108,7 @@
     int tableHeight = snplotyper.getSamples().size() * cellWidth;
     int heightOfOptionalGeneTracks = 0;
 %>
+<!-- DEBUG: Initial heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
 
 <%@ include file="mapStyles.jsp"%>
 
@@ -244,6 +245,7 @@
                     </tr>
                     <% if (snplotyper.hasPlusStrandConflict()) {
                         heightOfOptionalGeneTracks+=25;
+                        <!-- DEBUG: Plus strand conflict detected, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     %>
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
@@ -256,6 +258,7 @@
                     </tr>
                     <% if (snplotyper.hasMinusStrandConflict()) {
                         heightOfOptionalGeneTracks+=25;
+                        <!-- DEBUG: Minus strand conflict detected, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     %>
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
@@ -306,6 +309,7 @@
                     <% } %>
                     
                     <!-- Spacer row to align with position headers in right table -->
+                    <!-- DEBUG: Spacer row present with height=100px, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     <tr>
                         <td style="height:100px; vertical-align:top;"><img src="/rgdweb/common/images/dot_clear.png" alt="" height=100/></td>
                         <td style="height:100px;">&nbsp;</td>
@@ -330,7 +334,8 @@
 
                 <script>
                     document.getElementById("blueBackground").style.height=<%=tableHeight + 500 + heightOfOptionalGeneTracks%>
-                    // alert("set height to " + document.getElementById("blueBackground").style.height) ;
+                    // DEBUG: tableHeight=<%=tableHeight%>, heightOfOptionalGeneTracks=<%=heightOfOptionalGeneTracks%>, total=<%=tableHeight + 500 + heightOfOptionalGeneTracks%>
+                    console.log("DEBUG: blueBackground height set to " + document.getElementById("blueBackground").style.height);
                 </script>
 
                 <!-- Top scroll bar -->
@@ -338,6 +343,7 @@
                     <div style="height:1px; width:<%=horizontalWidth%>px;"></div>
                 </div>
 
+                <!-- DEBUG: wrapperRegion height = <%=tableHeight + 250 + samples.size() + heightOfOptionalGeneTracks%> -->
                 <div id="wrapperRegion" style="margin-right:20px; overflow-x:scroll; width:<%=divWidth%>px; height:<%=tableHeight + 250 + samples.size() + heightOfOptionalGeneTracks%>">
                     <%
                         Iterator cit;
