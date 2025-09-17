@@ -42,10 +42,6 @@
             <td>
                 <div class="searchCard" onclick="location.href='/wg/data-menu/'">All...</div>
             </td>
-            <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
-            <td>
-                <div class="searchCard"><a href="#publicScoreboardHeader"><p style="margin-top:15px;">Data<br>Snapshot</p></a></div>
-            </td>
         </tr>
     </table>
 </div>

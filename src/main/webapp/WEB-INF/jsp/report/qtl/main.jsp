@@ -85,9 +85,14 @@
 <%  RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
     if (view.equals("3")) { %>
 
-<% } else if (!rgdId.getObjectStatus().equals("ACTIVE")) { %>
+<% } else if (!rgdId.getObjectStatus().equals("ACTIVE")) {
+    int newRgdId = managementDAO.getActiveRgdIdFromHistory(rgdId.getRgdId());
+    QTL newQTL = qtlDAO.getQTL(newRgdId);
+%>
     <br><br>This object has been <%=rgdId.getObjectStatus()%> <br><br>
-
+        <%if (newQTL != null){%>
+        This QTL has been replaced by the QTL <a href="<%=edu.mcw.rgd.reporting.Link.qtl(newQTL.getRgdId())%>" title="click to see the variant report"><b><%=newQTL.getName()%></b> (RGD:<%=newQTL.getRgdId()%>)</a>.
+        <% } %>
 <% } else {%>
 
 

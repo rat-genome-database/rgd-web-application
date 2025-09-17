@@ -38,6 +38,9 @@
 </div>
 <table id="publicScoreboard" class="publicScoreboard">
     <tr>
+        <td colspan="2">Data Objects</td>
+    </tr>
+    <tr>
         <td>Genes (All Species)</td>
         <td class="scoreboardAmount"><%=map.get("GENES")%></td>
     </tr>
@@ -62,7 +65,7 @@
         <td class="scoreboardAmount"><%=geneDiff <= 0 ? "N/A" : String.format("%,d",geneDiff)%></td>
     </tr>
     <tr>
-        <td colspan="2">Ontology Annotations</td>
+        <td colspan="2">Experimental Ontology Annotations (All Species)</td>
     </tr>
     <tr>
         <td>RDO: RGD Disease Ontology</td>
@@ -142,7 +145,14 @@
     /*}*/
     
     /* Manual annotations section header */
-    .publicScoreboard tr:nth-child(7) td{
+    .publicScoreboard tr:nth-child(8) td{
+        font-weight: 700;
+        color: #8b4513;
+        font-size: 15px;
+        background: linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, transparent 100%);
+        border-top: 2px solid rgba(139, 69, 19, 0.2);
+    }
+    .publicScoreboard tr:nth-child(1) td{
         font-weight: 700;
         color: #8b4513;
         font-size: 15px;

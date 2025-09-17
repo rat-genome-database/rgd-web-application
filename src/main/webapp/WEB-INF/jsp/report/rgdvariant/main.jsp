@@ -46,7 +46,10 @@
 
     <div id="content-wrap">
 
-        <%if (isStatusNotActive) { %>
+        <%if (isStatusNotActive) {
+            RgdVariantDAO rvdao = new RgdVariantDAO();
+            int newRgdId = managementDAO.getActiveRgdIdFromHistory(rgdId.getRgdId());
+            RgdVariant newVar = rvdao.getVariant(newRgdId);%>
         <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
             <tr><td colspan="2"><h3>Variant: <%=Utils.NVL(obj.getName(), "")%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%>
         <% if (RgdContext.isCurator() || RgdContext.isTest()) {%>
@@ -56,6 +59,9 @@
         </table>
         <br><br>The Variant <b><%=obj.getName()%></b> (RGD:<%=obj.getRgdId()%>) has been <b><%=rgdId.getObjectStatus()%></b>
         &nbsp; on <%=new SimpleDateFormat("MMMMM d, yyyy").format(rgdId.getLastModifiedDate())%>. <br><br>
+        <%if (newVar != null){%>
+        This variants has been replaced by the variant <a href="<%=edu.mcw.rgd.reporting.Link.it(newVar.getRgdId(),24)%>" title="click to see the variant report"><b><%=newVar.getName()%></b> (RGD:<%=newVar.getRgdId()%>)</a>.
+        <% } %>
         <% } else { %>
 <table width="95%" border="0">
     <tr>
