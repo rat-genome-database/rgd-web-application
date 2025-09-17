@@ -48,6 +48,7 @@ String pageDescription = "Define Region";
             </td>
             <td align="left">
                 <select style="height:26px; font-size:16px; width: 300px" id="mapKey" name="mapKey" onChange='location.href="?mapKey=" + this.options[this.selectedIndex].value'>
+                    <option value='380' <% if (mapKey==380) out.print("selected");%>>Rat Genome Assembly GRCr8</option>
                     <option value='372' <% if (mapKey==372) out.print("selected");%>>mRatBN7.2 Assembly</option>
                     <option value='360' <% if (mapKey==360) out.print("selected");%>>RGSC Genome Assembly v6.0</option>
                 <option value='70' <% if (mapKey==70) out.print("selected");%>>RGSC Genome Assembly v5.0</option>
@@ -55,12 +56,12 @@ String pageDescription = "Define Region";
                     <option value='38' <% if (mapKey==38) out.print("selected");%>>Human Genome Assembly GRCh38</option>
                     <option value='17' <% if (mapKey==17) out.print("selected");%>>Human Genome Assembly GRCh37</option>
                     <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
-                    <option value='634' <% if (mapKey==634) out.print("selected");%>>Dog ROS_Cfam_1.0 Assembly</option>
+                    <option value='634' <% if (mapKey==634) out.print("selected");%>>ROS_Cfam_1.0 Assembly</option>
 <%--                    <option value='910' <% if (mapKey==910) out.print("selected");%>>Pig Sscrofa10.2 Assembly</option>--%>
                     <option value='911' <% if (mapKey==911) out.print("selected");%>>Pig Sscrofa11.1 Assembly</option>
                     <option value='35' <% if (mapKey==35) out.print("selected");%>>Mouse Assembly GRCm38</option>
                     <option value='239' <% if (mapKey==239) out.print("selected");%>>Mouse Assembly GRCm39</option>
-<%--                    <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey Assembly Vervet 1.1</option>--%>
+                    <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey Assembly Vervet 1.1</option>
                 </select>
             </td>
 
