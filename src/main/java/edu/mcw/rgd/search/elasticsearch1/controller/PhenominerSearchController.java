@@ -50,7 +50,6 @@ public class PhenominerSearchController implements Controller {
             String defaultAssemblyName=null;
             String cat1= new String();
             String sp1=new String();
-            List<edu.mcw.rgd.datamodel.Map> assemblyMaps=MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
             String assembly=req.getParameter("assembly");
             if(!sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("ALL")) {
                 int speciesKey= SpeciesType.parse(sb.getSpecies());
@@ -90,8 +89,10 @@ public class PhenominerSearchController implements Controller {
                     }
                     model.putAll(resultsMap);
                 }
-
-                model.addAttribute("assemblyMaps", assemblyMaps);
+                if(sb.getSpecies()!=null && !sb.getSpecies().equals("") && !sb.getSpecies().equalsIgnoreCase("all")) {
+                    List<edu.mcw.rgd.datamodel.Map> assemblyMaps = MapManager.getInstance().getAllMaps(SpeciesType.parse(sb.getSpecies()), "bp");
+                    model.addAttribute("assemblyMaps", assemblyMaps);
+                }
                 model.addAttribute("defaultAssembly", assembly);
                 model.addAttribute("mapKey", this.getMapKey(assembly, sb.getSpecies()));
                 model.addAttribute("totalPages", totalPages);
@@ -216,7 +217,7 @@ public class PhenominerSearchController implements Controller {
     public int getMapKey(String assembly, String species) throws Exception {
 
         int mapKey=0;
-        if(species!=null && !species.equals("")) {
+        if(species!=null && !species.equals("") && !species.equalsIgnoreCase("all")) {
             List<edu.mcw.rgd.datamodel.Map> maps = MapManager.getInstance().getAllMaps(SpeciesType.parse(species));
             for (edu.mcw.rgd.datamodel.Map m : maps) {
                 if (m.getDescription().equalsIgnoreCase(assembly)) {

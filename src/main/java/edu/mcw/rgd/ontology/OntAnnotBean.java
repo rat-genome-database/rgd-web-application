@@ -28,7 +28,7 @@ public class OntAnnotBean extends OntBaseBean {
     String qtlRgdids = "";
     String strainRgdids = "";
 
-    public static int MAX_ANNOT_COUNT = 2500; // max count of annotations shown in gviewer and on ontology annot report page
+    public static int MAX_ANNOT_COUNT = 10000; // max count of annotations shown in gviewer and on ontology annot report page
     int annotCount; // count of all annotations
 
     static List<String> sortByChoices, sortByChoicesEx;

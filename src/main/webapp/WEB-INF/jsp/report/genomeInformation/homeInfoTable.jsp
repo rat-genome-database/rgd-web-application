@@ -1,14 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<table class="table table-stripped" >
+<table class="table" >
 
     <c:forEach items="${model.hits}" var="hit">
 
-    <tr><td colspan="2" style="text-align: center">
-        <!--form action="genomeInformation.html">
-            <input type="hidden" name=species value="$--{hit.source.species}"/>
-        <button type="submit">More</button>
-        </form-->
-
+    <tr>
+        <td colspan="2" style="text-align: center">
         <a href="genomeInformation.html?species=${hit.sourceAsMap.species}&mapKey=${hit.sourceAsMap.mapKey}&details=true" title="click to see more info and other assemblies"><strong>More Details..</strong></a>
 
     </td>

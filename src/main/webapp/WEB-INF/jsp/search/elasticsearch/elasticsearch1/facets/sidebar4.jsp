@@ -2,19 +2,21 @@
 <%@ page import="org.springframework.ui.ModelMap" %>
 <%@ page import="org.elasticsearch.search.aggregations.bucket.terms.Terms" %>
 <%@ page import="java.util.*" %>
+<%@ page import="com.google.gson.Gson" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
+    Gson gson=new Gson();
     ModelMap model= (ModelMap) request.getAttribute("model");
     SearchBean searchBean= (SearchBean) model.get("searchBean");
     Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
     List<Terms.Bucket> speciesBkts= (List<Terms.Bucket>) aggregations.get("species");
-    List<String> speciesOrderList=Arrays.asList("Rat", "Human", "Mouse","Chinchilla","Dog","Bonobo",
-            "Pig", "Green Monkey", "Naked Mole-Rat");
+    List<String> speciesOrderList=Arrays.asList("Rat", "Human", "Mouse","Chinchilla","Bonobo","Dog","Squirrel",
+            "Pig", "Green Monkey", "Naked Mole-Rat", "Black Rat");
     List<Terms.Bucket> speciesOrderedBkts= new ArrayList<>();
     for(String orderedSpecies: speciesOrderList) {
         for (Terms.Bucket species : speciesBkts) {
-            if (orderedSpecies.equalsIgnoreCase(species.getKeyAsString())){
+            if (orderedSpecies.trim().equalsIgnoreCase(species.getKeyAsString().trim())){
                 speciesOrderedBkts.add(species);
             }
         }
@@ -52,12 +54,10 @@
 
             for(Terms.Bucket speciesBkt:speciesOrderedBkts){
                 Map<String, Integer> docCounts=new HashMap<>();
-                long docCount=0;
-                String species=null;
-
-                    docCount=speciesBkt.getDocCount();
-                    species=speciesBkt.getKey().toString();
-                    List<Terms.Bucket> buckets= (List<Terms.Bucket>) aggregations.get(species.toLowerCase());
+                long docCount=speciesBkt.getDocCount();
+                String species=speciesBkt.getKey().toString();
+                String speciesLC=species.toLowerCase().replaceAll(" ", "").replace("-","");
+                    List<Terms.Bucket> buckets= (List<Terms.Bucket>) aggregations.get(speciesLC);
                     if(buckets!=null){
                     for(Terms.Bucket bkt:buckets){
                         docCounts.put((String) bkt.getKey(), Math.toIntExact(bkt.getDocCount()));
@@ -73,6 +73,11 @@
                     String qtl=species.toLowerCase()+"QTL";
                     String cellLine=species.toLowerCase()+"Cell line";
                     String promoter=species.toLowerCase()+"Promoter";
+                        String expressionLevel=species.toLowerCase()+"ExpressionLevel";
+//                        String strainTerms=species.toLowerCase()+"StrainTerms";
+//                        String tissueTerms=species.toLowerCase()+"TissueTerms";
+//                        String cellTypeTerms=species.toLowerCase()+"CellTypeTerms";
+                        String geneTypeTerms=species.toLowerCase()+"Expression";
                     if(docCount!=0){
         %>
         <%@include file="facets.jsp"%>

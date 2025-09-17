@@ -89,6 +89,7 @@ public class GenomeInformationController implements Controller{
             }
 
         hits=this.getGenome(mapKey);
+            System.out.println("HITS SIZE:"+ hits.size());
         model.addAttribute("hits",hits ) ;
         if(infoTable!=null){
             return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/homeInfoTable.jsp", "model", model );
@@ -134,6 +135,7 @@ public class GenomeInformationController implements Controller{
                     .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("mapKey", mapkey)))
                     .get();*/
         }
+        srb.size(100);
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("genome"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);

@@ -124,16 +124,17 @@ public class OntBrowser {
             termName = ts.getTerm();
 
             if (!portalVersion) {
-                annotMsg = " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Rat#annot'>Rat: (" + ts.getAnnotObjectCountForSpecies(3) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Mouse#annot'>Mouse: (" + ts.getAnnotObjectCountForSpecies(2) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Human#annot'>Human: (" + ts.getAnnotObjectCountForSpecies(1) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Chinchilla#annot'>Chinchilla: (" + ts.getAnnotObjectCountForSpecies(4) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Bonobo#annot'>Bonobo: (" + ts.getAnnotObjectCountForSpecies(5) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Dog#annot'>Dog: (" + ts.getAnnotObjectCountForSpecies(6) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Squirrel#annot'>Squirrel: (" + ts.getAnnotObjectCountForSpecies(7) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Pig#annot'>Pig: (" + ts.getAnnotObjectCountForSpecies(9) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Naked Mole-rat#annot'>Naked Mole-rat: (" + ts.getAnnotObjectCountForSpecies(14) + ")</a>";
-                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Green Monkey#annot'>Green Monkey: (" + ts.getAnnotObjectCountForSpecies(13) + ")</a>";
+                annotMsg = " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Rat#annot'>Rat: (" + ts.getAnnotObjectCountForSpecies(3, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Mouse#annot'>Mouse: (" + ts.getAnnotObjectCountForSpecies(2, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Human#annot'>Human: (" + ts.getAnnotObjectCountForSpecies(1, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Chinchilla#annot'>Chinchilla: (" + ts.getAnnotObjectCountForSpecies(4, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Bonobo#annot'>Bonobo: (" + ts.getAnnotObjectCountForSpecies(5, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Dog#annot'>Dog: (" + ts.getAnnotObjectCountForSpecies(6, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Squirrel#annot'>Squirrel: (" + ts.getAnnotObjectCountForSpecies(7, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Pig#annot'>Pig: (" + ts.getAnnotObjectCountForSpecies(9, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Naked Mole-rat#annot'>Naked Mole-rat: (" + ts.getAnnotObjectCountForSpecies(14, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Green Monkey#annot'>Green Monkey: (" + ts.getAnnotObjectCountForSpecies(13, true) + ")</a>";
+                annotMsg += " <a href='/rgdweb/ontology/annot.html?acc_id=" + bean.getAccId() + "&species=Black Rat#annot'>Black Rat: (" + ts.getAnnotObjectCountForSpecies(17, true) + ")</a>";
             }
         }
 
@@ -179,19 +180,20 @@ public class OntBrowser {
 
         }
 
-        html +=
-                "     </td>\n"+
-                        "  </tr>\n"+
-                        "</table>\n"+
-                        "</div>\n"+
+        html += """
+                 </td>
+              </tr>
+            </table>
+            </div>
 
-                        "<table width=\"100%\">\n"+
-                        "<tr>\n"+
-                        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Parent Terms</td>\n"+
-                        "  <td width=\"40%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Term With Siblings</td>\n"+
-                        "  <td width=\"30%\" align=\"center\" style=\"font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);\">Child Terms</td>\n"+
-                        "</tr>\n"+
-                        "</table>\n";
+            <table width="100%">
+            <tr>
+              <td width="30%" align="center" style="font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);">Parent Terms</td>
+              <td width="40%" align="center" style="font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);">Term With Siblings</td>
+              <td width="30%" align="center" style="font-weight:700;color: white; background-image: url(/rgdweb/common/images/bg3.png);">Child Terms</td>
+            </tr>
+            </table>
+            """;
         return html;
     }
 
@@ -455,16 +457,16 @@ public class OntBrowser {
         //String diagramImageUrl = "/pathway/PW0000363/leptin%20system%20pathway/pwmap.png";
         if( !diagramImageUrl.isEmpty() ) {
             return
-                    "<table>"
-                            + "  <tr>"
-                            + "    <td><div class=\"seltermdef\">"+definition+"</div></td>"
-                            + "    <td valign=\"top\" style=\"\">"
-                            + "     <a href=\""+Link.pathwayDiagram(bean.getAccId())+"\" title=\"view interactive pathway diagram\">"
-                            + "     <img src=\""+diagramImageUrl+"\" alt=\"\" style=\"width:150px;\" border=\"1\"/><br/>"
-                            + "     View Interactive Diagram</a>"
-                            + "    </td>"
-                            + " </tr>"
-                            + "</table>";
+                "<table>"
+                + "  <tr>"
+                + "    <td><div class=\"seltermdef\">"+definition+"</div></td>"
+                + "    <td valign=\"top\" style=\"\">"
+                + "     <a href=\""+Link.pathwayDiagram(bean.getAccId())+"\" title=\"view interactive pathway diagram\">"
+                + "     <img src=\""+diagramImageUrl+"\" alt=\"\" style=\"width:150px;\" border=\"1\"/><br/>"
+                + "     View Interactive Diagram</a>"
+                + "    </td>"
+                + " </tr>"
+                + "</table>";
         } else {
             return "<br><div class=\"seltermdef\">"+definition+"</div>\n";
         }

@@ -14,10 +14,23 @@
 <script>
     <%
     MapData currentAssemblyMapData = null;
-    for (MapData md2: mapData) {
+
+    int currentMapKey;
+    {
         Map currentMap = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey());
 
-        if (md2.getMapKey() == currentMap.getKey()) {
+        // paranoia check
+        if( currentMap.getKey()!=380 && obj.getSpeciesTypeKey()==3 ) {
+
+            System.out.println("*** JBrowse2 current map key override to 380 from "+currentMap.getKey());
+            currentMap = mapDAO.getMap(380);
+        }
+        currentMapKey = currentMap.getKey();
+    }
+
+    for (MapData md2: mapData) {
+
+        if (md2.getMapKey() == currentMapKey) {
             currentAssemblyMapData=md2;
         %>
             var chr='<%=md2.getChromosome()%>';
@@ -311,16 +324,16 @@
     <%}%>
     </tbody>
 </table>
-
-
-<br><br>
+<br>
+<%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
+<br>
 <div id="sequenceViewer" onclick="goToJBrowse()">
     <div class="container">
         <div id="range" style="text-align: center"></div>
         <svg className="viewer" id="viewerActnFly"/>
     </div>
 </div>
-
+<%}%>
 <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 

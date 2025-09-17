@@ -1,7 +1,5 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
-import edu.mcw.rgd.datamodel.SpeciesType;
-import edu.mcw.rgd.process.mapping.MapManager;
 
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.services.ClientInit;
@@ -26,11 +24,6 @@ import org.elasticsearch.search.sort.SortOrder;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.boostValues;
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.categories;
-import static edu.mcw.rgd.datamodel.search.ElasticMappings.fields;
 
 
 /**
@@ -190,6 +183,10 @@ public class QueryService1 {
                 builder.filter(QueryBuilders.termQuery("regionName.keyword", sb.getRegion()));
 
             }
+            if (sb.getExpressionLevel()!=null && !sb.getExpressionLevel().equals("")) {
+                builder.filter(QueryBuilders.termQuery("expressionLevel.keyword", sb.getExpressionLevel()));
+
+            }
         }
         return builder;
     }
@@ -249,6 +246,7 @@ public class QueryService1 {
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term)).must(QueryBuilders.termQuery("category.keyword", "Strain")).boost(200));
             dqb.add(QueryBuilders.termQuery("symbol.symbol", term).boost(2000));
             dqb.add(QueryBuilders.termQuery("term.symbol", term).boost(2000));
+            dqb.add(QueryBuilders.termQuery("expressedGeneSymbols.symbol", term).boost(2000));
             if(termIsAccId(term)) {
                 dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("synonyms.symbol", term)).must(QueryBuilders.termQuery("category.keyword", "Ontology")).boost(2000));
 
@@ -261,11 +259,16 @@ public class QueryService1 {
                         .add(QueryBuilders.multiMatchQuery(term)
                                 .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX)
                                 .analyzer("standard")
-                                .boost(5))
+                                .boost(8))
                         .add(QueryBuilders.multiMatchQuery(term)
                                 .type(MultiMatchQueryBuilder.Type.PHRASE)
                                 .analyzer("standard")
-                                .boost(2))
+                                .boost(5))
+                        .add(QueryBuilders.multiMatchQuery(term)
+                                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                                .operator(Operator.AND)
+
+                                .boost(3))
 
                 ;
                 //   String[] tokens=term.split("[\\s,]+");
@@ -329,12 +332,13 @@ public class QueryService1 {
 
         AggregationBuilder   aggs=null;
         if(aggField.equalsIgnoreCase("species")) {
-            aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
+            aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword").size(20)
                     .subAggregation(AggregationBuilders.terms("categoryFilter").field("category.keyword")
                             .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
-                            .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword"))
+                            .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword").size(500))
                             .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
                             .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(200))
+                            .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
 
                             .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(200))
                             .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
@@ -351,10 +355,11 @@ public class QueryService1 {
         }
         if(aggField.equalsIgnoreCase("category")) {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
-                    .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword"))
-                    .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
+                    .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword").size(20))
+                    .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword").size(20))
                     .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
                     .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword"))
+                    .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
 
                     .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword"))
                     .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
@@ -372,7 +377,7 @@ public class QueryService1 {
             return aggs;
         }
         aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
-                .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword"))
+                .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword").size(20))
                 .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(100).order(BucketOrder.key(true)))
         // .order(Terms.Order.term(true)))  deprecated in 6.4
         ;
