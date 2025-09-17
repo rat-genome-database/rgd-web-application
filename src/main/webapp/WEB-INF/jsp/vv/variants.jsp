@@ -307,8 +307,8 @@
                     
                     <!-- Spacer row to align with position headers in right table -->
                     <tr>
-                        <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=100/></td>
-                        <td>&nbsp;</td>
+                        <td style="height:100px; vertical-align:top;"><img src="/rgdweb/common/images/dot_clear.png" alt="" height=100/></td>
+                        <td style="height:100px;">&nbsp;</td>
                     </tr>
 
                 </table>
@@ -558,7 +558,7 @@
                                 while (kit.hasNext() ) {
                                     long key = (Long) kit.next(); %>
 
-                            <td height=100>
+                            <td style="height:100px; vertical-align:top;">
                                 <div class="iewrap">
                                     <div class="container">
                                         <div class="head" style="border-right: 1px solid white;min-width:<%=cellWidth%>">
