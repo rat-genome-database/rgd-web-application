@@ -513,28 +513,30 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
     }
 
 // Assign ortholog1 through ortholog8
-    const [ortholog1, ortholog2, ortholog3, ortholog4, ortholog5, ortholog6, ortholog7, ortholog8] = orthologs;
+    const [ortholog1, ortholog2, ortholog3, ortholog4, ortholog5, ortholog6, ortholog7, ortholog8 , ortholog9, ortholog10] = orthologs;
 
-
-
-    var selected=   $('.checkedObjects:checked').map(function () {
+    let selected=   $('.checkedObjects:checked').map(function () {
         return this.value;
     }).get().join(',');
     if(selected!=""){
-        var href;
+        let href;
         if(tool=='interviewer') {
             href = "/rgdweb/cytoscape/cy.html?browser=12&species="+speciesTypeKey+"&identifiers=" + selected;
             //_this.href = href;
             window.open(href);
         }
-        if(tool=='functionalAnnot' || tool=='annotDistribution') {
+        if(tool=='functionalAnnot' || tool=='annotDistribution' || tool=='annotComparison' || (tool=='gviewer' && objectType == 'genes')) {
             let baseUrl="";
             if(tool=='annotDistribution') {
                  baseUrl += "/rgdweb/ga/ui.html";
-            }else{
+            }else if (tool=='functionalAnnot'){
                 baseUrl +="/rgdweb/ga/analysis.html";
+            }else if(tool=='annotComparison') {
+                baseUrl+="/rgdweb/ga/termCompare.html";
+            }else{
+                baseUrl+="/rgdweb/ga/genome.html"
             }
-// Static query parameters
+        // Static query parameters
             const oParams = ["D", "W", "N", "P", "C", "F", "E"].map(o => `o=${o}`).join("&");
             const xParams = [
                 19, 56, 36, 52, 40, 31, 45, 29, 32, 48,
@@ -544,33 +546,29 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
                 44, 14, 22, 51, 16, 24
             ].map(x => `x=${x}`).join("&");
 
-// Orthologs (only include if defined)
+        // Orthologs (only include if defined)
             const orthologParams = orthologs
                 .filter(val => val !== undefined)
                 .map(o => `ortholog=${o}`)
                 .join("&");
 
-// Final href
-            const href = `${baseUrl}?${oParams}&${xParams}&${orthologParams}&species=${speciesTypeKey}&chr=&start=&stop=&mapKey=${mapKey}&genes=${selected}`;
 
+        // Final href
+            let href = `${baseUrl}?${oParams}&${xParams}&${orthologParams}&species=${speciesTypeKey}&chr=&start=&stop=&mapKey=${mapKey}&genes=${selected}`;
+            if(tool=='annotComparison'){
+                href+="&term1=DOID%3A4&term2=PW%3A0000001"
+            }
             window.open(href);
         }
-        // if(tool=='annotDistribution') {
-        //
-        //     href=  "/rgdweb/ga/analysis.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=30&x=4&x=21&x=44&x=14&x=22&x=51&x=16&x=24&ortholog="+ ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+
-        //         "&species=" + speciesTypeKey +"&chr=&start=&stop=&mapKey="+mapKey+"&genes=" + selected;
-        //    // _this.href=href;
-        //     window.open(href);
-        // }
         if(tool=='olga') {
-            var strainSymbols=   $('.checkedObjects:checked').map(function () {
+            var symbols=   $('.checkedObjects:checked').map(function () {
                 return this.getAttribute("data-symbol");
-            }).get().join(',');
+            }).get().join('%5B');
 
-            if(strainSymbols!=""){
-                href="/rgdweb/generator/list.html?mapKey="+ mapKey+"&oKey="+objectkey+"&vv=&ga=&act=&a="+"~lst:" + strainSymbols.replace(/\,/g, '[');
+            if(symbols!=""){
+                href="/rgdweb/generator/list.html?mapKey="+ mapKey+"&oKey="+objectkey+"&vv=&ga=&act=&a="+"~lst:" + symbols;
             }else {
-                href = "/rgdweb/generator/list.html?mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=&a=" + "~lst:" + selected.replace(/\,/g, '[');
+                href = "/rgdweb/generator/list.html?mapKey=" + mapKey + "&oKey=" + objectkey + "&vv=&ga=&act=&a=" + "~lst:" + selected.replace(/\,/g, '%5B');
             }
  //           _this.href=href;
             window.open(href);
@@ -633,17 +631,18 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
                 }
             }
         }
-        if(tool=='gviewer') {
+        if(tool=='gviewer' && objectType != 'genes') {
             /*   if(objectType=='sslps'){
              objectType='markers'
              }*/
-            if (objectType == 'genes') {
-
-                href = "/rgdweb/ga/genome.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=58&x=38&x=3&x=10&x=15&x=1&x=6&x=37&x=7&x=53&x=43&x=39&x=34&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&ortholog=" +
-                    ortholog1 + "&ortholog=" + ortholog2 + "&ortholog=" + ortholog3 + "&ortholog=" + ortholog4 + "&ortholog=" + ortholog5 + "&ortholog=" + ortholog6 +"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
-                    "&species=" + speciesTypeKey + "&chr=1&start=&stop=&mapKey=" + mapKey + "&genes=" + selected;
-            }else{
-                href="genomeViewer.html?oKey=" +objectkey +"&mapKey=" +mapKey +"&rgdIds="+ selected+"&species=" + speciesTypeKey;}
+            // if (objectType == 'genes') {
+            //
+            //     href = "/rgdweb/ga/genome.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=56&x=36&x=52&x=40&x=31&x=45&x=29&x=32&x=48&x=23&x=33&x=50&x=17&x=2&x=20&x=54&x=57&x=27&x=41&x=35&x=49&x=5&x=55&x=42&x=58&x=38&x=3&x=10&x=15&x=1&x=6&x=37&x=7&x=53&x=43&x=39&x=34&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&ortholog=" +
+            //         ortholog1 + "&ortholog=" + ortholog2 + "&ortholog=" + ortholog3 + "&ortholog=" + ortholog4 + "&ortholog=" + ortholog5 + "&ortholog=" + ortholog6 +"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
+            //         "&species=" + speciesTypeKey + "&chr=1&start=&stop=&mapKey=" + mapKey + "&genes=" + selected;
+            // }else{
+                href="genomeViewer.html?oKey=" +objectkey +"&mapKey=" +mapKey +"&rgdIds="+ selected+"&species=" + speciesTypeKey;
+            // }
             //_this.href=href;
             window.open(href);
         }
@@ -667,14 +666,14 @@ function toolSubmit(_this, species,tool, objectType, mKey, $assembly) {
            // _this.href=href;
             window.open(href);
         }
-        if(tool=='annotComparison') {
-            href= "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="
-                +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
-                "&species=" + speciesTypeKey+"&term1=RDO%3A0000001&term2=PW%3A0000001&chr=1&start=&stop=&mapKey=" + mapKey +"&genes=" + selected;
-
-           // _this.href=href;
-            window.open(href);
-        }
+        // if(tool=='annotComparison') {
+        //     href= "/rgdweb/ga/termCompare.html?o=D&o=W&o=N&o=P&o=C&o=F&o=E&x=19&x=40&x=36&x=52&x=29&x=31&x=45&x=23&x=32&x=48&x=17&x=33&x=50&x=54&x=2&x=20&x=41&x=57&x=27&x=5&x=35&x=49&x=58&x=55&x=42&x=10&x=38&x=3&x=6&x=15&x=1&x=53&x=37&x=7&x=34&x=43&x=39&x=46&x=4&x=21&x=30&x=14&x=22&x=44&x=60&x=24&x=51&x=16&x=56&ortholog="
+        //         +ortholog1 +"&ortholog=" +ortholog2+"&ortholog=" +ortholog3+"&ortholog=" +ortholog4+"&ortholog=" +ortholog5+"&ortholog=" +ortholog6+"&ortholog=" +ortholog7+"&ortholog=" +ortholog8+
+        //         "&species=" + speciesTypeKey+"&term1=RDO%3A0000001&term2=PW%3A0000001&chr=1&start=&stop=&mapKey=" + mapKey +"&genes=" + selected;
+        //
+        //    // _this.href=href;
+        //     window.open(href);
+        // }
         if(tool=='excel') {
             var strainSymbols=   $('.checkedObjects:checked').map(function () {
                 return this.getAttribute("data-symbol");
