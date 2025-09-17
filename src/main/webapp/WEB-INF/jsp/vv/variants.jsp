@@ -304,6 +304,12 @@
                         </td>
                     </tr>
                     <% } %>
+                    
+                    <!-- Spacer row to align with position headers in right table -->
+                    <tr>
+                        <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=100/></td>
+                        <td>&nbsp;</td>
+                    </tr>
 
                 </table>
                 <%
