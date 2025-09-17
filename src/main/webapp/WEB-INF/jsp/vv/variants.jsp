@@ -193,7 +193,7 @@
             height: <%=cellWidth + 1%>px;
         }
         
-        #colTable tr {
+        #colTable tr:not(.positionHeader) {
             height: <%=cellWidth + 1%>px;
         }
         
@@ -566,7 +566,7 @@
                             <td></td>
                         </tr>
 
-                        <tr>
+                        <tr class="positionHeader">
                             <%  Iterator kit = positions.iterator();
                                 while (kit.hasNext() ) {
                                     long key = (Long) kit.next(); %>
