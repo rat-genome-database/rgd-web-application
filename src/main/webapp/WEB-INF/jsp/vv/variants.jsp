@@ -321,7 +321,7 @@
                     <!-- DEBUG: Spacer height = <%=spacerHeight%>px, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     <tr>
                         <td style="height:<%=spacerHeight%>px; vertical-align:top;"><img src="/rgdweb/common/images/dot_clear.png" alt="" height=<%=spacerHeight%>/></td>
-                        <td style="height:<%=spacerHeight%>px;">&nbsp;</td>
+                        <td width="<%=xMenuWidth%>" style="height:<%=spacerHeight%>px;">&nbsp;</td>
                     </tr>
 
                 </table>
