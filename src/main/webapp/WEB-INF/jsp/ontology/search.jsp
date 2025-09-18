@@ -26,6 +26,12 @@
     font-size:11px;
     color:#505050;
 }
+.ontologyWAnnots{
+
+}
+.ontologyWOAnnots{
+ padding-top: 70px;
+}
 </style>
 <jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.ontology.OntSearchBean" />
 <%@ include file="ontHeader.jsp"%>
@@ -127,53 +133,46 @@
                   noAnnots.add(o);
           }
       %>
-      <table class="ontologyList">
-          <tr>
-              <td>
-                  <h4>Ontologies with Annotations</h4>
-                  <%
-                      for (Ontology o : withAnnots){
-                     %>
-                  <div class="rootont"><%
-                          String rootTermAcc = bean.getRootTerms().get(o.getId());
-                          if( rootTermAcc!=null ) {
-                  %>      <table border=0 width="300">
-                            <tr>
-                                <td width=20><a href="<%=Link.ontView(rootTermAcc)%>"><img src="/rgdweb/common/images/add.png"></a></td>
-                                <td><label for="ontid_<%=o.getId()%>"><a href="<%=Link.ontView(rootTermAcc)%>" title="click to browse ontology tree"><%=o.getName().replace(" ","&nbsp;")%></a></label></td>
-                            </tr>
-                          </table>
-                        <% } else { %>
-                                <label for="ontid_<%=o.getId()%>"><%=o.getName()%></label><br>
-                        <% } %>
-                        </div>
-                  <%}%>
-              </td>
-          </tr>
-          <tr><td style="color: white; font-size: larger; cursor: default;">This is just an illusion</td></tr>
-          <tr>
-              <td>
-                  <h4>Ontologies without Annotations</h4>
-                  <%
-                  for (Ontology o : noAnnots){
-                  %>
-                  <div class="rootont"><%
-                      String rootTermAcc = bean.getRootTerms().get(o.getId());
-                      if( rootTermAcc!=null ) {
-                  %>      <table border=0 width="300">
-                      <tr>
-                          <td width=20><a href="<%=Link.ontView(rootTermAcc)%>"><img src="/rgdweb/common/images/add.png"></a></td>
-                          <td><label for="ontid_<%=o.getId()%>"><a href="<%=Link.ontView(rootTermAcc)%>" title="click to browse ontology tree"><%=o.getName().replace(" ","&nbsp;")%></a></label></td>
-                      </tr>
-                  </table>
-                      <% } else { %>
-                      <label for="ontid_<%=o.getId()%>"><%=o.getName()%></label><br>
-                      <% } %>
-                  </div>
-                  <%}%>
-              </td>
-          </tr>
-      </table>
+      <div class="ontologyWAnnots">
+          <h4>Ontologies with Annotations</h4>
+          <%
+              for (Ontology o : withAnnots){
+          %>
+          <div class="rootont"><%
+              String rootTermAcc = bean.getRootTerms().get(o.getId());
+              if( rootTermAcc!=null ) {
+          %>      <table border=0 width="300">
+              <tr>
+                  <td width=20><a href="<%=Link.ontView(rootTermAcc)%>"><img src="/rgdweb/common/images/add.png"></a></td>
+                  <td><label for="ontid_<%=o.getId()%>"><a href="<%=Link.ontView(rootTermAcc)%>" title="click to browse ontology tree"><%=o.getName().replace(" ","&nbsp;")%></a></label></td>
+              </tr>
+          </table>
+              <% } else { %>
+              <label for="ontid_<%=o.getId()%>"><%=o.getName()%></label><br>
+              <% } %>
+          </div>
+          <%}%>
+      </div>
+      <div class="ontologyWOAnnots">
+          <h4>Ontologies without Annotations</h4>
+          <%
+              for (Ontology o : noAnnots){
+          %>
+          <div class="rootont"><%
+              String rootTermAcc = bean.getRootTerms().get(o.getId());
+              if( rootTermAcc!=null ) {
+          %>      <table border=0 width="300">
+              <tr>
+                  <td width=20><a href="<%=Link.ontView(rootTermAcc)%>"><img src="/rgdweb/common/images/add.png"></a></td>
+                  <td><label for="ontid_<%=o.getId()%>"><a href="<%=Link.ontView(rootTermAcc)%>" title="click to browse ontology tree"><%=o.getName().replace(" ","&nbsp;")%></a></label></td>
+              </tr>
+          </table>
+              <% } else { %>
+              <label for="ontid_<%=o.getId()%>"><%=o.getName()%></label><br>
+              <% } %>
+          </div>
+          <%}%>
+      </div>
       <div style="clear:both;"></div>
   </div>
 
