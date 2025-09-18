@@ -108,6 +108,7 @@
     int tableHeight = snplotyper.getSamples().size() * cellWidth;
     int heightOfOptionalGeneTracks = 0;
 %>
+<!-- DEBUG: samples.size()=<%=samples.size()%>, snplotyper.getSamples().size()=<%=snplotyper.getSamples().size()%>, tableHeight=<%=tableHeight%> -->
 <!-- DEBUG: Initial heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
 
 <%@ include file="mapStyles.jsp"%>
