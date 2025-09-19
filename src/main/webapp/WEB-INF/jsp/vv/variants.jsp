@@ -605,7 +605,7 @@
                                 <%
                     }  else {
                     %>
-                            <td valign="center" width=24 height=10 ><div id="cell<%=k%>-<%=j%>" class="heatCell" style="color:white; cursor: pointer; background-color:#96151D" >
+                            <td valign="center" width=24 height=10 ><div id="cell<%=k%>-<%=j%>" class="heatCell" style="color:white; cursor: pointer; background-color:#96151D; vertical-align: middle;" >
 
                                     <%
                     int count=0;
