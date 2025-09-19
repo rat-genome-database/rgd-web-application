@@ -60,7 +60,7 @@
         <br><br>The Variant <b><%=obj.getName()%></b> (RGD:<%=obj.getRgdId()%>) has been <b><%=rgdId.getObjectStatus()%></b>
         &nbsp; on <%=new SimpleDateFormat("MMMMM d, yyyy").format(rgdId.getLastModifiedDate())%>. <br><br>
         <%if (newVar != null){%>
-        This variants has been replaced by the variant <a href="<%=edu.mcw.rgd.reporting.Link.it(newVar.getRgdId(),24)%>" title="click to see the variant report"><b><%=newVar.getName()%></b> (RGD:<%=newVar.getRgdId()%>)</a>.
+        This variant has been replaced by the variant <a href="<%=edu.mcw.rgd.reporting.Link.it(newVar.getRgdId(),24)%>" title="click to see the variant report"><b><%=newVar.getName()%></b> (RGD:<%=newVar.getRgdId()%>)</a>.
         <% } %>
         <% } else { %>
 <table width="95%" border="0">
