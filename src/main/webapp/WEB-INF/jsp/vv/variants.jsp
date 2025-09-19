@@ -311,11 +311,8 @@
                     
                     <!-- Spacer row to align with position headers in right table -->
                     <%
-                        // Calculate correct spacer height: gene tracks (75px) + reference track (25px) = 100px
-                        int spacerHeight = 75 + 25; // Plus gene (25) + Minus gene (25) + Reference nucleotide (25) + position headers space (25)
-                        if(mapKey != 631 && mapKey != 372) {
-                            spacerHeight += 25; // Add conservation track height
-                        }
+                        // Calculate correct spacer height: conservation (25) + gene tracks (75px) + reference track (25px) = 125px
+                        int spacerHeight = 25 + 75 + 25; // Conservation (25) + Plus gene (25) + Minus gene (25) + Reference nucleotide (25) + position headers space (25)
                     %>
                     <!-- DEBUG: Spacer height = <%=spacerHeight%>px, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     <tr>
