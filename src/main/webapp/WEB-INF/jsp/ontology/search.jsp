@@ -134,7 +134,7 @@
           }
       %>
       <div class="ontologyWAnnots">
-          <h4>Ontologies with Annotations</h4>
+          <h4>Ontologies for meta data</h4>
           <%
               for (Ontology o : withAnnots){
           %>
@@ -154,7 +154,7 @@
           <%}%>
       </div>
       <div class="ontologyWOAnnots">
-          <h4>Ontologies without Annotations</h4>
+          <h4>Other Ontologies used by RGD</h4>
           <%
               for (Ontology o : noAnnots){
           %>
