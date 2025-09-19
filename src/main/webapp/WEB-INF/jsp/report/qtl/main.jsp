@@ -91,7 +91,7 @@
 %>
     <br><br>This object has been <%=rgdId.getObjectStatus()%> <br><br>
         <%if (newQTL != null){%>
-        This QTL has been replaced by the QTL <a href="<%=edu.mcw.rgd.reporting.Link.qtl(newQTL.getRgdId())%>" title="click to see the variant report"><b><%=newQTL.getName()%></b> (RGD:<%=newQTL.getRgdId()%>)</a>.
+        This QTL has been replaced by the QTL <a href="<%=edu.mcw.rgd.reporting.Link.qtl(newQTL.getRgdId())%>" title="click to see the QTL report"><b><%=newQTL.getName()%></b> (RGD:<%=newQTL.getRgdId()%>)</a>.
         <% } %>
 <% } else {%>
 
