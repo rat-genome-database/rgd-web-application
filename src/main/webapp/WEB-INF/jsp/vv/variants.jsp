@@ -234,12 +234,12 @@
         <tr>
             <td valign=top style="vertical-align: top;">
                 <table class="snpHeader" align="center" cellpadding=0 cellspacing=0 style="border-top:1px solid white; margin-top:17px;">
-                    <%   if(mapKey != 631 && mapKey != 372) { %>
+                    <%   //if(mapKey != 631 && mapKey != 372) { %>
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25 /></td>
                         <td width="<%=xMenuWidth%>" ><div style="border-top:1px solid #E8E4D5;" class="snpLabel">Conservation&nbsp;</div></td>
                     </tr>
-                    <%   } %>
+                    <%   //} %>
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
                         <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
@@ -330,15 +330,9 @@
 
             </td>
             <td valign="top">
-                <script></script>
-
                 <%
                     int divWidth= horizontalWidth;
-
                 %>
-
-
-
 
                 <script>
                     document.getElementById("blueBackground").style.height=<%=tableHeight + 500 + heightOfOptionalGeneTracks%>
