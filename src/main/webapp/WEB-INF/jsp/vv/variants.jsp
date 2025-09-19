@@ -192,10 +192,19 @@
         /* Force consistent row heights for alignment */
         .snpHeader tr {
             height: <%=cellWidth + 1%>px;
+            line-height: <%=cellWidth + 1%>px;
         }
         
         #colTable tr:not(.positionHeader) {
             height: <%=cellWidth + 1%>px;
+            line-height: <%=cellWidth + 1%>px;
+        }
+        
+        /* Ensure all cells have consistent box-sizing */
+        .snpHeader td, #colTable td {
+            box-sizing: border-box;
+            height: <%=cellWidth + 1%>px;
+            vertical-align: middle;
         }
         
         /* Custom scrollbar styles for better visibility */
