@@ -245,7 +245,7 @@ function hideAllOrthos() {
                 imageSource +=  "mole-ratI.png";
                 break;
             case 17 :
-                imageSource +=  "black-ratI.png";
+                imageSource +=  "black-ratII.png";
                 break;
         }
         return imageSource;
