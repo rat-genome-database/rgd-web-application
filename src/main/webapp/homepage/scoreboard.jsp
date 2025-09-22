@@ -36,7 +36,7 @@
 <div id="publicScoreboardHeader" class="" style="border-color: transparent;margin-top:20px;">
     <h5 class="card-title">RGD Data Snapshot <%=latest%></h5>
 </div>
-<table id="publicScoreboard" class="publicScoreboard">
+<table id="publicScoreboard" class="publicScoreboard" align="left">
     <tr>
         <td colspan="2">Data Objects</td>
     </tr>
@@ -86,14 +86,14 @@
 <style>
     .publicScoreboard{
         font-family: 'Arial', 'Helvetica', sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         border: 2px solid #2865A3;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(40, 101, 163, 0.15);
         background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
         margin: 0 auto;
         overflow: hidden;
-        width: inherit;
+        /*width: inherit;*/
     }
     
     .publicScoreboard tr:nth-child(odd) {
@@ -110,6 +110,7 @@
         border-bottom: 1px solid rgba(40, 101, 163, 0.1);
         color: #2c3e50;
         font-weight: 500;
+        font-size: 16px;
     }
     
     .publicScoreboard td:first-child {
@@ -148,14 +149,14 @@
     .publicScoreboard tr:nth-child(8) td{
         font-weight: 700;
         color: #8b4513;
-        font-size: 15px;
+        font-size: 16px;
         background: linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, transparent 100%);
         border-top: 2px solid rgba(139, 69, 19, 0.2);
     }
     .publicScoreboard tr:nth-child(1) td{
         font-weight: 700;
         color: #8b4513;
-        font-size: 15px;
+        font-size: 16px;
         background: linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, transparent 100%);
         border-top: 2px solid rgba(139, 69, 19, 0.2);
     }
