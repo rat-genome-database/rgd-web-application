@@ -100,11 +100,9 @@
         .heatCell {
             position:relative;
             min-width: <%=cellWidth%>px;
-            min-height: <%=cellWidth%>px;
+            min-height: <%=(cellWidth-1)%>px;
             width:<%=cellWidth%>px;
-            height:<%=cellWidth%>px;
-            *width: <%=cellWidth + 1%>px;
-            *height: <%=cellWidth + 1%>px;
+            height:<%=(cellWidth-1)%>px;
             border-top: 1px solid white;
             border-left: 1px solid white;
             font-size: 9px;
