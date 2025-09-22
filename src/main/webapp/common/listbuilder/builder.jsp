@@ -1,5 +1,5 @@
 
-<link href="http://dev.rgd.mcw.edu/common/style/rgd_styles-3.css" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/common/style/rgd_styles-3.css" rel="stylesheet" type="text/css" />
 
 
 
