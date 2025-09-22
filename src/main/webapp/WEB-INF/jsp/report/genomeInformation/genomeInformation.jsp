@@ -60,7 +60,7 @@
                 if (mapKey == 720)
                     $jbrowse.src = URL + "data_squirrel2_0&loc=";
             }
-            if (species == 'Naked Mole-rat') {
+            if (species == 'Naked Mole-Rat') {
                 if (mapKey == 1410)
                     $jbrowse.src = URL + "data_hetGla2&loc=";
             }
@@ -70,6 +70,7 @@
                 if (mapKey == 1313)
                     $jbrowse.src = URL + "data_veroWho&loc=";
             }
+
         }
     });
 </script>

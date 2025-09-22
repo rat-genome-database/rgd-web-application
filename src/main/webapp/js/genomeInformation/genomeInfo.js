@@ -14,7 +14,7 @@ $(function () {
    
     var species=$species.val().trim();
 
-   if(species=='Rat' || species=='Human' || species=='Mouse' || species=='Dog' || species=='Bonobo' || species=='Pig'){
+   if(species=='Rat' || species=='Human' || species=='Mouse' || species=='Dog' || species=='Bonobo' || species=='Pig' || species=='Black Rat'){
        console.log("SPECIES VAL():"+species+ "...RUNNING GVIEWER..");
         runGviewer()
    }
@@ -97,6 +97,16 @@ function runGviewer() {
             URL = URL + "data_pig11_1";
         else if(mapKey=='910')
             URL = URL + "data_pig10_2";
+    }
+    else if(species=='Naked Mole-Rat') {
+        if(mapKey=='1410')
+            URL = URL + "data_hetGla2";
+
+    }
+    else if(species=='Black Rat') {
+        bandURL="/rgdweb/gviewer/data/black_rat_ideo.xml";
+
+
     }
 
     if(!gviewer) {
