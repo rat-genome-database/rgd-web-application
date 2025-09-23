@@ -110,7 +110,7 @@ function runGviewer() {
     }
 
     if(!gviewer) {
-        gviewer = new Gviewer("gviewer",300,600);
+        gviewer = new Gviewer("gviewer",300,600, mapKey);
     //    gviewer.genomeBrowserURL = "http://rgd.mcw.edu/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
         gviewer.genomeBrowserURL =URL;
         gviewer.genomeBrowserName = "JBrowse";

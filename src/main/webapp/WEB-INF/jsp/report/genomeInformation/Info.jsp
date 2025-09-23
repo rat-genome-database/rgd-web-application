@@ -1,3 +1,4 @@
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="/rgdweb/gviewer/script/gviewer1.js"></script>
 <script src="/rgdweb/gviewer/script/util.js"></script>
@@ -268,7 +269,7 @@
             <c:choose>
 
                 <c:when test="${!model.species.equals('Squirrel') && !model.species.equals('Chinchilla') && !model.species.equals('Naked Mole-Rat') && !model.species.equals('Green Monkey')}">
-                    <div class="panel panel-default" style=";height:600px;">
+                    <div class="panel panel-default" style=";">
                     <div class="panel-heading">
                         <strong>Karyotype ${model.species}</strong>
                     </div>
