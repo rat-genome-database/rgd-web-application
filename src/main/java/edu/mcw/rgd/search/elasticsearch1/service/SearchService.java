@@ -237,13 +237,12 @@ public class SearchService {
         if(nvCount<matrixElements){
           matrixResultsExists=1;
         }
-        String message=new String();
+        String message="";
         if(totalHits==0){
             message="0 results found for \"" + term + "\"";
         }
 
-        System.out.println("SEARCH HITS IN CONTROLLER:"+ searchHits.length)
-;       model.addAttribute("totalHits", totalHits);
+        model.addAttribute("totalHits", totalHits);
         model.addAttribute("aggregations", aggregations);
         model.addAttribute("hitArray", searchHits);
         model.addAttribute("speciesCatArray", speciesCatArray);
