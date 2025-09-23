@@ -27,10 +27,13 @@
     color:#505050;
 }
 .ontologyWAnnots{
-
+    overflow: hidden;
+    white-space: nowrap;
 }
 .ontologyWOAnnots{
- padding-top: 70px;
+    padding-top: 30px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 </style>
 <jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.ontology.OntSearchBean" />

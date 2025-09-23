@@ -93,7 +93,7 @@
         background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
         margin: 0 auto;
         overflow: hidden;
-        /*width: inherit;*/
+        width: inherit;
     }
     
     .publicScoreboard tr:nth-child(odd) {
@@ -106,7 +106,7 @@
     }
     
     .publicScoreboard td {
-        padding: 12px 16px;
+        padding: 6px 8px;
         border-bottom: 1px solid rgba(40, 101, 163, 0.1);
         color: #2c3e50;
         font-weight: 500;
