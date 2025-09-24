@@ -4,9 +4,7 @@
 <%@ page import="edu.mcw.rgd.stats.ScoreBoardManager" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.*" %>
-<div id="publicScoreboardHeader" class="" style="border-color: transparent;margin-top:20px;">
-    <h5 class="card-title">Scoreboard</h5>
-</div>
+
 <%
     StatisticsDAO sdao = new StatisticsDAO();
     ScoreBoardManager sbm = new ScoreBoardManager();
@@ -16,11 +14,12 @@
     Date date = formatter.parse(pastDates.get(0));
     Date date2 = formatter.parse(pastDates.get(1));
     String formattedDateString = formatter.format(date2);
+    String latest = formatter.format(date);
 
 
     Map<String,String> map = sdao.getStatMap("Active Object",0,date);
     Map<String,String> map2 = sdao.getStatMap("Active Object",0,date2);
-    Map<String, String> annotMap = sbm.getOntologyManualAnnotationCount(0, 0, date); // species, rgd obj, date - for all rgd objects and species
+    Map<String, String> annotMap = sdao.getStatMap("Ontology Annotations", 0, date); // species, rgd obj, date - for all rgd objects and species
     int geneCur = Integer.parseInt(map.get("GENES"));
     int genePrev = Integer.parseInt(map2.get("GENES"));
     int geneDiff = geneCur - genePrev;
@@ -34,8 +33,13 @@
         annotMap.put(key,String.format("%,d",val));
     }
 %>
-
-<table id="publicScoreboard" class="publicScoreboard">
+<div id="publicScoreboardHeader" class="" style="border-color: transparent;margin-top:20px;">
+    <h5 class="card-title">RGD Data Snapshot <%=latest%></h5>
+</div>
+<table id="publicScoreboard" class="publicScoreboard" align="left">
+    <tr>
+        <td colspan="2">Data Objects</td>
+    </tr>
     <tr>
         <td>Genes (All Species)</td>
         <td class="scoreboardAmount"><%=map.get("GENES")%></td>
@@ -53,12 +57,15 @@
         <td class="scoreboardAmount"><%=map.get("CLINVAR")%></td>
     </tr>
     <tr>
-        <td>New Genes added since <%=formattedDateString%></td>
-        <td class="scoreboardAmount"><%=geneDiff <= 0 ? "N/A" : geneDiff%></td>
+        <td>References</td>
+        <td class="scoreboardAmount"><%=map.get("REFERENCES")%></td>
     </tr>
     <tr>
-        <td>Manual Annotations</td>
-        <td></td>
+        <td>New Genes added since <%=formattedDateString%></td>
+        <td class="scoreboardAmount"><%=geneDiff <= 0 ? "N/A" : String.format("%,d",geneDiff)%></td>
+    </tr>
+    <tr>
+        <td colspan="2">Experimental Ontology Annotations (All Species)</td>
     </tr>
     <tr>
         <td>RDO: RGD Disease Ontology</td>
@@ -79,7 +86,7 @@
 <style>
     .publicScoreboard{
         font-family: 'Arial', 'Helvetica', sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         border: 2px solid #2865A3;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(40, 101, 163, 0.15);
@@ -99,10 +106,11 @@
     }
     
     .publicScoreboard td {
-        padding: 12px 16px;
+        padding: 6px 8px;
         border-bottom: 1px solid rgba(40, 101, 163, 0.1);
         color: #2c3e50;
         font-weight: 500;
+        font-size: 16px;
     }
     
     .publicScoreboard td:first-child {
@@ -138,10 +146,17 @@
     /*}*/
     
     /* Manual annotations section header */
-    .publicScoreboard tr:nth-child(6) td:first-child {
+    .publicScoreboard tr:nth-child(8) td{
         font-weight: 700;
         color: #8b4513;
-        font-size: 15px;
+        font-size: 16px;
+        background: linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, transparent 100%);
+        border-top: 2px solid rgba(139, 69, 19, 0.2);
+    }
+    .publicScoreboard tr:nth-child(1) td{
+        font-weight: 700;
+        color: #8b4513;
+        font-size: 16px;
         background: linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, transparent 100%);
         border-top: 2px solid rgba(139, 69, 19, 0.2);
     }

@@ -222,7 +222,7 @@ public class QueryService1 {
     public QueryBuilder getDisMaxQuery(String term, SearchBean sb){
         DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
 
-        if(term==null || term.equals("")){
+        if((term==null || term.equals("") ) && sb!=null){
             return dqb.add(QueryBuilders.boolQuery().must(QueryBuilders.matchAllQuery()).must(QueryBuilders.termQuery("category.keyword", sb.getCategory())));
         }
         if(sb==null) {

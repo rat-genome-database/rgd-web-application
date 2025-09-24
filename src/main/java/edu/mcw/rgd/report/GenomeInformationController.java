@@ -89,6 +89,7 @@ public class GenomeInformationController implements Controller{
             }
 
         hits=this.getGenome(mapKey);
+            System.out.println("HITS SIZE:"+ hits.size());
         model.addAttribute("hits",hits ) ;
         if(infoTable!=null){
             return new ModelAndView("/WEB-INF/jsp/report/genomeInformation/homeInfoTable.jsp", "model", model );

@@ -2,15 +2,16 @@
 
     LinkedHashMap<String,String> hm = new LinkedHashMap<String,String>();
     ModelMap mm = (ModelMap) request.getAttribute("model");
-    List<SearchHit[]> hits = (List<SearchHit[]>)mm.get("hitArray");
+    if(mm!=null && mm.get("hitArray")!=null) {
+        SearchHit[] hits = (SearchHit[]) mm.get("hitArray");
 
-    for (SearchHit[] sh: hits) {
-        for (int i=0; i< sh.length; i++) {
-            hm.put((String) sh[i].getSourceAsMap().get("term_acc"),(String) sh[i].getSourceAsMap().get("term"));
+        for (SearchHit sh : hits) {
+            // for (int i=0; i< hits.length; i++) {
+            hm.put((String) sh.getSourceAsMap().get("term_acc"), (String) sh.getSourceAsMap().get("term"));
+            // }
         }
+
+        out.print(gson.toJson(hm));
+
     }
-
-    out.print(gson.toJson(hm));
-
-
 %>

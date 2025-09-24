@@ -32,7 +32,7 @@ var gviewForEvent = function (e) {
 }
 
 
-function Gviewer(viewerId, height, width) {
+function Gviewer(viewerId, height, width, mapKey) {
 
     gviewerRef = this;
 
@@ -102,7 +102,11 @@ function Gviewer(viewerId, height, width) {
     this.chromosomes = new Array();
     this.frozen = false;
     this.zoomPane = false;
-    this.pixelHeight = height;
+    if(mapKey==1701) {
+        this.pixelHeight = 300;
+    }else {
+        this.pixelHeight=height;
+    }
     this.pixelWidth = width;
     this.currentColorScheme = 0;
     this.x = 0;
@@ -113,6 +117,7 @@ function Gviewer(viewerId, height, width) {
     this.lastLoad = new Array();
     this.loaded = new Array();
     this.bandURL = "";
+    this.mapKey=mapKey;
 
     //searches chromosomes to return the longest one.
     this.getLongestChromosome = function() {
@@ -127,8 +132,8 @@ function Gviewer(viewerId, height, width) {
 
     this.init = function() {
         this.div = document.getElementById(viewerId);
-    //    this.div.onmouseover = gviewer_mouseOverEvent;
-     //   this.div.onmouseout = gviewer_mouseOutEvent;
+        //    this.div.onmouseover = gviewer_mouseOverEvent;
+        //   this.div.onmouseout = gviewer_mouseOutEvent;
         this.div.style.width = this.pixelWidth;
         this.div.obj = this;
 
@@ -136,28 +141,30 @@ function Gviewer(viewerId, height, width) {
         this.canvas = appendDiv(this.vid + "canvas", "canvas", this.div);
         //this.canvas.style.height = (this.pixelHeight - 46);
         this.statusBar = appendDiv(this.vid + "status", "status-bar", this.div);
-        this.positionDiv = appendDiv(this.vid + "position","position-bar", this.div);
-       var controlBar = appendDiv(this.vid + "controlBar","control-bar", this.div);
-        var jbrowser= appendDiv(this.vid+"jbrowseWrapper", "jbrowseWrapper", this.div);
-       
+        this.positionDiv = appendDiv(this.vid + "position", "position-bar", this.div);
+        var controlBar = appendDiv(this.vid + "controlBar", "control-bar", this.div);
+        //  var jbrowser= appendDiv(this.vid+"jbrowseWrapper", "jbrowseWrapper", this.div);
+
         this.canvas.style.height = (this.pixelHeight - 46);
 
         this.loadingBar.innerHTML = "&nbsp;Loading Annotations...&nbsp;";
-
+        console.log("mapKey:"+ this.mapKey);
+        if (this.mapKey!=1701) {
+           var jbrowser= appendDiv(this.vid+"jbrowseWrapper", "jbrowseWrapper", this.div);
         var cStr = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size:10px;"><tr><td>';
-        cStr += '<strong style="color:blue">'+this.genomeBrowserName+' <span id="chrNum">(Chromosome 1)</span></strong>';
+        cStr += '<strong style="color:blue">' + this.genomeBrowserName + ' <span id="chrNum">(Chromosome 1)</span></strong>';
         cStr += '</td></tr></table>';
 
         controlBar.innerHTML = cStr;
 
         var url = this.genomeBrowserURL + "&loc=Chr1&highlight=&tracklist=0&nav=0&overview=0";
-        jbrowser.innerHTML="";
-        var iframe=document.createElement("IFRAME");
-        iframe.setAttribute("width",600);
+     jbrowser.innerHTML="";
+        var iframe = document.createElement("IFRAME");
+        iframe.setAttribute("width", 600);
         iframe.setAttribute("height", 200);
         iframe.setAttribute("src", url);
-        jbrowser.appendChild(iframe);
-
+   jbrowser.appendChild(iframe);
+    }
       this.zoomOptions = document.getElementById("gview_zoomOptions");
         this.windowManager = new DHTMLWindowManager();
         this.typesManager = new AnnotationTypesManager();
@@ -355,15 +362,17 @@ function Gviewer(viewerId, height, width) {
 
     //Retrieves xml document containing chromosome definitions and loads into viewer
     this.loadBands = function(url, species) {
+        if (!species) {
+            species = "3";
+        }
+        this.species = species;
         this.init();
 
         this.bandURL = url;
 
-        if (!species) {
-            species = "3";
-        }
 
-        this.species = species;
+
+
         var xml = new JKL.ParseXML( url );
 
         var errorFunc = function(status) {

@@ -108,6 +108,8 @@
     int tableHeight = snplotyper.getSamples().size() * cellWidth;
     int heightOfOptionalGeneTracks = 0;
 %>
+<!-- DEBUG: samples.size()=<%=samples.size()%>, snplotyper.getSamples().size()=<%=snplotyper.getSamples().size()%>, tableHeight=<%=tableHeight%> -->
+<!-- DEBUG: Initial heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
 
 <%@ include file="mapStyles.jsp"%>
 
@@ -187,6 +189,24 @@
         <!--font-size:5px;-->
         }
         
+        /* Force consistent row heights for alignment */
+        .snpHeader tr {
+            height: <%=cellWidth + 1%>px;
+            line-height: <%=cellWidth + 1%>px;
+        }
+        
+        #colTable tr:not(.positionHeader) {
+            height: <%=cellWidth + 1%>px;
+            line-height: <%=cellWidth + 1%>px;
+        }
+        
+        /* Ensure all cells have consistent box-sizing */
+        .snpHeader td, #colTable td {
+            box-sizing: border-box;
+            height: <%=cellWidth + 1%>px;
+            vertical-align: middle;
+        }
+        
         /* Custom scrollbar styles for better visibility */
         #topScrollWrapper::-webkit-scrollbar,
         #wrapperRegion::-webkit-scrollbar {
@@ -221,14 +241,14 @@
 
     <table id="mainTable" border=0 cellpadding=0 cellspacing=0 align="center" style="z-index:2; border:  4px outset #eeeeee;  background-color:white; padding-top:10px;  padding-bottom:20px; margin-top: 10px;margin-bottom:10px;">
         <tr>
-            <td valign=top>
+            <td valign=top style="vertical-align: top;">
                 <table class="snpHeader" align="center" cellpadding=0 cellspacing=0 style="border-top:1px solid white; margin-top:17px;">
-                    <%   if(mapKey != 631 && mapKey != 372) { %>
+                    <%   //if(mapKey != 631 && mapKey != 372) { %>
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25 /></td>
                         <td width="<%=xMenuWidth%>" ><div style="border-top:1px solid #E8E4D5;" class="snpLabel">Conservation&nbsp;</div></td>
                     </tr>
-                    <%   } %>
+                    <%   //} %>
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
                         <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
@@ -236,6 +256,7 @@
                     <% if (snplotyper.hasPlusStrandConflict()) {
                         heightOfOptionalGeneTracks+=25;
                     %>
+                    <!-- DEBUG: Plus strand conflict detected, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
                         <td ><div class="snpLabel">Genes <span style="color:blue;">( + )</span>&nbsp;</div></td>
@@ -248,6 +269,7 @@
                     <% if (snplotyper.hasMinusStrandConflict()) {
                         heightOfOptionalGeneTracks+=25;
                     %>
+                    <!-- DEBUG: Minus strand conflict detected, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
                     <tr>
                         <td><img src="/rgdweb/common/images/dot_clear.png" alt="" height=25/></td>
                         <td ><div class="snpLabel">Genes <span style="color:red;">( - )</span>&nbsp;</div></td>
@@ -295,6 +317,17 @@
                         </td>
                     </tr>
                     <% } %>
+                    
+                    <!-- Spacer row to align with position headers in right table -->
+                    <%
+                        // Calculate correct spacer height: conservation (25) + gene tracks (75px) + reference track (25px) = 125px
+                        int spacerHeight = 25 + 75 + 25; // Conservation (25) + Plus gene (25) + Minus gene (25) + Reference nucleotide (25) + position headers space (25)
+                    %>
+                    <!-- DEBUG: Spacer height = <%=spacerHeight%>px, heightOfOptionalGeneTracks = <%=heightOfOptionalGeneTracks%> -->
+                    <tr>
+                        <td style="height:<%=spacerHeight%>px; vertical-align:top;"><img src="/rgdweb/common/images/dot_clear.png" alt="" height=<%=spacerHeight%>/></td>
+                        <td width="<%=xMenuWidth%>" style="height:<%=spacerHeight%>px;">&nbsp;</td>
+                    </tr>
 
                 </table>
                 <%
@@ -302,20 +335,15 @@
                 %>
 
             </td>
-            <td>
-                <script></script>
-
+            <td valign="top">
                 <%
                     int divWidth= horizontalWidth;
-
                 %>
-
-
-
 
                 <script>
                     document.getElementById("blueBackground").style.height=<%=tableHeight + 500 + heightOfOptionalGeneTracks%>
-                    // alert("set height to " + document.getElementById("blueBackground").style.height) ;
+                    // DEBUG: tableHeight=<%=tableHeight%>, heightOfOptionalGeneTracks=<%=heightOfOptionalGeneTracks%>, total=<%=tableHeight + 500 + heightOfOptionalGeneTracks%>
+                    console.log("DEBUG: blueBackground height set to " + document.getElementById("blueBackground").style.height);
                 </script>
 
                 <!-- Top scroll bar -->
@@ -323,6 +351,7 @@
                     <div style="height:1px; width:<%=horizontalWidth%>px;"></div>
                 </div>
 
+                <!-- DEBUG: wrapperRegion height = <%=tableHeight + 250 + samples.size() + heightOfOptionalGeneTracks%> -->
                 <div id="wrapperRegion" style="margin-right:20px; overflow-x:scroll; width:<%=divWidth%>px; height:<%=tableHeight + 250 + samples.size() + heightOfOptionalGeneTracks%>">
                     <%
                         Iterator cit;
@@ -538,12 +567,12 @@
                             <td></td>
                         </tr>
 
-                        <tr>
+                        <tr class="positionHeader">
                             <%  Iterator kit = positions.iterator();
                                 while (kit.hasNext() ) {
                                     long key = (Long) kit.next(); %>
 
-                            <td height=100>
+                            <td style="height:100px; vertical-align:top;">
                                 <div class="iewrap">
                                     <div class="container">
                                         <div class="head" style="border-right: 1px solid white;min-width:<%=cellWidth%>">
@@ -585,7 +614,7 @@
                                 <%
                     }  else {
                     %>
-                            <td valign="center" width=24 height=10 ><div id="cell<%=k%>-<%=j%>" class="heatCell" style="color:white; cursor: pointer; background-color:#96151D" >
+                            <td valign="center" width=24 height=10 ><div id="cell<%=k%>-<%=j%>" class="heatCell" style="color:white; cursor: pointer; background-color:#96151D; vertical-align: middle;" >
 
                                     <%
                     int count=0;
