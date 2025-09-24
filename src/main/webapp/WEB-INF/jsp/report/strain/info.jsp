@@ -144,7 +144,7 @@
                 links.add("<a href=\"/rgdweb/report/rgdvariant/main.html?id=" + variant.getRgdId() + "\">" + variant.getName() + "</a>");
             }
         }
-            joinedLinks = String.join("; ",links);
+        joinedLinks = String.join("; ",links);
         %>
         <td><%=joinedLinks%></td>
     </tr>

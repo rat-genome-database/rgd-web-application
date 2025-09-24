@@ -249,10 +249,14 @@
             <jsp:include page="/homepage/popularTools.jsp"/>
             <jsp:include page="/homepage/news.jsp"/>
             <jsp:include page="/homepage/conferences.jsp"/>
-
+            <hr>
+            <jsp:include page="/homepage/scoreboard.jsp"/>
         </td>
         <td valign="top">
             <br>
+            <div class="" style="border-color: transparent;">
+                <a href="#publicScoreboardHeader"><h5 class="card-title">RGD Data Snapshot</h5></a>
+            </div>
             <jsp:include page="/homepage/twitter.jsp"/>
             <jsp:include page="/homepage/tutorials.jsp"/>
 
