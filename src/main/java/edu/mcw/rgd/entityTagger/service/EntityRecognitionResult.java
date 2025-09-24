@@ -1,5 +1,6 @@
 package edu.mcw.rgd.entityTagger.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,11 @@ public class EntityRecognitionResult {
     private List<BiologicalEntity> phenotypes;
     private List<BiologicalEntity> cellularComponents;
     private List<BiologicalEntity> ratStrains;
-    
+
+    // Store raw model responses and metadata
+    private List<String> rawModelResponses;
+    private String modelUsed;
+
     // Constructors
     public EntityRecognitionResult() {}
     
@@ -102,7 +107,23 @@ public class EntityRecognitionResult {
     public void setRatStrains(List<BiologicalEntity> ratStrains) {
         this.ratStrains = ratStrains;
     }
-    
+
+    public List<String> getRawModelResponses() {
+        return rawModelResponses;
+    }
+
+    public void setRawModelResponses(List<String> rawModelResponses) {
+        this.rawModelResponses = rawModelResponses;
+    }
+
+    public String getModelUsed() {
+        return modelUsed;
+    }
+
+    public void setModelUsed(String modelUsed) {
+        this.modelUsed = modelUsed;
+    }
+
     /**
      * Get total number of entities found
      */

@@ -437,8 +437,8 @@ public class PdfUploadController implements Controller {
             CurationLogger.info("Rat strains found: {}", result.getRatStrains() != null ? result.getRatStrains().size() : 0);
             
             // Generate HTML response with highlighted text
-            String htmlContent = generateEntityRecognitionHtmlWithHighlighting(uploadId, result, extractedText);
-            
+            String htmlContent = generateEntityRecognitionHtmlWithHighlighting(uploadId, result, extractedText, selectedModel);
+
             response.getWriter().write(htmlContent);
             response.getWriter().flush();
             
@@ -580,7 +580,7 @@ public class PdfUploadController implements Controller {
     /**
      * Generate HTML for entity recognition results with text highlighting
      */
-    private String generateEntityRecognitionHtmlWithHighlighting(String uploadId, EntityRecognitionResult result, String extractedText) {
+    private String generateEntityRecognitionHtmlWithHighlighting(String uploadId, EntityRecognitionResult result, String extractedText, String modelUsed) {
         StringBuilder html = new StringBuilder();
         
         html.append("<!DOCTYPE html>")
@@ -679,13 +679,20 @@ public class PdfUploadController implements Controller {
                 .append("Rat Strains: ").append(result.getRatStrains().size())
                 .append("</div>");
             
-            // Tabs
+            // Tabs - include Reasoning tab if using gpt-oss model
             html.append("<div class='tabs'>")
                 .append("<div id='highlighted-tab' class='tab active' onclick='showTab(\"highlighted\")'>Highlighted Text</div>")
                 .append("<div id='entities-tab' class='tab' onclick='showTab(\"entities\")'>Entity List</div>")
                 .append("<div id='summary-tab' class='tab' onclick='showTab(\"summary\")'>Summary</div>")
-                .append("<div id='significant-tab' class='tab' onclick='showTab(\"significant\")'>Significant Results</div>")
-                .append("<div id='chat-tab' class='tab' onclick='showTab(\"chat\")'>Chat</div>")
+                .append("<div id='significant-tab' class='tab' onclick='showTab(\"significant\")'>Significant Results</div>");
+
+            // Only show Reasoning tab if model produces reasoning (gpt-oss or deepseek-r1 models)
+            if (modelUsed != null && (modelUsed.contains("gpt-oss") || modelUsed.contains("deepseek-r1"))
+                && result.getRawModelResponses() != null && !result.getRawModelResponses().isEmpty()) {
+                html.append("<div id='reasoning-tab' class='tab' onclick='showTab(\"reasoning\")'>Reasoning</div>");
+            }
+
+            html.append("<div id='chat-tab' class='tab' onclick='showTab(\"chat\")'>Chat</div>")
                 .append("</div>");
             
             // Highlighted text tab
@@ -758,8 +765,34 @@ public class PdfUploadController implements Controller {
             html.append("</div>");
             html.append("</div>");
             html.append("</div>");
+
+            // Reasoning tab (only if model provides reasoning)
+            if (modelUsed != null && (modelUsed.contains("gpt-oss") || modelUsed.contains("deepseek-r1"))
+                && result.getRawModelResponses() != null && !result.getRawModelResponses().isEmpty()) {
+                html.append("<div id='reasoning-content' class='tab-content'>");
+                html.append("<h3>Model Reasoning</h3>");
+                html.append("<p style='color:#6c757d;margin-bottom:15px;'>The following shows the raw reasoning and analysis provided by the ").append(modelUsed).append(" model.</p>");
+
+                // Display each chunk's reasoning
+                for (int i = 0; i < result.getRawModelResponses().size(); i++) {
+                    String rawResponse = result.getRawModelResponses().get(i);
+
+                    if (result.getRawModelResponses().size() > 1) {
+                        html.append("<h4>Chunk ").append(i + 1).append(" of ").append(result.getRawModelResponses().size()).append("</h4>");
+                    }
+
+                    // Extract and format the reasoning (everything except the JSON)
+                    String reasoning = extractReasoningFromResponse(rawResponse);
+
+                    html.append("<div style='background:#f8f9fa;padding:15px;border-radius:5px;margin-bottom:15px;white-space:pre-wrap;font-family:monospace;font-size:13px;line-height:1.5;max-height:400px;overflow-y:auto;'>");
+                    html.append(escapeHtml(reasoning));
+                    html.append("</div>");
+                }
+
+                html.append("</div>");
+            }
         }
-        
+
         html.append("<script type='text/javascript'>")
             .append("function showTab(tabName) {")
             .append("  var tabs = document.querySelectorAll('.tab');")
@@ -1887,6 +1920,57 @@ public class PdfUploadController implements Controller {
         return escaped;
     }
     
+    /**
+     * Extract reasoning from model response (everything except the JSON)
+     */
+    private String extractReasoningFromResponse(String response) {
+        if (response == null || response.trim().isEmpty()) {
+            return "No reasoning provided.";
+        }
+
+        // Find the JSON object in the response
+        int jsonStart = response.indexOf("{");
+        int jsonEnd = response.lastIndexOf("}");
+
+        if (jsonStart > 0) {
+            // There's text before the JSON - that's reasoning
+            String beforeJson = response.substring(0, jsonStart).trim();
+
+            // Also check for text after JSON
+            String afterJson = "";
+            if (jsonEnd > 0 && jsonEnd < response.length() - 1) {
+                afterJson = response.substring(jsonEnd + 1).trim();
+            }
+
+            // Combine reasoning from before and after JSON
+            StringBuilder reasoning = new StringBuilder();
+            if (!beforeJson.isEmpty()) {
+                reasoning.append("=== Pre-JSON Analysis ===\n").append(beforeJson);
+            }
+            if (!afterJson.isEmpty()) {
+                if (reasoning.length() > 0) reasoning.append("\n\n");
+                reasoning.append("=== Post-JSON Notes ===\n").append(afterJson);
+            }
+
+            return reasoning.length() > 0 ? reasoning.toString() : "Model returned JSON without explicit reasoning.";
+        } else {
+            // No JSON found, entire response is reasoning (or error)
+            return response;
+        }
+    }
+
+    /**
+     * Escape HTML characters for safe display
+     */
+    private String escapeHtml(String text) {
+        if (text == null) return "";
+        return text.replace("&", "&amp;")
+                  .replace("<", "&lt;")
+                  .replace(">", "&gt;")
+                  .replace("\"", "&quot;")
+                  .replace("'", "&#39;");
+    }
+
     /**
      * Final cleanup pass to remove any remaining **CAPS** patterns that represent section headers
      */

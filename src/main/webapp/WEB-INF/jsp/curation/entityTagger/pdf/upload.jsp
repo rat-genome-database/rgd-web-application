@@ -136,6 +136,9 @@
                                     <label for="modelSelect" class="form-label">AI Model Selection:</label>
                                     <select class="form-select" id="modelSelect">
                                         <option value="llama3.3:70b">llama3.3:70b (Highest accuracy, ~30s per chunk)</option>
+                                        <option value="deepseek-r1:32b">deepseek-r1:32b (High accuracy with reasoning, ~15s per chunk)</option>
+                                        <option value="gpt-oss:20b">gpt-oss:20b (High accuracy, ~10s per chunk)</option>
+                                        <option value="deepseek-r1:14b">deepseek-r1:14b (Good accuracy with reasoning, ~7s per chunk)</option>
                                         <option value="llama3.1:8b" selected>llama3.1:8b (Good accuracy, ~3s per chunk)</option>
                                     </select>
                                     <div class="form-text">Choose between accuracy and speed for entity recognition</div>

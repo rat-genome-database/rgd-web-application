@@ -88,20 +88,30 @@ public class EntityRecognitionService {
         CurationLogger.entering(EntityRecognitionService.class, "recognizeEntities", text.length() + " characters");
         CurationLogger.info("Processing FULL TEXT: {} characters ({} KB)", text.length(), text.length() / 1024);
         System.out.println("EntityRecognitionService.recognizeEntities called with " + text.length() + " characters");
-        
+
         try {
+            // Filter out Discussion and References sections before processing
+            String filteredText = excludeDiscussionAndReferences(text);
+            System.out.println("After filtering Discussion/References: " + filteredText.length() + " characters (original: " + text.length() + ")");
+            CurationLogger.info("Filtered text from {} to {} characters", text.length(), filteredText.length());
+
             // Adjust chunk size based on model - smaller models need smaller chunks
             int effectiveChunkSize = getEffectiveChunkSize(model);
             System.out.println("Using chunk size: " + effectiveChunkSize + " for model: " + model);
-            
+
+            EntityRecognitionResult result;
             // If text is large, chunk it for better processing
-            if (text.length() > effectiveChunkSize) {
-                System.out.println("Text is large (" + text.length() + " chars), chunking into smaller pieces...");
-                return processTextInChunks(text, model, effectiveChunkSize);
+            if (filteredText.length() > effectiveChunkSize) {
+                System.out.println("Text is large (" + filteredText.length() + " chars), chunking into smaller pieces...");
+                result = processTextInChunks(filteredText, model, effectiveChunkSize);
             } else {
                 System.out.println("Text is small enough, processing as single chunk...");
-                return processSingleChunk(text, model);
+                result = processSingleChunk(filteredText, model);
             }
+
+            // Set the model used for this recognition
+            result.setModelUsed(model);
+            return result;
             
         } catch (Exception e) {
             CurationLogger.error("Entity recognition failed - Ollama service unavailable", e);
@@ -118,9 +128,15 @@ public class EntityRecognitionService {
         if (model.contains("1b")) {
             return 2000;  // Very small chunks for 1B model
         } else if (model.contains("3b")) {
-            return 4000;  // Small chunks for 3B model  
+            return 4000;  // Small chunks for 3B model
         } else if (model.contains("8b")) {
             return 6000;  // Medium chunks for 8B model
+        } else if (model.contains("14b")) {
+            return 6500;  // Medium chunks for 14B model
+        } else if (model.contains("20b")) {
+            return 7000;  // Medium-large chunks for 20B model
+        } else if (model.contains("32b")) {
+            return 7500;  // Large chunks for 32B model
         } else {
             return chunkSize;  // Default (8000) for 70B model
         }
@@ -144,7 +160,8 @@ public class EntityRecognitionService {
         combinedResult.setPhenotypes(new ArrayList<>());
         combinedResult.setCellularComponents(new ArrayList<>());
         combinedResult.setRatStrains(new ArrayList<>());
-        
+        combinedResult.setRawModelResponses(new ArrayList<>());
+
         long totalTime = 0;
         
         for (int i = 0; i < chunks.size(); i++) {
@@ -187,9 +204,17 @@ public class EntityRecognitionService {
      */
     private EntityRecognitionResult processSingleChunk(String text, String model) {
         try {
-            String prompt = buildEntityRecognitionPrompt(text);
+            String prompt = buildEntityRecognitionPrompt(text, model);
             String response = callOllamaAPI(prompt, model);
-            return parseEntityResponse(response, text);
+            EntityRecognitionResult result = parseEntityResponse(response, text);
+
+            // Store the raw response for reasoning display
+            if (result.getRawModelResponses() == null) {
+                result.setRawModelResponses(new ArrayList<>());
+            }
+            result.getRawModelResponses().add(response);
+
+            return result;
         } catch (Exception e) {
             return createErrorResult("Failed to process chunk: " + e.getMessage());
         }
@@ -250,6 +275,7 @@ public class EntityRecognitionService {
         if (chunk.getPhenotypes() != null) combined.getPhenotypes().addAll(chunk.getPhenotypes());
         if (chunk.getCellularComponents() != null) combined.getCellularComponents().addAll(chunk.getCellularComponents());
         if (chunk.getRatStrains() != null) combined.getRatStrains().addAll(chunk.getRatStrains());
+        if (chunk.getRawModelResponses() != null) combined.getRawModelResponses().addAll(chunk.getRawModelResponses());
     }
     
     /**
@@ -281,27 +307,141 @@ public class EntityRecognitionService {
         
         return new ArrayList<>(uniqueEntities.values());
     }
-    
+
+    /**
+     * Exclude Discussion and References sections from text to focus on core scientific content
+     */
+    private String excludeDiscussionAndReferences(String text) {
+        String upperText = text.toUpperCase();
+
+        // Find the start of DISCUSSION section
+        int discussionIndex = findSectionStart(text, upperText, new String[]{"DISCUSSION", "**DISCUSSION**", "# DISCUSSION"});
+
+        // Find the start of REFERENCES section
+        int referencesIndex = findSectionStart(text, upperText, new String[]{"REFERENCES", "**REFERENCES**", "# REFERENCES", "BIBLIOGRAPHY", "LITERATURE CITED"});
+
+        // Find the start of ACKNOWLEDGMENTS section (often comes before References)
+        int acknowledgementsIndex = findSectionStart(text, upperText, new String[]{"ACKNOWLEDGMENTS", "ACKNOWLEDGEMENTS", "**ACKNOWLEDGMENTS**", "**ACKNOWLEDGEMENTS**"});
+
+        // Determine the cutoff point (earliest of Discussion, Acknowledgements, or References)
+        int cutoffIndex = text.length();
+
+        if (discussionIndex > 0 && discussionIndex < cutoffIndex) {
+            cutoffIndex = discussionIndex;
+            CurationLogger.info("Found DISCUSSION section at character {}", discussionIndex);
+        }
+
+        if (acknowledgementsIndex > 0 && acknowledgementsIndex < cutoffIndex) {
+            cutoffIndex = acknowledgementsIndex;
+            CurationLogger.info("Found ACKNOWLEDGEMENTS section at character {}", acknowledgementsIndex);
+        }
+
+        if (referencesIndex > 0 && referencesIndex < cutoffIndex) {
+            cutoffIndex = referencesIndex;
+            CurationLogger.info("Found REFERENCES section at character {}", referencesIndex);
+        }
+
+        // If we found any of these sections, truncate the text
+        if (cutoffIndex < text.length()) {
+            String filteredText = text.substring(0, cutoffIndex).trim();
+            CurationLogger.info("Excluded {} characters from Discussion/References sections", text.length() - filteredText.length());
+            return filteredText;
+        }
+
+        // No sections found, return original text
+        return text;
+    }
+
+    /**
+     * Find the start index of a section in the text
+     */
+    private int findSectionStart(String text, String upperText, String[] sectionHeaders) {
+        int earliestIndex = -1;
+
+        for (String header : sectionHeaders) {
+            // Look for the header at the beginning of a line
+            int index = upperText.indexOf("\n" + header);
+            if (index > 0) {
+                // Found it at the beginning of a line
+                if (earliestIndex < 0 || index < earliestIndex) {
+                    earliestIndex = index;
+                }
+            }
+
+            // Also check if it's at the very beginning of the text
+            if (upperText.startsWith(header)) {
+                return 0;
+            }
+        }
+
+        return earliestIndex;
+    }
+
     /**
      * Build a specialized prompt for biological entity recognition
      */
     private String buildEntityRecognitionPrompt(String text) {
+        return buildEntityRecognitionPrompt(text, null);
+    }
+
+    /**
+     * Build a specialized prompt for biological entity recognition with model-specific variations
+     */
+    private String buildEntityRecognitionPrompt(String text, String model) {
         CurationLogger.info("Building prompt with FULL TEXT: {} characters ({} KB)", text.length(), text.length() / 1024);
         CurationLogger.info("Text sample (first 300 chars): {}", text.length() > 300 ? text.substring(0, 300) : text);
         CurationLogger.info("Text sample (last 300 chars): {}", text.length() > 300 ? text.substring(text.length() - 300) : text);
-        
+
+        // Use reasoning-enabled prompt for gpt-oss and deepseek-r1 models
+        if (model != null && (model.contains("gpt-oss") || model.contains("deepseek-r1"))) {
+            return String.format("""
+                Analyze the following scientific text and extract biological entities.
+
+                First, provide your reasoning for entity identification, explaining:
+                1. Why you identified specific entities
+                2. Context clues that helped you recognize them
+                3. Any ambiguities or challenges in identification
+
+                Then provide the extracted entities in JSON format.
+
+                Entity types to find:
+                - genes/proteins (gene symbols or protein names)
+                - species (ONLY taxonomic species like Homo sapiens, Mus musculus - NOT cell types)
+                - chemicals/drugs
+                - diseases/disorders
+                - phenotypes (observable characteristics)
+                - subcellular_localizations (nucleus, mitochondria, ER, Golgi, cytoplasm, etc.)
+                - rat_strains (specific rat strain names)
+
+                Required JSON structure:
+                {"genes":[],"diseases":[],"chemicals":[],"species":[],"phenotypes":[],"cellular_components":[],"rat_strains":[]}
+
+                Each array contains objects: {"name":"entityname","description":"brief context","confidence":0.0-1.0}
+
+                Text to analyze:
+                %s
+
+                Your reasoning and analysis:
+                """, text);
+        }
+
+        // Default prompt for other models (no reasoning requested)
         return String.format("""
             Extract entities from this text and return ONLY JSON. No explanations.
-            
-            Find: genes, species, chemicals, diseases, phenotypes, cellular_components, rat_strains
-            
+
+            Find: genes, species, chemicals, diseases, phenotypes, subcellular_localizations (organelles/cellular locations), rat_strains
+
             Return ONLY this exact JSON structure:
             {"genes":[],"diseases":[],"chemicals":[],"species":[],"phenotypes":[],"cellular_components":[],"rat_strains":[]}
-            
+
+            For species: ONLY extract taxonomic species (e.g., Homo sapiens, Mus musculus, Rattus norvegicus, E. coli). Do NOT include cell types (e.g., neurons, T cells, fibroblasts).
+
+            For cellular_components, specifically extract subcellular localizations like: nucleus, mitochondria, endoplasmic reticulum, Golgi apparatus, cytoplasm, plasma membrane, etc.
+
             Each array contains objects like: {"name":"entityname","description":"brief","confidence":0.9}
-            
+
             Text: %s
-            
+
             JSON:
             """, text);
     }
