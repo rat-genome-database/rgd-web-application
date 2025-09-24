@@ -95,6 +95,11 @@ Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbs
                     <a v-bind:href="'/rgdweb/curation/geneBinning/index.html?accessToken='+token">Gene Binning</a>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <a href="/rgdweb/curation/pdf/upload.html">Ontomation - PDF Entity Recognition</a>
+                </td>
+            </tr>
             <tr valign="top">
                 <td colspan="2"></td>
             </tr>
