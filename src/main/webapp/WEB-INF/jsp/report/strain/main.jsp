@@ -75,7 +75,7 @@
 
         <% } else if (!rgdId.getObjectStatus().equals("ACTIVE")) {
             int newRgdId = managementDAO.getActiveRgdIdFromHistory(rgdId.getRgdId());
-            Strain newStrain = strainDAO.getStrain(newRgdId)%>
+            Strain newStrain = strainDAO.getStrain(newRgdId);%>
         <br><br>This object has been <%=rgdId.getObjectStatus()%> <br><br>
         <%if (newStrain != null){%>
         This strain has been replaced by the strain <a href="<%=edu.mcw.rgd.reporting.Link.strain(newStrain.getRgdId())%>" title="click to see the Strain report"><b><%=newStrain.getName()%></b> (RGD:<%=newStrain.getRgdId()%>)</a>.
