@@ -26,6 +26,7 @@
 
     // add to aliases 'TAGLESS_STRAIN_SYMBOL'
     if( !Utils.isStringEmpty(obj.getTaglessStrainSymbol()) && !Utils.stringsAreEqualIgnoreCase(obj.getSymbol(), obj.getTaglessStrainSymbol()) ) {
+
         boolean isDuplicate = false;
         for( Alias a: aliases ) {
             if( Utils.stringsAreEqualIgnoreCase(obj.getTaglessStrainSymbol(), a.getValue()) ) {
@@ -33,6 +34,7 @@
                 break;
             }
         }
+
         // if a tagless strain symbol is already the same as one of the existing aliases -- do not add it
         if( !isDuplicate ) {
             // create 'fake' alias for tagless strain symbol
@@ -142,12 +144,11 @@
                 links.add("<a href=\"/rgdweb/report/rgdvariant/main.html?id=" + variant.getRgdId() + "\">" + variant.getName() + "</a>");
             }
         }
-            joinedLinks = String.join("; ",links);
+        joinedLinks = String.join("; ",links);
         %>
         <td><%=joinedLinks%></td>
     </tr>
     <% } %>
-
     <%
         if( !aliases.isEmpty() ) {
     %>
@@ -156,7 +157,7 @@
         <td><%=Utils.concatenate("; ", aliases, "getValue")%></td>
     </tr>
     <% } %>
-
+    
     <tr>
         <td class="label">Type:</td>
         <td><%=fu.chkNullNA(obj.getStrainTypeName())%></td>
