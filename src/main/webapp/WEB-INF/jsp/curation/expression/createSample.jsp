@@ -233,7 +233,7 @@
 
     Study study = null;
 
-        if (size > 50) {
+        if (size > 100) {
             session.setAttribute("tissueMap", tissueMap);
             session.setAttribute("tissueNameMap", tissueNameMap);
             session.setAttribute("vtMap", vtMap);
@@ -259,7 +259,7 @@
 
         }
 
-        batchSize = curCount+50;
+        batchSize = curCount+100;
 %>
 
 

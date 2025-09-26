@@ -69,11 +69,11 @@ public class GeoExperimentController implements Controller {
                 int sampSize = Integer.parseInt(request.getParameter("sampSize"));
                 boolean batch = false;
                 if (curCount<sampSize) {
-                    count = 50;
+                    count = 100;
                     batch = true;
                 }
                 else {
-                    count = sampSize % 50;
+                    count = sampSize % 100;
                 }
                 String gse = request.getParameter("gse");
                 String title = request.getParameter("title");
