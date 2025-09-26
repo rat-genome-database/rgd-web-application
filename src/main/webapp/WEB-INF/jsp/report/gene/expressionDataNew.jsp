@@ -239,6 +239,17 @@
                         //     return value;
                         // }
                         sortable: true
+                    },
+                    {
+                        key: 'geoStudyAcc',
+                        label: 'GEO Study',
+                        // formatter: 'createLinks',
+                        formatter: value => {
+                            if (value == null || value === "")
+                                return "N/A"
+                            return value;
+                        },
+                        sortable: true
                     }
                 ],
                 expItems: []
@@ -299,6 +310,7 @@
                                 var compSex = recVal['sample']['computedSex'];
                                 var reference = []; //recVal["refRgdId"];
                                 var studyId = recVal["studyId"];
+                                var geoStudyAcc = recVal["geoSeriesAcc"];
                                 $.ajax({
                                     type: "GET",
                                     url: "https://rest.rgd.mcw.edu/rgdws/expression/study/references/" + studyId,
@@ -338,7 +350,8 @@
                                                                         tpmValue: tpmVal,
                                                                         unit: 'TPM',
                                                                         assembly: speciesName,
-                                                                        refRgd: reference//{myId: reference, mrLink: link}
+                                                                        refRgd: reference,//{myId: reference, mrLink: link}
+                                                                        geoStudyAcc: geoStudyAcc
                                                                     }
                                                                 )
                                                             } else {
@@ -361,7 +374,8 @@
                                                                                 tpmValue: tpmVal,
                                                                                 unit: 'TPM',
                                                                                 assembly: speciesName,
-                                                                                refRgd: reference//{myId: reference, mrLink: link}
+                                                                                refRgd: reference,//{myId: reference, mrLink: link}
+                                                                                geoStudyAcc: geoStudyAcc
                                                                             }
                                                                         )
 
@@ -392,7 +406,8 @@
                                                                 tpmValue: tpmVal,
                                                                 unit: 'TPM',
                                                                 assembly: speciesName,
-                                                                refRgd: reference//{myId: reference, mrLink: link}
+                                                                refRgd: reference,//{myId: reference, mrLink: link}
+                                                                geoStudyAcc: geoStudyAcc
                                                             }
                                                         )
                                                         tableVue.isBusy = false;
@@ -416,7 +431,8 @@
                                                                         tpmValue: tpmVal,
                                                                         unit: 'TPM',
                                                                         assembly: speciesName,
-                                                                        refRgd: reference//{myId: reference, mrLink: link}
+                                                                        refRgd: reference,//{myId: reference, mrLink: link}
+                                                                        geoStudyAcc: geoStudyAcc
                                                                     }
                                                                 )
 
