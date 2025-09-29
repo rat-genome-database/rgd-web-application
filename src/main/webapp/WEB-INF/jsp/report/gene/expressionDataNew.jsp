@@ -156,6 +156,9 @@
 <%--                        <b-link :href="'/rgdweb/report/reference/main.html?id='+data.value">RGD:{{ data.value }}</b-link>--%>
 <%--                        {{ data.value }}--%>
                     </template>
+                    <template #cell(geoStudyAcc)="data">
+                        <span v-html="data.value"></span>
+                    </template>
                 </b-table>
             </template>
         </div>
@@ -243,12 +246,7 @@
                     {
                         key: 'geoStudyAcc',
                         label: 'GEO Study',
-                        // formatter: 'createLinks',
-                        formatter: value => {
-                            if (value == null || value === "")
-                                return "N/A"
-                            return value;
-                        },
+                        formatter: 'createGEOLinks',
                         sortable: true
                     }
                 ],
@@ -487,6 +485,22 @@
                 // console.log(value2);
                 if (value2 == null || value2 === '')
                     return "N/A";
+                return value2;
+            },
+            createGEOLinks(data){
+                // var valLen = data.length;
+                // var valCopy = data;
+                // var i = 0;
+                // var list = document.getElementById("refList");
+                if (data == null || data ===''){
+                    return 'N/A';
+                }
+                var value2 = '';
+                // console.log(data);
+                var link = "/rgdweb/report/expressionStudy/main.html?geoAcc=" + data;
+                var a = '<a href="' + link + '">' + data + '</a>';
+                value2 += a;
+                // console.log(value2);
                 return value2;
             }
         }
