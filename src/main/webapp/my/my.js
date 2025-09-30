@@ -454,7 +454,7 @@ rgdModule.controller('RGDPageController', [
                 if (i!=0) {
                     geneList +=",";
                 }
-                geneList += lst[i].innerHTML
+                geneList += lst[i].innerHTML.trim()
             }
 
             if($scope.a==null ||$scope.a==""){
@@ -546,22 +546,20 @@ rgdModule.controller('RGDPageController', [
                     //url += "&genes=" + getResultSet();
 
                     if (typeof $scope.oKey === 'undefined' || $scope.oKey === null) {
-                        url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey=1&vv=&ga=&act=excel&a=" + $scope.a;
+                        url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey=1&vv=&ga=&act=excel";
                     } else{
-                        url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey=" + $scope.oKey + "&vv=&ga=&act=excel&a=" + $scope.a;
+                        url = "/rgdweb/generator/process.html?&mapKey=" + $scope.mapKey + "&oKey=" + $scope.oKey + "&vv=&ga=&act=excel";
                     }
 
                     var f = document.createElement("form");
                     f.setAttribute('method',"post");
                     f.setAttribute('action',url);
 
-              /*      var i = document.createElement("input"); //input element, text
+                    var i = document.createElement("input"); //input element, text
                     i.setAttribute('type',"hidden");
                     i.setAttribute('name',"a");
-                  //  console.log(geneList);
                     i.setAttribute('value',$scope.a);
-                 //   console.log(geneList.replace(/\,/g, '['));
-                    f.appendChild(i);*/
+                    f.appendChild(i);
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
