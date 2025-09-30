@@ -105,10 +105,6 @@ function runGviewer() {
     }
     else if(species=='Black Rat') {
         bandURL="/rgdweb/gviewer/data/black_rat_ideo.xml";
-        if(mapKey==1701){
-            URL=
-        }
-
     }
 
     if(!gviewer) {
