@@ -23,6 +23,7 @@ height: 100px;
         modelMap=   (ModelMap) request.getAttribute("model");
         List<SearchHit> hits= (List<SearchHit>) modelMap.get("hits");
        assemblies= (java.util.Map<String, List<edu.mcw.rgd.datamodel.Map>>) modelMap.get("assemblyListsMap");
+
         int rows=0;
         if(hits.size()%3==0){
             rows=(hits.size())/3;

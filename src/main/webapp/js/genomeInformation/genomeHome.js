@@ -45,10 +45,10 @@ $(function () {
         var $content=$(".GreenMonkeyClass");
         changeGenomeData('Green Monkey',mapKey, $content);
     });
-    $(".NakedMole-rat").on('change', function () {
+    $(".NakedMole-Rat").on('change', function () {
         var mapKey= this.value;
-        var $content=$(".NakedMole-ratClass");
-        changeGenomeData('Naked Mole-rat',mapKey, $content);
+        var $content=$(".NakedMole-RatClass");
+        changeGenomeData('Naked Mole-Rat',mapKey, $content);
     });
     $(".more").hide();
     $(".moreLink").on("click", function(e) {

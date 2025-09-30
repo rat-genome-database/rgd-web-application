@@ -1,3 +1,4 @@
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="/rgdweb/gviewer/script/gviewer1.js"></script>
 <script src="/rgdweb/gviewer/script/util.js"></script>
@@ -265,10 +266,12 @@
 
         </div>
         <div style="margin-left:41%;">
-                <c:if test="${!model.species.equals('Squirrel') && !model.species.equals('Chinchilla') && !model.species.equals('Naked Mole-rat') && !model.species.equals('Green Monkey')}">
-                    <div class="panel panel-default" style=";height:600px;">
+            <c:choose>
+
+                <c:when test="${!model.species.equals('Squirrel') && !model.species.equals('Chinchilla') && !model.species.equals('Naked Mole-Rat') && !model.species.equals('Green Monkey')}">
+                    <div class="panel panel-default" style=";">
                     <div class="panel-heading">
-                        <strong>Karyotype</strong>
+                        <strong>Karyotype ${model.species}</strong>
                     </div>
                     <div class="panel-body">
                         <!--iframe id="jbrowseMini"  style="border: 1px solid black" width="100%"></iframe-->
@@ -286,9 +289,8 @@
                         </div>
                     </div>
                         </div>
-                </c:if>
-                  <c:if test="${model.species.equals('Squirrel') || model.species.equals('Chinchilla')
-                    || model.species.equals('Naked Mole-rat') || model.species.equals('Green Monkey')}">
+                </c:when>
+                  <c:otherwise>
             <div class="panel panel-default" style=";height:300px;">
                       <div class="panel-heading">
                           <strong>JBrowse</strong>
@@ -303,8 +305,8 @@
                           </div>
                       </div>
             </div>
-                  </c:if>
-
+                  </c:otherwise>
+            </c:choose>
             <div style="">
                 <div class="panel panel-default" >
                     <div class="panel-heading">
@@ -493,11 +495,11 @@
 
         </div>
 
-
+        </div>
+        </div>
 
         </c:forEach>
-</div>
-</div>
+
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
