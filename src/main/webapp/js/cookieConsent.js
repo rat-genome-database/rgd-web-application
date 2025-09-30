@@ -34,7 +34,7 @@
                 <div class="cookie-notice-text">
                     <p>This website uses cookies to enhance your browsing experience, analyze site traffic, and personalize content.
                     By continuing to use this site, you consent to our use of cookies in accordance with our
-                    <a href="/wg/home/disclaimer" target="_blank">Privacy Policy</a>.</p>
+                    <a href="/rgdweb/common/privacy-policy.jsp" target="_blank">Privacy Policy</a>.</p>
                 </div>
                 <div class="cookie-notice-buttons">
                     <button id="acceptCookies" class="cookie-button cookie-button-accept">Accept</button>
