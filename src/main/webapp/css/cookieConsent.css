@@ -1,0 +1,118 @@
+/* Cookie Notice Styles */
+.cookie-notice {
+    position: fixed;
+    bottom: -200px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    padding: 20px 0;
+    transition: bottom 0.5s ease-in-out;
+    border-top: 3px solid #3498db;
+}
+
+.cookie-notice.show {
+    bottom: 0;
+}
+
+.cookie-notice-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.cookie-notice-text {
+    flex: 1 1 auto;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 800px;
+}
+
+.cookie-notice-text p {
+    margin: 0;
+    color: #ffffff;
+}
+
+.cookie-notice-text a {
+    color: #3498db;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.cookie-notice-text a:hover {
+    color: #5dade2;
+}
+
+.cookie-notice-buttons {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.cookie-button {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cookie-button-accept {
+    background: #27ae60;
+    color: white;
+}
+
+.cookie-button-accept:hover {
+    background: #2ecc71;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
+}
+
+.cookie-button-decline {
+    background: transparent;
+    color: #ecf0f1;
+    border: 2px solid #95a5a6;
+}
+
+.cookie-button-decline:hover {
+    background: #95a5a6;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .cookie-notice {
+        padding: 15px 0;
+    }
+
+    .cookie-notice-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cookie-notice-text {
+        margin-bottom: 15px;
+    }
+
+    .cookie-notice-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cookie-button {
+        flex: 1;
+        max-width: 150px;
+    }
+}

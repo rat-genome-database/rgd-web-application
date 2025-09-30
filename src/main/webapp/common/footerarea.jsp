@@ -48,5 +48,10 @@
 
 
 <%@ include file="/common/angularBottomBodyInclude.jsp" %>
+
+<!-- Cookie Consent -->
+<link rel="stylesheet" href="/rgdweb/css/cookieConsent.css">
+<script src="/rgdweb/js/cookieConsent.js"></script>
+
 </body>
 </html>
