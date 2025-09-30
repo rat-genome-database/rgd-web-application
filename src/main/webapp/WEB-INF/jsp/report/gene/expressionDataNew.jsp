@@ -142,6 +142,9 @@
                             <strong>Loading...</strong>
                         </div>
                     </template>
+                    <template #cell(strain)="data">
+                        <span v-html="data.value"></span>
+                    </template>
                     <tempplate #cell(tissue)="data">
                         {{data.value}}
                     </tempplate>
@@ -176,7 +179,11 @@
                 isBusy: false,
                 fields: [
                     {
-                        key: 'strain/CellLine',
+                        key: 'strain',
+                        label: 'Strain/CellLine',
+                        formatter: value =>{
+                          return value;
+                        },
                         sortable: true
                     },
                     {
@@ -334,12 +341,16 @@
                                                         url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
                                                         dataType: "json",
                                                         success: function (r, s, x) {
+                                                            var link = '/rgdweb/ontology/annot.html?acc_id=' + strainTerm;
+                                                            // var link = "/rgdweb/report/expressionStudy/main.html?geoAcc=" + data;
+                                                            var a = '<a href="' + link + '">' + r["term"] + '</a>';
+                                                            // console.log(a);
                                                             // console.log("strain: "+r)
                                                             // console.log('tissue');
                                                             if (tissue == null || tissue == '') {
                                                                 tissue = '';
                                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                        'strain/CellLine': r["term"],
+                                                                        strain: a,
                                                                         sex: sex,
                                                                         computedSex: compSex,
                                                                         age: displayAge,
@@ -363,7 +374,7 @@
                                                                         // console.log('tissue');
                                                                         // console.log("tissue: "+r)
                                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                                'strain/CellLine': r["term"],
+                                                                                strain: a,
                                                                                 sex: sex,
                                                                                 computedSex: compSex,
                                                                                 age: displayAge,
@@ -395,7 +406,7 @@
                                                         // console.log('tissue');
                                                         // console.log(tpmVal);
                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                'strain/CellLine': 'None Available',
+                                                                strain: 'None Available',
                                                                 sex: sex,
                                                                 computedSex: compSex,
                                                                 age: displayAge,
@@ -420,7 +431,7 @@
                                                                 // console.log("tissue: "+r)
                                                                 // console.log('tissue');
                                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                        'strain/CellLine': 'None Available',
+                                                                        strain: 'None Available',
                                                                         sex: sex,
                                                                         computedSex: compSex,
                                                                         age: displayAge,
