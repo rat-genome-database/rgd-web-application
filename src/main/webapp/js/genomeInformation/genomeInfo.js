@@ -14,7 +14,7 @@ $(function () {
    
     var species=$species.val().trim();
 
-   if(species=='Rat' || species=='Human' || species=='Mouse' || species=='Dog' || species=='Bonobo' || species=='Pig'){
+   if(species=='Rat' || species=='Human' || species=='Mouse' || species=='Dog' || species=='Bonobo' || species=='Pig' || species=='Black Rat'){
        console.log("SPECIES VAL():"+species+ "...RUNNING GVIEWER..");
         runGviewer()
    }
@@ -98,9 +98,21 @@ function runGviewer() {
         else if(mapKey=='910')
             URL = URL + "data_pig10_2";
     }
+    else if(species=='Naked Mole-Rat') {
+        if(mapKey=='1410')
+            URL = URL + "data_hetGla2";
+
+    }
+    else if(species=='Black Rat') {
+        bandURL="/rgdweb/gviewer/data/black_rat_ideo.xml";
+        if(mapKey==1701){
+            URL=
+        }
+
+    }
 
     if(!gviewer) {
-        gviewer = new Gviewer("gviewer",300,600);
+        gviewer = new Gviewer("gviewer",300,600, mapKey);
     //    gviewer.genomeBrowserURL = "http://rgd.mcw.edu/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
         gviewer.genomeBrowserURL =URL;
         gviewer.genomeBrowserName = "JBrowse";

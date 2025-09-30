@@ -178,6 +178,9 @@ public class GenomeInformationController implements Controller{
             for(SearchHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Green Monkey"))
                     map.add(h);            }
+            for(SearchHit h:hit){
+                if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Black Rat"))
+                    map.add(h);            }
 
         }
         return map;
