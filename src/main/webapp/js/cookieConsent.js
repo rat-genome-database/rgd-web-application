@@ -1,27 +1,78 @@
-// Cookie Consent Management
+// Cookie Consent Management using localStorage
 (function() {
-    // Check if user has already accepted cookies
-    function getCookie(name) {
-        var value = "; " + document.cookie;
-        var parts = value.split("; " + name + "=");
-        if (parts.length === 2) return parts.pop().split(";").shift();
+    // Check if localStorage is available
+    function hasLocalStorage() {
+        try {
+            var test = '__localStorage_test__';
+            localStorage.setItem(test, test);
+            localStorage.removeItem(test);
+            return true;
+        } catch(e) {
+            return false;
+        }
     }
 
-    // Set cookie with expiration
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
+    // Get consent preference from localStorage
+    function getConsentPreference() {
+        if (hasLocalStorage()) {
+            return localStorage.getItem('rgd_cookie_consent');
         }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        // Fallback to cookies if localStorage is not available
+        var value = "; " + document.cookie;
+        var parts = value.split("; rgd_cookie_consent=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+        return null;
+    }
+
+    // Set consent preference with optional expiration
+    function setConsentPreference(value, daysToExpire) {
+        if (hasLocalStorage()) {
+            var data = {
+                value: value,
+                timestamp: new Date().getTime()
+            };
+            if (daysToExpire) {
+                data.expiry = new Date().getTime() + (daysToExpire * 24 * 60 * 60 * 1000);
+            }
+            localStorage.setItem('rgd_cookie_consent', JSON.stringify(data));
+        } else {
+            // Fallback to cookies if localStorage is not available
+            var expires = "";
+            if (daysToExpire) {
+                var date = new Date();
+                date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = "rgd_cookie_consent=" + (value || "") + expires + "; path=/";
+        }
+    }
+
+    // Check if consent has expired
+    function isConsentValid() {
+        if (hasLocalStorage()) {
+            var storedData = localStorage.getItem('rgd_cookie_consent');
+            if (!storedData) return false;
+
+            try {
+                var data = JSON.parse(storedData);
+                if (data.expiry && new Date().getTime() > data.expiry) {
+                    localStorage.removeItem('rgd_cookie_consent');
+                    return false;
+                }
+                return data.value;
+            } catch(e) {
+                return false;
+            }
+        }
+        // Fallback to checking cookies
+        return getConsentPreference();
     }
 
     // Initialize cookie consent
     function initCookieConsent() {
-        // Check if consent was already given
-        if (getCookie('rgd_cookie_consent') === 'accepted') {
+        // Check if consent was already given and is still valid
+        var consent = isConsentValid();
+        if (consent === 'accepted') {
             return;
         }
 
@@ -53,13 +104,13 @@
 
         // Handle accept button
         document.getElementById('acceptCookies').addEventListener('click', function() {
-            setCookie('rgd_cookie_consent', 'accepted', 365); // Store for 1 year
+            setConsentPreference('accepted', 365); // Store for 1 year
             hideCookieNotice();
         });
 
         // Handle decline button
         document.getElementById('declineCookies').addEventListener('click', function() {
-            setCookie('rgd_cookie_consent', 'declined', 30); // Store for 30 days
+            setConsentPreference('declined', 30); // Store for 30 days
             hideCookieNotice();
             // Optionally disable certain features that require cookies
             disableOptionalCookies();
