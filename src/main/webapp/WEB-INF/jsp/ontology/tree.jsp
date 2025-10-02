@@ -89,6 +89,36 @@
 <%-- TERM INFO TABLE, WITH SYNONYMS --%>
 <!-- background-image: url(/rgdweb/common/images/bg3.png);-->
 
+<script>
+function toggleSynonyms(synType) {
+    var hiddenDiv = document.getElementById('hidden-' + synType);
+    var showMoreLink = document.getElementById('show-more-' + synType);
+    var showLessLink = document.getElementById('show-less-' + synType);
+
+    if (hiddenDiv.style.display === 'none' || hiddenDiv.style.display === '') {
+        hiddenDiv.style.display = 'inline';
+        showMoreLink.style.display = 'none';
+        showLessLink.style.display = 'inline';
+    } else {
+        hiddenDiv.style.display = 'none';
+        showMoreLink.style.display = 'inline';
+        showLessLink.style.display = 'none';
+    }
+}
+</script>
+
+<style>
+.synonym-more-link {
+    color: #0066cc;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.synonym-more-link:hover {
+    color: #0044aa;
+}
+</style>
 
 <table>
     <tr>
@@ -107,17 +137,49 @@
       <tr>
         <td style="font-size:16px; font-weight:700;" colspan=2 >Synonyms</TD>
 
-        <% String prevType = "";
+        <%
+        String prevType = "";
         int synonymsPerType = 0;
+        int totalSynonymsForType = 0;
+        int displayLimit = 10; // Number of synonyms to show initially
+        StringBuilder hiddenSynonyms = new StringBuilder();
+        boolean inHiddenSection = false;
+        String currentTypeId = "";
+
+        // Count total synonyms per type
+        java.util.Map<String, Integer> synonymCounts = new java.util.HashMap<>();
+        for( TermSynonym syn: bean.getTermSynonyms() ) {
+            String type = syn.getType();
+            synonymCounts.put(type, synonymCounts.getOrDefault(type, 0) + 1);
+        }
+
         for( TermSynonym syn: bean.getTermSynonyms() ) {
 
           if( !prevType.equals(syn.getType()) ) {
               // finish prev row
               if( !prevType.isEmpty() ) {
+                  // Close hidden section if there was one
+                  if( totalSynonymsForType > displayLimit ) {
+                      %>
+                      <span id="hidden-<%=currentTypeId%>" style="display:none;"><%=hiddenSynonyms.toString()%></span>
+                      <span id="show-more-<%=currentTypeId%>" class="synonym-more-link" onclick="toggleSynonyms('<%=currentTypeId%>')">
+                          ... show <%=(totalSynonymsForType - displayLimit)%> more
+                      </span>
+                      <span id="show-less-<%=currentTypeId%>" class="synonym-more-link" style="display:none;" onclick="toggleSynonyms('<%=currentTypeId%>')">
+                          show less
+                      </span>
+                      <%
+                  }
               %>
                 </td></tr>
               <%
               }
+
+              // Start new row
+              currentTypeId = syn.getType().replaceAll("[^a-zA-Z0-9]", "_");
+              totalSynonymsForType = synonymCounts.get(syn.getType());
+              hiddenSynonyms = new StringBuilder();
+              inHiddenSection = false;
               %>
               <tr>
                   <td class="syn_type"><%=syn.getFriendlyType()%>:</td><td class="myDiv" style='padding:3px;'>
@@ -128,53 +190,53 @@
           }
           synonymsPerType++;
 
-          if (synonymsPerType > 10) continue;
-
-          if( synonymsPerType>1 ) {
-          %>
-            ; &nbsp;
-          <%
-
-
-
+          // Determine if this synonym should be hidden initially
+          if( synonymsPerType > displayLimit ) {
+              inHiddenSection = true;
           }
-          // turn synonym name into a link from MESH and MIM ids
-          if( syn.getName().startsWith("MESH:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(47).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("MIM:PS") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(66).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("MIM:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("RGD ID:") ) { %>
-              <a href="<%=Link.strain(Integer.parseInt(syn.getName().substring(8)))%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("DOID:") && !bean.getAccId().startsWith("DOID:") ) { %>
-              <a href="<%=Link.ontView(syn.getName())%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("GARD:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(67).getUrl().replace("#ID#",syn.getName().substring(5))%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("ORDO:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(62).getUrl()%><%=syn.getName().substring(5)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("NCI:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(74).getUrl()%><%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("ICD10CM:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(129).getUrl()%><%=syn.getName().substring(8)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("ICD9CM:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(130).getUrl()%><%=syn.getName().substring(7)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("MONDO:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(145).getUrl()%>MONDO_<%=syn.getName().substring(6)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("EFO:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(93).getUrl()%>EFO_<%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getName().startsWith("OBA:") ) { %>
-              <a href="<%=XDBIndex.getInstance().getXDB(159).getUrl()%>OBA_<%=syn.getName().substring(4)%>"><%=syn.getName()%></a>
-          <% } else if( syn.getType().startsWith("omim_gene") ) {
+
+          // Add separator
+          String separator = "";
+          if( synonymsPerType>1 ) {
+              separator = "; &nbsp;";
+          }
+
+          // Generate the synonym HTML
+          String synLink = "";
+          if( syn.getName().startsWith("MESH:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(47).getUrl() + syn.getName().substring(5) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("MIM:PS") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(66).getUrl() + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("MIM:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_OMIM).getUrl() + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("RGD ID:") ) {
+              synLink = "<a href='" + Link.strain(Integer.parseInt(syn.getName().substring(8))) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("DOID:") && !bean.getAccId().startsWith("DOID:") ) {
+              synLink = "<a href='" + Link.ontView(syn.getName()) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("GARD:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(67).getUrl().replace("#ID#",syn.getName().substring(5)) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("ORDO:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(62).getUrl() + syn.getName().substring(5) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("NCI:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(74).getUrl() + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("ICD10CM:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(129).getUrl() + syn.getName().substring(8) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("ICD9CM:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(130).getUrl() + syn.getName().substring(7) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("MONDO:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(145).getUrl() + "MONDO_" + syn.getName().substring(6) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("EFO:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(93).getUrl() + "EFO_" + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("OBA:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(159).getUrl() + "OBA_" + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getType().startsWith("omim_gene") ) {
               List<Gene> omimGenes = new GeneDAO().getActiveGenes(SpeciesType.HUMAN, syn.getName());
               if( !omimGenes.isEmpty() ) {
-           %>
-                  <a href=<%=Link.gene(omimGenes.get(0).getRgdId())%>"><%=syn.getName()%></a>
-            <%
+                  synLink = "<a href='" + Link.gene(omimGenes.get(0).getRgdId()) + "'>" + syn.getName() + "</a>";
               } else {
-            %><%=syn.getName()%><%
+                  synLink = syn.getName();
               }
-           } else {
+          } else {
               // create pattern based on ontology id
               int pos = bean.getAccId().indexOf(":");
               String ontId = !syn.getType().equals("alt_id") && pos>0 ? bean.getAccId().substring(0, pos) : null;
@@ -186,16 +248,41 @@
                       m.appendReplacement(sb, "<a href=\""+Link.ontView(m.group(1))+"\">"+syn.getName()+"</a>");
                   }
                   m.appendTail(sb);
-                  out.append(sb.toString());
+                  synLink = sb.toString();
+              } else {
+                  synLink = syn.getName();
               }
-              else
-                out.append(syn.getName());
+          }
+
+          // Output the synonym to the appropriate section
+          String fullSynHtml = "";
+          if( synonymsPerType > 1 ) {
+              fullSynHtml = separator + synLink;
+          } else {
+              fullSynHtml = synLink;
+          }
+
+          if( inHiddenSection ) {
+              hiddenSynonyms.append(fullSynHtml);
+          } else {
+              out.append(fullSynHtml);
           }
       }
 
-      // terminate table row
+      // terminate table row and add show more link if needed
       if( !prevType.isEmpty() ) {
-        out.append("</td></tr>\n");
+          if( totalSynonymsForType > displayLimit ) {
+              %>
+              <span id="hidden-<%=currentTypeId%>" style="display:none;"><%=hiddenSynonyms.toString()%></span>
+              <span id="show-more-<%=currentTypeId%>" class="synonym-more-link" onclick="toggleSynonyms('<%=currentTypeId%>')">
+                  ... show <%=(totalSynonymsForType - displayLimit)%> more
+              </span>
+              <span id="show-less-<%=currentTypeId%>" class="synonym-more-link" style="display:none;" onclick="toggleSynonyms('<%=currentTypeId%>')">
+                  show less
+              </span>
+              <%
+          }
+          out.append("</td></tr>\n");
       }
 
       if( !xrefs.isEmpty() ) { %>
