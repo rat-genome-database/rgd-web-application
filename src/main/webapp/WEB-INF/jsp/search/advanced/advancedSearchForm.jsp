@@ -84,7 +84,7 @@
             <tr>
 
                 <td colspan="6" ><b style="font-size: 15px">Keyword:</b>
-                    <%if(pageTitle.toLowerCase().contains("gene")){%>
+                    <%if(pageTitle.toLowerCase().contains("gene") || pageTitle.toLowerCase().contains("qtl")){%>
                     <select id="match_type" name="match_type">
                     <option value="equals" <%=isPipelines?"selected":""%>>Equals</option>
                     <option value="contains" <%=isPipelines?"":"selected"%>>Contains</option>
