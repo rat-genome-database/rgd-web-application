@@ -74,7 +74,14 @@ QTL reports provide phenotype and disease descriptions, mapping, and strain info
     <td colspan=3>&nbsp;</td>
 </tr>
 <tr>
-    <td colspan="6" ><b>Keyword</b> <input name="term" type="text" value="" size="50"/><input type="submit" value="Search <%=title%>" />&nbsp;&nbsp;&nbsp;</td>
+    <td colspan="6" ><b>Keyword</b>
+        <select id="match_type" name="match_type">
+            <option value="equals">Equals</option>
+            <option value="contains" selected>Contains</option>
+            <option value="begins">Begins with</option>
+            <option value="ends">Ends with</option>
+        </select>
+        <input name="term" type="text" value="" size="50"/><input type="submit" value="Search <%=title%>" />&nbsp;&nbsp;&nbsp;</td>
 </tr>
 <tr>
     <td>
