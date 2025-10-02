@@ -57,9 +57,6 @@
                 selSpecies = Integer.parseInt(speciesTypeParam);
         }
 //        System.out.println(selSpecies);
-
-    //adding pipeline check to make equals default in gene search as per RGDD-2763
-    boolean isPipelines = RgdContext.getHostname().equals("https://pipelines.rgd.mcw.edu");
     Map mapDefault=null;
         try {
             mapDefault = new MapDAO().getPrimaryRefAssembly(selSpecies);
@@ -70,6 +67,9 @@
 
 //    System.out.println(mapDefault.getDescription());
 //    System.out.println(mapDefault.getName());
+
+    //adding pipeline check to make equals default in gene search as per RGDD-2763
+    boolean isPipelines = RgdContext.getHostname().equals("https://pipelines.rgd.mcw.edu");
     String assemblyParam = request.getParameter("assembly");
     String selectedAssembly=new String();
     if( assemblyParam!=null ) {
@@ -84,13 +84,13 @@
             <tr>
 
                 <td colspan="6" ><b style="font-size: 15px">Keyword:</b>
-                    <%if(pageTitle.toLowerCase().contains("gene")){%>
+                    <%if(pageTitle.toLowerCase().contains("gene") || pageTitle.toLowerCase().contains("qtl")){%>
                     <select id="match_type" name="match_type">
-                        <option value="equals" <%=isPipelines?"selected":""%>>Equals</option>
-                        <option value="contains" <%=isPipelines?"":"selected"%>>Contains</option>
-                        <option value="begins">Begins with</option>
-                        <option value="ends">Ends with</option>
-                    </select>
+                    <option value="equals" <%=isPipelines?"selected":""%>>Equals</option>
+                    <option value="contains" <%=isPipelines?"":"selected"%>>Contains</option>
+                    <option value="begins">Begins with</option>
+                    <option value="ends">Ends with</option>
+                </select>
                 <%}%>
                     <input name="term" id="objectSearchTerm" type="text" value="" size="85" style="font-size: 15px;height: 28px;"/>&nbsp;&nbsp;</td>
             </tr>
