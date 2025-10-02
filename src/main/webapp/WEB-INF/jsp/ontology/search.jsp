@@ -4,6 +4,8 @@
 <%@ page import="edu.mcw.rgd.ontology.OntSearchBean" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="edu.mcw.rgd.datamodel.Reference" %>
+<%@ page import="edu.mcw.rgd.dao.impl.ReferenceDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% String pageDescription = "Ontology Search - " + RgdContext.getLongSiteName(request);
@@ -54,7 +56,10 @@
  Gene Ontology, Mammalian Phenotype Ontology, Disease Ontology, Pathway Ontology and others. <br><br><b>The Ontology Browser
  allows you to retrieve all genes, QTLs, strains, cell lines and variants annotated to a particular term.</b>
 </div>
-<% } %>
+<% }
+    HashMap<Integer, Reference> refMap = new HashMap<>();
+    ReferenceDAO rdao = new ReferenceDAO();
+%>
 
 <!--form method="GET" action="search.html" name="search2"-->
     <form method="GET" action="/rgdweb/elasticResults.html" name="search2">
@@ -134,6 +139,11 @@
                   withAnnots.add(o);
               else
                   noAnnots.add(o);
+              if(refMap.get(o.getRefRgdId())==null && o.getRefRgdId() != 0) {
+                  Reference r = rdao.getReferenceByRgdId(o.getRefRgdId());
+                  refMap.put(o.getRefRgdId(),r);
+              }
+
           }
       %>
       <div class="ontologyWAnnots">
@@ -181,7 +191,16 @@
 
 </div>
 </div>
-
+<div>
+<%
+    List<Reference> refs = new ArrayList<>();
+    for (int rgdId : refMap.keySet()){
+        Reference r = refMap.get(rgdId);
+        refs.add(r);
+    }
+%>
+    <%@include file="citations.jsp"%>
+</div>
 <%--<% if( !RgdContext.isChinchilla(request) ) { %>--%>
 <%--  <hr>--%>
 <%--  <h4>Sources for external ontologies:</h4>--%>
