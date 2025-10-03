@@ -341,7 +341,7 @@
                                                         url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
                                                         dataType: "json",
                                                         success: function (r, s, x) {
-                                                            var link = '/rgdweb/ontology/annot.html?acc_id=' + strainTerm;
+                                                            var link = '/rgdweb/ontology/view.html?acc_id=' + strainTerm;
                                                             // var link = "/rgdweb/report/expressionStudy/main.html?geoAcc=" + data;
                                                             var a = '<a href="' + link + '">' + r["term"] + '</a>';
                                                             // console.log(a);
