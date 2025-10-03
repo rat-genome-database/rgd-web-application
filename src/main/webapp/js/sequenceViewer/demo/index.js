@@ -64,8 +64,7 @@ function getGenomeInfo(url){
             const mappedGeneStop=geneInfo[0].stop;
             console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
             range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
-             getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId);
-                console.log("OTHER: "+ otherGuides);
+            handle(range, species);
             $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
 
         }
@@ -73,41 +72,10 @@ function getGenomeInfo(url){
 
 }
 
-function getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId){
-
-    //var url="https://dev.scge.mcw.edu/toolkit/data/guide/guides/"+mappedGeneStart+"/"+mappedGeneStop+"/"+guideId;
-    var url="/rgdweb/js/sequenceViewer/sample.js";
-
-    $.ajax({
-        url:url,
-        type:"GET",
-        dataType: 'json',
-        success:function (data) {
-         handle(data,range);
-        }
-    });
-
+function handle(range,species){
+    createIsoformExample(range, species, "viewerActnFly", TRACK_TYPE.ISOFORM, true);
 }
-function handle(data, range){
-   var otherGuides=JSON.stringify(data);
-    console.log("DATA HANDLER:"+JSON.stringify(data));
-    //createExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,null,null, guide,otherGuides);
-    createIsoformExample(range, "rat", "viewerActnFly", TRACK_TYPE.ISOFORM, true);
 
-
-}
-getGenome=  async () => {
-    var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/38";
-    const response = await fetch(url);
-    const geneInfo=   await response.json(); //extract JSON from the http response
-    console.log(geneInfo);
-   const mappedGeneChr=geneInfo[0].chromosome;
-   const mappedGeneStart=geneInfo[0].start;
-   const mappedGeneStop=geneInfo[0].stop;
-    console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
-    range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
-    $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
-};
 function flyExamples() {
     // 2L:132412..230018
 // http://localhost:8080/apollo/vcf/remotefly/Phenotypic%20Variants/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
