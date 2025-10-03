@@ -42,7 +42,7 @@ function covidExamples(){
 var range="";
 function currentExamples(){
 //    createIsoformExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM, false);
-    console.log("Map key in current examples"+mapKey)
+
     var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/" + mapKey;
     getGenomeInfo(url, guide);
 
@@ -53,115 +53,29 @@ function currentExamples(){
   //createHTPExample("X:2023822..2042311", "fly", "viewerActnHTPFly", TRACK_TYPE.ISOFORM, false,[],'Actn','X:2037135');
 }
 var  otherGuides="";
-// function getGenomeInfo(url){
-//
-//     $.ajax({
-//         url:url,
-//         type:"GET",
-//         success:function (geneInfo) {
-//             const mappedGeneChr=geneInfo[0].chromosome;
-//             const mappedGeneStart=geneInfo[0].start;
-//             const mappedGeneStop=geneInfo[0].stop;
-//             console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
-//             range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
-//              getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId);
-//                 console.log("OTHER: "+ otherGuides);
-//             $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
-//
-//         }
-//     });
-//
-// }
 function getGenomeInfo(url){
+
     $.ajax({
         url:url,
         type:"GET",
         success:function (geneInfo) {
-            if ((!geneInfo || geneInfo.length === 0) && typeof hasVariantData !== 'undefined' && hasVariantData) {
-                let viewStart = Math.max(1, start - 5000);
-                let viewEnd = stop + 5000;
-                geneInfo = [{
-                    chromosome: chr,
-                    start: viewStart,
-                    stop: viewEnd,
-                    mapKey: mapKey
-                }];
-                console.log('Created dummy coordinates:', viewStart, 'to', viewEnd);
-            }
             const mappedGeneChr=geneInfo[0].chromosome;
             const mappedGeneStart=geneInfo[0].start;
             const mappedGeneStop=geneInfo[0].stop;
-            console.log('Genes returned by service:', geneInfo);
-            console.log('MapKey used:', mapKey);
-            console.log('Query coordinates:', chr+"/"+start+"/"+stop+"/" + mapKey);
+            console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
             range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
-            console.log("mapkey in getGenomeInfo "+geneInfo[0].mapKey)
-            console.log('in get genome method');
-            console.log('hasVariantData check:', typeof hasVariantData !== 'undefined');
-            console.log('otherGuides available:', typeof otherGuides !== 'undefined');
-
-            if (typeof hasVariantData !== 'undefined' && hasVariantData) {
-                console.log('About to call handle with variant data');
-                console.log('variantData before parse:', variantData);
-                try {
-                    var parsedData = JSON.parse(variantData);
-                    console.log('Parsed data:', parsedData);
-                    handle(parsedData, range);
-                } catch (e) {
-                    console.error('JSON parse error:', e);
-                    console.error('Invalid JSON:', variantData);
-                }
-            }
-            else{
-                console.log('Loading gene/guide data');
-                getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId);
-            }
-
+            handle(range, species);
             $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
-        }
-    });
-}
-function getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId){
 
-    //var url="https://dev.scge.mcw.edu/toolkit/data/guide/guides/"+mappedGeneStart+"/"+mappedGeneStop+"/"+guideId;
-    var url="/rgdweb/js/sequenceViewer/sample.js";
-
-    $.ajax({
-        url:url,
-        type:"GET",
-        dataType: 'json',
-        success:function (data) {
-         handle(data,range);
         }
     });
 
 }
-function handle(data, range){
-   var otherGuides=JSON.stringify(data);
-    console.log("DATA HANDLER:"+JSON.stringify(data));
-    if (typeof hasVariantData !== 'undefined' && hasVariantData) {
-        var species = typeof speciesName !== 'undefined' ? speciesName : 'rat';
-        createExample(range, species, "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true, null, null, guide, otherGuides);
-    }
-    else {
-        // Original gene logic
-        createIsoformExample(range, "rat", "viewerActnFly", TRACK_TYPE.ISOFORM, true);
-    }
-    //createExample(range, "rat", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,null,null, guide,otherGuides);
-    //createIsoformExample(range, "rat", "viewerActnFly", TRACK_TYPE.ISOFORM, true);
+
+function handle(range,species){
+    createIsoformExample(range, species, "viewerActnFly", TRACK_TYPE.ISOFORM, true);
 }
-getGenome=  async () => {
-    var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/38";
-    const response = await fetch(url);
-    const geneInfo=   await response.json(); //extract JSON from the http response
-    console.log(geneInfo);
-   const mappedGeneChr=geneInfo[0].chromosome;
-   const mappedGeneStart=geneInfo[0].start;
-   const mappedGeneStop=geneInfo[0].stop;
-    console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
-    range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
-    $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
-};
+
 function flyExamples() {
     // 2L:132412..230018
 // http://localhost:8080/apollo/vcf/remotefly/Phenotypic%20Variants/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
@@ -247,7 +161,6 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
                 "id": 12,
                 "genome": genome,
                 "type": type,
-                "mapKey": mapKey,
                 "isoform_url": [
                     `${BASE_URL}/track/`,
                     "/All%20Genes/",
@@ -262,6 +175,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
             }
         ]
     };
+    console.log(configGlobal1);
    // const gfc = new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
     const gfc=  (new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500));
     const closeButton = document.getElementById(divId + 'CloseButton');
