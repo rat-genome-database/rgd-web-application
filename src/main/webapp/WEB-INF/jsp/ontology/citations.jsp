@@ -19,8 +19,11 @@
     }
 }
 </style>
+<br>
+<%--<div class="rgd-panel rgd-panel-default">--%>
+    <h2>About these ontologies</h2>
+<%--</div>--%>
 <%
-
     if (refs.size() > 0 ) {
         // sort references by citation
         Collections.sort(refs, new Comparator<Reference>() {

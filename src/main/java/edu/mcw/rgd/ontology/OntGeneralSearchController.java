@@ -1,6 +1,7 @@
 package edu.mcw.rgd.ontology;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
+import edu.mcw.rgd.dao.impl.StatisticsDAO;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontologyx.Ontology;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
@@ -16,8 +17,8 @@ import org.springframework.web.servlet.mvc.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 /**
@@ -53,11 +54,12 @@ public class OntGeneralSearchController implements Controller {
             bean.sortOntologiesAlphabetically();
             Map<String, Integer> annotsCnt = new HashMap<>();
             ScoreBoardManager sbm = new ScoreBoardManager();
-            LocalDate ld = LocalDate.now();
-            ZoneId z = ZoneId.of( "America/Chicago" );
-            ZonedDateTime zdt = ld.with(TemporalAdjusters.previous(DayOfWeek.THURSDAY)).atStartOfDay( z );
-            Instant instant = zdt.toInstant();
-            Date d = Date.from(instant);
+            StatisticsDAO sdao = new StatisticsDAO();
+
+            List<String> pastDates = sdao.getStatArchiveDates();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date d = formatter.parse(pastDates.get(0));
+
             Map<String, String> annotMap = sbm.getOntologyAnnotationCount(0, 0, d);
             for(Ontology o : bean.getOntologies()){
                 String mapCnt = annotMap.get(o.getName());
