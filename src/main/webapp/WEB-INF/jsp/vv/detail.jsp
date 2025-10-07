@@ -31,7 +31,7 @@
 //    VariantMapData vmd = dao.getVariant(Integer.parseInt(vid));
     List<SearchResult> searchResults = (List<SearchResult>) request.getAttribute("searchResults");
     XdbIdDAO xDao = new XdbIdDAO();
-
+    List<Long> varRgdIds = new ArrayList<>();
     for (SearchResult searchResult: searchResults) {
 
         //SearchResult searchResult = searchResults.get(0);
@@ -63,9 +63,11 @@
     <%
         for (VariantResult result: resultList) {
 
+            if (!varRgdIds.contains(result.getVariant().getId())){
             Sample sample = SampleManager.getInstance().getSampleName(result.getVariant().getSampleId());
             boolean isClinVar = sample.getMapKey()==17 || sample.getMapKey()==38;
             VariantMapData vmd = dao.getVariant((int)result.getVariant().getId());
+            varRgdIds.add(vmd.getId());
 //            System.out.println(vmd.getId());
     if (vmd!=null && vmd.getRsId()!=null && !vmd.getRsId().equals(".")) {
     %>
@@ -352,7 +354,7 @@
 
                     <%
         }
-
+    }
 %>
 </div>
 
