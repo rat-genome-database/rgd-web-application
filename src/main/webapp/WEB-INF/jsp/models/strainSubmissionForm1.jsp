@@ -144,7 +144,7 @@
             </div>
             <div class="form-group" style="float:right;width:49%">
                 <label for="geneRgdid">Gene RGD ID (if known)</label>
-                <input type="text" class="form-control" id="geneRgdid" name= "geneRgdid" aria-describedby="geneRgdidHelp" placeholder="Enter gene RGD ID">
+                <input type="number" class="form-control" id="geneRgdid" name= "geneRgdid" aria-describedby="geneRgdidHelp" placeholder="Enter gene RGD ID">
                 <small id="geneRgdidHelp" class="form-text text-muted"></small>
             </div>
             </div>
@@ -156,7 +156,7 @@
             </div>
             <div class="form-group" style="float:right;width:49%">
                 <label for="alleleRgdid">Allele RGD ID (if known)</label>
-                <input type="text" class="form-control" id="alleleRgdid" name="alleleRgdid" aria-describedby="alleleRgdidHelp" placeholder="Enter allele RGD ID ">
+                <input type="number" class="form-control" id="alleleRgdid" name="alleleRgdid" aria-describedby="alleleRgdidHelp" placeholder="Enter allele RGD ID ">
                 <small id="alleleRgdidHelp" class="form-text text-muted"></small>
             </div>
             </div>
