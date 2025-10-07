@@ -347,7 +347,9 @@
                         </tr>
                     </table>
                 </div>
-
+            </td>
+        </tr>
+    </table>
                     <% } %>
                 <br>
 
@@ -358,9 +360,7 @@
 %>
 </div>
 
-</td>
-</tr>
-</table>
+
 
 <br><br>
 
