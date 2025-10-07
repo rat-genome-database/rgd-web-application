@@ -144,7 +144,7 @@
             </div>
             <div class="form-group" style="float:right;width:49%">
                 <label for="geneRgdid">Gene RGD ID (if known)</label>
-                <input type="text" class="form-control" id="geneRgdid" name= "geneRgdid" aria-describedby="geneRgdidHelp" placeholder="Enter gene RGD ID">
+                <input type="number" class="form-control" id="geneRgdid" name= "geneRgdid" aria-describedby="geneRgdidHelp" placeholder="Enter gene RGD ID">
                 <small id="geneRgdidHelp" class="form-text text-muted"></small>
             </div>
             </div>
@@ -156,7 +156,7 @@
             </div>
             <div class="form-group" style="float:right;width:49%">
                 <label for="alleleRgdid">Allele RGD ID (if known)</label>
-                <input type="text" class="form-control" id="alleleRgdid" name="alleleRgdid" aria-describedby="alleleRgdidHelp" placeholder="Enter allele RGD ID ">
+                <input type="number" class="form-control" id="alleleRgdid" name="alleleRgdid" aria-describedby="alleleRgdidHelp" placeholder="Enter allele RGD ID ">
                 <small id="alleleRgdidHelp" class="form-text text-muted"></small>
             </div>
             </div>
@@ -164,19 +164,25 @@
 
         <div class="form-group">
             <legend style="background:#eee">Availability</legend>
-            <div class="form-check">
-                <label class="form-check-label">Current Status: &nbsp;&nbsp;
-                    <input type="checkbox" class="form-check-input" name="availType" id="availType1" value="Live Animals">
-                    <span style="font-weight:normal">Live Animals</span>&nbsp;&nbsp;
-                    <input type="checkbox" class="form-check-input" name="availType" id="availType2" value="Cryopreserved Embryo">
-                    <span style="font-weight:normal">Cryopreserved Embryo</span>&nbsp;&nbsp;
-                    <input type="checkbox" class="form-check-input" name="availType" id="availType3" value="Cryopreserved Sperm">
-                    <span style="font-weight:normal">Cryopreserved Sperm</span>
-                </label>
-
+            <div class="form-check form-check-inline">
+            <label class="form-check-label mb-2">Current Status:</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="availType1" name="availType" value="Live Animals">
+                <label class="form-check-label" for="availType1">Live Animals</label>
             </div>
 
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="availType2" name="availType" value="Cryopreserved Embryo">
+                <label class="form-check-label" for="availType2">Cryopreserved Embryo</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="availType3" name="availType" value="Cryopreserved Sperm">
+                <label class="form-check-label" for="availType3">Cryopreserved Sperm</label>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="source">Where could this strain be obtained?</label>&nbsp;&nbsp;<span style="color:red">*</span>
             <textarea class="form-control" id="source" name="source" rows="3" required></textarea>
