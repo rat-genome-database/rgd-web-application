@@ -31,7 +31,9 @@
     out.print(",");
     out.print("Assembly");
     out.print(",");
-    out.println("Reference");
+    out.print("Reference");
+    out.print(",");
+    out.println("GEO Study");
     for (GeneExpression ge : expressionList){
 
         GeneExpressionRecordValue v = ge.getGeneExpressionRecordValue();
@@ -121,8 +123,10 @@
                 refBuilder.append("RGD:").append(ref).append(", ");
         }
         if (Utils.isStringEmpty(refBuilder.toString()) )
-            out.println("N/A");
+            out.print("N/A");
         else
-            out.println(refBuilder.toString());
+            out.print(refBuilder.toString());
+        out.print(",");
+        out.println(Utils.isStringEmpty(ge.getGeoSeriesAcc()) ? "N/A" : ge.getGeoSeriesAcc());
     }
 %>
