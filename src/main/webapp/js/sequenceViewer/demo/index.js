@@ -88,9 +88,10 @@ function getGenomeInfo(url){
                 }];
                 console.log('Created dummy coordinates:', viewStart, 'to', viewEnd);
             }
-            const mappedGeneChr=geneInfo[0].chromosome;
-            const mappedGeneStart=geneInfo[0].start;
-            const mappedGeneStop=geneInfo[0].stop;
+
+            const mappedGeneChr=chr;
+            const mappedGeneStart=start;
+            const mappedGeneStop=stop;
             console.log('Genes returned by service:', geneInfo);
             console.log('MapKey used:', mapKey);
             console.log('Query coordinates:', chr+"/"+start+"/"+stop+"/" + mapKey);
