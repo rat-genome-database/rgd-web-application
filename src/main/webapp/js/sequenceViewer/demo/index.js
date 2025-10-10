@@ -114,54 +114,25 @@ function getGenomeInfo(url){
             }
             else{
                 console.log('Loading gene/guide data');
-                getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId);
+
+                handle("", range)
             }
 
             $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
         }
     });
 }
-function getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId){
-
-    //var url="https://dev.scge.mcw.edu/toolkit/data/guide/guides/"+mappedGeneStart+"/"+mappedGeneStop+"/"+guideId;
-    var url="/rgdweb/js/sequenceViewer/sample.js";
-
-    $.ajax({
-        url:url,
-        type:"GET",
-        dataType: 'json',
-        success:function (data) {
-            handle(data,range);
-        }
-    });
-
-}
 function handle(data, range){
-    var otherGuides=JSON.stringify(data);
-    console.log("DATA HANDLER:"+JSON.stringify(data));
+     var otherGuides=JSON.stringify(data);
     if (typeof hasVariantData !== 'undefined' && hasVariantData) {
         var species = typeof speciesName !== 'undefined' ? speciesName : 'rat';
         createExample(range, species, "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true, null, null, guide, otherGuides);
     }
     else {
         // Original gene logic
-        createIsoformExample(range, "rat", "viewerActnFly", TRACK_TYPE.ISOFORM, true);
+        createIsoformExample(range, geneSpecies, "viewerActnFly", TRACK_TYPE.ISOFORM, true);
     }
-    //createExample(range, "rat", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,null,null, guide,otherGuides);
-    //createIsoformExample(range, "rat", "viewerActnFly", TRACK_TYPE.ISOFORM, true);
 }
-getGenome=  async () => {
-    var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/38";
-    const response = await fetch(url);
-    const geneInfo=   await response.json(); //extract JSON from the http response
-    console.log(geneInfo);
-    const mappedGeneChr=geneInfo[0].chromosome;
-    const mappedGeneStart=geneInfo[0].start;
-    const mappedGeneStop=geneInfo[0].stop;
-    console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
-    range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
-    $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
-};
 function flyExamples() {
     // 2L:132412..230018
 // http://localhost:8080/apollo/vcf/remotefly/Phenotypic%20Variants/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
