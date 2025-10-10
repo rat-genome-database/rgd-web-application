@@ -78,10 +78,6 @@
 <div class="light-table-border">
     <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
-<%--    <b><span style="color: DarkBlue">High:</span> > 1000 TPM value</b>&nbsp;&nbsp;--%>
-<%--    <b><span style="color: DarkBlue">Medium:</span> Between 11 and 1000 TPM</b><br>--%>
-<%--    <b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;--%>
-<%--    <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>--%>
     <label style="font-size: 16px">
         <b>Click on a value in the shaded box below the category label to view a detailed expression data table for that system.</b>
     </label>
@@ -96,11 +92,6 @@
         </label>
         <% } %>
     </form>
-<%--    <b ><span style="color: DarkBlue">High:</span> > 1000 TPM value</b>&nbsp;&nbsp;--%>
-<%--    <b><span style="color: DarkBlue">Medium:</span> Between 11 and 1000 TPM</b><br>--%>
-<%--    <b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;--%>
-<%--    <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>--%>
-<%--    <br><br>--%>
     <div id="expresTable" style="padding-top: 5px;">
         <table id="exprData" name="exprData" >
             <tr>
@@ -139,23 +130,23 @@
             <label style="color: red; padding-top: 10px;">Too many to show, limit is 500. Download them if you would like to view them all.</label>
         </div>
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
-            <div style="margin-bottom: 10px; padding: 15px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px;">
+            <div style="margin-bottom: 10px; padding: 5px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px;">
                 <label style="font-weight: bold; margin-right: 10px;">Filter by Expression Level:</label>
                 <label style="margin-right: 5px;">
                     <input type="checkbox" v-model="selectedLevels" value="High" style="margin-right: 5px;">
-                    <b><span style="color: DarkBlue;">High:</span> > 1000 TPM value</b>
+                    <b><span style="color: DarkBlue;">High:</span> TPM > 1000</b>
                 </label>
                 <label style="margin-right: 5px;">
                     <input type="checkbox" v-model="selectedLevels" value="Medium" style="margin-right: 5px;">
-                    <b><span style="color: DarkBlue;">Medium:</span> Between 11 and 1000 TPM</b>
+                    <b><span style="color: DarkBlue;">Medium:</span> 10 < TPM &le; 1000 TPM</b>
                 </label>
                 <label style="margin-right: 5px;">
                     <input type="checkbox" v-model="selectedLevels" value="Low" style="margin-right: 5px;">
-                    <b><span style="color: Red;">Low:</span> Between 0.5 and 10 TPM</b>
+                    <b><span style="color: Red;">Low:</span> 0.5 &le; TPM &le; 10</b>
                 </label>
                 <label style="margin-right: 5px;">
                     <input type="checkbox" v-model="selectedLevels" value="Below Cutoff" style="margin-right: 5px;">
-                    <b><span style="color: Red;">Below Cutoff:</span> < 0.5 TPM</b>
+                    <b><span style="color: Red;">Below Cutoff:</span> TPM < 0.5</b>
                 </label>
                 <button @click="clearFilters" style="margin-left: 10px; padding: 2px 10px;">Clear Filters</button>
                 <span style="margin-left: 15px; color: #666;">Showing {{ filteredExpItems.length }} of {{ expItems.length }} records</span>
@@ -262,6 +253,14 @@
                         sortable: true
                     },
                     {
+                        key: 'level',
+                        label: "Level",
+                        formatter: value => {
+                            return value;
+                        },
+                        sortable: true,
+                    },
+                    {
                         key: 'assembly',
                         formatter: value => {
                             return value;
@@ -276,14 +275,6 @@
                         //     return value;
                         // }
                         sortable: true
-                    },
-                    {
-                        key: 'level',
-                        label: "Level",
-                        formatter: value => {
-                            return value;
-                        },
-                        sortable: true,
                     },
                     {
                         key: 'geoStudyAcc',
@@ -523,7 +514,7 @@
                                             error: function (x, s, err) {
                                                 console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                             }
-                                        });
+                                        }); // end mapKey AJAX call
                                     }
                                 })
 
