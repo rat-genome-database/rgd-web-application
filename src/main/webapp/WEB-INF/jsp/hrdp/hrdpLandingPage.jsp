@@ -74,6 +74,45 @@ To change this template use File | Settings | File Templates.
                 <li>To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml#ris">click here</a></li>
             </ul>
         </li>
+        <br>
+        <li>
+            UCSC Track Hubs:
+            <ul>
+                <br>
+                <li>
+                    <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&hubUrl=https://phenogen.org/public_ucsc/rn7/v7/hub.txt">
+                        View in UCSC Genome Browser
+                    </a>
+                </li>
+<%--                <li>IsoSeq alignments for brain, liver, or combined tissues</li>--%>
+<%--                <li>Reconstructed transcriptomes with merged tissue-specific read counts</li>--%>
+<%--                <li>Strain/tissue-specific read counts (sampled to the lowest strain)</li>--%>
+<%--                <li>Strain/tissue-specific read counts (total, all reads from three replicates included)</li>--%>
+            </ul>
+        </li>
+        <br>
+        <li>
+            Phenogen RNA-Seq Data:
+            <ul>
+                <br>
+                <li>
+                    <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">Download from Phenogen Portal</a>
+                </li>
+                <br>
+                <li>
+                    Phenogen RNA expression levels in the Hybrid Rat Diversity Panel (<a class="here" target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/36186443/">PMID: 36186443</a>)
+                </li>
+<%--                <li>--%>
+<%--                    RNA-Seq downloads: normalized expression (TPM or regularized log [rLog]), for whole brain, heart, liver, kidney--%>
+<%--                </li>--%>
+<%--                <li>--%>
+<%--                    Data available for individual samples or as strain mean expression (text files, matrix format)--%>
+<%--                </li>--%>
+<%--                <li>--%>
+<%--                    Tissue-specific reconstructed transcriptome available as GTF files--%>
+<%--                </li>--%>
+            </ul>
+        </li>
     </ul>
     <br>
     <h3>What resources are available for the HRDP?</h3>
