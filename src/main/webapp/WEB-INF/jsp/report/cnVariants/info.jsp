@@ -8,6 +8,7 @@
 <%@ page import="org.elasticsearch.common.recycler.Recycler" %>
 <%@ page import="org.locationtech.jts.awt.PointShapeFactory" %>
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantSSId" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ include file="../sectionHeader.jsp"%>
 <style>
     .wrap660 {
@@ -16,15 +17,41 @@
         word-break: break-all;
     }
 </style>
+<script>
+    var chr = '<%=var.getChromosome()%>';
+    var start = <%=var.getStartPos()%>;
+    var stop = <%=var.getEndPos()%>;
+    var mapKey = <%=var.getMapKey()%>;
+    var rgdId = <%=obj.getRgdId()%>;
+    var guideId = null;
+    var guide = null;
+    var speciesName = "<%=SpeciesType.getShortName(var.getSpeciesTypeKey())%>";
+    // Create variant data
+    var variantData = '[{' +
+        '"name": "",' +
+        '"type": "<%=ontTerm%>",' +
+        '"fmin": <%=var.getStartPos()%>,' +
+        '"fmax": <%=var.getEndPos()%>,' +
+        '"seqId": "<%=var.getChromosome()%>",' +
+        '"alternative_alleles": "<%=Utils.NVL(var.getVariantNucleotide(), "")%>",' +
+        '"rsId": "<%=Utils.NVL(var.getRsId(), "")%>",' +
+        '"targetLocus": " ",' +
+        '"assembly": "<%=mapDAO.getMap(var.getMapKey()).getName()%>",'+
+        <%--'"targetSequence": "<%=Utils.NVL(var.getReferenceNucleotide(), "")%>",' +--%>
+        '"guide_ids": {"values": ["<%=Utils.NVL(var.getRsId(), String.valueOf(obj.getRgdId()))%>"]}' +
+        '}]';
+
+    var hasVariantData = true;
+    console.log('Variant data defined in jsp:', variantData);
+</script>
 <%
     String objType = "{unknown object type}";
     String description = null;
     if( obj!=null ) {
         objType = obj.getObjectTypeName();
     }
-
-boolean isEva = false;
-
+    boolean isEva = false;
+    String jbrowse2Url="";
     if (mapKey!=631) {
         for (Sample s : samples){
             if (s.getAnalysisName().contains("European Variation Archive")) {
@@ -138,9 +165,7 @@ boolean isEva = false;
         </td>
     </tr>
     <% } %>
-
     <%  if (geneList.size() > 0) {
-
             // sort strains by symbol
             Collections.sort(geneList, new Comparator<Gene>() {
                 public int compare(Gene o1, Gene o2) {
@@ -260,19 +285,27 @@ boolean isEva = false;
         //System.out.println("Final baseURL: " + baseURL);
         String jbUrl = baseURL+"jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(var);
 
+        //jbrowse 2 logic
+        jbrowse2Url = MapDataFormatter.generateJbrowse2URLForVariants( 7, var);
+        if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){
     %>
     <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <a href="<%=baseURL%>jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(var)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>
+            <%if(RgdContext.getHostname().equals("http://localhost:8080")||RgdContext.getHostname().equals("https://dev.rgd.mcw.edu")){
+                jbrowse2Url="https://pipelines.rgd.mcw.edu"+jbrowse2Url;
+            }%>
+<%--            <a href="<%=baseURL%>jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(var)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>--%>
+                <a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a>
         </td>
     </tr>
-    <tr>
-        <td class="label">Model</td>
-        <td>
-            <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>
-        </td>
-    </tr>
+    <%}%>
+<%--    <tr>--%>
+<%--        <td class="label">Model</td>--%>
+<%--        <td>--%>
+<%--            <iframe id="jbrowseMini" style="overflow:hidden; border: 1px solid black" width="660" scrolling="no"></iframe>--%>
+<%--        </td>--%>
+<%--    </tr>--%>
     <script>
         $(document).ready(function() {
             document.getElementById('jbrowseMini').src = '<%=jbUrl%>';
@@ -293,6 +326,43 @@ boolean isEva = false;
     <% } %>
 
 </table>
+<%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
 <br>
+<div id="sequenceViewer"onclick="goToJBrowse()">
+    <div class="container">
+        <div id="range" style="text-align: center"></div>
+        <svg className="viewer" id="viewerActnFly"/>
+    </div>
+</div>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<link rel="stylesheet" href="/rgdweb/js/sequenceViewer/GenomeFeatureViewer.css">
 
+<script src="/rgdweb/js/sequenceViewer/RenderFunctions.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/ApolloService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/ConsequenceService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/LegenedService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/TrackService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/services/VariantService.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformAndVariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformEmbeddedVariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/IsoformTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/ReferenceTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/TrackTypeEnum.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/VariantTrack.js"></script>
+<script src="/rgdweb/js/sequenceViewer/tracks/VariantTrackGlobal.js"></script>
+<script src="/rgdweb/js/sequenceViewer/Drawer.js"></script>
+<script src="/rgdweb/js/sequenceViewer/GenomeFeatureViewer.js"></script>
+<script src="/rgdweb/js/sequenceViewer/demo/index.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadSequenceViewer();
+    });
+    function goToJBrowse() {
+        window.open("<%=jbrowse2Url%>");
+    }
+</script>
+<% } %>
 <%@ include file="../sectionFooter.jsp"%>
