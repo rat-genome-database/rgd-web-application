@@ -148,8 +148,8 @@ let apolloService = new ApolloService();
       let variantBins = generateVariantDataBinsAndDataSets(variantData,(viewEnd-viewStart)*binRatio);
       variantBins.forEach(variant => {
         let {type, fmax, fmin} = variant;
-        console.log('Drawing variant at fmin:', fmin, 'fmax:', fmax);
-        console.log('- viewStart:', viewStart, 'viewEnd:', viewEnd);
+        // console.log('Drawing variant at fmin:', fmin, 'fmax:', fmax);
+        // console.log('- viewStart:', viewStart, 'viewEnd:', viewEnd);
         let drawnVariant = true;
         let isPoints = false;
         let viewerWidth = this.width;
@@ -687,10 +687,10 @@ let apolloService = new ApolloService();
     const isoformUrl = track["isoform_url"];
     let dataUrl = isoformUrl[0] + encodeURI(track["genome"]) + isoformUrl[1] + encodeURI(externalLocationString) + isoformUrl[2];
     if (track["mapKey"]) {
-      console.log('in track mapkey')
+      // console.log('in track mapkey')
       dataUrl += (dataUrl.includes('?') ? '&' : '?') + 'mapKey=' + track["mapKey"];
     }
-    console.log('Transcript service URL:', dataUrl);
+    // console.log('Transcript service URL:', dataUrl);
     this.trackData= await apolloService.fetchDataFromUrl(dataUrl);
     //crated a dummy trackdata to display variant in correct position
     if(!(this.trackData.length>0)){
@@ -707,7 +707,7 @@ let apolloService = new ApolloService();
         type:"gene"
       }]
     }
-    console.log('Transcript service returned:', this.trackData);
+    // console.log('Transcript service returned:', this.trackData);
   }
 
   /* Method for isoformTrack service call */
