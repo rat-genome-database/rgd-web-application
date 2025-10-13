@@ -1,5 +1,7 @@
 package edu.mcw.rgd.report;
 
+import edu.mcw.rgd.dao.impl.GeneDAO;
+import edu.mcw.rgd.datamodel.Gene;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
@@ -23,6 +25,9 @@ public class ExpressionDownloadController implements Controller {
             reader.close();
             // probably send rgdId
             int rgdId = obj.getInt("rgdId");
+            GeneDAO geneDAO = new GeneDAO();
+            Gene g = geneDAO.getGene(rgdId);
+            request.setAttribute("geneSymbol",g.getSymbol());
             String term = obj.getString("term");
             request.setAttribute("rgdId",rgdId);
             request.setAttribute("termAcc", term); //"UBERON:9999999"
