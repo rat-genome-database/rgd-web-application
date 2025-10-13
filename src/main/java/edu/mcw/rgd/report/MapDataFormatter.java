@@ -3,7 +3,6 @@ package edu.mcw.rgd.report;
 import edu.mcw.rgd.dao.impl.Jbrowse2UrlConfigDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.MapDAO;
-import edu.mcw.rgd.datamodel.variants.VariantMapData;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
 import edu.mcw.rgd.datamodel.variants.VariantMapData;
@@ -66,8 +65,8 @@ public class  MapDataFormatter {
 
         final MapManager mm = MapManager.getInstance();
 
-        Map activeMap = mm.getReferenceAssembly(speciesTypeKey);
-        int activeMapKey = activeMap.getKey();
+        int activeMapKey = mm.getReferenceAssembly(speciesTypeKey).getKey();
+
         String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
 
         // sort map data by order specified in the database
@@ -75,13 +74,13 @@ public class  MapDataFormatter {
             @Override
             public int compare(MapData o1, MapData o2) {
                 int rank1 = 0, rank2 = 0;
-                Map map1 = mm.getMap(o1.getMapKey());
-                if( map1!=null ) {
-                    rank1 = map1.getRank();
+                Map map = mm.getMap(o1.getMapKey());
+                if( map!=null ) {
+                    rank1 = map.getRank();
                 }
-                Map map2 = mm.getMap(o2.getMapKey());
-                if( map2!=null ) {
-                    rank2 = map2.getRank();
+                map = mm.getMap(o2.getMapKey());
+                if( map!=null ) {
+                    rank2 = map.getRank();
                 }
                 return rank1 - rank2;
             }
@@ -109,36 +108,47 @@ public class  MapDataFormatter {
             ret.append("</tr>");
         }
 
-        List<String> activeMapChr = new ArrayList<>();
-        for( MapData md: mapData ){
-            if( md.getMapKey() == activeMapKey ) {
-                activeMapChr.add(md.getChromosome());
+        List<String> activeMapChr=new ArrayList<>();
+        for(MapData mdObj: mapData){
+            Map map = mm.getMap(mdObj.getMapKey());
+            if( map==null ) {
+                // map not known
+                //ret.append("<td>&nbsp;</td>");
+                continue;
+            }
+            if (map.getKey() == activeMapKey) {
+                activeMapChr.add(mdObj.getChromosome());
             }
         }
 
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
-			if( map==null ) {
+            //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
+            if( map==null ) {
                 // map not known
                 ret.append("<td>&nbsp;</td>");
             }
             else
-            if( map.getKey() == activeMapKey ) {
+            if (map.getKey() == activeMapKey) {
 
+                //System.out.println(" activeMap hit: "+activeMapKey);
                 ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
                         .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
                         .append("'>").append(map.getName())
                         .append("</a></td>");
 
             }else {
+                //System.out.println(" map hit: "+mdObj.getMapKey());
                 ret.append("<td>").append(map.getName()).append("</td>");
             }
 
             if(activeMapChr.size()>1){
+                //System.out.println("active map " + activeMapChr.toString());
                 ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
             }else{
                 if(activeMapChr.size()==1) {
                     for (String chr : activeMapChr) {
+                        //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
                         if (mdObj.getChromosome().equals(chr))
                             ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
                         else
@@ -151,9 +161,9 @@ public class  MapDataFormatter {
 
             if (map!=null && map.getUnit().equals("bp")) {
                 ret.append("<td>")
-                   .append(FormUtility.formatThousands(mdObj.getStartPos()))
-                   .append("&nbsp;-&nbsp;")
-                   .append(FormUtility.formatThousands(mdObj.getStopPos()));
+                        .append(FormUtility.formatThousands(mdObj.getStartPos()))
+                        .append("&nbsp;-&nbsp;")
+                        .append(FormUtility.formatThousands(mdObj.getStopPos()));
                 if( mdObj.getStrand()!=null ) {
                     ret.append(" (").append(mdObj.getStrand()).append(")");
                 }
@@ -368,9 +378,9 @@ public class  MapDataFormatter {
 
         if( db!=null && track!=null ) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse/index.html?data=")
-                .append(db).append("&tracks=").append(track).append("&highlight=&loc=")
-                .append(FormUtility.getJBrowseLoc(md))
-            .append("\">").append(link).append("</a>");
+                    .append(db).append("&tracks=").append(track).append("&highlight=&loc=")
+                    .append(FormUtility.getJBrowseLoc(md))
+                    .append("\">").append(link).append("</a>");
         }
     }
     static void generateJBrowse2Link(StringBuilder buf, int objectKey, MapData md) throws Exception {
@@ -383,15 +393,14 @@ public class  MapDataFormatter {
 //                        .append("&tracklist=true")
 //                        .append("&tracks=").append(tracks)
 //                        .append("\">").append(link).append("</a>");
-                buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
-                        .append(url).append("\">").append(linkName).append("</a>");
+            buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
+                    .append(url).append("\">").append(linkName).append("</a>");
 
         }
     }
 
     public static String generateJbrowse2URL(int objectKey, MapData md) throws Exception {
         if(md==null){
-            System.out.println("null mapdata");
             return null;
         }
         String tracks=null,url=null;
@@ -415,37 +424,7 @@ public class  MapDataFormatter {
 
         url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2Loc(md, firstConfig.getChrPrefix()) + "&assembly=" + firstConfig.getAssembly() + "&tracklist=true" + "&tracks="
                 + tracks;
-//        System.out.println("url"+url);
-        return url;
-    }
-
-    public static String generateJbrowse2URLForVariants(int objectKey, VariantMapData vmd) throws Exception {
-        if(vmd==null){
-            System.out.println("null mapdata");
-            return null;
-        }
-        String tracks=null,url=null;
-        Jbrowse2UrlConfigDAO dao = new Jbrowse2UrlConfigDAO();
-        List<Jbrowse2UrlConfig>urlConfigs = dao.getJbrowse2UrlConfigsByMapAndObjectKey(vmd.getMapKey(), objectKey);
-        if(urlConfigs.isEmpty()){
-            return null;
-        }
-        Jbrowse2UrlConfig firstConfig = urlConfigs.get(0);
-        if(firstConfig.getAssembly()==null||firstConfig.getAssembly().isEmpty()){
-            return null;
-        }
-        tracks = urlConfigs.stream()
-                .map(Jbrowse2UrlConfig::getTracks)
-                .filter(track -> track != null && !track.isEmpty())
-                .collect(Collectors.joining(","));
-
-        if (tracks == null || tracks.isEmpty()) {
-            return null;
-        }
-
-        url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2LocForVariants(vmd, firstConfig.getChrPrefix()) + "&assembly=" + firstConfig.getAssembly() + "&tracklist=true" + "&tracks="
-                + tracks;
-//        System.out.println("url"+url);
+//        System.out.println(url);
         return url;
     }
     public static String generateJbrowse2URLForVariants(int objectKey, VariantMapData vmd) throws Exception {
@@ -663,7 +642,7 @@ public class  MapDataFormatter {
                     link = "SpeTri2.0";
                     break;
 
-                    //green monkey
+                //green monkey
                 case 1312:
                     db = "http://www.ensembl.org/Chlorocebus_sabaeus/Location/View?r=";
                     link = "Vervet-AGM";
