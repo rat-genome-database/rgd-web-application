@@ -461,6 +461,16 @@ public class FormUtility {
         return (md.getChromosome().length()>2?"":charPrefix)+md.getChromosome()+":"+startPos+"-"+stopPos;
     }
 
+    static public String getJBrowse2LocForVariants(VariantMapData vmd,String charPrefix) {
+        int startPos = (int) (vmd.getStartPos() - 100);
+        if( startPos<0 )
+            startPos = 1;
+        int stopPos = (int) (vmd.getStartPos() + 100);
+        System.out.println("variant mapdata start pos"+startPos);
+        System.out.println("variant mapdata end pos"+stopPos);
+        return (vmd.getChromosome().length()>2?"":charPrefix)+vmd.getChromosome()+":"+startPos+"-"+stopPos;
+    }
+
     public String buildHiddenFormFieldsFromQueryString(String queryString) {
         //?chr=&start=&stop=&geneStart=&geneStop=&geneList=a2m&con=&polyphenPrediction=&depthLowBound=&depthHighBound=&sample1=510&sample2=505
         if (queryString.startsWith("?")) {
