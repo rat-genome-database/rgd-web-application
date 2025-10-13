@@ -84,12 +84,56 @@ To change this template use File | Settings | File Templates.
         </li>
         <br>
         <li>
-            Whole genome sequence data (VCF files for download, variants integrated into Variant Visualizer)
+           Quantitative phenotype measurements can be explored through PhenoMiner
         </li>
         <br>
         <li>
-           Quantitative phenotype measurements can be explored through PhenoMiner
+            Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
         </li>
+        <br>
+        <li>
+            Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org/">PhenoGen Informatics</a>
+            <ul>
+                <br>
+                <li>
+                    <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
+                        UCSC&nbsp;Track&nbsp;Hubs
+                    </a>
+                </li>
+                <br>
+                <li>
+                    <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">
+                        Download</a>
+                    RNA-Seq&nbsp;Data&nbsp;from&nbsp;PhenoGen&nbsp;Informatics
+                </li>
+                <%--                <li>IsoSeq alignments for brain, liver, or combined tissues</li>--%>
+                <%--                <li>Reconstructed transcriptomes with merged tissue-specific read counts</li>--%>
+                <%--                <li>Strain/tissue-specific read counts (sampled to the lowest strain)</li>--%>
+                <%--                <li>Strain/tissue-specific read counts (total, all reads from three replicates included)</li>--%>
+            </ul>
+        </li>
+<%--        <li>--%>
+<%--            Phenogen RNA-Seq Data:--%>
+<%--            <ul>--%>
+<%--                <br>--%>
+<%--                <li>--%>
+<%--                    <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">Download from Phenogen Portal</a>--%>
+<%--                </li>--%>
+<%--                <br>--%>
+<%--                <li>--%>
+<%--                    Phenogen RNA expression levels in the Hybrid Rat Diversity Panel (<a class="here" target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/36186443/">PMID: 36186443</a>)--%>
+<%--                </li>--%>
+<%--                &lt;%&ndash;                <li>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    RNA-Seq downloads: normalized expression (TPM or regularized log [rLog]), for whole brain, heart, liver, kidney&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                </li>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                <li>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    Data available for individual samples or as strain mean expression (text files, matrix format)&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                </li>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                <li>&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                    Tissue-specific reconstructed transcriptome available as GTF files&ndash;%&gt;--%>
+<%--                &lt;%&ndash;                </li>&ndash;%&gt;--%>
+<%--            </ul>--%>
+<%--        </li>--%>
     </ul>
     <br>
     <h3>How do the HRDP strains relate to the Heterogenous Stock (HS) founder strains?</h3>
