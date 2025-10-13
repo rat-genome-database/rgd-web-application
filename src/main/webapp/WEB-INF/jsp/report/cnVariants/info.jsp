@@ -328,7 +328,7 @@
 </table>
 <%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
 <br>
-<div id="sequenceViewer"onclick="goToJBrowse()">
+<div id="sequenceViewer">
     <div class="container">
         <div id="range" style="text-align: center"></div>
         <svg className="viewer" id="viewerActnFly"/>
