@@ -42,7 +42,7 @@
         '}]';
 
     var hasVariantData = true;
-    console.log('Variant data defined in jsp:', variantData);
+    // console.log('Variant data defined in jsp:', variantData);
 </script>
 <%
     String objType = "{unknown object type}";

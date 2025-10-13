@@ -42,7 +42,7 @@ function covidExamples(){
 var range="";
 function currentExamples(){
 //    createIsoformExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM, false);
-    console.log("Map key in current examples"+mapKey)
+//     console.log("Map key in current examples"+mapKey)
     var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/" + mapKey;
     getGenomeInfo(url, guide);
 
