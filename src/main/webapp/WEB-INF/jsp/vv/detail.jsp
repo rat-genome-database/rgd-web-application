@@ -31,7 +31,7 @@
 //    VariantMapData vmd = dao.getVariant(Integer.parseInt(vid));
     List<SearchResult> searchResults = (List<SearchResult>) request.getAttribute("searchResults");
     XdbIdDAO xDao = new XdbIdDAO();
-
+    List<Long> varRgdIds = new ArrayList<>();
     for (SearchResult searchResult: searchResults) {
 
         //SearchResult searchResult = searchResults.get(0);
@@ -63,9 +63,11 @@
     <%
         for (VariantResult result: resultList) {
 
+            if (!varRgdIds.contains(result.getVariant().getId())){
             Sample sample = SampleManager.getInstance().getSampleName(result.getVariant().getSampleId());
             boolean isClinVar = sample.getMapKey()==17 || sample.getMapKey()==38;
             VariantMapData vmd = dao.getVariant((int)result.getVariant().getId());
+            varRgdIds.add(vmd.getId());
 //            System.out.println(vmd.getId());
     if (vmd!=null && vmd.getRsId()!=null && !vmd.getRsId().equals(".")) {
     %>
@@ -227,7 +229,7 @@
                                 <table border="0" width="100%" style="border:  5px solid #D8D8DB; background-color:white; color:#053867;font-size:12px;">
                                     <% try { %>
                                     <tr>
-                                        <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol(),"protein-coding").get(0).getSymbol()%></td>
+                                        <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol()%></td>
                                     </tr>
                                     <% } catch (Exception e) { %>
 
@@ -345,20 +347,20 @@
                         </tr>
                     </table>
                 </div>
-
+            </td>
+        </tr>
+    </table>
                     <% } %>
                 <br>
 
 
                     <%
         }
-
+    }
 %>
 </div>
 
-</td>
-</tr>
-</table>
+
 
 <br><br>
 
