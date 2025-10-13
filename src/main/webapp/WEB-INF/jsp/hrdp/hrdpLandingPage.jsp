@@ -92,7 +92,11 @@ To change this template use File | Settings | File Templates.
         </li>
         <br>
         <li>
-            Whole Brain, heart, liver and kidney RNA expression levels – PhenoGen Informatics
+            Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
+        </li>
+        <br>
+        <li>
+            Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org/">PhenoGen Informatics</a>
             <ul>
                 <br>
                 <li>
