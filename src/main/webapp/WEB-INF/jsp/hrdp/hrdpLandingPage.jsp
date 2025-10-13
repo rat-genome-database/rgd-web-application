@@ -84,10 +84,6 @@ To change this template use File | Settings | File Templates.
         </li>
         <br>
         <li>
-            Whole genome sequence data (VCF files for download, variants integrated into Variant Visualizer)
-        </li>
-        <br>
-        <li>
            Quantitative phenotype measurements can be explored through PhenoMiner
         </li>
         <br>
