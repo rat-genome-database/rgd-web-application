@@ -1,6 +1,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.GeneExpression" %><%@ page import="java.util.List" %><%@ page import="edu.mcw.rgd.datamodel.Map" %><%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %><%@ page import="edu.mcw.rgd.process.Utils" %><%@ page import="edu.mcw.rgd.datamodel.pheno.*" %><%@ page import="edu.mcw.rgd.datamodel.RgdId" %><%@ page import="edu.mcw.rgd.dao.impl.*" %><%@ page import="java.util.HashMap" %><%
-    String geneSymbol = request.getAttribute("geneSymbol").toString();
-    response.setHeader("Content-disposition","attachment;filename=\"gene_expression_data_"+geneSymbol+".csv\"");
+    String geneSymbol = request.getAttribute("geneSymbol") != null ? request.getAttribute("geneSymbol").toString() : "unknown";
+    response.setHeader("Content-disposition","attachment;filename=\""+geneSymbol+"_expression_data.csv\"");
     RGDManagementDAO rdao = new RGDManagementDAO();
     int rgdId = (int) request.getAttribute("rgdId");
     RgdId geneId = rdao.getRgdId2(rgdId);

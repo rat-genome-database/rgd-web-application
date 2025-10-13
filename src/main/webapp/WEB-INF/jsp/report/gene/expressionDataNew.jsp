@@ -605,7 +605,17 @@
                         let blob = new Blob([response.data], { type: 'text/csv' }),
                             url = window.URL.createObjectURL(blob);
                         a.href = url;
-                        a.download = "gene_expression_data.csv";
+                        // Extract filename from Content-Disposition header
+                        var filename = "gene_expression_data.csv"; // default
+                        var disposition = response.headers['content-disposition'];
+                        if (disposition && disposition.indexOf('filename=') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        a.download = filename;
                         a.click();
                         window.URL.revokeObjectURL(url);
                         // window.open(url)
@@ -644,7 +654,17 @@
                         let blob = new Blob([response.data], { type: 'text/csv' }),
                             url = window.URL.createObjectURL(blob);
                         a.href = url;
-                        a.download = "gene_expression_data.csv";
+                        // Extract filename from Content-Disposition header
+                        var filename = "gene_expression_data.csv"; // default
+                        var disposition = response.headers['content-disposition'];
+                        if (disposition && disposition.indexOf('filename=') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        a.download = filename;
                         a.click();
                         window.URL.revokeObjectURL(url);
                         // window.open(url)
