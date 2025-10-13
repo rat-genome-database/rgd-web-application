@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.HashMap" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 7/11/2025
@@ -36,6 +36,12 @@
             String  hitCategory=sourceMap.get("category").toString();
 
         List<Map<String, Object>> mapData= (List<Map<String, Object>>) sourceMap.get("mapDataList");
+       Map<String, Object> matchedMap=new HashMap<>();
+        for(Map map:mapData){
+            if(map.get("map").toString().equalsIgnoreCase(searchBean.getAssembly())){
+                matchedMap=map;
+            }
+        }
 
     %>
 
@@ -48,7 +54,8 @@
 <%--            <%}%>--%>
         </td>
         <td><span class=<%=hitCategory%>><%=hitCategory%></span></td>
-        <td><b>(<%=mapData.get(0).get("map")%>)</b>&nbsp;<%=mapData.get(0).get("chromosome")%><b>:</b>&nbsp;<%=mapData.get(0).get("startPos")%>-<%=mapData.get(0).get("stopPos")%><%=sourceMap.get("refNuc")!=null?sourceMap.get("refNuc"):""%>><%=sourceMap.get("varNuc")!=null?sourceMap.get("varNuc"):""%></td>
+        <td>
+            <b>(<%=matchedMap.get("map")%>)</b>&nbsp;<%=matchedMap.get("chromosome")%><b>:</b>&nbsp;<%=matchedMap.get("startPos")%>-<%=matchedMap.get("stopPos")%><%=sourceMap.get("refNuc")!=null?sourceMap.get("refNuc"):""%>><%=sourceMap.get("varNuc")!=null?sourceMap.get("varNuc"):""%></td>
         <td><%
             if(sourceMap.get("rsId")!=null){
         %><%=sourceMap.get("rsId")%><%}%></td>
