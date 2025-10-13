@@ -115,9 +115,9 @@ function getGenomeInfo(url){
             }
             else{
                 // console.log('Loading gene/guide data');
-                const mappedGeneChr=chr;
-                const mappedGeneStart=start;
-                const mappedGeneStop=stop;
+                let mappedGeneChr=chr;
+                let mappedGeneStart=start;
+                let mappedGeneStop=stop;
                 range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
                 handle("", range)
             }
@@ -134,6 +134,7 @@ function handle(data, range){
     }
     else {
         // Original gene logic
+        console.log("geneSpecies:"+ geneSpecies)
         createIsoformExample(range, geneSpecies, "viewerActnFly", TRACK_TYPE.ISOFORM, true);
     }
 }

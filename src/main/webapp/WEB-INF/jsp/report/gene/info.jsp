@@ -33,12 +33,12 @@
         if (md2.getMapKey() == currentMapKey) {
             currentAssemblyMapData=md2;
         %>
-    const chr = '<%=md2.getChromosome()%>';
-    const start = "<%=md2.getStartPos()%>";
-    const stop = "<%=md2.getStopPos()%>";
-    const guideId="";
-            const mapKey="<%=md.getMapKey()%>";
-            const geneSpecies="<%=species%>";
+    let chr = '<%=md2.getChromosome()%>';
+    let start = "<%=md2.getStartPos()%>";
+    let stop = "<%=md2.getStopPos()%>";
+    let guideId="";
+            let mapKey="<%=md.getMapKey()%>";
+            let geneSpecies="<%=species%>";
     const guide = '{}';
     <%
     }
