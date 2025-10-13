@@ -88,6 +88,7 @@ function getGenomeInfo(url){
                 }];
                 console.log('Created dummy coordinates:', viewStart, 'to', viewEnd);
             }
+
             const mappedGeneChr=geneInfo[0].chromosome;
             const mappedGeneStart=geneInfo[0].start;
             const mappedGeneStop=geneInfo[0].stop;
@@ -114,7 +115,10 @@ function getGenomeInfo(url){
             }
             else{
                 console.log('Loading gene/guide data');
-
+                const mappedGeneChr=chr;
+                const mappedGeneStart=start;
+                const mappedGeneStop=stop;
+                range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
                 handle("", range)
             }
 
