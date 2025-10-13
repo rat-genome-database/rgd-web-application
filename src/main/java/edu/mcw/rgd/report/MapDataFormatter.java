@@ -6,6 +6,7 @@ import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.datamodel.variants.VariantMapData;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
+import edu.mcw.rgd.datamodel.variants.VariantMapData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -447,6 +448,36 @@ public class  MapDataFormatter {
 //        System.out.println("url"+url);
         return url;
     }
+    public static String generateJbrowse2URLForVariants(int objectKey, VariantMapData vmd) throws Exception {
+        if(vmd==null){
+            System.out.println("null mapdata");
+            return null;
+        }
+        String tracks=null,url=null;
+        Jbrowse2UrlConfigDAO dao = new Jbrowse2UrlConfigDAO();
+        List<Jbrowse2UrlConfig>urlConfigs = dao.getJbrowse2UrlConfigsByMapAndObjectKey(vmd.getMapKey(), objectKey);
+        if(urlConfigs.isEmpty()){
+            return null;
+        }
+        Jbrowse2UrlConfig firstConfig = urlConfigs.get(0);
+        if(firstConfig.getAssembly()==null||firstConfig.getAssembly().isEmpty()){
+            return null;
+        }
+        tracks = urlConfigs.stream()
+                .map(Jbrowse2UrlConfig::getTracks)
+                .filter(track -> track != null && !track.isEmpty())
+                .collect(Collectors.joining(","));
+
+        if (tracks == null || tracks.isEmpty()) {
+            return null;
+        }
+
+        url = "/jbrowse2/?loc=" + FormUtility.getJBrowse2LocForVariants(vmd, firstConfig.getChrPrefix()) + "&assembly=" + firstConfig.getAssembly() + "&tracklist=true" + "&tracks="
+                + tracks;
+//        System.out.println("url"+url);
+        return url;
+    }
+
 
     static void generateNcbiGDVLink(StringBuilder buf, String objectSymbol, String refSeqAccId, String mapName) {
         //removed mRatBN7.2 Ensembl from the NCBI section as per RGDD-2799
