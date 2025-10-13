@@ -33,49 +33,110 @@ function loadSequenceViewer() {
 }
 
 function getTranscriptTypes(){
- return ['mRNA', 'ncRNA', 'piRNA', 'lincRNA', 'miRNA', 'pre_miRNA', 'snoRNA', 'lnc_RNA', 'tRNA', 'snRNA', 'rRNA', 'ARS', 'antisense_RNA', 'C_gene_segment', 'V_gene_segment', 'pseudogene_attribute','snoRNA_gene','polypeptide_region','mature_protein_region'];
+    return ['mRNA', 'ncRNA', 'piRNA', 'lincRNA', 'miRNA', 'pre_miRNA', 'snoRNA', 'lnc_RNA', 'tRNA', 'snRNA', 'rRNA', 'ARS', 'antisense_RNA', 'C_gene_segment', 'V_gene_segment', 'pseudogene_attribute','snoRNA_gene','polypeptide_region','mature_protein_region'];
 }
 
 function covidExamples(){
-  createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
+    createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
 }
 var range="";
 function currentExamples(){
 //    createIsoformExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM, false);
-
+    console.log("Map key in current examples"+mapKey)
     var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/" + mapKey;
     getGenomeInfo(url, guide);
 
 //   createExample("X:2023822..2042311", "fly", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,["FB:FBal0212726","FB:FBal0000277","FB:FBal0000276"],['FBtr0070344','FBtr0070346']);
-  //createExample("8:57320983..57324517", "mouse", "viewerHand2Mouse", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],['ENSMUST00000185635']);
-  //createExample("9:42732992..42873700", "zebrafish", "viewerHighlightExample", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
-  //createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
-  //createHTPExample("X:2023822..2042311", "fly", "viewerActnHTPFly", TRACK_TYPE.ISOFORM, false,[],'Actn','X:2037135');
+    //createExample("8:57320983..57324517", "mouse", "viewerHand2Mouse", TRACK_TYPE.ISOFORM_AND_VARIANT, false,[],['ENSMUST00000185635']);
+    //createExample("9:42732992..42873700", "zebrafish", "viewerHighlightExample", TRACK_TYPE.ISOFORM_AND_VARIANT, false);
+    //createCoVExample("NC_045512.2:17894..28259", "SARS-CoV-2", "covidExample1", TRACK_TYPE.ISOFORM, false);
+    //createHTPExample("X:2023822..2042311", "fly", "viewerActnHTPFly", TRACK_TYPE.ISOFORM, false,[],'Actn','X:2037135');
 }
 var  otherGuides="";
+// function getGenomeInfo(url){
+//
+//     $.ajax({
+//         url:url,
+//         type:"GET",
+//         success:function (geneInfo) {
+//             const mappedGeneChr=geneInfo[0].chromosome;
+//             const mappedGeneStart=geneInfo[0].start;
+//             const mappedGeneStop=geneInfo[0].stop;
+//             console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
+//             range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
+//              getOtherGuidesJson(mappedGeneStart, mappedGeneStop, range, guideId);
+//                 console.log("OTHER: "+ otherGuides);
+//             $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
+//
+//         }
+//     });
+//
+// }
 function getGenomeInfo(url){
-
     $.ajax({
         url:url,
         type:"GET",
         success:function (geneInfo) {
+            if ((!geneInfo || geneInfo.length === 0) && typeof hasVariantData !== 'undefined' && hasVariantData) {
+                let viewStart = Math.max(1, start - 5000);
+                let viewEnd = stop + 5000;
+                geneInfo = [{
+                    chromosome: chr,
+                    start: viewStart,
+                    stop: viewEnd,
+                    mapKey: mapKey
+                }];
+                console.log('Created dummy coordinates:', viewStart, 'to', viewEnd);
+            }
+
             const mappedGeneChr=geneInfo[0].chromosome;
             const mappedGeneStart=geneInfo[0].start;
             const mappedGeneStop=geneInfo[0].stop;
-            console.log(mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop);
+            console.log('Genes returned by service:', geneInfo);
+            console.log('MapKey used:', mapKey);
+            console.log('Query coordinates:', chr+"/"+start+"/"+stop+"/" + mapKey);
             range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
-            handle(range, species);
-            $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
+            console.log("mapkey in getGenomeInfo "+geneInfo[0].mapKey)
+            console.log('in get genome method');
+            console.log('hasVariantData check:', typeof hasVariantData !== 'undefined');
+            console.log('otherGuides available:', typeof otherGuides !== 'undefined');
 
+            if (typeof hasVariantData !== 'undefined' && hasVariantData) {
+                console.log('About to call handle with variant data');
+                console.log('variantData before parse:', variantData);
+                try {
+                    var parsedData = JSON.parse(variantData);
+                    console.log('Parsed data:', parsedData);
+                    handle(parsedData, range);
+                } catch (e) {
+                    console.error('JSON parse error:', e);
+                    console.error('Invalid JSON:', variantData);
+                }
+            }
+            else{
+                console.log('Loading gene/guide data');
+                const mappedGeneChr=chr;
+                const mappedGeneStart=start;
+                const mappedGeneStop=stop;
+                range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
+                handle("", range)
+            }
+
+            $("#range").html("<p><strong>Gene Location:</strong>"+range+"</p>");
         }
     });
-
 }
-
-function handle(range,species){
-    createIsoformExample(range, species, "viewerActnFly", TRACK_TYPE.ISOFORM, true);
+function handle(data, range){
+     var otherGuides=JSON.stringify(data);
+    if (typeof hasVariantData !== 'undefined' && hasVariantData) {
+        var species = typeof speciesName !== 'undefined' ? speciesName : 'rat';
+        createExample(range, species, "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true, null, null, guide, otherGuides);
+    }
+    else {
+        // Original gene logic
+        createIsoformExample(range, geneSpecies, "viewerActnFly", TRACK_TYPE.ISOFORM, true);
+    }
 }
-
 function flyExamples() {
     // 2L:132412..230018
 // http://localhost:8080/apollo/vcf/remotefly/Phenotypic%20Variants/2L:132412..230018.json?includeGenotypes=false&ignoreCache=true
@@ -150,9 +211,9 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
         "start": start,
         "end": end,
         "showVariantLabel": showLabel,
-      "transcriptTypes": getTranscriptTypes(),
-      "isoformFilter": isoformFilter || [],
-      "variantFilter": variantFilter || [],
+        "transcriptTypes": getTranscriptTypes(),
+        "isoformFilter": isoformFilter || [],
+        "variantFilter": variantFilter || [],
         "binRatio": ratio,
         "guide":guide,
         "otherGuides":otherGuides,
@@ -161,6 +222,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
                 "id": 12,
                 "genome": genome,
                 "type": type,
+                "mapKey": mapKey,
                 "isoform_url": [
                     `${BASE_URL}/track/`,
                     "/All%20Genes/",
@@ -175,8 +237,7 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
             }
         ]
     };
-    console.log(configGlobal1);
-   // const gfc = new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
+    // const gfc = new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
     const gfc=  (new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500));
     const closeButton = document.getElementById(divId + 'CloseButton');
     if (closeButton) {
@@ -199,28 +260,28 @@ function createExample(range, genome, divId, type, showLabel, variantFilter,isof
 
 
     if(divId==='networkExampleWorm1And'){
-      document.getElementById("wormbutton").addEventListener("click", function(){
-          gfc.setSelectedAlleles(["WB:WBVar00089535","WB:WBVar02125540","WB:WBVar00242477"], '#networkExampleWorm1And');
-      });
-      document.getElementById("clrbutton").addEventListener("click", function(){
-          gfc.setSelectedAlleles([], '#networkExampleWorm1And');
-      });
+        document.getElementById("wormbutton").addEventListener("click", function(){
+            gfc.setSelectedAlleles(["WB:WBVar00089535","WB:WBVar02125540","WB:WBVar00242477"], '#networkExampleWorm1And');
+        });
+        document.getElementById("clrbutton").addEventListener("click", function(){
+            gfc.setSelectedAlleles([], '#networkExampleWorm1And');
+        });
     }
     if(divId==='viewerFlyExample2NoLabelAnd'){
-      document.getElementById("flybutton").addEventListener("click", function(){
-          gfc.setSelectedAlleles(["FB:FBal0242675","FB:FBal0302371","FB:FBal0012433"], '#viewerFlyExample2NoLabelAnd');
-      });
-      document.getElementById("clrbuttonfly").addEventListener("click", function(){
-          gfc.setSelectedAlleles([], '#viewerFlyExample2NoLabelAnd');
-      });
+        document.getElementById("flybutton").addEventListener("click", function(){
+            gfc.setSelectedAlleles(["FB:FBal0242675","FB:FBal0302371","FB:FBal0012433"], '#viewerFlyExample2NoLabelAnd');
+        });
+        document.getElementById("clrbuttonfly").addEventListener("click", function(){
+            gfc.setSelectedAlleles([], '#viewerFlyExample2NoLabelAnd');
+        });
     }
     if(divId==='viewerHighlightExample'){
-      document.getElementById("mausbutton").addEventListener("click", function(){
-          gfc.setSelectedAlleles(["ZFIN:ZDB-ALT-130411-164"], '#viewerHighlightExample');
-      });
-      document.getElementById("clrbuttonmaus").addEventListener("click", function(){
-          gfc.setSelectedAlleles([], '#viewerHighlightExample');
-      });
+        document.getElementById("mausbutton").addEventListener("click", function(){
+            gfc.setSelectedAlleles(["ZFIN:ZDB-ALT-130411-164"], '#viewerHighlightExample');
+        });
+        document.getElementById("clrbuttonmaus").addEventListener("click", function(){
+            gfc.setSelectedAlleles([], '#viewerHighlightExample');
+        });
     }
 
 }
@@ -292,25 +353,25 @@ function createCoVExample(range, genome, divId, type, showLabel, variantFilter) 
     const chromosome = range.split(":")[0];
     const [start, end] = range.split(":")[1].split("..");
     let configGlobal1 = {
-      "locale": "global",
-      "chromosome": chromosome,
-      "start": start,
-      "end": end,
-      "transcriptTypes": getTranscriptTypes(),
-      "showVariantLabel": showLabel,
-      "variantFilter": variantFilter || [],
-      "tracks": [
-          {
-              "id": 12,
-              "genome": genome,
-              "type": type,
-              "url": [
-                  `${BASE_URL}/track/`,
-                  "/Mature%20peptides/",
-                  ".json?ignoreCache=true&flatten=false"
-              ],
-          },
-      ]
+        "locale": "global",
+        "chromosome": chromosome,
+        "start": start,
+        "end": end,
+        "transcriptTypes": getTranscriptTypes(),
+        "showVariantLabel": showLabel,
+        "variantFilter": variantFilter || [],
+        "tracks": [
+            {
+                "id": 12,
+                "genome": genome,
+                "type": type,
+                "url": [
+                    `${BASE_URL}/track/`,
+                    "/Mature%20peptides/",
+                    ".json?ignoreCache=true&flatten=false"
+                ],
+            },
+        ]
     };
     new GenomeFeatureViewer(configGlobal1, `#${divId}`, 900, 500);
 }
@@ -351,22 +412,22 @@ function oldExamples() {
         "end": 19426596,
         "transcriptTypes": [
             'mRNA', 'ncRNA', 'piRNA',
-             'lincRNA',
-             'miRNA',
-             'pre_miRNA',
-             'snoRNA',
-             'lnc_RNA',
-             'tRNA',
-             'snRNA',
-             'rRNA',
-             'ARS',
-             'antisense_RNA',
+            'lincRNA',
+            'miRNA',
+            'pre_miRNA',
+            'snoRNA',
+            'lnc_RNA',
+            'tRNA',
+            'snRNA',
+            'rRNA',
+            'ARS',
+            'antisense_RNA',
 
 
-             'C_gene_segment',
-             'V_gene_segment',
-             'pseudogene_attribute',
-             'snoRNA_gene'
+            'C_gene_segment',
+            'V_gene_segment',
+            'pseudogene_attribute',
+            'snoRNA_gene'
         ],
         "tracks": [
             {

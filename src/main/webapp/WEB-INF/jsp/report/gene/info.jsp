@@ -16,7 +16,7 @@
     MapData currentAssemblyMapData = null;
 
     int currentMapKey;
-    {
+
         Map currentMap = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey());
 
         // paranoia check
@@ -26,24 +26,24 @@
             currentMap = mapDAO.getMap(380);
         }
         currentMapKey = currentMap.getKey();
-    }
 
+    String species=SpeciesType.getCommonName(obj.getSpeciesTypeKey());
     for (MapData md2: mapData) {
 
         if (md2.getMapKey() == currentMapKey) {
             currentAssemblyMapData=md2;
         %>
-            var chr='<%=md2.getChromosome()%>';
-            var start="<%=md2.getStartPos()%>";
-            var stop="<%=md2.getStopPos()%>";
-            var guideId="10000000089";
-            var mapKey="<%=md.getMapKey()%>"
-    const species='<%=SpeciesType.getCommonName(obj.getSpeciesTypeKey())%>'
-            var guide='{"guide_id":10000000089,"species":"human","targetLocus":"AAVS1","targetSequence":"GTCACCAATCCTGTCCCTAG","pam":"GTCACCAATCCTGTCCCTAGNGG","assembly":"hg38","chr":"chr19","start":"55115744","stop":"55115767","strand":"+","grnaLabId":"AAVS1_site_01","spacerLength":"20","spacerSequence":"GUCACCAAUCCUGUCCCUAG","repeatSequence":"","guide":"AAVS1_site_01","forwardPrimer":"CTGCCTAACAGGAGGTGGGGGTT","reversePrimer":"ACCCGGGCCCCTATGTCCACTTC","linkerSequence":"","antiRepeatSequence":"","stemloop1Sequence":"","stemloop2Sequence":"","stemloop3Sequence":"","source":"lab IVT","guideFormat":"sgRNA","modifications":"none","guideDescription":"Targets AAVS1 safe harbor locus","standardScaffoldSequence":"yes","tier":4,"ivtConstructSource":"Addgene","vectorId":"153997","vectorName":"pCRL01","vectorDescription":"Plasmid for single guide RNA IVT","vectorType":"plasmid","annotatedMap":"addgene-plasmid-153997-sequence-304516","specificityRatio":"0.02","guideCompatibility":"SpyCas9"}';
-        <%
-        }
+    const chr = '<%=md2.getChromosome()%>';
+    const start = "<%=md2.getStartPos()%>";
+    const stop = "<%=md2.getStopPos()%>";
+    const guideId="";
+            const mapKey="<%=md.getMapKey()%>";
+            const geneSpecies="<%=species%>";
+    const guide = '{}';
+    <%
     }
-    %>
+}
+%>
 
     function goToJBrowse() {
         window.open("<%=MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData)%>");
@@ -316,7 +316,7 @@
         String jbrowse2Url = MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData);
         if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){
     %>
-    <tr>
+   <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
             <div style="padding:10px;"><a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a></div>
