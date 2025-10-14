@@ -544,7 +544,7 @@ public class PdfUploadController implements Controller {
                 .build();
             
             Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("model", "llama3.1:8b");  // Faster model for chat interactions
+            requestBody.put("model", "gpt-oss:20b");  // Higher accuracy model for chat interactions
             requestBody.put("prompt", prompt);
             requestBody.put("stream", false);
             requestBody.put("temperature", 0.7);
