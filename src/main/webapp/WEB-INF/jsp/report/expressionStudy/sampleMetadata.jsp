@@ -221,13 +221,13 @@
         <tr>
             <th class="col-geo-accession">geo_accession</th>
             <th class="col-tissue">Tissue</th>
+            <th class="col-cell-type">Cell Type</th>
             <th class="col-strain">Strain</th>
             <th class="col-sex">Sex</th>
             <th class="col-computed-sex">Computed Sex</th>
             <th class="col-age">Age(in days)</th>
             <th class="col-life-stage">Life Stage</th>
             <th class="col-experimental-conditions">Experimental_Conditions</th>
-            <th class="col-cell-type">Cell Type</th>
             <th class="col-dose">Dose</th>
             <th class="col-duration">Duration</th>
             <th class="col-application-method">Application Method</th>
@@ -237,6 +237,8 @@
         <tr>
             <td class="col-geo-accession"><%=data.getGeoSampleAcc()!=null?data.getGeoSampleAcc():""%></td>
             <td class="col-tissue"><%=data.getTissue()!=null?data.getTissue():""%></td>
+            <!-- non default column cell type -->
+            <td class="col-cell-type"><%=data.getCellType()!=null?data.getCellType():""%></td>
             <td class="col-strain"><%=data.getStrain()!=null?data.getStrain():""%></td>
             <td class="col-sex"><%=data.getSex()!=null?data.getSex():""%></td>
             <td class="col-computed-sex"><%=data.getComputedSex()!=null?data.getComputedSex():""%></td>
@@ -255,8 +257,6 @@
             <td class="col-experimental-conditions"><%=data.getExperimentalConditions()!=null?data.getExperimentalConditions():""%></td>
 
             <!-- non default columns -->
-            <td class="col-cell-type"><%=data.getCellType()!=null?data.getCellType():""%></td>
-
             <!-- Dose column -->
             <td class="col-dose">
                 <%

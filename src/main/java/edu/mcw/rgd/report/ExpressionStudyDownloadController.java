@@ -33,7 +33,7 @@ public class ExpressionStudyDownloadController extends ReportController {
 
             PrintWriter writer = response.getWriter();
 
-            writer.println("\"geo_accession\",\"Tissue\",\"Strain\",\"Sex\",\"Computed Sex\",\"Age(in days)\",\"Life Stage\",\"Experimental_Conditions\",\"Cell Type\",\"Dose\",\"Duration(in sec)\",\"Application Method\",\"Notes\"");
+            writer.println("\"geo_accession\",\"Tissue\",\"Cell Type\",\"Strain\",\"Sex\",\"Computed Sex\",\"Age(in days)\",\"Life Stage\",\"Experimental_Conditions\",\"Dose\",\"Duration(in sec)\",\"Application Method\",\"Notes\"");
 
             for (StudySampleMetadata data : allData) {
                 StringBuilder row = new StringBuilder();
@@ -44,16 +44,19 @@ public class ExpressionStudyDownloadController extends ReportController {
                 // 2. Tissue
                 row.append(escapeCsvField(data.getTissue() != null ? data.getTissue() : "")).append(",");
 
-                // 3. Strain
+                // 3. Cell Type
+                row.append(escapeCsvField(data.getCellType() != null ? data.getCellType() : "")).append(",");
+
+                // 4. Strain
                 row.append(escapeCsvField(data.getStrain() != null ? data.getStrain() : "")).append(",");
 
-                // 4. Sex
+                // 5. Sex
                 row.append(escapeCsvField(data.getSex() != null ? data.getSex() : "")).append(",");
 
-                // 5. Computed Sex
+                // 6. Computed Sex
                 row.append(escapeCsvField(data.getComputedSex() != null ? data.getComputedSex() : "")).append(",");
 
-                // 6. Age
+                // 7. Age
                 String ageText = "";
                 Double lowBound = data.getAgeDaysFromDobLowBound();
                 Double highBound = data.getAgeDaysFromDobHighBound();
@@ -66,14 +69,11 @@ public class ExpressionStudyDownloadController extends ReportController {
                 }
                 row.append(escapeCsvField(ageText)).append(",");
 
-                // 7. Life Stage
+                // 8. Life Stage
                 row.append(escapeCsvField(data.getLifeStage() != null ? data.getLifeStage() : "")).append(",");
 
-                // 8. Experimental Conditions
+                // 9. Experimental Conditions
                 row.append(escapeCsvField(data.getExperimentalConditions() != null ? data.getExperimentalConditions() : "")).append(",");
-
-                // 9. Cell Type
-                row.append(escapeCsvField(data.getCellType() != null ? data.getCellType() : "")).append(",");
 
                 // 10. Dose
                 String doseText = "";
