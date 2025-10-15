@@ -127,7 +127,7 @@
         <% } else { %>
         <a href="<%=evaUrl+var.getRsId()%>" title="view variant from EVA" target="_blank"><%=var.getRsId()%></a>
         <% } %>
-            <a href="/rgdweb/report/rsId/main.html?id=<%=rsId%>"><button class="btn btn-primary btn-sm">View RGD Report</button></a>
+            <a href="/rgdweb/report/rsId/main.html?id=<%=rsId%>"><button class="btn btn-primary btn-sm">View rsID Summary</button></a>
         </td>
     </tr>
     <% }
