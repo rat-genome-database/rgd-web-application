@@ -236,7 +236,7 @@ public class ElasticSearchController extends RGDSearchController {
             if(rsId!=null && !rsId.equals("")){
                 redirUrl = Link.rsId(rsId);
             }else
-      if (docId.matches("[0-9]+") && docId.length() > 2) {
+      if (docId.matches("[0-9]+") && docId.length() > 2 && !category.equalsIgnoreCase("Expression Study")) {
                 rgdIdValue = Integer.parseInt(docId);
                 RgdId  id = rdao.getRgdId2(rgdIdValue);
            if (id != null) {
@@ -250,8 +250,12 @@ public class ElasticSearchController extends RGDSearchController {
                }
             }
         }else {
-          if(docId.contains(":"))
-              redirUrl = Link.ontAnnot(docId);
+          if(category.equalsIgnoreCase("Expression Study")){
+              redirUrl ="/rgdweb/report/expressionStudy/main.html?id="+docId;
+          }else {
+              if (docId.contains(":"))
+                  redirUrl = Link.ontAnnot(docId);
+          }
 
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
