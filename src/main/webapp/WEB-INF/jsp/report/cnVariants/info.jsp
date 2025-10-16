@@ -121,11 +121,14 @@
     String evaUrl = xdbDAO.getXdbUrlnoSpecies(158);%>
     <tr>
         <td class="label">RS ID:</td>
+        <td>
         <% if (!isEva){%>
-        <td><%=var.getRsId()%></td>
+        <%=var.getRsId()%>
         <% } else { %>
-        <td><a href="<%=evaUrl+var.getRsId()%>" title="view variant from EVA"><%=var.getRsId()%></a></td>
+        <a href="<%=evaUrl+var.getRsId()%>" title="view variant from EVA" target="_blank"><%=var.getRsId()%></a>
         <% } %>
+            <a href="/rgdweb/report/rsId/main.html?id=<%=rsId%>"><button class="btn btn-primary btn-sm">View rsID Summary</button></a>
+        </td>
     </tr>
     <% }
         if (ssIds != null && !ssIds.isEmpty()) {
