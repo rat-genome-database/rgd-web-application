@@ -27,7 +27,7 @@
     </thead>
     <tbody>
 
-    <%
+    <% Gson gson=new Gson();
         for(SearchHit hit:searchHits){
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
@@ -41,13 +41,16 @@
             String  hitCategory=sourceMap.get("category").toString();
 
         List<Map<String, Object>> mapData= (List<Map<String, Object>>) sourceMap.get("mapDataList");
-       Map<String, Object> matchedMap=new HashMap<>();
+       Map<String, Object> matchedMap=null;
         for(Map map:mapData){
-            if(map.get("map").toString().equalsIgnoreCase(searchBean.getAssembly())){
+            if(map.get("map").toString().equalsIgnoreCase(searchBean.getAssembly()) && !searchBean.getAssembly().equalsIgnoreCase("all")){
                 matchedMap=map;
             }
         }
 
+        if(matchedMap==null){
+           matchedMap=mapData.get(0);
+        }
     %>
 
     <tr style="cursor: pointer" onclick="if (link) window.location.href='<%=url%>'">
