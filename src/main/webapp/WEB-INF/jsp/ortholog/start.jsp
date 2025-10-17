@@ -120,6 +120,7 @@
                                     <option value="9">Pig</option>
                                     <option value="14">Naked Mole-Rat</option>
                                     <option value="13">Green Monkey</option>
+                                    <option value="17">Black Rat</option>
 
                                 </select>
                             </div>
