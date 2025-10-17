@@ -408,6 +408,20 @@
             });
         }
 
+        // When Experimental Conditions is checked, also check Ordinality
+        const experimentalConditionsCheckbox = document.getElementById('col-experimental-conditions');
+        const ordinalityCheckbox = document.getElementById('col-ordinality');
+
+        experimentalConditionsCheckbox.addEventListener('change', function() {
+            if (experimentalConditionsCheckbox.checked) {
+                ordinalityCheckbox.checked = true;
+                const ordinalityColumns = document.querySelectorAll('.col-ordinality');
+                ordinalityColumns.forEach(column => {
+                    column.style.display = 'table-cell';
+                });
+            }
+        });
+
         // Select All functionality
         const selectAllBtn = document.getElementById('selectAllBtn');
         selectAllBtn.addEventListener('click', function() {
