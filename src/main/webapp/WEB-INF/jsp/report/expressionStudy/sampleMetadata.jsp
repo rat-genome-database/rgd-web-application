@@ -166,6 +166,10 @@
             <label for="col-geo-accession">GEO Accession</label>
         </div>
         <div class="checkbox-item">
+            <input type="checkbox" id="col-ordinality" checked>
+            <label for="col-ordinality">Ordinality</label>
+        </div>
+        <div class="checkbox-item">
             <input type="checkbox" id="col-tissue" checked>
             <label for="col-tissue">Tissue</label>
         </div>
@@ -220,6 +224,7 @@
     <table>
         <tr>
             <th class="col-geo-accession">geo_accession</th>
+            <th class="col-ordinality">Ordinality</th>
             <th class="col-tissue">Tissue</th>
             <th class="col-cell-type">Cell Type</th>
             <th class="col-strain">Strain</th>
@@ -236,6 +241,7 @@
         <%for(StudySampleMetadata data:metadata){%>
         <tr>
             <td class="col-geo-accession"><%=data.getGeoSampleAcc()!=null?data.getGeoSampleAcc():""%></td>
+            <td class="col-ordinality"><%=data.getOrdinality()!=null?data.getOrdinality():""%></td>
             <td class="col-tissue"><%=data.getTissue()!=null?data.getTissue():""%></td>
             <!-- non default column cell type -->
             <td class="col-cell-type"><%=data.getCellType()!=null?data.getCellType():""%></td>
@@ -369,6 +375,7 @@
         // Column mapping
         const columnMapping = {
             'col-geo-accession': '.col-geo-accession',
+            'col-ordinality': '.col-ordinality',
             'col-tissue': '.col-tissue',
             'col-strain': '.col-strain',
             'col-sex': '.col-sex',

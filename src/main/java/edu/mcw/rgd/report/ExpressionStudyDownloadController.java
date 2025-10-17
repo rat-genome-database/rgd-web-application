@@ -33,7 +33,7 @@ public class ExpressionStudyDownloadController extends ReportController {
 
             PrintWriter writer = response.getWriter();
 
-            writer.println("\"geo_accession\",\"Tissue\",\"Cell Type\",\"Strain\",\"Sex\",\"Computed Sex\",\"Age(in days)\",\"Life Stage\",\"Experimental_Conditions\",\"Dose\",\"Duration(in sec)\",\"Application Method\",\"Notes\"");
+            writer.println("\"geo_accession\",\"Ordinality\",\"Tissue\",\"Cell Type\",\"Strain\",\"Sex\",\"Computed Sex\",\"Age(in days)\",\"Life Stage\",\"Experimental_Conditions\",\"Dose\",\"Duration(in sec)\",\"Application Method\",\"Notes\"");
 
             for (StudySampleMetadata data : allData) {
                 StringBuilder row = new StringBuilder();
@@ -41,22 +41,25 @@ public class ExpressionStudyDownloadController extends ReportController {
                 // 1. GEO Accession
                 row.append(escapeCsvField(data.getGeoSampleAcc() != null ? data.getGeoSampleAcc() : "")).append(",");
 
-                // 2. Tissue
+                // 2. Ordinality
+                row.append(escapeCsvField(data.getOrdinality() != null ? data.getOrdinality().toString() : "")).append(",");
+
+                // 3. Tissue
                 row.append(escapeCsvField(data.getTissue() != null ? data.getTissue() : "")).append(",");
 
-                // 3. Cell Type
+                // 4. Cell Type
                 row.append(escapeCsvField(data.getCellType() != null ? data.getCellType() : "")).append(",");
 
-                // 4. Strain
+                // 5. Strain
                 row.append(escapeCsvField(data.getStrain() != null ? data.getStrain() : "")).append(",");
 
-                // 5. Sex
+                // 6. Sex
                 row.append(escapeCsvField(data.getSex() != null ? data.getSex() : "")).append(",");
 
-                // 6. Computed Sex
+                // 7. Computed Sex
                 row.append(escapeCsvField(data.getComputedSex() != null ? data.getComputedSex() : "")).append(",");
 
-                // 7. Age
+                // 8. Age
                 String ageText = "";
                 Double lowBound = data.getAgeDaysFromDobLowBound();
                 Double highBound = data.getAgeDaysFromDobHighBound();
@@ -69,13 +72,13 @@ public class ExpressionStudyDownloadController extends ReportController {
                 }
                 row.append(escapeCsvField(ageText)).append(",");
 
-                // 8. Life Stage
+                // 9. Life Stage
                 row.append(escapeCsvField(data.getLifeStage() != null ? data.getLifeStage() : "")).append(",");
 
-                // 9. Experimental Conditions
+                // 10. Experimental Conditions
                 row.append(escapeCsvField(data.getExperimentalConditions() != null ? data.getExperimentalConditions() : "")).append(",");
 
-                // 10. Dose
+                // 11. Dose
                 String doseText = "";
                 Double minVal = data.getExpCondAssocValueMin();
                 Double maxVal = data.getExpCondAssocValueMax();
@@ -89,7 +92,7 @@ public class ExpressionStudyDownloadController extends ReportController {
                 }
                 row.append(escapeCsvField(doseText)).append(",");
 
-                // 11. Duration
+                // 12. Duration
                 String durationText = "";
                 Double durLow = data.getExpCondDurSecLowBound();
                 Double durHigh = data.getExpCondDurSecHighBound();
@@ -100,10 +103,10 @@ public class ExpressionStudyDownloadController extends ReportController {
                 }
                 row.append(escapeCsvField(durationText)).append(",");
 
-                // 12. Application Method
+                // 13. Application Method
                 row.append(escapeCsvField(data.getExpCondApplicationMethod() != null ? data.getExpCondApplicationMethod() : "")).append(",");
 
-                // 13. Notes
+                // 14. Notes
                 row.append(escapeCsvField(data.getExpCondNotes() != null ? data.getExpCondNotes() : ""));
 
                 writer.println(row.toString());
