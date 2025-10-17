@@ -5,8 +5,7 @@
     String headContent = "";
     String pageDescription = "Generate an ortholog report for a list of genes.";
 
-%>
-<%@ include file="/common/headerarea.jsp" %>
+%><%@ include file="/common/headerarea.jsp" %>
 
 <%
     String pageHeader="GOLF: Gene and Ortholog Location Finder";
@@ -46,15 +45,16 @@
                                 <label for="inSpecies" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
                                 <select class="form-control" id="inSpecies" name="inSpecies" v-model="inSpecies" @change="setMaps($event.target.value,'inMaps')" >
                                     <option value="3">Rat</option>
-                                    <option  value="2">Mouse</option>
-                                    <option  value="1">Human</option>
-                                    <option  value="4">Chinchilla</option>
-                                    <option  value="5">Bonobo</option>
-                                    <option  value="6">Dog</option>
-                                    <option  value="7">Squirrel</option>
+                                    <option value="2">Mouse</option>
+                                    <option value="1">Human</option>
+                                    <option value="4">Chinchilla</option>
+                                    <option value="5">Bonobo</option>
+                                    <option value="6">Dog</option>
+                                    <option value="7">Squirrel</option>
                                     <option value="9">Pig</option>
                                     <option value="14">Naked Mole-Rat</option>
                                     <option value="13">Green Monkey</option>
+                                    <option value="17">Black Rat</option>
 
                                 </select>
                             </div>
@@ -80,11 +80,9 @@
                                         <select id="chr" name="chr" v-model="chr">
                                             <option v-for="value in chromosomes" :value="value">{{value}}</option>
                                         </select>
-
     </td><td>
                                         <label for="start" style="color: #24609c; font-weight: bold;">Start:</label>
                                         <input id="start" type="text" name="start" />
-
     </td><td>
                                         <label for="stop" style="color: #24609c; font-weight: bold;">Stop:</label>
                                         <input id="stop" type="text" name="stop"/>
@@ -111,15 +109,16 @@
                                 <label for="outSpecies" style="color: #24609c; font-weight: bold;">Select a species:</label><br>
                                 <select class="form-control" id="outSpecies" name="outSpecies" v-model="outSpecies" @change="setMaps($event.target.value,'outMaps')" >
                                     <option value="3">Rat</option>
-                                    <option  value="2">Mouse</option>
-                                    <option  value="1">Human</option>
-                                    <option  value="4">Chinchilla</option>
-                                    <option  value="5">Bonobo</option>
-                                    <option  value="6">Dog</option>
-                                    <option  value="7">Squirrel</option>
+                                    <option value="2">Mouse</option>
+                                    <option value="1">Human</option>
+                                    <option value="4">Chinchilla</option>
+                                    <option value="5">Bonobo</option>
+                                    <option value="6">Dog</option>
+                                    <option value="7">Squirrel</option>
                                     <option value="9">Pig</option>
                                     <option value="14">Naked Mole-Rat</option>
                                     <option value="13">Green Monkey</option>
+                                    <option value="17">Black Rat</option>
 
                                 </select>
                             </div>
