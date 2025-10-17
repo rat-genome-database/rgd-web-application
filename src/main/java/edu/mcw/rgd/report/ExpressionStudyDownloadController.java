@@ -33,7 +33,7 @@ public class ExpressionStudyDownloadController extends ReportController {
 
             PrintWriter writer = response.getWriter();
 
-            writer.println("\"geo_accession\",\"Ordinality\",\"Tissue\",\"Cell Type\",\"Strain\",\"Sex\",\"Computed Sex\",\"Age(in days)\",\"Life Stage\",\"Experimental_Conditions\",\"Dose\",\"Duration(in sec)\",\"Application Method\",\"Notes\"");
+            writer.println("\"geo_accession\",\"Tissue\",\"Cell Type\",\"Strain\",\"Sex\",\"Computed Sex\",\"Age(in days)\",\"Life Stage\",\"Experimental_Conditions\",\"Ordinality\",\"Dose\",\"Duration(in sec)\",\"Application Method\",\"Notes\"");
 
             for (StudySampleMetadata data : allData) {
                 StringBuilder row = new StringBuilder();
@@ -41,25 +41,22 @@ public class ExpressionStudyDownloadController extends ReportController {
                 // 1. GEO Accession
                 row.append(escapeCsvField(data.getGeoSampleAcc() != null ? data.getGeoSampleAcc() : "")).append(",");
 
-                // 2. Ordinality
-                row.append(escapeCsvField(data.getOrdinality() != null ? data.getOrdinality().toString() : "")).append(",");
-
-                // 3. Tissue
+                // 2. Tissue
                 row.append(escapeCsvField(data.getTissue() != null ? data.getTissue() : "")).append(",");
 
-                // 4. Cell Type
+                // 3. Cell Type
                 row.append(escapeCsvField(data.getCellType() != null ? data.getCellType() : "")).append(",");
 
-                // 5. Strain
+                // 4. Strain
                 row.append(escapeCsvField(data.getStrain() != null ? data.getStrain() : "")).append(",");
 
-                // 6. Sex
+                // 5. Sex
                 row.append(escapeCsvField(data.getSex() != null ? data.getSex() : "")).append(",");
 
-                // 7. Computed Sex
+                // 6. Computed Sex
                 row.append(escapeCsvField(data.getComputedSex() != null ? data.getComputedSex() : "")).append(",");
 
-                // 8. Age
+                // 7. Age
                 String ageText = "";
                 Double lowBound = data.getAgeDaysFromDobLowBound();
                 Double highBound = data.getAgeDaysFromDobHighBound();
@@ -72,11 +69,14 @@ public class ExpressionStudyDownloadController extends ReportController {
                 }
                 row.append(escapeCsvField(ageText)).append(",");
 
-                // 9. Life Stage
+                // 8. Life Stage
                 row.append(escapeCsvField(data.getLifeStage() != null ? data.getLifeStage() : "")).append(",");
 
-                // 10. Experimental Conditions
+                //9. Experimental Conditions
                 row.append(escapeCsvField(data.getExperimentalConditions() != null ? data.getExperimentalConditions() : "")).append(",");
+
+                // 10. Ordinality
+                row.append(escapeCsvField(data.getOrdinality() != null ? data.getOrdinality().toString() : "")).append(",");
 
                 // 11. Dose
                 String doseText = "";

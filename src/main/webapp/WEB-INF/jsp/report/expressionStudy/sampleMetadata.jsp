@@ -166,10 +166,6 @@
             <label for="col-geo-accession">GEO Accession</label>
         </div>
         <div class="checkbox-item">
-            <input type="checkbox" id="col-ordinality" checked>
-            <label for="col-ordinality">Ordinality</label>
-        </div>
-        <div class="checkbox-item">
             <input type="checkbox" id="col-tissue" checked>
             <label for="col-tissue">Tissue</label>
         </div>
@@ -198,6 +194,10 @@
             <label for="col-experimental-conditions">Experimental Conditions</label>
         </div>
         <div class="checkbox-item">
+            <input type="checkbox" id="col-ordinality" checked>
+            <label for="col-ordinality">Ordinality</label>
+        </div>
+        <div class="checkbox-item">
             <input type="checkbox" id="col-cell-type">
             <label for="col-cell-type">Cell Type</label>
         </div>
@@ -224,7 +224,6 @@
     <table>
         <tr>
             <th class="col-geo-accession">geo_accession</th>
-            <th class="col-ordinality">Ordinality</th>
             <th class="col-tissue">Tissue</th>
             <th class="col-cell-type">Cell Type</th>
             <th class="col-strain">Strain</th>
@@ -233,6 +232,7 @@
             <th class="col-age">Age(in days)</th>
             <th class="col-life-stage">Life Stage</th>
             <th class="col-experimental-conditions">Experimental_Conditions</th>
+            <th class="col-ordinality">Ordinality</th>
             <th class="col-dose">Dose</th>
             <th class="col-duration">Duration</th>
             <th class="col-application-method">Application Method</th>
@@ -241,7 +241,6 @@
         <%for(StudySampleMetadata data:metadata){%>
         <tr>
             <td class="col-geo-accession"><%=data.getGeoSampleAcc()!=null?data.getGeoSampleAcc():""%></td>
-            <td class="col-ordinality"><%=data.getOrdinality()!=null?data.getOrdinality():""%></td>
             <td class="col-tissue"><%=data.getTissue()!=null?data.getTissue():""%></td>
             <!-- non default column cell type -->
             <td class="col-cell-type"><%=data.getCellType()!=null?data.getCellType():""%></td>
@@ -261,7 +260,7 @@
             <%}%>
             <td class="col-life-stage"><%=data.getLifeStage()!=null?data.getLifeStage():""%></td>
             <td class="col-experimental-conditions"><%=data.getExperimentalConditions()!=null?data.getExperimentalConditions():""%></td>
-
+            <td class="col-ordinality"><%=data.getOrdinality()!=null?data.getOrdinality():""%></td>
             <!-- non default columns -->
             <!-- Dose column -->
             <td class="col-dose">
@@ -375,7 +374,6 @@
         // Column mapping
         const columnMapping = {
             'col-geo-accession': '.col-geo-accession',
-            'col-ordinality': '.col-ordinality',
             'col-tissue': '.col-tissue',
             'col-strain': '.col-strain',
             'col-sex': '.col-sex',
@@ -383,6 +381,7 @@
             'col-age': '.col-age',
             'col-life-stage': '.col-life-stage',
             'col-experimental-conditions': '.col-experimental-conditions',
+            'col-ordinality': '.col-ordinality',
             'col-cell-type': '.col-cell-type',
             'col-dose': '.col-dose',
             'col-duration': '.col-duration',
