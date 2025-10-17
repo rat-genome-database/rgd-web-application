@@ -66,8 +66,11 @@ let apolloService = new ApolloService();
 
     let viewStart = dataRange.fmin;
     let viewEnd = dataRange.fmax;
+    // let viewStart = 169723306;
+    // let viewEnd = 179769243;
     //wrote this to display variant which has no genes, transcripts
     if(viewStart==-1||viewEnd==-1){
+      console.log("view start or view end is -1")
       viewStart=this.trackData[0].fmin;
       viewEnd=this.trackData[0].fmax;
     }
