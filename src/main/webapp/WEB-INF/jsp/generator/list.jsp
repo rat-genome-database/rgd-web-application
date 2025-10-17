@@ -232,6 +232,7 @@ $(document).ready(function(){
                             <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey 1.1 Assembly</option>
                             <option value='1313' <% if (mapKey==1313) out.print("selected");%>>Green Monkey Vero_WHO_p1.0 Assembly</option>
                             <option value='1410' <% if (mapKey==1410) out.print("selected");%>>Naked Mole-Rat female 1.0 Assembly</option>
+                            <option value='1701' <% if (mapKey==1701) out.print("selected");%>>Black Rat Rrattus_CSIRO_v1 Assembly</option>
                         </select>
                     </td>
                  </tr>
