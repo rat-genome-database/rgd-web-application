@@ -2,7 +2,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.myrgd.MyList" %>
 <%@ page import="edu.mcw.rgd.dao.impl.GeneDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.Gene" %>
-<%@ page import="org.apache.http.HttpRequest" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%@ page import="edu.mcw.rgd.process.mapping.ObjectMapper" %>
 <%@ page import="com.google.gson.JsonObject" %>

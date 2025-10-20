@@ -1,4 +1,3 @@
-<%@ page import="org.apache.http.HttpRequest" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MyDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.myrgd.MyList" %>
