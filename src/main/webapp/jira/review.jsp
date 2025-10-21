@@ -1,6 +1,5 @@
 <%@ page import="java.net.http.HttpClient" %>
 <%@ page import="java.net.http.HttpResponse" %>
-<%@ page import="org.apache.http.client.methods.HttpGet" %>
 <%@ page import="java.net.http.HttpRequest" %>
 <%@ page import="java.util.Base64" %>
 <%@ page import="com.google.gson.Gson" %>
