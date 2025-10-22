@@ -35,8 +35,11 @@
 
         <tbody>
         <tr>
+            <% if (obj.getSpeciesTypeKey() == 1) { // is human%>
             <td>Data has come from the GWAS Catalog&nbsp;&nbsp;&nbsp;</td>
-
+            <% }else {%>
+            <td>Download rat GWAS data&nbsp;&nbsp;&nbsp;</td>
+            <% } %>
             <td><img src='/rgdweb/common/images/bullet_green.png' /></td>
                 <td style="position: absolute;">
                     <form id="downloadGwasVue">
@@ -53,6 +56,7 @@
         </tbody>
     </table>
 
+    <% if (obj.getSpeciesTypeKey() == 1) { // is human%>
     <div id="gwasDataTableDiv" class="annotation-detail">
         <table id="gwasDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' >
             <tr>
@@ -66,7 +70,7 @@
                 <td>P&nbsp;Value MLOG</td>
                 <td>Peak Marker</td> <!-- change to peak marker -->
                 <td>Reported Odds Ratio or Beta-coefficient</td>
-                <td>Ontology&nbsp;Accession</td>
+                <td>Ontology&nbsp;Terms</td>
                 <td>PubMed</td>
             </tr>
 <%
@@ -146,6 +150,99 @@
             <% } %>
         </table>
     </div>
+    <% } else {%>
+    <div id="gwasDataTableDiv" class="annotation-detail">
+        <table id="gwasDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' >
+            <tr>
+                <td>QTL</td>
+                <td>Mapped&nbsp;Trait</td>
+                <td>Trait&nbsp;Detail</td>
+                <td>Risk&nbsp;Allele</td>
+                <td>P&nbsp;Value</td>
+                <td>Peak Marker</td> <!-- change to peak marker -->
+                <td>Reported Odds Ratio or Beta-coefficient</td>
+                <td>Ontology&nbsp;Terms</td>
+                <td>GWAS&nbsp;Version(s)</td>
+            </tr>
+            <%
+                for (GWASCatalog gwas : gwasList){
+                    String lessTerms = "";
+                    String moreTerms = "";
+                    List<Term> gwasTerms = new ArrayList<>();
+                    String gwasTerm = "";
+                    String[] terms = {};
+                    if (!Utils.isStringEmpty(gwas.getEfoId())) {
+                        gwasTerm = gwas.getEfoId().replace('_', ':');
+                        terms = gwasTerm.split(",");
+                    }
+                    for (String termAcc : terms) {
+                        if (termAcc.contains("Orphanet") || termAcc.contains("NCIT") || termAcc.contains("MONDO"))
+                            continue;
+                        String trimmed = termAcc.trim();
+//                System.out.println(trimmed);
+                        Term term = odao.getTermByAccId(trimmed);
+                        gwasTerms.add(term);
+                    }
+
+                    for (int i = 0; i < gwasTerms.size(); i++) {
+                        if (gwasTerms.get(i)!=null) {
+                            if (i < 4) {
+                                lessTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
+                                        "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
+                            } else {
+                                moreTerms += gwasTerms.get(i).getTerm() + "&nbsp;<a href=\"" + Link.ontView(gwasTerms.get(i).getAccId()) +
+                                        "\" title=\"click to go to ontology page\">(" + gwasTerms.get(i).getAccId() + ")</a><br>";
+                            }
+                        }
+                    }
+
+                    QTL q = null;
+                    String qtlExist = "";
+                    if (gwas.getQtlRgdId() != null && gwas.getQtlRgdId() != 0) {
+                        try {
+                            q = qdao.getQTL(gwas.getQtlRgdId());
+                            qtlExist = "<a href=\"/rgdweb/report/qtl/main.html?id=" + q.getRgdId() + "\">" + q.getSymbol() + "</a>";
+                        } catch (Exception e) {
+                            qtlExist = "None Available";
+                        }
+                    } else
+                        qtlExist = "None Available";
+
+                    DecimalFormat df = new DecimalFormat("#.###");
+                    df.setRoundingMode(RoundingMode.CEILING);
+                    List<GWASVersion> versions = gdao.getGWASVersionById(gwas.getGwasId());
+                    String ver = "";
+                    for (GWASVersion gv : versions){
+                        ver += gv.getVersion() + "\n";
+                    }
+                    if (Utils.isStringEmpty(ver))
+                        ver = "N/A";
+                    if (gwas.getQtlRgdId()!= null && obj.getRgdId()==gwas.getQtlRgdId()){
+            %>
+            <tr id="rowOfInterest" class="rowOfInterest">
+                    <% } else {%>
+            <tr>
+                <% } %>
+
+                <td><%=qtlExist%></td>
+                <td><%=gwas.getMapTrait()%></td>
+                <td><%=gwas.getContext()%></td>
+                <td><%=gwas.getStrongSnpRiskallele()%></td>
+                <td><%=gwas.getpVal()%></td>
+                <td><a href="/rgdweb/report/rsId/main.html?id=<%=gwas.getSnps()%>"><%=gwas.getSnps()%></a></td>
+                <td><%=Utils.NVL(gwas.getOrBeta(),"N/A")%></td>
+                <td><%=Utils.NVL(lessTerms, "N/A")%>
+                    <% if (gwasTerms.size()>4) {%>
+                    <span class="more" style="display: none;"><%=moreTerms%> </span><a href="" class="moreLink" title="Click to see more"> More...</a>
+                    <% } %>
+                </td>
+            <td><pre style="font-size: 13px"><%=Utils.NVL(ver, "N/A")%></pre></td>
+            </tr>
+            <% } %>
+        </table>
+    </div>
+    <% } %>
+
     <div class="modelsViewContent" >
         <div class="pager gwasDataPager" >
             <form>
@@ -173,17 +270,11 @@
     }
 </style>
 <script>
-    var table = document.getElementById("gwasDataTable");
-    var rows = table.getElementsByTagName("tr");
-    var secondRow = rows[1];
-    var rowOfInterest = document.getElementById("rowOfInterest");
-    if (secondRow!==rowOfInterest) {
-        secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
-    }
     var downloadGwasVue = new Vue ({
         el: '#downloadGwasVue',
         data: {
-            rsId: '<%=rsId%>'
+            rsId: '<%=rsId%>',
+            species: '<%=obj.getSpeciesTypeKey()%>'
         },
         methods: {
             downloadGwas: function () {
@@ -191,7 +282,8 @@
                 axios
                     .post('/rgdweb/report/variants/downloadGwas.html',
                         {
-                            rsId: downloadGwasVue.rsId
+                            rsId: downloadGwasVue.rsId,
+                            species: downloadGwasVue.species
                         },
                         {responseType: 'blob'})
                     .then(function (response) {
@@ -209,14 +301,19 @@
                         // window.open(url)
                     })
                     .catch(function (error) {
-                        // console.log(error);
+                        console.log(error);
                         // console.log(error.response.data);
                     })
             }
         }
     });
-    function download(){
-        downloadGwasVue.downloadGwas();
+
+    var table = document.getElementById("gwasDataTable");
+    var rows = table.getElementsByTagName("tr");
+    var secondRow = rows[1];
+    var rowOfInterest = document.getElementById("rowOfInterest");
+    if (secondRow!==rowOfInterest) {
+        secondRow.parentNode.insertBefore(rowOfInterest.parentNode.removeChild(rowOfInterest), secondRow);
     }
 </script>
 <% } %>
