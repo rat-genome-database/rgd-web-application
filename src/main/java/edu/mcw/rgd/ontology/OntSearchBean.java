@@ -24,6 +24,7 @@ public class OntSearchBean {
     private Map<Ontology, List<TermWithStats>> results;
     private Map<String, OntInfo> hitCount; // ont_id => OntInfo
     private Map<String, String> rootTerms; // ont_id => root term acc id
+    private Map<String, Integer> annotCount; // ont_id => annotations count with children
     // count of obsolete terms returned by ontology search, but not shown on search result list
     private int obsoleteTermsInSearch;
 
@@ -98,6 +99,14 @@ public class OntSearchBean {
         info.ontology = ont;
         info.hitCount = hitCount;
         return info;
+    }
+
+    public Map<String, Integer> getAnnotCount() {
+        return annotCount;
+    }
+
+    public void setAnnotCount(Map<String, Integer> annotCount) {
+        this.annotCount = annotCount;
     }
 
     /**
