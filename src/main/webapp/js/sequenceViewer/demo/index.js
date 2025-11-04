@@ -44,6 +44,7 @@ function currentExamples(){
 //    createIsoformExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM, false);
     console.log("Map key in current examples"+mapKey)
     var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/" + mapKey;
+    console.log('url in currentExamples method '+url);
     getGenomeInfo(url, guide);
 
 //   createExample("X:2023822..2042311", "fly", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,["FB:FBal0212726","FB:FBal0000277","FB:FBal0000276"],['FBtr0070344','FBtr0070346']);
@@ -87,6 +88,38 @@ function getGenomeInfo(url){
                     mapKey: mapKey
                 }];
                 console.log('Created dummy coordinates:', viewStart, 'to', viewEnd);
+
+                // BUGFIX: Fetch transcripts to get real coordinate range
+                // This handles the edge case where dummy coords overlap a gene but the variant
+                // falls outside the transcript range
+                const transcriptUrl = `https://rest.rgd.mcw.edu/rgdws/scge/track/${speciesName}/All%20Genes/${chr}:${viewStart}..${viewEnd}.json?ignoreCache=true&mapKey=${mapKey}`;
+
+                $.ajax({
+                    url: transcriptUrl,
+                    type: "GET",
+                    async: false, // Wait for this to complete before continuing
+                    success: function(transcriptData) {
+                        if (transcriptData && transcriptData.length > 0) {
+                            console.log('Fetched transcript data to calculate correct range');
+                            // Use existing findRange() function to calculate range from transcripts
+                            // Use ['mRNA'] to match drawer.js default
+                            const calculatedRange = findRange(transcriptData, ['mRNA']);
+
+                            if (calculatedRange.fmin !== -1 && calculatedRange.fmax !== -1) {
+                                // Extend range to include variant position
+                                viewStart = Math.min(calculatedRange.fmin, start);
+                                viewEnd = Math.max(calculatedRange.fmax, stop);
+
+                                // Update geneInfo with calculated range
+                                geneInfo[0].start = viewStart;
+                                console.log('Updated range from transcripts:', viewStart, 'to', viewEnd);
+                            }
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('No transcripts found or error fetching, using dummy coordinates');
+                    }
+                });
             }
 
             const mappedGeneChr=geneInfo[0].chromosome;

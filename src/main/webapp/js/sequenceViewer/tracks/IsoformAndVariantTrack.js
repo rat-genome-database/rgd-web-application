@@ -24,6 +24,7 @@ let apolloService = new ApolloService();
  class IsoformAndVariantTrack {
 
   constructor(viewer, track, height, width, transcriptTypes, variantTypes,showVariantLabel,variantFilter,binRatio,isoformFilter) {
+    this.track = track;
     this.trackData = {};
     this.variantData = {};
     this.viewer = viewer;
@@ -66,13 +67,23 @@ let apolloService = new ApolloService();
 
     let viewStart = dataRange.fmin;
     let viewEnd = dataRange.fmax;
-    // let viewStart = 169723306;
-    // let viewEnd = 179769243;
+
     //wrote this to display variant which has no genes, transcripts
     if(viewStart==-1||viewEnd==-1){
-      console.log("view start or view end is -1")
+      console.log("view start or view end is -1, using trackData coordinates")
       viewStart=this.trackData[0].fmin;
       viewEnd=this.trackData[0].fmax;
+    } else {
+      // BUGFIX: Take the union of transcript range and track range
+      // If index.js calculated correct range (transcripts + variant), track["start"]/["end"] will be wider
+      // This ensures we use the same coordinates as the axis, preventing misalignment
+      const originalStart = this.track["start"];
+      const originalEnd = this.track["end"];
+
+      viewStart = Math.min(viewStart, originalStart);
+      viewEnd = Math.max(viewEnd, originalEnd);
+
+      console.log('Using union of transcript range and track range:', viewStart, 'to', viewEnd);
     }
     // constants
     const EXON_HEIGHT = 10; // will be white / transparent
