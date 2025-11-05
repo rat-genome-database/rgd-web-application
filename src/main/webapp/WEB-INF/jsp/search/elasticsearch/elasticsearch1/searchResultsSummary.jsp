@@ -123,7 +123,7 @@
                                                                                 ${column}</a>
                                                                     </c:if>
                                                                     <c:if test="${column==1}">
-                                                                        <a href="elasticResults.html?term=${model.term}&category=${category}&species=${species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" title='View All ${species} ${category}'>
+                                                                        <a href="elasticResults.html?term=${model.term}&category=${fn:replace(category, " ","+")}&species=${species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" title='View All ${species} ${category}'>
                                                                                 ${column}</a>
                                                                     </c:if>
                                                                 </c:if>

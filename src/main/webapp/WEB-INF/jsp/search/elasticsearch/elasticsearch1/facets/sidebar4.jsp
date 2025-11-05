@@ -10,6 +10,7 @@
     ModelMap model= (ModelMap) request.getAttribute("model");
     SearchBean searchBean= (SearchBean) model.get("searchBean");
     Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
+    System.out.println("AGGREGATIONS:"+ gson.toJson(aggregations));
     List<Terms.Bucket> speciesBkts= (List<Terms.Bucket>) aggregations.get("species");
     List<String> speciesOrderList=Arrays.asList("Rat", "Human", "Mouse","Chinchilla","Bonobo","Dog","Squirrel",
             "Pig", "Green Monkey", "Naked Mole-Rat", "Black Rat");
@@ -60,6 +61,7 @@
                     List<Terms.Bucket> buckets= (List<Terms.Bucket>) aggregations.get(speciesLC);
                     if(buckets!=null){
                     for(Terms.Bucket bkt:buckets){
+                        System.out.println(bkt.getKey()+"\t"+ bkt.getDocCount());
                         docCounts.put((String) bkt.getKey(), Math.toIntExact(bkt.getDocCount()));
                     }
                     String variant=species.toLowerCase()+"Variant";
@@ -74,10 +76,10 @@
                     String cellLine=species.toLowerCase()+"Cell line";
                     String promoter=species.toLowerCase()+"Promoter";
                         String expressionLevel=species.toLowerCase()+"ExpressionLevel";
-//                        String strainTerms=species.toLowerCase()+"StrainTerms";
-//                        String tissueTerms=species.toLowerCase()+"TissueTerms";
-//                        String cellTypeTerms=species.toLowerCase()+"CellTypeTerms";
-                        String geneTypeTerms=species.toLowerCase()+"Expression";
+                        String strainTerms=species.toLowerCase()+"StrainTerms";
+                        String tissueTerms=species.toLowerCase()+"TissueTerms";
+                        String cellTypeTerms=species.toLowerCase()+"CellTypeTerms";
+                        String expressionStudy=species.toLowerCase()+"ExpressionStudy";
                     if(docCount!=0){
         %>
         <%@include file="facets.jsp"%>
