@@ -84,7 +84,7 @@ public class GeoExperimentController implements Controller {
                 request.setAttribute("species",species);
 
                 List<Experiment> eList = new ArrayList<>();
-                List<Experiment> newExp = new ArrayList<>();
+                HashMap<String, Experiment> newExpMap = new HashMap<>();
                 Study study = new Study(); //geDAO.getStudyByGeoIdWithReferences(gse);
                 species = species.replace("_"," ");
 //                    List<Study> studyList = new ArrayList<>();
@@ -226,6 +226,7 @@ public class GeoExperimentController implements Controller {
 
                     eList = geDAO.getExperiments(study.getId());
                     Experiment exp = null;
+                    // create an experiment for each count and use a map, vId -> experiment
                     if (eList == null || eList.isEmpty()) {
                         eList = new ArrayList<>();
                         Experiment e = new Experiment();
@@ -236,15 +237,33 @@ public class GeoExperimentController implements Controller {
                         geDAO.insertExperiment(e);
                         exp = e;
                         eList.add(e);
-                        newExp.add(e);
+                        newExpMap.put(e.getTraitOntId(),e);
                     }
                     else { // need to find correct experiment based on VT
                         Experiment e = null;
                         String vtId = request.getParameter("vtId" + i);
                         gre = geDAO.getGeneExpressionRecordBySampleId(sampleId);
                         if (gre==null) { // store experiment to make sure another is not made
-                            for (Experiment experiment : newExp){
-                                if (experiment.getTraitOntId().equals(vtId))
+                            if (newExpMap.get(vtId)!=null)
+                                exp = newExpMap.get(vtId);
+                            if (exp == null) {
+                                e = new Experiment();
+                                e.setStudyId(studyId);
+                                e.setName(study.getName());
+                                e.setCreatedBy(login);
+                                e.setTraitOntId(request.getParameter("vtId" + i));
+                                geDAO.insertExperiment(e);
+                                exp = e;
+                                eList.add(e);
+                                newExpMap.put(e.getTraitOntId(),e);
+                            }
+                        }
+                        else {
+                            exp = geDAO.getExperiment(gre.getExperimentId());
+                            if (!Utils.stringsAreEqual(exp.getTraitOntId(),vtId) && newExpMap.get(vtId)==null)
+                                exp = null;
+                            for (Experiment experiment : eList){
+                                if (Utils.stringsAreEqual(experiment.getTraitOntId(),vtId))
                                     exp = experiment;
                             }
                             if (exp == null) {
@@ -254,26 +273,14 @@ public class GeoExperimentController implements Controller {
                                 e.setCreatedBy(login);
                                 e.setTraitOntId(request.getParameter("vtId" + i));
                                 geDAO.insertExperiment(e);
+                                gre.setExperimentId(e.getId());
+                                geDAO.updateGeneExpressionRecord(gre);
                                 exp = e;
                                 eList.add(e);
-                                newExp.add(e);
-                            }
-                        }
-                        else {
-                            exp = geDAO.getExperiment(gre.getExperimentId());
-                            if (exp == null) {
-                                e = new Experiment();
-                                e.setStudyId(studyId);
-                                e.setName(study.getName());
-                                e.setCreatedBy(login);
-                                e.setTraitOntId(request.getParameter("vtId" + i));
-                                geDAO.insertExperiment(e);
-                                exp = e;
-                                eList.add(e);
-                                newExp.add(e);
+                                newExpMap.put(e.getTraitOntId(),e);
                             } else if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(), vtId)) {
                                 exp.setTraitOntId(vtId);
-                                newExp.add(exp);
+                                newExpMap.put(exp.getTraitOntId(),e);
                                 geDAO.updateExperiment(exp);
                             }
                         }
