@@ -84,13 +84,13 @@ public class GeoExperimentController implements Controller {
                 request.setAttribute("species",species);
 
                 List<Experiment> eList = new ArrayList<>();
-                List<Experiment> newExp = new ArrayList<>();
+                HashMap<String, Experiment> newExpMap = new HashMap<>();
                 Study study = new Study(); //geDAO.getStudyByGeoIdWithReferences(gse);
                 species = species.replace("_"," ");
 //                    List<Study> studyList = new ArrayList<>();
                 List<Sample> sampleList = new ArrayList<>();
                 HashMap<Integer,List<Condition>> sampleConditions = new HashMap<>();
-                HashMap<Integer, Experiment> sampleExperiment = new HashMap<>();
+                HashMap<String, Experiment> sampleExperiment = new HashMap<>();
                 int speciesType = SpeciesType.RAT;
                 switch (species.toLowerCase()){
                     case "mus musculus":
@@ -226,6 +226,7 @@ public class GeoExperimentController implements Controller {
 
                     eList = geDAO.getExperiments(study.getId());
                     Experiment exp = null;
+                    // create an experiment for each count and use a map, vId -> experiment
                     if (eList == null || eList.isEmpty()) {
                         eList = new ArrayList<>();
                         Experiment e = new Experiment();
@@ -236,17 +237,15 @@ public class GeoExperimentController implements Controller {
                         geDAO.insertExperiment(e);
                         exp = e;
                         eList.add(e);
-                        newExp.add(e);
+                        newExpMap.put(e.getTraitOntId(),e);
                     }
                     else { // need to find correct experiment based on VT
                         Experiment e = null;
                         String vtId = request.getParameter("vtId" + i);
                         gre = geDAO.getGeneExpressionRecordBySampleId(sampleId);
                         if (gre==null) { // store experiment to make sure another is not made
-                            for (Experiment experiment : newExp){
-                                if (experiment.getTraitOntId().equals(vtId))
-                                    exp = experiment;
-                            }
+                            if (newExpMap.get(vtId)!=null)
+                                exp = newExpMap.get(vtId);
                             if (exp == null) {
                                 e = new Experiment();
                                 e.setStudyId(studyId);
@@ -256,11 +255,19 @@ public class GeoExperimentController implements Controller {
                                 geDAO.insertExperiment(e);
                                 exp = e;
                                 eList.add(e);
-                                newExp.add(e);
+                                newExpMap.put(e.getTraitOntId(),e);
                             }
                         }
                         else {
                             exp = geDAO.getExperiment(gre.getExperimentId());
+                            if (exp!=null && !Utils.stringsAreEqual(exp.getTraitOntId(),vtId) ) {
+                                for (Experiment experiment : eList) {
+                                    if (Utils.stringsAreEqual(experiment.getTraitOntId(), vtId))
+                                        exp = experiment;
+                                }
+                            }
+                            if (!Utils.stringsAreEqual(exp.getTraitOntId(),vtId) && newExpMap.get(vtId)==null)
+                                exp = null;
                             if (exp == null) {
                                 e = new Experiment();
                                 e.setStudyId(studyId);
@@ -268,18 +275,24 @@ public class GeoExperimentController implements Controller {
                                 e.setCreatedBy(login);
                                 e.setTraitOntId(request.getParameter("vtId" + i));
                                 geDAO.insertExperiment(e);
+                                gre.setExperimentId(e.getId());
+                                geDAO.updateGeneExpressionRecord(gre);
                                 exp = e;
                                 eList.add(e);
-                                newExp.add(e);
+                                newExpMap.put(e.getTraitOntId(),e);
                             } else if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(), vtId)) {
                                 exp.setTraitOntId(vtId);
-                                newExp.add(exp);
+                                newExpMap.put(exp.getTraitOntId(),e);
                                 geDAO.updateExperiment(exp);
+                            }
+                            else if (exp.getId()!=gre.getExperimentId()){
+                                gre.setExperimentId(exp.getId());
+                                geDAO.updateGeneExpressionRecord(gre);
                             }
                         }
 
                     }
-                    sampleExperiment.put(sampleId, exp);
+                    sampleExperiment.put(s.getGeoSampleAcc(), exp);
 
                     // find/create gene_expression_exp_record by experiment
 //                        for (Experiment ex : eList) {
@@ -447,7 +460,7 @@ public class GeoExperimentController implements Controller {
                     cNotes++;
 
 //                    List<Experiment> expList = sampleExperiment.get(s.getId());
-                Experiment e = sampleExperiment.get(s.getId());
+                Experiment e = sampleExperiment.get(s.getGeoSampleAcc());
                 GeneExpressionRecord gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(e.getId(),s.getId());
                 List<Condition> condList = sampleConditions.get(s.getId());
                 if (condList != null && condList.size() > maxCond)
@@ -541,7 +554,7 @@ public class GeoExperimentController implements Controller {
                     Record rec = new Record();
                     rec.append(s.getId()+"");
                     rec.append(s.getGeoSampleAcc());
-                    Experiment e = sampleExperiment.get(s.getId());
+                    Experiment e = sampleExperiment.get(s.getGeoSampleAcc());
                     if (tissue != 0)
                         rec.append(s.getTissueAccId());
                     if (vtId != 0) {

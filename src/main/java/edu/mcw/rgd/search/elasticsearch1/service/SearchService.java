@@ -91,21 +91,27 @@ public class SearchService {
                            aggregations.put(species + "VariantCategory", variantCategoryFilterAgg.getBuckets());
 
                        }
-                       if(bucket.getKey().toString().equalsIgnoreCase("expression")){
+                       if(bucket.getKey().toString().equalsIgnoreCase("expression Gene")){
 
                            if(expressionLevelFilterAgg!=null)
                            aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
-//                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
-//                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
-//                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           aggregations.put(species + bucket.getKey().toString(), typeFilterAgg.getBuckets());
                        }
-                       if(bucket.getKey().toString().equalsIgnoreCase("expressionStudy")){
+                       if(bucket.getKey().toString().equalsIgnoreCase("expression Study")){
 
-//                           if(expressionLevelFilterAgg!=null)
-//                               aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
-//                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
-//                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
-//                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           if(expressionLevelFilterAgg!=null)
+                               aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
+                           if(cellTypeTermsFilterAgg!=null)
+                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
+                           if(strainTermsFilterAgg!=null)
+                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
+                           if(tissueTermsFilterAgg!=null)
+                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           if(typeFilterAgg!=null)
+                           aggregations.put(species + bucket.getKey().toString().replace(" ", ""), typeFilterAgg.getBuckets());
                        }
                        if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
                            aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
@@ -346,6 +352,10 @@ public class SearchService {
         if(request.getParameter("match_type")!=null && !request.getParameter("match_type").equals("") ) sb.setMatchType(request.getParameter("match_type"));
         if(request.getParameter("objectSearch")!=null) sb.setObjectSearch((request.getParameter("objectSearch").equalsIgnoreCase("true")));
         if(request.getParameter("expressionLevel")!=null) sb.setExpressionLevel(request.getParameter("expressionLevel"));
+        if(request.getParameter("strainTerms")!=null) sb.setStrainTerms(request.getParameter("strainTerms"));
+        if(request.getParameter("cellTypeTerms")!=null) sb.setCellTypeTerms(request.getParameter("cellTypeTerms"));
+        if(request.getParameter("tissueTerms")!=null) {
+            sb.setTissueTerms(request.getParameter("tissueTerms"));}
 
         return sb;
     }

@@ -1,5 +1,7 @@
 package edu.mcw.rgd.search.elasticsearch1.model;
 
+import java.util.Set;
+
 /**
  * Created by jthota on 11/19/2018.
  */
@@ -38,6 +40,33 @@ public class SearchBean {
     boolean objectSearch;
 
     String expressionLevel;
+    String strainTerms;
+    String tissueTerms;
+    String cellTypeTerms;
+
+    public String getStrainTerms() {
+        return strainTerms;
+    }
+
+    public void setStrainTerms(String strainTerms) {
+        this.strainTerms = strainTerms;
+    }
+
+    public String getTissueTerms() {
+        return tissueTerms;
+    }
+
+    public void setTissueTerms(String tissueTerms) {
+        this.tissueTerms = tissueTerms;
+    }
+
+    public String getCellTypeTerms() {
+        return cellTypeTerms;
+    }
+
+    public void setCellTypeTerms(String cellTypeTerms) {
+        this.cellTypeTerms = cellTypeTerms;
+    }
 
     public String getExpressionLevel() {
         return expressionLevel;

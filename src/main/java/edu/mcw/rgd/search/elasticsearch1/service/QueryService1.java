@@ -187,6 +187,18 @@ public class QueryService1 {
                 builder.filter(QueryBuilders.termQuery("expressionLevel.keyword", sb.getExpressionLevel()));
 
             }
+            if (sb.getStrainTerms()!=null && !sb.getStrainTerms().equals("")) {
+                builder.filter(QueryBuilders.termQuery("strainTerms.keyword", sb.getStrainTerms()));
+
+            }
+            if (sb.getTissueTerms()!=null && !sb.getTissueTerms().equals("")) {
+                builder.filter(QueryBuilders.termQuery("tissueTerms.keyword", sb.getTissueTerms()));
+
+            }
+            if (sb.getCellTypeTerms()!=null && !sb.getCellTypeTerms().equals("")) {
+                builder.filter(QueryBuilders.termQuery("cellTypeTerms.keyword", sb.getCellTypeTerms()));
+
+            }
         }
         return builder;
     }
@@ -340,8 +352,12 @@ public class QueryService1 {
                             .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(200))
                             .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
 
+                            .subAggregation(AggregationBuilders.terms("strainTerms").field("strainTerms.keyword").size(500))
+                            .subAggregation(AggregationBuilders.terms("tissueTerms").field("tissueTerms.keyword").size(500))
+                            .subAggregation(AggregationBuilders.terms("cellTypeTerms").field("cellTypeTerms.keyword").size(500))
+
                             .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(200))
-                            .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
+                            .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword").size(500))
 
 
 
@@ -357,6 +373,7 @@ public class QueryService1 {
             aggs = AggregationBuilders.terms(aggField).field(aggField + ".keyword")
                     .subAggregation(AggregationBuilders.terms("speciesFilter").field("species.keyword").size(20))
                     .subAggregation(AggregationBuilders.terms("subspecies").field("species.keyword").size(20))
+                    .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
                     .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
                     .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword"))
                     .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
