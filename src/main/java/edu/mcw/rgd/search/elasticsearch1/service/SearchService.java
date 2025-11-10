@@ -353,10 +353,9 @@ public class SearchService {
         if(request.getParameter("objectSearch")!=null) sb.setObjectSearch((request.getParameter("objectSearch").equalsIgnoreCase("true")));
         if(request.getParameter("expressionLevel")!=null) sb.setExpressionLevel(request.getParameter("expressionLevel"));
         if(request.getParameter("strainTerms")!=null) sb.setStrainTerms(request.getParameter("strainTerms"));
-        if(request.getParameter("cellTypeTerms")!=null) sb.setExpressionLevel(request.getParameter("cellTypeTerms"));
+        if(request.getParameter("cellTypeTerms")!=null) sb.setCellTypeTerms(request.getParameter("cellTypeTerms"));
         if(request.getParameter("tissueTerms")!=null) {
-            System.out.println("TISSUE TERMS:"+ request.getParameter("tissueTerms"));
-            sb.setExpressionLevel(request.getParameter("tissueTerms"));}
+            sb.setTissueTerms(request.getParameter("tissueTerms"));}
 
         return sb;
     }
