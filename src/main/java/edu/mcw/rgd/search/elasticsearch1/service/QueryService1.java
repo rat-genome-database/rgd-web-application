@@ -352,12 +352,12 @@ public class QueryService1 {
                             .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(200))
                             .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
 
-                            .subAggregation(AggregationBuilders.terms("strainTerms").field("strainTerms.keyword"))
-                            .subAggregation(AggregationBuilders.terms("tissueTerms").field("tissueTerms.keyword"))
-                            .subAggregation(AggregationBuilders.terms("cellTypeTerms").field("cellTypeTerms.keyword"))
+                            .subAggregation(AggregationBuilders.terms("strainTerms").field("strainTerms.keyword").size(500))
+                            .subAggregation(AggregationBuilders.terms("tissueTerms").field("tissueTerms.keyword").size(500))
+                            .subAggregation(AggregationBuilders.terms("cellTypeTerms").field("cellTypeTerms.keyword").size(500))
 
                             .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(200))
-                            .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
+                            .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword").size(500))
 
 
 
