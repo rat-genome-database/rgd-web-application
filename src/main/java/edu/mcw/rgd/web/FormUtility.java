@@ -466,8 +466,8 @@ public class FormUtility {
         if( startPos<0 )
             startPos = 1;
         int stopPos = (int) (vmd.getStartPos() + 100);
-        System.out.println("variant mapdata start pos"+startPos);
-        System.out.println("variant mapdata end pos"+stopPos);
+        //System.out.println("variant mapdata start pos"+startPos);
+        //System.out.println("variant mapdata end pos"+stopPos);
         return (vmd.getChromosome().length()>2?"":charPrefix)+vmd.getChromosome()+":"+startPos+"-"+stopPos;
     }
 
