@@ -32,6 +32,13 @@ public class StrainAssociationEditObjectController extends AssociationEditObject
 
         String markerClass = Utils.defaultString(request.getParameter("markerClass"));
 
+        if (markerClass.equals("strain2var")) {
+            String[] varRgdIds = request.getParameterValues("varRgdId");
+            String[] varRegionNames = request.getParameterValues("varRegionName");
+            String[] varMarkerTypes = request.getParameterValues("varMarkerType");
+            updateStrainAssociations(rgdId, varRgdIds, varRegionNames, varMarkerTypes, adao.getStrain2VariantAssociations(rgdId));
+        }
+
         if( markerClass.equals("strain2sslp") ) {
             String[] sslpRgdIds = request.getParameterValues("sslpRgdId");
             String[] sslpRegionNames = request.getParameterValues("sslpRegionName");
