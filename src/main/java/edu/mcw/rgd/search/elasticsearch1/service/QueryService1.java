@@ -124,6 +124,7 @@ public class QueryService1 {
         SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("search"));
         searchRequest.source(srb);
         SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+
         return sr;
     }
 
@@ -200,6 +201,7 @@ public class QueryService1 {
 
             }
         }
+
         return builder;
     }
 
@@ -283,10 +285,7 @@ public class QueryService1 {
                                 .boost(3))
 
                 ;
-                //   String[] tokens=term.split("[\\s,]+");
-                //  if(tokens.length>0){
-//                dqb.add(QueryBuilders.multiMatchQuery(term)
-//                        .operator(Operator.AND));
+      
             }
         }
         return dqb;
@@ -355,7 +354,8 @@ public class QueryService1 {
                             .subAggregation(AggregationBuilders.terms("strainTerms").field("strainTerms.keyword").size(500))
                             .subAggregation(AggregationBuilders.terms("tissueTerms").field("tissueTerms.keyword").size(500))
                             .subAggregation(AggregationBuilders.terms("cellTypeTerms").field("cellTypeTerms.keyword").size(500))
-
+//                            .subAggregation(AggregationBuilders.terms("expressionSource").field("source.keyword"))
+                            .subAggregation(AggregationBuilders.terms("expressionSource").field("expressionSource.keyword"))
                             .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(200))
                             .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword").size(500))
 

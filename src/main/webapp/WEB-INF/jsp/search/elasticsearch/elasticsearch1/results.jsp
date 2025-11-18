@@ -59,9 +59,15 @@
     ModelMap model= (ModelMap) request.getAttribute("model");
     SearchBean searchBean= (SearchBean) model.get("searchBean");
     String category=searchBean.getCategory();
-    Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
-    List<Terms.Bucket> speciesAggregations= (List<Terms.Bucket>) aggregations.get("species");
-    List<Terms.Bucket> ontologyAggregations= (List<Terms.Bucket>) aggregations.get("ontology");
+    Map<String, List<? extends Terms.Bucket>> aggregations=new HashMap<>();
+    if( model.get("aggregations")!=null )
+         aggregations=   (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
+    List<Terms.Bucket> speciesAggregations= new ArrayList<>();
+    if(aggregations.get("species")!=null)
+          speciesAggregations=  (List<Terms.Bucket>) aggregations.get("species");
+    List<Terms.Bucket> ontologyAggregations=new ArrayList<>();
+    if(aggregations.get("ontology")!=null)
+           ontologyAggregations= (List<Terms.Bucket>) aggregations.get("ontology");
 
     String defaultAssembly= null;
             if(model.get("defaultAssembly")!=null) {

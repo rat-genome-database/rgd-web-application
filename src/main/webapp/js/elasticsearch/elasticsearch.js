@@ -386,7 +386,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
 // var   tab="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'tab', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><i class='fa fa-file' aria-hidden='true' style='font-size:30px;color:lightsteelblue'></i></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Allows user to download the selected objects in TAB seperated format. </span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'tab', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Download Tab</a></div></p>";
 // var   csv="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'csv', \'"+objectType+"\')\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/csv.png\" ></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Allows user to download the selected objects in CSV format. </span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'csv')\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">CSV Download</a></div></p>";
     var html;
-    if(category=="Gene"){
+    if(category=="Gene" || category=="Expressed Gene"){
          html=toolHeader+annotationDistribution+functionalAnnot + olga+annotComparison+excel ; //+csv;
 
         if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo' && species!='Pig'){
