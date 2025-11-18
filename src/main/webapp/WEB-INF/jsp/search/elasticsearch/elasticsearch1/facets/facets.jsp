@@ -196,6 +196,15 @@
                 </ul>
             </li>
             <%}%>
+            <%if(aggregations.get(conditions)!=null && aggregations.get(conditions).size()>0){%>
+
+            <li><span>Conditions</span>
+                <ul><%for(Terms.Bucket bkt:aggregations.get(conditions)){%>
+                    <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','conditions')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <%}%>
+                </ul>
+            </li>
+            <%}%>
 
         </ul>
 

@@ -44,6 +44,16 @@ public class SearchBean {
     String tissueTerms;
     String cellTypeTerms;
 
+    public String getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(String conditions) {
+        this.conditions = conditions;
+    }
+
+    String conditions;
+
     public String getStrainTerms() {
         return strainTerms;
     }

@@ -200,6 +200,10 @@ public class QueryService1 {
                 builder.filter(QueryBuilders.termQuery("cellTypeTerms.keyword", sb.getCellTypeTerms()));
 
             }
+            if (sb.getConditions()!=null && !sb.getConditions().equals("")) {
+                builder.filter(QueryBuilders.termQuery("conditionTerms.keyword", sb.getConditions()));
+
+            }
         }
 
         return builder;
@@ -354,6 +358,7 @@ public class QueryService1 {
                             .subAggregation(AggregationBuilders.terms("strainTerms").field("strainTerms.keyword").size(500))
                             .subAggregation(AggregationBuilders.terms("tissueTerms").field("tissueTerms.keyword").size(500))
                             .subAggregation(AggregationBuilders.terms("cellTypeTerms").field("cellTypeTerms.keyword").size(500))
+                                    .subAggregation(AggregationBuilders.terms("conditions").field("conditionTerms.keyword").size(500))
 //                            .subAggregation(AggregationBuilders.terms("expressionSource").field("source.keyword"))
                             .subAggregation(AggregationBuilders.terms("expressionSource").field("expressionSource.keyword"))
                             .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(200))

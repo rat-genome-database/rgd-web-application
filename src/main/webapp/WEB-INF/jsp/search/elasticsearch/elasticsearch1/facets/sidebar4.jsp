@@ -79,6 +79,7 @@
                         String strainTerms=species.toLowerCase()+"StrainTerms";
                         String tissueTerms=species.toLowerCase()+"TissueTerms";
                         String cellTypeTerms=species.toLowerCase()+"CellTypeTerms";
+                        String conditions=species.toLowerCase()+"Conditions";
                         String expressionSource=species.toLowerCase()+"ExpressionSource";
                         String expressionStudy=species.toLowerCase()+"ExpressionStudy";
                         String expressionGeneType=species.toLowerCase()+"ExpressionGeneType";
