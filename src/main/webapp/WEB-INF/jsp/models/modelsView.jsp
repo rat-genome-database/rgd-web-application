@@ -25,7 +25,7 @@
             knockins, transgenics, and other engineered modifications.
         </p>
         <p style="margin-bottom: 10px;">
-            Use the search box to filter models by gene symbol, or click the expand buttons to view detailed information
+            Use the search box to filter models by gene symbol, or click the expand buttons (<i class="fa fa-plus-circle" style="color:green;" aria-hidden="true"></i>) to view detailed information
             about each strain including background strain, aliases, method of generation, availability status, and links
             to phenotype data and publications.
         </p>
