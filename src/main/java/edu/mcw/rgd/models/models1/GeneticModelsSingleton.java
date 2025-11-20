@@ -10,283 +10,258 @@ import edu.mcw.rgd.datamodel.ontologyx.TermDagEdge;
 import edu.mcw.rgd.models.ModelProcesses;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
+ * Singleton class for managing genetic models and related data.
  * Created by jthota on 9/28/2017.
  */
 public class GeneticModelsSingleton {
-    private static GeneticModelsSingleton instance=null;
+    private static final int CHUNK_SIZE = 1000;
+    private static final String ASPECT_STRAIN = "S";
+    private static final String REFERENCE_TYPE_JOURNAL = "journal article";
+    private static final String STATUS_EXTINCT = "extinct";
+    private static final String PHENOMINER_URL_TEMPLATE = "http://rgd.mcw.edu/rgdweb/phenominer/ontChoices.html?terms=%s&sex=both";
 
-    private List<GeneticModel> allModels=new ArrayList<>();
-    private List<GeneticModel> gerrcModels= new ArrayList<>();
+    private static final Set<String> GERRC_SOURCES = new HashSet<>(Arrays.asList(
+        "PhysGen", "PGA", "PhysGen Knockouts", "MCW Gene Editing Rat Resource Center"
+    ));
+
+    private static volatile GeneticModelsSingleton instance;
+
+    private List<GeneticModel> allModels = new ArrayList<>();
+    private List<GeneticModel> gerrcModels = new ArrayList<>();
     private List<Strain> rgdStrains;
-    private AssociationDAO associationDAO=new AssociationDAO();
-    private GeneticModelsDAO modelDao= new GeneticModelsDAO();
-    private AliasDAO aliasDAO= new AliasDAO();
-    private ModelProcesses process= new ModelProcesses();
-    private AnnotationDAO annotationDAO = new AnnotationDAO();
-    private OntologyXDAO ontologyXDAO= new OntologyXDAO();
-    private StrainDAO strainDAO= new StrainDAO();
 
-    public GeneticModelsSingleton(){}
+    private final AssociationDAO associationDAO = new AssociationDAO();
+    private final GeneticModelsDAO modelDao = new GeneticModelsDAO();
+    private final AliasDAO aliasDAO = new AliasDAO();
+    private final ModelProcesses process = new ModelProcesses();
+    private final AnnotationDAO annotationDAO = new AnnotationDAO();
+    private final OntologyXDAO ontologyXDAO = new OntologyXDAO();
+    private final StrainDAO strainDAO = new StrainDAO();
 
-    public void init(){
-        List<GeneticModel> strains=new ArrayList<>();
+    private GeneticModelsSingleton() {}
+
+    private void init() {
         try {
+            List<GeneticModel> strains = modelDao.getAllModels();
+            List<GeneticModel> strainsWithAliases = this.getStrainWithAliases(strains);
+            this.setAllModels(strainsWithAliases);
 
-            strains = modelDao.getAllModels();
-            List<GeneticModel> strainsWithAliases= this.getStrainWithAliases(strains);
-             this.setAllModels(strainsWithAliases);
-
-            List<GeneticModel> gerrcModels= new ArrayList<>();
-            for(GeneticModel m:strainsWithAliases){
-                String source=m.getSource();
-                String origination = m.getOrigination();
-                if(source!=null){
-                    if((source.contains("PhysGen") || source.contains("PGA") || source.contains("PhysGen Knockouts") || source.contains("MCW Gene Editing Rat Resource Center") ) ){
-                        gerrcModels.add(m);
-
-                    }
-                }
-                if(origination!=null){
-                    if((origination.contains("PhysGen") || origination.contains("PGA") || origination.contains("PhysGen Knockouts") || origination.contains("MCW Gene Editing Rat Resource Center") ) ){
-                        gerrcModels.add(m);
-
-                    }
-                }
-            }
-            this.setGerrcModels(gerrcModels);
-           // this.setGerrcModels(gerrcModels);
-        }catch(Exception e){
+            List<GeneticModel> filteredGerrcModels = strainsWithAliases.stream()
+                .filter(this::isGerrcModel)
+                .collect(Collectors.toList());
+            this.setGerrcModels(filteredGerrcModels);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-    public static synchronized GeneticModelsSingleton getInstance(){
-        if(instance==null){
-            instance=new GeneticModelsSingleton();
-            instance.init();
 
-        }else {
-            //System.out.println("Instance exists");
+    public static GeneticModelsSingleton getInstance() {
+        if (instance == null) {
+            synchronized (GeneticModelsSingleton.class) {
+                if (instance == null) {
+                    instance = new GeneticModelsSingleton();
+                    instance.init();
+                }
+            }
         }
         return instance;
     }
 
+    public static void main(String[] args) {
+        GeneticModelsSingleton instance = getInstance();
+        System.out.println("All Models Size: " + instance.getAllModels().size() + "\nDONE");
+    }
 
-    public static void main(String[] args){
-        new GeneticModelsSingleton();
-        GeneticModelsSingleton instance= getInstance();
-        System.out.println("All Models Size: "+instance.getAllModels().size()+"\nDONE");
+    private boolean isGerrcModel(GeneticModel model) {
+        return containsAnyGerrcSource(model.getSource()) || containsAnyGerrcSource(model.getOrigination());
+    }
+
+    private boolean containsAnyGerrcSource(String text) {
+        if (text == null) {
+            return false;
+        }
+        return GERRC_SOURCES.stream().anyMatch(text::contains);
+    }
+
+    private String sanitizeString(String input) {
+        if (input == null) {
+            return "";
+        }
+        return input.replace("<i>", "")
+                   .replace("<sup>", "")
+                   .replace("</i>", "")
+                   .replace("</sup>", "")
+                   .replace("/", "")
+                   .replace("(", "")
+                   .replace(")", "")
+                   .replace("-", "")
+                   .replace(" ", "")
+                   .replace(".", "")
+                   .replace("+", "");
+    }
+
+    private String extractPhysGenSource(String sourceOrOrigination) {
+        if (sourceOrOrigination == null) {
+            return null;
+        }
+        StringTokenizer tokenizer = new StringTokenizer(sourceOrOrigination, ",");
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken();
+            if (token.contains("PhysGen")) {
+                return token;
+            }
+        }
+        return null;
     }
 
     public List<GeneticModel> getStrainWithAliases(List<GeneticModel> strains) throws Exception {
+        List<Integer> rgdIds = strains.stream()
+            .map(GeneticModel::getStrainRgdId)
+            .collect(Collectors.toList());
 
-        List<Integer> rgdIds= new ArrayList<>();
-        List<GeneticModel> strains1= new ArrayList<>();
-        // Collections.sort(strains, GeneSymbolComparator);
-        for(GeneticModel s: strains){
-            rgdIds.add(s.getStrainRgdId());  //Listing all strain RGD IDs
-        }
-
-        List<Strain> rgdStrains=getStrainsWithLimit(rgdIds);
+        List<Strain> rgdStrains = getStrainsWithLimit(rgdIds);
         this.setRgdStrains(rgdStrains);
-        int experimentRecordCount=0;
-        List<String> childTermAccIds;
-        List<Alias> aliasList= getAliases(rgdIds);  //get the aliases of the list of strain RGD IDs
-        List<Annotation> annotations= getAnnotationsByRgdIdsListAndAspect(rgdIds, "S"); //get the annotations of list of strain RGD IDs
 
-        List<String> termAccList= new ArrayList<>();
-        for(Annotation a: annotations){
-            String parent_term_acc= a.getTermAcc();
-            termAccList.add(parent_term_acc);   //Listing parent_term_acc ids of above list of annotations
-        }
-        List<TermDagEdge> childtermsList= new ArrayList<>(); //get all the childterms of parent_term_acc list
-        Map<String, Integer> expRecordCountMap =new HashMap<>(); //get experiment record count of parent_term_acc list
-        Collection[] collections= this.split(termAccList, 1000);
-        for(int i=0;i<collections.length;i++){
-            List<String> termsSubList= (List<String>) collections[i];
-            childtermsList .addAll(ontologyXDAO.getAllChildEdges(termsSubList));
+        List<Alias> aliasList = getAliases(rgdIds);
+        List<Annotation> annotations = getAnnotationsByRgdIdsListAndAspect(rgdIds, ASPECT_STRAIN);
+
+        List<String> termAccList = annotations.stream()
+            .map(Annotation::getTermAcc)
+            .collect(Collectors.toList());
+
+        List<TermDagEdge> childTermsList = new ArrayList<>();
+        Map<String, Integer> expRecordCountMap = new HashMap<>();
+        Collection[] collections = this.split(termAccList, CHUNK_SIZE);
+        for (Collection collection : collections) {
+            List<String> termsSubList = (List<String>) collection;
+            childTermsList.addAll(ontologyXDAO.getAllChildEdges(termsSubList));
             expRecordCountMap.putAll(process.getExperimentRecordCounts(termsSubList));
         }
 
-//        List<TermDagEdge> childtermsList= ontologyXDAO.getAllChildEdges(termAccList); //get all the childterms of parent_term_acc list
-//        Map<String, Integer> expRecordCountMap = process.getExperimentRecordCounts(termAccList); //get experiment record count of parent_term_acc list
+        List<GeneticModel> result = new ArrayList<>();
+        for (GeneticModel strain : strains) {
+            int rgdId = strain.getStrainRgdId();
 
-        for(GeneticModel strain: strains){
-            int rgdid= strain.getStrainRgdId();
-
-            /**************************Publication URL***************************************************************/
-          List<Reference> refs = associationDAO.getReferenceAssociations(rgdid);
-            List<Reference> journalRefs= new ArrayList<>();
-            for(Reference ref:refs){
-                if(ref.getReferenceType().equalsIgnoreCase("journal article")){
-                    journalRefs.add(ref);
-                }
-            }
+            // Set references
+            List<Reference> refs = associationDAO.getReferenceAssociations(rgdId);
+            List<Reference> journalRefs = refs.stream()
+                .filter(ref -> REFERENCE_TYPE_JOURNAL.equalsIgnoreCase(ref.getReferenceType()))
+                .collect(Collectors.toList());
             strain.setReferences(journalRefs);
-            /*********************SET STRAIN_STATUS LOG***************************************************************/
 
-            String lastStatus=null;
-            for(Strain s:rgdStrains){
-                if(s.getRgdId()==rgdid){
-                    lastStatus=s.getLastStatus();
+            // Set strain status
+            String lastStatus = null;
+            for (Strain s : rgdStrains) {
+                if (s.getRgdId() == rgdId) {
+                    lastStatus = s.getLastStatus();
+                    break;
                 }
             }
 
-            assert lastStatus != null;
-            if(lastStatus.equalsIgnoreCase("extinct")|| lastStatus.contains("Extinct")){
-                // System.out.println(rgdid +"|| " + strain.getStrainSymbol() + "||" + lastStatus );
-                continue ;
+            if (lastStatus != null && lastStatus.toLowerCase().contains(STATUS_EXTINCT)) {
+                continue;
             }
+
             strain.setLastStatus(lastStatus);
             strain.setAvailability(lastStatus);
 
-            /*******************************SET STRAIN SOURCE**********************/
-            String source=strain.getSource();
-            if(source!=null){
-                StringTokenizer tokenizer= new StringTokenizer(source, ",");
-                while (tokenizer.hasMoreTokens()){
-
-                    String src= tokenizer.nextToken();
-                    if(src.contains("PhysGen")){
-                        strain.setSource(src);
-                    }
-                }}
-            String origination = strain.getOrigination();
-            if(origination!=null){
-                StringTokenizer tokenizer= new StringTokenizer(origination, ",");
-                while (tokenizer.hasMoreTokens()){
-
-                    String src= tokenizer.nextToken();
-                    if(src.contains("PhysGen")){
-                        strain.setOrigination(src);
-                    }
-                }}
-            /***************************SET STRAIN ALIAS NAME ***********************/
-            String strainSymbol= strain.getStrainSymbol();
-            List<String> aliasName= new ArrayList<>();
-            for(Alias a: aliasList){
-                if(rgdid==a.getRgdId()){
-                    aliasName.add(a.getValue());
-                }
+            // Set strain source and origination
+            String physGenSource = extractPhysGenSource(strain.getSource());
+            if (physGenSource != null) {
+                strain.setSource(physGenSource);
             }
 
-            List<String> aliases= new ArrayList<>();
-            String subSymbol= strainSymbol.replace("<i>", "").replace("<sup>", "").replace("</i>", "").replace("</sup>", "").replace("/", "")
-                    .replace("(" ,"").replace(")", "").replace("-","").replace(" ", "").replace(".", "").replace("+" , "");
-
-            for(String alias:aliasName){
-                String  alias1=alias.replace("<i>", "").replace("<sup>", "").replace("</i>", "").replace("</sup>", "").replace("/", "")
-                        .replace("(" ,"").replace(")", "").replace("-","").replace(" ", "").replace(".", "").replace("+" , "");
-                if(!subSymbol.equalsIgnoreCase(alias1)){
-                    aliases.add(alias);
-                }
+            String physGenOrigination = extractPhysGenSource(strain.getOrigination());
+            if (physGenOrigination != null) {
+                strain.setOrigination(physGenOrigination);
             }
+
+            // Set strain aliases
+            String strainSymbol = strain.getStrainSymbol();
+            String sanitizedSymbol = sanitizeString(strainSymbol);
+
+            List<String> aliases = aliasList.stream()
+                .filter(a -> a.getRgdId() == rgdId)
+                .map(Alias::getValue)
+                .filter(alias -> !sanitizedSymbol.equalsIgnoreCase(sanitizeString(alias)))
+                .collect(Collectors.toList());
             strain.setAliases(aliases);
 
+            // Set Phenominer URL
+            StringJoiner childTermsJoiner = new StringJoiner(",");
+            int experimentRecordCount = 0;
 
-            /****************************SET Phenominer URL************************************/
+            for (Annotation annotation : annotations) {
+                if (annotation.getAnnotatedObjectRgdId() == rgdId) {
+                    String parentTermAcc = annotation.getTermAcc();
+                    strain.setParentTermAcc(parentTermAcc);
 
-            StringBuilder sb= new StringBuilder();
-            for(Annotation a :annotations){
+                    List<String> childTermAccs = childTermsList.stream()
+                        .filter(edge -> parentTermAcc.equals(edge.getParentTermAcc()))
+                        .map(TermDagEdge::getChildTermAcc)
+                        .collect(Collectors.toList());
 
-                boolean flag=true;
-                String parent_term_acc=a.getTermAcc();
-                int rgd_id= a.getAnnotatedObjectRgdId();
-                if(rgdid==rgd_id){
-
-                    strain.setParentTermAcc(parent_term_acc);
-                    boolean first= true;
-                    int count=0;
-                    if(childtermsList!=null ) {
-                        if (childtermsList.size() > 0) {
-                            for (TermDagEdge childTerm : childtermsList) {
-                                if (childTerm != null) {
-                                    if (parent_term_acc.equals(childTerm.getParentTermAcc())) {
-
-                                        if (first) {
-                                            sb.append(childTerm.getChildTermAcc());
-                                            //  sb.append(parent_term_acc);
-                                            first = false;
-                                        } else {
-                                            sb.append(",");
-                                            sb.append(childTerm.getChildTermAcc());
-                                        }
-                                        count++;
-
-                                    }
-
-                                }
-
-                            }
-                            if(count==0){
-                                sb.append(parent_term_acc);
-                            }
-                        }
+                    if (childTermAccs.isEmpty()) {
+                        childTermsJoiner.add(parentTermAcc);
+                    } else {
+                        childTermAccs.forEach(childTermsJoiner::add);
                     }
 
-                    //  experimentRecordCount=process.getExperimentRecordCount(parent_term_acc);
-
-                    for(Map.Entry entry:expRecordCountMap.entrySet()){
-                        String accId= (String) entry.getKey();
-                        if(parent_term_acc.equals(accId)){
-                            experimentRecordCount= (int) entry.getValue();
-                        }
-                    }
+                    experimentRecordCount = expRecordCountMap.getOrDefault(parentTermAcc, 0);
                 }
             }
-            String phenominerUrl= "http://rgd.mcw.edu/rgdweb/phenominer/ontChoices.html?terms=" +sb +"&sex=both";
-            /*****************************************************************************************************/
+
+            String phenominerUrl = String.format(PHENOMINER_URL_TEMPLATE, childTermsJoiner.toString());
             strain.setPhenominerUrl(phenominerUrl);
             strain.setExperimentRecordCount(experimentRecordCount);
 
-            strains1.add(strain);
+            result.add(strain);
         }
 
-        return strains1;
-
+        return result;
     }
+
     public List<Strain> getStrainsWithLimit(List<Integer> rgdIds) throws Exception {
         List<Strain> result = new ArrayList<>();
-        int chunkSize = 1000;
-        for (int i = 0; i < rgdIds.size(); i += chunkSize) {
-            List<Integer> subList = rgdIds.subList(i, Math.min(i + chunkSize, rgdIds.size()));
+        for (int i = 0; i < rgdIds.size(); i += CHUNK_SIZE) {
+            List<Integer> subList = rgdIds.subList(i, Math.min(i + CHUNK_SIZE, rgdIds.size()));
             result.addAll(strainDAO.getStrains(subList));
         }
         return result;
     }
+
     public List<Alias> getAliases(List<Integer> rgdIds) throws Exception {
         List<Alias> result = new ArrayList<>();
-        int chunkSize = 1000;
-        for (int i = 0; i < rgdIds.size(); i += chunkSize) {
-            List<Integer> subList = rgdIds.subList(i, Math.min(i + chunkSize, rgdIds.size()));
+        for (int i = 0; i < rgdIds.size(); i += CHUNK_SIZE) {
+            List<Integer> subList = rgdIds.subList(i, Math.min(i + CHUNK_SIZE, rgdIds.size()));
             result.addAll(aliasDAO.getAliases(subList));
         }
         return result;
     }
-    public Collection[] split(List<String> objets, int size) throws Exception{
-        int numOfBatches=(objets.size()/size)+1;
-        Collection[] batches= new Collection[numOfBatches];
-        for(int index=0; index<numOfBatches; index++){
-            int count=index+1;
-            int fromIndex=Math.max(((count-1)*size),0);
-            int toIndex=Math.min((count*size), objets.size());
-            batches[index]= objets.subList(fromIndex, toIndex);
+
+    public Collection[] split(List<String> objects, int size) throws Exception {
+        int numOfBatches = (objects.size() / size) + 1;
+        Collection[] batches = new Collection[numOfBatches];
+        for (int index = 0; index < numOfBatches; index++) {
+            int count = index + 1;
+            int fromIndex = Math.max(((count - 1) * size), 0);
+            int toIndex = Math.min((count * size), objects.size());
+            batches[index] = objects.subList(fromIndex, toIndex);
         }
         return batches;
     }
 
     public List<Annotation> getAnnotationsByRgdIdsListAndAspect(List<Integer> rgdIds, String aspect) throws Exception {
         List<Annotation> result = new ArrayList<>();
-        int chunkSize = 1000;
-        for (int i = 0; i < rgdIds.size(); i += chunkSize) {
-            List<Integer> subList = rgdIds.subList(i, Math.min(i + chunkSize, rgdIds.size()));
+        for (int i = 0; i < rgdIds.size(); i += CHUNK_SIZE) {
+            List<Integer> subList = rgdIds.subList(i, Math.min(i + CHUNK_SIZE, rgdIds.size()));
             result.addAll(annotationDAO.getAnnotationsByRgdIdsListAndAspect(subList, aspect));
         }
         return result;
     }
-
 
     public List<Strain> getRgdStrains() {
         return rgdStrains;
@@ -295,7 +270,6 @@ public class GeneticModelsSingleton {
     public void setRgdStrains(List<Strain> rgdStrains) {
         this.rgdStrains = rgdStrains;
     }
-
 
     public List<GeneticModel> getAllModels() {
         return allModels;
