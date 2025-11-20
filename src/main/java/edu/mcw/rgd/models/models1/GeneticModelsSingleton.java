@@ -88,6 +88,7 @@ public class GeneticModelsSingleton {
         for(GeneticModel s: strains){
             rgdIds.add(s.getStrainRgdId());  //Listing all strain RGD IDs
         }
+
         List<Strain> rgdStrains=getStrainsWithLimit(rgdIds);
         this.setRgdStrains(rgdStrains);
         int experimentRecordCount=0;
@@ -100,8 +101,17 @@ public class GeneticModelsSingleton {
             String parent_term_acc= a.getTermAcc();
             termAccList.add(parent_term_acc);   //Listing parent_term_acc ids of above list of annotations
         }
-        List<TermDagEdge> childtermsList= ontologyXDAO.getAllChildEdges(termAccList); //get all the childterms of parent_term_acc list
-        Map<String, Integer> expRecordCountMap = process.getExperimentRecordCounts(termAccList); //get experiment record count of parent_term_acc list
+        List<TermDagEdge> childtermsList= new ArrayList<>(); //get all the childterms of parent_term_acc list
+        Map<String, Integer> expRecordCountMap =new HashMap<>(); //get experiment record count of parent_term_acc list
+        Collection[] collections= this.split(termAccList, 1000);
+        for(int i=0;i<collections.length;i++){
+            List<String> termsSubList= (List<String>) collections[i];
+            childtermsList .addAll(ontologyXDAO.getAllChildEdges(termsSubList));
+            expRecordCountMap.putAll(process.getExperimentRecordCounts(termsSubList));
+        }
+
+//        List<TermDagEdge> childtermsList= ontologyXDAO.getAllChildEdges(termAccList); //get all the childterms of parent_term_acc list
+//        Map<String, Integer> expRecordCountMap = process.getExperimentRecordCounts(termAccList); //get experiment record count of parent_term_acc list
 
         for(GeneticModel strain: strains){
             int rgdid= strain.getStrainRgdId();
@@ -255,6 +265,18 @@ public class GeneticModelsSingleton {
         }
         return result;
     }
+    public Collection[] split(List<String> objets, int size) throws Exception{
+        int numOfBatches=(objets.size()/size)+1;
+        Collection[] batches= new Collection[numOfBatches];
+        for(int index=0; index<numOfBatches; index++){
+            int count=index+1;
+            int fromIndex=Math.max(((count-1)*size),0);
+            int toIndex=Math.min((count*size), objets.size());
+            batches[index]= objets.subList(fromIndex, toIndex);
+        }
+        return batches;
+    }
+
     public List<Annotation> getAnnotationsByRgdIdsListAndAspect(List<Integer> rgdIds, String aspect) throws Exception {
         List<Annotation> result = new ArrayList<>();
         int chunkSize = 1000;
