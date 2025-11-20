@@ -17,6 +17,21 @@
     <div class="rgd-panel-heading">Rat Genetic Models</div>
 </div>
 
+<div class="rgd-panel rgd-panel-default" style="margin-top: 10px;">
+    <div class="rgd-panel-body">
+        <p style="margin-bottom: 10px;">
+            This page provides a comprehensive catalog of rat genetic models spanning <strong>528 genes</strong>, curated by the Rat Genome Database (RGD).
+            Each model represents a genetically modified rat strain with documented genetic alterations, including knockouts,
+            knockins, transgenics, and other engineered modifications.
+        </p>
+        <p style="margin-bottom: 10px;">
+            Use the search box to filter models by gene symbol, or click the expand buttons to view detailed information
+            about each strain including background strain, aliases, method of generation, availability status, and links
+            to phenotype data and publications.
+        </p>
+    </div>
+</div>
+
 <div id="modelsViewContent" >
     <div style="margin-bottom:10px;width:50%;float:left">
         <input type="text" class="search searchBox rounded" name="geneSearch" data-filter-column="1" placeholder="Search by Gene Symbol..." style="width:60%;border-color:lightgrey">
