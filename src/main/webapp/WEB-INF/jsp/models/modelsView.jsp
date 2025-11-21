@@ -34,7 +34,7 @@
 
 <div id="modelsViewContent" >
     <div style="margin-bottom:10px;width:50%;float:left">
-        <input type="text" class="search searchBox rounded"  id="geneSearch" name="geneSearch" data-filter-column="1" placeholder="Search by Gene Symbol..." style="width:60%;border-color:lightgrey">
+        <input type="text" class="search searchBox rounded"  id="geneSearch" name="geneSearch" data-filter-column="1" placeholder="Search by Gene Symbol..." style="width:60%;border-color:lightgrey" autocomplete="off">
         <button type="button" class="btn btn-primary reset" id="gene-filter-reset-button" title="Reset table">Reset</button> <!-- targeted by the "filter_reset" option -->
     </div>
     <div id="pager" class="pager" style="float:right;margin-bottom:2px;">
