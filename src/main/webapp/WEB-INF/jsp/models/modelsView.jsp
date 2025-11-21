@@ -17,10 +17,25 @@
     <div class="rgd-panel-heading">Rat Genetic Models</div>
 </div>
 
+<div class="rgd-panel rgd-panel-default" style="margin-top: 10px;">
+    <div class="rgd-panel-body">
+        <p style="margin-bottom: 10px;">
+            This page provides a comprehensive catalog of rat genetic models spanning <strong><%=hcMap.keySet().size()%> genes</strong>, curated by the Rat Genome Database (RGD).
+            Each model represents a genetically modified rat strain with documented genetic alterations, including knockouts,
+            knockins and other engineered modifications.
+        </p>
+        <p style="margin-bottom: 10px;">
+            Use the search box to filter models by gene symbol, and/or click the expand buttons (<i class="fa fa-plus-circle" style="color:green;" aria-hidden="true"></i>) to view detailed information
+            about each strain including background strain, aliases, method of generation, availability status, and links
+            to phenotype data and publications.
+        </p>
+    </div>
+</div>
+
 <div id="modelsViewContent" >
     <div style="margin-bottom:10px;width:50%;float:left">
-        <input type="text" class="search searchBox rounded" name="geneSearch" data-filter-column="1" placeholder="Search by Gene Symbol..." style="width:60%;border-color:lightgrey">
-        <button type="button" class="btn btn-primary reset" title="Reset table">Reset</button> <!-- targeted by the "filter_reset" option -->
+        <input type="text" class="search searchBox rounded"  id="geneSearch" name="geneSearch" data-filter-column="1" placeholder="Search by Gene Symbol..." style="width:60%;border-color:lightgrey">
+        <button type="button" class="btn btn-primary reset" id="gene-filter-reset-button" title="Reset table">Reset</button> <!-- targeted by the "filter_reset" option -->
     </div>
     <div id="pager" class="pager" style="float:right;margin-bottom:2px;">
         <form>
