@@ -6,8 +6,11 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%
     List<GeneticModel> strainsUnsorted = (List) request.getAttribute("strains");
+//    List<GeneticModel> strainsUnsorted = (List<GeneticModel>) session.getAttribute("strains");
     List<GeneticModel> strains = ModelSort.sortByGeneSymbol(strainsUnsorted);
     Map<ModelsHeaderRecord, List<GeneticModel>> hcMap = (Map) request.getAttribute("headerChildMap");
+//    Map<ModelsHeaderRecord, List<GeneticModel>> hcMap = (Map<ModelsHeaderRecord, List<GeneticModel>>) session.getAttribute("headerChildMap");
+//    Map<String, String> backStrainList = (Map) session.getAttribute("backStrainList");
     Map<String, String> backStrainList = (Map) request.getAttribute("backStrainList");
 %>
 <div class="rgd-panel rgd-panel-default">
