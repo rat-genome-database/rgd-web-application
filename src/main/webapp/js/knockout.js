@@ -134,7 +134,10 @@ $(".expandCollapseAll").on('click', function () {
  
 });
 
-
+    $("#gene-filter-reset-button").on('click', function () {
+        $("#geneSearch").val("")
+    })
 
 
 });
+
