@@ -145,7 +145,7 @@
 
             <li><span>Study Type</span>
                 <ul><%for(Terms.Bucket bkt:aggregations.get(expressionStudy)){%>
-                    <li onclick="filterClick('Expression study', '<%=species%>','', '<%=bkt.getKey()%>','type')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','type')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
                 </ul>
             </li>
@@ -154,7 +154,7 @@
 
             <li><span>Study Source</span>
                 <ul><%for(Terms.Bucket bkt:aggregations.get(expressionSource)){%>
-                    <li onclick="filterClick('Expression study', '<%=species%>','', '<%=bkt.getKey()%>','source')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','source')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
                 </ul>
             </li>
@@ -162,7 +162,7 @@
             <%if(aggregations.get(expressionLevel)!=null && aggregations.get(expressionLevel).size()>0){%>
             <li><span>Expression Level</span>
                 <ul><%for(Terms.Bucket bkt:aggregations.get(expressionLevel)){%>
-                    <li onclick="filterClick('Expression study', '<%=species%>','', '<%=bkt.getKey()%>','expressionLevel')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','expressionLevel')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
                 </ul>
             </li>

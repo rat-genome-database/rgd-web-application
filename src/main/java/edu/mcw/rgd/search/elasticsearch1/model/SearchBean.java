@@ -40,9 +40,18 @@ public class SearchBean {
     boolean objectSearch;
 
     String expressionLevel;
+    String expressionSource;
     String strainTerms;
     String tissueTerms;
     String cellTypeTerms;
+
+    public String getExpressionSource() {
+        return expressionSource;
+    }
+
+    public void setExpressionSource(String expressionSource) {
+        this.expressionSource = expressionSource;
+    }
 
     public String getConditions() {
         return conditions;

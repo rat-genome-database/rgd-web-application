@@ -71,7 +71,7 @@ public class SearchService {
 
                     aggregations.put(species, catFilterAgg.getBuckets());
                    for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
-                       System.out.println(bucket.getKey().toString() +"\t"+bucket.getDocCount());
+//                       System.out.println(bucket.getKey().toString() +"\t"+bucket.getDocCount());
                        Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
                        Terms traitFilterAgg=bucket.getAggregations().get("trait");
                        Terms polyphenFilterAgg=bucket.getAggregations().get("polyphen");
@@ -84,9 +84,6 @@ public class SearchService {
                        Terms cellTypeTermsFilterAgg=bucket.getAggregations().get("cellTypeTerms");
                        Terms conditionsFilterAgg=bucket.getAggregations().get("conditions");
                        Terms expressionSourceFilterAgg=bucket.getAggregations().get("expressionSource");
-
-
-
                        if(bucket.getKey().toString().equalsIgnoreCase("variant")){
                            aggregations.put(species + "Polyphen", polyphenFilterAgg.getBuckets());
                            aggregations.put(species + "Region", regionFilterAgg.getBuckets());
@@ -369,8 +366,8 @@ public class SearchService {
         if(request.getParameter("conditions")!=null) sb.setConditions(request.getParameter("conditions"));
         if(request.getParameter("tissueTerms")!=null) {
             sb.setTissueTerms(request.getParameter("tissueTerms"));}
-//        if(request.getParameter("expressionSource")!=null) {
-//            sb.setExpressionSource(request.getParameter("expressionSource"));}
+        if(request.getParameter("source")!=null) {
+            sb.setExpressionSource(request.getParameter("source"));}
 
         return sb;
     }

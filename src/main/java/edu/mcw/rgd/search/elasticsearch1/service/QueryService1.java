@@ -203,6 +203,7 @@ public class QueryService1 {
         addTermFilter(builder, "tissueTerms.keyword", sb.getTissueTerms());
         addTermFilter(builder, "cellTypeTerms.keyword", sb.getCellTypeTerms());
         addTermFilter(builder, "conditionTerms.keyword", sb.getConditions());
+        addTermFilter(builder, "expressionSource.keyword", sb.getExpressionSource());
 
         return builder;
     }
