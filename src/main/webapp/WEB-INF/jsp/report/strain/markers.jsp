@@ -4,6 +4,7 @@
 <% List<Strain2MarkerAssociation> strainAssocs = associationDAO.getStrain2SslpAssociations(obj.getRgdId());
     strainAssocs.addAll(associationDAO.getStrain2GeneAssociations(obj.getRgdId()));
     strainAssocs.addAll(associationDAO.getStrain2StrainAssociations(obj.getRgdId()));
+    strainAssocs.addAll(associationDAO.getStrain2VariantAssociations(obj.getRgdId()));
 
     // remove alleles from the list (many genes are alleles)
     Iterator<Strain2MarkerAssociation> its2m = strainAssocs.iterator();
@@ -22,7 +23,7 @@
     for( Strain2MarkerAssociation sa: strainAssocs ) {
 %>
     <tr>
-        <td valign="top"><br><%=StringUtils.capitalize(sa.getAssocType())%> / <%=sa.getRegionName()%> (<a href="<%=Link.it(sa.getMarkerRgdId())%>"><%=sa.getMarkerSymbol()%></a>)</td>
+        <td valign="top"><br><%=StringUtils.capitalize(sa.getAssocType())%> / <%=sa.getRegionName()%> (<a href="<%=Link.it(sa.getMarkerRgdId())%>"><%=!Utils.isStringEmpty(sa.getMarkerSymbol()) ? sa.getMarkerSymbol() : "RGD:"+sa.getMarkerRgdId()%></a>)</td>
         <td><%=MapDataFormatter.buildTable(sa.getMarkerRgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
     <% } %>
