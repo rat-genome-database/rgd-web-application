@@ -198,9 +198,17 @@
             <%}%>
             <%if(aggregations.get(conditions)!=null && aggregations.get(conditions).size()>0){%>
 
+
             <li><span>Conditions</span>
-                <ul><%for(Terms.Bucket bkt:aggregations.get(conditions)){%>
-                    <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','conditions')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                <ul><%for(Terms.Bucket bkt:aggregations.get(conditions)){
+                    String facet="";
+                    if(bkt.getKey().toString().length()>30){
+                        facet+=bkt.getKey().toString().substring(0,30);
+                        facet+="...";
+                    }else{
+                        facet=bkt.getKey().toString();}
+                %>
+                    <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','conditions')"><%=facet%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
                 </ul>
             </li>
