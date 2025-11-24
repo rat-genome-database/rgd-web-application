@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.rgd.models.ModelsHeaderRecord" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%
     List<GeneticModel> strainsUnsorted = (List) request.getAttribute("strains");
 //    List<GeneticModel> strainsUnsorted = (List<GeneticModel>) session.getAttribute("strains");
@@ -237,7 +238,13 @@
                 <td style="text-align:center;" title="No. of Models"><%=entry.size()%></td>
                 <td style="display:table-cell" ><%=Utils.NVL(strain.getBackgroundStrain(),"")%></td>
                 <td style="line-height: 26pt" ><a href="/rgdweb/report/strain/main.html?id=<%=strain.getStrainRgdId()%>"target="_blank"  title="Strain Symbol"><%=strain.getStrainSymbol()%></a></td>
-                <td style="display:table-cell;line-height: 26pt" ><%=strain.getStrainType()%></td>
+                <td style="display:table-cell;line-height: 26pt" >
+                    <%
+                        if(strain.getStrainType()!=null){
+                    %>
+                    <%=StringUtils.capitalize(strain.getStrainType())%>
+                    <%}%>
+                </td>
                 <td style="width:40px;display:table-cell" title="Alias">
                     <%
                         boolean first = true;
