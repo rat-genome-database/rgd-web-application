@@ -1,8 +1,10 @@
 package edu.mcw.rgd.report;
 
 import edu.mcw.rgd.dao.impl.Jbrowse2UrlConfigDAO;
+import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
 import edu.mcw.rgd.datamodel.variants.VariantMapData;
@@ -40,9 +42,21 @@ public class  MapDataFormatter {
     }
 
     public static String buildTable(int rgdId, int speciesTypeKey, int objectKey) throws Exception {
-
+        VariantDAO vdao = new VariantDAO();
         MapDAO mdao = new MapDAO();
         List<MapData> mapData = mdao.getMapData(rgdId);
+        if (mapData.isEmpty()){
+            VariantMapData vmd = vdao.getVariant(rgdId);
+            if (vmd != null && !Utils.isStringEmpty(vmd.getRsId()) ){
+                List<VariantMapData> rsIds = vdao.getAllActiveVariantsByRsId(vmd.getRsId());
+                for (VariantMapData v : rsIds){
+                    mapData.add(createMapDataWVariant(v));
+                }
+            }
+            else if (vmd != null){
+                mapData.add(createMapDataWVariant(vmd));
+            }
+        }
         return buildTable(speciesTypeKey, mapData, objectKey);
     }
 
@@ -667,4 +681,15 @@ public class  MapDataFormatter {
                     .append("\">").append(link).append("</a>");
         }
     }
+
+    public static MapData createMapDataWVariant(VariantMapData vmd) throws Exception {
+        MapData md = new MapData();
+        md.setChromosome(vmd.getChromosome());
+        md.setStartPos((int)vmd.getStartPos());
+        md.setStopPos((int)vmd.getEndPos());
+        md.setMapKey(vmd.getMapKey());
+        md.setSrcPipeline("RGD");
+        return md;
+    }
+
 }
