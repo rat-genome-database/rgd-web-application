@@ -22,6 +22,11 @@
     let reportTitle = "Expression Study";
 </script>
 <body>
+<style>
+    html{
+        scroll-behavior: smooth;
+    }
+</style>
 <div id="top" ></div>
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
@@ -38,6 +43,7 @@
                     <br>
                    <%@ include file="info.jsp"%>
                     <%@ include file="sampleMetadata.jsp"%>
+                    <%@ include file="dataProcessing.jsp"%>
                 </td>
             </tr>
         </table>
