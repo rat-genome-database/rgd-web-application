@@ -4,6 +4,7 @@
 <%@ page import="edu.mcw.rgd.models.ModelsHeaderRecord" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%
     List<GeneticModel> strainsUnsorted = (List) request.getAttribute("strains");
 //    List<GeneticModel> strainsUnsorted = (List<GeneticModel>) session.getAttribute("strains");
@@ -71,6 +72,7 @@
             <th  class="tablesorter-header filter-false" style=" cursor: pointer; width:5.5%" title="Click to Sort">No. of Models</th>
             <th class="tablesorter-header filter-false" style=" cursor: pointer; "title="Click to Sort">Background Strain</th>
             <th class="tablesorter-header" style=" cursor: pointer;" title="Click to Sort">Strain Symbol</th>
+            <th class="tablesorter-header" style=" cursor: pointer;" title="Click to Sort">Strain Type</th>
             <th class="tablesorter-header filter-false" style=" cursor: pointer;"title="Click to Sort">Aliases</th>
             <th class="tablesorter-header filter-false" style=" cursor: pointer;"title="Click to Sort">Method</th>
             <th class="tablesorter-header filter-false" style=" cursor: pointer;" title="Click to Sort">Availability</th>
@@ -113,6 +115,7 @@
                 <td style="" title="Click Epand/Collapse Button"></td>
                 <td style="" title="Click Epand/Collapse Button"></td>
                 <td style="" title="Click Epand/Collapse Button"></td>
+                <td style="" title="Click Epand/Collapse Button"></td>
             </tr>
             <tr id="childRecord" class="tablesorter-childRow" style="display:none">
                 <td style="display:table-cell" ></td>
@@ -121,6 +124,7 @@
                 <td style="display:table-cell" ></td>
                 <td style="display:table-cell" ><%=Utils.NVL(strain.getBackgroundStrain(),"")%></td>
                 <td style="display:table-cell;line-height: 26pt" ><a href="/rgdweb/report/strain/main.html?id=<%=strain.getStrainRgdId()%>"target="_blank"  title="Strain Symbol"><%=strain.getStrainSymbol()%></a></td>
+                <td style="display:table-cell;line-height: 26pt" ><%=strain.getStrainType()%></td>
                 <td style="width:40px;display:table-cell" title="Alias">
                     <%
                     boolean first = true;
@@ -174,6 +178,7 @@
                 <td style="display:table-cell" ></td>
                 <td style="display:table-cell" ><%=Utils.NVL(strain.getBackgroundStrain(),"")%></td>
                 <td style="display:table-cell;line-height: 26pt" ><a href="/rgdweb/report/strain/main.html?id=<%=strain.getStrainRgdId()%>"target="_blank"  title="Strain Symbol"><%=strain.getStrainSymbol()%></a></td>
+                <td style="display:table-cell;line-height: 26pt" ><%=strain.getStrainType()%></td>
                 <td style="width:40px;display:table-cell" title="Alias">
                     <%
                         boolean first = true;
@@ -233,6 +238,13 @@
                 <td style="text-align:center;" title="No. of Models"><%=entry.size()%></td>
                 <td style="display:table-cell" ><%=Utils.NVL(strain.getBackgroundStrain(),"")%></td>
                 <td style="line-height: 26pt" ><a href="/rgdweb/report/strain/main.html?id=<%=strain.getStrainRgdId()%>"target="_blank"  title="Strain Symbol"><%=strain.getStrainSymbol()%></a></td>
+                <td style="display:table-cell;line-height: 26pt" >
+                    <%
+                        if(strain.getStrainType()!=null){
+                    %>
+                    <%=StringUtils.capitalize(strain.getStrainType())%>
+                    <%}%>
+                </td>
                 <td style="width:40px;display:table-cell" title="Alias">
                     <%
                         boolean first = true;
@@ -248,6 +260,7 @@
                         }
                     %>
                 </td>
+
                 <td style="display:table-cell" ><%=strain.getMethod()%></td>
                 <td style="display:table-cell" title="Availability"><%=strain.getAvailability()%></td>
                 <%if(strain.getOrigination()!=null){%>
