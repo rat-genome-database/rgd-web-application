@@ -360,7 +360,6 @@
     </table>
     <%}%>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const columnBtn = document.getElementById('columnBtn');
