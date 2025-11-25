@@ -36,128 +36,287 @@
 <div id="publicScoreboardHeader" class="" style="border-color: transparent;margin-top:20px;">
     <h5 class="card-title">RGD Data Snapshot <%=latest%></h5>
 </div>
-<table id="publicScoreboard" class="publicScoreboard" align="left">
-    <tr>
-        <td colspan="2">Data Objects</td>
-    </tr>
-    <tr>
-        <td>Genes (All Species)</td>
-        <td class="scoreboardAmount"><%=map.get("GENES")%></td>
-    </tr>
-    <tr>
-        <td>Rat Strains</td>
-        <td class="scoreboardAmount"><%=map.get("STRAINS")%></td>
-    </tr>
-    <tr>
-        <td>QTLs (All Species)</td>
-        <td class="scoreboardAmount"><%=map.get("QTLS")%></td>
-    </tr>
-    <tr>
-        <td>Variants (All Species)</td>
-        <td class="scoreboardAmount"><%=map.get("CLINVAR")%></td>
-    </tr>
-    <tr>
-        <td>References</td>
-        <td class="scoreboardAmount"><%=map.get("REFERENCES")%></td>
-    </tr>
-    <tr>
-        <td>New Genes added since <%=formattedDateString%></td>
-        <td class="scoreboardAmount"><%=geneDiff <= 0 ? "N/A" : String.format("%,d",geneDiff)%></td>
-    </tr>
-    <tr>
-        <td colspan="2">Experimental Ontology Annotations (All Species)</td>
-    </tr>
-    <tr>
-        <td>RDO: RGD Disease Ontology</td>
-        <td class="scoreboardAmount"><%=annotMap.get("RDO: RGD Disease Ontology")%></td>
-    </tr>
+<div id="publicScoreboard" class="publicScoreboard">
+    <div class="scoreboard-header">Data Objects</div>
+
+    <div class="scoreboard-row">
+        <div class="scoreboard-label">Genes (All Species)</div>
+        <div class="scoreboardAmount"><%=map.get("GENES")%></div>
+    </div>
+
+    <div class="scoreboard-row">
+        <div class="scoreboard-label">Rat Strains</div>
+        <div class="scoreboardAmount"><%=map.get("STRAINS")%></div>
+    </div>
+
+    <div class="scoreboard-row">
+        <div class="scoreboard-label">QTLs (All Species)</div>
+        <div class="scoreboardAmount"><%=map.get("QTLS")%></div>
+    </div>
+
+    <div class="scoreboard-row">
+        <div class="scoreboard-label">Variants (All Species)</div>
+        <div class="scoreboardAmount"><%=map.get("CLINVAR")%></div>
+    </div>
+
+    <div class="scoreboard-row">
+        <div class="scoreboard-label">References</div>
+        <div class="scoreboardAmount"><%=map.get("REFERENCES")%></div>
+    </div>
+
+    <div class="scoreboard-row">
+        <div class="scoreboard-label">New Genes added since <%=formattedDateString%></div>
+        <div class="scoreboardAmount"><%=geneDiff <= 0 ? "N/A" : String.format("%,d",geneDiff)%></div>
+    </div>
+
+    <div class="scoreboard-header">Experimental Ontology Annotations (All Species)</div>
+
+    <div class="scoreboard-row">
+        <div class="scoreboard-label">RDO: RGD Disease Ontology</div>
+        <div class="scoreboardAmount"><%=annotMap.get("RDO: RGD Disease Ontology")%></div>
+    </div>
+
     <%
     for (String var : annotMap.keySet()){
         if (var.contains("NBO:") || var.contains("RDO"))
             continue;
     %>
-    <tr>
-        <td><%=var%></td>
-        <td class="scoreboardAmount"><%=annotMap.get(var)%></td>
-    </tr>
+    <div class="scoreboard-row">
+        <div class="scoreboard-label"><%=var%></div>
+        <div class="scoreboardAmount"><%=annotMap.get(var)%></div>
+    </div>
     <% } %>
-</table>
+</div>
 
 <style>
-    .publicScoreboard{
-        font-family: 'Arial', 'Helvetica', sans-serif;
-        font-size: 16px;
-        border: 2px solid #2865A3;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(40, 101, 163, 0.15);
-        background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
-        margin: 0 auto;
+    .publicScoreboard {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        font-size: 15px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(40, 101, 163, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+        background: #ffffff;
         overflow: hidden;
-        width: inherit;
+        width: 100%;
     }
-    
-    .publicScoreboard tr:nth-child(odd) {
-        background-color: rgba(40, 101, 163, 0.05);
+
+    .scoreboard-header {
+        font-weight: 700;
+        color: #ffffff;
+        font-size: 13px;
+        background: linear-gradient(135deg, #2865A3 0%, #1e4f7f 100%);
+        text-align: center;
+        padding: 14px 16px;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
     }
-    
-    .publicScoreboard tr:hover {
-        background-color: rgba(40, 101, 163, 0.1);
-        transition: background-color 0.3s ease;
+
+    .scoreboard-header:first-child {
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
     }
-    
-    .publicScoreboard td {
-        padding: 6px 8px;
-        border-bottom: 1px solid rgba(40, 101, 163, 0.1);
-        color: #2c3e50;
-        font-weight: 500;
-        font-size: 16px;
+
+    .scoreboard-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(40, 101, 163, 0.08);
+        transition: all 0.2s ease;
     }
-    
-    .publicScoreboard td:first-child {
+
+    .scoreboard-row:nth-child(odd):not(.scoreboard-header) {
+        background-color: rgba(40, 101, 163, 0.03);
+    }
+
+    .scoreboard-row:hover {
+        background-color: rgba(40, 101, 163, 0.08);
+        transform: translateX(2px);
+    }
+
+    .scoreboard-row:last-child {
+        border-bottom: none;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    .scoreboard-label {
         color: #2865A3;
         font-weight: 600;
-        border-right: 1px solid rgba(40, 101, 163, 0.1);
+        font-size: 14px;
+        line-height: 1.5;
+        flex: 1;
+        padding-right: 16px;
     }
-    
-    .scoreboardAmount{
+
+    .scoreboardAmount {
         text-align: right;
         font-weight: 700;
-        color: #27ae60;
-        font-size: 16px;
+        color: #059669;
+        font-size: 15px;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
-    
-    .publicScoreboard tr:first-child td {
-        border-top: none;
+
+    /* Mobile-friendly responsive styles */
+    @media screen and (max-width: 1024px) {
+        .publicScoreboard {
+            font-size: 14px;
+        }
+
+        .scoreboard-row {
+            padding: 10px 12px;
+        }
+
+        .scoreboard-label {
+            font-size: 13px;
+        }
+
+        .scoreboardAmount {
+            font-size: 14px;
+        }
+
+        .scoreboard-header {
+            padding: 12px 12px;
+            font-size: 12px;
+        }
     }
-    
-    .publicScoreboard tr:last-child td {
-        border-bottom: none;
+
+    @media screen and (max-width: 768px) {
+        .publicScoreboard {
+            font-size: 13px;
+            border-radius: 10px;
+        }
+
+        .scoreboard-row {
+            padding: 10px 12px;
+        }
+
+        .scoreboard-label {
+            font-size: 12px;
+            padding-right: 12px;
+        }
+
+        .scoreboardAmount {
+            font-size: 13px;
+        }
+
+        .scoreboard-header {
+            padding: 12px 10px;
+            font-size: 11px;
+            letter-spacing: 0.2px;
+        }
+
+        .scoreboard-row:hover {
+            transform: translateX(1px);
+        }
     }
-    
-    /*!* Empty row styling *!*/
-    /*.publicScoreboard tr:nth-child(4) {*/
-    /*    height: 8px;*/
-    /*    background: transparent;*/
-    /*}*/
-    
-    /*.publicScoreboard tr:nth-child(4) td {*/
-    /*    border: none;*/
-    /*    padding: 4px;*/
-    /*}*/
-    
-    /* Manual annotations section header */
-    .publicScoreboard tr:nth-child(8) td{
-        font-weight: 700;
-        color: #8b4513;
-        font-size: 16px;
-        background: linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, transparent 100%);
-        border-top: 2px solid rgba(139, 69, 19, 0.2);
+
+    @media screen and (max-width: 640px) {
+        #publicScoreboardHeader h5 {
+            font-size: 17px !important;
+        }
+
+        .publicScoreboard {
+            font-size: 12px;
+            border-radius: 8px;
+        }
+
+        .scoreboard-row {
+            padding: 8px 10px;
+        }
+
+        .scoreboard-label {
+            font-size: 11px;
+            line-height: 1.4;
+            padding-right: 10px;
+        }
+
+        .scoreboardAmount {
+            font-size: 12px;
+        }
+
+        .scoreboard-header {
+            padding: 10px 8px;
+            font-size: 10px;
+            letter-spacing: 0.1px;
+        }
     }
-    .publicScoreboard tr:nth-child(1) td{
-        font-weight: 700;
-        color: #8b4513;
-        font-size: 16px;
-        background: linear-gradient(90deg, rgba(139, 69, 19, 0.1) 0%, transparent 100%);
-        border-top: 2px solid rgba(139, 69, 19, 0.2);
+
+    @media screen and (max-width: 480px) {
+        #publicScoreboardHeader {
+            margin-top: 15px !important;
+        }
+
+        #publicScoreboardHeader h5 {
+            font-size: 16px !important;
+            line-height: 1.3;
+        }
+
+        .publicScoreboard {
+            font-size: 11px;
+        }
+
+        .scoreboard-row {
+            padding: 8px 8px;
+        }
+
+        .scoreboard-label {
+            font-size: 10.5px;
+            padding-right: 8px;
+        }
+
+        .scoreboardAmount {
+            font-size: 11px;
+        }
+
+        .scoreboard-header {
+            padding: 10px 6px;
+            font-size: 9px;
+        }
+
+        .scoreboard-row:hover {
+            transform: none;
+        }
+    }
+
+    @media screen and (max-width: 360px) {
+        #publicScoreboardHeader h5 {
+            font-size: 14px !important;
+        }
+
+        .publicScoreboard {
+            font-size: 10px;
+        }
+
+        .scoreboard-row {
+            padding: 6px 6px;
+        }
+
+        .scoreboard-label {
+            font-size: 10px;
+            padding-right: 6px;
+        }
+
+        .scoreboardAmount {
+            font-size: 10px;
+        }
+
+        .scoreboard-header {
+            padding: 8px 5px;
+            font-size: 8.5px;
+        }
+    }
+
+    /* Touch device optimization */
+    @media (hover: none) and (pointer: coarse) {
+        .scoreboard-row {
+            padding: 12px 10px;
+        }
+
+        .scoreboard-row:hover {
+            transform: none;
+        }
     }
 </style>

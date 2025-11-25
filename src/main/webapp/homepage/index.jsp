@@ -143,6 +143,42 @@
         margin-right: auto;
         margin-left: auto;
     }
+    .data-snapshot-button {
+        display: block;
+        width: 100%;
+        padding: 14px 20px;
+        background: linear-gradient(135deg, #2865a3 0%, #24609c 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 8px rgba(40, 101, 163, 0.3);
+        border: none;
+        box-sizing: border-box;
+    }
+
+    .data-snapshot-button:hover {
+        background: linear-gradient(135deg, #1e4f7f 0%, #1d4d7a 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 101, 163, 0.4);
+        text-decoration: none;
+    }
+
+    .data-snapshot-button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(40, 101, 163, 0.3);
+    }
+
+    .data-snapshot-container {
+        margin-top: 15px;
+        margin-bottom: 30px;
+        padding: 0;
+    }
+
 </style>
 <!--
 <table align=center ><tr><td style="color:red;"> NOTICE: Due to a systems upgrade, portions of RGD may be unavailable Sunday October 3rd</td></tr></table>
@@ -254,8 +290,8 @@
         </td>
         <td valign="top">
             <br>
-            <div class="" style="border-color: transparent;">
-                <a href="#publicScoreboardHeader"><h5 class="card-title">RGD Data Snapshot</h5></a>
+            <div class="data-snapshot-container">
+                <a href="#publicScoreboardHeader" class="data-snapshot-button">RGD Data Snapshot</a>
             </div>
             <jsp:include page="/homepage/twitter.jsp"/>
             <jsp:include page="/homepage/tutorials.jsp"/>
