@@ -639,8 +639,8 @@ if (tissueMap.isEmpty()){ %>
                     <td>
                         <select name="sex<%=gcount%>" id="sex<%=gcount%>">
                             <%=existingSample ? "<option value=\"\" selected></option>":""%>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="male" <%=Utils.stringsAreEqualIgnoreCase(g,"male") || Utils.stringsAreEqualIgnoreCase(g,"m") ? "selected" : ""%>>Male</option>
+                        <option value="female" <%=Utils.stringsAreEqualIgnoreCase(g,"female") || Utils.stringsAreEqualIgnoreCase(g,"f") ? "selected" : ""%>>Female</option>
                         <option value="both">Both</option>
                         <option value="not specified">Not Specified</option>
                     </select>
