@@ -301,7 +301,7 @@
 </table>
 
 
-<% if (RgdContext.getHostname().equals("pipelines.rgd.mcw.edu") || RgdContext.getHostname().equals("dev.rgd.mcw.edu") ) { %>
+<% if (!RgdContext.isProduction() ) { %>
 <table style="border: 1px solid black;">
     <tr>
         <td style="color:white; font-weight:700; background-color:black;">RGD Zoom Links</td>
@@ -317,6 +317,9 @@
     </tr>
     <tr>
         <td><a href="https://mcw-edu.zoom.us/j/99583555634?pwd=TnVra0ZQYTMzcG5tYzl5c1pFNGV3dz09">Alliance Scrum Zoom Channel </a></td>
+    </tr>
+    <tr>
+        <td><a href="https://drive.google.com/drive/folders/1BasoWWlRFZFkDtRCGvmw8N1No29LYqfA">RGD Google Docs</a></td>
     </tr>
 </table>
 
