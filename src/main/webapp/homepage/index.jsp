@@ -204,7 +204,7 @@
 <table align="center">
     <tr>
 
-        <% if (RgdContext.getHostname().equals("pipelines.rgd.mcw.edu") || RgdContext.getHostname().equals("dev.rgd.mcw.edu") ) { %>
+        <% if (!RgdContext.isProduction() ) { %>
         <td>
             <a style="font-size:26px;padding-right:40px;" href="/rgdweb/curation/home.html">Enter Curation Portal</a>
         </td>
