@@ -46,6 +46,7 @@
     List<Map> pigMaps= mdao.getMaps(SpeciesType.PIG, "bp");
     List<Map> moleRatMaps= mdao.getMaps(SpeciesType.NAKED_MOLE_RAT, "bp");
     List<Map> greenMonkeyMaps= mdao.getMaps(SpeciesType.VERVET, "bp");
+    List<Map> blackRatMaps= mdao.getMaps(SpeciesType.BLACK_RAT, "bp");
     List<Chromosome> ratChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey());
     List<Chromosome> mouseChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.MOUSE).getKey());
     List<Chromosome> humanChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.HUMAN).getKey());
@@ -58,6 +59,7 @@
     List<Chromosome> pigChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.PIG).getKey());
     List<Chromosome> moleRatChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.NAKED_MOLE_RAT).getKey());
     List<Chromosome> greenMonkeyChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.VERVET).getKey());
+    List<Chromosome> blackRatChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.BLACK_RAT).getKey());
     LinkedHashMap chinKeyValues= new LinkedHashMap();
     LinkedHashMap ratKeyValues= new LinkedHashMap();
     LinkedHashMap humanKeyValues= new LinkedHashMap();
@@ -68,6 +70,7 @@
     LinkedHashMap pigKeyValues= new LinkedHashMap();
     LinkedHashMap moleRatKeyValues= new LinkedHashMap();
     LinkedHashMap greenMonkeyKeyValues= new LinkedHashMap();
+    LinkedHashMap blackRatKeyValues= new LinkedHashMap();
 
     Iterator it = ratMaps.iterator();
     while (it.hasNext()) {
@@ -121,7 +124,11 @@
         Map m = (Map)it.next();
         greenMonkeyKeyValues.put(m.getKey() + "", m.getName());
     }
-
+    it = blackRatMaps.iterator();
+    while (it.hasNext()) {
+        Map m = (Map)it.next();
+       blackRatKeyValues.put(m.getKey() + "", m.getName());
+    }
 %>
 
 
@@ -147,6 +154,8 @@
        var moleRatChroms = '<%=fu.buildChrSelectListWithCss("chr", moleRatChr, "1","form-control inputstl")%>';
        var greenMonkeyMaps = '<%=fu.buildSelectListWithCss("mapKey", greenMonkeyKeyValues, mdao.getPrimaryRefAssembly(13).getKey() + "","form-control inputstl")%>';
        var greenMonkeyChroms = '<%=fu.buildChrSelectListWithCss("chr", greenMonkeyChr, "1","form-control inputstl")%>';
+       var blackRatMaps = '<%=fu.buildSelectListWithCss("mapKey", blackRatKeyValues, mdao.getPrimaryRefAssembly(17).getKey() + "","form-control inputstl")%>';
+       var blackRatChroms = '<%=fu.buildChrSelectListWithCss("chr", blackRatChr, "1","form-control inputstl")%>';
 </script>
 <script src="/rgdweb/js/enrichment/start.js"></script>
 
@@ -180,6 +189,7 @@
                     <option value="9">Pig</option>
                     <option value="14">Naked Mole-Rat</option>
                     <option value="13">Green Monkey</option>
+                    <option value="17">Black Rat</option>
 
                 </select>
             </td>

@@ -32,7 +32,7 @@ function EnrichmentVue(divId, hostname) {
             species: [],
             originalSpecies:0,
             ontology: [],
-            allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig","Naked Mole-rat","Green Monkey"],
+            allSpecies: ["Rat", "Human", "Mouse", "Dog", "Squirrel", "Bonobo", "Chinchilla","Pig","Naked Mole-rat","Green Monkey","Black Rat"],
             allOntologies: ["RDO", "PW", "BP", "CC", "MF", "MP", "CHEBI"],
             loading: true,
             geneLoading: true,
@@ -162,6 +162,8 @@ function EnrichmentVue(divId, hostname) {
                     return 14;
                 else if (s == "Green Monkey")
                     return 13;
+                else if (s == "Black Rat")
+                    return 17;
                 else
                     return 0;
             },
@@ -186,6 +188,8 @@ function EnrichmentVue(divId, hostname) {
                     return "Naked Mole-rat";
                 else if (s == 13)
                     return "Green Monkey";
+                else if (s == 17)
+                    return "Black Rat";
                 else
                     return null;
             },

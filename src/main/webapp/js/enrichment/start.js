@@ -47,6 +47,9 @@ var v = new Vue({
             }else if (selected == 14) {
                 maps.innerHTML = moleRatMaps;
                 chroms.innerHTML = moleRatChroms;
+            }else if (selected == 17) {
+                maps.innerHTML = blackRatMaps;
+                chroms.innerHTML =blackRatChroms;
             }else {
                 maps.innerHTML = ratMaps;
                 chroms.innerHTML = ratChroms;
