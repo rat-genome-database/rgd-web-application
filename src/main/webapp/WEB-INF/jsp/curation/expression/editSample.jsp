@@ -639,12 +639,12 @@ if (tissueMap.isEmpty()){ %>
                     <td>
                         <select name="sex<%=gcount%>" id="sex<%=gcount%>">
                             <%=existingSample ? "<option value=\"\" selected></option>":""%>
+                        <option value="not specified" <%=Utils.stringsAreEqualIgnoreCase(g,"not provided") || Utils.stringsAreEqualIgnoreCase(g,"NA") ||
+                                Utils.stringsAreEqualIgnoreCase(g,"unknown") || Utils.stringsAreEqualIgnoreCase(g,"not determined") ? "selected" : ""%>>Not Specified</option>
                         <option value="male" <%=Utils.stringsAreEqualIgnoreCase(g,"male") || Utils.stringsAreEqualIgnoreCase(g,"m") ? "selected" : ""%>>Male</option>
                         <option value="female" <%=Utils.stringsAreEqualIgnoreCase(g,"female") || Utils.stringsAreEqualIgnoreCase(g,"f") ? "selected" : ""%>>Female</option>
                         <option value="both" <%=Utils.stringsAreEqualIgnoreCase(g,"both") || Utils.stringsAreEqualIgnoreCase(g,"pooled male and female") ||
                                 Utils.stringsAreEqualIgnoreCase(g,"male/female") ? "selected" : ""%>>Both</option>
-                        <option value="not specified" <%=Utils.isStringEmpty(g) || Utils.stringsAreEqualIgnoreCase(g,"not provided") || Utils.stringsAreEqualIgnoreCase(g,"NA") ||
-                                Utils.stringsAreEqualIgnoreCase(g,"unknown") || Utils.stringsAreEqualIgnoreCase(g,"not determined") ? "selected" : ""%>>Not Specified</option>
                     </select>
                     </td>
                     <td></td>
