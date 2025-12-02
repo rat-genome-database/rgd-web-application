@@ -643,7 +643,7 @@ if (tissueMap.isEmpty()){ %>
                         <option value="female" <%=Utils.stringsAreEqualIgnoreCase(g,"female") || Utils.stringsAreEqualIgnoreCase(g,"f") ? "selected" : ""%>>Female</option>
                         <option value="both" <%=Utils.stringsAreEqualIgnoreCase(g,"both") || Utils.stringsAreEqualIgnoreCase(g,"pooled male and female") ||
                                 Utils.stringsAreEqualIgnoreCase(g,"male/female") ? "selected" : ""%>>Both</option>
-                        <option value="not specified" <%=Utils.stringsAreEqualIgnoreCase(g,"not provided") || Utils.stringsAreEqualIgnoreCase(g,"NA") ||
+                        <option value="not specified" <%=Utils.isStringEmpty(g) || Utils.stringsAreEqualIgnoreCase(g,"not provided") || Utils.stringsAreEqualIgnoreCase(g,"NA") ||
                                 Utils.stringsAreEqualIgnoreCase(g,"unknown") || Utils.stringsAreEqualIgnoreCase(g,"not determined") ? "selected" : ""%>>Not Specified</option>
                     </select>
                     </td>
