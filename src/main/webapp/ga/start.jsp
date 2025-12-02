@@ -34,6 +34,7 @@
     List<Map> pigMaps= mdao.getMaps(SpeciesType.PIG, "bp");
     List<Map> moleMaps = mdao.getMaps(SpeciesType.NAKED_MOLE_RAT,"bp");
     List<Map> monkeyMaps = mdao.getMaps(SpeciesType.VERVET,"bp");
+    List<Map> blackRatMaps = mdao.getMaps(SpeciesType.BLACK_RAT,"bp");
 
     /*
     List<Chromosome> ratChr = mdao.getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey());
@@ -57,6 +58,7 @@
     List<Chromosome> pigChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.PIG).getKey());
     List<Chromosome> moleChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.NAKED_MOLE_RAT).getKey());
     List<Chromosome> monkeyChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.VERVET).getKey());
+    List<Chromosome> blackRatChr = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(SpeciesType.BLACK_RAT).getKey());
 
     LinkedHashMap chinKeyValues= new LinkedHashMap();
     LinkedHashMap ratKeyValues= new LinkedHashMap();
@@ -68,6 +70,7 @@
     LinkedHashMap pigKeyValues= new LinkedHashMap();
     LinkedHashMap moleKeyValues= new LinkedHashMap();
     LinkedHashMap monkeyKeyValues= new LinkedHashMap();
+    LinkedHashMap blackRatKeyValues= new LinkedHashMap();
 
     Iterator it = ratMaps.iterator();
     while (it.hasNext()) {
@@ -123,6 +126,11 @@
         Map m = (Map)it.next();
         monkeyKeyValues.put(m.getKey() + "", m.getName());
     }
+    it = blackRatMaps.iterator();
+    while (it.hasNext()) {
+        Map m = (Map)it.next();
+        blackRatKeyValues.put(m.getKey() + "", m.getName());
+    }
 %>
 
 
@@ -138,6 +146,7 @@
     var pigMapHtml='<%=fu.buildSelectList("mapKey", pigKeyValues, mdao.getPrimaryRefAssembly(9).getKey() + "")%>';
     var monkeyMapHtml='<%=fu.buildSelectList("mapKey", monkeyKeyValues, mdao.getPrimaryRefAssembly(13).getKey() + "")%>';
     var moleMapHtml='<%=fu.buildSelectList("mapKey", moleKeyValues, mdao.getPrimaryRefAssembly(14).getKey() + "")%>';
+    var blackRatMapHtml='<%=fu.buildSelectList("mapKey", blackRatKeyValues, mdao.getPrimaryRefAssembly(17).getKey() + "")%>';
 
     var ratChrHtml = '<%=fu.buildChrSelectList("chr", ratChr, "1")%>';
     var mouseChrHtml = '<%=fu.buildChrSelectList("chr", mouseChr, "1")%>';
@@ -149,6 +158,7 @@
     var pigChrHtml = '<%=fu.buildChrSelectList("chr", pigChr, "1")%>';
     var monkeyChrHtml = '<%=fu.buildChrSelectList("chr", monkeyChr, "1")%>';
     var moleChrHtml = '<%=fu.buildChrSelectList("chr", moleChr, "1")%>';
+    var blackRatChrHtml = '<%=fu.buildChrSelectList("chr",blackRatChr, "1")%>';
 
 
     function setMap(obj) {
@@ -186,6 +196,9 @@
         }else if (selected==14) {
             maps.innerHTML=moleMapHtml;
             chroms.innerHTML=moleChrHtml;
+        }else if (selected==17) {
+            maps.innerHTML=blackRatMapHtml;
+            chroms.innerHTML=blackRatChrHtml;
         }else {
             maps.innerHTML=ratMapHtml;
             chroms.innerHTML=ratChrHtml;
@@ -236,6 +249,7 @@
             <option  value="9" <% if (speciesTypeKey==9) out.print("SELECTED"); %>>Pig</option>
                 <option  value="14" <% if (speciesTypeKey==14) out.print("SELECTED"); %>>Naked Mole-rat</option>
                 <option  value="13" <% if (speciesTypeKey==13) out.print("SELECTED"); %>>Green Monkey</option>
+                <option  value="17" <% if (speciesTypeKey==17) out.print("SELECTED"); %>>Black Rat</option>
             </select>
        </td>
     </tr>
