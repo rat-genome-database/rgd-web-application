@@ -2,6 +2,7 @@ package edu.mcw.rgd.expression;
 
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.*;
 import edu.mcw.rgd.datamodel.pheno.Sample;
 import edu.mcw.rgd.process.FileDownloader;
@@ -38,6 +39,7 @@ public class GeoExperimentController implements Controller {
 //    PhenominerDAO geDAO = new PhenominerDAO();
     GeneExpressionDAO geDAO = new GeneExpressionDAO();
     ReferenceDAO refDAO = new ReferenceDAO();
+    OntologyXDAO xdao = new OntologyXDAO();
     public String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -227,13 +229,14 @@ public class GeoExperimentController implements Controller {
                     eList = geDAO.getExperiments(study.getId());
                     Experiment exp = null;
                     // create an experiment for each count and use a map, vId -> experiment
+                    Term vtTerm = xdao.getTerm(request.getParameter("vtId" + i));
                     if (eList == null || eList.isEmpty()) {
                         eList = new ArrayList<>();
                         Experiment e = new Experiment();
                         e.setStudyId(studyId);
-                        e.setName(study.getName());
+                        e.setName(vtTerm.getTerm()); // change to VT term name
                         e.setCreatedBy(login);
-                        e.setTraitOntId(request.getParameter("vtId" + i));
+                        e.setTraitOntId(vtTerm.getAccId());
                         geDAO.insertExperiment(e);
                         exp = e;
                         eList.add(e);
@@ -249,9 +252,9 @@ public class GeoExperimentController implements Controller {
                             if (exp == null) {
                                 e = new Experiment();
                                 e.setStudyId(studyId);
-                                e.setName(study.getName());
+                                e.setName(vtTerm.getTerm());// change to VT term name
                                 e.setCreatedBy(login);
-                                e.setTraitOntId(request.getParameter("vtId" + i));
+                                e.setTraitOntId(vtTerm.getAccId());
                                 geDAO.insertExperiment(e);
                                 exp = e;
                                 eList.add(e);
@@ -271,9 +274,9 @@ public class GeoExperimentController implements Controller {
                             if (exp == null) {
                                 e = new Experiment();
                                 e.setStudyId(studyId);
-                                e.setName(study.getName());
+                                e.setName(vtTerm.getTerm());
                                 e.setCreatedBy(login);
-                                e.setTraitOntId(request.getParameter("vtId" + i));
+                                e.setTraitOntId(vtTerm.getAccId());
                                 geDAO.insertExperiment(e);
                                 gre.setExperimentId(e.getId());
                                 geDAO.updateGeneExpressionRecord(gre);
@@ -281,6 +284,7 @@ public class GeoExperimentController implements Controller {
                                 eList.add(e);
                                 newExpMap.put(e.getTraitOntId(),e);
                             } else if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(), vtId)) {
+                                exp.setName(vtTerm.getTerm());
                                 exp.setTraitOntId(vtId);
                                 newExpMap.put(exp.getTraitOntId(),e);
                                 geDAO.updateExperiment(exp);
