@@ -8,10 +8,6 @@
 %>
 <%@ include file="/common/headerarea.jsp"%>
 
-<div style="border:1px solid black; font-size:18px;padding:20px;margin-bottom:20px;">
-RGD is transitioning to JBrowse 2.   JBrowse 1 will be retired in late 2024.
-</div>
-
 <table align="center">
     <tr>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -91,7 +87,7 @@ RGD is transitioning to JBrowse 2.   JBrowse 1 will be retired in late 2024.
         <td valign="top">
             <div style="border:1px solid lightgrey; padding:10px;margin-top:10px;" ><h2>Available JBrowse 2 Datasets</h2>
                 <ul>
-                    <li>Rat</li>
+                    <li>Rat (Rattus norvegicus)</li>
                 <ul>
                     <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=GRCr8&tracklist=true&tracks=Rat GRCr8 (rn8) Genes and Transcripts-GRCr8">GRCr8</a></li>
                 <li><a href="/jbrowse2/">mRatBN7.2</a></li>
@@ -102,6 +98,10 @@ RGD is transitioning to JBrowse 2.   JBrowse 1 will be retired in late 2024.
                                 <li><a href="/jbrowse2/?loc=Chr1:1..8,689,541&assembly=UTH_Rnor_SHRSP_BbbUtx_1.0&tracklist=true&tracks=UTH_Rnor_SHRSP_BbbUtx_1.0 Genes and Transcripts-UTH_Rnor_SHRSP_BbbUtx_1.0">UTH_Rnor_SHRSP_BbbUtx_1.0</a></li>
                                 <li><a href="/jbrowse2/?loc=Chr1:1..8,689,541&assembly=UTH_Rnor_WKY_Bbb_1.0&tracklist=true&tracks=UTH_Rnor_WKY_Bbb_1.0 Genes and Transcripts-UTH_Rnor_WKY_Bbb_1.0">UTH_Rnor_WKY_Bbb_1.0</a></li>
                 </ul>
+                    <li>Black Rat (Rattus rattus)</li>
+		    <ul>
+			<li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Rrattus_CSIRO_v1&tracklist=true&tracks=Black Rat Rrattus_CSIRO_v1 Genes and Transcripts-Rrattus_CSIRO_v1">Rrattus_CSIRO_v1</a></li>
+                    </ul>
                     <li>Mouse</li>
                     <ul>
                         <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=GRCm39&tracklist=true&tracks=Mouse GRCm39 (mm39) Genes and Transcripts-GRCm39">GRCm39</a></li>
