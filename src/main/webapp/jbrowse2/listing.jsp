@@ -100,7 +100,7 @@
                 </ul>
                     <li>Black Rat (Rattus rattus)</li>
 		    <ul>
-			<li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=GRCm39&tracklist=true&tracks=Black Rat Rrattus_CSIRO_v1 Genes and Transcripts-Rrattus_CSIRO_v1">Rrattus_CSIRO_v1</a></li>
+			<li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Rrattus_CSIRO_v1&tracklist=true&tracks=Black Rat Rrattus_CSIRO_v1 Genes and Transcripts-Rrattus_CSIRO_v1">Rrattus_CSIRO_v1</a></li>
                     </ul>
                     <li>Mouse</li>
                     <ul>
