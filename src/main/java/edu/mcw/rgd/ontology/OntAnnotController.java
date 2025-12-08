@@ -303,12 +303,6 @@ public class OntAnnotController implements Controller {
                 }
 
 
-                // originally ref_rgd_id was accessible by calling annot.getRefRgdId()
-                // since the ontology annotation table was redesigned to show only one row per gene,
-                // possible multiple ref_rgd_id, ", "-separated, are stored in the field 'relativeTo'
-                a.setRefRgdIds(annot.getRelativeTo());
-                //a.setRefRgdId(annot.getRefRgdId());
-
                 a.setDataSource(annot.getDataSrc());
                 if (annot.getRefRgdId()!=null && annot.getRefRgdId()!=0) {
                     if (!refPipe.search(annot.getRefRgdId())) {// not a pipeline reference

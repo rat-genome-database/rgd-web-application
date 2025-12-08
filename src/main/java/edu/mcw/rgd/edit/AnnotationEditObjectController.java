@@ -92,7 +92,6 @@ public class AnnotationEditObjectController extends EditObjectController {
         annot.setObjectName(name);
         annot.setNotes(req.getParameter("notes"));
         annot.setQualifier(req.getParameter("qualifier"));
-        annot.setRelativeTo(req.getParameter("relativeTo"));
 
         annot.setLastModifiedDate(new Date());
 
