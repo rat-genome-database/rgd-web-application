@@ -108,8 +108,24 @@ Date today = new Date();
         <td><input type="text" name="qualifier" size="20" value="<%=dm.out("qualifier",annot.getQualifier())%>" /></td>
     </tr>
     <tr>
-        <td class="label">Relative To:</td>
-        <td><input type="text" name="relativeTo" size="20" value="<%=dm.out("relativeTo",annot.getRelativeTo())%>" /></td>
+        <td class="label">Associated With:</td>
+        <td><input type="text" name="associatedWith" size="20" value="<%=dm.out("associatedWith",annot.getAssociatedWith())%>" /></td>
+    </tr>
+    <tr>
+        <td class="label">Molecular Entity:</td>
+        <td><input type="text" name="molecularEntity" size="20" value="<%=dm.out("molecularEntity",annot.getMolecularEntity())%>" /></td>
+    </tr>
+    <tr>
+        <td class="label">Alteration:</td>
+        <td><input type="text" name="alteration" size="20" value="<%=dm.out("alteration",annot.getAlteration())%>" /></td>
+    </tr>
+    <tr>
+        <td class="label">Alteration Location:</td>
+        <td><input type="text" name="alterationLocation" size="20" value="<%=dm.out("alterationLocation",annot.getAlterationLocation())%>" /></td>
+    </tr>
+    <tr>
+        <td class="label">Variant Nomenclature:</td>
+        <td><input type="text" name="variantNomenclature" size="20" value="<%=dm.out("variantNomenclature",annot.getVariantNomenclature())%>" /></td>
     </tr>
     <tr>
         <td class="label">Created Date:</td>
