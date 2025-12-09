@@ -452,9 +452,9 @@
 
             <td><%=annot.getNotes()%>
             </td>
-            <td><% if (annot.getReference().isEmpty())
+            <td><% if( Utils.isStringEmpty(annot.getReference()) ) {
                 out.print(annot.getDataSource());
-            else {
+            } else {
                 out.print(annot.getReference());
                 if (annot.getDataSource().contains("RGD") && !annot.getReference().contains("RGD")) {
                     out.print("<BR>RGD");
