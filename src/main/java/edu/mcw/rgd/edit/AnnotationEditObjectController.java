@@ -92,7 +92,11 @@ public class AnnotationEditObjectController extends EditObjectController {
         annot.setObjectName(name);
         annot.setNotes(req.getParameter("notes"));
         annot.setQualifier(req.getParameter("qualifier"));
-        annot.setRelativeTo(req.getParameter("relativeTo"));
+        annot.setAssociatedWith(req.getParameter("associatedWith"));
+        annot.setMolecularEntity(req.getParameter("molecularEntity"));
+        annot.setAlteration(req.getParameter("alteration"));
+        annot.setAlterationLocation(req.getParameter("alterationLocation"));
+        annot.setVariantNomenclature(req.getParameter("variantNomenclature"));
 
         annot.setLastModifiedDate(new Date());
 
