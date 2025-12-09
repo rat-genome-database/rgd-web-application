@@ -161,8 +161,11 @@
                         <td><%=result.getVariant().getDepth()>0 ? result.getVariant().getDepth() : "n/a"%></td>
                     </tr>
                     <%
-                        String percentRead = result.getVariant().getZygosityPercentRead() + "%";
-                        String numAlleles = result.getVariant().getZygosityNumberAllele() + "";
+                        String numAlleles = result.getVariant().getVariantFrequency() + "";
+                        double alleleFreq = Double.parseDouble(numAlleles);
+                        double varPercent = (alleleFreq/result.getVariant().getDepth())*100;
+                        String percentRead = varPercent + "%";
+
 
                         if (percentRead.equals("0.0%") || percentRead.equals("0%")) {
                             percentRead = "n/a";
