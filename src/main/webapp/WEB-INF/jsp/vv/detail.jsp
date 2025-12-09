@@ -9,6 +9,7 @@
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantMapData" %>
 <%@ page import="edu.mcw.rgd.dao.impl.variants.VariantDAO" %>
+<%@ page import="java.text.DecimalFormat" %>
 
 <%@ include file="carpeHeader.jsp"%>
 
@@ -163,8 +164,9 @@
                     <%
                         String numAlleles = result.getVariant().getVariantFrequency() + "";
                         double alleleFreq = Double.parseDouble(numAlleles);
+                        DecimalFormat df=new DecimalFormat("#.##");
                         double varPercent = (alleleFreq/result.getVariant().getDepth())*100;
-                        String percentRead = varPercent + "%";
+                        String percentRead = df.format(varPercent) + "%";
 
 
                         if (percentRead.equals("0.0%") || percentRead.equals("0%")) {
