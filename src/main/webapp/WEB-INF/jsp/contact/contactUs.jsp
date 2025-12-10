@@ -38,6 +38,22 @@
         position: absolute;
         left: 150px;
     }
+    .calendar-banner {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        padding: 15px 20px;
+        margin: 10px auto 20px auto;
+        width: 70%;
+        border-radius: 5px;
+        text-align: center;
+        font-size: medium;
+    }
+    .calendar-banner a {
+        color: #721c24;
+        font-weight: bold;
+        font-size:16px;
+    }
     #formH {
         position: absolute;
         left: 150px
@@ -56,6 +72,10 @@
     }
 </style>
 <body id="contactBody">
+    <div class="calendar-banner">
+        <strong>Notice:</strong> The printed RGD 2026 Calendars are out of stock and no more will be printed.
+        The calendar is available for download <a href="https://download.rgd.mcw.edu/data_release/Hi-res_Rat_Calendars/" target="_blank">here</a>.
+    </div>
     <h1 id="contactH">Contact Us</h1>
     <br><br><br>
     <table width="70%" align="center" class="contactTable">
