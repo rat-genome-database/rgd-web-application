@@ -311,8 +311,9 @@ public class OntAnnotController implements Controller {
                 }
                 else { // is a pipeline
                     String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
-                    if(!a.getReference().contains(refInfo))
+                    if( !Utils.NVL(a.getReference(),"").contains(refInfo) ) {
                         a.setReference(refInfo);
+                    }
                 }
                 a.setQualifier(Utils.NVL(annot.getQualifier(),""));
                 if( !Utils.isStringEmpty(a.getQualifier()) ) {
@@ -336,8 +337,9 @@ public class OntAnnotController implements Controller {
                 }
                 else { // is a pipeline
                     String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
-                    if(!a.getReference().contains(refInfo)) {
-                        a.setReference(htmlMerge(a.getReference(), refInfo));
+                    String ref = Utils.NVL(a.getReference(),"");
+                    if( !ref.contains(refInfo) ) {
+                        a.setReference(htmlMerge(ref, refInfo));
                     }
                 }
 
@@ -642,7 +644,7 @@ public class OntAnnotController implements Controller {
                         }
                         break;
                     case "reference":
-                        r = o1.getReference().compareTo(o2.getReference());
+                        r = Utils.stringsCompareTo(o1.getReference(), o2.getReference());
                         break;
                     case "source":
                         r = Utils.stringsCompareToIgnoreCase(o1.getDataSource(), o2.getDataSource());
