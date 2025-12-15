@@ -83,11 +83,11 @@ public class DownloadMetaDataController implements Controller {
             for (Sample s : samples){
                 // get conditions and apply to map
                 if (!Utils.isStringEmpty(s.getTissueAccId()) && tissueMap.get(s.getTissueAccId())==null) {
-                    Term tissue = xdao.getTermByAccId(s.getTissueAccId());
+                    Term tissue = xdao.getTermByAccId(s.getTissueAccId().trim());
                     tissueMap.put(s.getTissueAccId(), tissue);
                 }
                 if (!Utils.isStringEmpty(s.getStrainAccId()) && strainMap.get(s.getStrainAccId())==null){
-                    Term strain = xdao.getTermByAccId(s.getStrainAccId());
+                    Term strain = xdao.getTermByAccId(s.getStrainAccId().trim());
                     strainMap.put(s.getStrainAccId(), strain);
                     List<TermSynonym> syns = xdao.getTermSynonyms(strain.getAccId());
 
@@ -106,12 +106,12 @@ public class DownloadMetaDataController implements Controller {
                     Element gsmList = idlist.get(0);
                     String gsmId = gsmList.text();
 //                String body = doc.data();
-                    TimeUnit.MILLISECONDS.sleep(500); // wait a second to not hammer ncbi with requests
+                    TimeUnit.SECONDS.sleep(3); // wait a second to not hammer ncbi with requests
                     Document sra = Jsoup.connect(eLinkUrl + gsmId).get(); // getting SRA ID from GSM Id
                     Elements sraLink = sra.select("Link");
                     Element linkId = sraLink.get(0);
                     String sraId = linkId.text();
-                    TimeUnit.MILLISECONDS.sleep(500);
+                    TimeUnit.SECONDS.sleep(3);
                     Document summary = Jsoup.connect(eSummaryUrl + sraId).get();
                     Elements items = summary.select("Item");
                     Element runs = null;
@@ -141,7 +141,7 @@ public class DownloadMetaDataController implements Controller {
                     }
 //                System.out.println("SRR IDS for "+s.getGeoSampleAcc()+": "+srrIds.size());
                     sampleSRR.put(s.getGeoSampleAcc(), srrIds);
-                    TimeUnit.MILLISECONDS.sleep(500);
+                    TimeUnit.SECONDS.sleep(3);
                 }
                 catch (Exception e){
                     // unable to find SRR

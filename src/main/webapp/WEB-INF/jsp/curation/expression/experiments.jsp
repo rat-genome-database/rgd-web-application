@@ -74,16 +74,17 @@
     <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
             <label for="species" style="color: #24609c; font-weight: bold;">Select a Species:</label>
     <select id="species" name="species" >
-        <option value="Rattus">Rat</option>
-        <option  value="Mus">Mouse</option>
-        <option  value="Homo">Human</option>
-        <option  value="Chinchilla">Chinchilla</option>
-        <option  value="Pan">Bonobo</option>
-        <option  value="Canis">Dog</option>
-        <option  value="Ictidomys">Squirrel</option>
-        <option value="Sus">Pig</option>
-        <option value="Glaber">Naked Mole-Rat</option>
-        <option value="Sabaeus">Green Monkey</option>
+        <option value="Rattus_norvegicus">Rat</option>
+        <option  value="Mus_musculus">Mouse</option>
+        <option  value="Homo_sapiens">Human</option>
+        <option  value="Chinchilla_lanigera">Chinchilla</option>
+        <option  value="Pan_paniscus">Bonobo</option>
+        <option  value="Canis_lupus_familiaris">Dog</option>
+        <option  value="Ictidomys_tridecemlineatus">Squirrel</option>
+        <option value="Sus_scrofa">Pig</option>
+        <option value="Heterocephalus_glaber">Naked Mole-Rat</option>
+        <option value="Chlorocebus_sabaeus">Green Monkey</option>
+        <option value="Rattus_rattus">Black Rat</option>
     </select>
 
     <label for="status" style="color: #24609c; font-weight: bold;">Select Curation Status:</label>
@@ -102,6 +103,7 @@
     <%
         if(request.getParameter("species") != null) {
             String species = request.getParameter("species");
+            species=species.replace("_"," ");
             PhenominerDAO pdao = new PhenominerDAO();
             HashMap<String,GeoRecord> records = pdao.getGeoStudies(species,request.getParameter("status"));
 //            System.out.println(records.size());
