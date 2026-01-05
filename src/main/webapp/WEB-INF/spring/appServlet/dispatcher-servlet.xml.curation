@@ -588,9 +588,4 @@
     <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
     <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
 
-<!-- Multipart resolver for file uploads using standard servlet API -->
-  <bean id="multipartResolver" 
-  class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-      <!-- This resolver uses the servlet container's built-in multipart support -->
-  </bean>
     </beans>
