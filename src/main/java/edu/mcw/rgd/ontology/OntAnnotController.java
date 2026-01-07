@@ -310,7 +310,7 @@ public class OntAnnotController implements Controller {
                         a.setReferenceTurnedRGDRef("<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'> RGD:" + annot.getRefRgdId() + "</a>");
                     } else { // is a pipeline
                         String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
-                        if (!a.getReference().contains(refInfo))
+                        if (a.getReference()!=null && !a.getReference().contains(refInfo))
                             a.setReference(refInfo);
                     }
                 }
@@ -336,7 +336,7 @@ public class OntAnnotController implements Controller {
                 }
                 else { // is a pipeline
                     String refInfo = "<a href='/rgdweb/report/reference/main.html?id=" + annot.getRefRgdId() + "'>" + annot.getDataSrc() + "</a>";
-                    if(!a.getReference().contains(refInfo)) {
+                    if(a.getReference()!=null && !a.getReference().contains(refInfo)) {
                         a.setReference(htmlMerge(a.getReference(), refInfo));
                     }
                 }
