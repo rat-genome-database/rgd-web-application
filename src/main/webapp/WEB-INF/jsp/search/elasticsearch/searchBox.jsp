@@ -2,7 +2,11 @@
    <div class="row" style="width: 100%;float: right">
        <div class="col-9">
        <form name="elasticSearchForm"  action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
+           <%
+               if(RgdContext.isProduction()){
+           %>
            <input type="hidden" name="log" value="true"/>
+           <%}%>
           <input type="hidden" name="category" id="category" value="General"/>
     <div class="input-group">
 

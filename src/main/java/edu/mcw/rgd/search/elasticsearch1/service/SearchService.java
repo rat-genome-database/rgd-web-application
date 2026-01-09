@@ -71,6 +71,7 @@ public class SearchService {
 
                     aggregations.put(species, catFilterAgg.getBuckets());
                    for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
+//                       System.out.println(bucket.getKey().toString() +"\t"+bucket.getDocCount());
                        Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
                        Terms traitFilterAgg=bucket.getAggregations().get("trait");
                        Terms polyphenFilterAgg=bucket.getAggregations().get("polyphen");
@@ -81,9 +82,8 @@ public class SearchService {
                        Terms strainTermsFilterAgg=bucket.getAggregations().get("strainTerms");
                        Terms tissueTermsFilterAgg=bucket.getAggregations().get("tissueTerms");
                        Terms cellTypeTermsFilterAgg=bucket.getAggregations().get("cellTypeTerms");
-
-
-
+                       Terms conditionsFilterAgg=bucket.getAggregations().get("conditions");
+                       Terms expressionSourceFilterAgg=bucket.getAggregations().get("expressionSource");
                        if(bucket.getKey().toString().equalsIgnoreCase("variant")){
                            aggregations.put(species + "Polyphen", polyphenFilterAgg.getBuckets());
                            aggregations.put(species + "Region", regionFilterAgg.getBuckets());
@@ -91,21 +91,36 @@ public class SearchService {
                            aggregations.put(species + "VariantCategory", variantCategoryFilterAgg.getBuckets());
 
                        }
-                       if(bucket.getKey().toString().equalsIgnoreCase("expression")){
+                       if(bucket.getKey().toString().equalsIgnoreCase("expressed Gene")){
 
                            if(expressionLevelFilterAgg!=null)
                            aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
-//                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
-//                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
-//                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "Conditions", conditionsFilterAgg.getBuckets());
+                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           if(expressionSourceFilterAgg!=null)
+                               aggregations.put(species + "ExpressionSource", expressionSourceFilterAgg.getBuckets());
+                           if(typeFilterAgg!=null)
+                               aggregations.put(species +"ExpressionGeneType", typeFilterAgg.getBuckets());
+//                           aggregations.put(species + bucket.getKey().toString(), typeFilterAgg.getBuckets());
                        }
-                       if(bucket.getKey().toString().equalsIgnoreCase("expressionStudy")){
+                       if(bucket.getKey().toString().equalsIgnoreCase("expression Study")){
 
-//                           if(expressionLevelFilterAgg!=null)
-//                               aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
-//                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
-//                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
-//                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           if(expressionLevelFilterAgg!=null)
+                               aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
+                           if(cellTypeTermsFilterAgg!=null)
+                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
+                           if(conditionsFilterAgg!=null)
+                               aggregations.put(species + "Conditions", conditionsFilterAgg.getBuckets());
+                           if(strainTermsFilterAgg!=null)
+                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
+                           if(tissueTermsFilterAgg!=null)
+                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           if(expressionSourceFilterAgg!=null)
+                               aggregations.put(species + "ExpressionSource", expressionSourceFilterAgg.getBuckets());
+                           if(typeFilterAgg!=null)
+                           aggregations.put(species + bucket.getKey().toString().replace(" ", ""), typeFilterAgg.getBuckets());
                        }
                        if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
                            aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
@@ -346,6 +361,13 @@ public class SearchService {
         if(request.getParameter("match_type")!=null && !request.getParameter("match_type").equals("") ) sb.setMatchType(request.getParameter("match_type"));
         if(request.getParameter("objectSearch")!=null) sb.setObjectSearch((request.getParameter("objectSearch").equalsIgnoreCase("true")));
         if(request.getParameter("expressionLevel")!=null) sb.setExpressionLevel(request.getParameter("expressionLevel"));
+        if(request.getParameter("strainTerms")!=null) sb.setStrainTerms(request.getParameter("strainTerms"));
+        if(request.getParameter("cellTypeTerms")!=null) sb.setCellTypeTerms(request.getParameter("cellTypeTerms"));
+        if(request.getParameter("conditions")!=null) sb.setConditions(request.getParameter("conditions"));
+        if(request.getParameter("tissueTerms")!=null) {
+            sb.setTissueTerms(request.getParameter("tissueTerms"));}
+        if(request.getParameter("source")!=null) {
+            sb.setExpressionSource(request.getParameter("source"));}
 
         return sb;
     }
