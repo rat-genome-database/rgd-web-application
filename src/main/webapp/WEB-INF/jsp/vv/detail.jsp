@@ -72,8 +72,12 @@
 //            System.out.println(vmd.getId());
             String ref = result.getVariant().getReferenceNucleotide();
             String var = result.getVariant().getVariantNucleotide();
+            if(ref == null)
+                ref = "";
+            if (var == null)
+                var = "";
             int linesForNucleotide = 1;
-//            try {
+            try {
                 if (ref.length() > 50) {
                     linesForNucleotide = (ref.length() / 50) + 1;
                     StringBuilder refBuild = new StringBuilder();
@@ -103,10 +107,10 @@
 //                    varBuild.append(ref.substring((linesForNucleotide * 50)));
                     var = varBuild.toString();
                 }
-//            }
-//            catch (Exception e){
+            }
+            catch (Exception e){
 //                System.out.println(e);
-//            }
+            }
     if (vmd!=null && vmd.getRsId()!=null && !vmd.getRsId().equals(".")) {
     %>
     <div class="typerTitle"><div class="typerTitleSub"><%=vmd.getRsId()%></div></div>
