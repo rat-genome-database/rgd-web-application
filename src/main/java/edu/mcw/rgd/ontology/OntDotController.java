@@ -171,6 +171,15 @@ public class OntDotController implements Controller {
 
     public void serveImage(String imgId, HttpServletResponse response) throws Exception {
 
+        // security: imgId is a local resource and cannot have any security breaking parts, like '/etc/hosts'
+        if( imgId!=null ) {
+            if( imgId.contains("..") || imgId.contains("/") || imgId.contains("\\") ) {
+                // this part of file name is suspicious: return rgd logo :-)
+                response.sendRedirect("/common/images/rgd_logo.gif");
+                return;
+            }        
+        }
+
         File file = new File(getTmpFileDir()+"/"+imgId);
         if( file.exists() ) {
             // Set content type
