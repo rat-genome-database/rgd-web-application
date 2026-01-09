@@ -164,7 +164,7 @@ public class ElasticSearchController extends RGDSearchController {
 
         // Add assembly maps for specific species
         String species = searchBean.getSpecies();
-        if (hasSpecificSpecies(species)) {
+        if (hasSpecificSpecies(species) && !searchBean.getCategory().equalsIgnoreCase("expression study")) {
             List<Map> maps = MapManager.getInstance().getAllMaps(SpeciesType.parse(species), "bp");
             model.addAttribute("assemblyMaps", maps);
         }
