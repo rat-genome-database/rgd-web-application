@@ -166,10 +166,10 @@
             <input type="checkbox" id="col-geo-accession" checked>
             <label for="col-geo-accession">GEO Accession</label>
         </div>
-        <div class="checkbox-item">
-            <input type="checkbox" id="col-experiment-id">
-            <label for="col-experiment-id">Experiment ID</label>
-        </div>
+<%--        <div class="checkbox-item">--%>
+<%--            <input type="checkbox" id="col-experiment-id">--%>
+<%--            <label for="col-experiment-id">Experiment ID</label>--%>
+<%--        </div>--%>
         <div class="checkbox-item">
             <input type="checkbox" id="col-tissue" checked>
             <label for="col-tissue">Tissue</label>
@@ -229,7 +229,7 @@
     <table>
         <tr>
             <th class="col-geo-accession">geo_accession</th>
-            <th class="col-experiment-id">Experiment ID</th>
+<%--            <th class="col-experiment-id">Experiment ID</th>--%>
             <th class="col-tissue">Tissue</th>
             <th class="col-cell-type">Cell Type</th>
             <th class="col-strain">Strain</th>
@@ -247,7 +247,7 @@
         <%for(StudySampleMetadata data:metadata){%>
         <tr>
             <td class="col-geo-accession"><%=data.getGeoSampleAcc()!=null?data.getGeoSampleAcc():""%></td>
-            <td class="col-experiment-id"><%=data.getExperimentId()!=null?data.getExperimentId():""%></td>
+<%--            <td class="col-experiment-id"><%=data.getExperimentId()!=null?data.getExperimentId():""%></td>--%>
             <td class="col-tissue"><%=data.getTissue()!=null?data.getTissue():""%></td>
             <!-- non default column cell type -->
             <td class="col-cell-type"><%=data.getCellType()!=null?data.getCellType():""%></td>
@@ -380,7 +380,7 @@
         // Column mapping
         const columnMapping = {
             'col-geo-accession': '.col-geo-accession',
-            'col-experiment-id': '.col-experiment-id',
+            // 'col-experiment-id': '.col-experiment-id',
             'col-tissue': '.col-tissue',
             'col-strain': '.col-strain',
             'col-sex': '.col-sex',
