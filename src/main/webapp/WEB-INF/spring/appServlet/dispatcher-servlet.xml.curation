@@ -47,7 +47,7 @@
 				<prop key="curation/expression/experiments.html">GeoExperimentController</prop>
                 <prop key="curation/expression/editSamples.html">SampleEditController</prop>
                 <prop key="curation/expression/downloadMetaData.html">DownloadExpressionMetaDataController</prop>
-
+                <prop key="report/expressionStudy/downloadMetadata.html">ExpressionStudyDownloadController</prop>
                 <prop key="curation/phenominer/reference.html">PhenominerReferenceController</prop>
                 <prop key="curation/phenominer/search.html">PhenominerSearchController</prop>
                 <prop key="curation/phenominer/home.html">PhenominerCurationController</prop>
@@ -589,5 +589,6 @@
     <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
     <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
     <bean id="ExpressionStudyReportController" class="edu.mcw.rgd.report.ExpressionStudyReportController"/>
+    <bean id="ExpressionStudyDownloadController" class="edu.mcw.rgd.report.ExpressionStudyDownloadController"/>
 
     </beans>
