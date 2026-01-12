@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.GeneExpression" %><%@ page import="java.util.List" %><%@ page import="edu.mcw.rgd.datamodel.Map" %><%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %><%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %><%@ page import="edu.mcw.rgd.process.Utils" %><%@ page import="edu.mcw.rgd.datamodel.pheno.*" %><%@ page import="edu.mcw.rgd.datamodel.RgdId" %><%@ page import="edu.mcw.rgd.dao.impl.*" %><%@ page import="java.util.HashMap" %><%
-    response.setHeader("Content-disposition","attachment;filename=\"gene_expression_data.csv\"");
+    String geneSymbol = request.getAttribute("geneSymbol") != null ? request.getAttribute("geneSymbol").toString() : "unknown";
+    response.setHeader("Content-disposition","attachment;filename=\""+geneSymbol+"_expression_data.csv\"");
     RGDManagementDAO rdao = new RGDManagementDAO();
     int rgdId = (int) request.getAttribute("rgdId");
     RgdId geneId = rdao.getRgdId2(rgdId);
@@ -27,11 +28,15 @@
     out.print(",");
     out.print("Value");
     out.print(",");
+    out.print("Expression Level");
+    out.print(",");
     out.print("Unit");
     out.print(",");
     out.print("Assembly");
     out.print(",");
-    out.println("Reference");
+    out.print("Reference");
+    out.print(",");
+    out.println("GEO Study");
     for (GeneExpression ge : expressionList){
 
         GeneExpressionRecordValue v = ge.getGeneExpressionRecordValue();
@@ -110,6 +115,8 @@
         out.print(",");
         out.print("TPM");
         out.print(",");
+        out.print(ge.getGeneExpressionRecordValue().getExpressionLevel());
+        out.print(",");
         out.print(asm.getName());
         out.print(",");
         StringBuilder refBuilder = new StringBuilder();
@@ -118,11 +125,13 @@
             if (i == refs.size()-1)
                 refBuilder.append("RGD:").append(ref);
             else
-                refBuilder.append("RGD:").append(ref).append(", ");
+                refBuilder.append("RGD:").append(ref).append("|");
         }
         if (Utils.isStringEmpty(refBuilder.toString()) )
-            out.println("N/A");
+            out.print("N/A");
         else
-            out.println(refBuilder.toString());
+            out.print(refBuilder.toString());
+        out.print(",");
+        out.println(Utils.isStringEmpty(ge.getGeoSeriesAcc()) ? "N/A" : ge.getGeoSeriesAcc());
     }
 %>

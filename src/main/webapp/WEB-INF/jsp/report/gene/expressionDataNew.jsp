@@ -78,10 +78,6 @@
 <div class="light-table-border">
     <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
-<%--    <b><span style="color: DarkBlue">High:</span> > 1000 TPM value</b>&nbsp;&nbsp;--%>
-<%--    <b><span style="color: DarkBlue">Medium:</span> Between 11 and 1000 TPM</b><br>--%>
-<%--    <b><span style="color: Red">Low:</span> Between 0.5 and 10 TPM</b>&nbsp;&nbsp;--%>
-<%--    <b><span style="color: Red">Below Cutoff:</span> < 0.5 TPM</b>--%>
     <label style="font-size: 16px">
         <b>Click on a value in the shaded box below the category label to view a detailed expression data table for that system.</b>
     </label>
@@ -134,13 +130,37 @@
             <label style="color: red; padding-top: 10px;">Too many to show, limit is 500. Download them if you would like to view them all.</label>
         </div>
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
+            <div style="margin-bottom: 10px; padding: 5px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px;">
+                <label style="font-weight: bold; margin-right: 10px;">Filter by Expression Level:</label>
+                <label style="margin-right: 5px;">
+                    <input type="checkbox" v-model="selectedLevels" value="High" style="margin-right: 5px;">
+                    <b><span style="color: DarkBlue;">High:</span> TPM > 1000</b>
+                </label>
+                <label style="margin-right: 5px;">
+                    <input type="checkbox" v-model="selectedLevels" value="Medium" style="margin-right: 5px;">
+                    <b><span style="color: DarkBlue;">Medium:</span> 10 < TPM &le; 1000 TPM</b>
+                </label>
+                <label style="margin-right: 5px;">
+                    <input type="checkbox" v-model="selectedLevels" value="Low" style="margin-right: 5px;">
+                    <b><span style="color: Red;">Low:</span> 0.5 &le; TPM &le; 10</b>
+                </label>
+                <label style="margin-right: 5px;">
+                    <input type="checkbox" v-model="selectedLevels" value="Below Cutoff" style="margin-right: 5px;">
+                    <b><span style="color: Red;">Below Cutoff:</span> TPM < 0.5</b>
+                </label>
+                <button @click="clearFilters" style="margin-left: 10px; padding: 2px 10px;">Clear Filters</button>
+                <span style="margin-left: 15px; color: #666;">Showing {{ filteredExpItems.length }} of {{ expItems.length }} records</span>
+            </div>
             <template>
-                <b-table :items="expItems" :fields="fields" :busy.sync="isBusy" responsive="sm" sticky-header="475px">
+                <b-table :items="filteredExpItems" :fields="fields" :busy.sync="isBusy" responsive="sm" sticky-header="475px">
                     <template v-slot:table-busy>
                         <div class="text-center text-primary my-2">
                             <b-spinner class="align-middle"></b-spinner>
                             <strong>Loading...</strong>
                         </div>
+                    </template>
+                    <template #cell(strain)="data">
+                        <span v-html="data.value"></span>
                     </template>
                     <tempplate #cell(tissue)="data">
                         {{data.value}}
@@ -155,6 +175,9 @@
 <%--                        </li>--%>
 <%--                        <b-link :href="'/rgdweb/report/reference/main.html?id='+data.value">RGD:{{ data.value }}</b-link>--%>
 <%--                        {{ data.value }}--%>
+                    </template>
+                    <template #cell(geoStudyAcc)="data">
+                        <span v-html="data.value"></span>
                     </template>
                 </b-table>
             </template>
@@ -171,9 +194,14 @@
         data() {
             return {
                 isBusy: false,
+                selectedLevels: [],
                 fields: [
                     {
-                        key: 'strain/CellLine',
+                        key: 'strain',
+                        label: 'Strain/CellLine',
+                        formatter: value =>{
+                          return value;
+                        },
                         sortable: true
                     },
                     {
@@ -225,6 +253,14 @@
                         sortable: true
                     },
                     {
+                        key: 'level',
+                        label: "Level",
+                        formatter: value => {
+                            return value;
+                        },
+                        sortable: true,
+                    },
+                    {
                         key: 'assembly',
                         formatter: value => {
                             return value;
@@ -239,17 +275,45 @@
                         //     return value;
                         // }
                         sortable: true
+                    },
+                    {
+                        key: 'geoStudyAcc',
+                        label: 'GEO Study',
+                        formatter: 'createGEOLinks',
+                        sortable: true
                     }
                 ],
                 expItems: []
             }
         },
+        computed: {
+            filteredExpItems() {
+                if (this.selectedLevels.length === 0) {
+                    return this.expItems;
+                }
+                return this.expItems.filter(item => {
+                    // Normalize both values for comparison
+                    var normalizedItemLevel = (item.level || '').toLowerCase().trim();
+                    return this.selectedLevels.some(selectedLevel => {
+                        var normalizedSelected = selectedLevel.toLowerCase().trim();
+                        return normalizedItemLevel === normalizedSelected ||
+                               normalizedItemLevel === normalizedSelected.replace(' ', '_') ||
+                               normalizedItemLevel === normalizedSelected.replace(' ', '');
+                    });
+                });
+            }
+        },
         methods: {
+            clearFilters() {
+                this.selectedLevels = [];
+            },
             // need to do 3 api calls to get proper record, and study
             // proceed like in expression controller
             createTable(termAcc,rgdId){
                 // clear table if full
                 // termAcc = termAcc.replace(':','%3A')
+                // Reset filters when loading new data
+                this.selectedLevels = [];
                 tableVue.isBusy = true;
                 var download = document.getElementById("downloadTerm"+termAcc);
                 download.style.display = 'block';
@@ -262,6 +326,7 @@
                             result.forEach((recVal) => {
                                 var tpmVal = recVal["geneExpressionRecordValue"]["tpmValue"];
                                 var mapKey = recVal["geneExpressionRecordValue"]["mapKey"];
+                                var expLevel = recVal["geneExpressionRecordValue"]["expressionLevel"];
                                 // var experimentId = recVal["geneExpressionRecord"]["experimentId"];
                                 var strainTerm = recVal["sample"]["strainAccId"];
                                 var sex = recVal["sample"]["sex"];
@@ -299,6 +364,7 @@
                                 var compSex = recVal['sample']['computedSex'];
                                 var reference = []; //recVal["refRgdId"];
                                 var studyId = recVal["studyId"];
+                                var geoStudyAcc = recVal["geoSeriesAcc"];
                                 $.ajax({
                                     type: "GET",
                                     url: "https://rest.rgd.mcw.edu/rgdws/expression/study/references/" + studyId,
@@ -324,12 +390,20 @@
                                                         url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
                                                         dataType: "json",
                                                         success: function (r, s, x) {
+                                                            var link = '';
+                                                            if (strainTerm.startsWith('RS:'))
+                                                                link = '/rgdweb/report/strainOnt/main.html?acc='+strainTerm;
+                                                            else
+                                                                link = '/rgdweb/ontology/view.html?acc_id=' + strainTerm;
+                                                            // var link = "/rgdweb/report/expressionStudy/main.html?geoAcc=" + data;
+                                                            var a = '<a href="' + link + '">' + r["term"] + '</a>';
+                                                            // console.log(a);
                                                             // console.log("strain: "+r)
                                                             // console.log('tissue');
                                                             if (tissue == null || tissue == '') {
                                                                 tissue = '';
                                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                        'strain/CellLine': r["term"],
+                                                                        strain: a,
                                                                         sex: sex,
                                                                         computedSex: compSex,
                                                                         age: displayAge,
@@ -338,7 +412,9 @@
                                                                         tpmValue: tpmVal,
                                                                         unit: 'TPM',
                                                                         assembly: speciesName,
-                                                                        refRgd: reference//{myId: reference, mrLink: link}
+                                                                        refRgd: reference,//{myId: reference, mrLink: link}
+                                                                        level: expLevel,
+                                                                        geoStudyAcc: geoStudyAcc
                                                                     }
                                                                 )
                                                             } else {
@@ -352,7 +428,7 @@
                                                                         // console.log('tissue');
                                                                         // console.log("tissue: "+r)
                                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                                'strain/CellLine': r["term"],
+                                                                                strain: a,
                                                                                 sex: sex,
                                                                                 computedSex: compSex,
                                                                                 age: displayAge,
@@ -361,7 +437,9 @@
                                                                                 tpmValue: tpmVal,
                                                                                 unit: 'TPM',
                                                                                 assembly: speciesName,
-                                                                                refRgd: reference//{myId: reference, mrLink: link}
+                                                                                refRgd: reference,//{myId: reference, mrLink: link}
+                                                                                level: expLevel,
+                                                                                geoStudyAcc: geoStudyAcc
                                                                             }
                                                                         )
 
@@ -383,7 +461,7 @@
                                                         // console.log('tissue');
                                                         // console.log(tpmVal);
                                                         someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                'strain/CellLine': 'None Available',
+                                                                strain: 'None Available',
                                                                 sex: sex,
                                                                 computedSex: compSex,
                                                                 age: displayAge,
@@ -392,7 +470,9 @@
                                                                 tpmValue: tpmVal,
                                                                 unit: 'TPM',
                                                                 assembly: speciesName,
-                                                                refRgd: reference//{myId: reference, mrLink: link}
+                                                                refRgd: reference,//{myId: reference, mrLink: link}
+                                                                level: expLevel,
+                                                                geoStudyAcc: geoStudyAcc
                                                             }
                                                         )
                                                         tableVue.isBusy = false;
@@ -407,7 +487,7 @@
                                                                 // console.log("tissue: "+r)
                                                                 // console.log('tissue');
                                                                 someItems.push({ // strain, sex, age, tissue, value, unit, assembly, reference
-                                                                        'strain/CellLine': 'None Available',
+                                                                        strain: 'None Available',
                                                                         sex: sex,
                                                                         computedSex: compSex,
                                                                         age: displayAge,
@@ -416,7 +496,9 @@
                                                                         tpmValue: tpmVal,
                                                                         unit: 'TPM',
                                                                         assembly: speciesName,
-                                                                        refRgd: reference//{myId: reference, mrLink: link}
+                                                                        refRgd: reference,//{myId: reference, mrLink: link}
+                                                                        level: expLevel,
+                                                                        geoStudyAcc: geoStudyAcc
                                                                     }
                                                                 )
 
@@ -436,7 +518,7 @@
                                             error: function (x, s, err) {
                                                 console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
                                             }
-                                        });
+                                        }); // end mapKey AJAX call
                                     }
                                 })
 
@@ -450,7 +532,10 @@
                 // console.log("the end");
                 this.expItems = someItems;
                 // this.isBusy = busyState;
-                // console.log(this.expItems);
+                // Debug: Log unique level values to console
+                var uniqueLevels = [...new Set(someItems.map(item => item.level))];
+                // console.log("Unique expression levels in data:", uniqueLevels);
+                // console.log("Sample items:", someItems.slice(0, 3));
                 showTable(termAcc);
                 // return someItems;
             },
@@ -466,11 +551,27 @@
                     // console.log(data[i]);
                     var link = "/rgdweb/report/reference/main.html?id="+data[i];
                     var d2 = '<a href="'+link+'">RGD:'+data[i]+'</a>';
-                    value2 += d2 + "&nbsp;";
+                    value2 += d2 + " ";
                 }
                 // console.log(value2);
                 if (value2 == null || value2 === '')
                     return "N/A";
+                return value2;
+            },
+            createGEOLinks(data){
+                // var valLen = data.length;
+                // var valCopy = data;
+                // var i = 0;
+                // var list = document.getElementById("refList");
+                if (data == null || data ===''){
+                    return 'N/A';
+                }
+                var value2 = '';
+                // console.log(data);
+                var link = "/rgdweb/report/expressionStudy/main.html?geoAcc=" + data;
+                var a = '<a href="' + link + '">' + data + '</a>';
+                value2 += a;
+                // console.log(value2);
                 return value2;
             }
         }
@@ -504,7 +605,17 @@
                         let blob = new Blob([response.data], { type: 'text/csv' }),
                             url = window.URL.createObjectURL(blob);
                         a.href = url;
-                        a.download = "gene_expression_data.csv";
+                        // Extract filename from Content-Disposition header
+                        var filename = "gene_expression_data.csv"; // default
+                        var disposition = response.headers['content-disposition'];
+                        if (disposition && disposition.indexOf('filename=') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        a.download = filename;
                         a.click();
                         window.URL.revokeObjectURL(url);
                         // window.open(url)
@@ -543,7 +654,17 @@
                         let blob = new Blob([response.data], { type: 'text/csv' }),
                             url = window.URL.createObjectURL(blob);
                         a.href = url;
-                        a.download = "gene_expression_data.csv";
+                        // Extract filename from Content-Disposition header
+                        var filename = "gene_expression_data.csv"; // default
+                        var disposition = response.headers['content-disposition'];
+                        if (disposition && disposition.indexOf('filename=') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+                        a.download = filename;
                         a.click();
                         window.URL.revokeObjectURL(url);
                         // window.open(url)
