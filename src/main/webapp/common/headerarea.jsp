@@ -3,18 +3,18 @@
 <%@ page import="edu.mcw.rgd.datamodel.WatchedObject" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedTerm" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="keywords" content="<%=RgdContext.getLongSiteName(request)%>">
-    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE, NO-STORE, MUST-REVALIDATE">
+    <!--<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE, NO-STORE, MUST-REVALIDATE">-->
     <meta name="author" content="RGD">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="referrer" content="origin">
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate, max-age=0, private" />
-    <meta http-equiv="Expires" content="0" />
+    <!--<meta http-equiv="Pragma" content="no-cache" />-->
+    <!--<meta http-equiv="Expires" content="3000" />-->
     <%
         if (!pageDescription.equals("")) {
     %>
@@ -22,6 +22,9 @@
     <% } %>
 
     <%=headContent%>
+
+
+
     <title><%=pageTitle%></title>
 
     <link rel="stylesheet" href="/rgdweb/css/jquery/jquery-ui-1.8.18.custom.css">
@@ -77,8 +80,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
-    <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
-    <script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular-sanitize.js"></script>
+    <script type="text/javascript" src="/rgdweb/common/angular/1.8.3/angular.js"></script>
+    <script type="text/javascript" src="/rgdweb/common/angular/1.8.3/angular-sanitize.js"></script>
     <script type="text/javascript" src="/rgdweb/my/my.js?6"></script>
 
 
@@ -161,7 +164,7 @@
                         <tr>
                             <td align="left" style="color:white;" rowspan="3" width="10">
 
-                                <div ><a class="homeLink" href="/wg/home"><img style="border:3px solid #2865A3;" border="0" src="/rgdweb//common/images/rgd_logo.jpg"></a></div>
+                                <div ><a class="homeLink" href="/wg/home"><img style="border:3px solid #2865A3;" border="0" src="/rgdweb/common/images/rgd_logo.jpg"></a></div>
 
                             </td>
 
