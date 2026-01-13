@@ -159,14 +159,14 @@
                 </ul>
             </li>
             <%}%>
-            <%if(aggregations.get(expressionLevel)!=null && aggregations.get(expressionLevel).size()>0){%>
-            <li><span>Expression Level</span>
-                <ul><%for(Terms.Bucket bkt:aggregations.get(expressionLevel)){%>
-                    <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','expressionLevel')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
-                    <%}%>
-                </ul>
-            </li>
-            <%}%>
+<%--            <%if(aggregations.get(expressionLevel)!=null && aggregations.get(expressionLevel).size()>0){%>--%>
+<%--            <li><span>Expression Level</span>--%>
+<%--                <ul><%for(Terms.Bucket bkt:aggregations.get(expressionLevel)){%>--%>
+<%--                    <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','expressionLevel')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>--%>
+<%--                    <%}%>--%>
+<%--                </ul>--%>
+<%--            </li>--%>
+<%--            <%}%>--%>
                         <%if(aggregations.get(strainTerms)!=null && aggregations.get(strainTerms).size()>0){%>
 
                         <li><span>Strains</span>
