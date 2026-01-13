@@ -37,8 +37,8 @@
 <script src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 <!--<script type="text/javascript">window.angJq = jQuery.noConflict();</script>-->
 <script src="/rgdweb/common/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular.js"></script>
-<script type="text/javascript" src="/rgdweb/common/angular/1.4.8/angular-sanitize.js"></script>
+<script type="text/javascript" src="/rgdweb/common/angular/1.8.3/angular.js"></script>
+<script type="text/javascript" src="/rgdweb/common/angular/1.8.3/angular-sanitize.js"></script>
 <script type="text/javascript" src="/rgdweb/my/my.js"></script>
 
 
