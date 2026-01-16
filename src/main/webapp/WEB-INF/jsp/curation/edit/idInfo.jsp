@@ -10,7 +10,7 @@
     RGDManagementDAO dao = new RGDManagementDAO();
     RgdId id = dao.getRgdId(rgdId);
 
-    List speciesList = Arrays.asList("Rat", "Mouse", "Human", "Chinchilla", "Bonobo", "Dog", "Squirrel");
+    List speciesList = Arrays.asList("Rat", "Mouse", "Human", "Chinchilla", "Bonobo", "Dog", "Squirrel", "Pig");
     List statusList = Arrays.asList("ACTIVE", "RETIRED", "WITHDRAWN", "PRIVATE");
 %>
 
