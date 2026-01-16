@@ -14,10 +14,9 @@
     List statusList = Arrays.asList("ACTIVE", "RETIRED", "WITHDRAWN", "PRIVATE");
 %>
 
-
-<form action="updateID.html" method="POST">
-<table border="0" style="border: 1px solid black; background-color:#f9f9f9;" width="200">
+<form action="updateID.html">
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
+<table border="0" style="border: 1px solid black; background-color:#f9f9f9;" width="200">
     <tr>
         <td colspan="2" style="background-color:#2865a3;"><span style="color:white; font-weight:700;">Object Information</span></td>
     </tr>
@@ -45,7 +44,7 @@
             <td colspan="2"><hr></td>
         </tr>
     
-    <tr align="right"><td colspan="3"><button type="submit">Update</button></td></tr>
+        <tr  align="right"><td colspan="3"><input type="button" value="Update" onclick="makePOSTRequest(this.form)"/></td></tr>
 </table>
 </form>
 

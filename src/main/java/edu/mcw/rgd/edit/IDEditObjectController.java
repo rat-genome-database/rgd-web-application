@@ -46,7 +46,7 @@ public class IDEditObjectController implements Controller {
         rid.setSpeciesTypeKey(SpeciesType.parse(request.getParameter("speciesType").toLowerCase()));
         rdao.updateRgdId(rid);
 
-        status.add("Update Successfull");
+        status.add("Update Successful");
 
         request.setAttribute("error", error);
         request.setAttribute("status", status);
