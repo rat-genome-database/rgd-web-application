@@ -43,6 +43,9 @@
                     <br>
                    <%@ include file="info.jsp"%>
                     <%@ include file="sampleMetadata.jsp"%>
+
+                    <%@include file="expressionValues.jsp"%>
+                    <%@include file="expressionValues_bkup.jsp"%>
                     <%@ include file="dataProcessing.jsp"%>
                 </td>
             </tr>

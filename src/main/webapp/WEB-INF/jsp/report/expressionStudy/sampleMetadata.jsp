@@ -6,8 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
+
     <style>
         .metadata-controls {
             display: flex;
@@ -110,8 +109,7 @@
         .col-application-method { display: none; }
         .col-notes { display: none; }
     </style>
-</head>
-<body>
+
 <%
     StudySampleMetadataDAO dao = new StudySampleMetadataDAO();
     List<StudySampleMetadata>metadata = dao.getStudySampleMetadata(obj.getId());
@@ -470,5 +468,4 @@
     });
 </script>
 
-</body>
-</html>
+<%@include file="sampleMetaDataDiv..jsp"%>
