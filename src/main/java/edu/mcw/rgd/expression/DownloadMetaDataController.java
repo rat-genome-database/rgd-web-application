@@ -151,6 +151,12 @@ public class DownloadMetaDataController implements Controller {
                 GeneExpressionRecord r = gdao.getGeneExpressionRecordBySampleId(s.getId());
                 List<Condition> conditions = gdao.getConditions(r.getId());
                 String condNames = "";
+
+                if (!Utils.isStringEmpty(s.getCellTypeAccId())){
+                    Term ct = xdao.getTermByAccId(s.getCellTypeTerm());
+                    condNames += ct.getTerm()+"; ";
+                }
+
                 String age = "";
                 if (Objects.equals(s.getAgeDaysFromLowBound(),s.getAgeDaysFromHighBound()) && s.getAgeDaysFromLowBound() != 0)
                     age = s.getAgeDaysFromHighBound()+"d; ";
@@ -159,8 +165,10 @@ public class DownloadMetaDataController implements Controller {
                 else
                     age = s.getLifeStage() + "; ";
                 condNames += age;
+
                 for (int i = 0; i < conditions.size(); i++){
                     Condition c = conditions.get(i);
+
                     boolean hasDuration = c.getDurationUpperBound()!=0.0 && c.getDurationLowerBound()!=0.0;
                     if (!Utils.isStringEmpty(c.getUnits()) && hasDuration){
 
@@ -177,6 +185,7 @@ public class DownloadMetaDataController implements Controller {
                     else { // only has units
                         condNames += getDoesText(c.getValueMin(),c.getValueMax(),c.getUnits()) + " ";
                     }
+
                     Term t = xdao.getTermByAccId(c.getOntologyId());
                     if (i == conditions.size()-1) {
                         condNames += t.getTerm();
