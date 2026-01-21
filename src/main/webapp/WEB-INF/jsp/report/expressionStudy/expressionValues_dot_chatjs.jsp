@@ -1,4 +1,7 @@
-<%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %><%--
+<%@ page import="edu.mcw.rgd.datamodel.pheno.Condition" %>
+<%@ page import="edu.mcw.rgd.dao.impl.GeneExpressionDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.GeneExpression" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 1/12/2026
@@ -50,10 +53,10 @@
             String gene = x.getGeneExpressionRecordValue().getExpressedGeneSymbol();
             String sample = x.getSample().getGeoSampleAcc();
             Double tpm = x.getGeneExpressionRecordValue().getTpmValue();
-            String condition = x.getGeneExpressionRecord().getExperimentCondition();
+        //    String condition = x.getGeneExpressionRecord().getExperimentCondition();
     %>
     var gene = "<%=gene%>";
-    var condition = "<%=condition%>";
+    var condition = "<%=sample%>";
     if (geneIndexMap[gene] === undefined) {
       geneIndexMap[gene] = geneIndex;
       genes.push(gene);
