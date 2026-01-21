@@ -21,11 +21,14 @@ import java.io.IOException;
 
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by jthota on 2/22/2017.
  */
 public class SearchService {
+
+    private static final Logger logger = Logger.getLogger(SearchService.class.getName());
 
     public ModelMap getResultsMap(SearchResponse sr, String term ) throws IOException {
         ModelMap model= new ModelMap();
@@ -136,6 +139,19 @@ public class SearchService {
                     String bType = new String();
                     bType = bucketType;
 
+                    // Debug logging for Expression Study
+                    if (bucketType.equalsIgnoreCase("Expression Study")) {
+                        logger.info("Expression Study bucket found with docCount: " + bucket.getDocCount());
+                        Terms subAgg = bucket.getAggregations().get("subspecies");
+                        if (subAgg != null) {
+                            for (Terms.Bucket b : subAgg.getBuckets()) {
+                                logger.info("  Subspecies: " + b.getKey() + " count: " + b.getDocCount());
+                            }
+                        } else {
+                            logger.info("  No subspecies aggregation found for Expression Study");
+                        }
+                    }
+
                     if(bucketType.equalsIgnoreCase("ontology")){
                         Terms ontologySubcatAgg=bucket.getAggregations().get("ontologies");
                         aggregations.put("ontology", ontologySubcatAgg.getBuckets());
@@ -224,15 +240,21 @@ public class SearchService {
                     }}
                 }
 
-             for (int j = 0; j < 7; j++) {
+             // Debug: log Expression Study row before null-fill
+                logger.info("Expression Study row BEFORE null-fill: " + Arrays.toString(speciesCatArray[8]));
 
-                    for (int l = 0; l < 11; l++) {
+                for (int j = 0; j < 9; j++) {
+
+                    for (int l = 1; l < 13; l++) {
                         if (speciesCatArray[j][l] == null || Objects.equals(speciesCatArray[j][l], "")) {
                             nvCount=nvCount+1;
                             speciesCatArray[j][l] = "-";
                         }
                     }
                 }
+
+                // Debug: log Expression Study row after null-fill
+                logger.info("Expression Study row AFTER null-fill: " + Arrays.toString(speciesCatArray[8]));
 
 
                 typeAgg = sr.getAggregations().get("type");
