@@ -153,7 +153,7 @@ public class DownloadMetaDataController implements Controller {
                 String condNames = "";
 
                 if (!Utils.isStringEmpty(s.getCellTypeAccId())){
-                    Term ct = xdao.getTermByAccId(s.getCellTypeTerm());
+                    Term ct = xdao.getTermByAccId(s.getCellTypeAccId());
                     condNames += ct.getTerm()+"; ";
                 }
 
