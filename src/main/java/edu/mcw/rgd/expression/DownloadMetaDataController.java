@@ -154,16 +154,16 @@ public class DownloadMetaDataController implements Controller {
 
                 if (!Utils.isStringEmpty(s.getCellTypeAccId())){
                     Term ct = xdao.getTermByAccId(s.getCellTypeAccId());
-                    condNames += ct.getTerm()+"; ";
+                    condNames += ct.getTerm()+";";
                 }
 
                 String age = "";
                 if (Objects.equals(s.getAgeDaysFromLowBound(),s.getAgeDaysFromHighBound()) && s.getAgeDaysFromLowBound() != 0)
-                    age = s.getAgeDaysFromHighBound()+"d; ";
+                    age = s.getAgeDaysFromHighBound()+"d;";
                 else if (!Objects.equals(s.getAgeDaysFromLowBound(), s.getAgeDaysFromHighBound()))
-                    age = s.getAgeDaysFromLowBound()+"-"+s.getAgeDaysFromHighBound()+"d;" + " ";
+                    age = s.getAgeDaysFromLowBound()+"-"+s.getAgeDaysFromHighBound()+"d;";
                 else
-                    age = s.getLifeStage() + "; ";
+                    age = s.getLifeStage() + ";";
                 condNames += age;
 
                 for (int i = 0; i < conditions.size(); i++){
@@ -174,16 +174,18 @@ public class DownloadMetaDataController implements Controller {
 
                         String strAdd = getDoesText(c.getValueMin(),c.getValueMax(),c.getUnits()) + " " +
                                 getReadableTimeFromSeconds(c.getDurationLowerBound(),c.getDurationUpperBound());
-                        condNames += strAdd + " ";
+                        if (!Utils.isStringEmpty(strAdd.trim()))
+                            condNames += strAdd + " ";
                     }
                     else if (Utils.isStringEmpty(c.getUnits()) && hasDuration){
-                        if (c.getDurationLowerBound()==c.getDurationUpperBound())
-                        {
-                            condNames += getReadableTimeFromSeconds(c.getDurationLowerBound(),c.getDurationUpperBound()) + " " ;
-                        }
+                        String durationStr = getReadableTimeFromSeconds(c.getDurationLowerBound(),c.getDurationUpperBound());
+                        if (!Utils.isStringEmpty(durationStr.trim()))
+                            condNames += durationStr + " " ;
                     }
                     else { // only has units
-                        condNames += getDoesText(c.getValueMin(),c.getValueMax(),c.getUnits()) + " ";
+                        String unitStr = getDoesText(c.getValueMin(),c.getValueMax(),c.getUnits());
+                        if (!Utils.isStringEmpty(unitStr.trim()))
+                            condNames += unitStr + " ";
                     }
 
                     Term t = xdao.getTermByAccId(c.getOntologyId());
