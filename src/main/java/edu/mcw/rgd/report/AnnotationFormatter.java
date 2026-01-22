@@ -14,6 +14,8 @@ import edu.mcw.rgd.reporting.Report;
 
 import java.util.*;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by IntelliJ IDEA.
@@ -288,7 +290,7 @@ public class AnnotationFormatter {
                     rec.append("&nbsp;");
                 }
                 else {
-                    rec.append(formatXdbUrlsShort(a.getNotes(), a));
+                    rec.append(formatNotesShort(a.getNotes(), a));
                 }
 
                 rec.append(a.getDataSrc());
@@ -373,31 +375,98 @@ public class AnnotationFormatter {
             info = info.replaceAll("[()]", "");
         }
 
-        String[] multipleInfos;
-        multipleInfos = info.split("\\s");
-//        if(!info.contains("|") && !info.contains("UniProt")){
-//            multipleInfos = info.split("(,\\b)|\\b,|([|;])");
-//        }else{
-//            multipleInfos = info.split("(,\\b)|\\b,|\\b|([|;])");
-//        }
+        // Split on pipe, comma, or semicolon with optional surrounding whitespace
+        String[] multipleInfos = info.split("\\s*[|,;]\\s*");
+
         String infoField = "";
-        if (multipleInfos.length>15){
-            for (int i = 0; i < 15; i++){
-                infoField += multipleInfos[i]+" ";
+        int count = 0;
+        for (String item : multipleInfos) {
+            String trimmed = item.trim();
+            if (!trimmed.isEmpty()) {
+                if (count > 0) {
+                    infoField += " & ";
+                }
+                infoField += formatXdbUrl(trimmed, objectKey);
+                count++;
+                // Limit to 15 items, show "more" link if there are more
+                if (count >= 15 && multipleInfos.length > 15) {
+                    infoField += makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
+                    break;
+                }
             }
-            infoField = formatXdbUrl(infoField,objectKey) + makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
         }
-        else {
-            infoField=formatXdbUrl(info,objectKey);
+        return infoField;
+    }
+
+    // For notes field: use regex to find and link DB refs, show first 15 words + "more" link if longer
+    // Pattern matches DB_PREFIX:accession patterns or rs followed by digits (for variants)
+    private static final Pattern DB_REF_PATTERN = Pattern.compile(
+        "\\b(RGD|UniProtKB|InterPro|PANTHER|[Ee]nsembl|SP_KW|UniProtKB-KW|PMID|MIM|ORPHA|ORDO|REF_RGD_ID|MGI|SGD|WB|FB|ZFIN|XCO|CHEBI):[^\\s,;|]+|\\brs\\d+\\b"
+    );
+
+    public static String formatNotesShort(String info, Annotation a) throws Exception {
+        if (info == null) {
+            return "";
         }
-//        if( multipleInfos.length==1 ) {
-//            infoField = formatXdbUrl(multipleInfos[0], objectKey);
-//        }
-//        else if( multipleInfos.length==2 ) {
-//            infoField = formatXdbUrl(multipleInfos[0], objectKey)+" and "+ formatXdbUrl(multipleInfos[1], objectKey);
-//        } else {
-//            infoField = formatXdbUrl(multipleInfos[0], objectKey)+makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
-//        }
+
+        int objectKey = a.getRgdObjectKey();
+        if (Utils.stringsAreEqualIgnoreCase(a.getDataSrc(), "ClinVar")) {
+            if (a.getSpeciesTypeKey() == SpeciesType.HUMAN)
+                objectKey = RgdId.OBJECT_KEY_VARIANTS;
+            else if (a.getSpeciesTypeKey() == SpeciesType.MOUSE || a.getSpeciesTypeKey() == SpeciesType.RAT)
+                objectKey = RgdId.OBJECT_KEY_GENES;
+            else
+                objectKey = 0;
+        }
+
+        if (a.getAspect().equalsIgnoreCase("P")
+                || a.getAspect().equalsIgnoreCase("C")
+                || a.getAspect().equalsIgnoreCase("F")
+                || (a.getAspect().equalsIgnoreCase("H") && !a.getDataSrc().equalsIgnoreCase("RGD"))
+                || a.getAspect().equalsIgnoreCase("N")) {
+            info = info.replaceAll("[()]", "");
+        }
+
+        // Check if truncation is needed (more than 15 words)
+        String[] words = info.split("\\s+");
+        boolean needsMore = words.length > 15;
+
+        String textToProcess;
+        if (needsMore) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 15; i++) {
+                if (i > 0) sb.append(" ");
+                sb.append(words[i]);
+            }
+            textToProcess = sb.toString();
+        } else {
+            textToProcess = info;
+        }
+
+        // Use regex to find and replace DB ref patterns with links
+        final int finalObjectKey = objectKey;
+        StringBuffer result = new StringBuffer();
+        Matcher matcher = DB_REF_PATTERN.matcher(textToProcess);
+
+        while (matcher.find()) {
+            String dbRef = matcher.group();
+            try {
+                String link = formatXdbUrl(dbRef, finalObjectKey);
+                // Escape $ and \ in replacement string
+                matcher.appendReplacement(result, Matcher.quoteReplacement(link));
+            } catch (Exception e) {
+                // If linking fails, keep original text
+                matcher.appendReplacement(result, Matcher.quoteReplacement(dbRef));
+            }
+        }
+        matcher.appendTail(result);
+
+        String infoField = result.toString();
+
+        if (needsMore) {
+            infoField += makeGeneTermAnnotLink(a.getAnnotatedObjectRgdId(), a.getTermAcc(), "pmore");
+        }
+
         return infoField;
     }
 
