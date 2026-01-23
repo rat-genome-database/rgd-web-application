@@ -71,7 +71,7 @@ To change this template use File | Settings | File Templates.
                     </ul>
                 </li>
                 <br>
-                <li>To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml#ris">click here</a></li>
+                <li>To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml?#ris">click here</a></li>
             </ul>
         </li>
     </ul>
