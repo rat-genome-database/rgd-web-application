@@ -9,6 +9,7 @@
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantMapData" %>
 <%@ page import="edu.mcw.rgd.dao.impl.variants.VariantDAO" %>
+<%@ page import="java.text.DecimalFormat" %>
 
 <%@ include file="carpeHeader.jsp"%>
 
@@ -69,6 +70,47 @@
             VariantMapData vmd = dao.getVariant((int)result.getVariant().getId());
             varRgdIds.add(vmd.getId());
 //            System.out.println(vmd.getId());
+            String ref = result.getVariant().getReferenceNucleotide();
+            String var = result.getVariant().getVariantNucleotide();
+            if(ref == null)
+                ref = "";
+            if (var == null)
+                var = "";
+            int linesForNucleotide = 1;
+            try {
+                if (ref.length() > 50) {
+                    linesForNucleotide = (ref.length() / 50) + 1;
+                    StringBuilder refBuild = new StringBuilder();
+                    for (int i = 0; i < linesForNucleotide; i++) {
+                        int start = (i * 50);
+                        int end = (i + 1) * 50;
+                        if (end > ref.length())
+                            refBuild.append(ref.substring(start));
+                        else
+                            refBuild.append(ref.substring(start, end));
+                        refBuild.append("<br>");
+                    }
+//                    refBuild.append(ref.substring((linesForNucleotide * 50)));
+                    ref = refBuild.toString();
+                } else if (var.length() > 50) {
+                    linesForNucleotide = (var.length() / 50) + 1;
+                    StringBuilder varBuild = new StringBuilder();
+                    for (int i = 0; i < linesForNucleotide; i++) {
+                        int start = (i * 50);
+                        int end = (i + 1) * 50;
+                        if (end > var.length())
+                            varBuild.append(var.substring(start));
+                        else
+                            varBuild.append(var.substring(start, end));
+                        varBuild.append("<br>");
+                    }
+//                    varBuild.append(ref.substring((linesForNucleotide * 50)));
+                    var = varBuild.toString();
+                }
+            }
+            catch (Exception e){
+//                System.out.println(e);
+            }
     if (vmd!=null && vmd.getRsId()!=null && !vmd.getRsId().equals(".")) {
     %>
     <div class="typerTitle"><div class="typerTitleSub"><%=vmd.getRsId()%></div></div>
@@ -91,10 +133,10 @@
                         <td class="carpeLabel">Position:</td><td>Chromosome: <%=result.getVariant().getChromosome()%> - <%=Utils.formatThousands((int) result.getVariant().getStartPos())%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel">Reference Nucleotide:</td><td><%=Utils.NVL(result.getVariant().getReferenceNucleotide(),"-")%></td>
+                        <td class="carpeLabel">Reference Nucleotide:</td><td><%=Utils.isStringEmpty(result.getVariant().getReferenceNucleotide()) ? Utils.NVL(result.getVariant().getReferenceNucleotide(),"-") : ref%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel">Variant Nucleotide:</td><td><%=Utils.NVL(result.getVariant().getVariantNucleotide(),"-")%></td>
+                        <td class="carpeLabel">Variant Nucleotide:</td><td><%=Utils.isStringEmpty(result.getVariant().getVariantNucleotide()) ? Utils.NVL(result.getVariant().getVariantNucleotide(),"-") : var%></td>
                     </tr>
                     <tr>
                         <td class="carpeLabel">Location:</td><td><%=result.getVariant().getGenicStatus()%></td>
@@ -161,8 +203,12 @@
                         <td><%=result.getVariant().getDepth()>0 ? result.getVariant().getDepth() : "n/a"%></td>
                     </tr>
                     <%
-                        String percentRead = result.getVariant().getZygosityPercentRead() + "%";
-                        String numAlleles = result.getVariant().getZygosityNumberAllele() + "";
+                        String numAlleles = result.getVariant().getVariantFrequency() + "";
+                        double alleleFreq = Double.parseDouble(numAlleles);
+                        DecimalFormat df=new DecimalFormat("#.##");
+                        double varPercent = (alleleFreq/result.getVariant().getDepth())*100;
+                        String percentRead = df.format(varPercent) + "%";
+
 
                         if (percentRead.equals("0.0%") || percentRead.equals("0%")) {
                             percentRead = "n/a";

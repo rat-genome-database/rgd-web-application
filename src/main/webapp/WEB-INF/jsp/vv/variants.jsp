@@ -313,7 +313,7 @@
 
                         <td><img src="/rgdweb/common/images/dot_clear.png" height=25/></td>
                         <td  valign="center">
-                            <div class="snpLabel"><a style="text-decoration:none;" title="<%=sampleAnalysisName%>" href="javascript:void(0);"><%=sampleName%></a>&nbsp;</div>
+                            <div class="snpLabel"><button style="font-size: 10px; border: 0" title="<%=sampleAnalysisName%>"><%=sampleName%></button>&nbsp;</div>
                         </td>
                     </tr>
                     <% } %>
