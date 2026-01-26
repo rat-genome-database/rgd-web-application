@@ -384,7 +384,7 @@ public class AnnotationFormatter {
             String trimmed = item.trim();
             if (!trimmed.isEmpty()) {
                 if (count > 0) {
-                    infoField += " & ";
+                    infoField += " ";
                 }
                 infoField += formatXdbUrl(trimmed, objectKey);
                 count++;
