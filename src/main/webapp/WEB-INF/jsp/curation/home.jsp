@@ -143,6 +143,10 @@ Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbs
                 <td>
                     <a href="journals.shtml">Journal List and Links</a></td>
             </tr>
+            <tr valign="top">
+                <td>
+                    <a href="https://rgd-jira.atlassian.net/jira/for-you">RGD JIRA</a></td>
+            </tr>
             </tbody>
         </table>
 
