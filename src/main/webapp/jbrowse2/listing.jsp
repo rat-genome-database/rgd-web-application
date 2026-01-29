@@ -90,13 +90,17 @@
                     <li>Rat (Rattus norvegicus)</li>
                 <ul>
                     <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=GRCr8&tracklist=true&tracks=Rat GRCr8 (rn8) Genes and Transcripts-GRCr8">GRCr8</a></li>
-                <li><a href="/jbrowse2/">mRatBN7.2</a></li>
+                    <li><a href="/jbrowse2/">mRatBN7.2</a></li>
                     <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Rnor_6.0&tracklist=true&tracks=Rat Rnor_6.0 (rn6) Genes and Transcripts-Rnor_6.0">Rnor_6.0</a></li>
-                                <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Rnor_5.0&tracklist=true&tracks=Rat Rnor_5.0 (rn5) Genes and Transcripts-Rnor_5.0">Rnor_5.0</a></li>
-                                <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=RGSC_v3.4&tracklist=true&tracks=Rat RGSC_v3.4 (rn4) Genes and Transcripts-RGSC_v3.4">RGSC_v3.4</a></li>
-                                <li><a href="/jbrowse2/?loc=Chr1:1..8,689,541&assembly=UTH_Rnor_SHR_Utx&tracklist=true&tracks=UTH_Rnor_SHR_Utx Genes and Transcripts-UTH_Rnor_SHR_Utx">UTH_Rnor_SHR_Utx</a></li>
-                                <li><a href="/jbrowse2/?loc=Chr1:1..8,689,541&assembly=UTH_Rnor_SHRSP_BbbUtx_1.0&tracklist=true&tracks=UTH_Rnor_SHRSP_BbbUtx_1.0 Genes and Transcripts-UTH_Rnor_SHRSP_BbbUtx_1.0">UTH_Rnor_SHRSP_BbbUtx_1.0</a></li>
-                                <li><a href="/jbrowse2/?loc=Chr1:1..8,689,541&assembly=UTH_Rnor_WKY_Bbb_1.0&tracklist=true&tracks=UTH_Rnor_WKY_Bbb_1.0 Genes and Transcripts-UTH_Rnor_WKY_Bbb_1.0">UTH_Rnor_WKY_Bbb_1.0</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Rnor_5.0&tracklist=true&tracks=Rat Rnor_5.0 (rn5) Genes and Transcripts-Rnor_5.0">Rnor_5.0</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=RGSC_v3.4&tracklist=true&tracks=Rat RGSC_v3.4 (rn4) Genes and Transcripts-RGSC_v3.4">RGSC_v3.4</a></li>
+                    <li><a href="/jbrowse2/?loc=Chr1:1..8,689,541&assembly=UTH_Rnor_SHR_Utx&tracklist=true&tracks=UTH_Rnor_SHR_Utx Genes and Transcripts-UTH_Rnor_SHR_Utx">UTH_Rnor_SHR_Utx</a></li>
+                    <li><a href="/jbrowse2/?loc=Chr1:1..8,689,541&assembly=UTH_Rnor_SHRSP_BbbUtx_1.0&tracklist=true&tracks=UTH_Rnor_SHRSP_BbbUtx_1.0 Genes and Transcripts-UTH_Rnor_SHRSP_BbbUtx_1.0">UTH_Rnor_SHRSP_BbbUtx_1.0</a></li>
+                    <li><a href="/jbrowse2/?loc=Chr1:1..8,689,541&assembly=UTH_Rnor_WKY_Bbb_1.0&tracklist=true&tracks=UTH_Rnor_WKY_Bbb_1.0 Genes and Transcripts-UTH_Rnor_WKY_Bbb_1.0">UTH_Rnor_WKY_Bbb_1.0</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Dahl_SR_JrHsd&tracklist=true&tracks=Rat Dahl_SR_JrHsd Genes and Transcripts-Dahl_SR_JrHsd">Dahl_SR_JrHsd</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=F344_StmMcwi&tracklist=true&tracks=Rat F344_StmMcwi Genes and Transcripts-F344_StmMcwi">F344_StmMcwi</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Lyon_Hypertensive&tracklist=true&tracks=Rat Lyon_Hypertensive Genes and Transcripts-Lyon_Hypertensive">Lyon_Hypertensive</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Lyon_Normot_Rat_Genome&tracklist=true&tracks=Rat Lyon_Normot_Rat_Genome Genes and Transcripts-Lyon_Normot_Rat_Genome">Lyon_Normotensive</a></li>
                 </ul>
                     <li>Black Rat (Rattus rattus)</li>
 		    <ul>
