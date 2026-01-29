@@ -265,7 +265,7 @@
                       <a href="/rgdweb/enrichment/start.html">Multi-Ontology Enrichment (MOET)</a>
                       <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
                       <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
-                      <a href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner (Quatitative Phenotypes)</a>
+                      <a href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner (Quantitative Phenotypes)</a>
                       <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>
                       <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
                       <a href="https://www.alliancegenome.org/bluegenes/alliancemine">AllianceMine</a>
