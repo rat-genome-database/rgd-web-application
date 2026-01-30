@@ -112,6 +112,10 @@ To change this template use File | Settings | File Templates.
                 <%--                <li>Strain/tissue-specific read counts (total, all reads from three replicates included)</li>--%>
             </ul>
         </li>
+        <br>
+        <li>
+            <a class="here" target="_blank" href="/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Profiles</a>
+        </li>
 <%--        <li>--%>
 <%--            Phenogen RNA-Seq Data:--%>
 <%--            <ul>--%>
