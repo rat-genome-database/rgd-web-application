@@ -221,7 +221,7 @@
                         <td class="carpeLabel" style="color:#053867;">% Variant Reads:</td><td><%=percentRead%></td>
                     </tr>
                     <tr>
-                        <td class="carpeLabel" style="color:#053867;">Total Alleles Read:</td><td><%=numAlleles%></td>
+                        <td class="carpeLabel" style="color:#053867;">Total Variant Reads:</td><td><%=numAlleles%></td>
                     </tr>
                     <% } else if(sample.getMapKey()!=17){
                     if(result!=null && result.getClinvarInfo()!=null && result.getClinvarInfo().getClinicalSignificance()!=null){%>
