@@ -23,7 +23,6 @@ To change this template use File | Settings | File Templates.
     List<HrdpPortalCache>hrdpClassicInbredStrains=null;
     List<HrdpPortalCache>hrdpHXBStrains = null;
     List<HrdpPortalCache>hrdpFXLEStrains = null;
-    RgdContext
     try {
         hrdpClassicInbredStrains = cacheDAO.getHrdpStrainsByGroupName("Classic Inbred Strains");
     }
