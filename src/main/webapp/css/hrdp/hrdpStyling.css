@@ -17,6 +17,25 @@ p,li, a.here, span{
     margin-top: 10px;
 }
 
+.hrdp-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.hrdp-header h1 {
+    margin: 0;
+}
+
+.hrdp-header #btn-contact {
+    position: absolute;
+    right: 0;
+}
+
 .mini-hrdp-img {
     float: right;
     margin-left: 15px;
@@ -28,6 +47,38 @@ p,li, a.here, span{
 
 .mini-hrdp-img:hover {
     transform: scale(1.35);
+}
+
+.hrdp-img-container {
+    float: right;
+    margin-left: 15px;
+    margin-right: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.hrdp-main-img {
+    max-width: 520px;
+    transition: transform 0.3s ease;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.hrdp-main-img:hover {
+    transform: scale(1.2);
+}
+
+.hrdpContent ul.horizontal-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.hrdpContent ul.horizontal-list li {
+    margin: 0 20px 0 0;
 }
 
 .btn-analyze,.btn-ok,.btn-cancel,#btn-contact {
@@ -240,7 +291,7 @@ p,li, a.here, span{
     border-radius: 4px; /* Rounded corners */
     padding: 10px; /* Add padding inside the border */
     background-color: #f9f9f9;
-    top: 40%;
+    top: 80px;
     left: 75%; /* Position to the right of the table */
     transform: translateX(13px); /* Add a small offset for spacing */
 }

@@ -38,29 +38,28 @@ To change this template use File | Settings | File Templates.
 %>
 <link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css">
 
-<h1 style="text-align: center;padding-top: 45px">The Hybrid Rat Diversity Panel</h1>
-<div style="text-align: end;">
-    <button id="btn-contact">
-        <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry" style="text-decoration: none">Contact HRDP</a>
-    </button>
-</div>
-<div style="text-align: center;padding-top: 50px">
-    <a title="Click here to jump to strain listing"  href="#strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image"></a>
-</div>
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
+    <div class="hrdp-header">
+        <h1>The Hybrid Rat Diversity Panel</h1>
+        <button id="btn-contact">
+            <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry" style="text-decoration: none">Contact HRDP</a>
+        </button>
+    </div>
+    <div class="hrdp-img-container">
+        <a title="Click here to jump to strain listing" href="#strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image" class="hrdp-main-img"></a>
+    </div>
     <h3>What is the Hybrid Rat Diversity Panel (HRDP)?</h3>
     <ul>
         <li>Panel of 96 inbred rat strains with genetic and phenotypic diversity
             <ul>
                 <li>33 genetically diverse "classic" inbred strains</li>
-                <li>Two recombinant inbred (RI) panels: FXLE/LEXF (33 strains, Japan) and HXB/BXH (30 strains, Czech Republic)
-                    <ul>
+                <li>Two recombinant inbred (RI) panels: FXLE/LEXF (33 strains, Japan) and HXB/BXH (30 strains, Czech Republic). To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml?#ris">click here</a>.
+                    <ul class="horizontal-list">
                         <li><a class="here" href="/rgdweb/report/strain/main.html?id=7244374">FXLE/Stm</a></li>
                         <li><a class="here" href="/rgdweb/report/strain/main.html?id=629500">LEXF/Stm</a></li>
                         <li><a class="here" href="/rgdweb/report/strain/main.html?id=61098">BXH/Ipcv</a></li>
                         <li><a class="here" href="/rgdweb/report/strain/main.html?id=61099">HXB/Ipcv</a></li>
-                        <li>To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml?#ris">click here</a></li>
                     </ul>
                 </li>
                 <li>
@@ -75,7 +74,7 @@ To change this template use File | Settings | File Templates.
             Many of the HRDP strains are currently available for experiments. <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry">Contact HRDP</a> for details.
         </li>
         <li>
-           Quantitative phenotype measurements can be explored through PhenoMiner
+           Quantitative phenotype measurements can be explored through <a class="here" href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner</a>
         </li>
         <li>
             Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
@@ -96,50 +95,8 @@ To change this template use File | Settings | File Templates.
             </ul>
         </li>
         <li>
-            References:
-            <ul>
-                <%
-                    // Reference data - different RGD IDs for dev vs pipelines/prod
-                    String[][] hrdpRefs;
-                    if (RgdContext.isDev() || request.getServerName().contains("localhost")) {
-                        hrdpRefs = new String[][] {
-                            {"39907792", "640030560"},
-                            {"36186443", "401959584"},
-                            {"31228159", "640030561"}
-                        };
-                    } else {
-                        hrdpRefs = new String[][] {
-                            {"39907792", "632517862"},
-                            {"36186443", "401959584"},
-                            {"31228159", "632517863"}
-                        };
-                    }
-                    ReferenceDAO refDAO = new ReferenceDAO();
-                    for (String[] refData : hrdpRefs) {
-                        String pmId = refData[0];
-                        String rgdId = refData[1];
-                        try {
-                            Reference ref = refDAO.getReferenceByRgdId(Integer.parseInt(rgdId));
-                            if (ref != null) {
-                %>
-                <li>
-                    <b><%=ref.getTitle()%></b><br>
-                    <%=ref.getCitation()%>
-                    PMID: <a class="here" target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>"><%=pmId%></a>,
-                    RGD ID: <a class="here" href="/rgdweb/report/reference/main.html?id=<%=rgdId%>"><%=rgdId%></a>
-                </li>
-                <%
-                            }
-                        } catch (Exception e) {
-                            // Reference doesn't exist in this environment yet, skip it
-                        }
-                    }
-                %>
-            </ul>
-        </li>
-        <li>
             <a class="here" target="_blank" href="<%= (RgdContext.isDev() || RgdContext.isTest()) ? "https://pipelines.rgd.mcw.edu" : ""
-  %>/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Profiles</a>
+  %>/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Profiles on JBrowse 2</a>
         </li>
     </ul>
         <h3>How can the HRDP resources be leveraged for New Approach Methodologies (NAMs)?</h3>
@@ -183,11 +140,11 @@ To change this template use File | Settings | File Templates.
     </p>
     <form id="hrdpForm" method="post" target="_blank">
         <%if (hrdpClassicInbredStrains!=null) {%>
-        <div class="legend">
-            <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Data for listed strains exist and related strains may exist.</div>
-            <div><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick">- No data available.</div>
-        </div>
         <div class="centered">
+            <div class="legend">
+                <div><img src="/rgdweb/common/images/hrdp/greentick.png" alt="greentick">- Data for listed strains exist and related strains may exist.</div>
+                <div><img src="/rgdweb/common/images/hrdp/redtick.png" alt="redtick">- No data available.</div>
+            </div>
             <table  class="hrdpTable">
                 <thead>
                 <tr><th colspan="5" class="table-heading">Classic&nbsp;Inbred&nbsp;Strains</th></tr>
@@ -492,6 +449,52 @@ To change this template use File | Settings | File Templates.
         </div>
     </form>
 </div>
+
+<div style="margin-left: 15px; margin-top: 20px; margin-bottom: 20px;">
+    <div class="hrdpContent">
+    <h3>References</h3>
+    <ul>
+        <%
+            // Reference data - different RGD IDs for dev vs pipelines/prod
+            String[][] hrdpRefs;
+            if (RgdContext.isDev() || request.getServerName().contains("localhost")) {
+                hrdpRefs = new String[][] {
+                    {"39907792", "640030560"},
+                    {"36186443", "401959584"},
+                    {"31228159", "640030561"}
+                };
+            } else {
+                hrdpRefs = new String[][] {
+                    {"39907792", "632517862"},
+                    {"36186443", "401959584"},
+                    {"31228159", "632517863"}
+                };
+            }
+            ReferenceDAO refDAO = new ReferenceDAO();
+            for (String[] refData : hrdpRefs) {
+                String pmId = refData[0];
+                String rgdId = refData[1];
+                try {
+                    Reference ref = refDAO.getReferenceByRgdId(Integer.parseInt(rgdId));
+                    if (ref != null) {
+        %>
+        <li>
+            <b><%=ref.getTitle()%></b><br>
+            <%=ref.getCitation()%>
+            PMID: <a class="here" target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>"><%=pmId%></a>,
+            RGD ID: <a class="here" href="/rgdweb/report/reference/main.html?id=<%=rgdId%>"><%=rgdId%></a>
+        </li>
+        <%
+                    }
+                } catch (Exception e) {
+                    // Reference doesn't exist in this environment yet, skip it
+                }
+            }
+        %>
+    </ul>
+    </div>
+</div>
+
 <%@ include file="/common/footerarea.jsp"%>
 
 <script type="text/javascript">
