@@ -209,7 +209,7 @@
         font-weight: bold;
     }
 </style>
-
+<div id="expression-genome-browser">
 <h2>Interactive Genome Browser</h2>
 
 <div class="genome-browser-container">
@@ -297,7 +297,7 @@
 
     <div class="gb-gene-tooltip" id="gbTooltip"></div>
 </div>
-
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var rawData = [];
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // debug('Script started, fetching data...');
 
     // Fetch data
-    fetch('/rgdweb/data/expression_observations_positions.json')
+    fetch('/rgdweb/data/expression_observations_'+objectId+'.json')
         .then(function(response) {
             return response.json();
         })
@@ -343,7 +343,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(function(error) {
             debug('ERROR loading data: ' + error.message);
-            document.getElementById('gbLoading').textContent = 'Error loading data: ' + error.message;
+            // document.getElementById('gbLoading').textContent = 'Error loading data: ' + error.message;
+            document.getElementById('expression-genome-browser').innerHTML = ''
         });
 
     function processData() {

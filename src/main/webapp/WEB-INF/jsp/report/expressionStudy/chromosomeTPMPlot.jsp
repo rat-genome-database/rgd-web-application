@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<div id="chromosome-tpm-plot">
 
 <style>
     .manhattan-container {
@@ -127,7 +128,7 @@
     <span class="manhattan-legend-item"><span class="manhattan-legend-color" style="background: #999;"></span>Below Detection</span>
     <span style="margin-left: 20px;"><strong>Chromosomes:</strong> Alternating colors (odd: blue tones, even: yellow tones)</span>
 </div>
-
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var rawData = null;
@@ -175,7 +176,8 @@
             })
             .catch(function(error) {
                 console.error('Error loading expression data:', error);
-                document.getElementById('manhattanLoading').textContent = 'Error loading data: ' + error.message;
+                // document.getElementById('manhattanLoading').textContent = 'Error loading data: ' + error.message;
+                document.getElementById('chromosome-tpm-plot').innerHTML = ''
             });
 
         function sortChromosomes(chrList) {
