@@ -49,8 +49,8 @@
 <%--                    <%@include file="expressionValues_dot_chatjs.jsp"%>--%>
 
 <%--                    <%@include file="dotPlot.jsp"%>--%>
-                    <%@include file="chromosomeTPMPlot.jsp"%>
-                    <%@include file="genomeBrowser.jsp"%>
+<%--                    <%@include file="chromosomeTPMPlot.jsp"%>--%>
+<%--                    <%@include file="genomeBrowser.jsp"%>--%>
 
                     <%@ include file="dataProcessing.jsp"%>
                 </td>
