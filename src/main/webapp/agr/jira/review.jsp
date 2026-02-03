@@ -36,7 +36,7 @@
     StringBuilder content = new StringBuilder();
 
     //try (BufferedReader reader = new BufferedReader(new FileReader("/Users/jdepons/jira.key"))) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
+      try (BufferedReader reader = new BufferedReader(new FileReader("/data/conf/jira.key"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 content.append(line);
@@ -44,7 +44,7 @@
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+
 
     String apiToken = content.toString();
 
@@ -52,7 +52,7 @@
 
     HttpRequest restRequest = HttpRequest.newBuilder()
             .GET()
-            .uri(java.net.URI.create("https://agr-jira.atlassian.net/rest/agile/1.0/board/66/sprint/?startAt=40"))
+            .uri(java.net.URI.create("https://agr-jira.atlassian.net/rest/agile/1.0/board/66/sprint/?startAt=60"))
             .header("Content-Type", "application/json")
             .header("Authorization", "Basic  " + Base64.getEncoder().encodeToString(valueToEncode.getBytes()))
             .build();
