@@ -50,103 +50,127 @@ To change this template use File | Settings | File Templates.
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
     <h3>What is the Hybrid Rat Diversity Panel (HRDP)?</h3>
-    <br>
     <ul>
         <li>Panel of 96 inbred rat strains with genetic and phenotypic diversity
             <ul>
-                <br>
-                <li>33 genetically diverse “classic” inbred strains</li>
-                <br>
+                <li>33 genetically diverse "classic" inbred strains</li>
                 <li>Two recombinant inbred (RI) panels: FXLE/LEXF (33 strains, Japan) and HXB/BXH (30 strains, Czech Republic)
                     <ul>
-                        <br>
                         <li><a class="here" href="/rgdweb/report/strain/main.html?id=7244374">FXLE/Stm</a></li>
-                        <br>
                         <li><a class="here" href="/rgdweb/report/strain/main.html?id=629500">LEXF/Stm</a></li>
-                        <br>
                         <li><a class="here" href="/rgdweb/report/strain/main.html?id=61098">BXH/Ipcv</a></li>
-                        <br>
                         <li><a class="here" href="/rgdweb/report/strain/main.html?id=61099">HXB/Ipcv</a></li>
+                        <li>To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml?#ris">click here</a></li>
                     </ul>
                 </li>
-                <br>
-                <li>To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml?#ris">click here</a></li>
+                <li>
+                    A Mini-HRDP panel – 8 classic inbred strains including the RI progenitor strains - is suitable for most experimental protocols, including behavioral assays and the progenitors for the two recombinant inbred panels.
+                </li>
             </ul>
         </li>
     </ul>
-    <br>
     <h3>What resources are available for the HRDP?</h3>
     <ul>
-        <br>
         <li>
             Many of the HRDP strains are currently available for experiments. <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry">Contact HRDP</a> for details.
         </li>
-        <br>
         <li>
            Quantitative phenotype measurements can be explored through PhenoMiner
         </li>
-        <br>
         <li>
             Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
         </li>
-        <br>
         <li>
             Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org/">PhenoGen Informatics</a>
             <ul>
-                <br>
                 <li>
                     <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
                         UCSC&nbsp;Track&nbsp;Hubs
                     </a>
                 </li>
-                <br>
                 <li>
                     <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">
                         Download</a>
                     RNA-Seq&nbsp;Data&nbsp;from&nbsp;PhenoGen&nbsp;Informatics
                 </li>
-                <%--                <li>IsoSeq alignments for brain, liver, or combined tissues</li>--%>
-                <%--                <li>Reconstructed transcriptomes with merged tissue-specific read counts</li>--%>
-                <%--                <li>Strain/tissue-specific read counts (sampled to the lowest strain)</li>--%>
-                <%--                <li>Strain/tissue-specific read counts (total, all reads from three replicates included)</li>--%>
             </ul>
         </li>
-        <br>
+        <li>
+            References:
+            <ul>
+                <%
+                    // Reference data - different RGD IDs for dev vs pipelines/prod
+                    String[][] hrdpRefs;
+                    if (RgdContext.isDev() || request.getServerName().contains("localhost")) {
+                        hrdpRefs = new String[][] {
+                            {"39907792", "640030560"},
+                            {"36186443", "401959584"},
+                            {"31228159", "640030561"}
+                        };
+                    } else {
+                        hrdpRefs = new String[][] {
+                            {"39907792", "632517862"},
+                            {"36186443", "401959584"},
+                            {"31228159", "632517863"}
+                        };
+                    }
+                    ReferenceDAO refDAO = new ReferenceDAO();
+                    for (String[] refData : hrdpRefs) {
+                        String pmId = refData[0];
+                        String rgdId = refData[1];
+                        try {
+                            Reference ref = refDAO.getReferenceByRgdId(Integer.parseInt(rgdId));
+                            if (ref != null) {
+                %>
+                <li>
+                    <b><%=ref.getTitle()%></b><br>
+                    <%=ref.getCitation()%>
+                    PMID: <a class="here" target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/<%=pmId%>"><%=pmId%></a>,
+                    RGD ID: <a class="here" href="/rgdweb/report/reference/main.html?id=<%=rgdId%>"><%=rgdId%></a>
+                </li>
+                <%
+                            }
+                        } catch (Exception e) {
+                            // Reference doesn't exist in this environment yet, skip it
+                        }
+                    }
+                %>
+            </ul>
+        </li>
         <li>
             <a class="here" target="_blank" href="<%= (RgdContext.isDev() || RgdContext.isTest()) ? "https://pipelines.rgd.mcw.edu" : ""
   %>/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Profiles</a>
         </li>
-<%--        <li>--%>
-<%--            Phenogen RNA-Seq Data:--%>
-<%--            <ul>--%>
-<%--                <br>--%>
-<%--                <li>--%>
-<%--                    <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">Download from Phenogen Portal</a>--%>
-<%--                </li>--%>
-<%--                <br>--%>
-<%--                <li>--%>
-<%--                    Phenogen RNA expression levels in the Hybrid Rat Diversity Panel (<a class="here" target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/36186443/">PMID: 36186443</a>)--%>
-<%--                </li>--%>
-<%--                &lt;%&ndash;                <li>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    RNA-Seq downloads: normalized expression (TPM or regularized log [rLog]), for whole brain, heart, liver, kidney&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                </li>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                <li>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    Data available for individual samples or as strain mean expression (text files, matrix format)&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                </li>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                <li>&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                    Tissue-specific reconstructed transcriptome available as GTF files&ndash;%&gt;--%>
-<%--                &lt;%&ndash;                </li>&ndash;%&gt;--%>
-<%--            </ul>--%>
-<%--        </li>--%>
     </ul>
-    <br>
+        <h3>How can the HRDP resources be leveraged for New Approach Methodologies (NAMs)?</h3>
+        <ul>
+            <li>
+                <img src="/rgdweb/common/images/hrdp/Mini-HRDP.png" alt="Mini-HRDP and HS Founder Best Match" class="mini-hrdp-img">
+                Well characterized subsets of HRDP strains can be used to complement, benchmark, and validate human disease mechanisms. Two important subsets include the mini-HRDP and the Heterogeneous Stock (HS) founder strains. <b>Use of these smaller panels can reduce the use of animals through focused pre-clinical studies</b>.
+                <ul>
+                    <li>
+                        Both subsets capture genetic and phenotypic variability of the full HRDP.
+                    </li>
+                    <li>
+                        Mini-HRDP includes 8 strains suitable for most experimental protocols, including behavioral assays and the progenitors for the two recombinant inbred panels.
+                    </li>
+                    <li>
+                        The HS founder strains are the strains that most closely represent the 8 inbred strains used to create the Heterogeneous Stock outbred population.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                The wealth of available genomic and phenotypic data for the HRDP strains can be used to <b>validate NAMs data</b>. PhenoMiner and Variant Visualizer can be used to explore and access the data.
+            </li>
+            <li>
+                Data is available for download for use in computational models.
+            </li>
+        </ul>
     <h3>How do the HRDP strains relate to the Heterogenous Stock (HS) founder strains?</h3>
     <ul>
-        <br>
         <li>
             Based on sequence similarity, the best match from the HRDP inbred strains has been identified for each of the HS founder strains.
         </li>
-        <br>
         <li>For more information about the HRDP strains matched to the HS founders, <a class="here" href="https://rgd.mcw.edu/wg/hrdp_panel/hrdp-to-hs-founder-strain-genetic-similarity/">click here</a>
         </li>
     </ul>
