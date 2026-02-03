@@ -9,6 +9,27 @@ p,li, a.here, span{
     padding: 20px;
 }
 
+.hrdpContent ul li {
+    margin-bottom: 10px;
+}
+
+.hrdpContent ul li:first-child {
+    margin-top: 10px;
+}
+
+.mini-hrdp-img {
+    float: right;
+    margin-left: 15px;
+    margin-right: 30px;
+    margin-bottom: 10px;
+    max-width: 220px;
+    transition: transform 0.3s ease;
+}
+
+.mini-hrdp-img:hover {
+    transform: scale(1.35);
+}
+
 .btn-analyze,.btn-ok,.btn-cancel,#btn-contact {
     background-color: #2865A3;
     padding: 10px 20px;

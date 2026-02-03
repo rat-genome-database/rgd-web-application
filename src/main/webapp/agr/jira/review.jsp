@@ -52,7 +52,7 @@
 
     HttpRequest restRequest = HttpRequest.newBuilder()
             .GET()
-            .uri(java.net.URI.create("https://agr-jira.atlassian.net/rest/agile/1.0/board/66/sprint/?startAt=40"))
+            .uri(java.net.URI.create("https://agr-jira.atlassian.net/rest/agile/1.0/board/66/sprint/?startAt=60"))
             .header("Content-Type", "application/json")
             .header("Authorization", "Basic  " + Base64.getEncoder().encodeToString(valueToEncode.getBytes()))
             .build();
