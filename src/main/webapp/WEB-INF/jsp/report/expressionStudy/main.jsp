@@ -20,6 +20,7 @@
 <html>
 <script>
     let reportTitle = "Expression Study";
+    let objectId="<%=obj.getId()%>";
 </script>
 <body>
 <style>
@@ -44,8 +45,13 @@
                    <%@ include file="info.jsp"%>
                     <%@ include file="sampleMetadata.jsp"%>
 
-                    <%@include file="expressionValues.jsp"%>
-                    <%@include file="expressionValues_bkup.jsp"%>
+<%--                    <%@include file="expressionValues_heatmap.jsp"%>--%>
+<%--                    <%@include file="expressionValues_dot_chatjs.jsp"%>--%>
+
+<%--                    <%@include file="dotPlot.jsp"%>--%>
+                    <%@include file="chromosomeTPMPlot.jsp"%>
+                    <%@include file="genomeBrowser.jsp"%>
+
                     <%@ include file="dataProcessing.jsp"%>
                 </td>
             </tr>
