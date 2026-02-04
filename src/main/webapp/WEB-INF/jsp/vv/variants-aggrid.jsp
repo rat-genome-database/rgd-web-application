@@ -720,6 +720,11 @@
         color: white;
     }
 
+    .btn-success {
+        background: #28a745;
+        color: white;
+    }
+
     /* Position header area above the grid */
     .position-header-wrapper {
         overflow: hidden;
@@ -848,6 +853,7 @@
             <h3>Variant Data - <%= positions.size() %> positions, <%= samples.size() %> samples</h3>
             <div class="grid-controls">
                 <button class="btn-info" onclick="showOverview()">Overview</button>
+                <button class="btn-success" onclick="groupBySimilarity()">Group by Similarity</button>
                 <button class="btn-secondary" onclick="resetRowOrder()">Reset Order</button>
                 <button class="btn-primary" onclick="exportToCSV()">Export CSV</button>
             </div>
@@ -1214,6 +1220,101 @@
         if (gridApi) {
             gridApi.setGridOption('rowData', JSON.parse(JSON.stringify(originalRowData)));
         }
+    }
+
+    // ========================================
+    // Similarity Grouping Functions
+    // ========================================
+
+    /**
+     * Compute similarity score between two sample rows
+     * Returns the number of positions where both samples have the same variant value
+     */
+    function computeSimilarity(row1, row2) {
+        let matches = 0;
+        let total = 0;
+
+        positionList.forEach(pos => {
+            const key = 'pos_' + pos;
+            const val1 = row1[key];
+            const val2 = row2[key];
+
+            if (val1 && val2) {
+                total++;
+                // Compare the variant values (A, T, C, G, A/T, etc.)
+                if (val1.value === val2.value) {
+                    matches++;
+                }
+            }
+        });
+
+        // Return similarity as a ratio (0 to 1)
+        return total > 0 ? matches / total : 0;
+    }
+
+    /**
+     * Group rows by similarity using greedy neighbor-joining algorithm
+     * Starts with first row, then repeatedly adds the most similar remaining row
+     */
+    function groupBySimilarity() {
+        if (!gridApi) return;
+
+        // Get current row data from grid
+        const currentRows = [];
+        gridApi.forEachNode(node => {
+            currentRows.push(node.data);
+        });
+
+        if (currentRows.length <= 1) return;
+
+        // Build similarity matrix (for efficiency, precompute all pairs)
+        const n = currentRows.length;
+        const similarity = [];
+        for (let i = 0; i < n; i++) {
+            similarity[i] = [];
+            for (let j = 0; j < n; j++) {
+                if (i === j) {
+                    similarity[i][j] = 1; // Perfect similarity with self
+                } else if (j < i) {
+                    similarity[i][j] = similarity[j][i]; // Symmetric
+                } else {
+                    similarity[i][j] = computeSimilarity(currentRows[i], currentRows[j]);
+                }
+            }
+        }
+
+        // Greedy ordering: start with first row, repeatedly add most similar
+        const ordered = [];
+        const used = new Set();
+
+        // Start with the first row
+        ordered.push(currentRows[0]);
+        used.add(0);
+
+        // Keep adding the most similar remaining row to the last added row
+        while (ordered.length < n) {
+            const lastIdx = currentRows.indexOf(ordered[ordered.length - 1]);
+            let bestIdx = -1;
+            let bestSim = -1;
+
+            for (let i = 0; i < n; i++) {
+                if (!used.has(i)) {
+                    if (similarity[lastIdx][i] > bestSim) {
+                        bestSim = similarity[lastIdx][i];
+                        bestIdx = i;
+                    }
+                }
+            }
+
+            if (bestIdx >= 0) {
+                ordered.push(currentRows[bestIdx]);
+                used.add(bestIdx);
+            }
+        }
+
+        // Update grid with new order
+        gridApi.setGridOption('rowData', ordered);
+        console.log('Rows grouped by similarity');
     }
 
     function exportToCSV() {
