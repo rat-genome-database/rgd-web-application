@@ -169,8 +169,8 @@ const EntityHighlighting = {
         const style = this.getEntityStyle(entity);
         const title = this.createTooltipText(entity);
 
-        return `<span class="entity-highlight ${typeClass} ${confidenceClass}" 
-                      id="${entityId}" 
+        return `<span class="entity-highlight ${typeClass} ${confidenceClass}"
+                      id="${entityId}"
                       data-entity-id="${entityId}"
                       data-entity-type="${entity.entityType}"
                       data-confidence="${entity.confidenceScore}"
@@ -180,7 +180,7 @@ const EntityHighlighting = {
                       title="${this.escapeHtml(title)}"
                       tabindex="0"
                       role="button"
-                      aria-label="Entity: ${this.escapeHtml(text)} (${entity.entityType})">${this.escapeHtml(text)}</span>`;
+                      aria-label="Entity: ${this.escapeHtml(text)} (${entity.entityType})">${this.escapeHtml(text)}<span class="send-to-launcher-icon" onclick="event.stopPropagation(); EntityHighlighting.sendEntityToLauncher('${entityId}')" title="Send to launcher"><i class="fas fa-paper-plane"></i></span></span>`;
     },
 
     /**
@@ -730,6 +730,31 @@ const EntityHighlighting = {
      */
     getState() {
         return { ...this.state };
+    },
+
+    /**
+     * Send entity to launcher window
+     */
+    sendEntityToLauncher(entityId) {
+        const entity = this.state.entityMap.get(entityId);
+        if (entity && window.sendToLauncher) {
+            const entityData = {
+                action: 'addEntity',
+                entity: {
+                    text: entity.entityText,
+                    type: entity.entityType,
+                    confidence: entity.confidenceScore,
+                    startPosition: entity.startPosition,
+                    endPosition: entity.endPosition,
+                    matchedTermName: entity.matchedTermName || null,
+                    matchedOntologyId: entity.matchedOntologyId || null
+                }
+            };
+            window.sendToLauncher(JSON.stringify(entityData));
+            console.log('Entity sent to launcher:', entity.entityText);
+        } else {
+            console.log('Launcher window not available');
+        }
     },
 
     /**

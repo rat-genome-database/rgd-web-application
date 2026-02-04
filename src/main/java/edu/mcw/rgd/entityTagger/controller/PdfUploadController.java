@@ -72,6 +72,8 @@ public class PdfUploadController implements Controller {
             return showEntityTaggerIndex(request);
         } else if (requestURI.endsWith("curation/entityTagger/main.html") && "GET".equals(method)) {
             return showEntityTaggerMain(request);
+        } else if (requestURI.endsWith("curation/entityTagger/launcher.html") && "GET".equals(method)) {
+            return showLauncherPage(request);
         } else if (requestURI.endsWith("curation/pdf/upload.html")) {
             if ("GET".equals(method)) {
                 return showUploadPage(request);
@@ -126,6 +128,18 @@ public class PdfUploadController implements Controller {
         mav.addObject("sessionId", sessionId);
         
         CurationLogger.exiting(PdfUploadController.class, "showEntityTaggerMain");
+        return mav;
+    }
+
+    /**
+     * Display the launcher page for opening Ontomation in a new window
+     */
+    private ModelAndView showLauncherPage(HttpServletRequest request) {
+        CurationLogger.entering(PdfUploadController.class, "showLauncherPage");
+
+        ModelAndView mav = new ModelAndView("/WEB-INF/jsp/curation/entityTagger/launcher.jsp");
+
+        CurationLogger.exiting(PdfUploadController.class, "showLauncherPage");
         return mav;
     }
 
@@ -632,6 +646,10 @@ public class PdfUploadController implements Controller {
             .append(".tooltip .tooltiptext{visibility:hidden;width:220px;background-color:#2c3e50;color:#fff;text-align:center;padding:8px 12px;border-radius:6px;position:absolute;z-index:1000;bottom:130%;left:50%;margin-left:-110px;opacity:0;transition:opacity 0.3s ease;font-size:12px;font-weight:normal;box-shadow:0 4px 8px rgba(0,0,0,0.2);}")
             .append(".tooltip:hover .tooltiptext{visibility:visible;opacity:0.95;}")
             .append(".tooltip .tooltiptext::after{content:'';position:absolute;top:100%;left:50%;margin-left:-5px;border-width:5px;border-style:solid;border-color:#2c3e50 transparent transparent transparent;}")
+            .append(".entity-box{position:relative;display:inline-block;}")
+            .append(".send-icon{position:absolute;top:-12px;right:-12px;background:#007bff;color:white;border-radius:50%;width:20px;height:20px;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:10px;z-index:100;box-shadow:0 2px 4px rgba(0,0,0,0.3);}")
+            .append(".entity-box:hover .send-icon{display:flex;}")
+            .append(".send-icon:hover{background:#0056b3;transform:scale(1.1);}")
             .append(".column-header{font-weight:bold;color:#666;border-bottom:1px solid #ddd;padding-bottom:5px;margin-bottom:10px;}")
             .append(".chat-container{display:flex;flex-direction:column;height:600px;border:1px solid #ddd;border-radius:8px;}")
             .append(".chat-messages{flex:1;overflow-y:auto;padding:20px;background:#f8f9fa;}")
@@ -833,6 +851,39 @@ public class PdfUploadController implements Controller {
             .append("  };")
             .append("  xhr.send(JSON.stringify({question: question}));")
             .append("}")
+            .append("function sendEntityToLauncher(entityName, entityType) {")
+            .append("  if (window.opener && !window.opener.closed) {")
+            .append("    var payload = {")
+            .append("      type: 'ontomation-message',")
+            .append("      data: JSON.stringify({")
+            .append("        action: 'addEntity',")
+            .append("        entity: {")
+            .append("          text: entityName,")
+            .append("          type: entityType.toUpperCase(),")
+            .append("          confidence: 1.0")
+            .append("        }")
+            .append("      }),")
+            .append("      timestamp: new Date().toISOString()")
+            .append("    };")
+            .append("    window.opener.postMessage(payload, '*');")
+            .append("    console.log('Entity sent to launcher:', entityName);")
+            .append("    alert('Entity sent: ' + entityName);")
+            .append("  } else {")
+            .append("    alert('Launcher window not available. Please open this page from the Ontomation Launcher.');")
+            .append("  }")
+            .append("}")
+            .append("document.addEventListener('click', function(e) {")
+            .append("  var icon = e.target.closest('.send-icon');")
+            .append("  if (icon) {")
+            .append("    e.stopPropagation();")
+            .append("    var box = icon.closest('.entity-box');")
+            .append("    if (box) {")
+            .append("      var name = box.getAttribute('data-entity-name');")
+            .append("      var type = box.getAttribute('data-entity-type');")
+            .append("      sendEntityToLauncher(name, type);")
+            .append("    }")
+            .append("  }")
+            .append("});")
             .append("</script>")
             .append("<p><a href='javascript:history.back()'>← Back to Upload</a></p>")
             .append("</body></html>");
@@ -891,8 +942,11 @@ public class PdfUploadController implements Controller {
             
             // Create case-insensitive pattern
             String pattern = "(?i)\\b" + java.util.regex.Pattern.quote(entityName) + "\\b";
-            String replacement = "<span class='highlight-" + entityType + " tooltip'>" +
-                "$0<span class='tooltiptext'>" + entityType + ": " + entityName + "</span></span>";
+            // Use data attributes to avoid quote escaping issues
+            String safeEntityName = entityName.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
+            String replacement = "<span class='highlight-" + entityType + " tooltip entity-box' data-entity-name='" + safeEntityName + "' data-entity-type='" + entityType + "'>" +
+                "$0<span class='tooltiptext'>" + entityType + ": " + entityName + "</span>" +
+                "<span class='send-icon'><i class='fas fa-paper-plane'></i></span></span>";
             
             highlightedText = highlightedText.replaceAll(pattern, replacement);
         }

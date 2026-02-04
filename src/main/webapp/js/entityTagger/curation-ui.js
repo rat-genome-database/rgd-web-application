@@ -380,7 +380,7 @@ const CurationUI = {
         const typeColor = this.getEntityTypeColor(entity.entityType);
         
         return $(`
-            <div class="entity-item" data-index="${index}" data-type="${entity.entityType}">
+            <div class="entity-item" data-index="${index}" data-type="${entity.entityType}" style="position: relative;">
                 <div class="entity-text">${this.escapeHtml(entity.entityText)}</div>
                 <div class="entity-meta">
                     <div>
@@ -394,7 +394,7 @@ const CurationUI = {
                     <div class="d-flex align-items-center">
                         <span class="text-muted">${(entity.confidenceScore * 100).toFixed(1)}%</span>
                         <div class="confidence-bar">
-                            <div class="confidence-fill confidence-${confidenceLevel}" 
+                            <div class="confidence-fill confidence-${confidenceLevel}"
                                  style="width: ${entity.confidenceScore * 100}%"></div>
                         </div>
                     </div>
@@ -404,6 +404,12 @@ const CurationUI = {
                         ${entity.validationStatus}
                     </div>
                 ` : ''}
+                <span class="send-to-launcher-btn"
+                      onclick="event.stopPropagation(); CurationUI.sendEntityToLauncher(${index})"
+                      title="Send to launcher"
+                      style="position: absolute; top: 5px; right: 5px; cursor: pointer; background: #007bff; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-paper-plane"></i>
+                </span>
             </div>
         `);
     },
@@ -833,5 +839,32 @@ Risk factors include high blood pressure, smoking, diabetes, lack of exercise, o
 
     rejectEntity() {
         console.log('Reject entity');
+    },
+
+    /**
+     * Send entity to launcher window
+     */
+    sendEntityToLauncher(index) {
+        const entity = this.state.currentEntities[index];
+        if (entity && window.sendToLauncher) {
+            const entityData = {
+                action: 'addEntity',
+                entity: {
+                    text: entity.entityText,
+                    type: entity.entityType,
+                    confidence: entity.confidenceScore,
+                    startPosition: entity.startPosition,
+                    endPosition: entity.endPosition,
+                    matchedTermName: entity.matchedTermName || null,
+                    matchedOntologyId: entity.matchedOntologyId || null
+                }
+            };
+            window.sendToLauncher(JSON.stringify(entityData));
+            console.log('Entity sent to launcher:', entity.entityText);
+            toastr.success('Entity sent to launcher: ' + entity.entityText);
+        } else {
+            console.log('Launcher window not available');
+            toastr.warning('Launcher window not available. Open Ontomation from the launcher page.');
+        }
     }
 };

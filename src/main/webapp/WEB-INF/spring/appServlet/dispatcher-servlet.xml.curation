@@ -40,6 +40,7 @@
 				<!-- RGD Entity Tagger URL Mappings -->
 				<prop key="curation/entityTagger/index.html">PdfUploadController</prop>
 				<prop key="curation/entityTagger/main.html">PdfUploadController</prop>
+				<prop key="curation/entityTagger/launcher.html">PdfUploadController</prop>
 				<prop key="curation/pdf/upload.html">PdfUploadController</prop>
 				<prop key="curation/pdf/status.html">PdfUploadController</prop>
 				<prop key="curation/pdf/cancel.html">PdfUploadController</prop>

@@ -139,6 +139,39 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Send to Launcher Icon */
+.entity-highlight {
+    overflow: visible !important;
+}
+
+.send-to-launcher-icon {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+}
+
+.entity-highlight:hover .send-to-launcher-icon {
+    display: flex;
+}
+
+.send-to-launcher-icon:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+}
+
 /* Entity Type Colors */
 .entity-disease {
     background-color: #ffebee;
