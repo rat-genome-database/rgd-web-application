@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <table  id="resultsTable" style="width:100%;z-index:999;" >
 <thead>
 <tr>
