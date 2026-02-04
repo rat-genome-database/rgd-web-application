@@ -166,6 +166,12 @@
             queryString = addParam("geneStart", "", queryString);
             queryString = addParam("geneStop", "", queryString);
 
+            // Preserve view parameter if present
+            var currentView = new URLSearchParams(window.location.search).get('view');
+            if (currentView) {
+                queryString = addParam("view", currentView, queryString);
+            }
+
             location.href = "variants.html" + queryString;
         }
     }

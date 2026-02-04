@@ -104,7 +104,13 @@ public class VariantController extends HaplotyperController {
 
                 request.setAttribute("mapKey",vsb.getMapKey());
                 request.setAttribute("speciesTypeKey", SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
-                return new ModelAndView("/WEB-INF/jsp/vv/variants.jsp");
+
+                // Use AG Grid view by default, allow fallback to original with view=original
+                String view = req.getParameter("view");
+                if ("original".equalsIgnoreCase(view)) {
+                    return new ModelAndView("/WEB-INF/jsp/vv/variants.jsp");
+                }
+                return new ModelAndView("/WEB-INF/jsp/vv/variants-aggrid.jsp");
             }else {
                 return new ModelAndView("redirect:dist.html?" + request.getQueryString() );
             }
