@@ -10,22 +10,22 @@
 <table  id="resultsTable" style="width:100%;z-index:999;" >
 <thead>
 <tr>
-<th title="Toggle Check All">
+<th title="Toggle Check All" class="sorter-false">
     <%if(!searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)){%>
                <input type="checkbox" onclick="toggle(this)">
     <%}%>
 
 </th>
-<th>Category</th>
+<th class="sorter-false">Category</th>
 <th>Symbol</th>
 <th>Name</th>
 <th>Assembly</th>
 <th>Chromosome</th>
 <th>Start</th>
 <th>Stop</th>
-<th>Annotations</th>
+<th class="sorter-false">Annotations</th>
 <th>RGD ID</th>
-<th>Matched By</th>
+<th class="sorter-false">Matched By</th>
 </tr>
 </thead>
 <tbody>
