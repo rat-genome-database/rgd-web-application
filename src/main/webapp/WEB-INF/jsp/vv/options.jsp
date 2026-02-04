@@ -186,15 +186,15 @@
 
                     <td> Minimum Reads&nbsp;&nbsp;<input type="text" size=10 name="depthLowBound" value="<%=defaultDepth%>">&nbsp;&nbsp; Maximum Reads&nbsp;&nbsp;<input type="text" size=10 name="depthHighBound" value="<%=dm.out("depthHighBound",req.getParameter("depthHighBound"))%>"></td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Total Alleles Read</td>
-                    <td><%=dm.makeCheckBox("alleleCount1", " 1")%>
-                        <%=dm.makeCheckBox("alleleCount2", " 2")%>
-                        <%=dm.makeCheckBox("alleleCount3", " 3")%>
-                        <%=dm.makeCheckBox("alleleCount4", " 4")%>
-                    </td>
-                </tr>
+<%--                <tr>--%>
+<%--                    <td></td>--%>
+<%--                    <td class="carpeLabel">Total Alleles Read</td>--%>
+<%--                    <td><%=dm.makeCheckBox("alleleCount1", " 1")%>--%>
+<%--                        <%=dm.makeCheckBox("alleleCount2", " 2")%>--%>
+<%--                        <%=dm.makeCheckBox("alleleCount3", " 3")%>--%>
+<%--                        <%=dm.makeCheckBox("alleleCount4", " 4")%>--%>
+<%--                    </td>--%>
+<%--                </tr>--%>
                 <tr>
                     <td></td>
                     <td class="carpeLabel">Zygosity</td><td>
