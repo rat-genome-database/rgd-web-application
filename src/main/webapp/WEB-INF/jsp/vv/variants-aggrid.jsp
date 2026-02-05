@@ -770,16 +770,27 @@
         left: 30px;
         display: none;
         background-color: #ffffff;
-        padding: 5px 0 25px 0;
         z-index: 1000;
-        max-width: 90vw;
+        max-width: calc(90vw - 60px);
+        max-height: 60vh;
+        box-sizing: border-box;
     }
 
     #overview-header {
         background-color: #771428;
-        margin: 3px;
         text-align: right;
-        padding: 2px 5px;
+        padding: 5px 8px;
+        cursor: move;
+        user-select: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #overview-header span {
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
     }
 
     #overview-header a {
@@ -788,7 +799,12 @@
 
     #overview-region {
         padding: 10px;
+        padding-bottom: 15px;
         overflow-x: auto;
+        overflow-y: auto;
+        box-sizing: border-box;
+        flex: 1;
+        min-height: 0;
     }
 
     .overview-row {
@@ -934,6 +950,7 @@
          ======================================== -->
     <div id="overview">
         <div id="overview-header">
+            <span>Overview</span>
             <a href="javascript:closeOverview();">
                 <img src="/rgdweb/js/windowfiles/close.gif" height="15" width="15" alt="Close"/>
             </a>
@@ -1253,8 +1270,24 @@
     }
 
     /**
+     * Check if a row has any variation (i.e., has at least one actual variant)
+     * Returns true if the row has variation, false if all positions are "-" or empty
+     */
+    function hasVariation(row) {
+        for (const pos of positionList) {
+            const key = 'pos_' + pos;
+            const cell = row[key];
+            if (cell && cell.hasVariant) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Group rows by similarity using greedy neighbor-joining algorithm
-     * Starts with first row, then repeatedly adds the most similar remaining row
+     * Rows with zero variation are moved to the bottom first
+     * Then starts with first row with variation, repeatedly adds the most similar remaining row
      */
     function groupBySimilarity() {
         if (!gridApi) return;
@@ -1267,8 +1300,26 @@
 
         if (currentRows.length <= 1) return;
 
-        // Build similarity matrix (for efficiency, precompute all pairs)
-        const n = currentRows.length;
+        // Separate rows with variation from those without
+        const rowsWithVariation = [];
+        const rowsWithoutVariation = [];
+
+        currentRows.forEach(row => {
+            if (hasVariation(row)) {
+                rowsWithVariation.push(row);
+            } else {
+                rowsWithoutVariation.push(row);
+            }
+        });
+
+        // If no rows have variation, just keep original order
+        if (rowsWithVariation.length === 0) {
+            console.log('No rows with variation found');
+            return;
+        }
+
+        // Build similarity matrix for rows with variation only
+        const n = rowsWithVariation.length;
         const similarity = [];
         for (let i = 0; i < n; i++) {
             similarity[i] = [];
@@ -1278,7 +1329,7 @@
                 } else if (j < i) {
                     similarity[i][j] = similarity[j][i]; // Symmetric
                 } else {
-                    similarity[i][j] = computeSimilarity(currentRows[i], currentRows[j]);
+                    similarity[i][j] = computeSimilarity(rowsWithVariation[i], rowsWithVariation[j]);
                 }
             }
         }
@@ -1287,13 +1338,13 @@
         const ordered = [];
         const used = new Set();
 
-        // Start with the first row
-        ordered.push(currentRows[0]);
+        // Start with the first row that has variation
+        ordered.push(rowsWithVariation[0]);
         used.add(0);
 
         // Keep adding the most similar remaining row to the last added row
         while (ordered.length < n) {
-            const lastIdx = currentRows.indexOf(ordered[ordered.length - 1]);
+            const lastIdx = rowsWithVariation.indexOf(ordered[ordered.length - 1]);
             let bestIdx = -1;
             let bestSim = -1;
 
@@ -1307,14 +1358,17 @@
             }
 
             if (bestIdx >= 0) {
-                ordered.push(currentRows[bestIdx]);
+                ordered.push(rowsWithVariation[bestIdx]);
                 used.add(bestIdx);
             }
         }
 
+        // Append rows without variation at the bottom
+        const finalOrder = ordered.concat(rowsWithoutVariation);
+
         // Update grid with new order
-        gridApi.setGridOption('rowData', ordered);
-        console.log('Rows grouped by similarity');
+        gridApi.setGridOption('rowData', finalOrder);
+        console.log('Rows grouped by similarity (' + rowsWithVariation.length + ' with variation, ' + rowsWithoutVariation.length + ' without)');
     }
 
     function exportToCSV() {
@@ -1346,7 +1400,8 @@
     // ========================================
 
     function showOverview() {
-        document.getElementById('overview').style.display = 'block';
+        document.getElementById('overview').style.display = 'flex';
+        document.getElementById('overview').style.flexDirection = 'column';
         renderOverview();
     }
 
@@ -1354,11 +1409,56 @@
         document.getElementById('overview').style.display = 'none';
     }
 
+    // ========================================
+    // Overview Drag Functionality
+    // ========================================
+
+    function initOverviewDrag() {
+        const overview = document.getElementById('overview');
+        const header = document.getElementById('overview-header');
+
+        if (!overview || !header) return;
+
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        header.addEventListener('mousedown', function(e) {
+            // Don't start drag if clicking on the close button
+            if (e.target.tagName === 'A' || e.target.tagName === 'IMG') return;
+
+            isDragging = true;
+            offsetX = e.clientX - overview.offsetLeft;
+            offsetY = e.clientY - overview.offsetTop;
+
+            // Prevent text selection while dragging
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+
+            let newX = e.clientX - offsetX;
+            let newY = e.clientY - offsetY;
+
+            // Keep within viewport bounds
+            newX = Math.max(0, Math.min(newX, window.innerWidth - overview.offsetWidth));
+            newY = Math.max(0, Math.min(newY, window.innerHeight - overview.offsetHeight));
+
+            overview.style.left = newX + 'px';
+            overview.style.top = newY + 'px';
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+    }
+
     function renderOverview() {
         const container = document.getElementById('overview-region');
         if (!container) return;
         container.innerHTML = '';
-        container.style.width = (positionList.length * 5 + 150) + 'px';
+        // Don't set width on container - let it be constrained by parent
 
         // Build a map of sampleId to overview data for quick lookup
         const overviewMap = {};
@@ -1421,8 +1521,8 @@
         const overview = document.getElementById('overview');
         const overviewRegion = document.getElementById('overview-region');
         if (overview && overviewRegion) {
-            overview.style.width = Math.min(newWidth + 150, window.innerWidth - 60) + 'px';
-            overviewRegion.style.maxWidth = Math.min(newWidth + 150, window.innerWidth - 60) + 'px';
+            const maxOverviewWidth = Math.min(newWidth + 150, window.innerWidth - 60);
+            overview.style.maxWidth = maxOverviewWidth + 'px';
         }
     }
 
@@ -1448,6 +1548,9 @@
 
         // Setup responsive width
         checkWidth();
+
+        // Initialize overview drag functionality
+        initOverviewDrag();
     };
 
     window.onresize = checkWidth;
