@@ -4,7 +4,7 @@
         background-color:#F0F6F9;
         border: #771428;
         background-image: url(/rgdweb/common/images/bg3.png);
-        padding:  5px;
+        padding: 12px 15px;
     }
 </style>
 
