@@ -579,12 +579,13 @@
         border-right: 1px solid white;
         overflow: hidden;
         box-sizing: border-box;
+        padding-bottom: 4px;
     }
 
     .position-text {
         writing-mode: vertical-rl;
         text-orientation: mixed;
-        transform: rotate(180deg);
+        transform: rotate(180deg) translateY(-6px);
         font-size: 12px;
         font-family: Arial;
         white-space: nowrap;
@@ -876,14 +877,7 @@
                 <% if (snplotyper.hasMinusStrandConflict()) { %>
                 <div class="track-label-row">Genes <span style="color:red;">( - )</span>&nbsp;</div>
                 <% } %>
-                <div class="track-label-row">
-                    <%if (mapKey==60) out.print("RGSC 3.4");%>
-                    <%if (mapKey==70) out.print("Rnor 5.0");%>
-                    <%if (mapKey==360) out.print("Rnor 6.0");%>
-                    <%if (mapKey==372) out.print("mRatBN7.2");%>
-                    <%if (mapKey==17) out.print("GRCh37");%>
-                    &nbsp;
-                </div>
+                <div class="track-label-row">Exon/Intron&nbsp;</div>
                 <!-- Position header label area -->
                 <div style="height:<%= yMenuHeight %>px; background-color: white; display: flex; align-items: center; justify-content: center;">
                     <img src="/rgdweb/common/images/rgd.png" alt="RGD" />
