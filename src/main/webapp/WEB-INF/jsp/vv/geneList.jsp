@@ -13,139 +13,292 @@ String pageDescription = "Define Gene Symbol List";
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
+<style>
+    /* Modern Gene List Page Styles */
+    .genelist-container {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 0 20px;
+    }
 
-<br>
-<div class="typerMat">
-    <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>
+    .genelist-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #2a5a8a;
+    }
 
-    <br>
-    <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0>
-        <tr>
-            <td>Enter one or more gene symbols into the text box</td>
-            <%
-                String assemblyName = null;
-                try {
-                    assemblyName = MapManager.getInstance().getMap(Integer.parseInt(request.getParameter("mapKey"))).getName();
-                } catch( Exception ignore ) {}
-                if( assemblyName!=null ) {
-            %>
-            <td align="right"><%=assemblyName%> assembly</td>
-            <% } %>
-        </tr>
-    </table>
+    .genelist-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+    }
 
-    <br><br>
+    .genelist-assembly {
+        font-size: 14px;
+        color: #acd;
+    }
+
+    .genelist-instructions {
+        background: rgba(42, 90, 138, 0.3);
+        border-left: 4px solid #4a9eff;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border-radius: 0 4px 4px 0;
+        color: #cde;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .genelist-card {
+        background: linear-gradient(to bottom, #1a3a5a 0%, #0d2035 100%);
+        border: 1px solid #2a5a8a;
+        border-radius: 6px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .card-title {
+        font-size: 15px;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #2a5a8a;
+    }
+
+    .gene-textarea {
+        width: 100%;
+        min-height: 250px;
+        padding: 12px 15px;
+        border: 1px solid #456;
+        border-radius: 6px;
+        background: #0a1520;
+        color: white;
+        font-size: 14px;
+        font-family: 'Consolas', 'Monaco', monospace;
+        line-height: 1.5;
+        resize: vertical;
+    }
+
+    .gene-textarea:focus {
+        outline: none;
+        border-color: #4a9eff;
+        box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
+    }
+
+    .gene-textarea::placeholder {
+        color: #667;
+        font-family: inherit;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 15px;
+    }
+
+    /* Continue Button */
+    .continueButtonPrimary {
+        font-size: 14px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
+        color: white;
+        border: 1px solid #1e7e34;
+        border-radius: 4px;
+        padding: 10px 24px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        transition: all 0.2s ease;
+    }
+
+    .continueButtonPrimary:hover {
+        background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+
+    /* Strains Selected Card */
+    .strains-card {
+        background: linear-gradient(to bottom, #1a3a5a 0%, #0d2035 100%);
+        border: 1px solid #2a5a8a;
+        border-radius: 6px;
+        padding: 15px 20px;
+    }
+
+    .strains-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .strains-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .strains-count {
+        font-size: 12px;
+        color: #acd;
+        background: #2a5a8a;
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+
+    .strains-list {
+        color: #cde;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    /* Example genes hint */
+    .input-hint {
+        font-size: 12px;
+        color: #789;
+        margin-top: 8px;
+    }
+</style>
+
+<%
+    String assemblyName = null;
+    int mapKey = 0;
+    try {
+        mapKey = Integer.parseInt(request.getParameter("mapKey"));
+        assemblyName = MapManager.getInstance().getMap(mapKey).getName();
+    } catch (Exception ignore) {}
+
+    // Count selected strains
+    int strainCount = 0;
+    for (int i = 1; i < 100; i++) {
+        if (request.getParameter("sample" + i) != null) {
+            strainCount++;
+        }
+    }
+%>
 
 <script>
     function checkGeneList() {
-
-     /*  if (document.getElementById("geneList").value.length > 2000) {
-          alert("Gene List input must be under 2000 characters.  Your current list is " + document.getElementById("geneList").value.length + ". Please reduce the size of your list.");
-       }else {*/
-          document.optionForm.submit();
-     //  }
+        document.optionForm.submit();
     }
-
-
 </script>
 
-<form action="config.html" name="optionForm" method="post">
+<div class="typerMat">
+    <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>
 
-    <!--<input type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" value="Import" ng-click="rgd.loadMyRgd($event)" style="background-color:#4584ED;"/>-->
+    <div class="genelist-container">
+        <!-- Header -->
+        <div class="genelist-header">
+            <div class="genelist-title">Enter Gene Symbols</div>
+            <% if (assemblyName != null) { %>
+            <div class="genelist-assembly"><%=assemblyName%> assembly</div>
+            <% } %>
+        </div>
 
-    <table border=0 align="center" style="padding:8px; ">
-    <tr>
-        <td width=120 style="font-size:12px;color:white;">If multiple gene symbols are entered, please seperate by commas (,) or place each symbol on it's own line.</td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        <td >
+        <!-- Instructions -->
+        <div class="genelist-instructions">
+            Enter one or more <strong>gene symbols</strong> to search for variants.
+            If entering multiple genes, separate them with <strong>commas</strong> or place each symbol on its own line.
+        </div>
 
-            <table border="0" cellspacing=4 cellpadding=0 class="carpeASTable">
-                <tr>
-                <td   colspan=3><div class="typerSubTitle" >Gene Symbol List</div></td>
-                </tr>
-                <tr>
-                    <td colspan=2><textarea rows=15 cols=80 name="geneList" id="geneList"><%=dm.out("geneList",req.getParameter("geneList"))%></textarea></td>
-                    <!--{importTarget} -->
-                </tr>
-            </table>
-            </td>
-        <td valign="top" align="left">
-            <div style="margin-left:10px;"><input  class="continueButton"  type="button" onClick="checkGeneList();" value="Continue..."/></div>
-        </td>
-    </tr>
-</table>
+        <!-- Gene List Input Card -->
+        <form action="config.html" name="optionForm" method="post">
+            <div class="genelist-card">
+                <div class="card-title">Gene Symbol List</div>
+                <textarea
+                    class="gene-textarea"
+                    name="geneList"
+                    id="geneList"
+                    placeholder="Enter gene symbols here...&#10;&#10;Examples:&#10;Brca1&#10;Tp53, Egfr, Myc&#10;Pten"
+                ><%=dm.out("geneList", req.getParameter("geneList"))%></textarea>
+                <div class="input-hint">
+                    Tip: You can paste a list of genes directly from a spreadsheet or text file
+                </div>
+                <div class="form-actions">
+                    <input class="continueButtonPrimary" type="button" onClick="checkGeneList();" value="Continue..."/>
+                </div>
+            </div>
 
-    <br><br>
-   <table width="100%" class="stepLabel" cellpadding=0 cellspacing=0>
-   <tr>
-   <td><b>Strains Selected</b></td>
-   </tr>
-   </table>
-
-        <div style="margin-top:12px; margin-bottom:12px;">
-        <table border=0 width="100%" style="border:1px dashed white; padding-bottom:5px;">
-    <tr>
-     <td style="font-size:11px;color:white;" >
-    <%
-
-        if (request.getParameter("sample1") != null && request.getParameter("sample1").equals("all") && !request.getParameter("mapKey").equals(String.valueOf(17))) {
-
-            SampleDAO sdao = new SampleDAO();
-            sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-            int mapKey = Integer.parseInt(request.getParameter("mapKey"));
-            List<Sample> samples =new ArrayList<>();
-            if(mapKey==17){
-                String population="FIN";
-                samples=sdao.getSamplesByMapKey(mapKey, population);
-            }else
-                 samples=   sdao.getSamplesByMapKey(mapKey);
-
-            int count=1;
-            for (Sample s : samples) {
-                String strain = "";
-                if (count > 1) {
-                    strain += ",&nbsp;";
+            <!-- Hidden fields -->
+            <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
+            <%
+            if (request.getParameter("sample1") != null && request.getParameter("sample1").equals("all") && !request.getParameter("mapKey").equals(String.valueOf(17))) {
+                SampleDAO sdao = new SampleDAO();
+                sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                List<Sample> samples = new ArrayList<>();
+                if (mapKey == 17) {
+                    String population = "FIN";
+                    samples = sdao.getSamplesByMapKey(mapKey, population);
+                } else {
+                    samples = sdao.getSamplesByMapKey(mapKey);
                 }
-
-                strain+= SampleManager.getInstance().getSampleName(s.getId()).getAnalysisName();
-    %>
-         <%=strain%>
-         <input type="hidden" name="sample<%=count++%>" value="<%=s.getId()%>"/>
-         <%
-
-             }
-
-         } else {
-        if(!req.getParameter("sample1").equalsIgnoreCase("all")){
-        for (int i=1; i<100; i++) {
-        if (request.getParameter("sample" + i) != null) {
-            String strain = "";
-            if (i > 1) {
-                strain += ",&nbsp;";
+                int count = 1;
+                for (Sample s : samples) {
+            %>
+            <input type="hidden" name="sample<%=count++%>" value="<%=s.getId()%>"/>
+            <%
+                }
+            } else {
+                if (request.getParameter("sample1") != null && !req.getParameter("sample1").equalsIgnoreCase("all")) {
+                    for (int i = 1; i < 100; i++) {
+                        if (request.getParameter("sample" + i) != null) {
+            %>
+            <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
+            <%
+                        }
+                    }
+                }
             }
+            %>
+        </form>
 
-            strain+= SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName();
-
-    %>
-        <%=strain%>
-        <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
-    <%
-        }
-            }
-        }
-        }
-    %>
-         <input type="hidden" name="mapKey" value="<%=request.getParameter("mapKey")%>"/>
-        </td>
-    </tr>
-</table>
+        <!-- Strains Selected Card -->
+        <div class="strains-card">
+            <div class="strains-header">
+                <div class="strains-title">Strains Selected</div>
+                <div class="strains-count"><%=strainCount%> strain<%= strainCount != 1 ? "s" : "" %></div>
+            </div>
+            <div class="strains-list">
+                <%
+                boolean first = true;
+                if (request.getParameter("sample1") != null && request.getParameter("sample1").equals("all") && !request.getParameter("mapKey").equals(String.valueOf(17))) {
+                    SampleDAO sdao = new SampleDAO();
+                    sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                    List<Sample> samples = new ArrayList<>();
+                    if (mapKey == 17) {
+                        String population = "FIN";
+                        samples = sdao.getSamplesByMapKey(mapKey, population);
+                    } else {
+                        samples = sdao.getSamplesByMapKey(mapKey);
+                    }
+                    for (Sample s : samples) {
+                        if (!first) { %>, <% }
+                        first = false;
+                        out.print(SampleManager.getInstance().getSampleName(s.getId()).getAnalysisName());
+                    }
+                } else {
+                    if (request.getParameter("sample1") != null && !req.getParameter("sample1").equalsIgnoreCase("all")) {
+                        for (int i = 1; i < 100; i++) {
+                            if (request.getParameter("sample" + i) != null) {
+                                if (!first) { %>, <% }
+                                first = false;
+                                try {
+                                    out.print(SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName());
+                                } catch (Exception e) {}
+                            }
+                        }
+                    }
+                }
+                if (first) { %>
+                <span style="color: #667; font-style: italic;">No strains selected</span>
+                <% } %>
+            </div>
+        </div>
+    </div>
 </div>
-
-</form>
-</div>
-
-
 
 <%@ include file="/common/angularBottomBodyInclude.jsp" %>
 <%@ include file="/common/footerarea.jsp" %>
-
