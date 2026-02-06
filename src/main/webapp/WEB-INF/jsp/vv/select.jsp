@@ -1,4 +1,5 @@
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.Sample" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
@@ -32,6 +33,159 @@
     #sortable { list-style-type: none; margin: 0; padding: 0; width: 200; }
     #sortable li { cursor:move; margin: 0 2px 2px 2px; padding: 5px; padding-left: 5px; font-size: 14px; height: 18px; color:#01224D; }
     #sortable li span { cursor:pointer; position: absolute; margin-left: 2px; }
+
+    /* Accordion Styles */
+    .strain-accordion {
+        margin: 10px 20px;
+    }
+    .accordion-section {
+        margin-bottom: 2px;
+        border: 1px solid #456;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+    .accordion-header {
+        background: linear-gradient(to bottom, #2a5a8a 0%, #1a3a5a 100%);
+        color: white;
+        padding: 5px 12px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+    }
+    .accordion-header:hover {
+        background: linear-gradient(to bottom, #3a6a9a 0%, #2a4a6a 100%);
+    }
+    .accordion-title {
+        font-weight: bold;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .accordion-toggle {
+        font-size: 10px;
+        transition: transform 0.3s;
+    }
+    .accordion-toggle.collapsed {
+        transform: rotate(-90deg);
+    }
+    .accordion-count {
+        font-size: 12px;
+        color: #acd;
+        margin-left: 5px;
+    }
+    .accordion-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .accordion-select-all {
+        font-size: 11px;
+        padding: 2px 6px;
+        background: #4a7aaa;
+        border: 1px solid #5a8aba;
+        border-radius: 3px;
+        color: white;
+        cursor: pointer;
+    }
+    .accordion-select-all:hover {
+        background: #5a8aba;
+    }
+    .accordion-content {
+        background: #1a2a3a;
+        padding: 10px 15px;
+        display: none;
+    }
+    .accordion-content.expanded {
+        display: block;
+    }
+    .strain-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px 20px;
+    }
+    .strain-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 0;
+        color: white;
+        font-size: 13px;
+    }
+    .strain-item input[type="checkbox"] {
+        margin: 0;
+    }
+    .strain-item .help-icon {
+        cursor: help;
+    }
+    .strain-tooltip {
+        margin: 10px;
+        position: absolute;
+        z-index: 100;
+        visibility: hidden;
+        padding: 10px;
+    }
+
+    /* Summary section */
+    .selection-summary {
+        background: #1a3a5a;
+        color: white;
+        padding: 10px 20px;
+        margin: 10px 20px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .selection-count {
+        font-size: 14px;
+    }
+    .expand-collapse-all {
+        font-size: 12px;
+        padding: 5px 10px;
+        background: #4a7aaa;
+        border: 1px solid #5a8aba;
+        border-radius: 3px;
+        color: white;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    .expand-collapse-all:hover {
+        background: #5a8aba;
+    }
+
+    /* Bold Continue button - matches expand-collapse-all size */
+    .continueButtonPrimary {
+        font-size: 12px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
+        color: white;
+        border: 1px solid #1e7e34;
+        border-radius: 3px;
+        padding: 5px 10px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .continueButtonPrimary:hover {
+        background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
+    }
+
+    /* Clear All button - matches expand-collapse-all */
+    .clearAllButton {
+        font-size: 12px;
+        padding: 5px 10px;
+        background: #4a7aaa;
+        border: 1px solid #5a8aba;
+        border-radius: 3px;
+        color: white;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    .clearAllButton:hover {
+        background: #5a8aba;
+    }
 </style>
 <script>
     $(function() {
@@ -53,7 +207,72 @@
         allCheckedBoxes.forEach(checkbox =>{
             checkbox.checked=false;
         })
+        updateSelectionCount();
     }
+
+    // Accordion functions
+    function toggleAccordion(sectionId) {
+        const content = document.getElementById('content-' + sectionId);
+        const toggle = document.getElementById('toggle-' + sectionId);
+        if (content.classList.contains('expanded')) {
+            content.classList.remove('expanded');
+            toggle.classList.add('collapsed');
+        } else {
+            content.classList.add('expanded');
+            toggle.classList.remove('collapsed');
+        }
+    }
+
+    function selectAllInGroup(groupId, selectAll) {
+        const content = document.getElementById('content-' + groupId);
+        const checkboxes = content.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            cb.checked = selectAll;
+        });
+        updateSelectionCount();
+    }
+
+    function toggleGroupSelection(groupId) {
+        const content = document.getElementById('content-' + groupId);
+        const checkboxes = content.querySelectorAll('input[type="checkbox"]');
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        selectAllInGroup(groupId, !allChecked);
+    }
+
+    function expandAllAccordions() {
+        document.querySelectorAll('.accordion-content').forEach(content => {
+            content.classList.add('expanded');
+        });
+        document.querySelectorAll('.accordion-toggle').forEach(toggle => {
+            toggle.classList.remove('collapsed');
+        });
+    }
+
+    function collapseAllAccordions() {
+        document.querySelectorAll('.accordion-content').forEach(content => {
+            content.classList.remove('expanded');
+        });
+        document.querySelectorAll('.accordion-toggle').forEach(toggle => {
+            toggle.classList.add('collapsed');
+        });
+    }
+
+    function updateSelectionCount() {
+        const checkboxes = document.querySelectorAll('input[name="strain[]"]');
+        const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+        const countEl = document.getElementById('selection-count');
+        if (countEl) {
+            countEl.textContent = checked + ' of ' + checkboxes.length + ' strains selected';
+        }
+    }
+
+    // Add event listener to update count when checkboxes change
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('input[name="strain[]"]').forEach(cb => {
+            cb.addEventListener('change', updateSelectionCount);
+        });
+        updateSelectionCount();
+    });
 
     function submitPage() {
 
@@ -431,172 +650,197 @@
         </table>
         <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
                 SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
-        <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Samples</div>
-<%}%>
-        <table width="90%" cellpadding="0" cellspacing="0">
-            <tr>
-                <td align="right">
-                    <input class="continueButton"  type="button" value="Clear all" onClick="deselectAll()"/>
-                    &nbsp;&nbsp;
-                    <input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/>
-                </td>
-            </tr>
-        </table>
 
+        <!-- Selection Summary and Controls -->
+        <div class="selection-summary">
+            <div>
+                <span id="selection-count">0 of 0 strains selected</span>
+                <button type="button" class="expand-collapse-all" onclick="expandAllAccordions()">Expand All</button>
+                <button type="button" class="expand-collapse-all" onclick="collapseAllAccordions()">Collapse All</button>
+            </div>
+            <div>
+                <input class="clearAllButton" type="button" value="Clear all" onClick="deselectAll()"/>
+                &nbsp;&nbsp;
+                <input class="continueButtonPrimary" type="button" value="Continue..." onClick="submitPage()"/>
+            </div>
+        </div>
 
-                <%
-                    int count=0;
-
-
-                    ArrayList<Sample> sampList1 = new ArrayList<Sample>();
-                    ArrayList<Sample> sampList2 = new ArrayList<Sample>();
-                    ArrayList<Sample> sampList3 = new ArrayList<Sample>();
-                    ArrayList<Sample> sampList4 = new ArrayList<>();
-//                    ArrayList<Sample> sortedSamples = new ArrayList<Sample>();
-                    int sampSize = samples.size();
-                    int colSize = sampSize / 4 + ((sampSize%4>0) ? 1 : 0);
-                    if(samples.size()==1){
-                        sampList1.add(samples.get(0));
-                    }else {
-                        int num = 1;
-                        for (Sample samp : samples) {
-                            String sampleName = samp.getAnalysisName();
-//                            System.out.println(sampleName);
-                            if (sampleName.contains("GWAS") && sampleName.contains("Ensembl"))
-                                continue;
-                            if (num <= colSize) {
-//                                System.out.println("sampleList1|"+sampSize+"|"+num+"|"+colSize+"|"+sampleName);
-                                sampList1.add(samp);
-                            }
-                            else if (num <= (colSize*2)) {
-//                                System.out.println("sampleList2|"+sampSize+"|"+num+"|"+colSize+"|"+sampleName);
-                                sampList2.add(samp);
-                            }
-                            else if (num <= (colSize*3)) {
-//                                System.out.println("sampleList3|"+sampSize+"|"+num+"|"+colSize+"|"+sampleName);
-                                sampList3.add(samp);
-                            }
-                            else {
-//                                System.out.println("sampleList4|"+sampSize+"|"+num+"|"+colSize+"|"+sampleName);
-                                sampList4.add(samp);
-                            }
-                            num++;
-                        }
-                    }
-//System.out.println(sampList1.size()+"|"+sampList2.size()+"|"+sampList3.size());
-
-                    List<List<Sample>> sortedSamples = new ArrayList<>();
-                    sortedSamples.add(sampList1);
-                    sortedSamples.add(sampList2);
-                    sortedSamples.add(sampList3);
-                    sortedSamples.add(sampList4);
-
-                    String checked="";
-
-                    %>
-                <table border="0" style="margin-left:50px;">
-                    <tr>
-                <%
-                    for (List<Sample> column : sortedSamples){
-                    %>
-
-                        <td>
-        <table>
         <%
-                    for (Sample samp: column) {
-                        if (samp.getId() == 900 || samp.getId() == 901)   {
-                            if (session.getAttribute("showHidden") == null || !session.getAttribute("showHidden").equals("1")) {
-                                continue;
-                            }
+            // Dynamically group samples by strain family/panel
+            LinkedHashMap<String, List<Sample>> strainGroups = new LinkedHashMap<>();
+            String checked = "";
+
+            // Helper function to determine strain family from sample name
+            // This extracts the base strain/family name from sample analysis names
+            for (Sample samp : samples) {
+                String sampleName = samp.getAnalysisName();
+                if (sampleName.contains("GWAS") && sampleName.contains("Ensembl")) continue;
+                if (samp.getId() == 900 || samp.getId() == 901) {
+                    if (session.getAttribute("showHidden") == null || !session.getAttribute("showHidden").equals("1")) {
+                        continue;
+                    }
+                }
+
+                // Extract the strain family/group from the sample name
+                String group = extractStrainFamily(sampleName);
+
+                // Add to the appropriate group
+                if (!strainGroups.containsKey(group)) {
+                    strainGroups.put(group, new ArrayList<Sample>());
+                }
+                strainGroups.get(group).add(samp);
+            }
+
+            // Sort the groups: put "Other" at the end, sort rest alphabetically
+            List<String> sortedGroups = new ArrayList<>(strainGroups.keySet());
+            Collections.sort(sortedGroups, (a, b) -> {
+                if (a.equals("Other")) return 1;
+                if (b.equals("Other")) return -1;
+                return a.compareToIgnoreCase(b);
+            });
+
+            int groupIndex = 0;
+        %>
+
+        <%!
+            // Method to extract the strain family from a sample name
+            // Generic logic: strips trailing numbers and letter suffixes to group related strains
+            // If numbers were stripped from a short strain code, appends "Panel"
+            // e.g., HXB1, HXB10, HXB17 -> "HXB Panel"
+            //       FXLE12, FXLE20 -> "FXLE Panel"
+            //       LEXF10A, LEXF1C, LEXF2B -> "LEXF Panel"
+            //       ACI -> "ACI" (no numbers, no Panel suffix)
+            //       European Variation Archive Release 7 -> "European Variation Archive Release" (no Panel - has spaces)
+            private String extractStrainFamily(String sampleName) {
+                if (sampleName == null || sampleName.isEmpty()) return "Other";
+
+                // Get the part before the slash (if any)
+                String baseName = sampleName.split("/")[0].trim();
+
+                if (baseName.length() == 0) return "Other";
+
+                // Strip trailing number+letter combinations to group strain families
+                // Pattern: numbers followed by optional letters at the end
+                // e.g., HXB10 -> HXB, LEXF10A -> LEXF, LEXF1C -> LEXF
+                String family = baseName.replaceAll("\\d+[A-Za-z]*$", "").trim();
+
+                // If stripping leaves nothing or just one char, keep original
+                // This handles edge cases like single letter strains
+                if (family.length() <= 1) {
+                    return baseName;
+                }
+
+                // Only add "Panel" suffix for short strain codes (no spaces)
+                // Long names with spaces like "European Variation Archive Release" are not panels
+                if (!family.equals(baseName) && !family.contains(" ")) {
+                    return family + " Panel";
+                }
+
+                return family;
+            }
+        %>
+
+        <div class="strain-accordion">
+        <% for (String groupName : sortedGroups) {
+            List<Sample> groupSamples = strainGroups.get(groupName);
+            if (groupSamples == null || groupSamples.isEmpty()) continue;
+            String groupId = "group" + groupIndex;
+        %>
+            <div class="accordion-section">
+                <div class="accordion-header" onclick="toggleAccordion('<%=groupId%>')">
+                    <div class="accordion-title">
+                        <span class="accordion-toggle collapsed" id="toggle-<%=groupId%>">&#9660;</span>
+                        <%=groupName%>
+                        <span class="accordion-count">(<%=groupSamples.size()%>)</span>
+                    </div>
+                    <div class="accordion-actions" onclick="event.stopPropagation();">
+                        <button type="button" class="accordion-select-all" onclick="toggleGroupSelection('<%=groupId%>')">Select/Deselect All</button>
+                    </div>
+                </div>
+                <div class="accordion-content" id="content-<%=groupId%>">
+                    <div class="strain-grid">
+                    <% for (Sample samp : groupSamples) {
+                        if (sampleMap.get(samp.getId() + "") != null) {
+                            checked = " checked ";
+                        } else {
+                            checked = " ";
                         }
-                %>
-            <tr>
-                <td>
-                    <table>
-                        <tr>
-                            <% if (sampleMap.get(samp.getId() + "") != null) {
-                                checked = " checked ";
-                            }else {
-                                checked=" ";
-                            }
-                            %>
-                            <td><input type="checkbox"  id="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>" name="strain[]" value="<%=samp.getId()%>" <%=checked%>/></td>
-                            <td style="color:white;"><%=samp.getAnalysisName().replaceAll("\\ ", "&nbsp;")%></td>
-                            <td>
-                                <img onMouseOut="document.getElementById('div_<%=samp.getId()%>').style.visibility='hidden';" onMouseOver="document.getElementById('div_<%=samp.getId()%>').style.visibility='visible';" src="/rgdweb/common/images/help.png" height="15" width="15"/>
-                                <div style="margin:10px; position:absolute; z-index:100; visibility:hidden; padding:10px;" id="div_<%=samp.getId()%>">
-                                    <table cellpadding='4' style="background-color:#063968;border:2px solid white;padding:10px;">
-                                        <tr>
-                                            <td style="font-size:14px; font-weight:700; color:white;">Sample ID:</td>
-                                            <td style="font-size:14px; color:white;"><%=samp.getId()%></td>
-                                        </tr>
+                    %>
+                        <div class="strain-item">
+                            <input type="checkbox" id="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>" name="strain[]" value="<%=samp.getId()%>" <%=checked%>/>
+                            <label for="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>"><%=samp.getAnalysisName().replaceAll("\\ ", "&nbsp;")%></label>
+                            <img class="help-icon" onMouseOut="document.getElementById('div_<%=samp.getId()%>').style.visibility='hidden';" onMouseOver="document.getElementById('div_<%=samp.getId()%>').style.visibility='visible';" src="/rgdweb/common/images/help.png" height="12" width="12"/>
+                            <div class="strain-tooltip" id="div_<%=samp.getId()%>">
+                                <table cellpadding='4' style="background-color:#063968;border:2px solid white;padding:10px;">
+                                    <tr>
+                                        <td style="font-size:12px; font-weight:700; color:white;">Sample ID:</td>
+                                        <td style="font-size:12px; color:white;"><%=samp.getId()%></td>
+                                    </tr>
+                                    <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
+                                    <tr>
+                                        <td style="font-size:12px; font-weight:700; color:white;">Strain RGD ID</td>
+                                        <td style="font-size:12px; color:white;"><%=samp.getStrainRgdId()%></td>
+                                    </tr>
+                                    <% } %>
+                                    <% if (samp.getSequencedBy() != null) { %>
+                                    <tr>
+                                        <td style="font-size:12px; font-weight:700; color:white;">Sequenced By:</td>
+                                        <td style="font-size:12px; color:white;"><%=samp.getSequencedBy()%></td>
+                                    </tr>
+                                    <% } %>
+                                    <% if (samp.getSequencer() != null) { %>
+                                    <tr>
+                                        <td style="font-size:12px; font-weight:700; color:white;">Platform:</td>
+                                        <td style="font-size:12px; color:white;"><%=samp.getSequencer()%></td>
+                                    </tr>
+                                    <% } %>
+                                    <% if (samp.getWhereBred() != null) { %>
+                                    <tr>
+                                        <td style="font-size:12px; font-weight:700; color:white;">Breeder:</td>
+                                        <td style="font-size:12px; color:white;"><%=samp.getWhereBred()%></td>
+                                    </tr>
+                                    <% } %>
+                                </table>
+                            </div>
+                        </div>
+                    <% } %>
+                    </div>
+                </div>
+            </div>
+        <% groupIndex++; } %>
+        </div>
 
-                                        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
-                                        <tr>
-                                            <td style="font-size:14px; font-weight:700; color:white;">Strain RGD ID</td>
-                                            <td style="font-size:14px; color:white;"><%=samp.getStrainRgdId()%></td>
-                                        </tr>
-                                        <% } %>
+        <!-- Bottom buttons -->
+        <div class="selection-summary">
+            <div>
+                <span id="selection-count-bottom">0 of 0 strains selected</span>
+            </div>
+            <div>
+                <input class="clearAllButton" type="button" value="Clear all" onClick="deselectAll()"/>
+                &nbsp;&nbsp;
+                <input class="continueButtonPrimary" type="button" value="Continue..." onClick="submitPage()"/>
+            </div>
+        </div>
 
-                                        <% if (samp.getSequencedBy() != null) { %>
-                                        <tr>
-                                            <td valign="top" style="font-size:14px; font-weight:700; color:white;">Sequenced By:</td>
-                                            <td style="font-size:14px; color:white;"><%=samp.getSequencedBy()%></td>
-                                        </tr>
-                                        <% } %>
-                                        <% if (samp.getSequencer() != null) { %>
-                                        <tr>
-                                            <td style="font-size:14px; font-weight:700; color:white;">Platform:</td>
-                                            <td style="font-size:14px; color:white;"><%=samp.getSequencer()%></td>
-                                        </tr>
-                                        <% } %>
-                                        <% if (samp.getSecondaryAnalysisSoftware() != null) { %>
-                                        <tr>
-                                            <td style="font-size:14px; font-weight:700; color:white;">Secondary Analysis:</td>
-                                            <td style="font-size:14px; color:white;"><%=samp.getSecondaryAnalysisSoftware()%></td>
-                                        </tr>
-                                        <% } %>
-                                        <% if (samp.getWhereBred() != null) { %>
-                                        <tr>
-                                            <td style="font-size:14px; font-weight:700; color:white;">Breeder:</td>
-                                            <td style="font-size:14px; color:white;"><%=samp.getWhereBred()%></td>
-                                        </tr>
-                                        <% } %>
-                                        <% if (samp.getGrantNumber() != null) { %>
-                                        <tr>
-                                            <td style="font-size:14px; font-weight:700;color:white;">Grant Information:</td>
-                                            <td style="font-size:14px; color:white;"><%=samp.getGrantNumber()%></td>
-                                        </tr>
-                                        <% } %>
-                                    </table>
-                                </div>
-                            </td>
-                        </Tr>
-                    </table>
-
-                </td>
-            </tr>
-
-            <% } %>
-
-        </table>
-                        </td>
-        <% } %>
-                    </tr>
-        </table>
-
-        <br>
-        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
-                SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
-        <table width="90%">
-            <tr>
-                <td align="right">
-                    <input class="continueButton"  type="button" value="Clear all" onClick="deselectAll()"/>
-                    &nbsp;&nbsp;
-                    <input class="continueButton"  type="button" value="Continue..." onClick="submitPage()"/>
-                </td>
-            </tr>
-        </table>
+        <script>
+            // Update both selection count displays
+            function updateSelectionCount() {
+                const checkboxes = document.querySelectorAll('input[name="strain[]"]');
+                const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+                const text = checked + ' of ' + checkboxes.length + ' strains selected';
+                const countEl = document.getElementById('selection-count');
+                const countElBottom = document.getElementById('selection-count-bottom');
+                if (countEl) countEl.textContent = text;
+                if (countElBottom) countElBottom.textContent = text;
+            }
+            // Initialize on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('input[name="strain[]"]').forEach(cb => {
+                    cb.addEventListener('change', updateSelectionCount);
+                });
+                updateSelectionCount();
+            });
+        </script>
 
         <%}%>
     </div>
