@@ -13,6 +13,24 @@ String pageDescription = "Define Region";
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
+<style>
+    /* Bold Continue button - matches select.jsp styling */
+    .continueButtonPrimary {
+        font-size: 12px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
+        color: white;
+        border: 1px solid #1e7e34;
+        border-radius: 3px;
+        padding: 5px 10px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .continueButtonPrimary:hover {
+        background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
+    }
+</style>
+
 <%
     if(request.getParameter("mapKey")!=null && !request.getParameter("mapKey").equals("")){
    int mapKey = Integer.parseInt(request.getParameter("mapKey"));
@@ -87,7 +105,7 @@ String pageDescription = "Define Region";
                                                         <td>&nbsp;&nbsp;&nbsp;Start <input type="text" placeholder="required" id="start" name="start" size="25" value="<%=FormUtility.formatThousands(dm.out("start",start))%>" required></td>
                                                         <td>&nbsp;&nbsp;&nbsp;Stop <input type="text" placeholder="required" id="stop" name="stop" size="25" value="<%=FormUtility.formatThousands(dm.out("stop",stop))%>" required></td>
                                                         <td valign="top" align="left">
-                                                            <div style="margin-left:10px;"><input  class="continueButton"  type="submit"  value="Continue..." style="color:white" /></div>
+                                                            <div style="margin-left:10px;"><input  class="continueButtonPrimary"  type="submit"  value="Continue..." /></div>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -120,7 +138,7 @@ String pageDescription = "Define Region";
                                         <tr>
                                             <td colspan=2>Symbol 1: <input type="text" name="geneStart" size=30 value="<%=dm.out("geneStart",req.getParameter("geneStart"))%>" required/> &nbsp;&nbsp;&nbsp;&nbsp;Symbol 2: <input type="text" size="30" name="geneStop" value="<%=dm.out("geneStop",req.getParameter("geneStop"))%>" required/> </td>
                                             <td valign="top" align="left">
-                                                <div style="margin-left:10px;color:white;font-weight: bold"><input  class="continueButton"  type="submit"  value="Continue..." style="color:white"/></div>
+                                                <div style="margin-left:10px;"><input  class="continueButtonPrimary"  type="submit"  value="Continue..." /></div>
                                             </td>
                                         </tr>
                                         <% } %>
