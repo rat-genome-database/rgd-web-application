@@ -13,6 +13,23 @@ String pageDescription = "Define Gene Symbol List";
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
+<style>
+    /* Bold Continue button - matches select.jsp styling */
+    .continueButtonPrimary {
+        font-size: 12px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
+        color: white;
+        border: 1px solid #1e7e34;
+        border-radius: 3px;
+        padding: 5px 10px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .continueButtonPrimary:hover {
+        background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
+    }
+</style>
 
 <br>
 <div class="typerMat">
@@ -70,7 +87,7 @@ String pageDescription = "Define Gene Symbol List";
             </table>
             </td>
         <td valign="top" align="left">
-            <div style="margin-left:10px;"><input  class="continueButton"  type="button" onClick="checkGeneList();" value="Continue..."/></div>
+            <div style="margin-left:10px;"><input  class="continueButtonPrimary"  type="button" onClick="checkGeneList();" value="Continue..."/></div>
         </td>
     </tr>
 </table>
