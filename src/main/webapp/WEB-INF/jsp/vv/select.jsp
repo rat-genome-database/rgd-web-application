@@ -301,7 +301,7 @@
 
 <form id="strainBox" action="config.html">
 
-    <input type="hidden" name="mapKey" value="<%=req.getParameter("mapKey")%>" />
+    <input type="hidden" name="mapKey" value="<%=mapKey%>" />
 
     <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
     <input type="hidden" name="chr" value="<%=req.getParameter("chr")%>" />
