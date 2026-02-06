@@ -1264,24 +1264,34 @@
     }
 
     /**
-     * Check if a row has any variation (i.e., has at least one actual variant)
-     * Returns true if the row has variation, false if all positions are "-" or empty
+     * Count the number of variants in a row
      */
-    function hasVariation(row) {
+    function countVariants(row) {
+        let count = 0;
         for (const pos of positionList) {
             const key = 'pos_' + pos;
             const cell = row[key];
             if (cell && cell.hasVariant) {
-                return true;
+                count++;
             }
         }
-        return false;
+        return count;
+    }
+
+    /**
+     * Check if a row has significant variation (>= threshold variants)
+     * Returns true if the row has enough variation to be included in similarity grouping
+     */
+    const LOW_VARIANT_THRESHOLD = 5;
+
+    function hasSignificantVariation(row) {
+        return countVariants(row) >= LOW_VARIANT_THRESHOLD;
     }
 
     /**
      * Group rows by similarity using greedy neighbor-joining algorithm
-     * Rows with zero variation are moved to the bottom first
-     * Then starts with first row with variation, repeatedly adds the most similar remaining row
+     * Rows with low or zero variation are moved to the bottom
+     * Then starts with first row with significant variation, repeatedly adds the most similar remaining row
      */
     function groupBySimilarity() {
         if (!gridApi) return;
@@ -1294,25 +1304,26 @@
 
         if (currentRows.length <= 1) return;
 
-        // Separate rows with variation from those without
+        // Separate rows into significant variation vs low/no variation
         const rowsWithVariation = [];
-        const rowsWithoutVariation = [];
+        const rowsWithLowVariation = [];
 
         currentRows.forEach(row => {
-            if (hasVariation(row)) {
-                rowsWithVariation.push(row);
+            const variantCount = countVariants(row);
+            if (variantCount >= LOW_VARIANT_THRESHOLD) {
+                rowsWithVariation.push({ row: row, count: variantCount });
             } else {
-                rowsWithoutVariation.push(row);
+                rowsWithLowVariation.push({ row: row, count: variantCount });
             }
         });
 
-        // If no rows have variation, just keep original order
+        // If no rows have significant variation, just keep original order
         if (rowsWithVariation.length === 0) {
-            console.log('No rows with variation found');
+            console.log('No rows with significant variation found');
             return;
         }
 
-        // Build similarity matrix for rows with variation only
+        // Build similarity matrix for rows with significant variation only
         const n = rowsWithVariation.length;
         const similarity = [];
         for (let i = 0; i < n; i++) {
@@ -1323,7 +1334,7 @@
                 } else if (j < i) {
                     similarity[i][j] = similarity[j][i]; // Symmetric
                 } else {
-                    similarity[i][j] = computeSimilarity(rowsWithVariation[i], rowsWithVariation[j]);
+                    similarity[i][j] = computeSimilarity(rowsWithVariation[i].row, rowsWithVariation[j].row);
                 }
             }
         }
@@ -1332,13 +1343,13 @@
         const ordered = [];
         const used = new Set();
 
-        // Start with the first row that has variation
-        ordered.push(rowsWithVariation[0]);
+        // Start with the first row that has significant variation
+        ordered.push(rowsWithVariation[0].row);
         used.add(0);
 
         // Keep adding the most similar remaining row to the last added row
         while (ordered.length < n) {
-            const lastIdx = rowsWithVariation.indexOf(ordered[ordered.length - 1]);
+            const lastIdx = rowsWithVariation.findIndex(r => r.row === ordered[ordered.length - 1]);
             let bestIdx = -1;
             let bestSim = -1;
 
@@ -1352,17 +1363,21 @@
             }
 
             if (bestIdx >= 0) {
-                ordered.push(rowsWithVariation[bestIdx]);
+                ordered.push(rowsWithVariation[bestIdx].row);
                 used.add(bestIdx);
             }
         }
 
-        // Append rows without variation at the bottom
-        const finalOrder = ordered.concat(rowsWithoutVariation);
+        // Sort low variation rows by variant count (descending) so samples with some variants come before those with none
+        rowsWithLowVariation.sort((a, b) => b.count - a.count);
+        const lowVariationRows = rowsWithLowVariation.map(r => r.row);
+
+        // Append rows with low/no variation at the bottom
+        const finalOrder = ordered.concat(lowVariationRows);
 
         // Update grid with new order
         gridApi.setGridOption('rowData', finalOrder);
-        console.log('Rows grouped by similarity (' + rowsWithVariation.length + ' with variation, ' + rowsWithoutVariation.length + ' without)');
+        console.log('Rows grouped by similarity (' + rowsWithVariation.length + ' with significant variation, ' + rowsWithLowVariation.length + ' with low/no variation)');
     }
 
     function exportToCSV() {
