@@ -764,6 +764,7 @@
         <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
                 SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
         </div>
+        <% } %>
 
         <!-- Selection Summary and Controls -->
         <div class="selection-summary">
@@ -979,7 +980,6 @@
             });
         </script>
 
-        <%}%>
     </div>
 </form>
 
