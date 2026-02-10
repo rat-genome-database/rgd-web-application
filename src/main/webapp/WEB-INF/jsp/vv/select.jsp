@@ -72,25 +72,30 @@
     }
 
     .sequence-group-title {
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 16px;
+        font-weight: 700;
         color: #1a3a5a;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
     }
 
     .sequence-group-options {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 25px;
     }
 
     .sequence-group-options label {
         display: flex;
         align-items: center;
-        gap: 6px;
-        color: #333;
-        font-size: 13px;
+        gap: 8px;
+        color: #1a3a5a;
+        font-size: 15px;
         cursor: pointer;
+    }
+
+    .sequence-group-options td {
+        color: #1a3a5a !important;
+        font-size: 15px;
     }
 
     /* Accordion Styles - Light Theme */
@@ -210,15 +215,92 @@
     }
 
     .strain-item .help-icon {
-        cursor: help;
+        cursor: pointer;
     }
 
-    .strain-tooltip {
-        margin: 10px;
-        position: absolute;
-        z-index: 100;
-        visibility: hidden;
-        padding: 10px;
+    /* Modal styles */
+    .strain-modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 10000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .strain-modal-overlay.active {
+        display: flex;
+    }
+
+    .strain-modal {
+        background: #063968;
+        border: 3px solid white;
+        border-radius: 8px;
+        padding: 0;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .strain-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .strain-modal-header h3 {
+        margin: 0;
+        color: white;
+        font-size: 16px;
+    }
+
+    .strain-modal-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+    }
+
+    .strain-modal-close:hover {
+        color: #ccc;
+    }
+
+    .strain-modal-body {
+        padding: 15px;
+    }
+
+    .strain-modal-body table {
+        width: 100%;
+    }
+
+    .strain-modal-body td {
+        padding: 6px 8px;
+        font-size: 13px;
+        color: white;
+    }
+
+    .strain-modal-body td:first-child {
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .strain-modal-body a {
+        color: #7cb9e8;
+        text-decoration: none;
+    }
+
+    .strain-modal-body a:hover {
+        color: #a8d4f0;
+        text-decoration: underline;
     }
 
     /* Summary section - Light Theme */
@@ -920,39 +1002,14 @@
                         <div class="strain-item">
                             <input type="checkbox" id="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>" name="strain[]" value="<%=samp.getId()%>" <%=checked%>/>
                             <label for="<%=samp.getStrainRgdId()%>_<%=samp.getId()%>"><%=samp.getAnalysisName().replaceAll("\\ ", "&nbsp;")%></label>
-                            <img class="help-icon" onMouseOut="document.getElementById('div_<%=samp.getId()%>').style.visibility='hidden';" onMouseOver="document.getElementById('div_<%=samp.getId()%>').style.visibility='visible';" src="/rgdweb/common/images/help.png" height="12" width="12"/>
-                            <div class="strain-tooltip" id="div_<%=samp.getId()%>">
-                                <table cellpadding='4' style="background-color:#063968;border:2px solid white;padding:10px;">
-                                    <tr>
-                                        <td style="font-size:12px; font-weight:700; color:white;">Sample ID:</td>
-                                        <td style="font-size:12px; color:white;"><%=samp.getId()%></td>
-                                    </tr>
-                                    <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
-                                    <tr>
-                                        <td style="font-size:12px; font-weight:700; color:white;">Strain RGD ID</td>
-                                        <td style="font-size:12px; color:white;"><%=samp.getStrainRgdId()%></td>
-                                    </tr>
-                                    <% } %>
-                                    <% if (samp.getSequencedBy() != null) { %>
-                                    <tr>
-                                        <td style="font-size:12px; font-weight:700; color:white;">Sequenced By:</td>
-                                        <td style="font-size:12px; color:white;"><%=samp.getSequencedBy()%></td>
-                                    </tr>
-                                    <% } %>
-                                    <% if (samp.getSequencer() != null) { %>
-                                    <tr>
-                                        <td style="font-size:12px; font-weight:700; color:white;">Platform:</td>
-                                        <td style="font-size:12px; color:white;"><%=samp.getSequencer()%></td>
-                                    </tr>
-                                    <% } %>
-                                    <% if (samp.getWhereBred() != null) { %>
-                                    <tr>
-                                        <td style="font-size:12px; font-weight:700; color:white;">Breeder:</td>
-                                        <td style="font-size:12px; color:white;"><%=samp.getWhereBred()%></td>
-                                    </tr>
-                                    <% } %>
-                                </table>
-                            </div>
+                            <img class="help-icon" onclick="openStrainModal(this)" src="/rgdweb/common/images/help.png" height="12" width="12"
+                                 data-sample-id="<%=samp.getId()%>"
+                                 data-strain-rgd-id="<%=samp.getStrainRgdId()%>"
+                                 data-analysis-name="<%=samp.getAnalysisName()%>"
+                                 data-sequenced-by="<%=samp.getSequencedBy() != null ? samp.getSequencedBy() : ""%>"
+                                 data-sequencer="<%=samp.getSequencer() != null ? samp.getSequencer() : ""%>"
+                                 data-where-bred="<%=samp.getWhereBred() != null ? samp.getWhereBred() : ""%>"
+                                 data-species-type="<%=SpeciesType.getSpeciesTypeKeyForMap(mapKey)%>"/>
                         </div>
                     <% } %>
                     </div>
@@ -991,7 +1048,75 @@
                 });
                 updateSelectionCount();
             });
+
+            // Modal functions
+            function openStrainModal(element) {
+                const sampleId = element.getAttribute('data-sample-id');
+                const strainRgdId = element.getAttribute('data-strain-rgd-id');
+                const analysisName = element.getAttribute('data-analysis-name');
+                const sequencedBy = element.getAttribute('data-sequenced-by');
+                const sequencer = element.getAttribute('data-sequencer');
+                const whereBred = element.getAttribute('data-where-bred');
+                const speciesType = element.getAttribute('data-species-type');
+
+                // Build table rows
+                let tableContent = '<tr><td>Sample ID:</td><td>' + sampleId + '</td></tr>';
+
+                // Only show Strain RGD ID for rat (speciesType == 3)
+                if (speciesType === '3' && strainRgdId && strainRgdId !== '0') {
+                    tableContent += '<tr><td>Strain RGD ID:</td><td><a href="/rgdweb/report/strain/main.html?id=' + strainRgdId + '" target="_blank">' + strainRgdId + '</a></td></tr>';
+                }
+
+                if (sequencedBy) {
+                    tableContent += '<tr><td>Sequenced By:</td><td>' + sequencedBy + '</td></tr>';
+                }
+
+                if (sequencer) {
+                    tableContent += '<tr><td>Platform:</td><td>' + sequencer + '</td></tr>';
+                }
+
+                if (whereBred) {
+                    tableContent += '<tr><td>Breeder:</td><td>' + whereBred + '</td></tr>';
+                }
+
+                document.getElementById('strain-modal-title').textContent = analysisName;
+                document.getElementById('strain-modal-table').innerHTML = tableContent;
+                document.getElementById('strain-modal-overlay').classList.add('active');
+            }
+
+            function closeStrainModal() {
+                document.getElementById('strain-modal-overlay').classList.remove('active');
+            }
+
+            // Close modal when clicking outside
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('strain-modal-overlay').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeStrainModal();
+                    }
+                });
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeStrainModal();
+                }
+            });
         </script>
+
+        <!-- Strain Info Modal -->
+        <div id="strain-modal-overlay" class="strain-modal-overlay">
+            <div class="strain-modal">
+                <div class="strain-modal-header">
+                    <h3 id="strain-modal-title">Strain Information</h3>
+                    <button type="button" class="strain-modal-close" onclick="closeStrainModal()">&times;</button>
+                </div>
+                <div class="strain-modal-body">
+                    <table id="strain-modal-table"></table>
+                </div>
+            </div>
+        </div>
 
     </div>
 </form>
