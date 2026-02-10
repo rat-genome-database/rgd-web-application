@@ -71,6 +71,19 @@
 %>
 
 
+<style>
+    .dist-instructions {
+        background: #e8f4fc;
+        border-left: 4px solid #3a7aba;
+        padding: 12px 15px;
+        margin: 15px 20px 15px 20px;
+        border-radius: 0 4px 4px 0;
+        color: #2a4a6a;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+</style>
+
 <div class="typerMat" id="blueBackground">
     <div class="typerTitle">
         <div class="typerTitleSub">Variant Distribution</div>
@@ -83,6 +96,11 @@
         </tr>
     </table>
 
+    <div class="dist-instructions">
+        The table below displays <strong>variant counts</strong> for each gene and intergenic region in your selected strains.
+        Click any cell to view detailed variant information for that region.
+    </div>
+
 
     <% if (req.getParameter("geneList").equals("")) { %>
 
@@ -92,12 +110,130 @@
     <% } %>
 
     <% if (regionList.size() == 0) { %>
-    <br>
-    <table align="center">
-        <tr>
-            <td colspan=2 align=center style="font-size:20px; color:white;font-weight:700">O SNPs Found<br>(Please remove options or increase your region size)</td>
-        </tr>
-    </table>
+    <style>
+        .no-results-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px 40px 20px;
+        }
+        .no-results-card {
+            background: #ffffff;
+            border: 1px solid #ccd9e8;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .no-results-icon {
+            font-size: 48px;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        .no-results-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a3a5a;
+            margin-bottom: 12px;
+        }
+        .no-results-message {
+            font-size: 15px;
+            color: #5a6a7a;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .no-results-suggestions {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .no-results-suggestions-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a3a5a;
+            margin-bottom: 12px;
+        }
+        .no-results-suggestions ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #4a5a6a;
+            font-size: 14px;
+        }
+        .no-results-suggestions li {
+            margin-bottom: 8px;
+        }
+        .no-results-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn-adjust-search {
+            font-size: 14px;
+            font-weight: bold;
+            background: linear-gradient(to bottom, #3a7aba 0%, #2a5a8a 100%);
+            color: white;
+            border: 1px solid #2a5a8a;
+            border-radius: 6px;
+            padding: 12px 24px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        .btn-adjust-search:hover {
+            background: linear-gradient(to bottom, #4a8aca 0%, #3a7aba 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+            color: white;
+            text-decoration: none;
+        }
+        .btn-change-region {
+            font-size: 14px;
+            font-weight: bold;
+            background: linear-gradient(to bottom, #6c757d 0%, #545b62 100%);
+            color: white;
+            border: 1px solid #545b62;
+            border-radius: 6px;
+            padding: 12px 24px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        .btn-change-region:hover {
+            background: linear-gradient(to bottom, #7a8288 0%, #6c757d 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+
+    <div class="no-results-container">
+        <div class="no-results-card">
+            <div class="no-results-icon">&#128269;</div>
+            <div class="no-results-title">No Variants Found</div>
+            <div class="no-results-message">
+                Your search did not return any variants in the specified region with the current filter settings.
+            </div>
+            <div class="no-results-suggestions">
+                <div class="no-results-suggestions-title">Try the following:</div>
+                <ul>
+                    <li>Remove or adjust filter options to broaden your search</li>
+                    <li>Increase the region size to include more genomic positions</li>
+                    <li>Select different strains that may have more variant data</li>
+                    <li>Check that the chromosome and coordinates are correct</li>
+                </ul>
+            </div>
+            <div class="no-results-buttons">
+                <a class="btn-adjust-search" href="config.html?<%=request.getQueryString()%>">Adjust Filter Options</a>
+                <a class="btn-change-region" href="region.html?<%=request.getQueryString()%>">Change Region</a>
+            </div>
+        </div>
+    </div>
 
     <% return;
     } %>

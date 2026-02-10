@@ -10,13 +10,12 @@
     String pageDescription = "Select Options";
 
     int mapKey=372;
-    if(request.getParameter("mapKey")!=null)
+    if(request.getParameter("mapKey")!=null && !request.getParameter("mapKey").isEmpty())
         mapKey=Integer.parseInt(request.getParameter("mapKey"));
     edu.mcw.rgd.datamodel.Map currentMap = MapManager.getInstance().getMap(mapKey);
     VariantSearchBean vsb = (VariantSearchBean) request.getAttribute("vsb");
 %>
 <%@ include file="/common/headerarea.jsp" %>
-<%--<script type="text/javascript"  src="/solr/OntoSolr/files/jquery-1.4.3.min.js"></script>--%>
 <script type="text/javascript" src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 <script type="text/javascript"  src="/solr/OntoSolr/files/jquery.autocomplete.js"></script>
 <link rel="stylesheet" href="/solr/OntoSolr/files/jquery.autocomplete.css" type="text/css" />
@@ -24,290 +23,643 @@
 <%@ include file="carpeHeader.jsp"%>
 <%@ include file="menuBar.jsp" %>
 
-<br>
+<style>
+    /* Modern Options Page Styles - Light Theme */
+    .typerTitle {
+        margin-top: 20px;
+    }
+
+    .options-container {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 0 20px 20px 20px;
+    }
+
+    .options-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .options-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .options-assembly {
+        font-size: 14px;
+        color: #b8d4f0;
+    }
+
+    .options-notice {
+        background: #fff8e6;
+        border-left: 4px solid #f0a020;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border-radius: 0 4px 4px 0;
+        color: #6a5a2a;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .options-notice strong {
+        color: #d08000;
+    }
+
+    .options-instructions {
+        background: #e8f4fc;
+        border-left: 4px solid #3a7aba;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border-radius: 0 4px 4px 0;
+        color: #2a4a6a;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .options-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 800px) {
+        .options-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .options-card {
+        background: #e8f0f8;
+        border: 1px solid #c0d0e0;
+        border-radius: 6px;
+        padding: 15px 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+
+    .options-card.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .card-title {
+        font-size: 15px;
+        font-weight: bold;
+        color: #1a3a5a;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #dde5ef;
+    }
+
+    .filter-row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+
+    .filter-label {
+        min-width: 130px;
+        color: #3a7aba;
+        font-size: 13px;
+        font-weight: 600;
+        padding-top: 2px;
+    }
+
+    .filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        color: #333;
+        font-size: 13px;
+    }
+
+    .filter-options label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    .filter-options input[type="checkbox"] {
+        margin: 0;
+    }
+
+    .filter-options input[type="text"] {
+        padding: 5px 8px;
+        border: 1px solid #bccada;
+        border-radius: 4px;
+        background: #f8fafc;
+        color: #333;
+        font-size: 13px;
+        width: 80px;
+    }
+
+    .filter-options input[type="text"]:focus {
+        outline: none;
+        border-color: #3a7aba;
+        background: #fff;
+    }
+
+    .filter-options select {
+        padding: 5px 8px;
+        border: 1px solid #bccada;
+        border-radius: 4px;
+        background: #f8fafc;
+        color: #333;
+        font-size: 13px;
+    }
+
+    .zygosity-table {
+        width: 100%;
+    }
+
+    .zygosity-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .zygosity-label {
+        min-width: 180px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .zygosity-desc {
+        font-style: italic;
+        color: #6a7a8a;
+        font-size: 12px;
+    }
+
+    /* Button Section */
+    .button-section {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .findVariantsButton {
+        font-size: 16px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
+        color: white;
+        border: 1px solid #1e7e34;
+        border-radius: 6px;
+        padding: 12px 40px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        transition: all 0.2s ease;
+    }
+
+    .findVariantsButton:hover {
+        background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .skipButton {
+        font-size: 16px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #6c757d 0%, #545b62 100%);
+        color: white;
+        border: 1px solid #545b62;
+        border-radius: 6px;
+        padding: 12px 40px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        transition: all 0.2s ease;
+    }
+
+    .skipButton:hover {
+        background: linear-gradient(to bottom, #7a8288 0%, #6c757d 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Strains Card */
+    .strains-card {
+        background: #dce8f4;
+        border: 1px solid #c0d0e0;
+        border-radius: 6px;
+        padding: 15px 20px;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    }
+
+    .modal-overlay.hidden {
+        display: none;
+    }
+
+    .modal-content {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 30px 40px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    .modal-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+    }
+
+    .modal-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #1a3a5a;
+        margin-bottom: 15px;
+    }
+
+    .modal-message {
+        font-size: 15px;
+        color: #4a5a6a;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .modal-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .modal-btn-continue {
+        font-size: 15px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
+        color: white;
+        border: 1px solid #1e7e34;
+        border-radius: 6px;
+        padding: 12px 30px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .modal-btn-continue:hover {
+        background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .modal-btn-filter {
+        font-size: 15px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #3a7aba 0%, #2a5a8a 100%);
+        color: white;
+        border: 1px solid #2a5a8a;
+        border-radius: 6px;
+        padding: 12px 30px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .modal-btn-filter:hover {
+        background: linear-gradient(to bottom, #4a8aca 0%, #3a7aba 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .strains-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .strains-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #1a3a5a;
+    }
+
+    .strains-count {
+        font-size: 12px;
+        color: white;
+        background: #3a7aba;
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+
+    .strains-list {
+        color: #445566;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+</style>
 
 <div class="typerMat">
     <div class="typerTitle"><div class="typerTitleSub">Variant&nbsp;Visualizer</div></div>
 
+    <div class="options-container">
+        <!-- Header -->
+        <div class="options-header">
+            <div class="options-title">Filter Variant Results (Optional)</div>
+            <div class="options-assembly"><%=currentMap.getName()%> assembly</div>
+        </div>
 
-<table width="100%" class="stepLabel" border=0>
-    <tr>
-        <td><div style="padding:8px;">Select Sequence Annotation (Optional)</div></td>
-        <td align="right" style="font-size:16px;"><%=currentMap.getName()%> assembly</td>
-    </tr>
-</table>
+        <% if( currentMap.getSpeciesTypeKey()!=SpeciesType.HUMAN ) { %>
+        <!-- Notice -->
+        <div class="options-notice">
+            <strong>Notice:</strong> Minimum read depth is now defaulted to 8 and variants found in less than 15% of reads are excluded.
+            These defaults can be changed via the form below.
+        </div>
+        <% } %>
 
-<% if( currentMap.getSpeciesTypeKey()!=SpeciesType.HUMAN ) { %>
-<table width="100%" border=0 style="background-color:white;">
-    <tr>
-        <td><span style="color:red; font-weight:700;background-color:white;">Notice: </span>
-            <span style="text-decoration:none; background-color:white; color:#011C47;"> Minimum read depth is now defaulted to 8
-                and variants found in less than 15% of reads are excluded.<br>These defaults can be changed via the form below.</span>
-        </td>
-    </tr>
-</table>
-<% } %>
+        <!-- Instructions -->
+        <div class="options-instructions">
+            These filters are <strong>optional</strong>. Leave all options unchecked to include all variants in the defined region.
+        </div>
 
-<form action="variants.html">
-    <input type="hidden" name="start" value="<%=dm.out("start",vsb.getStartPosition() + "")%>"/>
-    <input type="hidden" name="stop" size="25" value="<%=dm.out("stop",vsb.getStopPosition() + "")%>"/>
+        <!-- Top Button Section -->
+        <div class="button-section">
+            <button type="button" class="findVariantsButton" onclick="document.getElementById('optionsForm').submit();">Continue</button>
+        </div>
 
-    <input type="hidden" name="chr" value="<%=dm.out("chr",vsb.getChromosome())%>"/>
-    <input type="hidden" name="geneStart" value="<%=dm.out("geneStart",req.getParameter("geneStart"))%>"/>
-    <input type="hidden" name="geneStop" value="<%=dm.out("geneStop",req.getParameter("geneStop"))%>"/>
-    <input type="hidden" name="geneList" value="<%=dm.out("geneList",req.getParameter("geneList"))%>" />
-    <input type="hidden" name="mapKey" value="<%=dm.out("mapKey",req.getParameter("mapKey"))%>" />
+        <form action="variants.html" id="optionsForm">
+            <input type="hidden" name="start" value="<%=dm.out("start",vsb.getStartPosition() + "")%>"/>
+            <input type="hidden" name="stop" size="25" value="<%=dm.out("stop",vsb.getStopPosition() + "")%>"/>
+            <input type="hidden" name="chr" value="<%=dm.out("chr",vsb.getChromosome())%>"/>
+            <input type="hidden" name="geneStart" value="<%=dm.out("geneStart",req.getParameter("geneStart"))%>"/>
+            <input type="hidden" name="geneStop" value="<%=dm.out("geneStop",req.getParameter("geneStop"))%>"/>
+            <input type="hidden" name="geneList" value="<%=dm.out("geneList",req.getParameter("geneList"))%>" />
+            <input type="hidden" name="mapKey" value="<%=dm.out("mapKey",req.getParameter("mapKey"))%>" />
 
-<table border=0 align="center" style="padding:8px; ">
-    <tr>
-        <td align="right" style="font-size:16px;color:white;" width=150>Additional options are not required. Leave form empty to include all variants in the defined region</td>
-        <td>&nbsp;&nbsp;&nbsp;</td>
-        <td >
-            <table border="0" cellspacing=4 cellpadding=0 class="carpeASTable">
-                <tr>
-                    <td colspan=3><div class="typerSubTitle" >Genome</div></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Location</td>
-                    <td><%=dm.makeCheckBox("intergenic", " Intergenic")%>
-                        <%=dm.makeCheckBox("genic", " Genic")%>
-                        <%=dm.makeCheckBox("nearSpliceSite", " Near Splice Site")%>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>&nbsp;</td>
-                    <td><%=dm.makeCheckBox("intron", " Intron")%>
-                        <%=dm.makeCheckBox("3prime", " 3 Prime UTR")%>
-                        <%=dm.makeCheckBox("5prime", " 5 Prime UTR")%>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Variant Type</td>
-                    <td><%=dm.makeCheckBox("snv", " SNV")%>
-                        <%=dm.makeCheckBox("ins", " Insertion")%>
-                        <%=dm.makeCheckBox("del", " Deletion")%>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Limit to</td>
-                    <td><%=dm.makeCheckBox("proteinCoding", " Coding Exon")%>
-                        <%=dm.makeCheckBox("frameshift", " Frameshift")%>
-                        <%=dm.makeCheckBox("prematureStopCodon", " Premature Stop")%>
-                        <%=dm.makeCheckBox("readthroughMutation", " Readthrough")%>
-                    </td>
-                </tr>
+            <div class="options-grid">
+                <!-- Genome Card -->
+                <div class="options-card">
+                    <div class="card-title">Genome</div>
 
-                <%if (!vsb.getConScoreTable().equals("")) {%>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Conservation</td>
-                    <td>
-                        <select name="con">
-                        <option value=""></option>
-                        <option value="n">None (0)</option>
-                        <option value="l">Low (.01-.49)</option>
-                        <option value="m">Moderate (.5-.749)</option>
-                        <option value="h">High (.75-1.0)</option>
-                        </select>
-                    </td>
-                </tr>
-                <%} else {%>
-                    <input type="hidden" name="con" vlaue=""/>
+                    <div class="filter-row">
+                        <div class="filter-label">Location</div>
+                        <div class="filter-options">
+                            <label><%=dm.makeCheckBox("intergenic", " Intergenic")%></label>
+                            <label><%=dm.makeCheckBox("genic", " Genic")%></label>
+                            <label><%=dm.makeCheckBox("nearSpliceSite", " Near Splice Site")%></label>
+                            <label><%=dm.makeCheckBox("intron", " Intron")%></label>
+                            <label><%=dm.makeCheckBox("3prime", " 3' UTR")%></label>
+                            <label><%=dm.makeCheckBox("5prime", " 5' UTR")%></label>
+                        </div>
+                    </div>
+
+                    <div class="filter-row">
+                        <div class="filter-label">Variant Type</div>
+                        <div class="filter-options">
+                            <label><%=dm.makeCheckBox("snv", " SNV")%></label>
+                            <label><%=dm.makeCheckBox("ins", " Insertion")%></label>
+                            <label><%=dm.makeCheckBox("del", " Deletion")%></label>
+                        </div>
+                    </div>
+
+                    <div class="filter-row">
+                        <div class="filter-label">Limit to</div>
+                        <div class="filter-options">
+                            <label><%=dm.makeCheckBox("proteinCoding", " Coding Exon")%></label>
+                            <label><%=dm.makeCheckBox("frameshift", " Frameshift")%></label>
+                            <label><%=dm.makeCheckBox("prematureStopCodon", " Premature Stop")%></label>
+                            <label><%=dm.makeCheckBox("readthroughMutation", " Readthrough")%></label>
+                        </div>
+                    </div>
+
+                    <%if (!vsb.getConScoreTable().equals("")) {%>
+                    <div class="filter-row">
+                        <div class="filter-label">Conservation</div>
+                        <div class="filter-options">
+                            <select name="con">
+                                <option value="">Any</option>
+                                <option value="n">None (0)</option>
+                                <option value="l">Low (.01-.49)</option>
+                                <option value="m">Moderate (.5-.749)</option>
+                                <option value="h">High (.75-1.0)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <%} else {%>
+                    <input type="hidden" name="con" value=""/>
+                    <% } %>
+                </div>
+
+                <!-- Protein Card -->
+                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG || currentMap.getSpeciesTypeKey()==SpeciesType.HUMAN || currentMap.getSpeciesTypeKey()==SpeciesType.PIG) {%>
+                <div class="options-card">
+                    <div class="card-title">Protein</div>
+
+                    <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG || currentMap.getSpeciesTypeKey()==SpeciesType.PIG) { %>
+                    <div class="filter-row">
+                        <div class="filter-label">Amino Acid Change</div>
+                        <div class="filter-options">
+                            <label><%=dm.makeCheckBox("synonymous", " Synonymous")%></label>
+                            <label><%=dm.makeCheckBox("nonSynonymous", " Non-Synonymous")%></label>
+                        </div>
+                    </div>
+                    <% } %>
+
+                    <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG) { %>
+                    <div class="filter-row">
+                        <div class="filter-label">Polyphen Prediction</div>
+                        <div class="filter-options">
+                            <label><%=dm.makeCheckBox("probably", " Probably Damaging")%></label>
+                            <label><%=dm.makeCheckBox("possibly", " Possibly Damaging")%></label>
+                            <label><%=dm.makeCheckBox("benign", " Benign")%></label>
+                        </div>
+                    </div>
+                    <% } %>
+
+                    <% if( currentMap.getSpeciesTypeKey()==SpeciesType.HUMAN ) { %>
+                    <div class="filter-row">
+                        <div class="filter-label">Clinical Significance</div>
+                        <div class="filter-options">
+                            <label><%=dm.makeCheckBox("cs_pathogenic", " Pathogenic / Likely Pathogenic")%></label>
+                            <label><%=dm.makeCheckBox("cs_benign", " Benign")%></label>
+                            <label><%=dm.makeCheckBox("cs_other", " Uncertain Significance")%></label>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
                 <% } %>
-                <tr>
-                    <td></td>
-                    <!--td class="carpeLabel">Novelty</td-->
-                    <!--td><%--=dm.makeCheckBox("foundDBSNP", " pos/change found in "+currentMap.getDbsnpVersion()+" &nbsp;"--)%>
-                        <%=--dm.makeCheckBox("notDBSNP", " pos/change novel to "+currentMap.getDbsnpVersion())--%>
-                    </td-->
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG || currentMap.getSpeciesTypeKey()==SpeciesType.HUMAN) {%>
-                <tr>
-                    <td colspan=3><div class="typerSubTitle" >Protein</div></td>
-                </tr>
-
-                <%}
-                    if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG || currentMap.getSpeciesTypeKey()==SpeciesType.PIG) { %>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Amino Acid Change</td>
-                    <td><%=dm.makeCheckBox("synonymous", " Synonymous")%>
-                        <%=dm.makeCheckBox("nonSynonymous", " Non-Synonymous")%>
-                    </td>
-                </tr>
-                <% } %>
-
-                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG) { %>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Polyphen&nbsp;Prediction</td>
-                    <td><%=dm.makeCheckBox("probably", " Probably Damaging")%>
-                        <%=dm.makeCheckBox("possibly", " Possibly Damaging")%>
-                        <%=dm.makeCheckBox("benign", " Benign")%>
-                    </td>
-                </tr>
-                <% } %>
-
-                <% if( currentMap.getSpeciesTypeKey()==SpeciesType.HUMAN ) { %>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Clinical&nbsp;Significance</td>
-                    <td><%=dm.makeCheckBox("cs_pathogenic", " Pathogenic / Likely Pathogenic")%>
-                        <%=dm.makeCheckBox("cs_benign", " Benign")%>
-                        <%=dm.makeCheckBox("cs_other", " Uncertain Significance")%>
-                    </td>
-                </tr>
-                <% } %>
-
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
 
                 <% if (currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG) { %>
-                <tr>
-                    <td   colspan=3 ><div class="typerSubTitle" >Call Statistics</div></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Depth of Coverage</td>
-                    <% String defaultDepth = "1";
+                <!-- Call Statistics Card -->
+                <div class="options-card">
+                    <div class="card-title">Call Statistics</div>
 
+                    <% String defaultDepth = "1";
                        if (!dm.out("depthLowBound", req.getParameter("depthLowBound")).equals("")) {
                            defaultDepth = dm.out("depthLowBound",req.getParameter("depthLowBound"));
                        }
                     %>
 
-                    <td> Minimum Reads&nbsp;&nbsp;<input type="text" size=10 name="depthLowBound" value="<%=defaultDepth%>">&nbsp;&nbsp; Maximum Reads&nbsp;&nbsp;<input type="text" size=10 name="depthHighBound" value="<%=dm.out("depthHighBound",req.getParameter("depthHighBound"))%>"></td>
-                </tr>
-<%--                <tr>--%>
-<%--                    <td></td>--%>
-<%--                    <td class="carpeLabel">Total Alleles Read</td>--%>
-<%--                    <td><%=dm.makeCheckBox("alleleCount1", " 1")%>--%>
-<%--                        <%=dm.makeCheckBox("alleleCount2", " 2")%>--%>
-<%--                        <%=dm.makeCheckBox("alleleCount3", " 3")%>--%>
-<%--                        <%=dm.makeCheckBox("alleleCount4", " 4")%>--%>
-<%--                    </td>--%>
-<%--                </tr>--%>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Zygosity</td><td>
-                        <table cellpadding=0 cellspacing=0 border=0>
-                            <tr>
-                                <td width=200>
-                                    <input type="checkbox"  style="border:0px solid black;" name="het" value="true" <% if (req.getParameter("het").equals("true")) out.print("checked"); %>> Heterozygous
-                                </td>
-                                <td style="font-style:italic;">
-                                    2 alleles called between 15% and 85% of reads
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <input type="checkbox" name="hom" style="border:0px solid black;"  value="true" <% if (req.getParameter("hom").equals("true")) out.print("checked"); %>> Homozygous
-                                </td>
-                                <td style="font-style:italic;">
-                                    Variant read in 100% of reads
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <input type="checkbox" name="possiblyHom"  style="border:0px solid black;" value="true" <% if (req.getParameter("possiblyHom").equals("true")) out.print("checked"); %>> Possibly Homozygous
-                                </td>
-                                <td style="font-style:italic;">
-                                    Variants read in 85% to 99% of reads
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <input type="checkbox" style="border:0px solid black;"  name="excludePossibleError" > Exclude Low Read Percentage                                </td>
-                                <td style="font-style:italic;">
-                                    Variant read in less than 15% of reads
-                                </td>
-                            </tr>
-                        </table>
+                    <div class="filter-row">
+                        <div class="filter-label">Depth of Coverage</div>
+                        <div class="filter-options">
+                            Min Reads <input type="text" name="depthLowBound" value="<%=defaultDepth%>"/>
+                            &nbsp;&nbsp;Max Reads <input type="text" name="depthHighBound" value="<%=dm.out("depthHighBound",req.getParameter("depthHighBound"))%>"/>
+                        </div>
+                    </div>
 
-                     </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td   colspan=3 ><div class="typerSubTitle" >Additional Options</div></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td class="carpeLabel">Show Differences</td>
-                    <td>  <input type="checkbox" style="border:0px solid black;"  name="showDifferences" value="true" <% if (req.getParameter("showDifferences").equals("true")) out.print("checked"); %>> Exclude Common Variants between strains</td>
-                </tr>
-              <% } //end only show for rat %>
+                    <div class="filter-row">
+                        <div class="filter-label">Zygosity</div>
+                        <div class="filter-options" style="flex-direction: column; gap: 6px;">
+                            <div class="zygosity-row">
+                                <span class="zygosity-label">
+                                    <input type="checkbox" name="het" value="true" <% if (req.getParameter("het").equals("true")) out.print("checked"); %>> Heterozygous
+                                </span>
+                                <span class="zygosity-desc">2 alleles called between 15% and 85% of reads</span>
+                            </div>
+                            <div class="zygosity-row">
+                                <span class="zygosity-label">
+                                    <input type="checkbox" name="hom" value="true" <% if (req.getParameter("hom").equals("true")) out.print("checked"); %>> Homozygous
+                                </span>
+                                <span class="zygosity-desc">Variant read in 100% of reads</span>
+                            </div>
+                            <div class="zygosity-row">
+                                <span class="zygosity-label">
+                                    <input type="checkbox" name="possiblyHom" value="true" <% if (req.getParameter("possiblyHom").equals("true")) out.print("checked"); %>> Possibly Homozygous
+                                </span>
+                                <span class="zygosity-desc">Variants read in 85% to 99% of reads</span>
+                            </div>
+                            <div class="zygosity-row">
+                                <span class="zygosity-label">
+                                    <input type="checkbox" name="excludePossibleError"> Exclude Low Read %
+                                </span>
+                                <span class="zygosity-desc">Variant read in less than 15% of reads</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            </table>
+                <!-- Additional Options Card -->
+                <div class="options-card">
+                    <div class="card-title">Additional Options</div>
 
-            </td>
-        <td valign="top" align="left">
-            <div style="margin-left:10px;"><input  class="continueButton" type="submit" value="Find Variants"/></div>
-        </td>
-    </tr>
-</table>
+                    <div class="filter-row">
+                        <div class="filter-label">Show Differences</div>
+                        <div class="filter-options">
+                            <label>
+                                <input type="checkbox" name="showDifferences" value="true" <% if (req.getParameter("showDifferences").equals("true")) out.print("checked"); %>>
+                                Exclude Common Variants between strains
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
 
-    <div style="margin-top:12px; margin-bottom:12px;">
-    <table border=0 width="100%" style="border:1px dashed white; padding-bottom:5px;">
-        <tr>
-         <td style="font-size:11px; color:white;" >
-        <%
-            if (request.getParameter("sample1")!=null && request.getParameter("sample1").equals("all")) {
+            <!-- Bottom Button Section -->
+            <div class="button-section">
+                <input class="findVariantsButton" type="submit" value="Continue"/>
+            </div>
 
-                SampleDAO sdao = new SampleDAO();
-                sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
-                List<Sample> samples = sdao.getSamplesByMapKey(currentMap.getKey());
-
-                int count=1;
-                for (Sample s : samples) {
-                    String strain = "";
-                    if (count > 1) {
-                        strain += ",&nbsp;";
-                    }
-
-                    strain+= SampleManager.getInstance().getSampleName(s.getId()).getAnalysisName();
-            %>
-                    <%=strain%>
-                    <input type="hidden" name="sample<%=count++%>" value="<%=s.getId()%>"/>
-             <%
-
-                }
-
-            } else {
-
-                for (int i=1; i<1000; i++) {
-                if (request.getParameter("sample" + i) != null) {
-                    String strain = "";
-                    if (i > 1) {
-                        strain += ",&nbsp;";
-                    }
-
-                    strain+= SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName();
-            %>
-                <%=strain%>
-                <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
+            <!-- Strains Selected Card -->
             <%
+                int strainCount = 0;
+                List<String> strainNames = new ArrayList<>();
+                if (request.getParameter("sample1")!=null && request.getParameter("sample1").equals("all")) {
+                    SampleDAO sdao = new SampleDAO();
+                    sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                    List<Sample> samples = sdao.getSamplesByMapKey(currentMap.getKey());
+                    strainCount = samples.size();
+                    for (Sample s : samples) {
+                        strainNames.add(SampleManager.getInstance().getSampleName(s.getId()).getAnalysisName());
+                    }
+                } else {
+                    for (int i=1; i<1000; i++) {
+                        if (request.getParameter("sample" + i) != null) {
+                            strainCount++;
+                            strainNames.add(SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName());
+                        }
+                    }
                 }
-              }
-            }
-        %>
-            </td>
-        </tr>
-    </table>
+            %>
+            <div class="strains-card">
+                <div class="strains-header">
+                    <div class="strains-title">Strains Selected</div>
+                    <div class="strains-count"><%=strainCount%> strain<%= strainCount != 1 ? "s" : "" %></div>
+                </div>
+                <div class="strains-list">
+                    <%
+                        if (request.getParameter("sample1")!=null && request.getParameter("sample1").equals("all")) {
+                            SampleDAO sdao = new SampleDAO();
+                            sdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
+                            List<Sample> samples = sdao.getSamplesByMapKey(currentMap.getKey());
+                            int count=1;
+                            boolean first = true;
+                            for (Sample s : samples) {
+                                if (!first) out.print(", ");
+                                first = false;
+                                out.print(SampleManager.getInstance().getSampleName(s.getId()).getAnalysisName());
+                    %>
+                                <input type="hidden" name="sample<%=count++%>" value="<%=s.getId()%>"/>
+                    <%
+                            }
+                        } else {
+                            boolean first = true;
+                            for (int i=1; i<1000; i++) {
+                                if (request.getParameter("sample" + i) != null) {
+                                    if (!first) out.print(", ");
+                                    first = false;
+                                    out.print(SampleManager.getInstance().getSampleName(Integer.parseInt(request.getParameter("sample" + i))).getAnalysisName());
+                    %>
+                                <input type="hidden" name="sample<%=i%>" value="<%=request.getParameter("sample" + i)%>"/>
+                    <%
+                                }
+                            }
+                        }
+                    %>
+                </div>
+            </div>
+        </form>
     </div>
-
-
 </div>
 
+<!-- Modal Popup -->
+<div id="variantModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-icon">&#128269;</div>
+        <div class="modal-title">View Variants</div>
+        <div class="modal-message">
+            Would you like to continue and see <strong>all variants</strong> in this region, or would you like to <strong>filter the list</strong> further?
+        </div>
+        <div class="modal-buttons">
+            <button type="button" class="modal-btn-continue" onclick="continueToVariants()">Continue</button>
+            <button type="button" class="modal-btn-filter" onclick="closeModal()">Filter Results</button>
+        </div>
+    </div>
+</div>
 
-</form>
+<script>
+    function closeModal() {
+        document.getElementById('variantModal').classList.add('hidden');
+    }
+
+    function continueToVariants() {
+        document.getElementById('optionsForm').submit();
+    }
+
+    // Show modal on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('variantModal').classList.remove('hidden');
+    });
+</script>
+
 <%@ include file="/common/footerarea.jsp" %>

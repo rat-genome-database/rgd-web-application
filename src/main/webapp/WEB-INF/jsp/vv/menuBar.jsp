@@ -1,10 +1,12 @@
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <style>
-    .snpMenuBar {
+    .snpMenuBarOuterBorder {
         background-color:#F0F6F9;
-        border: #771428;
         background-image: url(/rgdweb/common/images/bg3.png);
-        padding:  5px;
+        padding: 8px 15px;
+    }
+    .snpMenuBar {
+        width: 100%;
     }
 </style>
 
@@ -66,7 +68,7 @@
         positionSearch=true;
     }
 
-    if (uri.equals("variants.jsp") || uri.equals("dist.jsp")) {
+    if (uri.contains("variants") || uri.contains("dist")) {
         resultsRendered= true;
     }
     String parameters=request.getQueryString();
@@ -149,10 +151,10 @@
 
         </td>
 
-        <td style="color: white; font-size:16px;">
+        <td style="color: white; font-size:16px; padding-left: 30px;">
             <% if (request.getParameter("mapKey") != null && !request.getParameter("mapKey").equals("")) { %>
 
-            &nbsp;Assembly
+            Assembly
 
             <%
                 try {%>
