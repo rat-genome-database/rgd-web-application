@@ -14,11 +14,15 @@ String pageDescription = "Define Region";
 <%@ include file="menuBar.jsp" %>
 
 <style>
-    /* Modern Region Page Styles */
+    /* Modern Region Page Styles - Light Theme */
+    .typerTitle {
+        margin-top: 20px;
+    }
+
     .region-container {
         max-width: 900px;
         margin: 20px auto;
-        padding: 0 20px;
+        padding: 0 20px 20px 20px;
     }
 
     .region-header {
@@ -27,46 +31,47 @@ String pageDescription = "Define Region";
         align-items: center;
         margin-bottom: 15px;
         padding-bottom: 10px;
-        border-bottom: 2px solid #2a5a8a;
+        border-bottom: 2px solid rgba(255,255,255,0.3);
     }
 
     .region-title {
         font-size: 18px;
         font-weight: bold;
-        color: white;
+        color: #ffffff;
     }
 
     .region-assembly {
         font-size: 14px;
-        color: #acd;
+        color: #b8d4f0;
     }
 
     .region-instructions {
-        background: rgba(42, 90, 138, 0.3);
-        border-left: 4px solid #4a9eff;
+        background: #e8f4fc;
+        border-left: 4px solid #3a7aba;
         padding: 12px 15px;
         margin-bottom: 20px;
         border-radius: 0 4px 4px 0;
-        color: #cde;
+        color: #2a4a6a;
         font-size: 13px;
         line-height: 1.5;
     }
 
     .region-card {
-        background: linear-gradient(to bottom, #1a3a5a 0%, #0d2035 100%);
-        border: 1px solid #2a5a8a;
+        background: #e8f0f8;
+        border: 1px solid #c0d0e0;
         border-radius: 6px;
         padding: 20px;
         margin-bottom: 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
 
     .card-title {
         font-size: 15px;
         font-weight: bold;
-        color: white;
+        color: #1a3a5a;
         margin-bottom: 15px;
         padding-bottom: 8px;
-        border-bottom: 1px solid #2a5a8a;
+        border-bottom: 1px solid #dde5ef;
     }
 
     .form-row {
@@ -83,7 +88,7 @@ String pageDescription = "Define Region";
     }
 
     .form-group label {
-        color: #acd;
+        color: #3a5a7a;
         font-size: 13px;
         font-weight: 600;
         white-space: nowrap;
@@ -92,22 +97,23 @@ String pageDescription = "Define Region";
     .form-group input[type="text"],
     .form-group select {
         padding: 8px 12px;
-        border: 1px solid #456;
+        border: 1px solid #bccada;
         border-radius: 4px;
-        background: #0a1520;
-        color: white;
+        background: #f8fafc;
+        color: #333;
         font-size: 13px;
     }
 
     .form-group input[type="text"]:focus,
     .form-group select:focus {
         outline: none;
-        border-color: #4a9eff;
-        box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+        border-color: #3a7aba;
+        box-shadow: 0 0 0 2px rgba(58, 122, 186, 0.15);
+        background: #fff;
     }
 
     .form-group input[type="text"]::placeholder {
-        color: #667;
+        color: #8899aa;
     }
 
     .form-group select {
@@ -137,11 +143,11 @@ String pageDescription = "Define Region";
     .or-line {
         flex: 1;
         height: 1px;
-        background: linear-gradient(to right, transparent, #456, transparent);
+        background: linear-gradient(to right, transparent, #bccada, transparent);
     }
 
     .or-badge {
-        background: #2a5a8a;
+        background: #3a7aba;
         color: white;
         padding: 6px 16px;
         border-radius: 20px;
@@ -160,20 +166,20 @@ String pageDescription = "Define Region";
         border-radius: 4px;
         padding: 8px 16px;
         cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         transition: all 0.2s ease;
     }
 
     .continueButtonPrimary:hover {
         background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
         transform: translateY(-1px);
-        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
 
     /* Strains Selected Card */
     .strains-card {
-        background: linear-gradient(to bottom, #1a3a5a 0%, #0d2035 100%);
-        border: 1px solid #2a5a8a;
+        background: #dce8f4;
+        border: 1px solid #c0d0e0;
         border-radius: 6px;
         padding: 15px 20px;
         margin-top: 20px;
@@ -189,19 +195,19 @@ String pageDescription = "Define Region";
     .strains-title {
         font-size: 14px;
         font-weight: bold;
-        color: white;
+        color: #1a3a5a;
     }
 
     .strains-count {
         font-size: 12px;
-        color: #acd;
-        background: #2a5a8a;
+        color: white;
+        background: #3a7aba;
         padding: 2px 8px;
         border-radius: 10px;
     }
 
     .strains-list {
-        color: #cde;
+        color: #445566;
         font-size: 13px;
         line-height: 1.6;
     }

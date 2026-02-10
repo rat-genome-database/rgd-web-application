@@ -34,92 +34,184 @@
     #sortable li { cursor:move; margin: 0 2px 2px 2px; padding: 5px; padding-left: 5px; font-size: 14px; height: 18px; color:#01224D; }
     #sortable li span { cursor:pointer; position: absolute; margin-left: 2px; }
 
-    /* Accordion Styles */
+    /* Page Container */
+    .select-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px 20px 20px;
+    }
+
+    .select-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .select-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .select-assembly {
+        font-size: 14px;
+        color: #b8d4f0;
+    }
+
+    /* Sequence Group Section */
+    .sequence-group-card {
+        background: #e8f0f8;
+        border: 1px solid #c0d0e0;
+        border-radius: 6px;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+
+    .sequence-group-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a3a5a;
+        margin-bottom: 12px;
+    }
+
+    .sequence-group-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .sequence-group-options label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #333;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    /* Accordion Styles - Light Theme */
     .strain-accordion {
-        margin: 10px 20px;
+        margin: 0;
     }
+
     .accordion-section {
-        margin-bottom: 2px;
-        border: 1px solid #456;
-        border-radius: 3px;
+        margin-bottom: 4px;
+        border: 1px solid #c0d0e0;
+        border-radius: 4px;
         overflow: hidden;
+        background: #e8f0f8;
     }
+
     .accordion-header {
-        background: linear-gradient(to bottom, #2a5a8a 0%, #1a3a5a 100%);
-        color: white;
-        padding: 5px 12px;
+        background: linear-gradient(to bottom, #e8f0f8 0%, #dce8f4 100%);
+        color: #1a3a5a;
+        padding: 8px 15px;
         cursor: pointer;
         display: flex;
         justify-content: space-between;
         align-items: center;
         user-select: none;
+        border-bottom: 1px solid #c0d0e0;
     }
+
     .accordion-header:hover {
-        background: linear-gradient(to bottom, #3a6a9a 0%, #2a4a6a 100%);
+        background: linear-gradient(to bottom, #f0f6fc 0%, #e8f0f8 100%);
     }
+
     .accordion-title {
         font-weight: bold;
         font-size: 13px;
         display: flex;
         align-items: center;
         gap: 8px;
+        color: #1a3a5a;
     }
+
     .accordion-toggle {
         font-size: 10px;
         transition: transform 0.3s;
+        color: #3a7aba;
     }
+
     .accordion-toggle.collapsed {
         transform: rotate(-90deg);
     }
+
     .accordion-count {
         font-size: 12px;
-        color: #acd;
+        color: #6a8aaa;
         margin-left: 5px;
     }
+
     .accordion-actions {
         display: flex;
         gap: 10px;
         align-items: center;
     }
+
     .accordion-select-all {
         font-size: 11px;
-        padding: 2px 6px;
-        background: #4a7aaa;
-        border: 1px solid #5a8aba;
+        padding: 3px 8px;
+        background: linear-gradient(to bottom, #5a9bcf 0%, #3a7aba 100%);
+        border: 1px solid #3a7aba;
         border-radius: 3px;
         color: white;
         cursor: pointer;
+        font-weight: 600;
     }
+
     .accordion-select-all:hover {
-        background: #5a8aba;
+        background: linear-gradient(to bottom, #6aabdf 0%, #4a8aca 100%);
     }
+
     .accordion-content {
-        background: #1a2a3a;
-        padding: 10px 15px;
+        background: #f0f6fc;
+        padding: 12px 15px;
         display: none;
+        border-top: 1px solid #d0dde8;
     }
+
     .accordion-content.expanded {
         display: block;
     }
+
     .strain-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 5px 20px;
+        gap: 8px 20px;
     }
+
+    @media (max-width: 900px) {
+        .strain-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
     .strain-item {
         display: flex;
         align-items: center;
-        gap: 5px;
-        padding: 3px 0;
-        color: white;
+        gap: 6px;
+        padding: 4px 0;
+        color: #333;
         font-size: 13px;
     }
+
     .strain-item input[type="checkbox"] {
         margin: 0;
     }
+
+    .strain-item label {
+        cursor: pointer;
+    }
+
     .strain-item .help-icon {
         cursor: help;
     }
+
     .strain-tooltip {
         margin: 10px;
         position: absolute;
@@ -128,63 +220,83 @@
         padding: 10px;
     }
 
-    /* Summary section */
+    /* Summary section - Light Theme */
     .selection-summary {
-        background: #1a3a5a;
-        color: white;
-        padding: 10px 20px;
-        margin: 10px 20px;
-        border-radius: 4px;
+        background: #dce8f4;
+        color: #1a3a5a;
+        padding: 12px 20px;
+        margin: 15px 0;
+        border-radius: 6px;
+        border: 1px solid #c0d0e0;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
+
     .selection-count {
         font-size: 14px;
+        font-weight: 600;
     }
+
     .expand-collapse-all {
         font-size: 12px;
-        padding: 5px 10px;
-        background: #4a7aaa;
-        border: 1px solid #5a8aba;
-        border-radius: 3px;
+        padding: 6px 12px;
+        background: linear-gradient(to bottom, #6c757d 0%, #545b62 100%);
+        border: 1px solid #545b62;
+        border-radius: 4px;
         color: white;
         cursor: pointer;
         margin-left: 10px;
     }
+
     .expand-collapse-all:hover {
-        background: #5a8aba;
+        background: linear-gradient(to bottom, #7a8288 0%, #6c757d 100%);
     }
 
-    /* Bold Continue button - matches expand-collapse-all size */
+    /* Bold Continue button */
     .continueButtonPrimary {
-        font-size: 12px;
+        font-size: 13px;
         font-weight: bold;
         background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
         color: white;
         border: 1px solid #1e7e34;
-        border-radius: 3px;
-        padding: 5px 10px;
+        border-radius: 4px;
+        padding: 6px 16px;
         cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
+
     .continueButtonPrimary:hover {
         background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
     }
 
-    /* Clear All button - matches expand-collapse-all */
+    /* Clear All button */
     .clearAllButton {
         font-size: 12px;
-        padding: 5px 10px;
-        background: #4a7aaa;
-        border: 1px solid #5a8aba;
-        border-radius: 3px;
+        padding: 6px 12px;
+        background: linear-gradient(to bottom, #6c757d 0%, #545b62 100%);
+        border: 1px solid #545b62;
+        border-radius: 4px;
         color: white;
         cursor: pointer;
-        margin-left: 10px;
+        margin-right: 10px;
     }
+
     .clearAllButton:hover {
-        background: #5a8aba;
+        background: linear-gradient(to bottom, #7a8288 0%, #6c757d 100%);
+    }
+
+    /* Light theme overrides for page header */
+    .typerMat .stepLabel td {
+        color: #ffffff;
+    }
+
+    /* Container for light-themed content */
+    .select-content-wrapper {
+        background: #f0f5fa;
+        border-radius: 6px;
+        padding: 20px;
+        margin: 15px 0;
     }
 </style>
 <script>
@@ -610,18 +722,19 @@
         </script>
         <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
                 SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
-        <div style="margin:10px; color:white; border-bottom:1px solid white;"> Select Sequence Group (Optional)</div>
+        <div class="sequence-group-card">
+            <div class="sequence-group-title">Select Sequence Group (Optional)</div>
         <%}%>
-        <table style="margin-left:50px;">
+        <table class="sequence-group-options">
             <tr>
                 <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
-                <td style="color:white;">  <input id="hrdpClassic" name="hrdpClassic" type="checkbox" onChange="selectGroup('hrdpClassic')"/> Classic Inbred Strains</td>
+                <td style="color:#333;">  <input id="hrdpClassic" name="hrdpClassic" type="checkbox" onChange="selectGroup('hrdpClassic')"/> Classic Inbred Strains</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td style="color:white;">  <input id="hrdpLE" name="hdrpLE" type="checkbox" onChange="selectGroup('hrdpLE')"/> FXLE/LEXF Recombinant Inbred Panel</td>
+                <td style="color:#333;">  <input id="hrdpLE" name="hdrpLE" type="checkbox" onChange="selectGroup('hrdpLE')"/> FXLE/LEXF Recombinant Inbred Panel</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td style="color:white;">  <input id="hrdpHXB" name="hrdpHXB" type="checkbox" onChange="selectGroup('hrdpHXB')"/> HXB/BXH Recombinant Inbred Panel</td>
+                <td style="color:#333;">  <input id="hrdpHXB" name="hrdpHXB" type="checkbox" onChange="selectGroup('hrdpHXB')"/> HXB/BXH Recombinant Inbred Panel</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td style="color:white;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
+                <td style="color:#333;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <% }// if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 6 && SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
                      //   SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
@@ -639,7 +752,7 @@
                     for(int j = 0;j < 5;j++) {
                 %>
 
-                <td style="color:white; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectBreed('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%> &nbsp;&nbsp;</td>
+                <td style="color:#333; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectBreed('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%> &nbsp;&nbsp;</td>
                 <% }
                 %>
             </tr>
@@ -650,6 +763,7 @@
         </table>
         <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
                 SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
+        </div>
 
         <!-- Selection Summary and Controls -->
         <div class="selection-summary">
@@ -706,9 +820,9 @@
             // Method to extract the strain family from a sample name
             // Generic logic: strips trailing numbers and letter suffixes to group related strains
             // If numbers were stripped from a short strain code, appends "Panel"
-            // e.g., HXB1, HXB10, HXB17 -> "HXB Panel"
-            //       FXLE12, FXLE20 -> "FXLE Panel"
-            //       LEXF10A, LEXF1C, LEXF2B -> "LEXF Panel"
+            // Special cases: FXLE/LEXF and HXB/BXH are combined into single panels
+            // e.g., HXB1, HXB10, BXH2, BXH13 -> "HXB/BXH Panel"
+            //       FXLE12, FXLE20, LEXF10A, LEXF1C -> "FXLE/LEXF Panel"
             //       ACI -> "ACI" (no numbers, no Panel suffix)
             //       European Variation Archive Release 7 -> "European Variation Archive Release" (no Panel - has spaces)
             private String extractStrainFamily(String sampleName) {
@@ -730,6 +844,16 @@
                     return baseName;
                 }
 
+                // Combine FXLE and LEXF into one panel
+                if (family.equalsIgnoreCase("FXLE") || family.equalsIgnoreCase("LEXF")) {
+                    return "FXLE/LEXF Panel";
+                }
+
+                // Combine HXB and BXH into one panel
+                if (family.equalsIgnoreCase("HXB") || family.equalsIgnoreCase("BXH")) {
+                    return "HXB/BXH Panel";
+                }
+
                 // Only add "Panel" suffix for short strain codes (no spaces)
                 // Long names with spaces like "European Variation Archive Release" are not panels
                 if (!family.equals(baseName) && !family.contains(" ")) {
@@ -749,7 +873,7 @@
             <div class="accordion-section">
                 <div class="accordion-header" onclick="toggleAccordion('<%=groupId%>')">
                     <div class="accordion-title">
-                        <span class="accordion-toggle collapsed" id="toggle-<%=groupId%>">&#9660;</span>
+                        <span class="accordion-toggle" id="toggle-<%=groupId%>">&#9660;</span>
                         <%=groupName%>
                         <span class="accordion-count">(<%=groupSamples.size()%>)</span>
                     </div>
@@ -757,7 +881,7 @@
                         <button type="button" class="accordion-select-all" onclick="toggleGroupSelection('<%=groupId%>')">Select/Deselect All</button>
                     </div>
                 </div>
-                <div class="accordion-content" id="content-<%=groupId%>">
+                <div class="accordion-content expanded" id="content-<%=groupId%>">
                     <div class="strain-grid">
                     <% for (Sample samp : groupSamples) {
                         if (sampleMap.get(samp.getId() + "") != null) {
