@@ -638,11 +638,11 @@
         <div class="modal-icon">&#128269;</div>
         <div class="modal-title">View Variants</div>
         <div class="modal-message">
-            Would you like to continue and see <strong>all variants</strong> in this region, or would you like to <strong>filter the list</strong> further?
+            View all variants now, or add filters first.
         </div>
         <div class="modal-buttons">
-            <button type="button" class="modal-btn-continue" onclick="continueToVariants()">Continue</button>
-            <button type="button" class="modal-btn-filter" onclick="closeModal()">Filter Results</button>
+            <button type="button" class="modal-btn-continue" onclick="continueToVariants()">View All Variants</button>
+            <button type="button" class="modal-btn-filter" onclick="closeModal()">Add Filters</button>
         </div>
     </div>
 </div>
