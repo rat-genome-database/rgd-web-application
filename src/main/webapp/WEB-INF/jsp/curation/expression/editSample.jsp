@@ -258,7 +258,7 @@ if (tissueMap.isEmpty()){ %>
                         <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
                             <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="" onblur="lostFocus('uberon')">
                             <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopup('tissueId<%=tcount%>','uberon','uberon<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
-                        <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                        <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" oninput="tissueChange('uberon<%=tcount%>_term','<%=tcount%>')" readonly/>
                     </td>
                     <td></td>
                     <td></td>
@@ -300,8 +300,16 @@ if (tissueMap.isEmpty()){ %>
    else {  for(String tissue: tissueMap.keySet()){
        String ontAccId = tissueMap.get(tissue);
         Term t = new Term();
+        Term vt = new Term();
+        Term cmo = new Term();
        if (ontAccId!=null && !ontAccId.isEmpty() && !existingSample){
         t = ontologyXDAO.getTerm(ontAccId);}
+       String termName = null;
+       if(t!=null){
+           termName = t.getTerm();
+           vt = ontologyXDAO.getTermLikeNameAndAccPrefix(termName+" ribonucleic acid", "VT");
+           cmo = ontologyXDAO.getTermLikeNameAndAccPrefix(termName+" ribonucleic acid", "CMO");
+       }
   %>
             <tr>
                 <td>
@@ -317,7 +325,7 @@ if (tissueMap.isEmpty()){ %>
 <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
                     <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=existingSample ? "" : ontAccId%>" onblur="lostFocus('uberon')">
                     <a href="" id="uberon<%=tcount%>_popup" onclick="ontPopup('tissueId<%=tcount%>','uberon','uberon<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
-                    <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" value="<%=Utils.NVL(t.getTerm(),"")%>" title="<%=Utils.NVL(t.getTerm(),"")%>" style="border: none; background: transparent;width: 100%" readonly/>
+                    <input type="text" id="uberon<%=tcount%>_term" name="uberon<%=tcount%>_term" value="<%=Utils.NVL(termName,"")%>" title="<%=Utils.NVL(termName,"")%>" style="border: none; background: transparent;width: 100%" oninput="tissueChange('uberon<%=tcount%>_term','<%=tcount%>')" readonly/>
                 </td>
                 <td></td>
                 <td></td>
@@ -331,9 +339,9 @@ if (tissueMap.isEmpty()){ %>
                     </td>
                     <td>
                         <%--                    <input type="text" name="tissueId<%=tcount%>" id="tissueId<%=tcount%>" value="<%=tissueMap.get(tissue)%>">--%>
-                        <input type="text" name="vtId<%=tcount%>" id="vtId<%=tcount%>" value="" onblur="lostFocus('vt')">
+                        <input type="text" name="vtId<%=tcount%>" id="vtId<%=tcount%>" value="<%=vt!=null ? vt.getAccId() : ""%>" onblur="lostFocus('vt')">
                         <a href="" id="vt<%=tcount%>_popup" onclick="ontPopup('vtId<%=tcount%>','vt','vt<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
-                        <input type="text" id="vt<%=tcount%>_term" name="vt<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="" readonly/>
+                        <input type="text" id="vt<%=tcount%>_term" name="vt<%=tcount%>_term" style="border: none; background: transparent; width: 100%" value="<%=vt!=null ? vt.getTerm() : ""%>" readonly/>
                     </td>
                     <td></td>
                     <td></td>
@@ -346,9 +354,9 @@ if (tissueMap.isEmpty()){ %>
                         <label for="clinicalMeasurement<%=tcount%>" style="color: #24609c; font-weight: bold;">Clinical Measurement: &nbsp&nbsp </label>
                     </td>
                     <td>
-                        <input type="text" name="clinicalMeasurement<%=tcount%>" id="clinicalMeasurement<%=tcount%>" value="" onblur="lostFocus('cmo')">
+                        <input type="text" name="clinicalMeasurement<%=tcount%>" id="clinicalMeasurement<%=tcount%>" value="<%=cmo!=null ? cmo.getAccId() : ""%>" onblur="lostFocus('cmo')">
                         <a href="" id="cmo<%=tcount%>_popup" onclick="ontPopup('clinicalMeasurement<%=tcount%>','cmo','cmo<%=tcount%>_term')" style="color:black;">Ont Tree</a><br>
-                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent;width: 100%" value="" readonly/>
+                        <input type="text" id="cmo<%=tcount%>_term" name="cmo<%=tcount%>_term" style="border: none; background: transparent;width: 100%" value="<%=cmo!=null ? cmo.getTerm() : ""%>" readonly/>
                     </td>
                     <td></td>
                     <td></td>
@@ -1003,4 +1011,71 @@ if (tissueMap.isEmpty()){ %>
             }
         }
     });
+    function tissueChange(tissueName, tissueNum){
+        // use API to get cmo/vt based on value
+        var tissueNameInput = document.getElementById(tissueName);
+        console.log("in the function")
+        // 'cmo'+tissueNum+'_term'
+        // 'clinicalMeasurement'+tissueNum
+        // 'vt'+tissueNum+'_term'
+        // 'vtId'+tissueNum
+        tissueName = tissueNameInput.value + ' ribonucleic acid';
+        var vtPref ='VT';
+        var cmoPref = 'CMO';
+        $.ajax({
+            type: "GET",
+            context: this,
+            url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/ont/" + tissueName + "/" + vtPref,
+            dataType: "json",
+            success: function (r, s, x) {
+                console.log(r);
+                var vtAccInput = document.getElementById('vtId'+tissueNum);
+                var vtTermInput = document.getElementById('vt'+tissueNum+'_term');
+                var vtAcc = r["accId"];
+                var vtTerm = r["term"];
+                vtAccInput.value = vtAcc;
+                vtTermInput.value = vtTerm;
+                $.ajax({
+                    type: "GET",
+                    context: this,
+                    url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/ont/" + tissueName + "/" + cmoPref,
+                    dataType: "json",
+                    success: function (r, s, x) {
+                        //console.log(r);
+                        var cmoAccInput = document.getElementById('clinicalMeasurement'+tissueNum);
+                        var cmoTermInput = document.getElementById('cmo'+tissueNum+'_term');
+                        var cmoAcc = r["accId"];
+                        var cmoTerm = r["term"];
+                        cmoAccInput.value = cmoAcc;
+                        cmoTermInput.value = cmoTerm;
+                    },
+                    error: function (x, s, err) {
+                        //console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
+                    }
+                });
+            },
+            error: function (x, s, err) {
+                //console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
+                // there was no VT, checking CMO
+                $.ajax({
+                    type: "GET",
+                    context: this,
+                    url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/ont/" + tissueName + "/" + cmoPref,
+                    dataType: "json",
+                    success: function (r, s, x) {
+                        //console.log(r);
+                        var cmoAccInput = document.getElementById('clinicalMeasurement'+tissueNum);
+                        var cmoTermInput = document.getElementById('cmo'+tissueNum+'_term');
+                        var cmoAcc = r["accId"];
+                        var cmoTerm = r["term"];
+                        cmoAccInput.value = cmoAcc;
+                        cmoTermInput.value = cmoTerm;
+                    },
+                    error: function (x, s, err) {
+                        //console.log("Result: " + s + " " + err + " " + x.status + " " + x.statusText);
+                    }
+                });
+            }
+        });
+    }
 </script>
