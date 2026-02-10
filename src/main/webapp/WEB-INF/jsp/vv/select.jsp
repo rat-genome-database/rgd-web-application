@@ -781,11 +781,14 @@
 
         <%
             // Dynamically group samples by strain family/panel
+            // Two-pass approach: only strip numbers if multiple samples would group together
             LinkedHashMap<String, List<Sample>> strainGroups = new LinkedHashMap<>();
             String checked = "";
 
-            // Helper function to determine strain family from sample name
-            // This extracts the base strain/family name from sample analysis names
+            // First pass: count how many samples would be in each potential family group
+            Map<String, Integer> familyCounts = new HashMap<>();
+            List<Sample> filteredSamples = new ArrayList<>();
+
             for (Sample samp : samples) {
                 String sampleName = samp.getAnalysisName();
                 if (sampleName.contains("GWAS") && sampleName.contains("Ensembl")) continue;
@@ -794,9 +797,27 @@
                         continue;
                     }
                 }
+                filteredSamples.add(samp);
 
-                // Extract the strain family/group from the sample name
-                String group = extractStrainFamily(sampleName);
+                // Get the potential family name (with numbers stripped)
+                String family = extractStrainFamily(sampleName);
+                familyCounts.put(family, familyCounts.getOrDefault(family, 0) + 1);
+            }
+
+            // Second pass: assign samples to groups
+            // Use stripped family name only if multiple samples share it, otherwise use original base name
+            for (Sample samp : filteredSamples) {
+                String sampleName = samp.getAnalysisName();
+                String family = extractStrainFamily(sampleName);
+
+                String group;
+                if (familyCounts.get(family) > 1) {
+                    // Multiple samples share this family - use the family name
+                    group = family;
+                } else {
+                    // Only one sample - use the original base name (before the slash)
+                    group = sampleName.split("/")[0].trim();
+                }
 
                 // Add to the appropriate group
                 if (!strainGroups.containsKey(group)) {
