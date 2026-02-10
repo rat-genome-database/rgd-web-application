@@ -11,7 +11,7 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
 <%@ include file="carpeHeader.jsp"%>
 
 <style>
-    /* Modern Config Page Styles */
+    /* Modern Config Page Styles - Light Theme */
     .config-container {
         max-width: 950px;
         margin: 20px auto;
@@ -26,19 +26,19 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
     .config-title {
         font-size: 28px;
         font-weight: bold;
-        color: white;
+        color: #ffffff;
         margin-bottom: 8px;
     }
 
     .config-subtitle {
         font-size: 14px;
-        color: #9bc;
+        color: #b8d4f0;
     }
 
     /* Assembly Selector Card */
     .assembly-card {
-        background: linear-gradient(to bottom, #1a3a5a 0%, #0d2035 100%);
-        border: 1px solid #2a5a8a;
+        background: #e8f0f8;
+        border: 1px solid #c0d0e0;
         border-radius: 8px;
         padding: 20px 25px;
         margin-bottom: 25px;
@@ -47,39 +47,41 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
 
     .assembly-label {
         font-size: 15px;
         font-weight: 600;
-        color: white;
+        color: #1a3a5a;
     }
 
     .assembly-select {
         padding: 10px 15px;
         font-size: 15px;
-        border: 1px solid #456;
+        border: 1px solid #bccada;
         border-radius: 6px;
-        background: #0a1520;
-        color: white;
+        background: #f8fafc;
+        color: #333;
         min-width: 320px;
         cursor: pointer;
     }
 
     .assembly-select:focus {
         outline: none;
-        border-color: #4a9eff;
-        box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
+        border-color: #3a7aba;
+        box-shadow: 0 0 0 3px rgba(58, 122, 186, 0.15);
+        background: #fff;
     }
 
     /* Section Title */
     .section-title {
         font-size: 16px;
         font-weight: 600;
-        color: white;
+        color: #ffffff;
         margin-bottom: 20px;
         padding-bottom: 10px;
-        border-bottom: 1px solid #2a5a8a;
+        border-bottom: 1px solid rgba(255,255,255,0.3);
     }
 
     /* Options Grid */
@@ -97,8 +99,8 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
 
     /* Option Card */
     .option-card {
-        background: linear-gradient(to bottom, #1a3a5a 0%, #0d2035 100%);
-        border: 1px solid #2a5a8a;
+        background: #e8f0f8;
+        border: 1px solid #c0d0e0;
         border-radius: 8px;
         padding: 25px;
         cursor: pointer;
@@ -107,12 +109,14 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
         flex-direction: column;
         align-items: center;
         text-align: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
 
     .option-card:hover {
-        border-color: #4a9eff;
+        border-color: #3a7aba;
+        background: #f0f6fc;
         transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     }
 
     .option-card:active {
@@ -122,7 +126,7 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
     .option-icon {
         width: 60px;
         height: 60px;
-        background: linear-gradient(135deg, #2a5a8a 0%, #1a3a5a 100%);
+        background: linear-gradient(135deg, #4a8ac9 0%, #3a7aba 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -132,34 +136,36 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
     }
 
     .option-card:hover .option-icon {
-        background: linear-gradient(135deg, #3a7aba 0%, #2a5a8a 100%);
+        background: linear-gradient(135deg, #5a9ada 0%, #4a8ac9 100%);
     }
 
     .option-title {
         font-size: 17px;
         font-weight: bold;
-        color: white;
+        color: #1a3a5a;
         margin-bottom: 10px;
     }
 
     .option-description {
         font-size: 13px;
-        color: #9bc;
+        color: #5a7a9a;
         line-height: 1.5;
     }
 
     /* Primary option styling */
     .option-card.primary {
         border-color: #28a745;
-        background: linear-gradient(to bottom, #1a4a3a 0%, #0d2520 100%);
+        background: #e5f2e8;
     }
 
     .option-card.primary:hover {
         border-color: #34ce57;
+        background: #eef8f0;
+        box-shadow: 0 8px 20px rgba(40, 167, 69, 0.15);
     }
 
     .option-card.primary .option-icon {
-        background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+        background: linear-gradient(135deg, #34ce57 0%, #28a745 100%);
     }
 
     /* Hidden form */
@@ -281,12 +287,14 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
                 <div class="option-description">Define a region using genomic coordinates or gene/SSLP marker bounds</div>
             </div>
 
-            <!-- Search by Function -->
+            <% if (!strainSet) { %>
+            <!-- Search by Function (before strain selection) -->
             <div class="option-card" onclick="window.location.href='/rgdweb/generator/list.html?vv=1'">
                 <div class="option-icon">&#128300;</div>
                 <div class="option-title">Search by Function</div>
                 <div class="option-description">Build a gene list based on one or more ontology annotations</div>
             </div>
+            <% } %>
 
             <% if (strainSet) { %>
             <!-- Enter a Gene List (shown when strains already selected) -->
@@ -294,6 +302,13 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
                 <div class="option-icon">&#128221;</div>
                 <div class="option-title">Enter a Gene List</div>
                 <div class="option-description">Search for variation in a specific set of genes</div>
+            </div>
+
+            <!-- Search by Function (after strain selection - at bottom) -->
+            <div class="option-card" onclick="window.location.href='/rgdweb/generator/list.html?vv=1'">
+                <div class="option-icon">&#128300;</div>
+                <div class="option-title">Search by Function</div>
+                <div class="option-description">Build a gene list based on one or more ontology annotations</div>
             </div>
             <% } %>
         </div>

@@ -24,11 +24,15 @@
 <%@ include file="menuBar.jsp" %>
 
 <style>
-    /* Modern Options Page Styles */
+    /* Modern Options Page Styles - Light Theme */
+    .typerTitle {
+        margin-top: 20px;
+    }
+
     .options-container {
         max-width: 1000px;
         margin: 20px auto;
-        padding: 0 20px;
+        padding: 0 20px 20px 20px;
     }
 
     .options-header {
@@ -37,42 +41,42 @@
         align-items: center;
         margin-bottom: 15px;
         padding-bottom: 10px;
-        border-bottom: 2px solid #2a5a8a;
+        border-bottom: 2px solid rgba(255,255,255,0.3);
     }
 
     .options-title {
         font-size: 18px;
         font-weight: bold;
-        color: white;
+        color: #ffffff;
     }
 
     .options-assembly {
         font-size: 14px;
-        color: #acd;
+        color: #b8d4f0;
     }
 
     .options-notice {
-        background: rgba(255, 193, 7, 0.15);
-        border-left: 4px solid #ffc107;
+        background: #fff8e6;
+        border-left: 4px solid #f0a020;
         padding: 12px 15px;
         margin-bottom: 20px;
         border-radius: 0 4px 4px 0;
-        color: #ffe082;
+        color: #6a5a2a;
         font-size: 13px;
         line-height: 1.5;
     }
 
     .options-notice strong {
-        color: #ffc107;
+        color: #d08000;
     }
 
     .options-instructions {
-        background: rgba(42, 90, 138, 0.3);
-        border-left: 4px solid #4a9eff;
+        background: #e8f4fc;
+        border-left: 4px solid #3a7aba;
         padding: 12px 15px;
         margin-bottom: 20px;
         border-radius: 0 4px 4px 0;
-        color: #cde;
+        color: #2a4a6a;
         font-size: 13px;
         line-height: 1.5;
     }
@@ -91,10 +95,11 @@
     }
 
     .options-card {
-        background: linear-gradient(to bottom, #1a3a5a 0%, #0d2035 100%);
-        border: 1px solid #2a5a8a;
+        background: #e8f0f8;
+        border: 1px solid #c0d0e0;
         border-radius: 6px;
         padding: 15px 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
 
     .options-card.full-width {
@@ -104,10 +109,10 @@
     .card-title {
         font-size: 15px;
         font-weight: bold;
-        color: white;
+        color: #1a3a5a;
         margin-bottom: 15px;
         padding-bottom: 8px;
-        border-bottom: 1px solid #2a5a8a;
+        border-bottom: 1px solid #dde5ef;
     }
 
     .filter-row {
@@ -118,7 +123,7 @@
 
     .filter-label {
         min-width: 130px;
-        color: #7cb9ff;
+        color: #3a7aba;
         font-size: 13px;
         font-weight: 600;
         padding-top: 2px;
@@ -128,7 +133,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 8px 16px;
-        color: white;
+        color: #333;
         font-size: 13px;
     }
 
@@ -145,25 +150,26 @@
 
     .filter-options input[type="text"] {
         padding: 5px 8px;
-        border: 1px solid #456;
+        border: 1px solid #bccada;
         border-radius: 4px;
-        background: #0a1520;
-        color: white;
+        background: #f8fafc;
+        color: #333;
         font-size: 13px;
         width: 80px;
     }
 
     .filter-options input[type="text"]:focus {
         outline: none;
-        border-color: #4a9eff;
+        border-color: #3a7aba;
+        background: #fff;
     }
 
     .filter-options select {
         padding: 5px 8px;
-        border: 1px solid #456;
+        border: 1px solid #bccada;
         border-radius: 4px;
-        background: #0a1520;
-        color: white;
+        background: #f8fafc;
+        color: #333;
         font-size: 13px;
     }
 
@@ -186,14 +192,15 @@
 
     .zygosity-desc {
         font-style: italic;
-        color: #89a;
+        color: #6a7a8a;
         font-size: 12px;
     }
 
-    /* Find Variants Button */
-    .submit-section {
+    /* Button Section */
+    .button-section {
         display: flex;
         justify-content: center;
+        gap: 15px;
         margin: 20px 0;
     }
 
@@ -206,22 +213,131 @@
         border-radius: 6px;
         padding: 12px 40px;
         cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         transition: all 0.2s ease;
     }
 
     .findVariantsButton:hover {
         background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
         transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .skipButton {
+        font-size: 16px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #6c757d 0%, #545b62 100%);
+        color: white;
+        border: 1px solid #545b62;
+        border-radius: 6px;
+        padding: 12px 40px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        transition: all 0.2s ease;
+    }
+
+    .skipButton:hover {
+        background: linear-gradient(to bottom, #7a8288 0%, #6c757d 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     /* Strains Card */
     .strains-card {
-        background: linear-gradient(to bottom, #1a3a5a 0%, #0d2035 100%);
-        border: 1px solid #2a5a8a;
+        background: #dce8f4;
+        border: 1px solid #c0d0e0;
         border-radius: 6px;
         padding: 15px 20px;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    }
+
+    .modal-overlay.hidden {
+        display: none;
+    }
+
+    .modal-content {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 30px 40px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    .modal-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+    }
+
+    .modal-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #1a3a5a;
+        margin-bottom: 15px;
+    }
+
+    .modal-message {
+        font-size: 15px;
+        color: #4a5a6a;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .modal-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .modal-btn-continue {
+        font-size: 15px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
+        color: white;
+        border: 1px solid #1e7e34;
+        border-radius: 6px;
+        padding: 12px 30px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .modal-btn-continue:hover {
+        background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .modal-btn-filter {
+        font-size: 15px;
+        font-weight: bold;
+        background: linear-gradient(to bottom, #3a7aba 0%, #2a5a8a 100%);
+        color: white;
+        border: 1px solid #2a5a8a;
+        border-radius: 6px;
+        padding: 12px 30px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .modal-btn-filter:hover {
+        background: linear-gradient(to bottom, #4a8aca 0%, #3a7aba 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     .strains-header {
@@ -234,19 +350,19 @@
     .strains-title {
         font-size: 14px;
         font-weight: bold;
-        color: white;
+        color: #1a3a5a;
     }
 
     .strains-count {
         font-size: 12px;
-        color: #acd;
-        background: #2a5a8a;
+        color: white;
+        background: #3a7aba;
         padding: 2px 8px;
         border-radius: 10px;
     }
 
     .strains-list {
-        color: #cde;
+        color: #445566;
         font-size: 12px;
         line-height: 1.6;
     }
@@ -275,7 +391,12 @@
             These filters are <strong>optional</strong>. Leave all options unchecked to include all variants in the defined region.
         </div>
 
-        <form action="variants.html">
+        <!-- Top Button Section -->
+        <div class="button-section">
+            <button type="button" class="findVariantsButton" onclick="document.getElementById('optionsForm').submit();">Continue</button>
+        </div>
+
+        <form action="variants.html" id="optionsForm">
             <input type="hidden" name="start" value="<%=dm.out("start",vsb.getStartPosition() + "")%>"/>
             <input type="hidden" name="stop" size="25" value="<%=dm.out("stop",vsb.getStopPosition() + "")%>"/>
             <input type="hidden" name="chr" value="<%=dm.out("chr",vsb.getChromosome())%>"/>
@@ -444,9 +565,9 @@
                 <% } %>
             </div>
 
-            <!-- Submit Button -->
-            <div class="submit-section">
-                <input class="findVariantsButton" type="submit" value="Find Variants"/>
+            <!-- Bottom Button Section -->
+            <div class="button-section">
+                <input class="findVariantsButton" type="submit" value="Continue"/>
             </div>
 
             <!-- Strains Selected Card -->
@@ -510,4 +631,35 @@
         </form>
     </div>
 </div>
+
+<!-- Modal Popup -->
+<div id="variantModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-icon">&#128269;</div>
+        <div class="modal-title">View Variants</div>
+        <div class="modal-message">
+            Would you like to continue and see <strong>all variants</strong> in this region, or would you like to <strong>filter the list</strong> further?
+        </div>
+        <div class="modal-buttons">
+            <button type="button" class="modal-btn-continue" onclick="continueToVariants()">Continue</button>
+            <button type="button" class="modal-btn-filter" onclick="closeModal()">Filter Results</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeModal() {
+        document.getElementById('variantModal').classList.add('hidden');
+    }
+
+    function continueToVariants() {
+        document.getElementById('optionsForm').submit();
+    }
+
+    // Show modal on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('variantModal').classList.remove('hidden');
+    });
+</script>
+
 <%@ include file="/common/footerarea.jsp" %>
