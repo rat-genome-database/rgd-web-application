@@ -1,4 +1,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.datamodel.Map" %>
+<%@ page import="org.springframework.ui.ModelMap" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="/rgdweb/gviewer/script/gviewer1.js"></script>
 <script src="/rgdweb/gviewer/script/util.js"></script>
@@ -46,7 +49,10 @@
         padding:5px
     }
 </style>
-
+<%
+    ModelMap model= (ModelMap) request.getAttribute("model");
+    Map map= MapManager.getInstance().getMap((Integer) model.get("mapKey"));
+%>
 
 <c:forEach items="${model.hits}" var="hit">
         <div>
@@ -276,6 +282,7 @@
                     <div class="panel-body">
                         <!--iframe id="jbrowseMini"  style="border: 1px solid black" width="100%"></iframe-->
 
+                        <input type="hidden" id="assemblyId" value="<%=map.getUcscAssemblyId()%>">
                         <div id="content" style="width: 100%;overflow-x: scroll ">
 
                             <table  cellpadding=0 cellspacing=0 align="center" border="0" width="100%">
@@ -291,20 +298,20 @@
                         </div>
                 </c:when>
                   <c:otherwise>
-            <div class="panel panel-default" style=";height:300px;">
-                      <div class="panel-heading">
-                          <strong>JBrowse</strong>
-                      </div>
-                      <div class="panel-body">
-                          <!--iframe id="jbrowseMini"  style="border: 1px solid black" width="100%"></iframe-->
+<%--            <div class="panel panel-default" style=";height:300px;">--%>
+<%--                      <div class="panel-heading">--%>
+<%--                          <strong>JBrowse</strong>--%>
+<%--                      </div>--%>
+<%--                      <div class="panel-body">--%>
+<%--                          <!--iframe id="jbrowseMini"  style="border: 1px solid black" width="100%"></iframe-->--%>
 
-                          <div  style="width: 100%;overflow-x: scroll ">
+<%--                          <div  style="width: 100%;overflow-x: scroll ">--%>
 
-                              <iframe id="jbrowseMini" width="600" height="200px"></iframe>
+<%--                              <iframe id="jbrowseMini" width="600" height="200px"></iframe>--%>
 
-                          </div>
-                      </div>
-            </div>
+<%--                          </div>--%>
+<%--                      </div>--%>
+<%--            </div>--%>
                   </c:otherwise>
             </c:choose>
             <div style="">

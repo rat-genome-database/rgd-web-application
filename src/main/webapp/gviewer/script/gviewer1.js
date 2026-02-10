@@ -149,22 +149,22 @@ function Gviewer(viewerId, height, width, mapKey) {
 
         this.loadingBar.innerHTML = "&nbsp;Loading Annotations...&nbsp;";
         console.log("mapKey:"+ this.mapKey);
-        if (this.mapKey!=1701) {
-           var jbrowser= appendDiv(this.vid+"jbrowseWrapper", "jbrowseWrapper", this.div);
-        var cStr = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size:10px;"><tr><td>';
-        cStr += '<strong style="color:blue">' + this.genomeBrowserName + ' <span id="chrNum">(Chromosome 1)</span></strong>';
-        cStr += '</td></tr></table>';
-
-        controlBar.innerHTML = cStr;
-
-        var url = this.genomeBrowserURL + "&loc=Chr1&highlight=&tracklist=0&nav=0&overview=0";
-     jbrowser.innerHTML="";
-        var iframe = document.createElement("IFRAME");
-        iframe.setAttribute("width", 600);
-        iframe.setAttribute("height", 200);
-        iframe.setAttribute("src", url);
-   jbrowser.appendChild(iframe);
-    }
+   //      if (this.mapKey!=1701) {
+   //         var jbrowser= appendDiv(this.vid+"jbrowseWrapper", "jbrowseWrapper", this.div);
+   //      var cStr = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size:10px;"><tr><td>';
+   //      cStr += '<strong style="color:blue">' + this.genomeBrowserName + ' <span id="chrNum">(Chromosome 1)</span></strong>';
+   //      cStr += '</td></tr></table>';
+   //
+   //      controlBar.innerHTML = cStr;
+   //
+   //      var url = this.genomeBrowserURL + "&loc=Chr1&highlight=&tracklist=0&nav=0&overview=0";
+   //   jbrowser.innerHTML="";
+   //      var iframe = document.createElement("IFRAME");
+   //      iframe.setAttribute("width", 600);
+   //      iframe.setAttribute("height", 200);
+   //      iframe.setAttribute("src", url);
+   // jbrowser.appendChild(iframe);
+   //  }
       this.zoomOptions = document.getElementById("gview_zoomOptions");
         this.windowManager = new DHTMLWindowManager();
         this.typesManager = new AnnotationTypesManager();
@@ -528,7 +528,8 @@ function Gviewer(viewerId, height, width, mapKey) {
             if(chr.number==1){
                   cdiv.style.border="6px solid dodgerblue";
             }
-            cdiv.onclick = gviewer_chromosome_clickEvent;
+            // cdiv.onclick = gviewer_chromosome_clickEvent;
+            cdiv.onclick = gviewer_chromosome_clickEvent_jbrowse2;
 
 
             var foundP = false;

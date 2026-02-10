@@ -142,6 +142,30 @@ function gviewer_chromosome_clickEvent(e) {
   
     }
 }
+function gviewer_chromosome_clickEvent_jbrowse2(e) {
+    if (!e) e = window.event;
+    firedDiv = findTarget(e, "chr");
+    var obj = firedDiv.obj;
+    //  var URL="/jbrowse2/?loc=chr4:156553759-156652676&assembly=GRCr8&tracklist=true&tracks=Rat%20GRCr8%20(rn8)%20Genes%20and%20Transcripts-GRCr8"
+    var chrNum=obj.number;
+    var mapKey= $('#mapKey').val();
+    var species=$('#species').val();
+    var assembly= $('#assembly').val();
+    var assemblyId=$('#assemblyId').val();
+    var tracks=species+"%20"+assembly+"%20("+assemblyId+")%20Genes%20and%20Transcripts-"+assembly;
+ //   var URL="https://rgd.mcw.edu/jbrowse2/?&tracklist=true&tracks="+tracks+"&assembly="+assembly;
+   var URL="https://rgd.mcw.edu/jbrowse2/?&tracklist=true&"
+        var st = 1;
+        var end = obj.length
+        var loc="chr"+chrNum+":"+st+"-"+end
+        URL  = URL+"&loc="+loc;
+        URL+="&assembly="+assembly;
+        URL +="&tracks="+tracks;
+        console.log("URL:"+ URL);
+        window.open(URL)
+
+
+}
 
 function gviewer_object_mouseMoveEvent(e) {
     if (!e) e = window.event;
