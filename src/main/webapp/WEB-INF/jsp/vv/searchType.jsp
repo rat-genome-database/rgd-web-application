@@ -15,7 +15,7 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
     .config-container {
         max-width: 950px;
         margin: 20px auto;
-        padding: 0 20px;
+        padding: 10px 20px 0 20px;
     }
 
     .config-header {

@@ -156,16 +156,17 @@
     .accordion-select-all {
         font-size: 11px;
         padding: 3px 8px;
-        background: linear-gradient(to bottom, #5a9bcf 0%, #3a7aba 100%);
-        border: 1px solid #3a7aba;
+        background: #3d4852;
+        border: 1px solid #2d3640;
         border-radius: 3px;
         color: white;
         cursor: pointer;
         font-weight: 600;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.25);
     }
 
     .accordion-select-all:hover {
-        background: linear-gradient(to bottom, #6aabdf 0%, #4a8aca 100%);
+        background: #2d3640;
     }
 
     .accordion-content {
@@ -743,27 +744,11 @@
 
             </tr>
 
-            <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == SpeciesType.DOG) {
-
-                for(int i=0; i < breeds.size(); i=i+5) {
-            %>
-            <tr>
-                <%
-                    for(int j = 0;j < 5;j++) {
-                %>
-
-                <td style="color:#333; font-size: small;">  <input id="<%=breeds.get(i+j)%>" name="<%=breeds.get(i+j)%>" type="checkbox" onChange="selectBreed('<%=breeds.get(i+j)%>','<%=breedMap.get(breeds.get(i+j))%>')" /> <%=breeds.get(i+j)%> &nbsp;&nbsp;</td>
-                <% }
-                %>
-            </tr>
-            <%
-                    }
-                } %>
-
         </table>
         <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
                 SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
         </div>
+        <% } %>
 
         <!-- Selection Summary and Controls -->
         <div class="selection-summary">
@@ -784,8 +769,8 @@
             LinkedHashMap<String, List<Sample>> strainGroups = new LinkedHashMap<>();
             String checked = "";
 
-            // Helper function to determine strain family from sample name
-            // This extracts the base strain/family name from sample analysis names
+            // Filter samples first
+            List<Sample> filteredSamples = new ArrayList<>();
             for (Sample samp : samples) {
                 String sampleName = samp.getAnalysisName();
                 if (sampleName.contains("GWAS") && sampleName.contains("Ensembl")) continue;
@@ -794,15 +779,65 @@
                         continue;
                     }
                 }
+                filteredSamples.add(samp);
+            }
 
-                // Extract the strain family/group from the sample name
-                String group = extractStrainFamily(sampleName);
+            // Dog-specific grouping: group by breed name (text before parenthesis)
+            if (mapKey == 631) {
+                for (Sample samp : filteredSamples) {
+                    String sampleName = samp.getAnalysisName();
+                    String group;
 
-                // Add to the appropriate group
-                if (!strainGroups.containsKey(group)) {
-                    strainGroups.put(group, new ArrayList<Sample>());
+                    // Check for Wolf first
+                    if (sampleName.contains("Wolf")) {
+                        group = "Wolf";
+                    } else {
+                        // Extract breed name (everything before the parenthesis)
+                        int parenIndex = sampleName.indexOf("(");
+                        if (parenIndex > 0) {
+                            group = sampleName.substring(0, parenIndex).trim();
+                        } else {
+                            group = sampleName.trim();
+                        }
+                    }
+
+                    if (!strainGroups.containsKey(group)) {
+                        strainGroups.put(group, new ArrayList<Sample>());
+                    }
+                    strainGroups.get(group).add(samp);
                 }
-                strainGroups.get(group).add(samp);
+            } else {
+                // Two-pass approach for other species: only strip numbers if multiple samples would group together
+                Map<String, Integer> familyCounts = new HashMap<>();
+
+                // First pass: count how many samples would be in each potential family group
+                for (Sample samp : filteredSamples) {
+                    String sampleName = samp.getAnalysisName();
+                    String family = extractStrainFamily(sampleName);
+                    familyCounts.put(family, familyCounts.getOrDefault(family, 0) + 1);
+                }
+
+                // Second pass: assign samples to groups
+                // Use stripped family name only if multiple samples share it, otherwise use original base name
+                for (Sample samp : filteredSamples) {
+                    String sampleName = samp.getAnalysisName();
+                    String family = extractStrainFamily(sampleName);
+
+                    String group;
+                    if (familyCounts.get(family) > 1) {
+                        // Multiple samples share this family - use the family name
+                        group = family;
+                    } else {
+                        // Only one sample - use the original base name (before the slash)
+                        group = sampleName.split("/")[0].trim();
+                    }
+
+                    // Add to the appropriate group
+                    if (!strainGroups.containsKey(group)) {
+                        strainGroups.put(group, new ArrayList<Sample>());
+                    }
+                    strainGroups.get(group).add(samp);
+                }
             }
 
             // Sort the groups: put "Other" at the end, sort rest alphabetically
@@ -819,12 +854,10 @@
         <%!
             // Method to extract the strain family from a sample name
             // Generic logic: strips trailing numbers and letter suffixes to group related strains
-            // If numbers were stripped from a short strain code, appends "Panel"
             // Special cases: FXLE/LEXF and HXB/BXH are combined into single panels
             // e.g., HXB1, HXB10, BXH2, BXH13 -> "HXB/BXH Panel"
             //       FXLE12, FXLE20, LEXF10A, LEXF1C -> "FXLE/LEXF Panel"
-            //       ACI -> "ACI" (no numbers, no Panel suffix)
-            //       European Variation Archive Release 7 -> "European Variation Archive Release" (no Panel - has spaces)
+            //       ACI -> "ACI", F344 -> "F344"
             private String extractStrainFamily(String sampleName) {
                 if (sampleName == null || sampleName.isEmpty()) return "Other";
 
@@ -852,12 +885,6 @@
                 // Combine HXB and BXH into one panel
                 if (family.equalsIgnoreCase("HXB") || family.equalsIgnoreCase("BXH")) {
                     return "HXB/BXH Panel";
-                }
-
-                // Only add "Panel" suffix for short strain codes (no spaces)
-                // Long names with spaces like "European Variation Archive Release" are not panels
-                if (!family.equals(baseName) && !family.contains(" ")) {
-                    return family + " Panel";
                 }
 
                 return family;
@@ -966,7 +993,6 @@
             });
         </script>
 
-        <%}%>
     </div>
 </form>
 

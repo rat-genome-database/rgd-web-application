@@ -487,7 +487,9 @@
     .track-container {
         display: flex;
         width: 100%;
+        max-width: 100%;
         background-color: white;
+        overflow: hidden;
     }
 
     .track-labels {
@@ -509,6 +511,8 @@
 
     .track-scroll-wrapper {
         flex-grow: 1;
+        flex-shrink: 1;
+        min-width: 0;
         overflow-x: auto;
         overflow-y: hidden;
     }
@@ -680,6 +684,15 @@
         background-color: white;
         padding: 10px;
         margin: 10px auto;
+        max-width: calc(100vw - 60px);
+        overflow-x: auto;
+        box-sizing: border-box;
+    }
+
+    /* Prevent body from expanding beyond viewport */
+    html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
     }
 
     .grid-header {
@@ -689,6 +702,8 @@
         padding: 10px 0;
         border-bottom: 1px solid #e0e0e0;
         margin-bottom: 10px;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .grid-header h3 {
@@ -697,13 +712,19 @@
         font-size: 14px;
     }
 
+    .grid-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
     .grid-controls button {
         padding: 6px 12px;
-        margin-left: 8px;
         border: none;
         border-radius: 4px;
         cursor: pointer;
         font-size: 12px;
+        white-space: nowrap;
     }
 
     .btn-primary {
@@ -828,7 +849,7 @@
 <%@ include file="menuBar.jsp"%>
 <br>
 
-<div id="blueBackground" style="padding:15px; background-image: url(/rgdweb/common/images/bg3.png); min-height: 100vh;">
+<div id="blueBackground" style="padding:15px; background-image: url(/rgdweb/common/images/bg3.png); min-height: 100vh; max-width: 100vw; overflow-x: hidden; box-sizing: border-box;">
 
     <%@ include file="updateForm.jsp"%>
 
