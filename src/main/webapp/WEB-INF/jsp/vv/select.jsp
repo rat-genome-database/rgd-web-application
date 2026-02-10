@@ -819,12 +819,10 @@
         <%!
             // Method to extract the strain family from a sample name
             // Generic logic: strips trailing numbers and letter suffixes to group related strains
-            // If numbers were stripped from a short strain code, appends "Panel"
             // Special cases: FXLE/LEXF and HXB/BXH are combined into single panels
             // e.g., HXB1, HXB10, BXH2, BXH13 -> "HXB/BXH Panel"
             //       FXLE12, FXLE20, LEXF10A, LEXF1C -> "FXLE/LEXF Panel"
-            //       ACI -> "ACI" (no numbers, no Panel suffix)
-            //       European Variation Archive Release 7 -> "European Variation Archive Release" (no Panel - has spaces)
+            //       ACI -> "ACI", F344 -> "F344"
             private String extractStrainFamily(String sampleName) {
                 if (sampleName == null || sampleName.isEmpty()) return "Other";
 
@@ -852,12 +850,6 @@
                 // Combine HXB and BXH into one panel
                 if (family.equalsIgnoreCase("HXB") || family.equalsIgnoreCase("BXH")) {
                     return "HXB/BXH Panel";
-                }
-
-                // Only add "Panel" suffix for short strain codes (no spaces)
-                // Long names with spaces like "European Variation Archive Release" are not panels
-                if (!family.equals(baseName) && !family.contains(" ")) {
-                    return family + " Panel";
                 }
 
                 return family;
