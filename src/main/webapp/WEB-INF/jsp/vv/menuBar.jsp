@@ -68,7 +68,7 @@
         positionSearch=true;
     }
 
-    if (uri.equals("variants.jsp") || uri.equals("dist.jsp")) {
+    if (uri.contains("variants") || uri.contains("dist")) {
         resultsRendered= true;
     }
     String parameters=request.getQueryString();
@@ -151,10 +151,10 @@
 
         </td>
 
-        <td style="color: white; font-size:16px;">
+        <td style="color: white; font-size:16px; padding-left: 30px;">
             <% if (request.getParameter("mapKey") != null && !request.getParameter("mapKey").equals("")) { %>
 
-            &nbsp;Assembly
+            Assembly
 
             <%
                 try {%>
