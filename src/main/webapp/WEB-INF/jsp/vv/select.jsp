@@ -845,26 +845,20 @@
                 }
             }
         </script>
-        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3 && hasPanelData) { %>
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
         <div class="sequence-group-card">
             <div class="sequence-group-title">Select Sequence Group (Optional)</div>
         <table class="sequence-group-options">
             <tr>
-                <% if (hasClassic) { %>
                 <td style="color:#333;">  <input id="hrdpClassic" name="hrdpClassic" type="checkbox" onChange="selectGroup('hrdpClassic')"/> Classic Inbred Strains</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <% } %>
-                <% if (hasLE) { %>
+                <% if (mapKey != 60 && mapKey != 70) { %>
                 <td style="color:#333;">  <input id="hrdpLE" name="hdrpLE" type="checkbox" onChange="selectGroup('hrdpLE')"/> FXLE/LEXF Recombinant Inbred Panel</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <% } %>
-                <% if (hasHXB) { %>
                 <td style="color:#333;">  <input id="hrdpHXB" name="hrdpHXB" type="checkbox" onChange="selectGroup('hrdpHXB')"/> HXB/BXH Recombinant Inbred Panel</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <% } %>
-                <% if (hasFounders) { %>
                 <td style="color:#333;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
-                <% } %>
             </tr>
         </table>
         </div>
