@@ -244,7 +244,7 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
 
         <!-- Hidden Form for submissions -->
         <form id="optionForm" action="annotation.html" name="optionForm" class="hidden-form">
-            <input type="hidden" name="mapKey" value="<%=req.getParameter("mapKey")%>" />
+            <input type="hidden" name="mapKey" value="<%=mapKey%>" />
             <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
             <input type="hidden" name="chr" value="<%=req.getParameter("chr")%>" />
             <input type="hidden" name="start" value="<%=req.getParameter("start")%>" />
