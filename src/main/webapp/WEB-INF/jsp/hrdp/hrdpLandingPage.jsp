@@ -63,7 +63,17 @@ To change this template use File | Settings | File Templates.
                     </ul>
                 </li>
                 <li>
-                    A Mini-HRDP panel – 8 classic inbred strains including the RI progenitor strains - is suitable for most experimental protocols, including behavioral assays and the progenitors for the two recombinant inbred panels.
+                    A Mini-HRDP panel – 8 classic inbred strains including the RI progenitor strains.
+                    <ul class="horizontal-list">
+                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=631848">SHR/OlaIpcv</a></li>
+                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=61498">BN/NHsdMcwi</a></li>
+                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=1302686">F344/Stm</a></li>
+                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=629485">LE/Stm</a></li>
+                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=1358112">WKY/NCrl</a></li>
+                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=10395297">GK/FarMcwi</a></li>
+                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=61499">SS/JrHsdMcwi</a></li>
+                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=7364991">ACI/EurMcwi</a></li>
+                    </ul>
                 </li>
             </ul>
         </li>
@@ -120,7 +130,7 @@ To change this template use File | Settings | File Templates.
                 The wealth of available genomic and phenotypic data for the HRDP strains can be used to <b>validate NAMs data</b>. PhenoMiner and Variant Visualizer can be used to explore and access the data.
             </li>
             <li>
-                Data is available for download for use in computational models.
+                Data is available for download for use in <b>computational models</b>.
             </li>
         </ul>
     <h3>How do the HRDP strains relate to the Heterogenous Stock (HS) founder strains?</h3>
