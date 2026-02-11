@@ -210,7 +210,7 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
         <!-- Header -->
         <div class="config-header">
             <div class="config-title">Variant Visualizer</div>
-            <div class="config-subtitle">Analyze genomic variation across strains and sequences</div>
+            <div class="config-subtitle">Compare variants across strains, breeds, and samples from multiple species</div>
         </div>
 
         <!-- Assembly Selector -->
