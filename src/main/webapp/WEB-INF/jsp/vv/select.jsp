@@ -647,7 +647,7 @@
                         }
                     } else {
                         for (j = 0; j < selected.length; j++) {
-                            if (strainId[0] == selected[j]) {
+                            if (strainId[1] == selected[j]) {
                                 var flag = "false";
                                 var otherGroup;
                                 var hrdpGroup1;
@@ -661,7 +661,7 @@
 
                                     if (otherGroup.checked) {
                                         for (k = 0; k < hrdpClassic.length; k++) {
-                                            if (strainId[0] == hrdpClassic[k]) {
+                                            if (strainId[1] == hrdpClassic[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -678,7 +678,7 @@
                                         for (var k = 0; k < founders.length; k++) {
                                             console.log( strainId[0] +"\t"+ founders[k]);
 
-                                            if (strainId[0] == founders[k]) {
+                                            if (strainId[1] == founders[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -686,7 +686,7 @@
                                     }
                                     if (hrdpGroup2.checked) {
                                         for (k = 0; k < hrdpLE.length; k++) {
-                                            if (strainId[0] == hrdpLE[k]) {
+                                            if (strainId[1] == hrdpLE[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -694,7 +694,7 @@
                                     }
                                     if (hrdpGroup3.checked) {
                                         for (k = 0; k < hrdpHXB.length; k++) {
-                                            if (strainId[0] == hrdpHXB[k]) {
+                                            if (strainId[1] == hrdpHXB[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -711,7 +711,7 @@
                                         for (var k = 0; k < founders.length; k++) {
                                             console.log( strainId[0] +"\t"+ founders[k]);
 
-                                            if (strainId[0] == founders[k]) {
+                                            if (strainId[1] == founders[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -719,7 +719,7 @@
                                     }
                                     if (hrdpGroup1.checked) {
                                         for (k = 0; k < hrdpClassic.length; k++) {
-                                            if (strainId[0] == hrdpClassic[k]) {
+                                            if (strainId[1] == hrdpClassic[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -727,7 +727,7 @@
                                     }
                                     if (hrdpGroup3.checked) {
                                         for (k = 0; k < hrdpHXB.length; k++) {
-                                            if (strainId[0] == hrdpHXB[k]) {
+                                            if (strainId[1] == hrdpHXB[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -744,7 +744,7 @@
                                         for (var k = 0; k < founders.length; k++) {
                                             console.log( strainId[0] +"\t"+ founders[k]);
 
-                                            if (strainId[0] == founders[k]) {
+                                            if (strainId[1] == founders[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -752,7 +752,7 @@
                                     }
                                     if (hrdpGroup1.checked) {
                                         for (k = 0; k < hrdpClassic.length; k++) {
-                                            if (strainId[0] == hrdpClassic[k]) {
+                                            if (strainId[1] == hrdpClassic[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -760,7 +760,7 @@
                                     }
                                     if (hrdpGroup2.checked) {
                                         for (k = 0; k < hrdpLE.length; k++) {
-                                            if (strainId[0] == hrdpLE[k]) {
+                                            if (strainId[1] == hrdpLE[k]) {
                                                 flag = "true";
                                                 break;
                                             }
