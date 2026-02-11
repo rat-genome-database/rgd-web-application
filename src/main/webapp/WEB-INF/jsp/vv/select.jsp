@@ -780,7 +780,23 @@
                         }
                     }
                 }
+                // Expand accordions that now have selections and update count
+                expandAccordionsWithSelections();
+                updateSelectionCount();
             }
+            // Expand accordion sections that have checked checkboxes
+            function expandAccordionsWithSelections() {
+                document.querySelectorAll('.accordion-section').forEach(section => {
+                    const content = section.querySelector('.accordion-content');
+                    const toggle = section.querySelector('.accordion-toggle');
+                    const hasChecked = content.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+                    if (hasChecked && !content.classList.contains('expanded')) {
+                        content.classList.add('expanded');
+                        toggle.classList.remove('collapsed');
+                    }
+                });
+            }
+
             function selectBreed(name,value) {
                 var group = document.getElementById(name);
                 value = value.substring(1,value.length-1);
