@@ -1,4 +1,6 @@
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.Sample" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
@@ -551,6 +553,29 @@
             }
                 hrdpArrHXB += "]";
 
+            // Check which panels have samples in the current assembly's sample list
+            Set<Integer> currentSampleIds = new HashSet<>();
+            for (Sample s : samples) {
+                currentSampleIds.add(s.getId());
+            }
+            boolean hasFounders = false;
+            boolean hasClassic = false;
+            boolean hasLE = false;
+            boolean hasHXB = false;
+            for (Integer id : founders) {
+                if (currentSampleIds.contains(id)) { hasFounders = true; break; }
+            }
+            for (Integer id : hrdpClass) {
+                if (currentSampleIds.contains(id)) { hasClassic = true; break; }
+            }
+            for (Integer id : hrdpLE) {
+                if (currentSampleIds.contains(id)) { hasLE = true; break; }
+            }
+            for (Integer id : hrdpHXB) {
+                if (currentSampleIds.contains(id)) { hasHXB = true; break; }
+            }
+            boolean hasPanelData = hasFounders || hasClassic || hasLE || hasHXB;
+
             int sampNum = 1;
             String sampVal = "";
             HashMap<String,String> sampleMap = new HashMap<String,String>();
@@ -819,32 +844,28 @@
                 }
             }
         </script>
-        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
-                SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
+        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3 && hasPanelData) { %>
         <div class="sequence-group-card">
             <div class="sequence-group-title">Select Sequence Group (Optional)</div>
-        <%}%>
         <table class="sequence-group-options">
             <tr>
-                <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
+                <% if (hasClassic) { %>
                 <td style="color:#333;">  <input id="hrdpClassic" name="hrdpClassic" type="checkbox" onChange="selectGroup('hrdpClassic')"/> Classic Inbred Strains</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <% } %>
+                <% if (hasLE) { %>
                 <td style="color:#333;">  <input id="hrdpLE" name="hdrpLE" type="checkbox" onChange="selectGroup('hrdpLE')"/> FXLE/LEXF Recombinant Inbred Panel</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <% } %>
+                <% if (hasHXB) { %>
                 <td style="color:#333;">  <input id="hrdpHXB" name="hrdpHXB" type="checkbox" onChange="selectGroup('hrdpHXB')"/> HXB/BXH Recombinant Inbred Panel</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <% } %>
+                <% if (hasFounders) { %>
                 <td style="color:#333;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <% }// if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 6 && SpeciesType.getSpeciesTypeKeyForMap(mapKey)!=1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
-                     //   SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
-<%--                <td style="color:white;"><input id="all" name="all" type="checkbox" onChange="selectGroup('all')"/> All Available</td>--%>
-<%--                <%}%>--%>
-
+                <% } %>
             </tr>
-
         </table>
-        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 1 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 2 &&
-                SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 9 && SpeciesType.getSpeciesTypeKeyForMap(mapKey) != 13) { %>
         </div>
         <% } %>
 
