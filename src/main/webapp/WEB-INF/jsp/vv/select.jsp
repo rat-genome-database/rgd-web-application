@@ -1,6 +1,4 @@
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.HashSet" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.Sample" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
@@ -553,28 +551,16 @@
             }
                 hrdpArrHXB += "]";
 
-            // Check which panels have samples in the current assembly's sample list
-            Set<Integer> currentSampleIds = new HashSet<>();
-            for (Sample s : samples) {
-                currentSampleIds.add(s.getId());
-            }
-            boolean hasFounders = false;
-            boolean hasClassic = false;
-            boolean hasLE = false;
-            boolean hasHXB = false;
-            for (Integer id : founders) {
-                if (currentSampleIds.contains(id)) { hasFounders = true; break; }
-            }
-            for (Integer id : hrdpClass) {
-                if (currentSampleIds.contains(id)) { hasClassic = true; break; }
-            }
-            for (Integer id : hrdpLE) {
-                if (currentSampleIds.contains(id)) { hasLE = true; break; }
-            }
-            for (Integer id : hrdpHXB) {
-                if (currentSampleIds.contains(id)) { hasHXB = true; break; }
-            }
-            boolean hasPanelData = hasFounders || hasClassic || hasLE || hasHXB;
+            // Show sequence group section for rat assemblies only
+            int speciesKey = SpeciesType.getSpeciesTypeKeyForMap(mapKey);
+            boolean isRat = (speciesKey == SpeciesType.RAT);
+            boolean hasPanelData = isRat && mapKey != 60 && mapKey != 70;
+            // All rat assemblies have Classic Inbred and HS Founders
+            boolean hasFounders = isRat;
+            boolean hasClassic = isRat;
+            // FXLE/LEXF and HXB/BXH panels not available for v3.4 (60) and v5.0 (70)
+            boolean hasLE = isRat && mapKey != 60 && mapKey != 70;
+            boolean hasHXB = isRat && mapKey != 60 && mapKey != 70;
 
             int sampNum = 1;
             String sampVal = "";
@@ -671,7 +657,7 @@
                         }
                     } else {
                         for (j = 0; j < selected.length; j++) {
-                            if (strainId[1] == selected[j]) {
+                            if (strainId[0] == selected[j]) {
                                 var flag = "false";
                                 var otherGroup;
                                 var hrdpGroup1;
@@ -685,7 +671,7 @@
 
                                     if (otherGroup.checked) {
                                         for (k = 0; k < hrdpClassic.length; k++) {
-                                            if (strainId[1] == hrdpClassic[k]) {
+                                            if (strainId[0] == hrdpClassic[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -700,9 +686,7 @@
 
                                     if (otherGroup.checked) {
                                         for (var k = 0; k < founders.length; k++) {
-                                            console.log( strainId[0] +"\t"+ founders[k]);
-
-                                            if (strainId[1] == founders[k]) {
+                                            if (strainId[0] == founders[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -710,7 +694,7 @@
                                     }
                                     if (hrdpGroup2.checked) {
                                         for (k = 0; k < hrdpLE.length; k++) {
-                                            if (strainId[1] == hrdpLE[k]) {
+                                            if (strainId[0] == hrdpLE[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -718,7 +702,7 @@
                                     }
                                     if (hrdpGroup3.checked) {
                                         for (k = 0; k < hrdpHXB.length; k++) {
-                                            if (strainId[1] == hrdpHXB[k]) {
+                                            if (strainId[0] == hrdpHXB[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -733,9 +717,7 @@
 
                                     if (otherGroup.checked) {
                                         for (var k = 0; k < founders.length; k++) {
-                                            console.log( strainId[0] +"\t"+ founders[k]);
-
-                                            if (strainId[1] == founders[k]) {
+                                            if (strainId[0] == founders[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -743,7 +725,7 @@
                                     }
                                     if (hrdpGroup1.checked) {
                                         for (k = 0; k < hrdpClassic.length; k++) {
-                                            if (strainId[1] == hrdpClassic[k]) {
+                                            if (strainId[0] == hrdpClassic[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -751,7 +733,7 @@
                                     }
                                     if (hrdpGroup3.checked) {
                                         for (k = 0; k < hrdpHXB.length; k++) {
-                                            if (strainId[1] == hrdpHXB[k]) {
+                                            if (strainId[0] == hrdpHXB[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -766,9 +748,7 @@
 
                                     if (otherGroup.checked) {
                                         for (var k = 0; k < founders.length; k++) {
-                                            console.log( strainId[0] +"\t"+ founders[k]);
-
-                                            if (strainId[1] == founders[k]) {
+                                            if (strainId[0] == founders[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -776,7 +756,7 @@
                                     }
                                     if (hrdpGroup1.checked) {
                                         for (k = 0; k < hrdpClassic.length; k++) {
-                                            if (strainId[1] == hrdpClassic[k]) {
+                                            if (strainId[0] == hrdpClassic[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -784,7 +764,7 @@
                                     }
                                     if (hrdpGroup2.checked) {
                                         for (k = 0; k < hrdpLE.length; k++) {
-                                            if (strainId[1] == hrdpLE[k]) {
+                                            if (strainId[0] == hrdpLE[k]) {
                                                 flag = "true";
                                                 break;
                                             }
@@ -844,20 +824,26 @@
                 }
             }
         </script>
-        <% if (SpeciesType.getSpeciesTypeKeyForMap(mapKey) == 3) { %>
+        <% if (hasPanelData) { %>
         <div class="sequence-group-card">
             <div class="sequence-group-title">Select Sequence Group (Optional)</div>
         <table class="sequence-group-options">
             <tr>
+                <% if (hasClassic) { %>
                 <td style="color:#333;">  <input id="hrdpClassic" name="hrdpClassic" type="checkbox" onChange="selectGroup('hrdpClassic')"/> Classic Inbred Strains</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <% if (mapKey != 60 && mapKey != 70) { %>
+                <% } %>
+                <% if (hasLE) { %>
                 <td style="color:#333;">  <input id="hrdpLE" name="hdrpLE" type="checkbox" onChange="selectGroup('hrdpLE')"/> FXLE/LEXF Recombinant Inbred Panel</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <% } %>
+                <% if (hasHXB) { %>
                 <td style="color:#333;">  <input id="hrdpHXB" name="hrdpHXB" type="checkbox" onChange="selectGroup('hrdpHXB')"/> HXB/BXH Recombinant Inbred Panel</td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <% } %>
+                <% if (hasFounders) { %>
                 <td style="color:#333;"><input id="hsfounders" name="hsfounders" type="checkbox" onChange="selectGroup('hsfounders')"/> HS Founder Strains</td>
+                <% } %>
             </tr>
         </table>
         </div>
