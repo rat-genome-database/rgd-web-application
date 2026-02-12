@@ -429,9 +429,14 @@
 
     function toggleGroupSelection(groupId) {
         const content = document.getElementById('content-' + groupId);
+        const toggle = document.getElementById('toggle-' + groupId);
         const checkboxes = content.querySelectorAll('input[type="checkbox"]');
         const allChecked = Array.from(checkboxes).every(cb => cb.checked);
         selectAllInGroup(groupId, !allChecked);
+        if (!allChecked && !content.classList.contains('expanded')) {
+            content.classList.add('expanded');
+            toggle.classList.remove('collapsed');
+        }
     }
 
     function expandAllAccordions() {
@@ -999,7 +1004,7 @@
             <div class="accordion-section">
                 <div class="accordion-header" onclick="toggleAccordion('<%=groupId%>')">
                     <div class="accordion-title">
-                        <span class="accordion-toggle" id="toggle-<%=groupId%>">&#9660;</span>
+                        <span class="accordion-toggle collapsed" id="toggle-<%=groupId%>">&#9660;</span>
                         <%=groupName%>
                         <span class="accordion-count">(<%=groupSamples.size()%>)</span>
                     </div>
@@ -1007,7 +1012,7 @@
                         <button type="button" class="accordion-select-all" onclick="toggleGroupSelection('<%=groupId%>')">Select/Deselect All</button>
                     </div>
                 </div>
-                <div class="accordion-content expanded" id="content-<%=groupId%>">
+                <div class="accordion-content" id="content-<%=groupId%>">
                     <div class="strain-grid">
                     <% for (Sample samp : groupSamples) {
                         if (sampleMap.get(samp.getId() + "") != null) {
