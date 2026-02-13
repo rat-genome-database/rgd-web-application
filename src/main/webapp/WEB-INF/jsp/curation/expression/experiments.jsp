@@ -23,9 +23,9 @@
     if(species != null) {
         speciesDisplay = species.replace("_"," ");
         PhenominerDAO pdao = new PhenominerDAO();
-
-        // Get total count of distinct studies (lightweight query)
-        totalRecords = pdao.getGeoStudyCount(speciesDisplay, request.getParameter("status"));
+        records = pdao.getGeoStudies(speciesDisplay, request.getParameter("status"));
+        gseKeys = new ArrayList<>(records.keySet());
+        totalRecords = gseKeys.size();
         totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
         String pageParam = request.getParameter("page");
@@ -41,12 +41,6 @@
 
         startIndex = (currentPage - 1) * recordsPerPage;
         endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
-
-        // Only fetch the current page of records from the database
-        records = pdao.getGeoStudiesPaged(speciesDisplay, request.getParameter("status"), startIndex, recordsPerPage);
-        if(records != null) {
-            gseKeys = new ArrayList<>(records.keySet());
-        }
     }
 %>
 <% if(!isAjax) { %>
@@ -231,7 +225,7 @@
                 </tr></thead>
                 <tbody>
     <%
-            for(int i = 0; i < gseKeys.size(); i++) {
+            for(int i = startIndex; i < endIndex; i++) {
                 String gse = gseKeys.get(i);
                 GeoRecord rec = records.get(gse);
                 String link = "<a href=/rgdweb/curation/expression/experiments.html?gse="+gse+"&species="+speciesDisplay+" >Edit</a>";
