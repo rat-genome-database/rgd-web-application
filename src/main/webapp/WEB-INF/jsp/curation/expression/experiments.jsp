@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.dao.impl.PhenominerDAO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.mcw.rgd.datamodel.GeoRecord" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
@@ -40,7 +41,40 @@
     #ExpressionExperimentsTable tr:hover {
         background-color: #daeffc;
     }
-
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px 0;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    .pagination-container a, .pagination-container span {
+        padding: 8px 12px;
+        margin: 2px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #24609c;
+    }
+    .pagination-container a:hover {
+        background-color: #e9ecef;
+    }
+    .pagination-container .active {
+        background-color: #24609c;
+        color: white;
+        border-color: #24609c;
+    }
+    .pagination-container .disabled {
+        color: #6c757d;
+        pointer-events: none;
+    }
+    .pagination-info {
+        text-align: center;
+        margin: 10px 0;
+        color: #666;
+        font-size: 14px;
+    }
 </style>
 
 <%
@@ -106,9 +140,77 @@
             species=species.replace("_"," ");
             PhenominerDAO pdao = new PhenominerDAO();
             HashMap<String,GeoRecord> records = pdao.getGeoStudies(species,request.getParameter("status"));
-//            System.out.println(records.size());
 
+            // Pagination settings
+            int recordsPerPage = 100;
+            int currentPage = 1;
+            String pageParam = request.getParameter("page");
+            if(pageParam != null) {
+                try {
+                    currentPage = Integer.parseInt(pageParam);
+                    if(currentPage < 1) currentPage = 1;
+                } catch(NumberFormatException e) {
+                    currentPage = 1;
+                }
+            }
+
+            // Convert HashMap keys to List for indexed access
+            List<String> gseKeys = new ArrayList<>(records.keySet());
+            int totalRecords = gseKeys.size();
+            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+            if(currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+            int startIndex = (currentPage - 1) * recordsPerPage;
+            int endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
+
+            // Build base URL for pagination links
+            String speciesParam = request.getParameter("species");
+            String statusParam = request.getParameter("status");
+            String tokenParam = request.getParameter("token");
+            String baseUrl = "experiments.html?species=" + speciesParam + "&status=" + statusParam + "&token=" + tokenParam;
     %>
+            <div class="pagination-info">
+                Showing records <%= startIndex + 1 %> - <%= endIndex %> of <%= totalRecords %> total records
+            </div>
+
+            <% if(totalPages > 1) { %>
+            <div class="pagination-container">
+                <% if(currentPage > 1) { %>
+                    <a href="<%= baseUrl %>&page=1">&laquo; First</a>
+                    <a href="<%= baseUrl %>&page=<%= currentPage - 1 %>">&lsaquo; Previous</a>
+                <% } else { %>
+                    <span class="disabled">&laquo; First</span>
+                    <span class="disabled">&lsaquo; Previous</span>
+                <% } %>
+
+                <%
+                    // Show page numbers (max 10 pages at a time)
+                    int startPage = Math.max(1, currentPage - 4);
+                    int endPage = Math.min(totalPages, startPage + 9);
+                    if(endPage - startPage < 9) {
+                        startPage = Math.max(1, endPage - 9);
+                    }
+
+                    for(int i = startPage; i <= endPage; i++) {
+                        if(i == currentPage) {
+                %>
+                            <span class="active"><%= i %></span>
+                <%      } else { %>
+                            <a href="<%= baseUrl %>&page=<%= i %>"><%= i %></a>
+                <%      }
+                    }
+                %>
+
+                <% if(currentPage < totalPages) { %>
+                    <a href="<%= baseUrl %>&page=<%= currentPage + 1 %>">Next &rsaquo;</a>
+                    <a href="<%= baseUrl %>&page=<%= totalPages %>">Last &raquo;</a>
+                <% } else { %>
+                    <span class="disabled">Next &rsaquo;</span>
+                    <span class="disabled">Last &raquo;</span>
+                <% } %>
+            </div>
+            <% } %>
+
             <table class="tablesorter tablesorter-blue hasFilters" id="expressionExperimentsTable">
                 <thead><tr>
                     <th>Geo Accession Id</th>
@@ -119,7 +221,8 @@
                 </tr></thead>
                 <tbody>
     <%
-            for(String gse: records.keySet()) {
+            for(int i = startIndex; i < endIndex; i++) {
+                String gse = gseKeys.get(i);
                 GeoRecord rec = records.get(gse);
                 String link = "<a href=/rgdweb/curation/expression/experiments.html?gse="+gse+"&species="+species+" >Edit</a>";
     %>
@@ -136,6 +239,43 @@
      %>
                 </tbody>
         </table>
+
+            <% if(totalPages > 1) { %>
+            <div class="pagination-container" style="margin-top: 15px;">
+                <% if(currentPage > 1) { %>
+                    <a href="<%= baseUrl %>&page=1">&laquo; First</a>
+                    <a href="<%= baseUrl %>&page=<%= currentPage - 1 %>">&lsaquo; Previous</a>
+                <% } else { %>
+                    <span class="disabled">&laquo; First</span>
+                    <span class="disabled">&lsaquo; Previous</span>
+                <% } %>
+
+                <%
+                    int startPage2 = Math.max(1, currentPage - 4);
+                    int endPage2 = Math.min(totalPages, startPage2 + 9);
+                    if(endPage2 - startPage2 < 9) {
+                        startPage2 = Math.max(1, endPage2 - 9);
+                    }
+
+                    for(int i = startPage2; i <= endPage2; i++) {
+                        if(i == currentPage) {
+                %>
+                            <span class="active"><%= i %></span>
+                <%      } else { %>
+                            <a href="<%= baseUrl %>&page=<%= i %>"><%= i %></a>
+                <%      }
+                    }
+                %>
+
+                <% if(currentPage < totalPages) { %>
+                    <a href="<%= baseUrl %>&page=<%= currentPage + 1 %>">Next &rsaquo;</a>
+                    <a href="<%= baseUrl %>&page=<%= totalPages %>">Last &raquo;</a>
+                <% } else { %>
+                    <span class="disabled">Next &rsaquo;</span>
+                    <span class="disabled">Last &raquo;</span>
+                <% } %>
+            </div>
+            <% } %>
     <%
         }
     %>
