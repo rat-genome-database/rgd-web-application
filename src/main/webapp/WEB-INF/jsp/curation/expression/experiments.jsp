@@ -5,6 +5,51 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    boolean isAjax = "1".equals(request.getParameter("ajax"));
+
+    // Data section: compute pagination if species is present
+    String species = request.getParameter("species");
+    String speciesDisplay = null;
+    HashMap<String,GeoRecord> records = null;
+    List<String> gseKeys = null;
+    int totalRecords = 0;
+    int recordsPerPage = 100;
+    int currentPage = 1;
+    int totalPages = 0;
+    int startIndex = 0;
+    int endIndex = 0;
+
+    if(species != null) {
+        speciesDisplay = species.replace("_"," ");
+        PhenominerDAO pdao = new PhenominerDAO();
+
+        // Get total count of distinct studies (lightweight query)
+        totalRecords = pdao.getGeoStudyCount(speciesDisplay, request.getParameter("status"));
+        totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+        String pageParam = request.getParameter("page");
+        if(pageParam != null) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+                if(currentPage < 1) currentPage = 1;
+            } catch(NumberFormatException e) {
+                currentPage = 1;
+            }
+        }
+        if(currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+        startIndex = (currentPage - 1) * recordsPerPage;
+        endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
+
+        // Only fetch the current page of records from the database
+        records = pdao.getGeoStudiesPaged(speciesDisplay, request.getParameter("status"), startIndex, recordsPerPage);
+        if(records != null) {
+            gseKeys = new ArrayList<>(records.keySet());
+        }
+    }
+%>
+<% if(!isAjax) { %>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
@@ -24,13 +69,6 @@
         font-size: 12px;
 
     }
-    /*#expressionExperimentsTable th{*/
-    /*    background: rgb(246,248,249); !* Old browsers *!*/
-    /*    background: -moz-linear-gradient(top, rgba(246,248,249,1) 0%, rgba(229,235,238,1) 50%, rgba(215,222,227,1) 51%, rgba(245,247,249,1) 100%); !* FF3.6-15 *!*/
-    /*    background: -webkit-linear-gradient(top, rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); !* Chrome10-25,Safari5.1-6 *!*/
-    /*    background: linear-gradient(to bottom, rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); !* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ *!*/
-    /*    !*filter: progid:DXIma/geTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=0 );*!*/
-    /*}*/
     #expressionExperimentsTable td{
         max-width: 15px;
         min-width: 5px;
@@ -134,41 +172,14 @@
 </form>
 </div>
 <div class="container-fluid">
-    <%
-        if(request.getParameter("species") != null) {
-            String species = request.getParameter("species");
-            species=species.replace("_"," ");
-            PhenominerDAO pdao = new PhenominerDAO();
-            HashMap<String,GeoRecord> records = pdao.getGeoStudies(species,request.getParameter("status"));
-
-            // Pagination settings
-            int recordsPerPage = 100;
-            int currentPage = 1;
-            String pageParam = request.getParameter("page");
-            if(pageParam != null) {
-                try {
-                    currentPage = Integer.parseInt(pageParam);
-                    if(currentPage < 1) currentPage = 1;
-                } catch(NumberFormatException e) {
-                    currentPage = 1;
-                }
-            }
-
-            // Convert HashMap keys to List for indexed access
-            List<String> gseKeys = new ArrayList<>(records.keySet());
-            int totalRecords = gseKeys.size();
-            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
-            if(currentPage > totalPages && totalPages > 0) currentPage = totalPages;
-
-            int startIndex = (currentPage - 1) * recordsPerPage;
-            int endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
-
-            // Build base URL for pagination links
-            String speciesParam = request.getParameter("species");
-            String statusParam = request.getParameter("status");
-            String tokenParam = request.getParameter("token");
-            String baseUrl = "experiments.html?species=" + speciesParam + "&status=" + statusParam + "&token=" + tokenParam;
-    %>
+<div id="dataContainer">
+<% } %>
+<%-- ========== DATA SECTION (returned for both full page and AJAX) ========== --%>
+<% if(species != null && records != null) {
+    String statusParam = request.getParameter("status");
+    String tokenParam = request.getParameter("token");
+    String baseUrl = "experiments.html?species=" + species + "&status=" + statusParam + "&token=" + tokenParam;
+%>
             <div class="pagination-info">
                 Showing records <%= startIndex + 1 %> - <%= endIndex %> of <%= totalRecords %> total records
             </div>
@@ -184,7 +195,6 @@
                 <% } %>
 
                 <%
-                    // Show page numbers (max 10 pages at a time)
                     int startPage = Math.max(1, currentPage - 4);
                     int endPage = Math.min(totalPages, startPage + 9);
                     if(endPage - startPage < 9) {
@@ -221,10 +231,10 @@
                 </tr></thead>
                 <tbody>
     <%
-            for(int i = startIndex; i < endIndex; i++) {
+            for(int i = 0; i < gseKeys.size(); i++) {
                 String gse = gseKeys.get(i);
                 GeoRecord rec = records.get(gse);
-                String link = "<a href=/rgdweb/curation/expression/experiments.html?gse="+gse+"&species="+species+" >Edit</a>";
+                String link = "<a href=/rgdweb/curation/expression/experiments.html?gse="+gse+"&species="+speciesDisplay+" >Edit</a>";
     %>
 
             <tr>
@@ -276,23 +286,47 @@
                 <% } %>
             </div>
             <% } %>
-    <%
-        }
-    %>
+<%
+    }
+%>
+<%-- ========== END DATA SECTION ========== --%>
+<% if(!isAjax) { %>
+</div>
 </div>
 </body>
 </html>
 
 <%@ include file="/common/footerarea.jsp"%>
 <script>
-    tableSorterReport();
-    function tableSorterReport() {
-        $(function () {
-            $('#expressionExperimentsTable')
-                .tablesorter({
-                    theme: 'grey',
-                    widget: ['zebra']
-                });
+    // Initialize tablesorter on the current page of rows
+    $(function () {
+        var $table = $('#expressionExperimentsTable');
+        if ($table.length) {
+            $table.tablesorter({ theme: 'grey', widgets: ['zebra'] });
+        }
+    });
+
+    // AJAX pagination: intercept pagination link clicks
+    $(document).on('click', '.pagination-container a', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        if (!url || url === '#') return;
+
+        // Add ajax=1 parameter
+        url += '&ajax=1';
+
+        $('#dataContainer').css('opacity', '0.5');
+        $.get(url, function (html) {
+            $('#dataContainer').html(html).css('opacity', '1');
+            // Re-init tablesorter on fresh table
+            var $table = $('#expressionExperimentsTable');
+            if ($table.length) {
+                $table.tablesorter({ theme: 'grey', widgets: ['zebra'] });
+            }
+            // Scroll to table
+            var tableTop = $('#dataContainer').offset();
+            if (tableTop) window.scrollTo(0, tableTop.top - 20);
         });
-    }
+    });
 </script>
+<% } %>
