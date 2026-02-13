@@ -25,6 +25,24 @@
         PhenominerDAO pdao = new PhenominerDAO();
         records = pdao.getGeoStudies(speciesDisplay, request.getParameter("status"));
         gseKeys = new ArrayList<>(records.keySet());
+
+        // Apply search filter if present
+        String searchTerm = request.getParameter("search");
+        if(searchTerm != null && !searchTerm.trim().isEmpty()) {
+            searchTerm = searchTerm.trim();
+            String searchLower = searchTerm.toLowerCase();
+            List<String> filtered = new ArrayList<>();
+            for(String gse : gseKeys) {
+                GeoRecord rec = records.get(gse);
+                if((rec.getGeoAccessionId() != null && rec.getGeoAccessionId().toLowerCase().contains(searchLower)) ||
+                   (rec.getPubmedId() != null && rec.getPubmedId().toLowerCase().contains(searchLower)) ||
+                   (rec.getStudyTitle() != null && rec.getStudyTitle().toLowerCase().contains(searchLower))) {
+                    filtered.add(gse);
+                }
+            }
+            gseKeys = filtered;
+        }
+
         totalRecords = gseKeys.size();
         totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
@@ -166,16 +184,30 @@
 </form>
 </div>
 <div class="container-fluid">
+<% if(species != null) { %>
+<div style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
+    <label for="tableSearch" style="color: #24609c; font-weight: bold; margin: 0;">Search results:</label>
+    <input type="text" id="tableSearch" placeholder="Filter by Accession ID, PubMed ID, or Study Title..."
+           style="padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; width: 400px; font-size: 13px;"
+           value="<%= request.getParameter("search") != null ? request.getParameter("search").replace("\"", "&quot;") : "" %>" />
+    <button id="searchBtn" class="btn btn-info btn-sm">Go</button>
+    <button id="clearSearchBtn" class="btn btn-outline-secondary btn-sm">Clear</button>
+</div>
+<% } %>
 <div id="dataContainer">
 <% } %>
 <%-- ========== DATA SECTION (returned for both full page and AJAX) ========== --%>
 <% if(species != null && records != null) {
     String statusParam = request.getParameter("status");
     String tokenParam = request.getParameter("token");
+    String searchParam = request.getParameter("search");
     String baseUrl = "experiments.html?species=" + species + "&status=" + statusParam + "&token=" + tokenParam;
+    if(searchParam != null && !searchParam.trim().isEmpty()) {
+        baseUrl += "&search=" + java.net.URLEncoder.encode(searchParam.trim(), "UTF-8");
+    }
 %>
             <div class="pagination-info">
-                Showing records <%= startIndex + 1 %> - <%= endIndex %> of <%= totalRecords %> total records
+                Showing records <%= startIndex + 1 %> - <%= endIndex %> of <%= totalRecords %> <% if(searchParam != null && !searchParam.trim().isEmpty()) { %>matching<% } else { %>total<% } %> records
             </div>
 
             <% if(totalPages > 1) { %>
@@ -320,6 +352,51 @@
             // Scroll to table
             var tableTop = $('#dataContainer').offset();
             if (tableTop) window.scrollTo(0, tableTop.top - 20);
+        });
+    });
+
+    // Build base URL from current form params
+    function getBaseUrl() {
+        var params = new URLSearchParams(window.location.search);
+        return 'experiments.html?species=' + encodeURIComponent(params.get('species') || '') +
+               '&status=' + encodeURIComponent(params.get('status') || '') +
+               '&token=' + encodeURIComponent(params.get('token') || '');
+    }
+
+    // Search button click
+    $('#searchBtn').on('click', function () {
+        var term = $('#tableSearch').val().trim();
+        var url = getBaseUrl() + '&page=1&ajax=1';
+        if (term) url += '&search=' + encodeURIComponent(term);
+        $('#dataContainer').css('opacity', '0.5');
+        $.get(url, function (html) {
+            $('#dataContainer').html(html).css('opacity', '1');
+            var $table = $('#expressionExperimentsTable');
+            if ($table.length) {
+                $table.tablesorter({ theme: 'grey', widgets: ['zebra'] });
+            }
+        });
+    });
+
+    // Allow Enter key in search box
+    $('#tableSearch').on('keypress', function (e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            $('#searchBtn').click();
+        }
+    });
+
+    // Clear search
+    $('#clearSearchBtn').on('click', function () {
+        $('#tableSearch').val('');
+        var url = getBaseUrl() + '&page=1&ajax=1';
+        $('#dataContainer').css('opacity', '0.5');
+        $.get(url, function (html) {
+            $('#dataContainer').html(html).css('opacity', '1');
+            var $table = $('#expressionExperimentsTable');
+            if ($table.length) {
+                $table.tablesorter({ theme: 'grey', widgets: ['zebra'] });
+            }
         });
     });
 </script>
