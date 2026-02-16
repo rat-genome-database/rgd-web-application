@@ -8,6 +8,9 @@
 <%@ page import="java.util.Collections" %>
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
 <%@ page import="edu.mcw.rgd.dao.impl.MapDAO" %>
+<%@ page import="edu.mcw.rgd.dao.impl.SampleDAO" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %>
 
 <script type="text/javascript">
 
@@ -75,6 +78,33 @@
     if( assemblyParam!=null ) {
         selectedAssembly = assemblyParam;
     }else selectedAssembly="All";
+
+    // For variant search, get map_keys that have variant data to filter species and assemblies
+    boolean isVariantSearch = title != null && title.equals("Variants");
+    Set<Integer> variantMapKeys = new HashSet<>();
+    Set<Integer> variantSpeciesKeys = new HashSet<>();
+    if (isVariantSearch) {
+        try {
+            List<Integer> mapKeys = new SampleDAO().getVariantMapKeys();
+            variantMapKeys.addAll(mapKeys);
+            // Determine which species have variant data by checking their assemblies
+            for (int spKey : SpeciesType.getSpeciesTypeKeys()) {
+                if (spKey == 0) continue;
+                List<Map> spMaps = MapManager.getInstance().getAllMaps(spKey);
+                if (spMaps == null) continue;
+                for (Map m : spMaps) {
+                    if (variantMapKeys.contains(m.getKey())) {
+                        variantSpeciesKeys.add(spKey);
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // If query fails, don't filter — show all species
+            e.printStackTrace();
+            isVariantSearch = false;
+        }
+    }
 %>
 <table border="1" cellspacing=0 cellpadding=10 style="background-color:white;">
 <%--    <%if(title.equals("Variants")){%>--%>
@@ -109,9 +139,9 @@
                     %>
                 <td><b>Species:</b>
                     <select name="speciesType" onChange='addParam("species",this.value)'>
-                        <% if (!request.getServletPath().endsWith("qtls.jsp")) { %>
+<%--                        <% if (!request.getServletPath().endsWith("qtls.jsp")) { %>--%>
                         <option value="0">All</option>
-                        <% } %>
+<%--                        <% } %>--%>
                         <%--            <select name="species")>--%>
                         <% if (request.getServletPath().endsWith("markers.jsp") || request.getServletPath().endsWith("qtls.jsp")) { %>
                         <% for( int speciesTypeKey: new int[]{1,2,3} ) {
@@ -122,6 +152,7 @@
                         } else {
                             for( int speciesTypeKey: SpeciesType.getSpeciesTypeKeys()) {
                                 if( !SpeciesType.isSearchable(speciesTypeKey) ) { continue; } // skip non-searchable species
+                                if( isVariantSearch && !variantSpeciesKeys.contains(speciesTypeKey) ) { continue; } // skip species without variant data
                                 if(speciesTypeKey==selSpecies){%>
                         <option selected value="<%=speciesTypeKey%>"><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
                         <%}else if(speciesTypeKey==0){%>
@@ -142,13 +173,15 @@
                 %>
                 <td style="padding-right: 100px"><b>Assembly&nbsp;</b>
                     <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
-                        <%if(mapDefault!=null){%>
+                        <%if(mapDefault!=null && (!isVariantSearch || variantMapKeys.contains(mapDefault.getKey()))){%>
                         <option  <%=fu.optionParams(selectedAssembly,String.valueOf( mapDefault.getDescription()))%>><%=mapDefault.getName()%></option>
                         <%}%>
                         <option <%=fu.optionParams(selectedAssembly,"all")%>>All</option>
                         <%
                         List<Map> maps = MapManager.getInstance().getAllMaps(selSpecies);
-                        for (Map map: maps) {%>
+                        if (maps == null) maps = Collections.emptyList();
+                        for (Map map: maps) {
+                            if (isVariantSearch && !variantMapKeys.contains(map.getKey())) { continue; }%>
                         <option  <%=fu.optionParams(selectedAssembly,String.valueOf( map.getDescription()))%>><%=map.getName()%></option>
                         <%}%>
                     </select>
