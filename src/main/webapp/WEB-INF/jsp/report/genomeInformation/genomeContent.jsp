@@ -81,9 +81,9 @@
                                     for(edu.mcw.rgd.datamodel.Map assembly:assemblies.get(key)){
                                         if(assembly.getKey()== Integer.parseInt( sourceMap.get("mapKey").toString())){
                         %>
-                                    <option value="<%=assembly.getKey()%>" selected><%=assembly.getName()%></option>
+                                    <option value="<%=assembly.getKey()%>" selected><%=assembly.getRefSeqAssemblyName()%></option>
                                     <%}else{%>
-                                    <option value="<%=assembly.getKey()%>"><%=assembly.getName()%></option>
+                                    <option value="<%=assembly.getKey()%>"><%=assembly.getRefSeqAssemblyName()%></option>
                                     <%}}}}%>
 
                     </select>
