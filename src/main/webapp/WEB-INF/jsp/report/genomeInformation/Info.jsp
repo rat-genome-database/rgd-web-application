@@ -281,8 +281,14 @@
                     </div>
                     <div class="panel-body">
                         <!--iframe id="jbrowseMini"  style="border: 1px solid black" width="100%"></iframe-->
+                        <%
+                            String ucscAssemblyId="";
+                            if(map!=null && map.getUcscAssemblyId()!=null){
+                                ucscAssemblyId+=map.getUcscAssemblyId();
+                            }
+                        %>
 
-                        <input type="hidden" id="assemblyId" value="<%=map.getUcscAssemblyId()%>">
+                        <input type="hidden" id="assemblyId" value="<%=ucscAssemblyId%>">
                         <div id="content" style="width: 100%;overflow-x: scroll ">
 
                             <table  cellpadding=0 cellspacing=0 align="center" border="0" width="100%">

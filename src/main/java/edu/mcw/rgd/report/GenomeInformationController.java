@@ -62,12 +62,12 @@ public class GenomeInformationController implements Controller{
                 model.addAttribute("species", species);
                 if (assembly == null && mapKey==0) {
                     Map map = mdao.getPrimaryRefAssembly(speciesTypeKey);
-                    assembly = map.getRefSeqAssemblyName();
+                    assembly = map.getDescription();
                      mapKey = map.getKey();
                  }else{
                     if(assembly==null){
                         Map map= mdao.getMap(mapKey);
-                        assembly=map.getRefSeqAssemblyName();
+                        assembly=map.getName();
                     }
                 }
 
@@ -206,8 +206,7 @@ public class GenomeInformationController implements Controller{
         for(Map m: maps){
             int mapKey=m.getKey();
             if(mapKey!=6 && mapKey!=36 && mapKey!=8 && mapKey!=21 && mapKey!=19 && mapKey!=7 ) {
-                if(m.getRefSeqAssemblyName()!=null && !m.getRefSeqAssemblyName().equals(""))
-                    assemblyList.add(m.getRefSeqAssemblyName().trim());
+            assemblyList.add(m.getName());
         }
         }
         return assemblyList;

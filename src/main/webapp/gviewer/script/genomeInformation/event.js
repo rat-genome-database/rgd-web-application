@@ -152,11 +152,18 @@ function gviewer_chromosome_clickEvent_jbrowse2(e) {
     var species=$('#species').val();
     var assembly= $('#assembly').val();
     var assemblyId=$('#assemblyId').val();
-    var tracks=species+"%20"+assembly+"%20("+assemblyId+")%20Genes%20and%20Transcripts-"+assembly;
+    var tracks='';
+    if(assemblyId!=null && assemblyId!='null') {
+     tracks+=  species+"%20"+assembly+ "%20(" + assemblyId + ")%20";
+    }else{
+        tracks+=assembly+"%20";
+    }
+    tracks+="Genes%20and%20Transcripts-" + assembly;
  //   var URL="https://rgd.mcw.edu/jbrowse2/?&tracklist=true&tracks="+tracks+"&assembly="+assembly;
    var URL="https://rgd.mcw.edu/jbrowse2/?&tracklist=true&"
-        var st = 1;
+
         var end = obj.length
+    var st =end-1000000 ;
         var loc="chr"+chrNum+":"+st+"-"+end
         URL  = URL+"&loc="+loc;
         URL+="&assembly="+assembly;

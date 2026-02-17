@@ -525,13 +525,14 @@ function Gviewer(viewerId, height, width, mapKey) {
 
             cdiv.offsetParent.style.left=(((i - 1) * this.regionWidth) + 12);
             cdiv.style.width = this.chromosomeWidth;
-            if(chr.number==1){
-                  cdiv.style.border="6px solid dodgerblue";
-            }
-            // cdiv.onclick = gviewer_chromosome_clickEvent;
-            cdiv.onclick = gviewer_chromosome_clickEvent_jbrowse2;
-
-
+           // if(mapKey!=306 && mapKey!=307) {
+           //     if (chr.number == 1) {
+           //         cdiv.style.border = "6px solid dodgerblue";
+           //     }
+           //     // cdiv.onclick = gviewer_chromosome_clickEvent;
+           //     cdiv.onclick = gviewer_chromosome_clickEvent_jbrowse2;
+           //
+           // }
             var foundP = false;
             var foundQ = false;
             var bdiv2 = null;
