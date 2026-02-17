@@ -75,14 +75,14 @@
 
 <hr>
 
-    <div class="panel panel-default" style="height:300px">
-        <div class="panel-heading">
-            <span style="font-weight:normal">Gene Density Chromosome ${chromosome}</span>
-        </div>
-        <div class="panel-body" style="overflow-x: scroll">
-            <iframe id="jbrowseMini" width="800" height="200px" style="margin-left:10%"></iframe>
-        </div>
-    </div>
+<%--    <div class="panel panel-default" style="height:300px">--%>
+<%--        <div class="panel-heading">--%>
+<%--            <span style="font-weight:normal">Gene Density Chromosome ${chromosome}</span>--%>
+<%--        </div>--%>
+<%--        <div class="panel-body" style="overflow-x: scroll">--%>
+<%--            <iframe id="jbrowseMini" width="800" height="200px" style="margin-left:10%"></iframe>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 
     <div class="panel panel-default"  >
         <div class="panel-heading">
