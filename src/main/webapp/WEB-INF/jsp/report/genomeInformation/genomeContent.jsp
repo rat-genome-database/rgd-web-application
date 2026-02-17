@@ -83,7 +83,7 @@
                         %>
                                     <option value="<%=assembly.getKey()%>" selected><%=assembly.getName()%></option>
                                     <%}else{%>
-                                    <option value="<%=assembly.getKey()%>"><%=assembly.getName())%></option>
+                                    <option value="<%=assembly.getKey()%>"><%=assembly.getName()%></option>
                                     <%}}}}%>
 
                     </select>
