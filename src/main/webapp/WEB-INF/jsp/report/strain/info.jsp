@@ -12,6 +12,7 @@
 <%@ page import="java.sql.Blob" %>
 <%@ page import="java.io.InputStream" %>
 <%@ page import="java.io.ByteArrayOutputStream" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 <%
@@ -63,7 +64,7 @@
 
     <tr>
         <td class="label">Symbol:</td>
-        <td><%=obj.getSymbol()%></td>
+        <td><%=obj.getSymbol()%> <a href="https://chatgpt.com/?q=<%=URLEncoder.encode("Explain the parts of this strain symbol: " + obj.getSymbol(), "UTF-8")%>" target="_blank" title="Explain this strain symbol" style="display:inline-block;width:16px;height:16px;border-radius:50%;background-color:#2B84C8;color:white;font-size:11px;font-weight:bold;text-decoration:none;text-align:center;line-height:16px;margin-left:5px;">?</a></td>
     </tr>
 
     <tr>
