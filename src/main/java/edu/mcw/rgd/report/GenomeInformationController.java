@@ -67,7 +67,7 @@ public class GenomeInformationController implements Controller{
                  }else{
                     if(assembly==null){
                         Map map= mdao.getMap(mapKey);
-                        assembly=map.getName();
+                        assembly=map.getDescription();
                     }
                 }
 
@@ -206,7 +206,7 @@ public class GenomeInformationController implements Controller{
         for(Map m: maps){
             int mapKey=m.getKey();
             if(mapKey!=6 && mapKey!=36 && mapKey!=8 && mapKey!=21 && mapKey!=19 && mapKey!=7 ) {
-            assemblyList.add(m.getName());
+            assemblyList.add(m.getDescription());
         }
         }
         return assemblyList;
