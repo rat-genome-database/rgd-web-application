@@ -88,7 +88,7 @@
         <div class="panel-heading">
             <span style="font-weight:normal">Gene Counts (Chromosome ${chromosome}) </span>
         </div>
-        <div class="panel-body" >
+        <div class="panel-body" style="overflow:hidden">
             <div style="width:50%;float:left">
             <table  class="borderless genome" style="width:100%">
 
@@ -129,12 +129,13 @@
             </table>
 
             </div>
-            <div class="panel-body" style="width:40%;float:right;" >
+            <div style="width:40%;float:right;" >
                 <div  id="chart" style="width:400px; height:200px;margin-left:10%"></div>
             </div>
         </div>
     </div>
-    <div class="panel panel-default" style="width:49%;float:left;height:300px" >
+    <div style="display:flex;gap:15px;margin-bottom:15px">
+    <div class="panel panel-default" style="flex:1;min-width:0;margin-bottom:0" >
         <div class="panel-heading">
             <span style="font-weight:normal">${model.species} Genes with Orthologs in .. (Chromosome ${chromosome}) </span>
         </div>
@@ -176,7 +177,7 @@
 
         </div>
     </div>
-    <div class="panel panel-default" style="width: 50%;margin-left:50%;height:300px" >
+    <div class="panel panel-default" style="flex:1;min-width:0;margin-bottom:0" >
         <div class="panel-heading">
             <span style="font-weight:normal">Other </span>
         </div>
@@ -184,12 +185,6 @@
 
             <table class="table table-striped table-condensed genome" style="border:1px solid gainsboro;">
 
-                <!--c:if test="$-{hit.sourceAsMap.utrs3!=0}">
-                    <!--tr><td>3UTRS</td><td>$-{hit.sourceAsMap.utrs3}</td></tr>
-                <!--/c:if-->
-                <!--c:if test="$-{hit.sourceAsMap.utrs5!=0}">
-                    <!--tr><td>5UTRS</td><td>$-{hit.sourceAsMap.utrs5}</td></tr>
-                <!--/c:if-->
                 <c:if test="${hit.sourceAsMap.exons!=0}">
                     <tr><td>Exons</td><td>${hit.sourceAsMap.exons}</td></tr>
                 </c:if>
@@ -214,8 +209,8 @@
 
             </table>
 
-
         </div>
+    </div>
     </div>
             <c:if test="${model.species=='Rat'}">
             <div class="panel panel-default" style="clear:both" >
@@ -284,7 +279,7 @@
 
             </div>
             </c:if>
-    <div class="panel panel-default" >
+    <div class="panel panel-default" style="clear:both" >
         <div class="panel-heading">
             <span style="font-weight:normal">Disease Gene Sets (Chromosome ${chromosome})</span>
         </div>

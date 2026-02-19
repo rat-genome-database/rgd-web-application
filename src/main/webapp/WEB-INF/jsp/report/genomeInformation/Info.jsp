@@ -54,7 +54,7 @@
 %>
 
 <c:forEach items="${model.hits}" var="hit">
-        <div>
+        <div style="overflow:hidden">
 
             <div style="float:right;">
         <c:if test="${model.xlinks.ncbiGenome!=null || model.xlinks.ncbiAssembly!=null || model.xlinks.ensembl!=null || model.xlinks.ucsc!=null}">
@@ -147,7 +147,7 @@
     <!--div class="panel-heading">
         <h4>$--{model.species} Genome Information - $-{model.assembly}   </h4>
     </div-->
-        <div class="card-body" >
+        <div class="card-body" style="overflow:hidden">
 
         <div style="float:left;width:40%">
             <h4>Summary</h4>
@@ -457,7 +457,7 @@
             </div>
         </c:if>
 
-        <div style="">
+        <div style="clear:both">
             <div class="panel panel-default" >
                 <div class="panel-heading">
                     <strong>References</strong>
