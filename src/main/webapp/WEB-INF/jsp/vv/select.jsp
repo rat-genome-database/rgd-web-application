@@ -7,6 +7,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
     String pageTitle = "Variant Visualizer";
@@ -503,13 +504,13 @@
 
     <input type="hidden" name="mapKey" value="<%=mapKey%>" />
 
-    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />
-    <input type="hidden" name="chr" value="<%=req.getParameter("chr")%>" />
-    <input type="hidden" name="start" value="<%=req.getParameter("start")%>" />
-    <input type="hidden" name="stop" value="<%=req.getParameter("stop")%>" />
+    <input type="hidden" name="geneList" value="<c:out value='${param.geneList}' escapeXml='true'/>" />
+    <input type="hidden" name="chr" value="<c:out value='${param.chr}' escapeXml='true'/>" />
+    <input type="hidden" name="start" value="<c:out value='${param.start}' escapeXml='true'/>" />
+    <input type="hidden" name="stop" value="<c:out value='${param.stop}' escapeXml='true'/>" />
 
-    <input type="hidden" name="geneStart" value="<%=req.getParameter("geneStart")%>" />
-    <input type="hidden" name="geneStop" value="<%=req.getParameter("geneStop")%>" />
+    <input type="hidden" name="geneStart" value="<c:out value='${param.geneStart}' escapeXml='true'/>" />
+    <input type="hidden" name="geneStop" value="<c:out value='${param.geneStop}' escapeXml='true'/>" />
 
 <%--    <input type="hidden" name="geneList" value="<%=req.getParameter("geneList")%>" />--%>
 
