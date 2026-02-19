@@ -34,16 +34,15 @@
         border-bottom: 1px solid #ccc;
         padding: 5px 10px;
     }
-    .vc:nth-child(odd){background-color:lightpink}
-    .vc:nth-child(even){background-color:lightblue}
     .vcRow{
         padding:5px
     }
     .vc{
-        padding:5px;
+        padding:8px 5px;
+        text-align:center;
+        transition: background-color 0.2s ease;
     }
     .row-header{
-
         font-size:small;
         font-weight:100;
         padding:5px
@@ -55,7 +54,7 @@
 %>
 
 <c:forEach items="${model.hits}" var="hit">
-        <div>
+        <div style="overflow:hidden">
 
             <div style="float:right;">
         <c:if test="${model.xlinks.ncbiGenome!=null || model.xlinks.ncbiAssembly!=null || model.xlinks.ensembl!=null || model.xlinks.ucsc!=null}">
@@ -148,7 +147,7 @@
     <!--div class="panel-heading">
         <h4>$--{model.species} Genome Information - $-{model.assembly}   </h4>
     </div-->
-        <div class="card-body" >
+        <div class="card-body" style="overflow:hidden">
 
         <div style="float:left;width:40%">
             <h4>Summary</h4>
@@ -395,7 +394,7 @@
 
         <c:if test="${model.mapKey==360 || model.mapKey==60 || model.mapKey==70 ||model.mapKey==372}">
 
-            <div class="panel panel-default"  >
+            <div class="panel panel-default" style="clear:both" >
                 <div class="panel-heading">
                     <span style="font-weight:bold">Variants</span>
                 </div>
@@ -458,7 +457,7 @@
             </div>
         </c:if>
 
-        <div style="">
+        <div style="clear:both">
             <div class="panel panel-default" >
                 <div class="panel-heading">
                     <strong>References</strong>
@@ -514,6 +513,67 @@
         </c:forEach>
 
 
+
+<script>
+$(document).ready(function() {
+    var cells = document.querySelectorAll('td.vc');
+    if (cells.length === 0) return;
+
+    // Parse numeric values from cells (handle commas in numbers)
+    var values = [];
+    cells.forEach(function(cell) {
+        var text = cell.textContent.trim().replace(/,/g, '');
+        var num = parseFloat(text);
+        if (!isNaN(num) && num > 0) values.push(num);
+    });
+
+    if (values.length === 0) return;
+
+    var maxVal = Math.max.apply(null, values);
+    var minVal = Math.min.apply(null, values);
+
+    // Use log scale for better distribution across large ranges
+    var logMax = Math.log1p(maxVal);
+    var logMin = Math.log1p(minVal);
+    var logRange = logMax - logMin || 1;
+
+    // Heatmap color stops: light yellow -> orange -> dark red
+    var colorStops = [
+        { r: 255, g: 255, b: 229 },  // #ffffe5  (low)
+        { r: 254, g: 217, b: 142 },  // #fed98e
+        { r: 254, g: 153, b: 41  },  // #fe9929
+        { r: 217, g: 95,  b: 14  },  // #d95f0e
+        { r: 153, g: 52,  b: 4   }   // #993404  (high)
+    ];
+
+    function interpolateColor(t) {
+        // t is 0..1, map to color stops
+        var seg = t * (colorStops.length - 1);
+        var i = Math.floor(seg);
+        var f = seg - i;
+        if (i >= colorStops.length - 1) { i = colorStops.length - 2; f = 1; }
+        var c0 = colorStops[i], c1 = colorStops[i + 1];
+        return 'rgb(' +
+            Math.round(c0.r + (c1.r - c0.r) * f) + ',' +
+            Math.round(c0.g + (c1.g - c0.g) * f) + ',' +
+            Math.round(c0.b + (c1.b - c0.b) * f) + ')';
+    }
+
+    cells.forEach(function(cell) {
+        var text = cell.textContent.trim().replace(/,/g, '');
+        var num = parseFloat(text);
+        if (isNaN(num) || num === 0) {
+            cell.style.backgroundColor = '#f5f5f5';
+            cell.style.color = '#999';
+        } else {
+            var t = (logMax === logMin) ? 0.5 : (Math.log1p(num) - logMin) / logRange;
+            cell.style.backgroundColor = interpolateColor(t);
+            // Dark text for light cells, white text for dark cells
+            cell.style.color = (t > 0.6) ? '#fff' : '#333';
+        }
+    });
+});
+</script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="/rgdweb/common/jquery-ui/jquery-ui.css">

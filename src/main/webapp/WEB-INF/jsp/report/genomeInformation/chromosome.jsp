@@ -88,7 +88,7 @@
         <div class="panel-heading">
             <span style="font-weight:normal">Gene Counts (Chromosome ${chromosome}) </span>
         </div>
-        <div class="panel-body" >
+        <div class="panel-body" style="overflow:hidden">
             <div style="width:50%;float:left">
             <table  class="borderless genome" style="width:100%">
 
@@ -129,12 +129,13 @@
             </table>
 
             </div>
-            <div class="panel-body" style="width:40%;float:right;" >
+            <div style="width:40%;float:right;" >
                 <div  id="chart" style="width:400px; height:200px;margin-left:10%"></div>
             </div>
         </div>
     </div>
-    <div class="panel panel-default" style="width:49%;float:left;height:300px" >
+    <div style="display:flex;gap:15px;margin-bottom:15px">
+    <div class="panel panel-default" style="flex:1;min-width:0;margin-bottom:0" >
         <div class="panel-heading">
             <span style="font-weight:normal">${model.species} Genes with Orthologs in .. (Chromosome ${chromosome}) </span>
         </div>
@@ -176,7 +177,7 @@
 
         </div>
     </div>
-    <div class="panel panel-default" style="width: 50%;margin-left:50%;height:300px" >
+    <div class="panel panel-default" style="flex:1;min-width:0;margin-bottom:0" >
         <div class="panel-heading">
             <span style="font-weight:normal">Other </span>
         </div>
@@ -184,12 +185,6 @@
 
             <table class="table table-striped table-condensed genome" style="border:1px solid gainsboro;">
 
-                <!--c:if test="$-{hit.sourceAsMap.utrs3!=0}">
-                    <!--tr><td>3UTRS</td><td>$-{hit.sourceAsMap.utrs3}</td></tr>
-                <!--/c:if-->
-                <!--c:if test="$-{hit.sourceAsMap.utrs5!=0}">
-                    <!--tr><td>5UTRS</td><td>$-{hit.sourceAsMap.utrs5}</td></tr>
-                <!--/c:if-->
                 <c:if test="${hit.sourceAsMap.exons!=0}">
                     <tr><td>Exons</td><td>${hit.sourceAsMap.exons}</td></tr>
                 </c:if>
@@ -214,11 +209,11 @@
 
             </table>
 
-
         </div>
     </div>
+    </div>
             <c:if test="${model.species=='Rat'}">
-            <div class="panel panel-default"  >
+            <div class="panel panel-default" style="clear:both" >
                 <div class="panel-heading">
                     <span style="font-weight:normal">Variants (Chromosome ${chromosome}) </span>
                 </div>
@@ -284,93 +279,185 @@
 
             </div>
             </c:if>
-    <div class="panel panel-default"  >
+    <div class="panel panel-default" style="clear:both" >
         <div class="panel-heading">
             <span style="font-weight:normal">Disease Gene Sets (Chromosome ${chromosome})</span>
         </div>
-        <div class="panel-body" >
-            <div class="column" id="diseaseGeneSets" style="width:100%;overflow-x: auto">
-                <table class="table  table-condensed table-hover">
-                    <tr><th>Disease</th><th>Genes</th></tr>
+        <div class="panel-body" style="padding:15px">
+            <style>
+                .dgs-table { width:100%; border-collapse:collapse; margin-bottom:20px; }
+                .dgs-table th { background:#f7f9fc; color:#333; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; padding:10px 12px; border-bottom:2px solid #d0d7e2; text-align:left; }
+                .dgs-table td { padding:8px 12px; border-bottom:1px solid #eef1f5; font-size:13px; vertical-align:middle; }
+                .dgs-table tr:hover td { background:#f0f5ff; }
+                .dgs-table .dgs-disease { color:#24609c; text-decoration:none; font-weight:500; text-transform:capitalize; }
+                .dgs-table .dgs-disease:hover { color:#1a4570; text-decoration:underline; }
+                .dgs-table .dgs-count { font-weight:600; color:#333; min-width:50px; }
+                .dgs-table .dgs-dl { color:#999; font-size:12px; margin-left:6px; transition:color 0.2s; }
+                .dgs-table .dgs-dl:hover { color:#24609c; }
+                .dgs-chart-wrap { position:relative; width:100%; overflow-x:auto; }
+                .dgs-tooltip { position:absolute; pointer-events:none; background:rgba(30,50,80,0.92); color:#fff; padding:8px 12px; border-radius:6px; font-size:12px; line-height:1.4; white-space:nowrap; opacity:0; transition:opacity 0.15s; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+                .dgs-tooltip strong { display:block; font-size:13px; margin-bottom:2px; }
+                .dgs-tooltip .dgs-tip-count { color:#7ec8e3; }
+            </style>
 
+            <div style="width:100%;overflow-x:auto">
+                <table class="dgs-table">
+                    <thead><tr><th>Disease</th><th style="width:120px">Genes</th></tr></thead>
+                    <tbody>
                     <c:forEach items="${hit.sourceAsMap.diseaseGenes}" var="d">
-                        <tr><td><a href="/rgdweb/ontology/annot.html?acc_id=${d.ontTermAccId}&species=${model.species}" title="click to go to disease page"><span class="text-capitalize">${d.ontTerm}</span></a></td><td>${d.geneCount}&nbsp;
-                            <a href="diseaseGenes.html?mapKey=${hit.sourceAsMap.mapKey}&chr=${hit.sourceAsMap.chromosome}&accId=${d.ontTermAccId}" title="click to download Genes"><span class="glyphicon glyphicon-cloud-download" style="color:grey;"></span> </a>
-                        </td>
-                      </tr>
+                        <tr>
+                            <td><a class="dgs-disease" href="/rgdweb/ontology/annot.html?acc_id=${d.ontTermAccId}&species=${model.species}" title="View disease annotations">${d.ontTerm}</a></td>
+                            <td><span class="dgs-count">${d.geneCount}</span><a class="dgs-dl" href="diseaseGenes.html?mapKey=${hit.sourceAsMap.mapKey}&chr=${hit.sourceAsMap.chromosome}&accId=${d.ontTermAccId}" title="Download gene list"><span class="glyphicon glyphicon-cloud-download"></span></a></td>
+                        </tr>
                     </c:forEach>
-
-
+                    </tbody>
                 </table>
             </div>
-            <div style="width:100%;overflow-x: auto">
-            <svg width="960" height="500"></svg>
-            <script>
-                var svg = d3.select("svg"),
-                        margin = {top: 20, right: 20, bottom: 30, left: 40},
-                        width = 900,
-                        height = 300;
 
-                var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-                        y = d3.scaleLinear().rangeRound([height, 0]);
-
-                var g = svg.append("g")
-                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-                var data=${hit.sourceAsMap.diseaseGenechartData};
-
-                var tip = d3.tip()
-                        .attr('class', 'd3-tip')
-                        .offset([-10, 0])
-                        .html(function(d) {
-                            return "<strong>"+d.disease+"</strong><br><span style='color:yellow'>" + d.geneCount + " genes</span>";
-                        });
-
-                x.domain(data.map(function(d) { return d.disease; }));
-                y.domain([0, d3.max(data, function(d) { return d.geneCount; })]);
-                svg.call(tip);
-                g.append("g")
-                        .attr("class", "axis axis--x")
-                        .attr("transform", "translate(0," + height + ")")
-                        .call(d3.axisBottom(x))
-                        .selectAll("text")
-                        .attr("transform", "rotate(90)")
-                        .attr("y",0)
-                        .attr("x",9)
-                        .attr("dy", ".70em")
-                        .style("text-anchor","start");
-
-                g.append("g")
-                        .attr("class", "axis axis--y")
-                        .call(d3.axisLeft(y).ticks(1))
-                        .append("text")
-                        .attr("transform", "rotate(-90)")
-                        .attr("y", 6)
-                        .attr("dy", "0.71em")
-                        .attr("text-anchor", "end")
-                        .text("No. of Genes");
-
-                g.selectAll(".bar")
-                        .data(data)
-                        .enter().append("rect")
-                        .attr("class", "bar")
-
-                        .attr("x", function(d) { return x(d.disease); })
-                        .attr("y", function(d) { return y(d.geneCount); })
-                        .attr("width", x.bandwidth())
-                        .attr("height", function(d) { return height - y(d.geneCount); })
-                      //  .attr("fill", "yellow")
-                        .on("click", function (d) {
-                            alert("DISEASE: " +d.disease + "\nANNOTATED GENE COUNT: " + d.geneCount);
-                        })
-                        .on("mouseover", tip.show)
-                        .on("mouseout", tip.hide)
-
-
-
-
-            </script>
+            <div class="dgs-chart-wrap" id="dgsChartWrap">
+                <div class="dgs-tooltip" id="dgsTooltip"></div>
             </div>
+
+            <script>
+            (function() {
+                var data = ${hit.sourceAsMap.diseaseGenechartData};
+                if (!data || !data.length) return;
+
+                data.sort(function(a, b) { return b.geneCount - a.geneCount; });
+
+                var container = document.getElementById('dgsChartWrap');
+                var containerWidth = container.offsetWidth || 800;
+
+                var barHeight = 22;
+                var barGap = 4;
+                var margin = { top: 30, right: 30, bottom: 40, left: 220 };
+                var width = Math.max(containerWidth, 600) - margin.left - margin.right;
+                var height = data.length * (barHeight + barGap);
+                var svgHeight = height + margin.top + margin.bottom;
+                var svgWidth = width + margin.left + margin.right;
+
+                var svg = d3.select('#dgsChartWrap')
+                    .append('svg')
+                    .attr('width', svgWidth)
+                    .attr('height', svgHeight);
+
+                var g = svg.append('g')
+                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+                var maxCount = d3.max(data, function(d) { return d.geneCount; });
+
+                var x = d3.scaleLinear()
+                    .domain([0, maxCount])
+                    .range([0, width]);
+
+                var y = d3.scaleBand()
+                    .domain(data.map(function(d) { return d.disease; }))
+                    .range([0, height])
+                    .padding(0.15);
+
+                var colorScale = d3.scaleLinear()
+                    .domain([0, maxCount * 0.5, maxCount])
+                    .range(['#7ec8e3', '#2b7bba', '#1a4570']);
+
+                // gridlines
+                g.append('g')
+                    .attr('class', 'dgs-grid')
+                    .selectAll('line')
+                    .data(x.ticks(5))
+                    .enter().append('line')
+                    .attr('x1', function(d) { return x(d); })
+                    .attr('x2', function(d) { return x(d); })
+                    .attr('y1', 0)
+                    .attr('y2', height)
+                    .attr('stroke', '#e8ecf1')
+                    .attr('stroke-dasharray', '3,3');
+
+                // x-axis
+                g.append('g')
+                    .attr('transform', 'translate(0,' + height + ')')
+                    .call(d3.axisBottom(x).ticks(5).tickSizeOuter(0))
+                    .selectAll('text')
+                    .style('font-size', '11px')
+                    .style('fill', '#666');
+
+                // x-axis label
+                g.append('text')
+                    .attr('x', width / 2)
+                    .attr('y', height + 32)
+                    .attr('text-anchor', 'middle')
+                    .style('font-size', '12px')
+                    .style('fill', '#888')
+                    .text('Number of Annotated Genes');
+
+                // y-axis
+                g.append('g')
+                    .call(d3.axisLeft(y).tickSizeOuter(0))
+                    .selectAll('text')
+                    .style('font-size', '11px')
+                    .style('fill', '#444')
+                    .style('text-transform', 'capitalize')
+                    .each(function() {
+                        var text = d3.select(this).text();
+                        if (text.length > 32) {
+                            d3.select(this).text(text.substring(0, 30) + '...');
+                        }
+                    });
+
+                // remove axis domain lines for cleaner look
+                g.selectAll('.domain').attr('stroke', '#ccc');
+
+                var tooltip = document.getElementById('dgsTooltip');
+
+                // bars
+                g.selectAll('.dgs-bar')
+                    .data(data)
+                    .enter().append('rect')
+                    .attr('class', 'dgs-bar')
+                    .attr('x', 0)
+                    .attr('y', function(d) { return y(d.disease); })
+                    .attr('width', 0)
+                    .attr('height', y.bandwidth())
+                    .attr('fill', function(d) { return colorScale(d.geneCount); })
+                    .attr('rx', 3)
+                    .style('cursor', 'pointer')
+                    .on('mouseover', function(d) {
+                        d3.select(this).attr('fill', '#e8913a');
+                        tooltip.innerHTML = '<strong>' + d.disease + '</strong><span class="dgs-tip-count">' + d.geneCount + ' genes</span>';
+                        tooltip.style.opacity = '1';
+                    })
+                    .on('mousemove', function() {
+                        var coords = d3.mouse(container);
+                        tooltip.style.left = (coords[0] + 15) + 'px';
+                        tooltip.style.top = (coords[1] - 10) + 'px';
+                    })
+                    .on('mouseout', function(d) {
+                        d3.select(this).attr('fill', colorScale(d.geneCount));
+                        tooltip.style.opacity = '0';
+                    })
+                    .transition()
+                    .duration(600)
+                    .delay(function(d, i) { return i * 30; })
+                    .attr('width', function(d) { return x(d.geneCount); });
+
+                // value labels on bars
+                g.selectAll('.dgs-label')
+                    .data(data)
+                    .enter().append('text')
+                    .attr('class', 'dgs-label')
+                    .attr('x', function(d) { return x(d.geneCount) + 5; })
+                    .attr('y', function(d) { return y(d.disease) + y.bandwidth() / 2; })
+                    .attr('dy', '0.35em')
+                    .style('font-size', '11px')
+                    .style('fill', '#666')
+                    .style('font-weight', '600')
+                    .style('opacity', 0)
+                    .text(function(d) { return d.geneCount; })
+                    .transition()
+                    .duration(400)
+                    .delay(function(d, i) { return i * 30 + 400; })
+                    .style('opacity', 1);
+            })();
+            </script>
         </div>
     </div>
 
@@ -524,4 +611,71 @@
 
 
 
+<script>
+(function() {
+    var cells = document.querySelectorAll('td.vc');
+    if (!cells.length) return;
+
+    var values = [];
+    cells.forEach(function(cell) {
+        var text = cell.textContent.trim().replace(/,/g, '');
+        var num = parseFloat(text);
+        if (!isNaN(num) && num > 0) values.push(num);
+    });
+    if (!values.length) return;
+
+    var maxVal = Math.max.apply(null, values);
+    var logMax = Math.log1p(maxVal);
+
+    var stops = [
+        { pct: 0,    r: 255, g: 255, b: 229 },
+        { pct: 0.25, r: 254, g: 217, b: 142 },
+        { pct: 0.5,  r: 254, g: 153, b: 41  },
+        { pct: 0.75, r: 217, g: 95,  b: 14  },
+        { pct: 1,    r: 153, g: 52,  b: 4   }
+    ];
+
+    function interpolateColor(t) {
+        t = Math.max(0, Math.min(1, t));
+        var i;
+        for (i = 0; i < stops.length - 1; i++) {
+            if (t <= stops[i + 1].pct) break;
+        }
+        var s0 = stops[i], s1 = stops[i + 1];
+        var f = (t - s0.pct) / (s1.pct - s0.pct);
+        var r = Math.round(s0.r + f * (s1.r - s0.r));
+        var g = Math.round(s0.g + f * (s1.g - s0.g));
+        var b = Math.round(s0.b + f * (s1.b - s0.b));
+        return 'rgb(' + r + ',' + g + ',' + b + ')';
+    }
+
+    function luminance(r, g, b) {
+        return 0.299 * r + 0.587 * g + 0.114 * b;
+    }
+
+    cells.forEach(function(cell) {
+        var text = cell.textContent.trim().replace(/,/g, '');
+        var num = parseFloat(text);
+        if (isNaN(num) || num === 0) {
+            cell.style.backgroundColor = '#f5f5f5';
+            cell.style.color = '#999';
+            return;
+        }
+        var t = logMax > 0 ? Math.log1p(num) / logMax : 0;
+        var color = interpolateColor(t);
+        cell.style.backgroundColor = color;
+
+        var i;
+        for (i = 0; i < stops.length - 1; i++) {
+            if (t <= stops[i + 1].pct) break;
+        }
+        var s0 = stops[i], s1 = stops[i + 1];
+        var f = (t - s0.pct) / (s1.pct - s0.pct);
+        var r = Math.round(s0.r + f * (s1.r - s0.r));
+        var g = Math.round(s0.g + f * (s1.g - s0.g));
+        var b = Math.round(s0.b + f * (s1.b - s0.b));
+        cell.style.color = luminance(r, g, b) > 160 ? '#333' : '#fff';
+    });
+})();
+</script>
 <%@ include file="/common/footerarea.jsp"%>
