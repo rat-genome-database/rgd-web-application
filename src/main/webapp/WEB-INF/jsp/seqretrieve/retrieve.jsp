@@ -58,8 +58,8 @@
         </select>
       </td>
       <td><input type="text" name="chr" size="2" maxlength="2" value="<%=chr%>"></td>
-      <td><input type="text" name="startPos" value="<%=startPos%>"></td>
-      <td><input type="text" name="stopPos" value="<%=stopPos%>"></td>
+      <td><input type="text" name="startPos" value="<%=startPos!=null?startPos:""%>"></td>
+      <td><input type="text" name="stopPos" value="<%=stopPos!=null?stopPos:""%>"></td>
     </tr>
   </table>
 

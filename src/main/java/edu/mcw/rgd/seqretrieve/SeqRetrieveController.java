@@ -31,6 +31,10 @@ public class SeqRetrieveController implements Controller{
         // validate mapKey parameter
         String mapKeyStr = Utils.defaultString(request.getParameter("mapKey"));
         if( Utils.isStringEmpty(mapKeyStr) ) {
+            // initial page load (no form submitted yet) -- just show the empty form
+            if( request.getParameterMap().isEmpty() ) {
+                return mv;
+            }
             error.add("ERROR: missing mapKey parameter");
             return mv;
         }
