@@ -29,6 +29,7 @@ import java.net.URLDecoder;
 import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.LinkedHashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,8 +44,23 @@ public class VariantController extends HaplotyperController {
     TranscriptDAO tdao=new TranscriptDAO();
 
     VariantTranscriptDao dao=new VariantTranscriptDao();
-    HashMap<Integer, List<PolyPhenPrediction>> polyphenPredictionCache=new HashMap<>();
-    HashMap<Integer, String> transcriptSymbolCache=new HashMap<>();
+
+    // Bounded LRU caches to prevent memory issues - max 10000 entries each
+    private static final int MAX_CACHE_SIZE = 10000;
+    Map<Integer, List<PolyPhenPrediction>> polyphenPredictionCache = Collections.synchronizedMap(
+        new LinkedHashMap<Integer, List<PolyPhenPrediction>>(MAX_CACHE_SIZE, 0.75f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, List<PolyPhenPrediction>> eldest) {
+                return size() > MAX_CACHE_SIZE;
+            }
+        });
+    Map<Integer, String> transcriptSymbolCache = Collections.synchronizedMap(
+        new LinkedHashMap<Integer, String>(MAX_CACHE_SIZE, 0.75f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, String> eldest) {
+                return size() > MAX_CACHE_SIZE;
+            }
+        });
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {

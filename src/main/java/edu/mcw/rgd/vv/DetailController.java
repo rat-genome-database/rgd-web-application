@@ -187,7 +187,7 @@ public class DetailController extends HaplotyperController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return tr.getAccId();
+        return tr != null ? tr.getAccId() : null;
     }
 
 }

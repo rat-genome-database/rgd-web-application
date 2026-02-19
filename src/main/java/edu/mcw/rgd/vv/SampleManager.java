@@ -4,7 +4,7 @@ import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.datamodel.Sample;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -17,7 +17,7 @@ import java.util.HashMap;
  */
 public class SampleManager {
 
-    private HashMap<Integer,Sample> samples = new HashMap();
+    private ConcurrentHashMap<Integer,Sample> samples = new ConcurrentHashMap<>();
 
     private static SampleManager sm = new SampleManager();
 
