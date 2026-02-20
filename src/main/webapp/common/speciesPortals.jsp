@@ -61,4 +61,8 @@
         <img src="/rgdweb/common/images/species/green-monkeyI.png" alt="Green Monkey"/>
         <a class="sp-bar-overlay" href="/wg/species/green-monkey"><span>Green Monkey</span></a>
     </div>
+    <div class="sp-bar-item">
+        <img src="/rgdweb/common/images/species/black-ratI.png" alt="Black Rat"/>
+        <a class="sp-bar-overlay" href="/wg/species/blackrat"><span>Black Rat</span></a>
+    </div>
 </div>
