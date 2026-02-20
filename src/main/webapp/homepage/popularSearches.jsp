@@ -7,7 +7,7 @@
 
 
 <div style="background-color:#eaf2f8;margin-left:14px;margin-right:22px;"  >
-    <table align="center" border="0" width="650">
+    <table align="center" border="0" class="hp-search-table" style="width:100%; max-width:650px">
         <tr>
             <td>
                 <div class="searchCard" onclick="location.href='/rgdweb/search/genes.html'">Genes</div>

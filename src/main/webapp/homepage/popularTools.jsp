@@ -4,17 +4,17 @@
     .headerCardTitle {
         text-align:left;
         position:absolute;
-        top:0; left:0; 
-        margin:0px; 
-        padding:5px; 
-        order-radius:10px;
-        opacity:1; 
+        top:0; left:0;
+        margin:0px;
+        padding:5px;
+        border-radius:10px;
+        opacity:1;
         font-weight: bold;
-        background-color:#eff3fc; 
+        background-color:#eff3fc;
         color: #24609c;
         font-size: 16px;
-        order-right:1px solid black;
-        order:1px solid black;
+        border-right:1px solid black;
+        border:1px solid black;
         z-index:20;
     }
 
@@ -22,57 +22,40 @@
         font-size:12px;
     }
 
-
     .headerCardOverlay {
         position:absolute;
+        top:0; left:0;
         background-color:#2865a3;
-        minWidth:230px;
-        width:230px;
-        height:145px;
+        width:100%;
+        height:100%;
         z-index:30;
         opacity:0;
+        transition:opacity 0.2s;
     }
 
     .headerCardOverlay:hover {
         opacity:.5;
         cursor:pointer;
-
     }
 
     .headerCardImage {
         margin:10px;
         border:1px solid black;
         z-index:15;
+        max-width:90%;
+        height:auto;
     }
     .headerCard {
         position:relative;
-        width:250px;
-        min-width:230px;
-        border: 1px solid black;
+        width:200px;
+        min-width:0;
         border: 1px solid rgba(0,0,0,.125);
         margin:5px;
-    }
-
-    .eaderCard {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 1px solid rgba(0,0,0,.125);
-        border-radius: .25rem;
-        padding:20px;
-
+        overflow:hidden;
     }
 
     .headerRow {
-        display: -ms-flexbox;
         display: flex;
-        -ms-flex-wrap: wrap;
         flex-wrap: wrap;
         margin-right: 5px;
         margin-left: 5px;
@@ -87,7 +70,7 @@
     <h5 class="card-title">Analysis and Visualization</h5>
 </div>
 
-<table border="0" cellpadding="7">
+<table border="0" cellpadding="7" class="hp-tools-table">
     <tr>
         <td>
             <div class="headerCard" style="width: 200px;;text-align: center;padding-top:1%">

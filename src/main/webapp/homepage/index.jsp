@@ -67,7 +67,7 @@
         line-height: 1.3;
         display: inline-block;
         font-size:14px;
-        ertical-align: middle;
+        vertical-align: middle;
     }
 
     .searchCard:hover p {
@@ -83,16 +83,15 @@
     }
 
      a {
-         color:#0C1D2E;
-         olor:#073C66;
+         color:#073C66;
          text-decoration:underline;
-         ont-weight:700;
+         font-weight:700;
      }
 
     .speciesCardOverlay {
         position:absolute;
         background-color:#2865a3;
-        minWidth:63px;
+        min-width:63px;
         width:63px;
         height:63px;
         z-index:30;
@@ -179,6 +178,180 @@
         padding: 0;
     }
 
+    /* ===== Homepage Responsive ===== */
+    @media (max-width: 768px) {
+
+        /* Notice banner full-width */
+        table[width="80%"] {
+            width: 95% !important;
+        }
+
+        /* Species portals: flex wrap */
+        #species-portals,
+        #species-portals > tbody,
+        #species-portals > tbody > tr {
+            display: flex !important;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            padding: 8px;
+        }
+        #species-portals td {
+            display: inline-block !important;
+            width: auto !important;
+        }
+        #species-portals td[valign] {
+            display: none !important;
+        }
+        .speciesIcon {
+            width: 45px !important;
+            height: 45px !important;
+        }
+        .speciesCardOverlay {
+            width: 45px !important;
+            height: 45px !important;
+            min-width: 45px !important;
+        }
+        .speciesCardOverlay div {
+            font-size: 8px !important;
+            margin: 2px !important;
+        }
+
+        /* Main layout: stack content + sidebar */
+        .hp-layout,
+        .hp-layout > tbody,
+        .hp-layout > tbody > tr {
+            display: block !important;
+            width: 100% !important;
+        }
+        .hp-content,
+        .hp-sidebar {
+            display: block !important;
+            width: 100% !important;
+            padding: 5px !important;
+        }
+
+        /* Search cards: flex wrap, hide separators */
+        .hp-search-table,
+        .hp-search-table > tbody,
+        .hp-search-table > tbody > tr {
+            display: flex !important;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+        }
+        .hp-search-table td {
+            display: inline-block !important;
+            width: auto !important;
+        }
+        .hp-search-table td > img[src*="dnaSeperator"] {
+            display: none !important;
+        }
+        .hp-search-table td:has(> img[src*="dnaSeperator"]) {
+            display: none !important;
+        }
+        .searchCard {
+            height: auto !important;
+            line-height: 1.4 !important;
+            padding: 10px 14px !important;
+            min-width: 80px;
+            background-color: #fff;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+        }
+        .searchCard p {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Tool cards: responsive grid */
+        .hp-tools-table,
+        .hp-tools-table > tbody {
+            display: block !important;
+            width: 100% !important;
+        }
+        .hp-tools-table > tbody > tr {
+            display: flex !important;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .hp-tools-table > tbody > tr > td {
+            display: block !important;
+            width: auto !important;
+            padding: 0 !important;
+        }
+        .headerCard {
+            width: 140px !important;
+            min-width: 0 !important;
+            margin: 3px !important;
+        }
+        .headerCardTitle {
+            font-size: 12px !important;
+            padding: 3px !important;
+        }
+        .headerSubTitle {
+            font-size: 10px !important;
+        }
+        .headerCardImage {
+            max-width: 90% !important;
+            height: auto !important;
+        }
+
+        /* Data snapshot button */
+        .data-snapshot-button {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+
+        /* Sidebar tutorials full-width */
+        .videoTutorials {
+            max-width: 100% !important;
+        }
+
+        /* Facebook embed responsive */
+        .fb-page {
+            width: 100% !important;
+        }
+        .fb-page > span,
+        .fb-page > span > iframe {
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .speciesIcon {
+            width: 35px !important;
+            height: 35px !important;
+        }
+        .speciesCardOverlay {
+            width: 35px !important;
+            height: 35px !important;
+            min-width: 35px !important;
+        }
+        .speciesCardOverlay div {
+            font-size: 7px !important;
+        }
+
+        .headerCard {
+            width: 110px !important;
+        }
+        .headerCardTitle {
+            font-size: 10px !important;
+        }
+
+        .searchCard {
+            min-width: 65px;
+            font-size: 12px !important;
+            padding: 8px 10px !important;
+        }
+
+        h5 {
+            font-size: 17px !important;
+        }
+    }
+
 </style>
 <!--
 <table align=center ><tr><td style="color:red;"> NOTICE: Due to a systems upgrade, portions of RGD may be unavailable Sunday October 3rd</td></tr></table>
@@ -209,78 +382,11 @@
             <a style="font-size:26px;padding-right:40px;" href="/rgdweb/curation/home.html">Enter Curation Portal</a>
         </td>
         <%}%>
-        <td>
-            <img style="margin-right:10px;" src="/rgdweb/common/images/species/ratI.png"   border="0"  class="speciesIcon"/>
-        </td>
-
-        <td valign="center">
-            <table border="0">
-                <tr>
-                    <!--<td><span style="font-family: 'Marcellus SC', serif;font-size:14px;">Species Specific Portals</span></td>-->
-                    <td><span style="font-family: 'Source Code Pro', monospace;font-size:14px; margin-right:8px;">Other Species Portals</span></td>
-                </tr>
-                <tr>
-                    <td><img src="/rgdweb/common/images/blueArrow.png" border=0 ></td>
-                </tr>
-            </table>
-        </td>
-
-        <td>
-            <a class="speciesCardOverlay" href="/wg/species/human/">
-                <div style="margin:5px; font-weight:700;">Human</div>
-            </a>
-            <img src="/rgdweb/common/images/species/humanI.png"  border="0"  class="speciesIcon"/>
-        </td>
-                <td>
-                    <a class="speciesCardOverlay" href="/wg/species/mouse">
-                        <div style="margin:5px; font-weight:700;">Mouse</div>
-                    </a>
-                    <img src="/rgdweb/common/images/species/mouseI.jpg"  border="0"  class="speciesIcon"/></td>
-        <td>
-            <a class="speciesCardOverlay" href="/wg/species/chinchilla">
-                <div style="margin:3px; font-weight:700;">Chinchilla</div>
-            </a>
-            <img src="/rgdweb/common/images/species/chinchillaI.jpg"   border="0"  class="speciesIcon"/></td>
-        <td>
-            <a class="speciesCardOverlay" href="/wg/species/dog">
-                <div style="margin:5px; font-weight:700;">Domestic Dog</div>
-            </a>
-            <img src="/rgdweb/common/images/species/dogI.jpg"   border="0"  class="speciesIcon"/>
-
-        </td>
-        <td>
-            <a class="speciesCardOverlay" href="/wg/species/squirrel">
-                <div style="margin:5px; font-weight:700;font-size:11px;">Thirteen Lined Ground Squirrel</div>
-            </a>
-            <img src="/rgdweb/common/images/species/squirrelI.jpg"  border="0"  class="speciesIcon"/>
-        </td>
-        <td>
-            <a class="speciesCardOverlay" href="/wg/species/bonobo">
-                <div style="margin:5px; font-weight:700;">Bonobo</div>
-            </a>
-            <img src="/rgdweb/common/images/species/bonoboI.jpg"  border="0"  class="speciesIcon"/></td>
-        <td>
-            <a class="speciesCardOverlay" href="/wg/species/pig">
-                <div style="margin:5px; font-weight:700;">Domestic Pig</div>
-            </a>
-            <img src="/rgdweb/common/images/species/pigI.png"  border="0"  class="speciesIcon"/></td>
-
-        <td>
-            <a class="speciesCardOverlay" href="/wg/species/mole-rat">
-                <div style="margin:5px; font-weight:700;">Naked Mole Rat</div>
-            </a>
-            <img src="/rgdweb/common/images/species/mole-ratI.png"  border="0" class="speciesIcon" /></td>
-        <td>
-            <a class="speciesCardOverlay" href="/wg/species/green-monkey">
-                <div style="margin:5px; font-weight:700;">African Green Monkey</div>
-            </a>
-            <img src="/rgdweb/common/images/species/green-monkeyI.png"  border="0"  class="speciesIcon"/></td>
-     </tr>
 </table>
 
-<table align="center" cellspacing="5" cellpadding="5">
+<table align="center" cellspacing="5" cellpadding="5" class="hp-layout">
     <tr>
-        <td width="780">
+        <td class="hp-content" width="780">
             <jsp:include page="/homepage/popularSearches.jsp"/>
             <jsp:include page="/homepage/popularTools.jsp"/>
             <jsp:include page="/homepage/news.jsp"/>
@@ -288,7 +394,7 @@
             <hr>
             <jsp:include page="/homepage/scoreboard.jsp"/>
         </td>
-        <td valign="top">
+        <td class="hp-sidebar" valign="top">
             <br>
             <div class="data-snapshot-container">
                 <a href="#publicScoreboardHeader" class="data-snapshot-button">RGD Data Snapshot</a>
