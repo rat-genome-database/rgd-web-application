@@ -109,9 +109,9 @@
                     %>
                 <td><b>Species:</b>
                     <select name="speciesType" onChange='addParam("species",this.value)'>
-                        <% if (!request.getServletPath().endsWith("qtls.jsp")) { %>
-                        <option value="0">All</option>
-                        <% } %>
+<%--                        <% if (!request.getServletPath().endsWith("qtls.jsp")) { %>--%>
+                        <option value="0" disabled hidden>All</option>
+<%--                        <% } %>--%>
                         <%--            <select name="species")>--%>
                         <% if (request.getServletPath().endsWith("markers.jsp")|| request.getServletPath().endsWith("qtls.jsp")) { %>
                         <% for( int speciesTypeKey: new int[]{1,2,3} ) {
