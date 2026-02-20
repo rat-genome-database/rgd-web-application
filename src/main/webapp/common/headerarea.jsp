@@ -427,6 +427,8 @@
 %>
 
 
+<%@ include file="/common/speciesPortals.jsp"%>
+
 <div id="mainBody">
     <div id="contentArea" class="content-area">
         <table cellpadding="5" border=0 align="center" width="100%">

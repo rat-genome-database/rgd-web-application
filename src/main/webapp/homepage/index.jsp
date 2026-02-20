@@ -119,12 +119,12 @@
 <style>
     @font-face {
         font-family: 'freshbotregular';
-        src: url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.eot');
-        src: url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.eot?#iefix') format('embedded-opentype'),
-        url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.woff2') format('woff2'),
-        url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.woff') format('woff'),
-        url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.ttf') format('truetype'),
-        url('http://localhost:8080/rgdweb/common/font/freshbot/freshbot-webfont.svg#freshbotregular') format('svg');
+        src: url('/rgdweb/common/font/freshbot/freshbot-webfont.eot');
+        src: url('/rgdweb/common/font/freshbot/freshbot-webfont.eot?#iefix') format('embedded-opentype'),
+        url('/rgdweb/common/font/freshbot/freshbot-webfont.woff2') format('woff2'),
+        url('/rgdweb/common/font/freshbot/freshbot-webfont.woff') format('woff'),
+        url('rgdweb/common/font/freshbot/freshbot-webfont.ttf') format('truetype'),
+        url('/rgdweb/common/font/freshbot/freshbot-webfont.svg#freshbotregular') format('svg');
         font-weight: normal;
         font-style: normal;
 
@@ -201,7 +201,7 @@
     </tr>
     </table>
 
-<table align="center">
+<table align="center" id="species-portals">
     <tr>
 
         <% if (!RgdContext.isProduction() ) { %>
