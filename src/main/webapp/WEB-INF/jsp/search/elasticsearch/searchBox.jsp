@@ -1,6 +1,6 @@
 
-   <div class="row" style="width: 100%;float: right">
-       <div class="col-9">
+   <div class="row" style="width: 100%;float: right;margin:0;">
+       <div class="col-12 col-md-9">
        <form name="elasticSearchForm"  action="/rgdweb/elasticResults.html" id="elasticSearchForm" role="search" method="post">
            <%
                if(RgdContext.isProduction()){
@@ -20,7 +20,7 @@
     </div>
        </form>
        </div>
-       <div class="col-3">
+       <div class="col-12 col-md-3">
 
                <small class="form-text text-muted"><a href="/rgdweb/generator/list.html" >Advanced Search (OLGA)</a></small>
 

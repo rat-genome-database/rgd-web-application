@@ -97,18 +97,18 @@
 <style>
     a {
         color:#0C1D2E;
-        olor:#073C66;
         text-decoration:underline;
-        ont-weight:700;
+        font-weight:700;
     }
     .speciesCardOverlay {
         position:absolute;
         background-color:#2865a3;
-        minWidth:63px;
+        min-width:63px;
         width:63px;
         height:63px;
         z-index:30;
         opacity:0;
+        transition:opacity 0.2s;
     }
     .speciesCardOverlay:hover {
         opacity:.9;
@@ -116,15 +116,24 @@
         color:white;
     }
     .speciesIcon {
-        border:1px solid black;
-        padding:3px;
+        border:1px solid #ccc;
+        padding:2px;
+        border-radius:3px;
+        transition:border-color 0.2s;
     }
-    .g_id_signin > div > div:first-child{
-        display: none;
+    .speciesIcon:hover {
+        border-color:#2865a3;
+    }
+    .g_id_signin > div > div:first-child {
+        display:none;
+    }
+    .GoogleLoginButtonContainer {
+        display:inline-block;
+        vertical-align:middle;
     }
 </style>
 
-<link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Marcellus+SC|Merienda+One|Source+Code+Pro&display=swap" rel="stylesheet">
 
 
 <body  ng-cloak ng-app="rgdPage"  data-spy="scroll" data-target=".navbar" data-offset="10" style="position: relative;">
@@ -164,7 +173,7 @@
                         <tr>
                             <td align="left" style="color:white;" rowspan="3" width="10">
 
-                                <div ><a class="homeLink" href="/wg/home"><img style="border:3px solid #2865A3;" border="0" src="/rgdweb/common/images/rgd_logo.jpg"></a></div>
+                                <div><a class="homeLink" href="/wg/home"><img style="border:3px solid rgba(255,255,255,0.2); border-radius:4px;" src="/rgdweb/common/images/rgd_logo.jpg"></a></div>
 
                             </td>
 
@@ -218,6 +227,8 @@
                         <tr>
                             <td colspan="2">
                                 <div class="rgd-navbar">
+                                    <button class="rgd-menu-toggle" onclick="document.querySelector('.rgd-nav-items').classList.toggle('rgd-nav-open')"><i class="fa fa-bars"></i> Menu</button>
+                                    <div class="rgd-nav-items">
                                     <div class="rgd-dropdown">
                                         <button class="rgd-dropbtn" style="cursor:pointer" onclick="javascript:location.href='/wg'">Home
                                             <i class="fa fa-caret-down"></i>
@@ -343,6 +354,7 @@
                                             <a href="/wg/resource-links/employment-resources/">Employment Resources</a>
                                         </div>
                                     </div>
+                                    </div><!-- end rgd-nav-items -->
                                 </div>
                             </td>
                         </tr>
@@ -350,23 +362,50 @@
                             <td >
                                 <%@include file="../WEB-INF/jsp/search/elasticsearch/searchBox.jsp"%>
                             </td>
-                            <td>
-                                            <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/"><img src="/rgdweb/common/images/social/facebook-20.png"/></a>
-                                            <a href="https://twitter.com/ratgenome"><img src="/rgdweb/common/images/social/twitter-20.png"/></a>
-                                            <a href="https://www.linkedin.com/company/rat-genome-database"><img src="/rgdweb/common/images/social/linkedin-20.png"/></a>
-                                            <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber"><img src="/rgdweb/common/images/social/youtube-20.png"/></a>
-                                            <a href="https://github.com/rat-genome-database"><img src="/rgdweb/common/images/GitHub_Logo_White-20.png"/></a>
-                                            <a href="https://bsky.app/profile/ratgenome.bsky.social"><img src="/rgdweb/common/images/blueSky.png"/></a>
-                                            <a href="https://genomic.social/@ratgenome"><img src="/rgdweb/common/images/mastadon.png"/></a>
-
-                                <!--
--->
+                            <td class="rgd-social-icons" align="right" style="white-space:nowrap; padding-right:10px;">
+                                            <a href="https://www.facebook.com/pg/RatGenomeDatabase/posts/" style="margin:0 2px;"><img src="/rgdweb/common/images/social/facebook-20.png" style="opacity:0.85; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"/></a>
+                                            <a href="https://twitter.com/ratgenome" style="margin:0 2px;"><img src="/rgdweb/common/images/social/twitter-20.png" style="opacity:0.85; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"/></a>
+                                            <a href="https://www.linkedin.com/company/rat-genome-database" style="margin:0 2px;"><img src="/rgdweb/common/images/social/linkedin-20.png" style="opacity:0.85; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"/></a>
+                                            <a href="https://www.youtube.com/channel/UCMpex8AfXd_JSTH3DIxMGFw?view_as=subscriber" style="margin:0 2px;"><img src="/rgdweb/common/images/social/youtube-20.png" style="opacity:0.85; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"/></a>
+                                            <a href="https://github.com/rat-genome-database" style="margin:0 2px;"><img src="/rgdweb/common/images/GitHub_Logo_White-20.png" style="opacity:0.85; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"/></a>
+                                            <a href="https://bsky.app/profile/ratgenome.bsky.social" style="margin:0 2px;"><img src="/rgdweb/common/images/blueSky.png" style="opacity:0.85; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"/></a>
+                                            <a href="https://genomic.social/@ratgenome" style="margin:0 2px;"><img src="/rgdweb/common/images/mastadon.png" style="opacity:0.85; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'"/></a>
                             </td>
                         </tr>
 
 
                     </table>
                 </div>
+
+                <script>
+                /* Mobile nav: convert dropdown hover to click-based toggle */
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.querySelectorAll('.rgd-dropbtn[onclick]').forEach(function(btn) {
+                        var match = btn.getAttribute('onclick').match(/location\.href='([^']+)'/);
+                        var href = match ? match[1] : null;
+                        btn.removeAttribute('onclick');
+                        btn.addEventListener('click', function() {
+                            if (window.innerWidth > 768) {
+                                if (href) location.href = href;
+                            } else {
+                                var dd = this.closest('.rgd-dropdown');
+                                document.querySelectorAll('.rgd-dropdown.rgd-dropdown-active').forEach(function(d) {
+                                    if (d !== dd) d.classList.remove('rgd-dropdown-active');
+                                });
+                                dd.classList.toggle('rgd-dropdown-active');
+                            }
+                        });
+                    });
+                    /* Close mobile menu when clicking outside */
+                    document.addEventListener('click', function(e) {
+                        if (window.innerWidth <= 768 && !e.target.closest('.rgd-navbar')) {
+                            document.querySelectorAll('.rgd-dropdown.rgd-dropdown-active').forEach(function(d) {
+                                d.classList.remove('rgd-dropdown-active');
+                            });
+                        }
+                    });
+                });
+                </script>
 
                 <input type="hidden" id="speciesType" value="">
 
@@ -397,12 +436,7 @@
 
         </td>
     </tr>
-    <tr>
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap" rel="stylesheet">
-        <td colspan=1 align="right" width="100%">
 
-        </td>
-    </tr>
 </table>
 
     <%

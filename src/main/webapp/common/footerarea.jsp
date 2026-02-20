@@ -16,16 +16,14 @@
     </div>
     <%--</div>--%>
 
-    <table align="center">
-        <tr>
-            <td width=100 align="center"><a href="https://www.nhlbi.nih.gov/"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute"></a><br><br></td>
-            <td width=100 align="center"><a href="https://www.nih.gov/"><img src="/rgdweb/common/images/nih.png" alt="NHLBI Logo" title="National Institue of Health"></a><br><br></td>
-            <td width=100 align="center"><a href="http://alliancegenome.org"><img src="/rgdweb/common/images/alliance_logo.png" height="80" width="133" border=0/></a></td>
-            <td width=100 align="center"><a href="https://globalbiodata.org/scientific-activities/global-core-biodata-resources"><img src="/rgdweb/common/images/gbc-main.svg" height="80" width="133" border=0/></a></td>
-        </tr>
-    </table>
+    <div class="footer-logos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:15px; padding:15px 10px;">
+        <a href="https://www.nhlbi.nih.gov/"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute" style="max-height:60px;"/></a>
+        <a href="https://www.nih.gov/"><img src="/rgdweb/common/images/nih.png" alt="NIH Logo" title="National Institutes of Health" style="max-height:60px;"/></a>
+        <a href="http://alliancegenome.org"><img src="/rgdweb/common/images/alliance_logo.png" alt="Alliance Logo" style="max-height:60px; max-width:133px;"/></a>
+        <a href="https://globalbiodata.org/scientific-activities/global-core-biodata-resources"><img src="/rgdweb/common/images/gbc-main.svg" alt="GBC Logo" style="max-height:60px; max-width:133px;"/></a>
+    </div>
 
-    <p align="center"><a href="/wg/wp-admin/post.php?post=15&action=edit">RGD</a> is funded by grant HL64541 from the National Heart, Lung, and Blood Institute on behalf of the NIH.<br>
+    <p align="center" style="padding:0 10px;"><a href="/wg/wp-admin/post.php?post=15&action=edit">RGD</a> is funded by grant HL64541 from the National Heart, Lung, and Blood Institute on behalf of the NIH.<br>
 
 
     <div id="copyright">
