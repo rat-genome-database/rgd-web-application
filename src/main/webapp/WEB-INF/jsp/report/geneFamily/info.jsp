@@ -1,6 +1,6 @@
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
-<%@ page import="edu.mcw.rgd.reporting.XDBIndex" %>
-<%@ page import="edu.mcw.rgd.datamodel.Xdb" %>
+<%@ page import="edu.mcw.rgd.datamodel.XDBIndex" %>
+<%@ page import="edu.mcw.rgd.datamodel.XdbId" %>
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ include file="../sectionHeader.jsp"%>
@@ -73,7 +73,9 @@
     </tr>
     <% } %>
 
-    <% if (!Utils.isStringEmpty(gf.getPubmedIds())) { %>
+    <% if (!Utils.isStringEmpty(gf.getPubmedIds())) {
+            String pubmedBaseUrl = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_PUBMED).getUrl();
+    %>
     <tr>
         <td class="label" valign="top">PubMed IDs:</td>
         <td>
@@ -83,7 +85,7 @@
                     String pmid = pmids[i].trim();
                     if (!pmid.isEmpty()) {
             %>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/<%=pmid%>"><%=pmid%></a><%=(i < pmids.length - 1) ? ", " : ""%>
+                <a href="<%=pubmedBaseUrl + pmid%>">PMID:<%=pmid%></a><%=(i < pmids.length - 1) ? ", " : ""%>
             <%
                     }
                 }
@@ -118,7 +120,7 @@
     <%
         List<String> hgncIds = (List<String>) request.getAttribute("hgncIds");
         if (hgncIds != null && !hgncIds.isEmpty()) {
-            String hgncBaseUrl = XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN);
+            String hgncBaseUrl = XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_HGNC).getUrl(SpeciesType.HUMAN);
     %>
     <tr>
         <td class="label" valign="top">All HGNC IDs:</td>
