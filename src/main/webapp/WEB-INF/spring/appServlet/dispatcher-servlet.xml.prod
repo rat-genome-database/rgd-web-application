@@ -85,6 +85,7 @@
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
+                <prop key="report/geneFamily/main.html">GeneFamilyReportController</prop>
                 <!--                <prop key="overgo/find.html">OvergoController</prop>-->
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
 
@@ -270,6 +271,7 @@
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
     <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
+    <bean id="GeneFamilyReportController" class="edu.mcw.rgd.report.GeneFamilyReportController"/>
     <bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
     <bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>

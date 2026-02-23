@@ -251,8 +251,8 @@
      </tr>
     <% } %>
 
-    <%-- OPTIONAL SECTION: HGNC GENE FAMILY --%>
-    <%
+    <%-- OPTIONAL SECTION: HGNC GENE FAMILY (human genes only) --%>
+    <% if (obj.getSpeciesTypeKey()==1) {
         List<HgncFamily> geneFamilies = hgncDAO.getGeneFamiliesByRgdId(obj.getRgdId());
         if( !geneFamilies.isEmpty() ) {
     %>
@@ -265,11 +265,12 @@
                 gfCount++;
                 boolean isLast = (gfCount == geneFamilies.size());
     %>
-            <%=gf.getName()%><%=!isLast?" ; ":""%>
+            <a href="/rgdweb/report/geneFamily/main.html?id=<%=gf.getFamilyId()%>"><%=gf.getName()%></a><%=!isLast?" ; ":""%>
     <% } %>
         </td>
     </tr>
-    <% } %>
+    <% }
+    } %>
 
     <%  // ClinVar variants
         List<VariantInfo> clinvars = new VariantInfoDAO().getVariantsForGene(obj.getRgdId());
