@@ -23,7 +23,7 @@
 
     <tr>
         <td class="label" valign="top">Family ID:</td>
-        <td><%=gf.getFamilyId()%></td>
+        <td><%=gf.getFamilyId()%> (<a href="<%=XDBIndex.getInstance().getXDB(XdbId.XDB_KEY_HGNC_GENE_FAMILY).getUrl() + gf.getFamilyId()%>">View at HGNC</a>)</td>
     </tr>
 
     <% if (!Utils.isStringEmpty(gf.getDescComment())) { %>
@@ -103,7 +103,7 @@
 
     <% if (familyGenes != null && !familyGenes.isEmpty()) { %>
     <tr>
-        <td class="label" valign="top">Genes in Family:</td>
+        <td class="label" valign="top">RGD Genes in Family:</td>
         <td>
             <%
                 int geneCount = 0;
