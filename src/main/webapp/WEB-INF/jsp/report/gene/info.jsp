@@ -1,4 +1,5 @@
 <%@ page import="java.util.TreeMap" %>
+<%@ page import="edu.mcw.rgd.datamodel.HgncFamily" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
     RgdId id = null;
@@ -248,6 +249,26 @@
     <% } %>
         </td>
      </tr>
+    <% } %>
+
+    <%-- OPTIONAL SECTION: HGNC GENE FAMILY --%>
+    <%
+        List<HgncFamily> geneFamilies = hgncDAO.getGeneFamiliesByRgdId(obj.getRgdId());
+        if( !geneFamilies.isEmpty() ) {
+    %>
+    <tr>
+        <td class="label" valign="top">HGNC Gene Family:</td>
+        <td>
+    <%
+            int gfCount = 0;
+            for( HgncFamily gf: geneFamilies ) {
+                gfCount++;
+                boolean isLast = (gfCount == geneFamilies.size());
+    %>
+            <%=gf.getName()%><%=!isLast?" ; ":""%>
+    <% } %>
+        </td>
+    </tr>
     <% } %>
 
     <%  // ClinVar variants
