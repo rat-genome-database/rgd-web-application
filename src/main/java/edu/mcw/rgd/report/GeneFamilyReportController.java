@@ -28,6 +28,7 @@ public class GeneFamilyReportController implements Controller {
         String idStr = req.getParameter("id");
         HgncFamily obj = null;
         List<Gene> familyGenes = Collections.emptyList();
+        List<String> hgncIds = Collections.emptyList();
 
         if (idStr == null || idStr.isEmpty()) {
             error.add("No family ID was given!");
@@ -38,6 +39,8 @@ public class GeneFamilyReportController implements Controller {
                 if (obj == null) {
                     error.add("No gene family was found with ID " + familyId);
                 } else {
+                    hgncIds = hgncDAO.getHgncIdsForFamily(familyId);
+
                     List<Integer> rgdIds = hgncDAO.getGeneRgdIdsForFamily(familyId);
                     if (!rgdIds.isEmpty()) {
                         familyGenes = geneDAO.getGeneByRgdIds(rgdIds);
@@ -53,6 +56,7 @@ public class GeneFamilyReportController implements Controller {
 
         request.setAttribute("reportObject", obj);
         request.setAttribute("familyGenes", familyGenes);
+        request.setAttribute("hgncIds", hgncIds);
         request.setAttribute("requestFacade", req);
 
         request.setAttribute("error", error);

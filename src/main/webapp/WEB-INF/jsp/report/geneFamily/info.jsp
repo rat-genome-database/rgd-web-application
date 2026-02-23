@@ -1,4 +1,7 @@
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
+<%@ page import="edu.mcw.rgd.reporting.XDBIndex" %>
+<%@ page import="edu.mcw.rgd.datamodel.Xdb" %>
+<%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
@@ -107,6 +110,26 @@
                     boolean isLast = (geneCount == familyGenes.size());
             %>
                 <a href="<%=Link.gene(gene.getRgdId())%>"><%=gene.getSymbol()%></a><%=!isLast ? " ; " : ""%>
+            <% } %>
+        </td>
+    </tr>
+    <% } %>
+
+    <%
+        List<String> hgncIds = (List<String>) request.getAttribute("hgncIds");
+        if (hgncIds != null && !hgncIds.isEmpty()) {
+            String hgncBaseUrl = XDBIndex.getInstance().getXDB(21).getUrl(SpeciesType.HUMAN);
+    %>
+    <tr>
+        <td class="label" valign="top">All HGNC IDs:</td>
+        <td>
+            <%
+                int hgncCount = 0;
+                for (String hgncId : hgncIds) {
+                    hgncCount++;
+                    boolean isLast = (hgncCount == hgncIds.size());
+            %>
+                <a href="<%=hgncBaseUrl + hgncId%>"><%=hgncId%></a><%=!isLast ? " ; " : ""%>
             <% } %>
         </td>
     </tr>
