@@ -22,6 +22,7 @@ String pageDescription = "Build lists based on RGD annotation";
 </script>
 <script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script>
 <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <!--link rel="stylesheet" href="/rgdweb/generator/generator.css" type="text/css" /-->
 <script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
@@ -49,6 +50,795 @@ String pageDescription = "Build lists based on RGD annotation";
 
 
 </form>
+
+<!-- Add Criteria Modal -->
+<style>
+.add-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+.add-modal-overlay.active {
+    display: flex;
+}
+.add-modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.add-modal-header {
+    background: #24609c;
+    color: white;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.add-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+}
+.add-modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+.add-modal-body {
+    padding: 25px;
+}
+.add-modal-tabs {
+    display: flex;
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+.add-modal-tab {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    position: relative;
+}
+.add-modal-tab.active {
+    color: #24609c;
+    font-weight: 600;
+}
+.add-modal-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #24609c;
+}
+.add-modal-panel {
+    display: none;
+}
+.add-modal-panel.active {
+    display: block;
+}
+.ont-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+.ont-chip {
+    padding: 8px 16px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.ont-chip:hover {
+    background: #e0e0e0;
+}
+.ont-chip.active {
+    background: #24609c;
+    color: white;
+    border-color: #24609c;
+}
+.add-modal-search {
+    background: #f0f7ff;
+    border: 2px solid #24609c;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.add-modal-search label {
+    display: block;
+    font-weight: 600;
+    color: #24609c;
+    margin-bottom: 10px;
+}
+.add-modal-search input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.add-modal-search .browse-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #24609c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.add-modal-form-group {
+    margin-bottom: 15px;
+}
+.add-modal-form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.add-modal-form-group input,
+.add-modal-form-group select,
+.add-modal-form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.add-modal-operation {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+}
+.add-modal-operation h5 {
+    margin: 0 0 12px;
+    color: #f57c00;
+}
+.add-modal-operation-options {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.add-modal-operation-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+.add-modal-footer {
+    padding: 15px 25px;
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.add-modal-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.add-modal-btn-cancel {
+    background: #f0f0f0;
+    color: #333;
+}
+.add-modal-btn-add {
+    background: #28a745;
+    color: white;
+}
+.add-modal-btn-add:hover {
+    background: #218838;
+}
+
+/* Screen transitions */
+.modal-screen {
+    display: none;
+}
+.modal-screen.active {
+    display: block;
+}
+
+/* Type selection cards */
+.modal-type-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+.modal-type-card {
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.modal-type-card:hover {
+    border-color: #24609c;
+    background: #f0f7ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.modal-type-card i {
+    font-size: 36px;
+    color: #24609c;
+    margin-bottom: 12px;
+}
+.modal-type-card h5 {
+    margin: 0 0 8px;
+    color: #333;
+    font-size: 16px;
+}
+.modal-type-card p {
+    margin: 0;
+    color: #666;
+    font-size: 13px;
+}
+
+/* Operation cards */
+.modal-operation-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.modal-operation-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #f8f9fa;
+}
+.modal-operation-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.modal-operation-card.union:hover {
+    border-color: #28a745;
+    background: #f0fff4;
+}
+.modal-operation-card.intersect:hover {
+    border-color: #007bff;
+    background: #f0f7ff;
+}
+.modal-operation-card.subtract:hover {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+.modal-operation-card i {
+    font-size: 32px;
+    margin-right: 20px;
+    width: 40px;
+    text-align: center;
+}
+.modal-operation-card.union i { color: #28a745; }
+.modal-operation-card.intersect i { color: #007bff; }
+.modal-operation-card.subtract i { color: #dc3545; }
+.modal-operation-card h5 {
+    margin: 0 0 5px;
+    font-size: 18px;
+    color: #333;
+}
+.modal-operation-card p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Input panels */
+.modal-input-panel {
+    min-height: 200px;
+}
+
+/* Preview count badges */
+.preview-count {
+    display: inline-block;
+    background: #fff;
+    color: #333;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 8px;
+    border: 1px solid #ddd;
+}
+.modal-operation-card.union .preview-count {
+    background: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+.modal-operation-card.intersect .preview-count {
+    background: #cce5ff;
+    color: #004085;
+    border-color: #b8daff;
+}
+.modal-operation-card.subtract .preview-count {
+    background: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+.modal-operation-card.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.modal-operation-card.disabled:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #e0e0e0;
+    background: #f8f9fa;
+}
+</style>
+
+<div class="add-modal-overlay" id="addCriteriaModal">
+    <div class="add-modal-content">
+        <div class="add-modal-header">
+            <h3 id="modalTitle"><i class="fas fa-plus-circle"></i> Add Criteria</h3>
+            <button class="add-modal-close" onclick="closeAddModal()">&times;</button>
+        </div>
+        <div class="add-modal-body">
+
+            <!-- SCREEN 1: Choose Type -->
+            <div class="modal-screen active" id="modal-screen-1">
+                <h4 style="text-align:center; color:#333; margin-bottom:25px;">What type of list would you like to add?</h4>
+                <div class="modal-type-cards">
+                    <div class="modal-type-card" onclick="goToScreen2('ont')">
+                        <i class="fas fa-sitemap"></i>
+                        <h5>Ontology Annotation</h5>
+                        <p>Search by disease, phenotype, pathway, or GO terms</p>
+                    </div>
+                    <div class="modal-type-card" onclick="goToScreen2('region')">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h5>Genomic Region</h5>
+                        <p>Specify chromosome and position range</p>
+                    </div>
+                    <div class="modal-type-card" onclick="goToScreen2('qtl')">
+                        <i class="fas fa-crosshairs"></i>
+                        <h5>QTL Region</h5>
+                        <p>Find genes within a QTL region</p>
+                    </div>
+                    <div class="modal-type-card" onclick="goToScreen2('symbols')">
+                        <i class="fas fa-list"></i>
+                        <h5>Symbol List</h5>
+                        <p>Enter a list of gene symbols</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 2: Input Form -->
+            <div class="modal-screen" id="modal-screen-2">
+                <!-- Ontology Input -->
+                <div class="modal-input-panel" id="input-panel-ont">
+                    <div class="ont-chips" id="modalOntChips">
+                        <span class="ont-chip active" data-ont="rdo">Disease</span>
+                        <span class="ont-chip" data-ont="mp">Mammalian Phenotype</span>
+                        <span class="ont-chip" data-ont="pw">Pathway</span>
+                        <span class="ont-chip" data-ont="bp">GO: Biological Process</span>
+                        <span class="ont-chip" data-ont="mf">GO: Molecular Function</span>
+                        <span class="ont-chip" data-ont="cc">GO: Cellular Component</span>
+                        <span class="ont-chip" data-ont="chebi">CHEBI</span>
+                        <span class="ont-chip" data-ont="vt">Vertebrate Trait</span>
+                        <span class="ont-chip" data-ont="hp">Human Phenotype</span>
+                        <span class="ont-chip" data-ont="rs">Strain Ontology</span>
+                        <span class="ont-chip" data-ont="cmo">Clinical Measurement</span>
+                    </div>
+                    <div class="add-modal-search">
+                        <label><i class="fas fa-search"></i> Search for Ontology Terms</label>
+                        <input type="text" id="modal_ont_term" placeholder="Type to search..." />
+                        <input type="hidden" id="modal_ont_acc_id" />
+                        <button type="button" class="browse-btn" onclick="browseModalOntology()"><i class="fas fa-sitemap"></i> Browse Tree</button>
+                    </div>
+                </div>
+
+                <!-- Region Input -->
+                <div class="modal-input-panel" id="input-panel-region" style="display:none;">
+                    <h4 style="margin-bottom:20px;"><i class="fas fa-map-marked-alt"></i> Enter Genomic Region</h4>
+                    <div class="add-modal-form-group">
+                        <label>Chromosome</label>
+                        <select id="modal_chr"></select>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <div class="add-modal-form-group" style="flex:1;">
+                            <label>Start Position</label>
+                            <input type="text" id="modal_start" placeholder="e.g., 1000000" />
+                        </div>
+                        <div class="add-modal-form-group" style="flex:1;">
+                            <label>Stop Position</label>
+                            <input type="text" id="modal_stop" placeholder="e.g., 5000000" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QTL Input -->
+                <div class="modal-input-panel" id="input-panel-qtl" style="display:none;">
+                    <h4 style="margin-bottom:20px;"><i class="fas fa-crosshairs"></i> Enter QTL Symbol</h4>
+                    <div class="add-modal-form-group">
+                        <label>QTL Symbol</label>
+                        <input type="text" id="modal_qtl" placeholder="e.g., Bp1, Gluco1" />
+                    </div>
+                    <p style="color:#666; font-size:13px; margin-top:10px;">
+                        <i class="fas fa-info-circle"></i> Enter a QTL symbol to find all genes that overlap its genomic region
+                    </p>
+                </div>
+
+                <!-- Symbol List Input -->
+                <div class="modal-input-panel" id="input-panel-symbols" style="display:none;">
+                    <h4 style="margin-bottom:20px;"><i class="fas fa-list"></i> Enter Gene Symbols</h4>
+                    <div class="add-modal-form-group">
+                        <label>Symbols (comma or line separated)</label>
+                        <textarea id="modal_symbols" rows="8" placeholder="Enter gene symbols...&#10;&#10;Example:&#10;Ins1, Ins2, Insr&#10;Irs1&#10;Irs2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 3: Combine Operation -->
+            <div class="modal-screen" id="modal-screen-3">
+                <h4 style="text-align:center; color:#333; margin-bottom:25px;">How should this combine with your existing list?</h4>
+                <div id="previewLoading" style="text-align:center; padding:20px; display:none;">
+                    <i class="fas fa-spinner fa-spin" style="font-size:24px; color:#24609c;"></i>
+                    <p style="color:#666; margin-top:10px;">Calculating preview counts...</p>
+                </div>
+                <div class="modal-operation-cards" id="operationCards">
+                    <div class="modal-operation-card union" onclick="selectOperationAndSubmit('~')">
+                        <i class="fas fa-plus-circle"></i>
+                        <div>
+                            <h5>Union (OR) <span id="previewUnion" class="preview-count"></span></h5>
+                            <p>Include genes from <strong>either</strong> list</p>
+                        </div>
+                    </div>
+                    <div class="modal-operation-card intersect" onclick="selectOperationAndSubmit('!')">
+                        <i class="fas fa-compress-alt"></i>
+                        <div>
+                            <h5>Intersect (AND) <span id="previewIntersect" class="preview-count"></span></h5>
+                            <p>Only genes in <strong>both</strong> lists</p>
+                        </div>
+                    </div>
+                    <div class="modal-operation-card subtract" onclick="selectOperationAndSubmit('^')">
+                        <i class="fas fa-minus-circle"></i>
+                        <div>
+                            <h5>Subtract (NOT) <span id="previewSubtract" class="preview-count"></span></h5>
+                            <p><strong>Remove</strong> genes from new criteria</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="add-modal-footer" id="modalFooter">
+            <button class="add-modal-btn add-modal-btn-cancel" id="modalBackBtn" onclick="goBackScreen()" style="display:none;">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button class="add-modal-btn add-modal-btn-cancel" onclick="closeAddModal()">Cancel</button>
+            <button class="add-modal-btn add-modal-btn-add" id="modalNextBtn" onclick="goToNextScreen()" style="display:none;">
+                Continue <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+var modalCurrentOnt = 'rdo';
+var modalCurrentScreen = 1;
+var modalSelectedType = '';
+var modalPendingAccId = null;
+
+function openAddModal() {
+    document.getElementById('addCriteriaModal').classList.add('active');
+    // Reset to screen 1
+    modalCurrentScreen = 1;
+    modalSelectedType = '';
+    modalPendingAccId = null;
+    showScreen(1);
+    updateModalButtons();
+    // Populate chromosome dropdown
+    var chrSelect = document.getElementById('modal_chr');
+    if (chrSelect.options.length === 0) {
+        var existingChr = document.getElementById('chr');
+        if (existingChr) {
+            chrSelect.innerHTML = existingChr.innerHTML;
+        }
+    }
+}
+
+function closeAddModal() {
+    document.getElementById('addCriteriaModal').classList.remove('active');
+    // Clear inputs
+    document.getElementById('modal_ont_term').value = '';
+    document.getElementById('modal_ont_acc_id').value = '';
+    document.getElementById('modal_start').value = '';
+    document.getElementById('modal_stop').value = '';
+    document.getElementById('modal_qtl').value = '';
+    document.getElementById('modal_symbols').value = '';
+}
+
+function showScreen(num) {
+    document.querySelectorAll('.modal-screen').forEach(function(s) {
+        s.classList.remove('active');
+    });
+    document.getElementById('modal-screen-' + num).classList.add('active');
+    modalCurrentScreen = num;
+
+    // Update title
+    var title = document.getElementById('modalTitle');
+    if (num === 1) {
+        title.innerHTML = '<i class="fas fa-plus-circle"></i> Add Criteria';
+    } else if (num === 2) {
+        var typeNames = {ont: 'Ontology Annotation', region: 'Genomic Region', qtl: 'QTL Region', symbols: 'Symbol List'};
+        title.innerHTML = '<i class="fas fa-edit"></i> ' + (typeNames[modalSelectedType] || 'Enter Details');
+    } else if (num === 3) {
+        title.innerHTML = '<i class="fas fa-code-branch"></i> Combine Lists';
+    }
+
+    updateModalButtons();
+}
+
+function updateModalButtons() {
+    var backBtn = document.getElementById('modalBackBtn');
+    var nextBtn = document.getElementById('modalNextBtn');
+
+    if (modalCurrentScreen === 1) {
+        backBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    } else if (modalCurrentScreen === 2) {
+        backBtn.style.display = 'inline-block';
+        nextBtn.style.display = 'inline-block';
+        nextBtn.innerHTML = (aAccIds.length > 0) ? 'Continue <i class="fas fa-arrow-right"></i>' : '<i class="fas fa-plus"></i> Add to List';
+    } else if (modalCurrentScreen === 3) {
+        backBtn.style.display = 'inline-block';
+        nextBtn.style.display = 'none';
+    }
+}
+
+function goToScreen2(type) {
+    modalSelectedType = type;
+
+    // Hide all input panels, show selected one
+    document.querySelectorAll('.modal-input-panel').forEach(function(p) {
+        p.style.display = 'none';
+    });
+    document.getElementById('input-panel-' + type).style.display = 'block';
+
+    showScreen(2);
+
+    if (type === 'ont') {
+        setupModalAutocomplete();
+    }
+}
+
+function goBackScreen() {
+    if (modalCurrentScreen === 2) {
+        showScreen(1);
+    } else if (modalCurrentScreen === 3) {
+        showScreen(2);
+    }
+}
+
+function goToNextScreen() {
+    if (modalCurrentScreen === 2) {
+        // Validate input and get accId
+        var accId = getModalAccId();
+        if (!accId) {
+            alert('Please enter or select a valid criteria.');
+            return;
+        }
+        modalPendingAccId = accId;
+
+        // If there are existing criteria, go to screen 3 to choose operation
+        if (aAccIds.length > 0) {
+            // Show screen 3 with loading indicator
+            showScreen(3);
+            fetchPreviewCounts(accId);
+        } else {
+            // No existing criteria, add directly with default union
+            submitWithOperation('~');
+        }
+    }
+}
+
+function fetchPreviewCounts(newAccId) {
+    // Show loading, hide cards
+    document.getElementById('previewLoading').style.display = 'block';
+    document.getElementById('operationCards').style.opacity = '0.5';
+
+    // Clear previous counts
+    document.getElementById('previewUnion').textContent = '';
+    document.getElementById('previewIntersect').textContent = '';
+    document.getElementById('previewSubtract').textContent = '';
+
+    // Get mapKey and oKey from the form
+    var mapKey = document.getElementById('mapKey').value || document.getElementById('mapKey_tmp').value || '380';
+    var oKey = document.getElementById('oKey').value || document.getElementById('oKey_tmp').value || '1';
+
+    // Fetch genes for the new criteria
+    var url = '/rgdweb/generator/process.html?act=json&mapKey=' + mapKey + '&oKey=' + oKey + '&a=~' + encodeURIComponent(newAccId);
+
+    fetch(url)
+        .then(function(response) { return response.json(); })
+        .then(function(newGenes) {
+            // newGenes is an object with gene symbols as keys
+            var newGeneSet = Object.keys(newGenes);
+
+            // Calculate preview counts
+            // Union: count how many NEW genes would be added
+            var genesAdded = newGeneSet.filter(function(g) {
+                return currentResultSet.indexOf(g) === -1;
+            });
+
+            // Intersect: count genes in both lists
+            var genesIntersect = currentResultSet.filter(function(g) {
+                return newGeneSet.indexOf(g) !== -1;
+            });
+
+            // Subtract: count genes that would be removed (genes in new list that are also in current)
+            var genesRemoved = currentResultSet.filter(function(g) {
+                return newGeneSet.indexOf(g) !== -1;
+            });
+
+            // Display counts with descriptive text
+            document.getElementById('previewUnion').textContent = genesAdded.length + ' genes would be added';
+            document.getElementById('previewIntersect').textContent = genesIntersect.length + ' genes intersect';
+            document.getElementById('previewSubtract').textContent = genesRemoved.length + ' genes would be removed';
+
+            // Get the operation card elements
+            var intersectCard = document.querySelector('.modal-operation-card.intersect');
+            var subtractCard = document.querySelector('.modal-operation-card.subtract');
+
+            // Disable intersect if 0 genes intersect
+            if (genesIntersect.length === 0) {
+                intersectCard.classList.add('disabled');
+            } else {
+                intersectCard.classList.remove('disabled');
+            }
+
+            // Disable subtract if 0 genes would be removed
+            if (genesRemoved.length === 0) {
+                subtractCard.classList.add('disabled');
+            } else {
+                subtractCard.classList.remove('disabled');
+            }
+
+            // Hide loading, show cards
+            document.getElementById('previewLoading').style.display = 'none';
+            document.getElementById('operationCards').style.opacity = '1';
+        })
+        .catch(function(error) {
+            console.error('Error fetching preview:', error);
+            // Hide loading even on error
+            document.getElementById('previewLoading').style.display = 'none';
+            document.getElementById('operationCards').style.opacity = '1';
+        });
+}
+
+function getModalAccId() {
+    var accId = null;
+
+    if (modalSelectedType === 'ont') {
+        accId = document.getElementById('modal_ont_acc_id').value;
+    } else if (modalSelectedType === 'symbols') {
+        var symbols = document.getElementById('modal_symbols').value.trim();
+        if (symbols) {
+            var genes = symbols.split(/[,\s\n]+/);
+            var geneStr = '';
+            for (var i = 0; i < genes.length; i++) {
+                var g = genes[i].trim();
+                if (g === '') continue;
+                if (geneStr === '') {
+                    geneStr = g;
+                } else {
+                    geneStr += '[' + g;
+                }
+            }
+            accId = 'lst:' + geneStr;
+        }
+    } else if (modalSelectedType === 'qtl') {
+        var qtl = document.getElementById('modal_qtl').value.trim();
+        if (qtl) {
+            accId = 'qtl:' + qtl;
+        }
+    } else if (modalSelectedType === 'region') {
+        var chr = document.getElementById('modal_chr').value;
+        var start = document.getElementById('modal_start').value.trim();
+        var stop = document.getElementById('modal_stop').value.trim();
+        if (chr && start && stop) {
+            accId = 'chr' + chr + ':' + start + '..' + stop;
+        }
+    }
+
+    return accId;
+}
+
+function selectOperationAndSubmit(operation) {
+    submitWithOperation(operation);
+}
+
+function submitWithOperation(operation) {
+    if (!modalPendingAccId) {
+        modalPendingAccId = getModalAccId();
+    }
+
+    if (!modalPendingAccId) {
+        alert('No criteria selected.');
+        return;
+    }
+
+    // Add to arrays and reload
+    aOperators.push(operation);
+    aAccIds.push(modalPendingAccId);
+    aSubGenes.push([]);
+
+    closeAddModal();
+    reloadPage();
+}
+
+function setupModalAutocomplete() {
+    if (typeof jq14 !== 'undefined') {
+        var ontPrefix = modalCurrentOnt.toUpperCase();
+        if (modalCurrentOnt === 'rdo') ontPrefix = 'DOID,RDO';
+        if (modalCurrentOnt === 'bp' || modalCurrentOnt === 'mf' || modalCurrentOnt === 'cc') ontPrefix = 'GO';
+
+        jq14('#modal_ont_term').autocomplete({
+            serviceUrl: '/rgdweb/OntoSolr/searchAutoComplete.html',
+            params: {ontFilter: ontPrefix},
+            minChars: 2,
+            maxHeight: 300,
+            width: 400,
+            deferRequestBy: 100,
+            onSelect: function(value, data) {
+                jq14('#modal_ont_acc_id').val(data);
+            }
+        });
+    }
+}
+
+// Ontology chip clicks
+document.querySelectorAll('#modalOntChips .ont-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+        document.querySelectorAll('#modalOntChips .ont-chip').forEach(function(c) {
+            c.classList.remove('active');
+        });
+        this.classList.add('active');
+        modalCurrentOnt = this.getAttribute('data-ont');
+        document.getElementById('modal_ont_term').value = '';
+        document.getElementById('modal_ont_acc_id').value = '';
+        setupModalAutocomplete();
+    });
+});
+
+function browseModalOntology() {
+    var ontId = modalCurrentOnt.toUpperCase();
+    var url = '/rgdweb/ontology/view.html?mode=popup&ont=' + ontId +
+              '&sel_term=modal_ont_term&sel_acc_id=modal_ont_acc_id';
+    window.open(url, 'ontBrowser', 'width=900,height=500,resizable=1,scrollbars=1');
+}
+</script>
 
 <%
 
@@ -160,6 +950,7 @@ $(document).ready(function(){
     var aAccIds = new Array();
     var aSubGenes = new Array();
     var screens = new Array();
+    var currentResultSet = []; // Store current result set genes for preview calculations
 
     for (var i = 0; i< accIdTmp.length; i++) {
 
@@ -181,74 +972,279 @@ $(document).ready(function(){
 
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
 
-<div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">OLGA - Object List Generator & Analyzer</div>
+<!-- Setup Screen - shown when no criteria exist -->
+<% if (accIds.size() == 0) { %>
+<style>
+.setup-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.setup-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.setup-header h1 {
+    color: #24609c;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+.setup-header p {
+    color: #666;
+    font-size: 16px;
+}
+.setup-section {
+    margin-bottom: 30px;
+}
+.setup-section label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+.setup-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.setup-card {
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+}
+.setup-card:hover {
+    border-color: #24609c;
+    background: #f0f7ff;
+    transform: translateY(-2px);
+}
+.setup-card.selected {
+    border-color: #24609c;
+    background: #e8f1fb;
+}
+.setup-card i {
+    font-size: 36px;
+    color: #24609c;
+    margin-bottom: 10px;
+    display: block;
+}
+.setup-card h4 {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+}
+.setup-select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 15px;
+    font-size: 15px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+.setup-select:focus {
+    border-color: #24609c;
+    outline: none;
+}
+.setup-btn {
+    display: block;
+    width: 200px;
+    margin: 30px auto 0;
+    padding: 15px 30px;
+    background: #24609c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.setup-btn:hover {
+    background: #1a4a7a;
+}
+</style>
+
+<div class="setup-container">
+    <div class="setup-header">
+        <h1><i class="fas fa-list-check"></i> OLGA</h1>
+        <p>Object List Generator & Analyzer - Build customized lists of genes, QTLs, or strains</p>
+    </div>
+
+    <div class="setup-section">
+        <label>What type of list do you want to build?</label>
+        <div class="setup-cards">
+            <div class="setup-card selected" data-okey="1" onclick="selectObjectType(this)">
+                <i class="fas fa-dna"></i>
+                <h4>Genes</h4>
+            </div>
+            <div class="setup-card" data-okey="6" onclick="selectObjectType(this)">
+                <i class="fas fa-map-marker-alt"></i>
+                <h4>QTLs</h4>
+            </div>
+            <div class="setup-card" data-okey="5" onclick="selectObjectType(this)">
+                <i class="fas fa-flask"></i>
+                <h4>Strains</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="setup-section">
+        <label>Select Assembly Version</label>
+        <select id="setup_mapKey" class="setup-select">
+            <optgroup label="Rat">
+                <option value="380" selected>GRCr8</option>
+                <option value="372">Rnor_6.0 (v7.2)</option>
+                <option value="360">RGSC_v3.4 (v6.0)</option>
+            </optgroup>
+            <optgroup label="Human">
+                <option value="38">GRCh38</option>
+                <option value="17">GRCh37</option>
+            </optgroup>
+            <optgroup label="Mouse">
+                <option value="239">GRCm39</option>
+                <option value="35">GRCm38</option>
+            </optgroup>
+            <optgroup label="Other Species">
+                <option value="44">Chinchilla ChiLan1.0</option>
+                <option value="634">Dog ROS_Cfam_1.0</option>
+                <option value="631">Dog CanFam3.1</option>
+                <option value="911">Pig Sscrofa11.1</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <button class="setup-btn" onclick="startBuildingList()">
+        Get Started <i class="fas fa-arrow-right"></i>
+    </button>
 </div>
-<!--Build Gene lists using annotations from multiple terms and ontologies-->
 
-<table width="95%" style="border:1px solid #337AB7; background-color:#EBF2FA; ">
-    <tr>
-        <td></td>Options:
-        <td align="right">
-            <table border=0>
-                <tr>
-                    <td align="center" style="font-weight:700; color: #2865A3;">List Type:
-                        <select id="oKey_tmp" name="oKey_tmp" onchange="reloadPage()" class="btn btn-primary" style="background-color:#2B84C8;" >
-                        <option value='1' <% if (oKey==1) out.print("selected");%>>Gene</option>
-                        <% if (speciesTypeKey == 3 || speciesTypeKey==2 || speciesTypeKey==1) { %>
-                            <option value='6' <% if (oKey==6) out.print("selected");%>>QTL</option>
-                            <% } %>
-                        <% if (speciesTypeKey == 3) { %>
-                            <option value='5' <% if (oKey==5) out.print("selected");%>>Strain</option>
-                            <% } %>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-        </td>
-        <td align="center">
-            <table border=0>
-                <tr>
-                    <td style="font-weight:700; color: #2865A3;">Assembly Version:
-                        <select id="mapKey_tmp" name="mapKey_tmp" onchange="reloadPage()"  class="btn btn-primary" style="background-color:#2B84C8;">
-                            <option value='380' <% if (mapKey==380) out.print("selected");%>>GRCr8</option>
-                            <option value='372' <% if (mapKey==372) out.print("selected");%>>RAT Genome Assembly v7.2</option>
-                            <option value='360' <% if (mapKey==360) out.print("selected");%>>RAT Genome Assembly v6.0</option>
-                            <option value='70' <% if (mapKey==70) out.print("selected");%>>RAT Genome Assembly v5.0</option>
-                            <option value='60' <% if (mapKey==60) out.print("selected");%>>RAT Genome Assembly v3.4</option>
-                            <option value='38' <% if (mapKey==38) out.print("selected");%>>Human Genome Assembly GRCh38</option>
-                            <option value='17' <% if (mapKey==17) out.print("selected");%>>Human Genome Assembly GRCh37</option>
-                            <option value='239' <% if (mapKey==239) out.print("selected");%>>Mouse Genome Assembly GRCm39</option>
-                            <option value='35' <% if (mapKey==35) out.print("selected");%>>Mouse Genome Assembly GRCm38</option>
-                            <option value='18' <% if (mapKey==18) out.print("selected");%>>Mouse Genome Assembly Build 37</option>
-                            <option value='44' <% if (mapKey==44) out.print("selected");%>>Chinchilla ChiLan1.0 Assembly</option>
-                            <option value='511' <% if (mapKey==511) out.print("selected");%>>Bonobo panpan1.1 Assembly</option>
-                            <option value='513' <% if (mapKey==513) out.print("selected");%>>Bonobo Mhudiblu PPA v0 Assembly</option>
-                            <option value='634' <% if (mapKey==634) out.print("selected");%>>Dog ROS_Cfam_1.0 Assembly</option>
-                            <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
-                            <option value='720' <% if (mapKey==720) out.print("selected");%>>Squirrel SpeTri2.0 Assembly</option>
-                            <option value='910' <% if (mapKey==910) out.print("selected");%>>Pig Sscrofa10.2 Assembly</option>
-                            <option value='911' <% if (mapKey==911) out.print("selected");%>>Pig Sscrofa11.1 Assembly</option>
-                            <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey 1.1 Assembly</option>
-                            <option value='1313' <% if (mapKey==1313) out.print("selected");%>>Green Monkey Vero_WHO_p1.0 Assembly</option>
-                            <option value='1410' <% if (mapKey==1410) out.print("selected");%>>Naked Mole-Rat female 1.0 Assembly</option>
-                            <option value='1701' <% if (mapKey==1701) out.print("selected");%>>Black Rat Rrattus_CSIRO_v1 Assembly</option>
-                        </select>
-                    </td>
-                 </tr>
-            </table>
+<script>
+var selectedOKey = 1;
 
-        </td>
-    </tr>
-</table>
+function selectObjectType(card) {
+    document.querySelectorAll('.setup-card').forEach(function(c) {
+        c.classList.remove('selected');
+    });
+    card.classList.add('selected');
+    selectedOKey = parseInt(card.getAttribute('data-okey'));
+}
 
-<br>
-<div style="float:right; padding-right:10px; padding-top:10px;">
-    <a href="javascript:back();"  class="btn btn-primary tn-sm" style="background-color:#2B84C8;">Back</a>
-    <a href="/rgdweb/generator/list.html" class="btn btn-primary tn-sm" style="background-color:#2B84C8;">Reset</a>
+function startBuildingList() {
+    var mapKey = document.getElementById('setup_mapKey').value;
+    // Open the add criteria modal with the selected settings
+    document.getElementById('oKey').value = selectedOKey;
+    document.getElementById('mapKey').value = mapKey;
+    // Update dropdowns for compatibility
+    if (document.getElementById('oKey_tmp')) {
+        document.getElementById('oKey_tmp').value = selectedOKey;
+    }
+    if (document.getElementById('mapKey_tmp')) {
+        document.getElementById('mapKey_tmp').value = mapKey;
+    }
+    openAddModal();
+}
+</script>
+
+<% } else { %>
+<!-- Action bar when criteria exist -->
+<style>
+.action-bar {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.action-btn-primary {
+    background: #28a745;
+    color: white;
+}
+.action-btn-primary:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40,167,69,0.3);
+}
+.action-btn-secondary {
+    background: #24609c;
+    color: white;
+}
+.action-btn-secondary:hover {
+    background: #1a4a7a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(36,96,156,0.3);
+}
+.action-btn-outline {
+    background: white;
+    color: #666;
+    border: 2px solid #ddd;
+}
+.action-btn-outline:hover {
+    border-color: #999;
+    background: #f8f9fa;
+}
+</style>
+
+<div class="action-bar">
+    <button class="action-btn action-btn-primary" onclick="openAddModal()">
+        <i class="fas fa-plus-circle"></i> Add Another <%=objectType%> List
+    </button>
+    <button class="action-btn action-btn-secondary" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">
+        <i class="fas fa-chart-bar"></i> Analyze Result Set
+    </button>
+    <a href="/rgdweb/generator/list.html" class="action-btn action-btn-outline">
+        <i class="fas fa-redo"></i> Start Over
+    </a>
+</div>
+<% } %>
+
+<!-- Hidden dropdowns for form compatibility -->
+<div style="display:none;">
+    <select id="oKey_tmp" name="oKey_tmp">
+        <option value='1' <% if (oKey==1) out.print("selected");%>>Gene</option>
+        <option value='6' <% if (oKey==6) out.print("selected");%>>QTL</option>
+        <option value='5' <% if (oKey==5) out.print("selected");%>>Strain</option>
+    </select>
+    <select id="mapKey_tmp" name="mapKey_tmp">
+        <option value='380' <% if (mapKey==380) out.print("selected");%>>GRCr8</option>
+        <option value='372' <% if (mapKey==372) out.print("selected");%>>v7.2</option>
+        <option value='360' <% if (mapKey==360) out.print("selected");%>>v6.0</option>
+        <option value='38' <% if (mapKey==38) out.print("selected");%>>GRCh38</option>
+        <option value='17' <% if (mapKey==17) out.print("selected");%>>GRCh37</option>
+        <option value='239' <% if (mapKey==239) out.print("selected");%>>GRCm39</option>
+        <option value='35' <% if (mapKey==35) out.print("selected");%>>GRCm38</option>
+    </select>
 </div>
 
-<div id="selectBox" style="  background-color:white;height: 250px; width:730px; margin-left: auto; margin-right:auto;  border-radius: 20px; ">
+<% if (accIds.size() > 0) { %>
+<!-- Hide the old selectBox completely - using new action bar instead -->
+<div id="selectBox" style="display:none; background-color:white;height: 250px; width:730px; margin-left: auto; margin-right:auto;  border-radius: 20px; ">
 
 <table width=100% height=250 border="0" style="background-color:#EBF2FA; border:2px solid #99BFE6; ">
     <tr>
@@ -334,7 +1330,7 @@ $(document).ready(function(){
             <td valign="top" style="font-size:23px; font-weight:700; color:black;padding-right:25px; ">Next&nbsp;Action:</td>
             <td style="background-color:black; width:1px; padding:3px;"></td>
             <td  style="font-size:20px;padding-left: 25px; " align="center">
-                <a  href="javascript:showScreen('actionBox');" class="btn btn-primary" style="background-color:#2B84C8;">Add&nbsp;Another&nbsp;<%=objectType%>&nbsp;List</a>
+                <a  href="javascript:openAddModal();" class="btn btn-primary" style="background-color:#2B84C8;">Add&nbsp;Another&nbsp;<%=objectType%>&nbsp;List</a>
                 <br><br>
 
                 <table>
@@ -770,10 +1766,10 @@ $(document).ready(function(){
 
 
 </div>
+<% } /* End of accIds.size() > 0 for selectBox */ %>
 
-
-<div id="preview" style="position:absolute; background-color:#E8E7E2; height:200px; max-width:300px; left:20px; top:127px; overflow:scroll; border:3px solid #B7B7B7;">
-
+<!-- Hide unused preview div -->
+<div id="preview" style="display:none; position:absolute; background-color:#E8E7E2; height:200px; max-width:300px; left:20px; top:127px; overflow:scroll; border:3px solid #B7B7B7;">
 </div>
 
 
@@ -990,6 +1986,16 @@ for (String gene: objectSymbols.get(i)) {
 
 
 <script>
+// Populate currentResultSet with genes from result set for preview calculations
+<%
+    Iterator rsIt = resultSet.keySet().iterator();
+    while(rsIt.hasNext()) {
+        String gene = (String)rsIt.next();
+%>
+currentResultSet.push('<%=gene.trim()%>');
+<%
+    }
+%>
 
 <%
 //if (accIds.size()==1 && messages.containsKey(accIds.get(0))) {
