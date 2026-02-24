@@ -1079,46 +1079,46 @@ $(document).ready(function(){
     </div>
 
     <div class="setup-section">
+        <label>Select Assembly Version</label>
+        <select id="setup_mapKey" class="setup-select" onchange="updateObjectTypeOptions()">
+            <optgroup label="Rat">
+                <option value="380" selected>Rat - GRCr8</option>
+                <option value="372">Rat - Rnor_6.0 (v7.2)</option>
+                <option value="360">Rat - RGSC_v3.4 (v6.0)</option>
+            </optgroup>
+            <optgroup label="Human">
+                <option value="38">Human - GRCh38</option>
+                <option value="17">Human - GRCh37</option>
+            </optgroup>
+            <optgroup label="Mouse">
+                <option value="239">Mouse - GRCm39</option>
+                <option value="35">Mouse - GRCm38</option>
+            </optgroup>
+            <optgroup label="Other Species">
+                <option value="44">Chinchilla - ChiLan1.0</option>
+                <option value="634">Dog - ROS_Cfam_1.0</option>
+                <option value="631">Dog - CanFam3.1</option>
+                <option value="911">Pig - Sscrofa11.1</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <div class="setup-section">
         <label>What type of list do you want to build?</label>
-        <div class="setup-cards">
-            <div class="setup-card selected" data-okey="1" onclick="selectObjectType(this)">
+        <div class="setup-cards" id="objectTypeCards">
+            <div class="setup-card selected" data-okey="1" id="card-genes" onclick="selectObjectType(this)">
                 <i class="fas fa-dna"></i>
                 <h4>Genes</h4>
             </div>
-            <div class="setup-card" data-okey="6" onclick="selectObjectType(this)">
+            <div class="setup-card" data-okey="6" id="card-qtls" onclick="selectObjectType(this)">
                 <i class="fas fa-map-marker-alt"></i>
                 <h4>QTLs</h4>
             </div>
-            <div class="setup-card" data-okey="5" onclick="selectObjectType(this)">
+            <div class="setup-card" data-okey="5" id="card-strains" onclick="selectObjectType(this)">
                 <i class="fas fa-flask"></i>
                 <h4>Strains</h4>
             </div>
         </div>
-    </div>
-
-    <div class="setup-section">
-        <label>Select Assembly Version</label>
-        <select id="setup_mapKey" class="setup-select">
-            <optgroup label="Rat">
-                <option value="380" selected>GRCr8</option>
-                <option value="372">Rnor_6.0 (v7.2)</option>
-                <option value="360">RGSC_v3.4 (v6.0)</option>
-            </optgroup>
-            <optgroup label="Human">
-                <option value="38">GRCh38</option>
-                <option value="17">GRCh37</option>
-            </optgroup>
-            <optgroup label="Mouse">
-                <option value="239">GRCm39</option>
-                <option value="35">GRCm38</option>
-            </optgroup>
-            <optgroup label="Other Species">
-                <option value="44">Chinchilla ChiLan1.0</option>
-                <option value="634">Dog ROS_Cfam_1.0</option>
-                <option value="631">Dog CanFam3.1</option>
-                <option value="911">Pig Sscrofa11.1</option>
-            </optgroup>
-        </select>
     </div>
 
     <button class="setup-btn" onclick="startBuildingList()">
@@ -1129,7 +1129,55 @@ $(document).ready(function(){
 <script>
 var selectedOKey = 1;
 
+// Map keys to species type keys
+// Rat = 3, Human = 1, Mouse = 2, Chinchilla = 4, Dog = 5, Pig = 9
+var mapKeyToSpecies = {
+    '380': 3, '372': 3, '360': 3,  // Rat
+    '38': 1, '17': 1,              // Human
+    '239': 2, '35': 2,             // Mouse
+    '44': 4,                        // Chinchilla
+    '634': 5, '631': 5,            // Dog
+    '911': 9                        // Pig
+};
+
+// QTLs available for: Rat (3), Human (1)
+// Strains available for: Rat (3) only
+function updateObjectTypeOptions() {
+    var mapKey = document.getElementById('setup_mapKey').value;
+    var speciesTypeKey = mapKeyToSpecies[mapKey] || 0;
+
+    var qtlCard = document.getElementById('card-qtls');
+    var strainCard = document.getElementById('card-strains');
+
+    // QTLs: only for Rat (3) and Human (1)
+    if (speciesTypeKey === 3 || speciesTypeKey === 1) {
+        qtlCard.style.display = '';
+        qtlCard.classList.remove('disabled');
+    } else {
+        qtlCard.style.display = 'none';
+        qtlCard.classList.add('disabled');
+        // If QTL was selected, switch to Genes
+        if (selectedOKey === 6) {
+            selectObjectType(document.getElementById('card-genes'));
+        }
+    }
+
+    // Strains: only for Rat (3)
+    if (speciesTypeKey === 3) {
+        strainCard.style.display = '';
+        strainCard.classList.remove('disabled');
+    } else {
+        strainCard.style.display = 'none';
+        strainCard.classList.add('disabled');
+        // If Strain was selected, switch to Genes
+        if (selectedOKey === 5) {
+            selectObjectType(document.getElementById('card-genes'));
+        }
+    }
+}
+
 function selectObjectType(card) {
+    if (card.classList.contains('disabled')) return;
     document.querySelectorAll('.setup-card').forEach(function(c) {
         c.classList.remove('selected');
     });
@@ -1151,6 +1199,11 @@ function startBuildingList() {
     }
     openAddModal();
 }
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateObjectTypeOptions();
+});
 </script>
 
 <% } else { %>
@@ -1209,7 +1262,26 @@ function startBuildingList() {
     border-color: #999;
     background: #f8f9fa;
 }
+.olga-header {
+    text-align: center;
+    padding: 20px 0 10px;
+}
+.olga-header h1 {
+    color: #24609c;
+    font-size: 28px;
+    margin: 0 0 5px;
+}
+.olga-header p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
 </style>
+
+<div class="olga-header">
+    <h1><i class="fas fa-list-check"></i> OLGA</h1>
+    <p>Object List Generator & Analyzer - Build customized lists of genes, QTLs, or strains</p>
+</div>
 
 <div class="action-bar">
     <button class="action-btn action-btn-primary" onclick="openAddModal()">
