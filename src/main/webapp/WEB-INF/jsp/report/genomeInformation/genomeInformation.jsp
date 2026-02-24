@@ -43,37 +43,6 @@
    <jsp:include page="Info.jsp"/>
  <jsp:include page="genomeInfoFooter.jsp"/>
 
-<script>
-    $(document).ready(function() {
-
-        var mapKey= $('#mapKey').val();
-        var species=$('#species').val();
-        var $jbrowse= document.getElementById('jbrowseMini');
-        var URL="/jbrowse?tracks=ARGD_curated_genes&highlight=&tracklist=0&nav=0&overview=0&data=";
-        if($jbrowse!=null && typeof $jbrowse != 'undefined') {
-            if (species == 'Chinchilla') {
-                if (mapKey == 44)
-                    $jbrowse.src = URL + "data_cl1_0&loc=";
-            }
-
-            if (species == 'Squirrel') {
-                if (mapKey == 720)
-                    $jbrowse.src = URL + "data_squirrel2_0&loc=";
-            }
-            if (species == 'Naked Mole-Rat') {
-                if (mapKey == 1410)
-                    $jbrowse.src = URL + "data_hetGla2&loc=";
-            }
-            if (species == 'Green Monkey') {
-                if (mapKey == 1311)
-                    $jbrowse.src = URL + "data_chlSab2&loc=";
-                if (mapKey == 1313)
-                    $jbrowse.src = URL + "data_veroWho&loc=";
-            }
-
-        }
-    });
-</script>
 
 
 
