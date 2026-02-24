@@ -5,21 +5,25 @@
         text-align:left;
         position:absolute;
         top:0; left:0;
-        margin:0px;
-        padding:5px;
-        border-radius:10px;
-        opacity:1;
-        font-weight: bold;
-        background-color:#eff3fc;
-        color: #24609c;
-        font-size: 16px;
-        border-right:1px solid black;
-        border:1px solid black;
+        margin:0;
+        padding:6px 10px;
+        border-radius:0 0 8px 0;
+        font-weight:700;
+        background-color:rgba(239,243,252,0.95);
+        color:#24609c;
+        font-size:14px;
+        font-family:Arial,Helvetica,sans-serif;
+        line-height:1.3;
+        border-bottom:1px solid #c5d4e8;
+        border-right:1px solid #c5d4e8;
+        box-shadow:1px 1px 4px rgba(0,0,0,0.1);
         z-index:20;
     }
 
     .headerSubTitle {
-        font-size:12px;
+        font-size:11px;
+        font-weight:400;
+        color:#4a7ab5;
     }
 
     .headerCardOverlay {
