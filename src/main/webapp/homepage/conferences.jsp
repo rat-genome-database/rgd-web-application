@@ -6,7 +6,7 @@
 <div class="" style="border-color: transparent;margin-top:20px;">
         <h5 class="card-title">Conferences, Courses and Workshops</h5>
 </div>
-<table style="width: 690px" class="conference">
+<table style="width:100%; max-width:690px" class="conference">
 
  <%
                         RGDNewsConfDAO dao = new RGDNewsConfDAO();
