@@ -1,6 +1,6 @@
 <style>
-    .sp-bar { display:flex; align-items:center; justify-content:center; gap:2px; padding:5px 10px; background:#f8f9fa; border-bottom:1px solid #e0e0e0; flex-wrap:wrap; }
-    .sp-bar-label { font-family:'Source Code Pro',monospace; font-size:12px; color:#555; margin-right:8px; white-space:nowrap; }
+    .sp-bar { display:flex; align-items:center; justify-content:center; gap:2px; padding:5px 10px;  border-bottom:1px solid #e0e0e0; flex-wrap:wrap; }
+    .sp-bar-label { font-family:Arial,Helvetica,sans-serif; font-size:14px; color:#2865a3; font-weight:700; margin-right:10px; white-space:nowrap; }
     .sp-bar-item { position:relative; display:inline-block; }
     .sp-bar-item img { width:50px; height:50px; border:1px solid #ccc; padding:2px; border-radius:3px; display:block; transition:border-color 0.2s; }
     .sp-bar-item:hover img { border-color:#2865a3; }
@@ -20,11 +20,12 @@
     }
 </style>
 <div class="sp-bar">
-    <span class="sp-bar-label">Species Portals</span>
+
     <div class="sp-bar-item">
         <img src="/rgdweb/common/images/species/ratI.png" alt="Rat"/>
         <a class="sp-bar-overlay" href="/wg/home"><span>Rat</span></a>
     </div>
+    <span class="sp-bar-label"><img src="/rgdweb/common/images/blueArrow.png" border=0 >&nbsp; Other Species Portals</span>
     <div class="sp-bar-item">
         <img src="/rgdweb/common/images/species/humanI.png" alt="Human"/>
         <a class="sp-bar-overlay" href="/wg/species/human/"><span>Human</span></a>

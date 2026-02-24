@@ -173,7 +173,7 @@
                         <tr>
                             <td align="left" style="color:white;" rowspan="3" width="10">
 
-                                <div><a class="homeLink" href="/wg/home"><img style="border:3px solid rgba(255,255,255,0.2); border-radius:4px;" src="/rgdweb/common/images/rgd_logo.jpg"></a></div>
+                                <div><a class="homeLink" href="/wg/home"><img style="border:3px solid rgba(255,255,255,0.2); border-radius:4px;" src="/rgdweb/common/images/rgd_logo.jpg" alt="Rat Genome Database"></a></div>
 
                             </td>
 
@@ -418,21 +418,21 @@
 
 
 
-            </DIV>
-            <!--end headwrapper -->
-            </div>
+<%--            </DIV>--%>
+<%--            <!--end headwrapper -->--%>
+<%--            </div>--%>
 
-            <script>
-                if (location.href.indexOf("") == -1 &&
-                    location.href.indexOf("https://www.rgd.mcw.edu") == -1 &&
-                    location.href.indexOf("osler") == -1 &&
-                    location.href.indexOf("horan") == -1 &&
-                    location.href.indexOf("owen") == -1 &&
-                    location.href.indexOf("hancock") == -1 &&
-                    location.href.indexOf("preview.rgd.mcw.edu") == -1) {
-                    document.getElementById("curation-top").style.visibility='visible';
-                }
-            </script>
+<%--            <script>--%>
+<%--                if (location.href.indexOf("") == -1 &&--%>
+<%--                    location.href.indexOf("https://www.rgd.mcw.edu") == -1 &&--%>
+<%--                    location.href.indexOf("osler") == -1 &&--%>
+<%--                    location.href.indexOf("horan") == -1 &&--%>
+<%--                    location.href.indexOf("owen") == -1 &&--%>
+<%--                    location.href.indexOf("hancock") == -1 &&--%>
+<%--                    location.href.indexOf("preview.rgd.mcw.edu") == -1) {--%>
+<%--                    document.getElementById("curation-top").style.visibility='visible';--%>
+<%--                }--%>
+<%--            </script>--%>
 
         </td>
     </tr>
@@ -461,7 +461,6 @@
 %>
 
 
-<%@ include file="/common/speciesPortals.jsp"%>
 
 <div id="mainBody">
     <div id="contentArea" class="content-area">

@@ -382,8 +382,10 @@
             <a style="font-size:26px;padding-right:40px;" href="/rgdweb/curation/home.html">Enter Curation Portal</a>
         </td>
         <%}%>
-</table>
 
+
+</table>
+<%@ include file="/common/speciesPortals.jsp"%>
 <table align="center" cellspacing="5" cellpadding="5" class="hp-layout">
     <tr>
         <td class="hp-content" width="780">
