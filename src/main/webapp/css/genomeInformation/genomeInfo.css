@@ -183,8 +183,6 @@ th.rotate > div > span {
     border-bottom: 1px solid #ccc;
     padding: 5px 10px;
 }
-.vc:nth-child(odd){background-color:lightpink}
-.vc:nth-child(even){background-color:lightblue}
 .vcRow{
     padding:5px
 }

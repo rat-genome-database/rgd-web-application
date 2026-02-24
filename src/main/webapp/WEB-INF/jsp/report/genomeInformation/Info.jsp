@@ -1,4 +1,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.SpeciesType" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.datamodel.Map" %>
+<%@ page import="org.springframework.ui.ModelMap" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="/rgdweb/gviewer/script/gviewer1.js"></script>
 <script src="/rgdweb/gviewer/script/util.js"></script>
@@ -31,118 +34,108 @@
         border-bottom: 1px solid #ccc;
         padding: 5px 10px;
     }
-    .vc:nth-child(odd){background-color:lightpink}
-    .vc:nth-child(even){background-color:lightblue}
     .vcRow{
         padding:5px
     }
     .vc{
-        padding:5px;
+        padding:8px 5px;
+        text-align:center;
+        transition: background-color 0.2s ease;
     }
     .row-header{
-
         font-size:small;
         font-weight:100;
         padding:5px
     }
 </style>
+<%
+    ModelMap model= (ModelMap) request.getAttribute("model");
+    Map map= MapManager.getInstance().getMap((Integer) model.get("mapKey"));
+%>
 
-
+<style>
+    .gi-title { color:#24609c; font-size:22px; font-weight:400; margin:0 0 10px 0; }
+    .gi-intro { display:flex; align-items:flex-start; gap:20px; margin-bottom:12px; }
+    .gi-desc { flex:1; min-width:0; font-size:13px; line-height:1.5; color:#444; }
+    .gi-desc p { margin:0 0 6px 0; }
+    .gi-desc .gi-lineage { color:#666; font-size:12px; }
+    .gi-xlinks { border:1px solid #e0e0e0; border-radius:4px; padding:8px 12px; background:#fafbfc; font-size:13px; flex-shrink:0; white-space:nowrap; }
+    .gi-xlinks strong { color:#888; font-size:12px; text-transform:uppercase; letter-spacing:0.3px; display:block; margin-bottom:4px; }
+    .gi-xlinks ul { list-style:none; margin:0; padding:0; }
+    .gi-xlinks li { padding:2px 0; }
+    .gi-xlinks a { color:#24609c; text-decoration:none; }
+    .gi-xlinks a:hover { text-decoration:underline; }
+</style>
 <c:forEach items="${model.hits}" var="hit">
-        <div>
-
-            <div style="float:right;">
-        <c:if test="${model.xlinks.ncbiGenome!=null || model.xlinks.ncbiAssembly!=null || model.xlinks.ensembl!=null || model.xlinks.ucsc!=null}">
-
-            <div style="; width:130px ;height:100px; border:1px solid gainsboro;">
-        <strong style="padding:10px;color:grey">External Links</strong>
-        <ul class="list-group">
-        <c:if test="${model.mapKey==360 || model.mapKey==38 || model.mapKey==35 || model.mapKey==720 || model.mapKey==44 || model.mapKey==631 || model.mapKey==511 || model.mapKey==372}">
-           <c:if test="${model.xlinks.ncbiGenome!=null}">
-            <li class="list-group-item list-group-item-success"><a href="${model.xlinks.ncbiGenome}" target="_blank">NCBI Genome</a> </li>
-           </c:if>
-        </c:if>
-        <c:if test="${model.xlinks.ncbiAssembly!=null}">
-        <li class="list-group-item list-group-item-success" ><a href="${model.xlinks.ncbiAssembly}" target="_blank">NCBI Assembly</a></li>
-       </c:if>
-        <c:if test="${model.xlinks.ensembl!=null}">
-            <li class="list-group-item list-group-item-success"><a href="${model.xlinks.ensembl}" target="_blank">Ensembl</a></li>
-                </c:if>
-
-        <c:if test="${model.xlinks.ucsc!=null }">
-        <li class="list-group-item list-group-item-success"><a href="${model.xlinks.ucsc}" target="_blank">UCSC</a></li>
-        </c:if>
-        </ul>
-        </div>
-        </c:if>
-            </div>
-            <div style="width:49%">
-                <h4 style="color: #24609c;padding-left:10px">${model.species} Genome Information - ${model.assembly}</h4>
-            </div>
-        </div>
-        <hr>
-
-        <div style="padding-left:10px;width: 80%">
-        <c:if test="${model.species=='Rat'}">
-        <div><p>The Norway rat is an important experimental model for many human disease, including arthritis, hypertension, diabetes, and cardiovascular diseases.</p>
-            <p><strong>Lineage: </strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Rattus; Rattus norvegicus.  </p></div>
-        </c:if>
-        <c:if test="${model.species=='Human'}">
-        <div><p> Human genome projects have generated an unprecedented amount of knowledge about human genetics and health.Study of the human condition is supported by a wealth of genome-scale data that will result in significant medical advances derived from a better understanding human biology.
-            <p><strong>Lineage: </strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates[28]; Haplorrhini; Catarrhini; Hominidae; Homo; Homo sapiens.  </p></div>
-         </c:if>
-        <c:if test="${model.species=='Mouse'}">
-        <div><p> The laboratory mouse is a major model organism for basic mammalian biology, human disease, and genome evolution, and is extensively used for comparative genome analysis.</p>
-            <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Mus; Mus; Mus musculus.  </p></div>
-        </c:if>
-        <c:if test="${model.species=='Chinchilla'}">
-        <div><p> The long-tailed chinchilla, a rodent native to the mountains of northern Chile, is the model of choice for the study of the human disease otitis media, infections of the middle ear.</p>
-            <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Hystricomorpha; Chinchillidae; Chinchilla; Chinchilla lanigera.      </p>
-        </div>
-        </c:if>
-        <c:if test="${model.species=='Squirrel'}">
-        <div><p>The thirteen-lined ground squirrel is a good model system for the study of vision and metabolism. Compared to other rodent genomes, ground squirrel genomes show a slower rate of evolution.</p>
-            <p ><strong>Lineage: </strong>   Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Sciuromorpha; Sciuridae; Xerinae; Marmotini; Ictidomys; Ictidomys tridecemlineatus.      </p>
-        </div>
-        </c:if>
-        <c:if test="${model.species=='Dog'}">
-        <div><p> The dog is a useful model organism for medical research due to extensive genetic diversity and morphological variation within the species.  Many breeds of dog are particularly susceptible to inherited diseases that are also common in humans, such as cancer, heart disease, rheumatoid arthritis, autoimmune disorders, deafness, and blindness.</p>
-            <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Carnivora; Caniformia; Canidae; Canis; Canis lupus; Canis lupus familiaris.      </p>
-        </div>
-        </c:if>
-
-        <c:if test="${model.species=='Bonobo'}">
-        <div><p> Although the bonobo, or pygmy chimpanzee, Pan paniscus and common chimpanzee Pan troglodytes are morphologically similar, studies have found that more than three per cent of the human genome is more closely related to either the bonobo or the chimpanzee genome than these are to each other.</p>
-            <p><strong>Lineage: </strong>   Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Hominidae; Pan; Pan paniscus.      </p>
-        </div>
-        </c:if>
-        <c:if test="${model.species=='Pig'}">
-        <div><p>The pig (Sus scrofa) is a member of the artiodactyls, or cloven-hoofed mammals, which are an evolutionary clade distinct from the primates and rodents. Pigs exist in both feral and domesticated populations that have distinct phenotypes and karyotypes. The haploid genome of the domesticated pig is estimated to be 2800 Mb. The diploid genome is organized in 18 pairs of autosomes and two sex chromosomes.Sus scrofa is an important model organism for health research due to parallels with humans. Swine are omnivores and their digestive physiology is similar to humans. Similarities between humans and pigs also exist in renal function, vascular structure, and respiratory rates. Pigs are used as model organism in many areas of medical research including obesity, cardiovascular disease, endocrinology, alcoholism, diabetes, nephropathy, and organ transplantation. Pigs are also agriculturally important, as pork is a leading source of protein worldwide.
-       </p>
-            <p><strong>Lineage: </strong>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Cetartiodactyla; Suina; Suidae; Sus; Sus scrofa   </p>
-        </div>
-     </c:if>
+        <h4 class="gi-title">${model.species} Genome Information - ${model.assembly}</h4>
+        <div class="gi-intro">
+            <div class="gi-desc">
+            <c:if test="${model.species=='Rat'}">
+                <p>The Norway rat is an important experimental model for many human disease, including arthritis, hypertension, diabetes, and cardiovascular diseases.</p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Rattus; Rattus norvegicus.</p>
+            </c:if>
+            <c:if test="${model.species=='Human'}">
+                <p>Human genome projects have generated an unprecedented amount of knowledge about human genetics and health. Study of the human condition is supported by a wealth of genome-scale data that will result in significant medical advances derived from a better understanding human biology.</p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Hominidae; Homo; Homo sapiens.</p>
+            </c:if>
+            <c:if test="${model.species=='Mouse'}">
+                <p>The laboratory mouse is a major model organism for basic mammalian biology, human disease, and genome evolution, and is extensively used for comparative genome analysis.</p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Myomorpha; Muroidea; Muridae; Murinae; Mus; Mus; Mus musculus.</p>
+            </c:if>
+            <c:if test="${model.species=='Chinchilla'}">
+                <p>The long-tailed chinchilla, a rodent native to the mountains of northern Chile, is the model of choice for the study of the human disease otitis media, infections of the middle ear.</p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Hystricomorpha; Chinchillidae; Chinchilla; Chinchilla lanigera.</p>
+            </c:if>
+            <c:if test="${model.species=='Squirrel'}">
+                <p>The thirteen-lined ground squirrel is a good model system for the study of vision and metabolism. Compared to other rodent genomes, ground squirrel genomes show a slower rate of evolution.</p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Sciuromorpha; Sciuridae; Xerinae; Marmotini; Ictidomys; Ictidomys tridecemlineatus.</p>
+            </c:if>
+            <c:if test="${model.species=='Dog'}">
+                <p>The dog is a useful model organism for medical research due to extensive genetic diversity and morphological variation within the species. Many breeds of dog are particularly susceptible to inherited diseases that are also common in humans, such as cancer, heart disease, rheumatoid arthritis, autoimmune disorders, deafness, and blindness.</p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Carnivora; Caniformia; Canidae; Canis; Canis lupus; Canis lupus familiaris.</p>
+            </c:if>
+            <c:if test="${model.species=='Bonobo'}">
+                <p>Although the bonobo, or pygmy chimpanzee, Pan paniscus and common chimpanzee Pan troglodytes are morphologically similar, studies have found that more than three per cent of the human genome is more closely related to either the bonobo or the chimpanzee genome than these are to each other.</p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Hominidae; Pan; Pan paniscus.</p>
+            </c:if>
+            <c:if test="${model.species=='Pig'}">
+                <p>The pig (Sus scrofa) is a member of the artiodactyls, or cloven-hoofed mammals, which are an evolutionary clade distinct from the primates and rodents. Pigs exist in both feral and domesticated populations that have distinct phenotypes and karyotypes. The haploid genome of the domesticated pig is estimated to be 2800 Mb. The diploid genome is organized in 18 pairs of autosomes and two sex chromosomes. Sus scrofa is an important model organism for health research due to parallels with humans. Swine are omnivores and their digestive physiology is similar to humans. Similarities between humans and pigs also exist in renal function, vascular structure, and respiratory rates. Pigs are used as model organism in many areas of medical research including obesity, cardiovascular disease, endocrinology, alcoholism, diabetes, nephropathy, and organ transplantation. Pigs are also agriculturally important, as pork is a leading source of protein worldwide.</p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Laurasiatheria; Cetartiodactyla; Suina; Suidae; Sus; Sus scrofa</p>
+            </c:if>
             <c:if test="${model.species=='Green Monkey'}">
-                <div><p><small>The green monkey or vervet (Chlorocebus sabaeus) is native to West Africa and was introduced to the Caribbean islands in the 1600s. The term "vervet" is often applied to any of the species in the genus Chlorocebus <span class="more">as they were formerly treated as subspecies of the vervet (Chlorocebus aethiops). For example, the green monkey was formerly classified as Chlorocebus aethiops sabaeus. Green monkeys, and vervets in general, are commonly used in biomedical research as models for the study of neurodegeneration, diabetes and other metabolic syndromes, HIV transmission, and AIDS. Green monkeys are a natural host of the simian immunodeficiency virus (SIV) but, when infected, do not develop AIDS-like symptoms despite having a high viral load. The human immunodeficiency virus (HIV) likely evolved from SIV .</span><a href="#" class="moreLink" title="Click to see more">More...</a>
-                </small></p>
-                    <p><strong>Lineage: </strong><small>Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Cercopithecidae; Cercopithecinae; Chlorocebus; Chlorocebus sabaeus</small>  </p>
-                </div>
+                <p>The green monkey or vervet (Chlorocebus sabaeus) is native to West Africa and was introduced to the Caribbean islands in the 1600s. The term "vervet" is often applied to any of the species in the genus Chlorocebus <span class="more">as they were formerly treated as subspecies of the vervet (Chlorocebus aethiops). For example, the green monkey was formerly classified as Chlorocebus aethiops sabaeus. Green monkeys, and vervets in general, are commonly used in biomedical research as models for the study of neurodegeneration, diabetes and other metabolic syndromes, HIV transmission, and AIDS. Green monkeys are a natural host of the simian immunodeficiency virus (SIV) but, when infected, do not develop AIDS-like symptoms despite having a high viral load. The human immunodeficiency virus (HIV) likely evolved from SIV.</span><a href="#" class="moreLink" title="Click to see more">More...</a></p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Cercopithecidae; Cercopithecinae; Chlorocebus; Chlorocebus sabaeus</p>
             </c:if>
             <c:if test="${model.species=='Naked Mole-rat'}">
-                <div><p><small>The naked mole-rat is a hairless rodent native to tropical grasslands of East Africa. It is the longest-lived rodent with a lifespan exceeding thirty years. Naked mole-rats are eusocial organisms, <span class="more"> resistant to a variety of cancers, insensitive to certain types of pain, and adapted to life in harsh locales, including low oxygen and high carbon dioxide environments. They do not regulate body temperature, which conforms to ambient temperature.
-               </span><a href="#" class="moreLink" title="Click to see more">More...</a>
-                </small></p>
-                    <p><strong>Lineage: </strong><small>  Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires[170]; Glires; Rodentia; Hystricomorpha; Bathyergidae; Heterocephalus; Heterocephalus glaber </small>  </p>
-                </div>
+                <p>The naked mole-rat is a hairless rodent native to tropical grasslands of East Africa. It is the longest-lived rodent with a lifespan exceeding thirty years. Naked mole-rats are eusocial organisms, <span class="more">resistant to a variety of cancers, insensitive to certain types of pain, and adapted to life in harsh locales, including low oxygen and high carbon dioxide environments. They do not regulate body temperature, which conforms to ambient temperature.</span><a href="#" class="moreLink" title="Click to see more">More...</a></p>
+                <p class="gi-lineage"><strong>Lineage:</strong> Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Hystricomorpha; Bathyergidae; Heterocephalus; Heterocephalus glaber</p>
             </c:if>
+            </div>
+        <c:if test="${model.xlinks.ncbiGenome!=null || model.xlinks.ncbiAssembly!=null || model.xlinks.ensembl!=null || model.xlinks.ucsc!=null}">
+            <div class="gi-xlinks">
+                <strong>External Links</strong>
+                <ul>
+                <c:if test="${model.mapKey==360 || model.mapKey==38 || model.mapKey==35 || model.mapKey==720 || model.mapKey==44 || model.mapKey==631 || model.mapKey==511 || model.mapKey==372}">
+                    <c:if test="${model.xlinks.ncbiGenome!=null}">
+                        <li><a href="${model.xlinks.ncbiGenome}" target="_blank">NCBI Genome <i class="fa fa-external-link" style="font-size:10px"></i></a></li>
+                    </c:if>
+                </c:if>
+                <c:if test="${model.xlinks.ncbiAssembly!=null}">
+                    <li><a href="${model.xlinks.ncbiAssembly}" target="_blank">NCBI Assembly <i class="fa fa-external-link" style="font-size:10px"></i></a></li>
+                </c:if>
+                <c:if test="${model.xlinks.ensembl!=null}">
+                    <li><a href="${model.xlinks.ensembl}" target="_blank">Ensembl <i class="fa fa-external-link" style="font-size:10px"></i></a></li>
+                </c:if>
+                <c:if test="${model.xlinks.ucsc!=null}">
+                    <li><a href="${model.xlinks.ucsc}" target="_blank">UCSC <i class="fa fa-external-link" style="font-size:10px"></i></a></li>
+                </c:if>
+                </ul>
+            </div>
+        </c:if>
         </div>
-        <hr>
-        <div class="container">
-        <div class="card" style="border:1px solid white">
-    <!--div class="panel-heading">
-        <h4>$--{model.species} Genome Information - $-{model.assembly}   </h4>
-    </div-->
-        <div class="card-body" >
+
+        <div class="container" style="padding:0">
+        <div style="overflow:hidden">
 
         <div style="float:left;width:40%">
             <h4>Summary</h4>
@@ -275,7 +268,14 @@
                     </div>
                     <div class="panel-body">
                         <!--iframe id="jbrowseMini"  style="border: 1px solid black" width="100%"></iframe-->
+                        <%
+                            String ucscAssemblyId="";
+                            if(map!=null && map.getUcscAssemblyId()!=null){
+                                ucscAssemblyId+=map.getUcscAssemblyId();
+                            }
+                        %>
 
+                        <input type="hidden" id="assemblyId" value="<%=ucscAssemblyId%>">
                         <div id="content" style="width: 100%;overflow-x: scroll ">
 
                             <table  cellpadding=0 cellspacing=0 align="center" border="0" width="100%">
@@ -291,20 +291,20 @@
                         </div>
                 </c:when>
                   <c:otherwise>
-            <div class="panel panel-default" style=";height:300px;">
-                      <div class="panel-heading">
-                          <strong>JBrowse</strong>
-                      </div>
-                      <div class="panel-body">
-                          <!--iframe id="jbrowseMini"  style="border: 1px solid black" width="100%"></iframe-->
+<%--            <div class="panel panel-default" style=";height:300px;">--%>
+<%--                      <div class="panel-heading">--%>
+<%--                          <strong>JBrowse</strong>--%>
+<%--                      </div>--%>
+<%--                      <div class="panel-body">--%>
+<%--                          <!--iframe id="jbrowseMini"  style="border: 1px solid black" width="100%"></iframe-->--%>
 
-                          <div  style="width: 100%;overflow-x: scroll ">
+<%--                          <div  style="width: 100%;overflow-x: scroll ">--%>
 
-                              <iframe id="jbrowseMini" width="600" height="200px"></iframe>
+<%--                              <iframe id="jbrowseMini" width="600" height="200px"></iframe>--%>
 
-                          </div>
-                      </div>
-            </div>
+<%--                          </div>--%>
+<%--                      </div>--%>
+<%--            </div>--%>
                   </c:otherwise>
             </c:choose>
             <div style="">
@@ -382,7 +382,7 @@
 
         <c:if test="${model.mapKey==360 || model.mapKey==60 || model.mapKey==70 ||model.mapKey==372}">
 
-            <div class="panel panel-default"  >
+            <div class="panel panel-default" style="clear:both" >
                 <div class="panel-heading">
                     <span style="font-weight:bold">Variants</span>
                 </div>
@@ -445,7 +445,7 @@
             </div>
         </c:if>
 
-        <div style="">
+        <div style="clear:both">
             <div class="panel panel-default" >
                 <div class="panel-heading">
                     <strong>References</strong>
@@ -501,6 +501,67 @@
         </c:forEach>
 
 
+
+<script>
+$(document).ready(function() {
+    var cells = document.querySelectorAll('td.vc');
+    if (cells.length === 0) return;
+
+    // Parse numeric values from cells (handle commas in numbers)
+    var values = [];
+    cells.forEach(function(cell) {
+        var text = cell.textContent.trim().replace(/,/g, '');
+        var num = parseFloat(text);
+        if (!isNaN(num) && num > 0) values.push(num);
+    });
+
+    if (values.length === 0) return;
+
+    var maxVal = Math.max.apply(null, values);
+    var minVal = Math.min.apply(null, values);
+
+    // Use log scale for better distribution across large ranges
+    var logMax = Math.log1p(maxVal);
+    var logMin = Math.log1p(minVal);
+    var logRange = logMax - logMin || 1;
+
+    // Heatmap color stops: light yellow -> orange -> dark red
+    var colorStops = [
+        { r: 255, g: 255, b: 229 },  // #ffffe5  (low)
+        { r: 254, g: 217, b: 142 },  // #fed98e
+        { r: 254, g: 153, b: 41  },  // #fe9929
+        { r: 217, g: 95,  b: 14  },  // #d95f0e
+        { r: 153, g: 52,  b: 4   }   // #993404  (high)
+    ];
+
+    function interpolateColor(t) {
+        // t is 0..1, map to color stops
+        var seg = t * (colorStops.length - 1);
+        var i = Math.floor(seg);
+        var f = seg - i;
+        if (i >= colorStops.length - 1) { i = colorStops.length - 2; f = 1; }
+        var c0 = colorStops[i], c1 = colorStops[i + 1];
+        return 'rgb(' +
+            Math.round(c0.r + (c1.r - c0.r) * f) + ',' +
+            Math.round(c0.g + (c1.g - c0.g) * f) + ',' +
+            Math.round(c0.b + (c1.b - c0.b) * f) + ')';
+    }
+
+    cells.forEach(function(cell) {
+        var text = cell.textContent.trim().replace(/,/g, '');
+        var num = parseFloat(text);
+        if (isNaN(num) || num === 0) {
+            cell.style.backgroundColor = '#f5f5f5';
+            cell.style.color = '#999';
+        } else {
+            var t = (logMax === logMin) ? 0.5 : (Math.log1p(num) - logMin) / logRange;
+            cell.style.backgroundColor = interpolateColor(t);
+            // Dark text for light cells, white text for dark cells
+            cell.style.color = (t > 0.6) ? '#fff' : '#333';
+        }
+    });
+});
+</script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="/rgdweb/common/jquery-ui/jquery-ui.css">

@@ -97,7 +97,7 @@
 
         <div class="row">
             <div class="col-sm-5">
-                <h3>Phenominer Database Results (<%=sr.getHits().getTotalHits().value%>&nbsp;results)</h3>
+                <h3>PhenoMiner Database Results (<%=sr.getHits().getTotalHits().value%>&nbsp;results)</h3>
             </div>
             <div class="col-xs-2">
                 <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html?terms=${terms}&species=${species}" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;

@@ -177,10 +177,10 @@
             <table >
                 <tr>
                     <td><input type="radio" name="species" value="3"></td>
-                        <td>Rat&nbsp;Phenominer</td>
+                        <td>Rat&nbsp;PhenoMiner</td>
                     <td>&nbsp;</td>
                     <td><input type="radio" name="species" value="4"></td>
-                    <td>Chinchilla&nbsp;Phenominer</td>
+                    <td>Chinchilla&nbsp;PhenoMiner</td>
                 </tr>
             </table>
             </div>

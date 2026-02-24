@@ -6,7 +6,7 @@
         <h5 class="card-title">RGD Video Tutorials</h5>
     </div>
     <hr>
-<table class="videoTutorials" style="width: 270px">
+<table class="videoTutorials" style="width:100%; max-width:270px">
     <%
         RGDNewsConfDAO dao = new RGDNewsConfDAO();
         List<RGDNewsConf> videos = dao.getAllVideos();
