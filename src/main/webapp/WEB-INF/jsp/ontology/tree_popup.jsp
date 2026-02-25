@@ -89,6 +89,9 @@
 
         window.opener.document.getElementById('<%=request.getParameter("sel_acc_id")%>').value=accId;
         window.opener.document.getElementById('<%=request.getParameter("sel_term")%>').value=term;
+        <% if (selTerm != null && selTerm.toLowerCase().startsWith("uberon")) { %>
+        window.opener.document.getElementById('<%=request.getParameter("sel_term")%>').dispatchEvent(new Event('input', { bubbles: true }));
+        <% } %>
 
         window.close();
 
