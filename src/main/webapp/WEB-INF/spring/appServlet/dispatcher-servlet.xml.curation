@@ -230,9 +230,11 @@
                 <prop key="front/config.html">nConfigController</prop>
 
                 <prop key="generator/list.html">ProcessListController</prop>
+                <prop key="generator/wizard.html">ListWizardController</prop>
                 <prop key="generator/preview.html">ListPreviewController</prop>
                 <prop key="generator/save.html">ListSaveController</prop>
                 <prop key="generator/process.html">ProcessListController</prop>
+                <prop key="generator/chromosomes.html">ChromosomeController</prop>
 
 
                 <prop key="gviewer/genome.html">GviewerGenomeController</prop>
@@ -497,9 +499,11 @@
 
 
     <bean id="ListGeneratorController" class="edu.mcw.rgd.generator.ListGeneratorController" />
+    <bean id="ListWizardController" class="edu.mcw.rgd.generator.ListWizardController" />
     <bean id="ListPreviewController" class="edu.mcw.rgd.generator.ListPreviewController" />
     <bean id="ListSaveController" class="edu.mcw.rgd.generator.ListSaveController" />
     <bean id="ProcessListController" class="edu.mcw.rgd.generator.ProcessListController" />
+    <bean id="ChromosomeController" class="edu.mcw.rgd.generator.ChromosomeController" />
 
     <bean id="SeqRetrieveController" class="edu.mcw.rgd.seqretrieve.SeqRetrieveController"/>
     <bean id="GbrowseTrackAssociationController" class="edu.mcw.rgd.report.GbrowseTracksAssocController"/>

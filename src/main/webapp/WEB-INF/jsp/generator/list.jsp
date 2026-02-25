@@ -5,6 +5,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 
 <%
 String pageTitle = "OLGA - Object List Generator & Analyzer";
@@ -500,16 +501,48 @@ function openAddModal() {
     modalCurrentScreen = 1;
     modalSelectedType = '';
     modalPendingAccId = null;
-    showScreen(1);
+    showModalScreen(1);
     updateModalButtons();
-    // Populate chromosome dropdown
+    // Populate chromosome dropdown - try existing #chr first, otherwise load via AJAX
     var chrSelect = document.getElementById('modal_chr');
-    if (chrSelect.options.length === 0) {
-        var existingChr = document.getElementById('chr');
-        if (existingChr) {
-            chrSelect.innerHTML = existingChr.innerHTML;
-        }
+    var existingChr = document.getElementById('chr');
+    if (existingChr && existingChr.options.length > 0) {
+        chrSelect.innerHTML = existingChr.innerHTML;
+    } else {
+        // Load chromosomes for current mapKey
+        var mapKey = document.getElementById('mapKey').value || document.getElementById('setup_mapKey')?.value || '380';
+        loadChromosomesForMapKey(mapKey);
     }
+}
+
+function loadChromosomesForMapKey(mapKey) {
+    var chrSelect = document.getElementById('modal_chr');
+    chrSelect.innerHTML = '<option value="">Loading...</option>';
+
+    // Fetch chromosomes via AJAX
+    fetch('/rgdweb/generator/chromosomes.html?mapKey=' + mapKey)
+        .then(function(response) { return response.json(); })
+        .then(function(chromosomes) {
+            chrSelect.innerHTML = '';
+            for (var i = 0; i < chromosomes.length; i++) {
+                var opt = document.createElement('option');
+                opt.value = chromosomes[i];
+                opt.textContent = chromosomes[i];
+                chrSelect.appendChild(opt);
+            }
+        })
+        .catch(function(error) {
+            console.error('Error loading chromosomes:', error);
+            // Fallback to common chromosome names
+            chrSelect.innerHTML = '';
+            var defaultChrs = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','X','Y','MT'];
+            for (var i = 0; i < defaultChrs.length; i++) {
+                var opt = document.createElement('option');
+                opt.value = defaultChrs[i];
+                opt.textContent = defaultChrs[i];
+                chrSelect.appendChild(opt);
+            }
+        });
 }
 
 function closeAddModal() {
@@ -523,7 +556,7 @@ function closeAddModal() {
     document.getElementById('modal_symbols').value = '';
 }
 
-function showScreen(num) {
+function showModalScreen(num) {
     document.querySelectorAll('.modal-screen').forEach(function(s) {
         s.classList.remove('active');
     });
@@ -570,7 +603,7 @@ function goToScreen2(type) {
     });
     document.getElementById('input-panel-' + type).style.display = 'block';
 
-    showScreen(2);
+    showModalScreen(2);
 
     if (type === 'ont') {
         setupModalAutocomplete();
@@ -579,9 +612,9 @@ function goToScreen2(type) {
 
 function goBackScreen() {
     if (modalCurrentScreen === 2) {
-        showScreen(1);
+        showModalScreen(1);
     } else if (modalCurrentScreen === 3) {
-        showScreen(2);
+        showModalScreen(2);
     }
 }
 
@@ -598,7 +631,7 @@ function goToNextScreen() {
         // If there are existing criteria, go to screen 3 to choose operation
         if (aAccIds.length > 0) {
             // Show screen 3 with loading indicator
-            showScreen(3);
+            showModalScreen(3);
             fetchPreviewCounts(accId);
         } else {
             // No existing criteria, add directly with default union
@@ -675,9 +708,13 @@ function fetchPreviewCounts(newAccId) {
         })
         .catch(function(error) {
             console.error('Error fetching preview:', error);
-            // Hide loading even on error
+            // Hide loading and show error message
             document.getElementById('previewLoading').style.display = 'none';
             document.getElementById('operationCards').style.opacity = '1';
+            // Show counts as unavailable
+            document.getElementById('previewUnion').textContent = 'preview unavailable';
+            document.getElementById('previewIntersect').textContent = 'preview unavailable';
+            document.getElementById('previewSubtract').textContent = 'preview unavailable';
         });
 }
 
@@ -712,7 +749,22 @@ function getModalAccId() {
         var start = document.getElementById('modal_start').value.trim();
         var stop = document.getElementById('modal_stop').value.trim();
         if (chr && start && stop) {
-            accId = 'chr' + chr + ':' + start + '..' + stop;
+            // Validate that start and stop are numeric
+            var startNum = parseInt(start.replace(/,/g, ''), 10);
+            var stopNum = parseInt(stop.replace(/,/g, ''), 10);
+            if (isNaN(startNum) || isNaN(stopNum)) {
+                alert('Start and stop positions must be numeric values.');
+                return null;
+            }
+            if (startNum < 0 || stopNum < 0) {
+                alert('Positions cannot be negative.');
+                return null;
+            }
+            if (startNum >= stopNum) {
+                alert('Start position must be less than stop position.');
+                return null;
+            }
+            accId = 'chr' + chr + ':' + startNum + '..' + stopNum;
         }
     }
 
@@ -878,15 +930,15 @@ $(document).ready(function(){
 <script>
     var accIdTmp = new Array();
 
-    if ("<%=a%>" != "") {
-        accIdTmp = "<%=a%>".split("|");
+    if ("<%=StringEscapeUtils.escapeEcmaScript(a)%>" != "") {
+        accIdTmp = "<%=StringEscapeUtils.escapeEcmaScript(a)%>".split("|");
     }
 
-    if ("<%=vv%>" != "") {
+    if ("<%=StringEscapeUtils.escapeEcmaScript(vv)%>" != "") {
         alert("Welcome to the List Generator.  Upon completion, you will have the option to submit back to Variant Visualizer with your custom list")
     }
 
-    if ("<%=ga%>" != "") {
+    if ("<%=StringEscapeUtils.escapeEcmaScript(ga)%>" != "") {
         alert("Welcome to the List Generator.  Upon completion, you will have the option to submit back to the GA Tool with your custom list")
     }
 
@@ -1074,17 +1126,22 @@ $(document).ready(function(){
 var selectedOKey = 1;
 
 // Map keys to species type keys
-// Rat = 3, Human = 1, Mouse = 2, Chinchilla = 4, Dog = 5, Pig = 9
+// Rat = 3, Human = 1, Mouse = 2, Chinchilla = 4, Dog = 5, Pig = 9, Bonobo = 6, Squirrel = 7, Green Monkey = 13, Naked Mole-Rat = 14, Black Rat = 17
 var mapKeyToSpecies = {
-    '380': 3, '372': 3, '360': 3,  // Rat
-    '38': 1, '17': 1,              // Human
-    '239': 2, '35': 2,             // Mouse
+    '380': 3, '372': 3, '360': 3, '70': 3, '60': 3,  // Rat (GRCr8, v7.2, v6.0, v5.0, v3.4)
+    '38': 1, '17': 1, '13': 1,     // Human (GRCh38, GRCh37, GRCh36)
+    '239': 2, '35': 2, '18': 2,    // Mouse (GRCm39, GRCm38, Build 37)
     '44': 4,                        // Chinchilla
     '634': 5, '631': 5,            // Dog
-    '911': 9                        // Pig
+    '511': 6, '513': 6,            // Bonobo
+    '720': 7,                       // Squirrel
+    '911': 9, '910': 9,            // Pig (Sscrofa11.1, Sscrofa10.2)
+    '1311': 13, '1313': 13,        // Green Monkey
+    '1410': 14,                     // Naked Mole-Rat
+    '1701': 17                      // Black Rat
 };
 
-// QTLs available for: Rat (3), Human (1)
+// QTLs available for: Rat (3), Human (1), Mouse (2)
 // Strains available for: Rat (3) only
 function updateObjectTypeOptions() {
     var mapKey = document.getElementById('setup_mapKey').value;
@@ -1093,8 +1150,8 @@ function updateObjectTypeOptions() {
     var qtlCard = document.getElementById('card-qtls');
     var strainCard = document.getElementById('card-strains');
 
-    // QTLs: only for Rat (3) and Human (1)
-    if (speciesTypeKey === 3 || speciesTypeKey === 1) {
+    // QTLs: only for Rat (3), Human (1), and Mouse (2)
+    if (speciesTypeKey === 3 || speciesTypeKey === 1 || speciesTypeKey === 2) {
         qtlCard.style.display = '';
         qtlCard.classList.remove('disabled');
     } else {
@@ -1491,7 +1548,7 @@ for (String gene: objectSymbols.get(i)) {
     while(rsIt.hasNext()) {
         String gene = (String)rsIt.next();
 %>
-currentResultSet.push('<%=gene.trim()%>');
+currentResultSet.push('<%=StringEscapeUtils.escapeEcmaScript(gene.trim())%>');
 <%
     }
 %>
@@ -1524,8 +1581,10 @@ if (accIds.size()==1 && objectSymbols.get(0).size() == 0) {
 
 </script>
 
-<% }
+<% } %>
+<% } %>
 
+<%
 } catch (Exception e) {
     e.printStackTrace();
 }%>
