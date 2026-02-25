@@ -68,10 +68,22 @@
         HashMap<String, String> fontColors = new HashMap<>();
         fontColors.put("A","white");
         fontColors.put("A/A","white");
+        fontColors.put("A/T","white");
+        fontColors.put("T/A","white");
+        fontColors.put("A/C","white");
+        fontColors.put("C/A","white");
+        fontColors.put("A/G","white");
+        fontColors.put("G/A","white");
         fontColors.put("T","white");
         fontColors.put("T/T","white");
+        fontColors.put("T/C","white");
+        fontColors.put("C/T","white");
+        fontColors.put("T/G","white");
+        fontColors.put("G/T","white");
         fontColors.put("C","black");
         fontColors.put("C/C","black");
+        fontColors.put("C/G","black");
+        fontColors.put("G/C","black");
         fontColors.put("G","white");
         fontColors.put("G/G","white");
         fontColors.put("het", "black");
@@ -410,6 +422,9 @@
                     cellData.put("bgColor", bgColor);
                     cellData.put("fontColor", fontColor);
                     cellData.put("position", pos);
+                    if (var.equals("?")) {
+                        cellData.put("hasMultipleVariants", true);
+                    }
                 }
 
                 row.put("pos_" + pos, cellData);
@@ -604,15 +619,16 @@
         --ag-header-height: 0px;
         --ag-row-height: <%= cellWidth %>px;
         --ag-cell-horizontal-padding: 0px;
-        --ag-row-border-width: 0px;
-        --ag-borders: none;
-        --ag-cell-horizontal-border: none;
+        --ag-row-border-width: 1px;
+        --ag-row-border-color: white;
+        --ag-borders: solid 1px;
+        --ag-border-color: white;
+        --ag-cell-horizontal-border: solid 1px white;
         --ag-header-column-separator-display: none;
         --ag-header-column-resize-handle-display: none;
         --ag-grid-size: 0px;
         --ag-list-item-height: <%= cellWidth %>px;
-        --ag-row-border-color: transparent;
-        --ag-border-color: transparent;
+        --ag-odd-row-background-color: #f5f5f5;
     }
 
     .ag-theme-alpine .ag-header {
@@ -622,21 +638,21 @@
     .ag-theme-alpine .ag-cell {
         padding: 0 !important;
         line-height: <%= cellWidth %>px;
-        border: none !important;
-        border-width: 0 !important;
+        border-right: 1px solid white !important;
     }
 
     .ag-theme-alpine .ag-row {
-        border: none !important;
-        border-width: 0 !important;
+        border-bottom: 1px solid white !important;
+    }
+
+    .ag-theme-alpine .ag-row-odd {
+        background-color: #f5f5f5;
     }
 
     .ag-theme-alpine .ag-center-cols-viewport {
-        border: none !important;
     }
 
     .ag-theme-alpine .ag-body-viewport {
-        border: none !important;
     }
 
     .nucleotide-cell {
@@ -1143,6 +1159,10 @@
                 this.eGui.style.backgroundColor = data.bgColor || '#E8E4D5';
                 this.eGui.style.color = data.fontColor || 'black';
                 this.eGui.textContent = data.value || '-';
+
+                if (data.hasMultipleVariants) {
+                    this.eGui.title = 'Multiple variants found at this position';
+                }
 
                 if (data.hasVariant) {
                     this.eGui.onclick = () => this.showVariantDetails(data, params.data);

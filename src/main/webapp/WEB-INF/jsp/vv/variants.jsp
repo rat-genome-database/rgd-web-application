@@ -78,10 +78,22 @@
 
     fontColors.put("A","white");
     fontColors.put("A/A","white");
+    fontColors.put("A/T","white");
+    fontColors.put("T/A","white");
+    fontColors.put("A/C","white");
+    fontColors.put("C/A","white");
+    fontColors.put("A/G","white");
+    fontColors.put("G/A","white");
     fontColors.put("T","white");
     fontColors.put("T/T","white");
+    fontColors.put("T/C","white");
+    fontColors.put("C/T","white");
+    fontColors.put("T/G","white");
+    fontColors.put("G/T","white");
     fontColors.put("C","black");
     fontColors.put("C/C","black");
+    fontColors.put("C/G","black");
+    fontColors.put("G/C","black");
     fontColors.put("G","white");
     fontColors.put("G/G","white");
     fontColors.put("het", "black");
@@ -717,6 +729,9 @@
                     document.getElementById('cell<%=k%>-<%=j%>').sid=<%=sample%>;
                     document.getElementById('cell<%=k%>-<%=j%>').style.backgroundColor="<%=backColor%>";
                     document.getElementById('cell<%=k%>-<%=j%>').style.color="<%=fontColor%>";
+                    <% if (var.equals("?")) { %>
+                    document.getElementById('cell<%=k%>-<%=j%>').title='Multiple variants found at this position';
+                    <% } %>
                 </script>
 
                 <% } %>
