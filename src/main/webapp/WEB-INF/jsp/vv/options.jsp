@@ -474,7 +474,7 @@
                     </div>
                     <% } %>
 
-                    <% if( currentMap.getSpeciesTypeKey()==SpeciesType.RAT || currentMap.getSpeciesTypeKey()==SpeciesType.DOG) { %>
+                    <% if( (currentMap.getSpeciesTypeKey()==SpeciesType.RAT && mapKey!=380) || currentMap.getSpeciesTypeKey()==SpeciesType.DOG) { %>
                     <div class="filter-row">
                         <div class="filter-label">Polyphen Prediction</div>
                         <div class="filter-options">
