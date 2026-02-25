@@ -320,11 +320,11 @@ String pageDescription = "Define Region";
                 <div class="form-row">
                     <div class="form-group">
                         <label>Symbol 1</label>
-                        <input type="text" class="symbol-input" placeholder="e.g., Brca1" name="geneStart" value="<%=dm.out("geneStart",req.getParameter("geneStart"))%>" required/>
+                        <input type="text" class="symbol-input" placeholder="e.g., Tnf" name="geneStart" value="<%=dm.out("geneStart",req.getParameter("geneStart"))%>" required/>
                     </div>
                     <div class="form-group">
                         <label>Symbol 2</label>
-                        <input type="text" class="symbol-input" placeholder="e.g., Tp53" name="geneStop" value="<%=dm.out("geneStop",req.getParameter("geneStop"))%>" required/>
+                        <input type="text" class="symbol-input" placeholder="e.g., Adora2a" name="geneStop" value="<%=dm.out("geneStop",req.getParameter("geneStop"))%>" required/>
                     </div>
                     <div class="form-actions">
                         <input class="continueButtonPrimary" type="submit" value="Continue..."/>
