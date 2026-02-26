@@ -503,6 +503,8 @@ function openAddModal() {
     modalPendingAccId = null;
     showModalScreen(1);
     updateModalButtons();
+    // Initialize autocomplete for default ontology
+    setupModalAutocomplete();
     // Populate chromosome dropdown - try existing #chr first, otherwise load via AJAX
     var chrSelect = document.getElementById('modal_chr');
     var existingChr = document.getElementById('chr');
@@ -797,18 +799,28 @@ function submitWithOperation(operation) {
 function setupModalAutocomplete() {
     if (typeof jq14 !== 'undefined') {
         var ontPrefix = modalCurrentOnt.toUpperCase();
-        if (modalCurrentOnt === 'rdo') ontPrefix = 'DOID,RDO';
+        if (modalCurrentOnt === 'rdo') ontPrefix = 'RDO';
         if (modalCurrentOnt === 'bp' || modalCurrentOnt === 'mf' || modalCurrentOnt === 'cc') ontPrefix = 'GO';
 
-        jq14('#modal_ont_term').autocomplete({
-            serviceUrl: '/rgdweb/OntoSolr/searchAutoComplete.html',
-            params: {ontFilter: ontPrefix},
-            minChars: 2,
-            maxHeight: 300,
-            width: 400,
-            deferRequestBy: 100,
-            onSelect: function(value, data) {
-                jq14('#modal_ont_acc_id').val(data);
+        // Remove any existing autocomplete
+        jq14('#modal_ont_term').unautocomplete();
+
+        // Set up autocomplete with Solr endpoint
+        jq14('#modal_ont_term').autocomplete('/solr/OntoSolr/select', {
+            extraParams: {
+                'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
+                'bf': 'term_len_l^.02',
+                'fq': 'cat:(' + ontPrefix + ')',
+                'wt': 'velocity',
+                'v.template': 'termidselect'
+            },
+            max: 100
+        });
+
+        // Handle selection
+        jq14('#modal_ont_term').result(function(data, value) {
+            if (value && value[1]) {
+                document.getElementById('modal_ont_acc_id').value = value[1];
             }
         });
     }
@@ -966,7 +978,7 @@ $(document).ready(function(){
 
 </script>
 
-<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
 
 <!-- Setup Screen - shown when no criteria exist -->
 <% if (accIds.size() == 0) { %>
@@ -1567,8 +1579,6 @@ if (accIds.size()==1 && objectSymbols.get(0).size() == 0) {
 
 
 %>
-    hideAll();
-    showScreen("actionBox","Welcome!  To get started, select a list type from the options below" );
     alert("<%=mess%>");
     aAccIds.length=0;
     aOperators.length=0;
