@@ -380,7 +380,7 @@
             </div>
         </div>
 
-        <c:if test="${model.mapKey==360 || model.mapKey==60 || model.mapKey==70 ||model.mapKey==372}">
+        <c:if test="${model.mapKey==360 || model.mapKey==60 || model.mapKey==70 ||model.mapKey==372 ||model.mapKey==380}">
 
             <div class="panel panel-default" style="clear:both" >
                 <div class="panel-heading">
