@@ -54,7 +54,7 @@
 %>
 
 <style>
-    .gi-title { color:#24609c; font-size:22px; font-weight:400; margin:0 0 10px 0; }
+    .gi-title { color:#24609c; font-size:22px; font-weight:400; margin:0 0 10px 0; clear:both; }
     .gi-intro { display:flex; align-items:flex-start; gap:20px; margin-bottom:12px; }
     .gi-desc { flex:1; min-width:0; font-size:13px; line-height:1.5; color:#444; }
     .gi-desc p { margin:0 0 6px 0; }
