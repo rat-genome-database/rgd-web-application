@@ -1084,8 +1084,6 @@ $(document).ready(function(){
     <div class="setup-header">
         <h1><i class="fas fa-list-check"></i> OLGA</h1>
         <p>Object List Generator & Analyzer - Build customized lists of genes, QTLs, or strains</p>
-        <!-- DEBUG: deployed 2026-02-26 12:55 -->
-        <p style="color:red; font-size:12px;">DEBUG: v2026-02-26-1255</p>
     </div>
 
     <div class="setup-section">
