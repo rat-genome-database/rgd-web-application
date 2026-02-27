@@ -17,7 +17,7 @@
 
 <div class="container-fluid" style="background-color:#fafafa;">
     <div style=";background-color:white;margin-right:0.5%;">
-        <h2>Search Results for.."<span style="color:#24609c"><%=searchTermTrimmed%></span>"<c:if test="${model.totalHits>0}"><span style="margin-left:65%"><a href="elasticResults.html?category=general&term=${model.term}&species=&viewall=true" style="font-weight: bold"><i class="fa fa-table" aria-hidden="true"></i>
+        <h2>Search Results for.."<span style="color:#24609c"><%=searchTermTrimmed%></span>"<c:if test="${model.totalHits>0}"><span style="margin-left:65%"><a href="elasticResults.html?category=general&term=${model.termEncoded}&species=&viewall=true" style="font-weight: bold"><i class="fa fa-table" aria-hidden="true"></i>
 &nbsp;View All</a></span></c:if></h2>
 
     </div>
@@ -47,19 +47,19 @@
                                         <thead>
                                         <tr style="background-color:#f0f5f5">
                                             <td></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Rat Results" style="font-weight: bold">Rat</a></td>
-                                            <td><a href="elasticResults.html?term=${model.term}&species=Mouse&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Mouse Results" style="font-weight: bold"> Mouse</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Human&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Human Results" style="font-weight: bold">Human</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Chinchilla&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Chinchilla Results" style="font-weight: bold">Chinchilla</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Bonobo&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Bonobo Results" style="font-weight: bold">Bonobo</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Dog&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Dog Results" style="font-weight: bold">Dog</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Squirrel&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Squirrel Results" style="font-weight: bold">Squirrel</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Pig&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Pig Results" style="font-weight: bold">Pig</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Green%20Monkey&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Green Monkey Results" style="font-weight: bold">Green Monkey</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Naked%20Mole-Rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Naked Mole-rat Results" style="font-weight: bold">Naked Mole-rat</a></td>
-                                            <td ><a href="elasticResults.html?term=${model.term}&species=Black+Rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Black Rat Results" style="font-weight: bold">Black Rat</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Rat Results" style="font-weight: bold">Rat</a></td>
+                                            <td><a href="elasticResults.html?term=${model.termEncoded}&species=Mouse&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Mouse Results" style="font-weight: bold"> Mouse</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Human&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Human Results" style="font-weight: bold">Human</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Chinchilla&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Chinchilla Results" style="font-weight: bold">Chinchilla</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Bonobo&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Bonobo Results" style="font-weight: bold">Bonobo</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Dog&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Dog Results" style="font-weight: bold">Dog</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Squirrel&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Squirrel Results" style="font-weight: bold">Squirrel</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Pig&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Pig Results" style="font-weight: bold">Pig</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Green%20Monkey&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Green Monkey Results" style="font-weight: bold">Green Monkey</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Naked%20Mole-Rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Naked Mole-rat Results" style="font-weight: bold">Naked Mole-rat</a></td>
+                                            <td ><a href="elasticResults.html?term=${model.termEncoded}&species=Black+Rat&category=General&viewall=true&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title="View All Black Rat Results" style="font-weight: bold">Black Rat</a></td>
 
-                                            <td ><a href="elasticResults.html?category=general&term=${model.term}&species=&viewall=true" title="View results for all species" style="font-weight: bold">All</a></td>
+                                            <td ><a href="elasticResults.html?category=general&term=${model.termEncoded}&species=&viewall=true" title="View results for all species" style="font-weight: bold">All</a></td>
 
                                         </tr>
                                         </thead>
@@ -119,11 +119,11 @@
                                                             <td class="matrix" style="text-align: center;font-weight:bold">
                                                                 <c:if test="${column!='-'}">
                                                                     <c:if test="${column!=1}">
-                                                                        <a href="elasticResults.html?term=${model.term}&category=${category}&species=${species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title='View All  ${species} ${category}'>
+                                                                        <a href="elasticResults.html?term=${model.termEncoded}&category=${category}&species=${species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" title='View All  ${species} ${category}'>
                                                                                 ${column}</a>
                                                                     </c:if>
                                                                     <c:if test="${column==1}">
-                                                                        <a href="elasticResults.html?term=${model.term}&category=${fn:replace(category, " ","+")}&species=${species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" title='View All ${species} ${category}'>
+                                                                        <a href="elasticResults.html?term=${model.termEncoded}&category=${fn:replace(category, " ","+")}&species=${species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" title='View All ${species} ${category}'>
                                                                                 ${column}</a>
                                                                     </c:if>
                                                                 </c:if>
@@ -150,10 +150,10 @@
                                                     <caption style="text-align: center;cursor: pointer">Ontology Terms (${item.docCount})</caption>
                                                     <c:forEach items="${model.aggregations.ontology}" var="ontBkt">
                                                         <c:if test="${ontBkt.docCount!=1}">
-                                                            <tr><td><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${ontBkt.key}</a></td><td style="text-align: right"><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${ontBkt.docCount}</a></td></tr>
+                                                            <tr><td><a href="elasticResults.html?term=${model.termEncoded}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${ontBkt.key}</a></td><td style="text-align: right"><a href="elasticResults.html?term=${model.termEncoded}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${ontBkt.docCount}</a></td></tr>
                                                         </c:if>
                                                         <c:if test="${ontBkt.docCount==1}">
-                                                            <tr><td ><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" class="cat filter" style="font-weight: bold">${ontBkt.key}</a></td><td style="text-align: right"><a href="elasticResults.html?term=${model.term}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" class="cat filter" style="font-weight: bold" >${ontBkt.docCount}</a></td></tr>
+                                                            <tr><td ><a href="elasticResults.html?term=${model.termEncoded}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" class="cat filter" style="font-weight: bold">${ontBkt.key}</a></td><td style="text-align: right"><a href="elasticResults.html?term=${model.termEncoded}&category=Ontology&subCat=${ontBkt.key}&species=${model.sb.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}&redirect=true" class="cat filter" style="font-weight: bold" >${ontBkt.docCount}</a></td></tr>
                                                         </c:if>
                                                     </c:forEach>
 
@@ -169,7 +169,7 @@
                                             <c:if test="${item.key=='Reference'}">
                                                 <c:if test="${item.docCount>0}">
                                                     <caption style="text-align: center">References</caption>
-                                                    <tr><td ><a href="elasticResults.html?term=${model.term}&category=${item.key}&species=${model.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${item.key}</a></td><td style="text-align: right"><a href ='elasticResults.html?term=${model.term}&category=${item.key}&species=${model.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}' style="font-weight: bold">${item.docCount}</a></td></tr>
+                                                    <tr><td ><a href="elasticResults.html?term=${model.termEncoded}&category=${item.key}&species=${model.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}" class="cat filter" style="font-weight: bold">${item.key}</a></td><td style="text-align: right"><a href ='elasticResults.html?term=${model.termEncoded}&category=${item.key}&species=${model.species}&cat1=${model.cat1}&sp1=${model.sp1}&postCount=${model.postCount}' style="font-weight: bold">${item.docCount}</a></td></tr>
                                                 </c:if>
                                             </c:if>
                                         </c:forEach>

@@ -62,7 +62,7 @@
         <c:if test="${model.totalHits>0}">
             <div class="views" style="float:right;">
                <c:if test="${model.cat1=='general' || model.cat1=='General'}">
-                    <a href="/rgdweb/elasticResults.html?term=${model.term}&category=General&species="><span style="font-size: 15px;font-weight: bold;padding:10px"><i class="fa fa-arrow-left" aria-hidden="true" style="color:green"></i>&nbsp;Results Matrix </span></a>
+                    <a href="/rgdweb/elasticResults.html?term=${model.termEncoded}&category=General&species="><span style="font-size: 15px;font-weight: bold;padding:10px"><i class="fa fa-arrow-left" aria-hidden="true" style="color:green"></i>&nbsp;Results Matrix </span></a>
                 </c:if>
             </div>
         </c:if>
