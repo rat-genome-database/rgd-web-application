@@ -9,18 +9,18 @@
 <table  id="resultsTable" style="width:100%;z-index:999;" >
     <thead>
     <tr>
-        <th title="Toggle Check All" class="sorter-false">
+        <th title="Toggle Check All">
             <%if(searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)){%>
             <input type="checkbox" onclick="toggle(this)">
             <%}%>
         </th>
-        <th class="sorter-false">Category</th>
+        <th>Category</th>
         <th>Title</th>
         <th>Citation</th>
         <th>Authors</th>
         <th>RGD ID</th>
         <%if(!RgdContext.isProduction()){%>
-        <th class="sorter-false">Matched By</th>
+        <th>Matched By</th>
         <%}%>
     </tr>
     </thead>

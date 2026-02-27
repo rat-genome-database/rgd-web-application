@@ -9,16 +9,16 @@
 <table  id="resultsTable" style="width:100%;z-index:999;" >
     <thead>
     <tr>
-        <th title="Toggle Check All" class="sorter-false">
+        <th title="Toggle Check All">
             <%if((ontologyAggregations!=null && ontologyAggregations.size()==1) || !searchBean.getSubCat().equals("")){%>
             <input type="checkbox" onclick="toggle(this)">
             <%}%>
         </th>
-        <th class="sorter-false">Category</th>
+        <th>Category</th>
         <th>Term</th>
         <th>Annotations</th>
         <th>Accession Id</th>
-        <th class="sorter-false">Matched By</th>
+        <th>Matched By</th>
     </tr>
     </thead>
     <tbody>

@@ -9,7 +9,7 @@
 <table  id="resultsTable" style="width:100%;z-index:999;" >
     <thead>
     <tr>
-    <th class="sorter-false"></th>
+    <th></th>
     <th>Species</th>
         <th>Category</th>
         <th>Symbol</th>
@@ -19,12 +19,12 @@
         <th>Chromosome</th>
         <th>Start</th>
         <th>Stop</th>
-        <th class="sorter-false">Annotations</th>
+        <th>Annotations</th>
         <th>Strains Crossed</th>
         <th>RGD ID</th>
         <%
             if(!RgdContext.isProduction()){%>
-                <th class="sorter-false">Matched By</th>
+                <th>Matched By</th>
         <%}%>
     </tr>
     </thead>

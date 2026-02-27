@@ -9,11 +9,11 @@
 <table  id="resultsTable" style="width:100%;z-index:999;" >
     <thead>
     <tr>
-        <th class="sorter-false">Category</th>
+        <th>Category</th>
         <th>Name</th>
         <th>Study ID</th>
         <th>Geo Series Acc</th>
-        <th class="sorter-false">Matched By</th>
+        <th>Matched By</th>
     </tr>
     </thead>
     <tbody>

@@ -38,7 +38,7 @@
         %>
 
         <tr>
-          <td style="color: white" class="sorter-false"><%=label%>
+          <td style="color: white"><%=label%>
           </td>
           <%
             for (Integer integer : integers) {%>

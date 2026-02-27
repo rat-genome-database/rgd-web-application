@@ -8,12 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <table  id="resultsTable" style="width:100%;z-index:999;" >
     <thead>
-    <th title="Toggle Check All" class="sorter-false">
+    <th title="Toggle Check All">
         <%if(!searchBean.getSpecies().equals("") || (speciesAggregations!=null && speciesAggregations.size()==1)){%>
         <input type="checkbox" onclick="toggle(this)">
         <%}%>
     </th>
-    <th class="sorter-false">Category</th>
+    <th>Category</th>
     <th>Symbol</th>
     <th>Assembly</th>
     <th>Chromosome</th>
@@ -21,7 +21,7 @@
     <th>Stop</th>
     <th>Annotations</th>
     <th>RGD ID</th>
-    <th class="sorter-false">Matched By</th>
+    <th>Matched By</th>
     </thead>
     <tbody>
 
