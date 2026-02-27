@@ -238,8 +238,8 @@ function toggleSynonyms(synType) {
               }
           } else {
               // create pattern based on ontology id
-              int pos = bean.getAccId().indexOf(":");
-              String ontId = !syn.getType().equals("alt_id") && pos>0 ? bean.getAccId().substring(0, pos) : null;
+              int pos = syn.getName().indexOf(":");
+              String ontId = !syn.getType().equals("alt_id") && pos>0 ? syn.getName().substring(0, pos) : null;
               if( ontId!=null ) {
                   Pattern p = Pattern.compile("\\b("+ontId+"\\:\\d{7})\\b");
                   StringBuffer sb = new StringBuffer();
