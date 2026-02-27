@@ -28,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -177,6 +179,7 @@ public class ElasticSearchController extends RGDSearchController {
         model.addAttribute("cat1", cat1);
         model.addAttribute("sp1", sp1);
         model.addAttribute("term", term);
+        model.addAttribute("termEncoded", URLEncoder.encode(term, StandardCharsets.UTF_8));
         model.addAttribute("searchBean", searchBean);
         request.setAttribute("searchBean", searchBean);
 

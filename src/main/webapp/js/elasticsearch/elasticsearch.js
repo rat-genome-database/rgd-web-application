@@ -6,7 +6,7 @@ $(function () {
         var $content=$('#results');
         var cat1=$('#cat1').val();
         var sp1=$('#sp1').val();
-        var term=$('#searchTerm').val();
+        var term=encodeURIComponent($('#searchTerm').val());
         var start=$('#start').val();
         var stop= $('#stop').val();
         var chr= $('#chr').val();
@@ -76,7 +76,7 @@ function getParameters() {
     $category= $("#searchCategory");
     category = $category.val();
     species = $species.val();
-    term = $('#searchTerm').val();
+    term = encodeURIComponent($('#searchTerm').val());
     $type = $("#type").val();
     $filterType=$('#filter').val();
     $subCat=$('#subCat').val();
@@ -338,7 +338,7 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
            $type= encodeURI(type);
         }
     }
-    var term=$('#searchTerm').val();
+    var term=encodeURIComponent($('#searchTerm').val());
 
    if($objectSearch == "true"){
       $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly+"&match_type="+matchType ;
