@@ -502,7 +502,7 @@ public class QueryService1 {
     }
 
     private AggregationBuilder buildCategoryAggregation(String aggField) {
-        return AggregationBuilders.terms(aggField).field(aggField + KEYWORD_SUFFIX)
+        return AggregationBuilders.terms(aggField).field(aggField + KEYWORD_SUFFIX).size(DEFAULT_AGG_SIZE)
                 .subAggregation(AggregationBuilders.terms("speciesFilter").field(SPECIES_KEYWORD).size(DEFAULT_AGG_SIZE))
                 .subAggregation(AggregationBuilders.terms("subspecies").field(SPECIES_KEYWORD).size(DEFAULT_AGG_SIZE))
                 .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
