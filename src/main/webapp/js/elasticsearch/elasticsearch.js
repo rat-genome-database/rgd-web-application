@@ -6,7 +6,7 @@ $(function () {
         var $content=$('#results');
         var cat1=$('#cat1').val();
         var sp1=$('#sp1').val();
-        var term=$('#searchTerm').val();
+        var term=encodeURIComponent($('#searchTerm').val());
         var start=$('#start').val();
         var stop= $('#stop').val();
         var chr= $('#chr').val();
@@ -76,7 +76,7 @@ function getParameters() {
     $category= $("#searchCategory");
     category = $category.val();
     species = $species.val();
-    term = $('#searchTerm').val();
+    term = encodeURIComponent($('#searchTerm').val());
     $type = $("#type").val();
     $filterType=$('#filter').val();
     $subCat=$('#subCat').val();
@@ -338,7 +338,7 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
            $type= encodeURI(type);
         }
     }
-    var term=$('#searchTerm').val();
+    var term=encodeURIComponent($('#searchTerm').val());
 
    if($objectSearch == "true"){
       $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly+"&match_type="+matchType ;
@@ -386,7 +386,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
 // var   tab="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'tab', \'"+objectType+"\',$('#mapKey').val())\"  style=\"cursor: pointer\"><i class='fa fa-file' aria-hidden='true' style='font-size:30px;color:lightsteelblue'></i></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Allows user to download the selected objects in TAB seperated format. </span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'tab', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">Download Tab</a></div></p>";
 // var   csv="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,$('#species').val(),'csv', \'"+objectType+"\')\"  style=\"cursor: pointer\"><img  class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/csv.png\" ></a><span class=\"tooltiptext\" style=\"font-size: x-small\">Allows user to download the selected objects in CSV format. </span>&nbsp;<a onclick=\"toolSubmit(this,$('#species').val(),'csv')\" target=\"_blank\" style=\"cursor: pointer; font-size: 11px\">CSV Download</a></div></p>";
     var html;
-    if(category=="Gene"){
+    if(category=="Gene" || category=="Expressed Gene"){
          html=toolHeader+annotationDistribution+functionalAnnot + olga+annotComparison+excel ; //+csv;
 
         if(species!='Chinchilla' && species!='Squirrel' && species!='Bonobo' && species!='Pig'){
