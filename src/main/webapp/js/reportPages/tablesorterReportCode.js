@@ -697,6 +697,23 @@ function tableSorterReport() {
                 container: $('.strainQtlAssociationPager'),
                 size: 20
             });
+        //added samplemetadatatable for expression study report page
+        $('#sampleMetadataTable')
+            .tablesorter({
+                theme: 'blue',
+                widgets: ['zebra'],
+                // widgets: ['zebra','filter'],
+                widgetOptions: {
+                    // filter_external: '#sampleDataSearch',
+                    // filter_columnFilters: false,
+                    resize: true  // Enables column resizing by dragging
+                }
+            })
+
+            .tablesorterPager({
+                container: $('.sampleMetadataPager'),
+                size: 10
+            });
 
     });
 }
