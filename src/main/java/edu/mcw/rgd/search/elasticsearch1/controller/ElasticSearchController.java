@@ -1,10 +1,8 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
 import edu.mcw.rgd.dao.impl.*;
+import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.Map;
-import edu.mcw.rgd.datamodel.RgdId;
-import edu.mcw.rgd.datamodel.SearchLog;
-import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.Study;
 import edu.mcw.rgd.process.mapping.MapManager;
@@ -225,7 +223,7 @@ public class ElasticSearchController extends RGDSearchController {
     public String getRedirectUrl(HttpServletRequest request, String term, SearchBean searchBean) {
         try {
             // Check for RGD ID (numeric term)
-            if (term.matches("\\d+") && !searchBean.isRedirect()) {
+            if (term.matches("\\d+")) {
                 return getRedirectForRgdId(term);
             }
 
@@ -250,9 +248,9 @@ public class ElasticSearchController extends RGDSearchController {
         return null;
     }
     private boolean isStudyId(int id) throws Exception {
-        PhenominerDAO phenominerDAO=new PhenominerDAO();
-        Study study=phenominerDAO.getStudy(id);
-        return study!=null;
+        StudySampleMetadataDAO dao=new StudySampleMetadataDAO();
+        List<StudySampleMetadata> studies=dao.getStudySampleMetadata(id);
+        return studies!=null && studies.size()>0;
 
     }
     private String getRedirectForRgdId(String term) throws Exception {
