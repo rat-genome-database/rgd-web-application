@@ -303,39 +303,42 @@ public class QueryService1 {
 
     public QueryBuilder getDisMaxQuery(String term, SearchBean sb) {
         DisMaxQueryBuilder dqb = new DisMaxQueryBuilder();
+        // If term is numeric
+        if (term.matches("\\d+")) {
+            dqb.add((QueryBuilders.matchPhraseQuery("term_acc", term)));
+        }else {
+            // Handle empty term
+            if (!isNotBlank(term) && sb != null) {
+                return dqb.add(QueryBuilders.boolQuery()
+                        .must(QueryBuilders.matchAllQuery())
+                        .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, sb.getCategory())));
+            }
 
-        // Handle empty term
-        if (!isNotBlank(term) && sb != null) {
-            return dqb.add(QueryBuilders.boolQuery()
-                    .must(QueryBuilders.matchAllQuery())
-                    .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, sb.getCategory())));
+            // Handle null search bean
+            if (sb == null) {
+                return dqb.add(QueryBuilders.termQuery("term_acc", term));
+            }
+
+            // Handle specific match types
+            String matchType = sb.getMatchType();
+            if (isNotBlank(matchType) && !"contains".equalsIgnoreCase(matchType)) {
+                buildQuery(sb, dqb);
+                return dqb;
+            }
+
+            // Build default query with category-specific boosting
+            addCategoryBoostedQueries(dqb, term, sb);
+            addExactMatchQueries(dqb, term);
+
+            if (isAccessionId(term)) {
+                dqb.add(QueryBuilders.boolQuery()
+                        .must(QueryBuilders.termQuery("synonyms.symbol", term))
+                        .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, ONTOLOGY))
+                        .boost(EXACT_MATCH_BOOST));
+            } else {
+                addMultiMatchQueries(dqb, term);
+            }
         }
-
-        // Handle null search bean
-        if (sb == null) {
-            return dqb.add(QueryBuilders.termQuery("term_acc", term));
-        }
-
-        // Handle specific match types
-        String matchType = sb.getMatchType();
-        if (isNotBlank(matchType) && !"contains".equalsIgnoreCase(matchType)) {
-            buildQuery(sb, dqb);
-            return dqb;
-        }
-
-        // Build default query with category-specific boosting
-        addCategoryBoostedQueries(dqb, term, sb);
-        addExactMatchQueries(dqb, term);
-
-        if (isAccessionId(term)) {
-            dqb.add(QueryBuilders.boolQuery()
-                    .must(QueryBuilders.termQuery("synonyms.symbol", term))
-                    .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, ONTOLOGY))
-                    .boost(EXACT_MATCH_BOOST));
-        } else {
-            addMultiMatchQueries(dqb, term);
-        }
-
         return dqb;
     }
 
