@@ -127,15 +127,16 @@ public class RgdContext {
                 case "search":
                 case "variant": // variants part of general search
                     if( isProduction() ) {
-                        indexName= index+"_index_prod"+","+"variant_index_prod";
+                        indexName= index+"_index_prod"+","+"variant_index_prod"+","+"expression-search_index_prod";
                     }else
                     if( isPipelines() ) {
-                        indexName= index+"_index_cur"+","+"variant_index_cur";
+                        indexName= index+"_index_cur"+","+"variant_index_cur"+","+"expression-search_index_cur";
+
                     }else
                     if( isDev() ) {
-                        indexName= index+"_index_dev"+","+"variant_index_dev";
+                        indexName= index+"_index_dev"+","+"variant_index_dev"+","+"expression-search_index_dev";
                     }else
-                        indexName= index+"_index_dev"+","+"variant_index_dev";
+                        indexName= index+"_index_dev"+","+"variant_index_dev"+","+"expression-search_index_dev";
                     break;
 
                 default:
@@ -233,14 +234,14 @@ public class RgdContext {
 //                if(isProduction || isPipelines){
 //                    url="/solr/OntoSolr";
 //                }else{
-//                    url="https://dev.rgd.mcw.edu/solr/OntoSolr";
+//                    url="/solr/OntoSolr";
 //                }
 //                break;
 //            case "preprintsolr":
 //                if(isProduction || isPipelines){
 //                    url= "https://ontomate.rgd.mcw.edu/preprintSolr";
 //                }else{
-//                    url=  "https://dev.rgd.mcw.edu/solr/preprintSolr";
+//                    url=  "/solr/preprintSolr";
 //                }
 //                break;
 
