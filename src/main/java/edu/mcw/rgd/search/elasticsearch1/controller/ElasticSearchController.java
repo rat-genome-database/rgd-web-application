@@ -1,14 +1,12 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
-import edu.mcw.rgd.dao.impl.MapDAO;
-import edu.mcw.rgd.dao.impl.OntologyXDAO;
-import edu.mcw.rgd.dao.impl.RGDManagementDAO;
-import edu.mcw.rgd.dao.impl.SearchLogDAO;
+import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.SearchLog;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
+import edu.mcw.rgd.datamodel.pheno.Study;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.reporting.Report;
@@ -251,13 +249,18 @@ public class ElasticSearchController extends RGDSearchController {
         }
         return null;
     }
+    private boolean isStudyId(int id) throws Exception {
+        PhenominerDAO phenominerDAO=new PhenominerDAO();
+        Study study=phenominerDAO.getStudy(id);
+        return study!=null;
 
+    }
     private String getRedirectForRgdId(String term) throws Exception {
         int rgdId = Integer.parseInt(term);
         RGDManagementDAO dao = new RGDManagementDAO();
         RgdId id = dao.getRgdId2(rgdId);
-
-        if (id == null) {
+        boolean studyId=isStudyId(rgdId);
+        if ((id == null && !studyId) ||(id!=null && studyId) ) {
             return null;
         }
 
@@ -266,7 +269,10 @@ public class ElasticSearchController extends RGDSearchController {
         if (id.getSpeciesTypeKey() != 1 && id.getObjectKey() == 7) {
             url = "/rgdweb/report/variants/main.html?id=" + id.getRgdId();
         } else {
+            if(!studyId)
             url = Link.it(rgdId, id.getObjectKey());
+            else
+                url="/rgdweb/report/expressionStudy/main.html?id="+term;
         }
 
         // Only redirect if Link.it returned a valid URL (not just the ID)
