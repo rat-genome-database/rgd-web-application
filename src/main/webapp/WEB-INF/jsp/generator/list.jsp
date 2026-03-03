@@ -30,8 +30,8 @@ String pageDescription = "Build lists based on RGD annotation";
 
 <form name="submitForm" id="submitForm" action="list.html" method="post" target="_blank">
     <input type="hidden" name="a" id="a" value="" />
-    <input type="hidden" name="mapKey" id="mapKey" value="" />
-    <input type="hidden" name="oKey" id="oKey" value="" />
+    <input type="hidden" name="mapKey" id="mapKey" value="<%= request.getAttribute("mapKey") != null ? request.getAttribute("mapKey") : "" %>" />
+    <input type="hidden" name="oKey" id="oKey" value="<%= request.getAttribute("oKey") != null ? request.getAttribute("oKey") : "" %>" />
     <input type="hidden" name="vv" id="vv" value="" />
     <input type="hidden" name="ga" id="ga" value="" />
     <input type="hidden" name="act" id="act" value="" />
@@ -41,7 +41,7 @@ String pageDescription = "Build lists based on RGD annotation";
         String val = "";
         while ((val = request.getParameter("sample" + count)) != null) {
     %>
-            <input type="hidden" name="sample<%=count%>" value="<%=val%>"/>
+            <input type="hidden" name="sample<%=count%>" value="<%=StringEscapeUtils.escapeHtml4(val)%>"/>
 
         <%
             count++;
@@ -394,6 +394,9 @@ String pageDescription = "Build lists based on RGD annotation";
                         <span class="ont-chip" data-ont="hp">Human Phenotype</span>
                         <span class="ont-chip" data-ont="rs">Strain Ontology</span>
                         <span class="ont-chip" data-ont="cmo">Clinical Measurement</span>
+                        <span class="ont-chip" data-ont="mmo">Measurement Method</span>
+                        <span class="ont-chip" data-ont="xco">Experimental Condition</span>
+                        <span class="ont-chip" data-ont="efo">Experimental Factor</span>
                     </div>
                     <div class="add-modal-search">
                         <label><i class="fas fa-search"></i> Search for Ontology Terms</label>
@@ -413,11 +416,11 @@ String pageDescription = "Build lists based on RGD annotation";
                     <div style="display: flex; gap: 15px;">
                         <div class="add-modal-form-group" style="flex:1;">
                             <label>Start Position</label>
-                            <input type="text" id="modal_start" placeholder="e.g., 1000000" />
+                            <input type="text" id="modal_start" placeholder="Optional (default: 1)" />
                         </div>
                         <div class="add-modal-form-group" style="flex:1;">
                             <label>Stop Position</label>
-                            <input type="text" id="modal_stop" placeholder="e.g., 5000000" />
+                            <input type="text" id="modal_stop" placeholder="Optional (default: end)" />
                         </div>
                     </div>
                 </div>
@@ -445,6 +448,12 @@ String pageDescription = "Build lists based on RGD annotation";
             </div>
 
             <!-- SCREEN 3: Combine Operation -->
+            <%
+                Integer _oKey = (Integer) request.getAttribute("oKey");
+                String _objLabel = "genes";
+                if (_oKey != null && _oKey == 5) _objLabel = "strains";
+                else if (_oKey != null && _oKey == 6) _objLabel = "QTLs";
+            %>
             <div class="modal-screen" id="modal-screen-3">
                 <h4 style="text-align:center; color:#333; margin-bottom:25px;">How should this combine with your existing list?</h4>
                 <div id="previewLoading" style="text-align:center; padding:20px; display:none;">
@@ -456,21 +465,21 @@ String pageDescription = "Build lists based on RGD annotation";
                         <i class="fas fa-plus-circle"></i>
                         <div>
                             <h5>Union (OR) <span id="previewUnion" class="preview-count"></span></h5>
-                            <p>Include genes from <strong>either</strong> list</p>
+                            <p>Include <span class="obj-type-label"><%=_objLabel%></span> from <strong>either</strong> list</p>
                         </div>
                     </div>
                     <div class="modal-operation-card intersect" onclick="selectOperationAndSubmit('!')">
                         <i class="fas fa-compress-alt"></i>
                         <div>
                             <h5>Intersect (AND) <span id="previewIntersect" class="preview-count"></span></h5>
-                            <p>Only genes in <strong>both</strong> lists</p>
+                            <p>Only <span class="obj-type-label"><%=_objLabel%></span> in <strong>both</strong> lists</p>
                         </div>
                     </div>
                     <div class="modal-operation-card subtract" onclick="selectOperationAndSubmit('^')">
                         <i class="fas fa-minus-circle"></i>
                         <div>
                             <h5>Subtract (NOT) <span id="previewSubtract" class="preview-count"></span></h5>
-                            <p><strong>Remove</strong> genes from new criteria</p>
+                            <p><strong>Remove</strong> <span class="obj-type-label"><%=_objLabel%></span> from new criteria</p>
                         </div>
                     </div>
                 </div>
@@ -490,6 +499,21 @@ String pageDescription = "Build lists based on RGD annotation";
 </div>
 
 <script>
+// Map keys to species type keys (always available for ontology filtering)
+var mapKeyToSpecies = {
+    '380': 3, '372': 3, '360': 3, '70': 3, '60': 3,  // Rat
+    '38': 1, '17': 1, '13': 1,     // Human
+    '239': 2, '35': 2, '18': 2,    // Mouse
+    '44': 4,                        // Chinchilla
+    '634': 5, '631': 5,            // Dog
+    '511': 6, '513': 6,            // Bonobo
+    '720': 7,                       // Squirrel
+    '911': 9, '910': 9,            // Pig
+    '1311': 13, '1313': 13,        // Green Monkey
+    '1410': 14,                     // Naked Mole-Rat
+    '1701': 17                      // Black Rat
+};
+
 var modalCurrentOnt = 'rdo';
 var modalCurrentScreen = 1;
 var modalSelectedType = '';
@@ -505,6 +529,10 @@ function openAddModal() {
     updateModalButtons();
     // Initialize autocomplete for default ontology
     setupModalAutocomplete();
+    // Filter ontology chips based on species and object type
+    filterOntologyChips();
+    // Update object type labels (genes/QTLs/strains)
+    updateObjectTypeLabels();
     // Populate chromosome dropdown - try existing #chr first, otherwise load via AJAX
     var chrSelect = document.getElementById('modal_chr');
     var existingChr = document.getElementById('chr');
@@ -528,14 +556,14 @@ function loadChromosomesForMapKey(mapKey) {
             chrSelect.innerHTML = '';
             for (var i = 0; i < chromosomes.length; i++) {
                 var opt = document.createElement('option');
-                opt.value = chromosomes[i];
-                opt.textContent = chromosomes[i];
+                opt.value = chromosomes[i].name;
+                opt.textContent = chromosomes[i].name;
+                if (chromosomes[i].size) opt.setAttribute('data-size', chromosomes[i].size);
                 chrSelect.appendChild(opt);
             }
         })
         .catch(function(error) {
             console.error('Error loading chromosomes:', error);
-            // Fallback to common chromosome names
             chrSelect.innerHTML = '';
             var defaultChrs = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','X','Y','MT'];
             for (var i = 0; i < defaultChrs.length; i++) {
@@ -682,9 +710,10 @@ function fetchPreviewCounts(newAccId) {
             });
 
             // Display counts with descriptive text
-            document.getElementById('previewUnion').textContent = genesAdded.length + ' genes would be added';
-            document.getElementById('previewIntersect').textContent = genesIntersect.length + ' genes intersect';
-            document.getElementById('previewSubtract').textContent = genesRemoved.length + ' genes would be removed';
+            var objLabel = getObjectTypeLabel();
+            document.getElementById('previewUnion').textContent = genesAdded.length + ' ' + objLabel + ' would be added';
+            document.getElementById('previewIntersect').textContent = genesIntersect.length + ' ' + objLabel + ' intersect';
+            document.getElementById('previewSubtract').textContent = genesRemoved.length + ' ' + objLabel + ' would be removed';
 
             // Get the operation card elements
             var intersectCard = document.querySelector('.modal-operation-card.intersect');
@@ -750,20 +779,36 @@ function getModalAccId() {
         var chr = document.getElementById('modal_chr').value;
         var start = document.getElementById('modal_start').value.trim();
         var stop = document.getElementById('modal_stop').value.trim();
-        if (chr && start && stop) {
-            // Validate that start and stop are numeric
-            var startNum = parseInt(start.replace(/,/g, ''), 10);
-            var stopNum = parseInt(stop.replace(/,/g, ''), 10);
-            if (isNaN(startNum) || isNaN(stopNum)) {
-                alert('Start and stop positions must be numeric values.');
-                return null;
-            }
-            if (startNum < 0 || stopNum < 0) {
-                alert('Positions cannot be negative.');
-                return null;
-            }
-            if (startNum >= stopNum) {
-                alert('Start position must be less than stop position.');
+        if (chr) {
+            var startNum = 1;
+            var stopNum = 0;
+            // Default to whole chromosome if positions not provided
+            if (!start && !stop) {
+                var selOpt = document.getElementById('modal_chr').selectedOptions[0];
+                var chrSize = selOpt ? selOpt.getAttribute('data-size') : null;
+                if (chrSize) {
+                    stopNum = parseInt(chrSize, 10);
+                } else {
+                    alert('Could not determine chromosome size. Please enter start and stop positions.');
+                    return null;
+                }
+            } else if (start && stop) {
+                startNum = parseInt(start.replace(/,/g, ''), 10);
+                stopNum = parseInt(stop.replace(/,/g, ''), 10);
+                if (isNaN(startNum) || isNaN(stopNum)) {
+                    alert('Start and stop positions must be numeric values.');
+                    return null;
+                }
+                if (startNum < 0 || stopNum < 0) {
+                    alert('Positions cannot be negative.');
+                    return null;
+                }
+                if (startNum >= stopNum) {
+                    alert('Start position must be less than stop position.');
+                    return null;
+                }
+            } else {
+                alert('Please enter both start and stop positions, or leave both empty to use the whole chromosome.');
                 return null;
             }
             accId = 'chr' + chr + ':' + startNum + '..' + stopNum;
@@ -840,6 +885,99 @@ document.querySelectorAll('#modalOntChips .ont-chip').forEach(function(chip) {
     });
 });
 
+function getObjectTypeLabel() {
+    var oKeyEl = document.getElementById('oKey');
+    var oKeyTmpEl = document.getElementById('oKey_tmp');
+    var oKeyVal = parseInt((oKeyEl && oKeyEl.value) || (oKeyTmpEl && oKeyTmpEl.value) || '1');
+    if (oKeyVal === 5) return 'strains';
+    if (oKeyVal === 6) return 'QTLs';
+    return 'genes';
+}
+
+function updateObjectTypeLabels() {
+    var label = getObjectTypeLabel();
+    var spans = document.querySelectorAll('.obj-type-label');
+    spans.forEach(function(s) { s.textContent = label; });
+}
+
+function filterOntologyChips() {
+    var mapKeyEl = document.getElementById('mapKey');
+    var setupMapKeyEl = document.getElementById('setup_mapKey');
+    var mapKey = (mapKeyEl && mapKeyEl.value) || (setupMapKeyEl && setupMapKeyEl.value) || '380';
+    var speciesKey = mapKeyToSpecies[mapKey] || 0;
+    var oKeyEl = document.getElementById('oKey');
+    var oKeyTmpEl = document.getElementById('oKey_tmp');
+    var oKeyVal = parseInt((oKeyEl && oKeyEl.value) || (oKeyTmpEl && oKeyTmpEl.value) || '1');
+
+    // Build a key: speciesTypeKey + '_' + oKey
+    // oKey: 1=Gene, 5=Strain, 6=QTL
+    var allowed = {};
+
+    // Rat (3)
+    if (speciesKey === 3) {
+        if (oKeyVal === 1) { // Rat Genes
+            allowed = {rdo:1, mp:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1};
+        } else if (oKeyVal === 5) { // Rat Strains
+            allowed = {rdo:1, mp:1, vt:1, bp:1, rs:1};
+        } else if (oKeyVal === 6) { // Rat QTLs
+            allowed = {rdo:1, mp:1, vt:1, rs:1, cmo:1, mmo:1, xco:1};
+        }
+    }
+    // Human (1)
+    else if (speciesKey === 1) {
+        if (oKeyVal === 1) { // Human Genes
+            allowed = {rdo:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1, hp:1, mmo:1};
+        } else if (oKeyVal === 6) { // Human QTLs
+            allowed = {rdo:1, hp:1, vt:1, efo:1, cmo:1};
+        }
+    }
+    // Mouse (2)
+    else if (speciesKey === 2) {
+        if (oKeyVal === 1) { // Mouse Genes
+            allowed = {mp:1, rdo:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1};
+        } else if (oKeyVal === 6) { // Mouse QTLs
+            allowed = {mp:1};
+        }
+    }
+    // Chinchilla (4), Dog (5), Squirrel (7), Green Monkey (13)
+    else if (speciesKey === 4 || speciesKey === 5 || speciesKey === 7 || speciesKey === 13) {
+        allowed = {rdo:1, pw:1, bp:1, mf:1, cc:1, vt:1};
+    }
+    // Bonobo (6), Pig (9), Naked Mole-Rat (14)
+    else if (speciesKey === 6 || speciesKey === 9 || speciesKey === 14) {
+        allowed = {rdo:1, mp:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1};
+    }
+    // Default fallback: show all
+    else {
+        allowed = {rdo:1, mp:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1, hp:1, rs:1, cmo:1, mmo:1, xco:1, efo:1};
+    }
+
+    var chips = document.querySelectorAll('#modalOntChips .ont-chip');
+    var activeHidden = false;
+    var firstVisible = null;
+
+    chips.forEach(function(chip) {
+        var ont = chip.getAttribute('data-ont');
+        if (allowed[ont]) {
+            chip.style.display = '';
+            if (!firstVisible) firstVisible = chip;
+        } else {
+            chip.style.display = 'none';
+            if (chip.classList.contains('active')) {
+                activeHidden = true;
+                chip.classList.remove('active');
+            }
+        }
+    });
+
+    // If the active chip was hidden, activate the first visible one
+    if (activeHidden && firstVisible) {
+        firstVisible.classList.add('active');
+        modalCurrentOnt = firstVisible.getAttribute('data-ont');
+        setupModalAutocomplete();
+    }
+}
+
 function browseModalOntology() {
     var ontId = modalCurrentOnt.toUpperCase();
     var url = '/rgdweb/ontology/view.html?mode=popup&ont=' + ontId +
@@ -852,7 +990,9 @@ function browseModalOntology() {
 
 try {
     Integer mapKey = (Integer) request.getAttribute("mapKey");
+    if (mapKey == null) mapKey = MapManager.getInstance().getReferenceAssembly(SpeciesType.RAT).getKey();
     Integer oKey= (Integer) request.getAttribute("oKey");
+    if (oKey == null) oKey = 1;
     Integer speciesTypeKey = SpeciesType.getSpeciesTypeKeyForMap(mapKey);
 
 
@@ -923,6 +1063,8 @@ $(document).ready(function(){
     <% ontId = "mmo"; %>
     <%@ include file="ontPopupConfig.jsp" %>
     <% ontId = "xco"; %>
+    <%@ include file="ontPopupConfig.jsp" %>
+    <% ontId = "efo"; %>
     <%@ include file="ontPopupConfig.jsp" %>
     <% ontId = "cc"; %>
     <%@ include file="ontPopupConfig.jsp" %>
@@ -1137,22 +1279,6 @@ $(document).ready(function(){
 <script>
 var selectedOKey = 1;
 
-// Map keys to species type keys
-// Rat = 3, Human = 1, Mouse = 2, Chinchilla = 4, Dog = 5, Pig = 9, Bonobo = 6, Squirrel = 7, Green Monkey = 13, Naked Mole-Rat = 14, Black Rat = 17
-var mapKeyToSpecies = {
-    '380': 3, '372': 3, '360': 3, '70': 3, '60': 3,  // Rat (GRCr8, v7.2, v6.0, v5.0, v3.4)
-    '38': 1, '17': 1, '13': 1,     // Human (GRCh38, GRCh37, GRCh36)
-    '239': 2, '35': 2, '18': 2,    // Mouse (GRCm39, GRCm38, Build 37)
-    '44': 4,                        // Chinchilla
-    '634': 5, '631': 5,            // Dog
-    '511': 6, '513': 6,            // Bonobo
-    '720': 7,                       // Squirrel
-    '911': 9, '910': 9,            // Pig (Sscrofa11.1, Sscrofa10.2)
-    '1311': 13, '1313': 13,        // Green Monkey
-    '1410': 14,                     // Naked Mole-Rat
-    '1701': 17                      // Black Rat
-};
-
 // QTLs available for: Rat (3), Human (1), Mouse (2)
 // Strains available for: Rat (3) only
 function updateObjectTypeOptions() {
@@ -1300,7 +1426,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <button class="action-btn action-btn-primary" onclick="openAddModal()">
         <i class="fas fa-plus-circle"></i> Add Another <%=objectType%> List
     </button>
-    <button class="action-btn action-btn-secondary" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=a%>')">
+    <button class="action-btn action-btn-secondary" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=StringEscapeUtils.escapeEcmaScript(a)%>')">
         <i class="fas fa-chart-bar"></i> Analyze Result Set
     </button>
     <a href="/rgdweb/generator/list.html" class="action-btn action-btn-outline">
@@ -1320,10 +1446,26 @@ document.addEventListener('DOMContentLoaded', function() {
         <option value='380' <% if (mapKey==380) out.print("selected");%>>GRCr8</option>
         <option value='372' <% if (mapKey==372) out.print("selected");%>>v7.2</option>
         <option value='360' <% if (mapKey==360) out.print("selected");%>>v6.0</option>
+        <option value='70' <% if (mapKey==70) out.print("selected");%>>v5.0</option>
+        <option value='60' <% if (mapKey==60) out.print("selected");%>>v3.4</option>
         <option value='38' <% if (mapKey==38) out.print("selected");%>>GRCh38</option>
         <option value='17' <% if (mapKey==17) out.print("selected");%>>GRCh37</option>
+        <option value='13' <% if (mapKey==13) out.print("selected");%>>NCBI36</option>
         <option value='239' <% if (mapKey==239) out.print("selected");%>>GRCm39</option>
         <option value='35' <% if (mapKey==35) out.print("selected");%>>GRCm38</option>
+        <option value='18' <% if (mapKey==18) out.print("selected");%>>NCBI37</option>
+        <option value='44' <% if (mapKey==44) out.print("selected");%>>ChiLan1.0</option>
+        <option value='634' <% if (mapKey==634) out.print("selected");%>>ROS_Cfam_1.0</option>
+        <option value='631' <% if (mapKey==631) out.print("selected");%>>CanFam3.1</option>
+        <option value='511' <% if (mapKey==511) out.print("selected");%>>panpan1.1</option>
+        <option value='513' <% if (mapKey==513) out.print("selected");%>>Mhudiblu_PPA_v0</option>
+        <option value='720' <% if (mapKey==720) out.print("selected");%>>SpeTri2.0</option>
+        <option value='911' <% if (mapKey==911) out.print("selected");%>>Sscrofa11.1</option>
+        <option value='910' <% if (mapKey==910) out.print("selected");%>>Sscrofa10.2</option>
+        <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Vero_WHO_p1.0</option>
+        <option value='1313' <% if (mapKey==1313) out.print("selected");%>>ChlSab1.1</option>
+        <option value='1410' <% if (mapKey==1410) out.print("selected");%>>HetGla_1.0</option>
+        <option value='1701' <% if (mapKey==1701) out.print("selected");%>>Rrattus_CSIRO_v1</option>
     </select>
 </div>
 
@@ -1335,7 +1477,7 @@ document.addEventListener('DOMContentLoaded', function() {
             List<Chromosome> chromosomes = MapManager.getInstance().getChromosomes(mapKey);
             for (Chromosome ch: chromosomes) {
         %>
-        <option value="<%=ch.getChromosome()%>"><%=ch.getChromosome()%></option>
+        <option value="<%=ch.getChromosome()%>" data-size="<%=ch.getSeqLength()%>"><%=ch.getChromosome()%></option>
         <%  } %>
     </select>
 </div>
@@ -1369,7 +1511,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     while (logIt.hasNext()) {
                         msg = logIt.next().toString();
 //                        System.out.println(msg);
-                        out.print(msg + "<br>");
+                        out.print(StringEscapeUtils.escapeHtml4(msg) + "<br>");
                     }
                 %>
             </div>
@@ -1415,7 +1557,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             OntologyXDAO odao = new OntologyXDAO();
             Term t = odao.getTermByAccId(accId);
-            identifier = t.getTerm();
+            if (t != null) identifier = t.getTerm();
+            else identifier = accId;
         }
 
 %>
@@ -1432,7 +1575,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <% } %>
 
-    <span style="padding:3px; border-top:1px solid <%=colors[i]%>; border-bottom: 1px solid <%=colors[i]%>"><%=identifier%></span>
+    <span style="padding:3px; border-top:1px solid <%=colors[i % colors.length]%>; border-bottom: 1px solid <%=colors[i % colors.length]%>"><%=StringEscapeUtils.escapeHtml4(identifier)%></span>
 
     <% if (i !=0) { %>
         <b>)</b>
@@ -1482,14 +1625,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <td valign="top">
 
-<div style="padding-left:0px; border-top:1px solid <%=colors[i]%>; border-right:1px solid <%=colors[i]%>;  border-left:1px solid <%=colors[i]%>; text-align:center;"><%=objectSymbols.get(i).size()%></div>
-<div style="border-right:1px solid <%=colors[i]%>; border-top:5px solid <%=colors[i]%>; padding:5px; margin: 5px; display: inline-block;">
+<div style="padding-left:0px; border-top:1px solid <%=colors[i % colors.length]%>; border-right:1px solid <%=colors[i % colors.length]%>;  border-left:1px solid <%=colors[i % colors.length]%>; text-align:center;"><%=objectSymbols.get(i).size()%></div>
+<div style="border-right:1px solid <%=colors[i % colors.length]%>; border-top:5px solid <%=colors[i % colors.length]%>; padding:5px; margin: 5px; display: inline-block;">
 <div style="float:right; text-align:right;"><a href="javascript:removeTerm(<%=i%>)"><img src="/rgdweb/common/images/del.jpg" border=0 /></a> </div>
 
 <%
     if (messages.containsKey(accIds.get(i))) {
     %>
-        <div style="padding-top:5px;padding-bottom:5px;font-weight:700; color:red;">Empty</div><div><%=messages.get(accIds.get(i))%></div>
+        <div style="padding-top:5px;padding-bottom:5px;font-weight:700; color:red;">Empty</div><div><%=StringEscapeUtils.escapeHtml4((String)messages.get(accIds.get(i)))%></div>
     <%
     }else if (objectSymbols.get(i).size()==0) { %>
          <div style="text-decoration:underline; padding-top:5px;padding-bottom:5px;font-weight:700; color:red;">Empty</div>
@@ -1499,7 +1642,7 @@ document.addEventListener('DOMContentLoaded', function() {
 for (String gene: objectSymbols.get(i)) {
     if (!exclude.containsKey(gene)) {
 %>
-        <table cellpadding=0 cellspacing=0><tr><td><a href="javascript:removeGene('<%=accId%>','<%=gene%>')"><img height=10 width=10 src="/rgdweb/common/images/del.jpg" border=0 /></a>&nbsp;&nbsp;&nbsp;<%=gene%></td></tr></table>
+        <table cellpadding=0 cellspacing=0><tr><td><a href="javascript:removeGene('<%=StringEscapeUtils.escapeEcmaScript(accId)%>','<%=StringEscapeUtils.escapeEcmaScript(gene)%>')"><img height=10 width=10 src="/rgdweb/common/images/del.jpg" border=0 /></a>&nbsp;&nbsp;&nbsp;<%=StringEscapeUtils.escapeHtml4(gene)%></td></tr></table>
 <%
     }
 }
@@ -1535,7 +1678,7 @@ for (String gene: objectSymbols.get(i)) {
                    while(it.hasNext()) {
                        String gene = (String)it.next();
                %>
-               <span class="resultList"><%=gene.trim()%></span><br>
+               <span class="resultList"><%=StringEscapeUtils.escapeHtml4(gene.trim())%></span><br>
                <%
                    }
                %>
@@ -1579,7 +1722,7 @@ if (accIds.size()==1 && objectSymbols.get(0).size() == 0) {
 
 
 %>
-    alert("<%=mess%>");
+    alert("<%=StringEscapeUtils.escapeEcmaScript(mess)%>");
     aAccIds.length=0;
     aOperators.length=0;
     reloadPage();

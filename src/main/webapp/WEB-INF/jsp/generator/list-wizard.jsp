@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
 <%@ page import="edu.mcw.rgd.web.FormUtility" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -875,6 +876,9 @@ try {
                     <span class="ontology-tab" data-ont="hp">Human Phenotype</span>
                     <span class="ontology-tab" data-ont="rs">Strain Ontology</span>
                     <span class="ontology-tab" data-ont="cmo">Clinical Measurement</span>
+                    <span class="ontology-tab" data-ont="mmo">Measurement Method</span>
+                    <span class="ontology-tab" data-ont="xco">Experimental Condition</span>
+                    <span class="ontology-tab" data-ont="efo">Experimental Factor</span>
                 </div>
 
                 <div class="search-container">
@@ -895,18 +899,18 @@ try {
                         <%
                         List<Chromosome> chromosomes = MapManager.getInstance().getChromosomes(mapKey);
                         for (Chromosome ch: chromosomes) { %>
-                            <option value="<%=ch.getChromosome()%>"><%=ch.getChromosome()%></option>
+                            <option value="<%=ch.getChromosome()%>" data-size="<%=ch.getSeqLength()%>"><%=ch.getChromosome()%></option>
                         <% } %>
                     </select>
                 </div>
                 <div style="display: flex; gap: 20px;">
                     <div class="form-section" style="flex: 1;">
                         <label>Start Position</label>
-                        <input type="text" id="start" placeholder="e.g., 1000000" />
+                        <input type="text" id="start" placeholder="Optional (default: 1)" />
                     </div>
                     <div class="form-section" style="flex: 1;">
                         <label>Stop Position</label>
-                        <input type="text" id="stop" placeholder="e.g., 5000000" />
+                        <input type="text" id="stop" placeholder="Optional (default: end)" />
                     </div>
                 </div>
             </div>
@@ -1208,7 +1212,7 @@ var aSubGenes = [];
 
 <% if (a != null && !a.isEmpty()) { %>
 // Parse existing query
-var accIdTmp = "<%=a%>".split("|");
+var accIdTmp = "<%=StringEscapeUtils.escapeEcmaScript(a)%>".split("|");
 for (var i = 0; i < accIdTmp.length; i++) {
     var accIdBlock = accIdTmp[i];
     aOperators[i] = accIdBlock.substring(0,1);
@@ -1346,10 +1350,35 @@ function getUserSelectedAccId() {
     if (qtl) return 'qtl:' + qtl;
 
     var chr = jQuery('#chr').val();
-    var start = jQuery('#start').val();
-    var stop = jQuery('#stop').val();
-    if (chr && start && stop) {
-        return 'chr' + chr + ':' + start.trim() + '..' + stop.trim();
+    var start = jQuery('#start').val() ? jQuery('#start').val().trim() : '';
+    var stop = jQuery('#stop').val() ? jQuery('#stop').val().trim() : '';
+    if (chr) {
+        var startNum = 1;
+        var stopNum = 0;
+        if (!start && !stop) {
+            var chrSize = jQuery('#chr option:selected').data('size');
+            if (chrSize) {
+                stopNum = parseInt(chrSize, 10);
+            } else {
+                alert('Could not determine chromosome size. Please enter start and stop positions.');
+                return null;
+            }
+        } else if (start && stop) {
+            startNum = parseInt(start.replace(/,/g, ''), 10);
+            stopNum = parseInt(stop.replace(/,/g, ''), 10);
+            if (isNaN(startNum) || isNaN(stopNum)) {
+                alert('Start and stop positions must be numeric values.');
+                return null;
+            }
+            if (startNum >= stopNum) {
+                alert('Start position must be less than stop position.');
+                return null;
+            }
+        } else {
+            alert('Please enter both start and stop positions, or leave both empty to use the whole chromosome.');
+            return null;
+        }
+        return 'chr' + chr + ':' + startNum + '..' + stopNum;
     }
 
     return null;
@@ -1419,6 +1448,73 @@ function toolSubmit(tool, speciesTypeKey) {
     }
 }
 
+function filterOntologyTabs() {
+    var allowed = {};
+
+    // Rat (3)
+    if (speciesTypeKey === 3) {
+        if (oKey === 1) { // Rat Genes
+            allowed = {rdo:1, mp:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1};
+        } else if (oKey === 5) { // Rat Strains
+            allowed = {rdo:1, mp:1, vt:1, bp:1, rs:1};
+        } else if (oKey === 6) { // Rat QTLs
+            allowed = {rdo:1, mp:1, vt:1, rs:1, cmo:1, mmo:1, xco:1};
+        }
+    }
+    // Human (1)
+    else if (speciesTypeKey === 1) {
+        if (oKey === 1) { // Human Genes
+            allowed = {rdo:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1, hp:1, mmo:1};
+        } else if (oKey === 6) { // Human QTLs
+            allowed = {rdo:1, hp:1, vt:1, efo:1, cmo:1};
+        }
+    }
+    // Mouse (2)
+    else if (speciesTypeKey === 2) {
+        if (oKey === 1) { // Mouse Genes
+            allowed = {mp:1, rdo:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1};
+        } else if (oKey === 6) { // Mouse QTLs
+            allowed = {mp:1};
+        }
+    }
+    // Chinchilla (4), Dog (5), Squirrel (7), Green Monkey (13)
+    else if (speciesTypeKey === 4 || speciesTypeKey === 5 || speciesTypeKey === 7 || speciesTypeKey === 13) {
+        allowed = {rdo:1, pw:1, bp:1, mf:1, cc:1, vt:1};
+    }
+    // Bonobo (6), Pig (9), Naked Mole-Rat (14)
+    else if (speciesTypeKey === 6 || speciesTypeKey === 9 || speciesTypeKey === 14) {
+        allowed = {rdo:1, mp:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1};
+    }
+    // Default fallback: show all
+    else {
+        allowed = {rdo:1, mp:1, pw:1, bp:1, mf:1, cc:1, chebi:1, vt:1, hp:1, rs:1, cmo:1, mmo:1, xco:1, efo:1};
+    }
+
+    var tabs = document.querySelectorAll('#ontologyTabs .ontology-tab');
+    var activeHidden = false;
+    var firstVisible = null;
+
+    tabs.forEach(function(tab) {
+        var ont = tab.getAttribute('data-ont');
+        if (allowed[ont]) {
+            tab.style.display = '';
+            if (!firstVisible) firstVisible = tab;
+        } else {
+            tab.style.display = 'none';
+            if (tab.classList.contains('active')) {
+                activeHidden = true;
+                tab.classList.remove('active');
+            }
+        }
+    });
+
+    // If the active tab was hidden, activate the first visible one
+    if (activeHidden && firstVisible) {
+        firstVisible.classList.add('active');
+        currentOntology = firstVisible.getAttribute('data-ont');
+    }
+}
+
 // jQuery-specific initialization
 jQuery(document).ready(function($) {
     // List type card selection
@@ -1453,8 +1549,11 @@ jQuery(document).ready(function($) {
         setupAutocomplete(currentOntology);
     });
 
+    // Filter ontology tabs based on species and object type
+    filterOntologyTabs();
+
     // Setup initial autocomplete
-    setupAutocomplete('rdo');
+    setupAutocomplete(currentOntology);
 
     // Add criteria button
     $('#addCriteriaBtn').click(function() {
@@ -1489,6 +1588,9 @@ jQuery(document).ready(function($) {
         if (ont == 'hp') ontPrefix = 'HP';
         if (ont == 'rs') ontPrefix = 'RS';
         if (ont == 'cmo') ontPrefix = 'CMO';
+        if (ont == 'mmo') ontPrefix = 'MMO';
+        if (ont == 'xco') ontPrefix = 'XCO';
+        if (ont == 'efo') ontPrefix = 'EFO';
         if (ont == 'vt') ontPrefix = 'VT';
 
         $('#ontology_term').autocomplete({
