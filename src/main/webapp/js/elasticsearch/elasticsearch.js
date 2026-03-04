@@ -406,7 +406,7 @@ function initTools(category, species, objectType,mapKey ,$sampleExists){
             html =html+vv;
         }
        html= html+"<p><strong>Legend</strong></p>"+
-            "<P><img src='/rgdweb/images/VV_small.gif' >&nbsp;<span style='font-size: x-small'>Inidcates sample data exists in Variant Visualizer</span></P>"+
+            "<P><img src='/rgdweb/images/VV_small.gif' >&nbsp;<span style='font-size: x-small'>Indicates sample data exists in Variant Visualizer</span></P>"+
             "<p> <img src='/rgdweb/images/PM_small.gif' >&nbsp;<span style='font-size: x-small'>Indicates Phenominer data is available</span></p>";
 
     }
