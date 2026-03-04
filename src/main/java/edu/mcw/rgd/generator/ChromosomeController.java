@@ -10,10 +10,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Returns chromosome names as JSON for a given mapKey.
+ * Returns chromosome names and sizes as JSON for a given mapKey.
  * Used by OLGA wizard for populating chromosome dropdown.
  */
 public class ChromosomeController implements Controller {
@@ -30,11 +32,14 @@ public class ChromosomeController implements Controller {
             // Use default
         }
 
-        List<String> chromosomeNames = new ArrayList<>();
+        List<Map<String,Object>> chromosomeList = new ArrayList<>();
         try {
             List<Chromosome> chromosomes = MapManager.getInstance().getChromosomes(mapKey);
             for (Chromosome ch : chromosomes) {
-                chromosomeNames.add(ch.getChromosome());
+                Map<String,Object> entry = new HashMap<>();
+                entry.put("name", ch.getChromosome());
+                entry.put("size", ch.getSeqLength());
+                chromosomeList.add(entry);
             }
         } catch (Exception e) {
             // Return empty list on error
@@ -42,7 +47,7 @@ public class ChromosomeController implements Controller {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(new Gson().toJson(chromosomeNames));
+        response.getWriter().write(new Gson().toJson(chromosomeList));
         return null;
     }
 }

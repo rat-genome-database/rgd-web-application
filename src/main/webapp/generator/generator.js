@@ -146,6 +146,10 @@ function resetFormValues() {
     document.getElementById("cc_term").value="";
     document.getElementById("vt_acc_id").value="";
     document.getElementById("vt_term").value="";
+    if (document.getElementById("efo_acc_id")) {
+        document.getElementById("efo_acc_id").value="";
+        document.getElementById("efo_term").value="";
+    }
 
     document.getElementById("geneSelectList").value="";
 
@@ -259,6 +263,9 @@ function getUserSelectedAccId() {
     }
     if (document.getElementById("mf_acc_id").value != "") {
         return document.getElementById("mf_acc_id").value;
+    }
+    if (document.getElementById("efo_acc_id") && document.getElementById("efo_acc_id").value != "") {
+        return document.getElementById("efo_acc_id").value;
     }
 
     if (document.getElementById("geneSelectList").value != "") {
@@ -462,6 +469,7 @@ function submitTerm() {
     var c=document.getElementById("chebi_acc_id").value;
     var bp=document.getElementById("bp_acc_id").value;
     var mf=document.getElementById("mf_acc_id").value;
+    var efo=document.getElementById("efo_acc_id") ? document.getElementById("efo_acc_id").value : "";
 
     var termCnt=0;
     if (d!="") {
@@ -501,6 +509,9 @@ function submitTerm() {
         termCnt++;
     }
     if (vt!="") {
+        termCnt++;
+    }
+    if (efo!="") {
         termCnt++;
     }
 
