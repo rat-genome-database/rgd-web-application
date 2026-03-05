@@ -222,8 +222,8 @@
                     <c:if test="${hit.sourceAsMap.pigOrthologs!=0}">
                         <tr><td>Pig</td><td>${hit.sourceAsMap.pigOrthologs}</td></tr>
                     </c:if>
-                    <c:if test="${hit.sourceAsMap.moleRatOrthologs!=0}">
-                        <tr><td>Naked Mole-rat</td><td>${hit.sourceAsMap.moleRatOrthologs}</td></tr>
+                    <c:if test="${hit.sourceAsMap.nakedMoleRatOrthologs!=0}">
+                        <tr><td>Naked Mole-rat</td><td>${hit.sourceAsMap.nakedMoleRatOrthologs}</td></tr>
                     </c:if>
                     <c:if test="${hit.sourceAsMap.greenMonkeyOrthologs!=0}">
                         <tr><td>Green Monkey</td><td>${hit.sourceAsMap.greenMonkeyOrthologs}</td></tr>
