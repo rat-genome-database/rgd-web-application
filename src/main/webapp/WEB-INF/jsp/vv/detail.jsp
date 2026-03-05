@@ -10,6 +10,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantMapData" %>
 <%@ page import="edu.mcw.rgd.dao.impl.variants.VariantDAO" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="com.google.gson.Gson" %>
 
 <%@ include file="carpeHeader.jsp"%>
 
@@ -273,9 +274,16 @@
 
                                 %>
                                 <table border="0" width="100%" style="border:  5px solid #D8D8DB; background-color:white; color:#053867;font-size:12px;">
-                                    <% try { %>
+                                    <% try {
+                                       List<Gene> genes= xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol());
+                                        Optional<String> gene = genes.stream()
+                                                .filter(g -> !g.getType().equalsIgnoreCase("allele"))
+                                                .map(Gene::getSymbol)
+                                                .findFirst();
+//                                        String geneSymbol=  xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol();
+                                    %>
                                     <tr>
-                                        <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xDao.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol()%></td>
+                                        <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%= gene.orElse("")%></td>
                                     </tr>
                                     <% } catch (Exception e) { %>
 
