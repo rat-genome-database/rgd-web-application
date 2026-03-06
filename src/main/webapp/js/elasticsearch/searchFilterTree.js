@@ -15,6 +15,11 @@ $(function () {
             "types" /*, "themes", "html_data", "checkbox", "ui"*/
         ]
     });
+    $treeView.on("open_all.jstree", function() {
+        $treeView.find('li.asm-collapsed').each(function() {
+            $treeView.jstree("close_node", this);
+        });
+    });
     $treeView.jstree("open_all");
     //To Drag content overflow of a div
    /* if($treeView.offsetWidth < $treeView.scrollWidth){
