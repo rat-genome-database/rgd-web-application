@@ -85,6 +85,16 @@
 
 
         <%}}}%>
+        <% List<Terms.Bucket> assemblyBkts = (List<Terms.Bucket>) aggregations.get("assembly");
+           if(assemblyBkts!=null && assemblyBkts.size()>0){ %>
+        <li><span style="font-weight: bold;color:#24609c">Assembly:</span>
+            <ul>
+                <% for(Terms.Bucket asmBkt : assemblyBkts){ %>
+                <li><button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('<%=searchBean.getCategory()%>', '<%=searchBean.getSpecies()!=null?searchBean.getSpecies():""%>','', '', '', '<%=StringEscapeUtils.escapeHtml4(asmBkt.getKeyAsString())%>')"><%=asmBkt.getKeyAsString()%> (<%=asmBkt.getDocCount()%>)</button></li>
+                <% } %>
+            </ul>
+        </li>
+        <% } %>
         <li><span style="font-weight: bold;color:#24609c">Other Categories:</span>
             <ul>
 

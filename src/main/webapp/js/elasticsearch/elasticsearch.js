@@ -31,12 +31,6 @@ $(function () {
 
     });*/
 
-    $('#assembly').on('change', function (e) {
-
-                $('#objectAssembly').val($(this).val());
-                $('#assemblyForm').submit();
-           });
-
 
     $('.filter').on('click', function () {
         var $content = $("#mainBody");
@@ -103,9 +97,7 @@ function getParameters() {
     if(objectSearch!='undefined'){
         $objectSearch= objectSearch.val();
     }
-   /* $objectAssembly= $('#objectAssembly').val()*/
-  //  if(typeof $('#assembly').val()!='undefined')
-    $objectAssembly= $('#assembly').val()
+    $objectAssembly= $('#objectAssembly').val()
     mapKey=$('#mapKey').val();
 
 }
@@ -115,10 +107,9 @@ function setParameters(){
     $('#totalPages').text(totalPages);
     $('#sortBy').val(sortBy);
     $('#pageSize').val(pageSize);
-  //  $('#assembly').val($assembly);
     $('#filter').val($filterType);
     $('#subCat').val($subCat);
-    $('#assembly').val($objectAssembly);
+    $('#objectAssembly').val($objectAssembly);
     $('#match_type').val(matchType)
 }
 function prevFunction(e, id) {
