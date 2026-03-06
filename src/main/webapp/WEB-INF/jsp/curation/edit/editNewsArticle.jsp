@@ -41,11 +41,19 @@
     else{        %>
 
 <html>
+<ul>
+    <li>Text can be italicized with &lt;i&gt;(Desired text to be Italic)&lt;/i&gt;</li>
+    <li>Text can be bold with &lt;b&gt;(Desired text to be bold)&lt;/b&gt;</li>
+</ul>
 <form action="updateNewsConf.html">
             <table>
                 <tbody>
-                <tr><td><input type="button" value="Update" onclick="makePOSTRequest(this.form)"/></td>
-                <td><input type="hidden" name="contentType" value="<%=contentType%>"></td></tr>
+                <tr>
+                    <td><input type="button" value="Update" onclick="makePOSTRequest(this.form)"/></td>
+<%--                    <td>Text can be italicized with &lt;i&gt;(Desired text to be Italic)&lt;/i&gt;</td>--%>
+<%--                    <td>Text can be bold with &lt;b&gt;(Desired text to be bold)&lt;/b&gt;</td>--%>
+                    <td><input type="hidden" name="contentType" value="<%=contentType%>"></td>
+                </tr>
                 <tr> <%--          Column names          --%>
                     <td class="label">Date of Release</td>
                     <td class="label">Display Text</td>
