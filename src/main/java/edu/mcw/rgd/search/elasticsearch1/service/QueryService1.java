@@ -199,11 +199,11 @@ public class QueryService1 {
         addTermFilter(builder, "analysisName.keyword", sb.getSample());
         addTermFilter(builder, "regionName.keyword", sb.getRegion());
         addTermFilter(builder, "expressionLevel.keyword", sb.getExpressionLevel());
-        addTermFilter(builder, "strainTerms.keyword", sb.getStrainTerms());
-        addTermFilter(builder, "tissueTerms.keyword", sb.getTissueTerms());
-        addTermFilter(builder, "cellTypeTerms.keyword", sb.getCellTypeTerms());
-        addTermFilter(builder, "conditionTerms.keyword", sb.getConditions());
-        addTermFilter(builder, "expressionSource.keyword", sb.getExpressionSource());
+        addMatchFilter(builder, "strainTerms.keyword", sb.getStrainTerms());
+        addMatchFilter(builder, "tissueTerms.keyword", sb.getTissueTerms());
+        addMatchFilter(builder, "cellTypeTerms.keyword", sb.getCellTypeTerms());
+        addMatchFilter(builder, "conditionTerms.keyword", sb.getConditions());
+        addMatchFilter(builder, "expressionSource.keyword", sb.getExpressionSource());
 
         return builder;
     }
@@ -261,6 +261,12 @@ public class QueryService1 {
     }
 
     private void addTermFilter(BoolQueryBuilder builder, String field, String value) {
+        if (isNotBlank(value)) {
+            builder.filter(QueryBuilders.termQuery(field, value));
+        }
+    }
+
+    private void addMatchFilter(BoolQueryBuilder builder, String field, String value) {
         if (isNotBlank(value)) {
             builder.filter(QueryBuilders.termQuery(field, value));
         }
@@ -501,7 +507,9 @@ public class QueryService1 {
 
         return AggregationBuilders.terms(aggField).field(aggField + KEYWORD_SUFFIX).size(DEFAULT_AGG_SIZE)
                 .subAggregation(categoryFilter)
-                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(50).order(BucketOrder.key(true)));
+                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(50).order(BucketOrder.key(true)))
+                .subAggregation(AggregationBuilders.nested("assemblyAggs", "mapDataList")
+                        .subAggregation(AggregationBuilders.terms("assembly").field("mapDataList.map").size(ASSEMBLY_AGG_SIZE).order(BucketOrder.key(true))));
     }
 
     private AggregationBuilder buildCategoryAggregation(String aggField) {

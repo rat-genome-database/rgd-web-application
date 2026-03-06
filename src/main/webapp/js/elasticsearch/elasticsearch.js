@@ -324,9 +324,9 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     var $type=null;
     if(typeof type!="undefined"){
         if(filterType!="region") {
-            $type = type;
+            $type = encodeURIComponent(type);
         }else{
-           $type= encodeURI(type);
+           $type= encodeURIComponent(type);
         }
     }
     var term=encodeURIComponent($('#searchTerm').val());

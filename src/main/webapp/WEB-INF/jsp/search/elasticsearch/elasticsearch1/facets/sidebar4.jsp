@@ -79,22 +79,18 @@
                         String expressionSource=species.toLowerCase()+"ExpressionSource";
                         String expressionStudy=species.toLowerCase()+"ExpressionStudy";
                         String expressionGeneType=species.toLowerCase()+"ExpressionGeneType";
+                        String esStrainTerms=species.toLowerCase()+"ESStrainTerms";
+                        String esTissueTerms=species.toLowerCase()+"ESTissueTerms";
+                        String esCellTypeTerms=species.toLowerCase()+"ESCellTypeTerms";
+                        String esConditions=species.toLowerCase()+"ESConditions";
+                        String esExpressionSource=species.toLowerCase()+"ESExpressionSource";
+                        String esExpressionLevel=species.toLowerCase()+"ESExpressionLevel";
                     if(docCount!=0){
         %>
         <%@include file="facets.jsp"%>
 
 
         <%}}}%>
-        <% List<Terms.Bucket> assemblyBkts = (List<Terms.Bucket>) aggregations.get("assembly");
-           if(assemblyBkts!=null && assemblyBkts.size()>0){ %>
-        <li><span style="font-weight: bold;color:#24609c">Assembly:</span>
-            <ul>
-                <% for(Terms.Bucket asmBkt : assemblyBkts){ %>
-                <li><button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('<%=searchBean.getCategory()%>', '<%=searchBean.getSpecies()!=null?searchBean.getSpecies():""%>','', '', '', '<%=StringEscapeUtils.escapeHtml4(asmBkt.getKeyAsString())%>')"><%=asmBkt.getKeyAsString()%> (<%=asmBkt.getDocCount()%>)</button></li>
-                <% } %>
-            </ul>
-        </li>
-        <% } %>
         <li><span style="font-weight: bold;color:#24609c">Other Categories:</span>
             <ul>
 
