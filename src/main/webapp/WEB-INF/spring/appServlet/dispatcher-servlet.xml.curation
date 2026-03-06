@@ -138,6 +138,7 @@
                 <prop key="report/gene/damagingVariants.html">GeneDamagingVariantsController</prop>
                 <prop key="report/qtl/main.html">QTLReportController</prop>
                 <prop key="report/strain/main.html">StrainReportController</prop>
+                <prop key="report/strainOnt/main.html">StrainRedirectController</prop>
                 <prop key="report/marker/main.html">MarkerReportController</prop>
                 <prop key="report/reference/main.html">ReferenceReportController</prop>
                 <prop key="report/annotation/main.html">AnnotationReportController</prop>
@@ -329,6 +330,7 @@
     <bean id="GeneDamagingVariantsController" class="edu.mcw.rgd.report.ajax.GeneDamagingVariantsController"/>
     <bean id="QTLReportController" class="edu.mcw.rgd.report.QTLReportController"/>
     <bean id="StrainReportController" class="edu.mcw.rgd.report.StrainReportController"/>
+    <bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>
     <bean id="MarkerReportController" class="edu.mcw.rgd.report.MarkerReportController"/>
     <bean id="ReferenceReportController" class="edu.mcw.rgd.report.ReferenceReportController"/>
     <bean id="AnnotationReportController" class="edu.mcw.rgd.report.AnnotationReportController"/>
