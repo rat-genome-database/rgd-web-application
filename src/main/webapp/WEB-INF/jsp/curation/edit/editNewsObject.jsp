@@ -39,7 +39,10 @@
 <h1>RGD News and Conference Editor</h1>
 
 <h3>Add a News article, Conference, or Video Tutorial</h3>
-
+<ul>
+    <li>Text can be italicized with &lt;i&gt;(Desired text to be Italic)&lt;/i&gt;</li>
+    <li>Text can be bold with &lt;b&gt;(Desired text to be bold)&lt;/b&gt;</li>
+</ul>
 <div id="insertApp">
     <table id="insertTable">
         <tr><td class="label">Release Date</td><td><input type="date" id="date" value="<%=format.format(d1)%>" placeholder="yyyy-MM-dd" ></td>
