@@ -69,7 +69,7 @@
                     <% }%>
                     <td><input name="displayTxt" size="75" value="<%=article.getDisplayText()%>"></input></td>
                     <td><input name="redirectLink" size="75" value="<%=article.getRedirectLink()%>"></input></td>
-                    <td><input name="Strong" size="75" value="<%=strong%>"></input></td>
+                    <td><input name="Strong" size="25" value="<%=strong%>"></input></td>
                     <td><%=fu.buildSelectList("contentList",list, contentType)%></td>
                         <td align="right">
                             <a style="color:red; font-weight:700;"
