@@ -239,47 +239,45 @@
 
                             <table width="90%" align="center" border="0">
                                 <tr>
-                                    <td align="center"><div ng-if="oKey==1"><img src="/rgdweb/common/images/functionalAnnotation.png" border="0"  style="cursor:pointer;padding:5px; margin-right:0px;margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('ga')"/></div><div ng-if="oKey!=1">Gene Annotator (Functional Annotation)<br>unavailable</div></td>
-                                    <td align="center"><div ng-if="oKey==1"> <img src="/rgdweb/common/images/annotDist.PNG" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('distribution')"/></div><div ng-if="oKey!=1">Gene Annotator (Annotation Distribution)<br>unavailable</div></td>
-                                    <td align="center"><div ng-if="oKey==1"><div ng-if="speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3 || speciesTypeKey==6 || speciesTypeKey==9 || speciesTypeKey==13" ><img src="/rgdweb/common/images/variantVisualizer.png" border="0"  style="cursor:pointer;padding:5px; margin-right:0px;margin-bottom:5px; border:1px solid black;"  ng-click="rgd.toolSubmit('vv')"/></div><div ng-if="speciesTypeKey!=1 && speciesTypeKey!=2 && speciesTypeKey!=3 && speciesTypeKey!=6 && speciesTypeKey!=9 && speciesTypeKey!=13">Variant Visualizer (Genomic Variants)<br> unavailble</div></div><div ng-if="oKey!=1">Variant Visualizer (Genomic Variants)<br>unavailable</div></td>
+                                    <td align="center" ng-if="oKey==1"><img src="/rgdweb/common/images/functionalAnnotation.png" border="0"  style="cursor:pointer;padding:5px; margin-right:0px;margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('ga')"/></td>
+                                    <td align="center" ng-if="oKey==1"> <img src="/rgdweb/common/images/annotDist.PNG" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('distribution')"/></td>
+                                    <td align="center" ng-if="oKey==1 && (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3 || speciesTypeKey==6 || speciesTypeKey==9 || speciesTypeKey==13)"><img src="/rgdweb/common/images/variantVisualizer.png" border="0"  style="cursor:pointer;padding:5px; margin-right:0px;margin-bottom:5px; border:1px solid black;"  ng-click="rgd.toolSubmit('vv')"/></td>
                                 </tr>
                                 <tr>
-                                    <td align="center"  style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('ga')"><div ng-if="oKey==1">Gene Annotator (Functional Annotation)</div></td>
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('distribution')"><div ng-if="oKey==1">Gene Annotator (Annotation Distribution)</div></td>
-
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('vv')"><div ng-if="speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3 || speciesTypeKey==6 || speciesTypeKey==9 || speciesTypeKey==13" ><div ng-if="oKey==1">Variant Visualizer (Genomic Variants)</div></div></td>
-
+                                    <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('ga')">Gene Annotator (Functional Annotation)</td>
+                                    <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('distribution')">Gene Annotator (Annotation Distribution)</td>
+                                    <td align="center" ng-if="oKey==1 && (speciesTypeKey==1 || speciesTypeKey==2 || speciesTypeKey==3 || speciesTypeKey==6 || speciesTypeKey==9 || speciesTypeKey==13)" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('vv')">Variant Visualizer (Genomic Variants)</td>
                                 </tr>
                                 <tr><td>&nbsp;</td></tr>
                                 <tr>
-                                    <td align="center"><div ng-if="oKey==1"><img src="/rgdweb/common/images/interviewer.png" border="0" style="cursor:pointer;padding:5px; margin-right:0px; border:1px solid black;" ng-click="rgd.toolSubmit('interviewer')"/></div><div ng-if="oKey!=1">InterViewer (Protein-Protein Interactions)<br>unavailable</div></td>
-                                    <td align="center"><div ng-if="speciesTypeKey==1 || speciesTypeKey==3 || speciesTypeKey==2 || speciesTypeKey==5 || speciesTypeKey==6 || speciesTypeKey==9" ><div ng-if="oKey==1"> <img src="/rgdweb/common/images/gviewer.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('gviewer')"/></div></div><div ng-if="oKey!=1 || speciesTypeKey == 4 || speciesTypeKey==7 || speciesTypeKey==8">Gviewer (Genome Viewer)<br>unavailable</div></td>
-                                    <td align="center"><div ng-if="oKey==1"><div ng-if="speciesTypeKey==1 || speciesTypeKey==3 || speciesTypeKey==6" > <img src="/rgdweb/common/images/damaging.png" border="0" style="cursor:pointer;padding:5px; margin-right:0px; border:1px solid black;" ng-click="rgd.toolSubmit('damage')"/></div><div ng-if="speciesTypeKey!=1 && speciesTypeKey!=3 && speciesTypeKey!=6">Variant Visualizer (Damaging Variants) unavailble</div></div><div ng-if="oKey!=1">Variant Visualizer (Damaging Variants)<br>unavailable</div></td>
+                                    <td align="center" ng-if="oKey==1"><img src="/rgdweb/common/images/interviewer.png" border="0" style="cursor:pointer;padding:5px; margin-right:0px; border:1px solid black;" ng-click="rgd.toolSubmit('interviewer')"/></td>
+                                    <td align="center" ng-if="oKey==1 && (speciesTypeKey==1 || speciesTypeKey==3 || speciesTypeKey==2 || speciesTypeKey==5 || speciesTypeKey==6 || speciesTypeKey==9)"> <img src="/rgdweb/common/images/gviewer.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('gviewer')"/></td>
+                                    <td align="center" ng-if="oKey==1 && (speciesTypeKey==1 || speciesTypeKey==3 || speciesTypeKey==6)"> <img src="/rgdweb/common/images/damaging.png" border="0" style="cursor:pointer;padding:5px; margin-right:0px; border:1px solid black;" ng-click="rgd.toolSubmit('damage')"/></td>
                                 </tr>
                                 <tr>
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('interviewer')"><div ng-if="oKey==1">InterViewer (Protein-Protein Interactions)</div></td>
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('gviewer')"><div ng-if="speciesTypeKey==1 || speciesTypeKey==3 || speciesTypeKey==2 || speciesTypeKey==5 || speciesTypeKey==6 || speciesTypeKey==9" ><div ng-if="oKey==1">GViewer (Genome Viewer)</div></div></td>
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('excel')"><div ng-if="speciesTypeKey==1 || speciesTypeKey==3 || speciesTypeKey==6" ><div ng-if="oKey==1">Variant Visualizer (Damaging Variants)</div></div></td>
+                                    <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('interviewer')">InterViewer (Protein-Protein Interactions)</td>
+                                    <td align="center" ng-if="oKey==1 && (speciesTypeKey==1 || speciesTypeKey==3 || speciesTypeKey==2 || speciesTypeKey==5 || speciesTypeKey==6 || speciesTypeKey==9)" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('gviewer')">GViewer (Genome Viewer)</td>
+                                    <td align="center" ng-if="oKey==1 && (speciesTypeKey==1 || speciesTypeKey==3 || speciesTypeKey==6)" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('damage')">Variant Visualizer (Damaging Variants)</td>
                                 </tr>
                                 <tr><td>&nbsp;</td></tr>
                                 <tr>
-                                    <td align="center"><div ng-if="oKey==1"> <img src="/rgdweb/common/images/annotCompare.png" border="0" style="cursor:pointer;padding:5px; margin-right:0px; border:1px solid black;" ng-click="rgd.toolSubmit('annotCompare')"/></div><div ng-if="oKey!=1">Gene Annotator (Annotation Comparison)<br>unavailable</div></td>
-                                    <td align="center"><div ng-if="oKey==1"> <img src="/rgdweb/common/images/olga.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('olga')"/></div><div ng-if="oKey!=1">OLGA (Gene List Generator)<br>unavailable</div></td>
+                                    <td align="center" ng-if="oKey==1"> <img src="/rgdweb/common/images/annotCompare.png" border="0" style="cursor:pointer;padding:5px; margin-right:0px; border:1px solid black;" ng-click="rgd.toolSubmit('annotCompare')"/></td>
+                                    <td align="center" ng-if="oKey==1"> <img src="/rgdweb/common/images/olga.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('olga')"/></td>
                                     <td align="center"> <img src="/rgdweb/common/images/excel.png" border="0" style="cursor:pointer;padding:5px; margin-right:0px; border:1px solid black;" ng-click="rgd.toolSubmit('excel')"/></td>
                                 </tr>
                                 <tr>
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('annotCompare')"><div ng-if="oKey==1">Gene Annotator (Annotation Comparison)</div></td>
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('olga')"><div ng-if="oKey==1">OLGA (Gene List Generator)</div></td>
+                                    <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('annotCompare')">Gene Annotator (Annotation Comparison)</td>
+                                    <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('olga')">OLGA (Gene List Generator)</td>
                                     <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('excel')">Excel (Download)</td>
                                 </tr>
                                 <tr><td>&nbsp;</td></tr>
                                 <tr>
-                                   <td align="center"><div ng-if="oKey==1"> <img src="/rgdweb/images/MOET.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('enrichment')"/></div><div ng-if="oKey!=1">MOET (Multi-Ontology Enrichement)<br>unavailable</div></td>
-                                    <td align="center"><div ng-if="oKey==1"> <img src="/rgdweb/images/GOLF.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('golf')"/></div><div ng-if="oKey!=1">GOLF (Gene-Ortholog Location Finder)<br>unavailable</div></td>
+                                   <td align="center" ng-if="oKey==1"> <img src="/rgdweb/images/MOET.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('enrichment')"/></td>
+                                    <td align="center" ng-if="oKey==1"> <img src="/rgdweb/images/GOLF.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('golf')"/></td>
                                 </tr>
                                 <tr>
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('enrichment')"><div ng-if="oKey==1">MOET (Multi-Ontology Enrichement)</div></td>
-                                    <td align="center" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('golf')"><div ng-if="oKey==1">GOLF (Gene-Ortholog Location Finder)</div></td>
+                                    <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('enrichment')">MOET (Multi-Ontology Enrichement)</td>
+                                    <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('golf')">GOLF (Gene-Ortholog Location Finder)</td>
 
                                 </tr>
                             </table>
