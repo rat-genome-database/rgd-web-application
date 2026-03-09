@@ -25,7 +25,7 @@ String pageDescription = "Build lists based on RGD annotation";
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <!--link rel="stylesheet" href="/rgdweb/generator/generator.css" type="text/css" /-->
-<script type="text/javascript"  src="/rgdweb/generator/generator.js"></script>
+<script type="text/javascript"  src="/rgdweb/generator/generator.js?v=2"></script>
 
 
 <form name="submitForm" id="submitForm" action="list.html" method="post" target="_blank">
@@ -1231,32 +1231,34 @@ $(document).ready(function(){
     <div class="setup-section">
         <label>Select Assembly Version</label>
         <select id="setup_mapKey" class="setup-select" onchange="updateObjectTypeOptions()">
-            <optgroup label="Rat">
-                <option value="380" selected>Rat - GRCr8</option>
-                <option value="372">Rat - Rnor_6.0 (v7.2)</option>
-                <option value="360">Rat - RGSC_v3.4 (v6.0)</option>
-            </optgroup>
-            <optgroup label="Human">
-                <option value="38">Human - GRCh38</option>
-                <option value="17">Human - GRCh37</option>
-            </optgroup>
-            <optgroup label="Mouse">
-                <option value="239">Mouse - GRCm39</option>
-                <option value="35">Mouse - GRCm38</option>
-            </optgroup>
-            <optgroup label="Other Species">
-                <option value="44">Chinchilla - ChiLan1.0</option>
-                <option value="634">Dog - ROS_Cfam_1.0</option>
-                <option value="631">Dog - CanFam3.1</option>
-                <option value="911">Pig - Sscrofa11.1</option>
-            </optgroup>
+            <option value="380" selected>Rat - GRCr8</option>
+            <option value="372">Rat - mRatBN7.2</option>
+            <option value="360">Rat - Rnor_6.0</option>
+            <option value="70">Rat - Rnor_5.0</option>
+            <option value="60">Rat - RGSC_v3.4</option>
+            <option value="38">Human - GRCh38</option>
+            <option value="17">Human - GRCh37</option>
+            <option value="239">Mouse - GRCm39</option>
+            <option value="35">Mouse - GRCm38</option>
+            <option value="18">Mouse - Build 37</option>
+            <option value="44">Chinchilla - ChiLan1.0</option>
+            <option value="511">Bonobo - panpan1.1</option>
+            <option value="513">Bonobo - Mhudiblu_PPA_v0</option>
+            <option value="634">Dog - ROS_Cfam_1.0</option>
+            <option value="631">Dog - CanFam3.1</option>
+            <option value="720">Squirrel - SpeTri2.0</option>
+            <option value="910">Pig - Sscrofa10.2</option>
+            <option value="911">Pig - Sscrofa11.1</option>
+            <option value="1311">Green Monkey - Vero_WHO_p1.0</option>
+            <option value="1313">Green Monkey - ChlSab1.1</option>
+            <option value="1410">Naked Mole-Rat - HetGla_1.0</option>
         </select>
     </div>
 
     <div class="setup-section">
         <label>What type of list do you want to build?</label>
         <div class="setup-cards" id="objectTypeCards">
-            <div class="setup-card selected" data-okey="1" id="card-genes" onclick="selectObjectType(this)">
+            <div class="setup-card" data-okey="1" id="card-genes" onclick="selectObjectType(this)">
                 <i class="fas fa-dna"></i>
                 <h4>Genes</h4>
             </div>
@@ -1271,13 +1273,11 @@ $(document).ready(function(){
         </div>
     </div>
 
-    <button class="setup-btn" onclick="startBuildingList()">
-        Get Started <i class="fas fa-arrow-right"></i>
-    </button>
+
 </div>
 
 <script>
-var selectedOKey = 1;
+var selectedOKey = 0;
 
 // QTLs available for: Rat (3), Human (1), Mouse (2)
 // Strains available for: Rat (3) only
@@ -1295,9 +1295,10 @@ function updateObjectTypeOptions() {
     } else {
         qtlCard.style.display = 'none';
         qtlCard.classList.add('disabled');
-        // If QTL was selected, switch to Genes
+        // If QTL was selected, deselect it
         if (selectedOKey === 6) {
-            selectObjectType(document.getElementById('card-genes'));
+            document.getElementById('card-qtls').classList.remove('selected');
+            selectedOKey = 0;
         }
     }
 
@@ -1308,9 +1309,10 @@ function updateObjectTypeOptions() {
     } else {
         strainCard.style.display = 'none';
         strainCard.classList.add('disabled');
-        // If Strain was selected, switch to Genes
+        // If Strain was selected, deselect it
         if (selectedOKey === 5) {
-            selectObjectType(document.getElementById('card-genes'));
+            document.getElementById('card-strains').classList.remove('selected');
+            selectedOKey = 0;
         }
     }
 }
@@ -1322,6 +1324,7 @@ function selectObjectType(card) {
     });
     card.classList.add('selected');
     selectedOKey = parseInt(card.getAttribute('data-okey'));
+    startBuildingList();
 }
 
 function startBuildingList() {
