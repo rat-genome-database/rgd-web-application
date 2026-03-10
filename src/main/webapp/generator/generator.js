@@ -379,6 +379,15 @@ function reloadPage() {
     document.getElementById("act").value="";
     document.submitForm.target="_self";
     document.getElementById("a").value=urlString;
+
+    // Show loading overlay to prevent confusion during page load
+    var setupEl = document.querySelector('.setup-container');
+    if (setupEl) setupEl.style.display = 'none';
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.9);z-index:10000;display:flex;align-items:center;justify-content:center;font-size:20px;color:#24609c;';
+    overlay.innerHTML = '<div style="text-align:center;"><i class="fas fa-spinner fa-spin" style="font-size:40px;margin-bottom:15px;display:block;"></i>Building your list...</div>';
+    document.body.appendChild(overlay);
+
     document.submitForm.submit();
 
 }

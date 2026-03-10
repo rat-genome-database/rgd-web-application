@@ -53,6 +53,7 @@
                     <%@include file="genomeBrowser.jsp"%>
 
                     <%@ include file="dataProcessing.jsp"%>
+                    <%@ include file="dataDownloads.jsp"%>
                 </td>
             </tr>
         </table>

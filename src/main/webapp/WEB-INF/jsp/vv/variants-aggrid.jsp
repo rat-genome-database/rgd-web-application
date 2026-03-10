@@ -13,6 +13,7 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="com.google.gson.Gson" %>
+<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%
     String pageTitle = "Variant Visualizer (AG Grid)";
     String headContent = "";
@@ -27,6 +28,7 @@
         Set positions = snplotyper.getPositions();
         List samples = snplotyper.getSamples();
         int mapKey = vsb.getMapKey();
+        String assemblyName = MapManager.getInstance().getMap(mapKey).getName();
         int positionCount = positions.size();
         int cellWidth = 24;
         int xMenuWidth = 135;
@@ -930,7 +932,7 @@
                 <% if (snplotyper.hasMinusStrandConflict()) { %>
                 <div class="track-label-row">Genes <span style="color:red;">( - )</span>&nbsp;</div>
                 <% } %>
-                <div class="track-label-row">Exon/Intron&nbsp;</div>
+                <div class="track-label-row"><%=assemblyName%> (Reference)&nbsp;</div>
                 <!-- Position header label area -->
                 <div style="height:<%= yMenuHeight %>px; background-color: white; display: flex; align-items: center; justify-content: center;">
                     <img src="/rgdweb/common/images/rgd.png" alt="RGD" />
@@ -1219,6 +1221,8 @@
         },
         onGridReady: (params) => {
             gridApi = params.api;
+        },
+        onFirstDataRendered: (params) => {
             setupScrollSync();
         }
     };
@@ -1235,33 +1239,61 @@
 
     function setupScrollSync() {
         const trackWrapper = document.getElementById('trackScrollWrapper');
-        const gridViewport = document.querySelector('.ag-center-cols-viewport');
-        const gridHScroll = document.querySelector('.ag-body-horizontal-scroll-viewport');
+        const trackContent = document.getElementById('trackContent');
 
         if (!trackWrapper) return;
 
-        // Sync track scroll to grid
-        trackWrapper.addEventListener('scroll', function() {
+        // Delay to let AG Grid fully render its horizontal scroll containers
+        setTimeout(function() {
+            const gridViewport = document.querySelector('.ag-center-cols-viewport');
+            const gridHScroll = document.querySelector('.ag-body-horizontal-scroll-viewport');
+
+            // Constrain track content width so the top scrollbar cannot scroll
+            // further than the bottom grid scrollbar
+            if (trackContent && gridHScroll) {
+                var gridMaxScroll = gridHScroll.scrollWidth - gridHScroll.clientWidth;
+                var trackMaxScroll = trackWrapper.scrollWidth - trackWrapper.clientWidth;
+                if (gridMaxScroll > 0 && trackMaxScroll > gridMaxScroll) {
+                    var newWidth = trackWrapper.clientWidth + gridMaxScroll;
+                    trackContent.style.maxWidth = newWidth + 'px';
+                    trackContent.style.overflow = 'hidden';
+                }
+            }
+
+            let syncing = false;
+
+            // Sync track scroll to grid
+            trackWrapper.addEventListener('scroll', function() {
+                if (syncing) return;
+                syncing = true;
+                if (gridViewport) {
+                    gridViewport.scrollLeft = trackWrapper.scrollLeft;
+                }
+                if (gridHScroll) {
+                    gridHScroll.scrollLeft = trackWrapper.scrollLeft;
+                }
+                syncing = false;
+            });
+
+            // Sync grid to track scroll
             if (gridViewport) {
-                gridViewport.scrollLeft = trackWrapper.scrollLeft;
+                gridViewport.addEventListener('scroll', function() {
+                    if (syncing) return;
+                    syncing = true;
+                    trackWrapper.scrollLeft = gridViewport.scrollLeft;
+                    syncing = false;
+                });
             }
+
             if (gridHScroll) {
-                gridHScroll.scrollLeft = trackWrapper.scrollLeft;
+                gridHScroll.addEventListener('scroll', function() {
+                    if (syncing) return;
+                    syncing = true;
+                    trackWrapper.scrollLeft = gridHScroll.scrollLeft;
+                    syncing = false;
+                });
             }
-        });
-
-        // Sync grid to track scroll
-        if (gridViewport) {
-            gridViewport.addEventListener('scroll', function() {
-                trackWrapper.scrollLeft = gridViewport.scrollLeft;
-            });
-        }
-
-        if (gridHScroll) {
-            gridHScroll.addEventListener('scroll', function() {
-                trackWrapper.scrollLeft = gridHScroll.scrollLeft;
-            });
-        }
+        }, 500);
     }
 
     // ========================================
