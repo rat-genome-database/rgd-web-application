@@ -17,6 +17,17 @@
 <li>
 <button style="border:none;background-color: transparent" onclick="filterClick('<%=searchBean.getCategory()%>', '<%=species%>','', '')"><span style="font-weight: bold;color:#24609c"><%=species%> ( <%=docCount%>)</span></button>
 <ul>
+    <% String assemblyKey = species.toLowerCase().replaceAll(" ", "").replace("-","") + "Assembly";
+        List<Terms.Bucket> asmBkts = (List<Terms.Bucket>) aggregations.get(assemblyKey);
+        if(asmBkts!=null && asmBkts.size()>0){ %>
+    <li class="asm-collapsed"><span>Assembly</span>
+        <ul>
+            <% for(Terms.Bucket asmBkt : asmBkts){ %>
+            <li><button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('<%=searchBean.getCategory()%>', '<%=species%>','', '', '', '<%=StringEscapeUtils.escapeHtml4(asmBkt.getKeyAsString())%>')"><%=asmBkt.getKeyAsString()%> (<%=asmBkt.getDocCount()%>)</button></li>
+            <% } %>
+        </ul>
+    </li>
+    <% } %>
     <% if(docCounts.get("Gene")!=null){%>
     <li> <button style="border:none;background-color: transparent" onclick="filterClick('Gene', '<%=species%>','','')"><span>Gene (<%=docCounts.get("Gene")%>)</span></button>
         <ul><%
@@ -51,7 +62,7 @@
         %>
             <li onclick="filterClick('QTL', '<%=species%>','', '<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8")%>','trait')" title="<%=bkt.getKey()%>"><%=qtlFacet%> (<%=bkt.getDocCount()%>)</li>
             <%}}%>
-        </ul>
+        </ul>here
     </li>
     <%}%>
     <% if(docCounts.get("SSLP")!=null){%>
@@ -291,17 +302,7 @@
 
     </li>
     <%}%>
-    <% String assemblyKey = species.toLowerCase().replaceAll(" ", "").replace("-","") + "Assembly";
-       List<Terms.Bucket> asmBkts = (List<Terms.Bucket>) aggregations.get(assemblyKey);
-       if(asmBkts!=null && asmBkts.size()>0){ %>
-    <li class="asm-collapsed"><span>Assembly</span>
-        <ul>
-            <% for(Terms.Bucket asmBkt : asmBkts){ %>
-            <li><button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('<%=searchBean.getCategory()%>', '<%=species%>','', '', '', '<%=StringEscapeUtils.escapeHtml4(asmBkt.getKeyAsString())%>')"><%=asmBkt.getKeyAsString()%> (<%=asmBkt.getDocCount()%>)</button></li>
-            <% } %>
-        </ul>
-    </li>
-    <% } %>
+
 </ul>
 </li>
 

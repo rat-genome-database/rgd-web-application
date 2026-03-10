@@ -294,6 +294,8 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     getParameters();
     if(typeof objectAssembly=='undefined' || objectAssembly=='' )
     objectAssembly= $objectAssembly;
+    $objectAssembly = objectAssembly;
+    $('#objectAssembly').val(objectAssembly);
 
     var $sampleExists;
     var filterType=null;

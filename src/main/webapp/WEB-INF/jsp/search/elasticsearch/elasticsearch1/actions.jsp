@@ -14,7 +14,7 @@
 
     <table>
         <tr>
-            <td><input type="hidden" value="${model.defaultAssembly}" id="objectAssembly"/></td>
+            <td><input type="hidden" value="all" id="objectAssembly"/></td>
             <td><input type="hidden" id="objectSearch" value="${model.objectSearch}"/></td>
 
             <td>
