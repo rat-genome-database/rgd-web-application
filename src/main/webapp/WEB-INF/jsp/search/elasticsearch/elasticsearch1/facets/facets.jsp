@@ -182,7 +182,7 @@
 
                         <li class="asm-collapsed"><span>Strains</span>
                             <ul><%for(Terms.Bucket bkt:aggregations.get(esStrainTerms)){%>
-                                <li onclick="filterClick('Expression Study', '<%=species%>','', decodeURIComponent('<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8")%>'),'strainTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                                <li onclick="filterClick('Expression Study', '<%=species%>','', decodeURIComponent('<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8").replace("+","%20")%>'),'strainTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                                 <%}%>
                             </ul>
                         </li>
@@ -193,7 +193,7 @@
 
             <li class="asm-collapsed"><span>Tissues</span>
                 <ul><%for(Terms.Bucket bkt:aggregations.get(esTissueTerms)){%>
-                    <li onclick="filterClick('Expression Study', '<%=species%>','', decodeURIComponent('<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8")%>'),'tissueTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <li onclick="filterClick('Expression Study', '<%=species%>','', decodeURIComponent('<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8").replace("+","%20")%>'),'tissueTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
                 </ul>
             </li>
@@ -202,7 +202,7 @@
 
             <li class="asm-collapsed"><span>Cell Type</span>
                 <ul><%for(Terms.Bucket bkt:aggregations.get(esCellTypeTerms)){%>
-                    <li onclick="filterClick('Expression Study', '<%=species%>','', decodeURIComponent('<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8")%>'),'cellTypeTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
+                    <li onclick="filterClick('Expression Study', '<%=species%>','', decodeURIComponent('<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8").replace("+","%20")%>'),'cellTypeTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
                 </ul>
             </li>
@@ -219,7 +219,7 @@
                     }else{
                         facet=bkt.getKey().toString();}
                 %>
-                    <li onclick="filterClick('Expression Study', '<%=species%>','', decodeURIComponent('<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8")%>'),'conditions')"><%=facet%> (<%=bkt.getDocCount()%>)</li>
+                    <li onclick="filterClick('Expression Study', '<%=species%>','', decodeURIComponent('<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8").replace("+","%20")%>'),'conditions')"><%=facet%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
                 </ul>
             </li>
