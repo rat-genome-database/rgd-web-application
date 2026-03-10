@@ -11,6 +11,12 @@
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
+<style>
+  .goTable th { background-color: #336699; color: #ffffff; padding: 5px 8px; }
+  .goTable td { padding: 4px 8px; }
+  .obsolete { background-color: #fff3cd; }
+  .created { background-color: #d4edda; }
+</style>
 
 <h1>Obsolete GO Term Tool</h1>
 
@@ -33,7 +39,7 @@
 
 <p>Total: <%=synonyms.size()%> obsolete GO term(s)</p>
 
-<table border cellpadding="3" cellspacing="1">
+<table class="goTable" border cellpadding="3" cellspacing="1">
     <tr>
         <th>Nr</th>
         <th>Current Term Acc</th>
@@ -57,11 +63,11 @@
         <td><%=nr%>.</td>
         <td><%=syn.getTermAcc()%></td>
         <td><%=currentTermName%></td>
-        <td><%=syn.getName()%></td>
-        <td><%=obsoleteTermName%></td>
+        <td class="obsolete"><%=syn.getName()%></td>
+        <td class="obsolete"><%=obsoleteTermName%></td>
         <td><%=syn.getType()%></td>
         <td><%=syn.getSource()%></td>
-        <td><%=syn.getCreatedDate()%></td>
+        <td class="created"><%=syn.getCreatedDate()%></td>
         <td><%=syn.getLastModifiedDate()%></td>
         <td><a href="javascript:deleteSyn(<%=syn.getKey()%>,'<%=syn.getTermAcc()%>','<%=syn.getName()%>');">Delete</a></td>
     </tr>
@@ -69,6 +75,11 @@
     }
 %>
 </table>
+
+<h3>Note</h3>
+<p>Once a week, on Saturdays, <b>update-secondary-go-id-pipeline</b> will be run.
+All GO annotations that are annotated to obsolete GO terms as specified above
+will be reassigned to current GO terms, as specified above.</p>
 
 <script>
 function deleteSyn(key, termAcc, obsoleteAcc) {
