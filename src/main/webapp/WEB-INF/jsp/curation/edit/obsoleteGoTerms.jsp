@@ -14,11 +14,13 @@
 <style>
   .goTable th { background-color: #336699; color: #ffffff; padding: 5px 8px; }
   .goTable td { padding: 4px 8px; }
+  .current { background-color: #cce5ff; }
   .obsolete { background-color: #fff3cd; }
   .created { background-color: #d4edda; }
 </style>
 
 <h1>Obsolete GO Term Tool</h1>
+<p>&nbsp;</p>
 
 <% if( msg != null ) { %>
 <p style="border: solid 1px red;padding: 4px;color:red;font-weight:bold;">
@@ -61,8 +63,8 @@
 %>
     <tr>
         <td><%=nr%>.</td>
-        <td><%=syn.getTermAcc()%></td>
-        <td><%=currentTermName%></td>
+        <td class="current"><%=syn.getTermAcc()%></td>
+        <td class="current"><%=currentTermName%></td>
         <td class="obsolete"><%=syn.getName()%></td>
         <td class="obsolete"><%=obsoleteTermName%></td>
         <td><%=syn.getType()%></td>
@@ -76,6 +78,7 @@
 %>
 </table>
 
+<p>&nbsp;</p>
 <h3>Note</h3>
 <p>Once a week, on Saturdays, <b>update-secondary-go-id-pipeline</b> will be run.
 All GO annotations that are annotated to obsolete GO terms as specified above
