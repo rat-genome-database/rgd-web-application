@@ -73,6 +73,13 @@ public class SearchService {
                     species=   speciesBkt.getKey().toString().toLowerCase().replace(" ", "").replace("-","");
 
                     aggregations.put(species, catFilterAgg.getBuckets());
+                    Nested speciesAssemblyAggs = speciesBkt.getAggregations().get("assemblyAggs");
+                    if (speciesAssemblyAggs != null) {
+                        Terms speciesAssemblies = speciesAssemblyAggs.getAggregations().get("assembly");
+                        if (speciesAssemblies != null) {
+                            aggregations.put(species + "Assembly", speciesAssemblies.getBuckets());
+                        }
+                    }
                    for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
 //                       System.out.println(bucket.getKey().toString() +"\t"+bucket.getDocCount());
                        Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
@@ -111,17 +118,17 @@ public class SearchService {
                        if(bucket.getKey().toString().equalsIgnoreCase("expression Study")){
 
                            if(expressionLevelFilterAgg!=null)
-                               aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
+                               aggregations.put(species + "ESExpressionLevel", expressionLevelFilterAgg.getBuckets());
                            if(cellTypeTermsFilterAgg!=null)
-                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "ESCellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
                            if(conditionsFilterAgg!=null)
-                               aggregations.put(species + "Conditions", conditionsFilterAgg.getBuckets());
+                               aggregations.put(species + "ESConditions", conditionsFilterAgg.getBuckets());
                            if(strainTermsFilterAgg!=null)
-                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "ESStrainTerms", strainTermsFilterAgg.getBuckets());
                            if(tissueTermsFilterAgg!=null)
-                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
+                           aggregations.put(species + "ESTissueTerms", tissueTermsFilterAgg.getBuckets());
                            if(expressionSourceFilterAgg!=null)
-                               aggregations.put(species + "ExpressionSource", expressionSourceFilterAgg.getBuckets());
+                               aggregations.put(species + "ESExpressionSource", expressionSourceFilterAgg.getBuckets());
                            if(typeFilterAgg!=null)
                            aggregations.put(species + bucket.getKey().toString().replace(" ", ""), typeFilterAgg.getBuckets());
                        }

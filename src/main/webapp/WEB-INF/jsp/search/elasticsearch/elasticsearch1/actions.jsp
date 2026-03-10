@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style type="text/css">
-    #assembly, #sortBy, #pageNumber, #pageSize{
+    #sortBy, #pageNumber, #pageSize{
         border:solid 1px lightgrey;
         -webkit-border-radius:2px;
         -moz-border-radius:2px;
@@ -14,75 +14,8 @@
 
     <table>
         <tr>
-            <td><input type="hidden" value="${model.defaultAssembly}" id="objectAssembly"/></td>
-            <!--c:if test="$-{model.objectSearch=='true'}"-->
-            <td>
-                <form  id="assemblyForm" action="elasticResults.html" method="post">
-                <input type="hidden" name="category" value="${model.searchBean.category}">
-                 <input type="hidden" name="species" value="${model.searchBean.species}"/>
-
-                    <input type="hidden" name="currentPage" value="1">
-                    <input type="hidden" name="term" value="${model.term}"/>
-
-                    <input type="hidden" name="subCat" value="${model.searchBean.subCat}">
-                    <input type="hidden" name="start" value="${model.searchBean.start}"/>
-
-                    <input type="hidden" name="stop" value="${model.searchBean.stop}">
-                    <input type="hidden" name="chr" value="${model.searchBean.chr}"/>
-                    <input type="hidden" name="match_type" value="${model.searchBean.matchType}"/>
-
-                    <input type="hidden" name="size" value="50">
-                    <input type="hidden" name="objectSearch" id="objectSearch" value="${model.objectSearch}"/>
-
-                    <label for="assembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
-                    <select  id="assembly" name="assembly" >
-
-                        <option selected value="${model.defaultAssembly}">${model.defaultAssembly}</option>
-
-                        <c:forEach items="${model.assemblyMaps}" var="map">
-                            <c:if test="${map.key!=6 && map.key!=7 && map.key!=8 && map.key!=19 && map.key!=21 && map.key!=36}">
-                                <c:if test="${map.description!=model.defaultAssembly}">
-                                        <option value="${map.description}">${map.name}</option>
-                                </c:if>
-                            </c:if>
-                        </c:forEach>
-                        <c:if test="${model.defaultAssembly!='all'}">
-                            <option value="all">all</option>
-                        </c:if>
-                    </select>
-
-                    </form>
-
-
-            </td>
-            <!--/c:if-->
-            <c:if test="${model.objectSearch!='true'}">
-            <!--td>
-                <c:if test="${model.searchBean.species!=null && model.searchBean.species!='' && model.defaultAssembly!=null}">
-                    <label for="assembly" style="font-size:x-small;font-weight: bold">Assembly:</label><br>
-                    <select class="assembly" id="assembly" onchange="assembly('change',this.value)">
-                    <c:forEach items="${model.assemblyMaps}" var="map">
-                        <c:if test="${map.key!=6 && map.key!=7 && map.key!=8 && map.key!=19 && map.key!=21 && map.key!=36}">
-                        <c:choose>
-                            <c:when test="${map.description==model.defaultAssembly}">
-                                <option selected="selected" value="${map.description}">${map.name}</option>
-                            </c:when>
-                            <c:otherwise>
-                                <option value="${map.description}">${map.name}</option>
-                            </c:otherwise>
-
-                        </c:choose>
-
-                        </c:if>
-                    </c:forEach>
-                        <c:if test="${model.defaultAssembly==null || model.defaultAssembly==''}">
-                        <option value="selected">None</option>
-                        </c:if>
-                </select>
-                </c:if>
-            </td-->
-            </c:if>
-            <td>&nbsp;</td>
+            <td><input type="hidden" value="all" id="objectAssembly"/></td>
+            <td><input type="hidden" id="objectSearch" value="${model.objectSearch}"/></td>
 
             <td>
                 <c:choose>
