@@ -172,4 +172,13 @@
 </table>
 </form>
 
+<h3>Obsolete GO Terms</h3>
+<form action="obsoleteGoTerms.html">
+<TABLE>
+    <TR>
+        <td><input type="submit" name="Submit" value="Go to Obsolete GO Terms Tool"/></td>
+    </TR>
+</table>
+</form>
+
 <%@ include file="/common/footerarea.jsp"%>
