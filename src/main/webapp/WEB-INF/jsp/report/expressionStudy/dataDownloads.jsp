@@ -39,6 +39,11 @@
                 <a href="https://rgd.mcw.edu/wg/home/rgd_rat_community_videos/" target="_blank">RGD Video Tutorials</a> page.</li>
         </ul>
     </li>
+    <li>Some studies were previously aligned to mRatBN7.2 with earlier versions of the HPC RGD RNAseq workflow.
+        Settings for STAR and RSEM are the same as the GRCr8 workflow, however, some outputs such as the counts
+        matrix may not have been generated. Those data are available in the study download directory in the
+        mRatBN72_expression_data subdirectory on the download page.
+    </li>
 </ul>
 </body>
 </html>
