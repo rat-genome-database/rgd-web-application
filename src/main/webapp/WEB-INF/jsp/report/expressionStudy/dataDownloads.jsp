@@ -42,7 +42,8 @@
     <li>Some studies were previously aligned to mRatBN7.2 with earlier versions of the HPC RGD RNAseq workflow.
         Settings for STAR and RSEM are the same as the GRCr8 workflow, however, some outputs such as the counts
         matrix may not have been generated. Those data are available in the study download directory in the
-        mRatBN72_expression_data subdirectory on the download site.
+        <a href="https://download.rgd.mcw.edu/expression/<%=obj.getGeoSeriesAcc()%>/mRatBN7_2_expression_data/" target="_blank">mRatBN7_2_expression_data subdirectory</a>
+        on the download site (when available).
     </li>
 </ul>
 </body>
