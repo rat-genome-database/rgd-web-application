@@ -44,6 +44,7 @@
                    <%@ include file="info.jsp"%>
                     <%@ include file="sampleMetadata.jsp"%>
                     <%@ include file="dataProcessing.jsp"%>
+                    <%@ include file="dataDownloads.jsp"%>
                 </td>
             </tr>
         </table>
