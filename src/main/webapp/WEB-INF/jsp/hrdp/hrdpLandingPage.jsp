@@ -98,9 +98,10 @@ To change this template use File | Settings | File Templates.
                     </a>
                 </li>
                 <li>
-                    <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">
-                        Download</a>
-                    RNA-Seq&nbsp;Data&nbsp;from&nbsp;PhenoGen&nbsp;Informatics
+                    Download RNA-Seq Data:
+                    <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">PhenoGen Informatics</a>,
+                    <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/">GRCr8 aligned from RGD</a>,
+                    <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/mRatBN7_2_expression_data/">mRatBN7.2 aligned from RGD</a>
                 </li>
             </ul>
         </li>
