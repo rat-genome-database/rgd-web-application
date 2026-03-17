@@ -368,7 +368,7 @@
 
                                         <td>
                                             <c:choose>
-                                                <c:when test="${chr.refseqId}">
+                                                <c:when test="${not empty chr.refseqId}">
                                                     <a href="https://www.ncbi.nlm.nih.gov/nuccore/${chr.refseqId}" title="Click to go to NCBI Chromosome Page" target="_blank">${chr.refseqId}</a>
                                                 </c:when>
                                             </c:choose>
@@ -376,7 +376,7 @@
 
                                         <td>
                                             <c:choose>
-                                                <c:when test="${chr.genbankId}">
+                                                <c:when test="${not empty chr.genbankId}">
                                                     <a href="https://www.ncbi.nlm.nih.gov/nuccore/${chr.genbankId}" title="Click to go to NCBI Chromosome Page" target="_blank">${chr.genbankId}</a>
                                                 </c:when>
                                             </c:choose>
