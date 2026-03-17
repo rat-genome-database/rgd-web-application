@@ -316,7 +316,7 @@
                         <div style="height:850px;overflow: scroll">
                             <table class="table table-stripped">
                                 <thead>
-                                <tr><td>Chromosome</td><td>Sequence Length</td><td>Gap Length</td>,<td>Gap Count</td><td>Contig Count</td><td>RefSeq Id</td></tr>
+                                <tr><td>Chromosome</td><td>Sequence Length</td><td>Gap Length</td><td>Gap Count</td><td>Contig Count</td><td>RefSeq Id</td><td>GenBank Id</td></tr>
                                 </thead>
                                 <c:forEach items="${model.chromosomes}" var="chr">
                                     <tr>
@@ -329,8 +329,8 @@
                                                     ${chr.chromosome}
                                                 </c:otherwise>
                                             </c:choose>
-
                                         </td>
+
                                         <td>${chr.seqLength}</td>
 
                                         <td>
@@ -342,9 +342,7 @@
                                                     ${chr.gapLength}
                                                 </c:otherwise>
                                             </c:choose>
-
                                         </td>
-
 
                                         <td>
                                             <c:choose>
@@ -355,8 +353,8 @@
                                                     ${chr.gapCount}
                                                 </c:otherwise>
                                             </c:choose>
-
                                         </td>
+
                                         <td>
                                             <c:choose>
                                                 <c:when test="${chr.contigCount==0}">
@@ -366,10 +364,23 @@
                                                     ${chr.contigCount}
                                                 </c:otherwise>
                                             </c:choose>
-
                                         </td>
 
-                                        <td><a href="https://www.ncbi.nlm.nih.gov/nuccore/${chr.refseqId}" title="Click to go NCBI Chromosome Page" target="_blank">${chr.refseqId}</a></td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${chr.refseqId}">
+                                                    <a href="https://www.ncbi.nlm.nih.gov/nuccore/${chr.refseqId}" title="Click to go to NCBI Chromosome Page" target="_blank">${chr.refseqId}</a>
+                                                </c:when>
+                                            </c:choose>
+                                        </td>
+
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${chr.genbankId}">
+                                                    <a href="https://www.ncbi.nlm.nih.gov/nuccore/${chr.genbankId}" title="Click to go to NCBI Chromosome Page" target="_blank">${chr.genbankId}</a>
+                                                </c:when>
+                                            </c:choose>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>
