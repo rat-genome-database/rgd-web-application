@@ -25,12 +25,12 @@
     <strong>Available Downloads:</strong>
 </p>
 <ul>
-    <li>A comprehensive html quality report generated with multiqc v1.18</li>
+    <li>Comprehensive html quality report generated using MultiQC v1.18</li>
     <li>Gene-level TPM matrix</li>
     <li>Transcript-level TPM matrix</li>
     <li>Gene-level count matrix</li>
     <li>Transcript-level count matrix</li>
-    <li>JBrowse2 Genome browser session files. Sessions can be loaded directly into JBrowse2
+    <li>JBrowse2 genome browser session files. Sessions can be loaded directly into JBrowse2
         for interactive exploration, or individual BigWig files can be downloaded for use in other
         genome browsers.
         <ul>
@@ -39,10 +39,11 @@
                 <a href="https://rgd.mcw.edu/wg/home/rgd_rat_community_videos/" target="_blank">RGD Video Tutorials</a> page.</li>
         </ul>
     </li>
-    <li>Some studies were previously aligned to mRatBN7.2 with earlier versions of the HPC RGD RNAseq workflow.
-        Settings for STAR and RSEM are the same as the GRCr8 workflow, however, some outputs such as the counts
-        matrix may not have been generated. Those data are available in the study download directory in the
-        mRatBN72_expression_data subdirectory on the download site.
+    <li>Some studies were previously aligned to mRatBN7.2 using earlier versions of the HPC RGD RNAseq workflow.
+        Settings for STAR and RSEM are the same as the GRCr8 workflow; however, some outputs such as the counts
+        matrix may not have been generated. Those data are available in the
+        <a href="https://download.rgd.mcw.edu/expression/<%=obj.getGeoSeriesAcc()%>/mRatBN7_2_expression_data/" target="_blank">mRatBN7_2_expression_data subdirectory</a>
+        on the download site (when available).
     </li>
 </ul>
 </body>
