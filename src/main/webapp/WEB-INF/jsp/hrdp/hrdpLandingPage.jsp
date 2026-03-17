@@ -90,16 +90,6 @@ To change this template use File | Settings | File Templates.
             Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
         </li>
         <li>
-            Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">PhenoGen Informatics</a>
-            <ul>
-                <li>
-                    <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
-                        UCSC&nbsp;Track&nbsp;Hubs
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li>
             Gastrocnemius, kidney, retroperitoneal fat pad, and thymus RNA expression levels – RGD:
             <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/">GRCr8</a>,
             <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/mRatBN7_2_expression_data/">mRatBN7.2</a>
@@ -107,6 +97,16 @@ To change this template use File | Settings | File Templates.
                 <li>
                     <a class="here" target="_blank" href="<%= (RgdContext.isDev() || RgdContext.isTest()) ? "https://pipelines.rgd.mcw.edu" : ""
   %>/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Coverage Profiles on JBrowse 2</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org/web/sysbio/resources.jsp">PhenoGen Informatics</a>
+            <ul>
+                <li>
+                    <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
+                        UCSC&nbsp;Track&nbsp;Hubs
+                    </a>
                 </li>
             </ul>
         </li>
