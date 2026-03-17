@@ -370,10 +370,15 @@ String pageDescription = "Build lists based on RGD annotation";
                         <h5>QTL Region</h5>
                         <p>Find genes within a QTL region</p>
                     </div>
-                    <div class="modal-type-card" onclick="goToScreen2('symbols')">
+                    <div class="modal-type-card" onclick="goToScreen2('symbols')" id="card-symbol-list">
                         <i class="fas fa-list"></i>
                         <h5>Symbol List</h5>
-                        <p>Enter a list of gene symbols</p>
+                        <p id="card-symbol-desc">Enter a list of symbols</p>
+                    </div>
+                    <div class="modal-type-card" onclick="goToScreen2('rgdids')">
+                        <i class="fas fa-hashtag"></i>
+                        <h5>RGD ID List</h5>
+                        <p>Enter a list of RGD IDs</p>
                     </div>
                 </div>
             </div>
@@ -443,6 +448,15 @@ String pageDescription = "Build lists based on RGD annotation";
                     <div class="add-modal-form-group">
                         <label>Symbols (comma or line separated)</label>
                         <textarea id="modal_symbols" rows="8" placeholder="Enter gene symbols...&#10;&#10;Example:&#10;Ins1, Ins2, Insr&#10;Irs1&#10;Irs2"></textarea>
+                    </div>
+                </div>
+
+                <!-- RGD ID List Input -->
+                <div class="modal-input-panel" id="input-panel-rgdids" style="display:none;">
+                    <h4 style="margin-bottom:20px;"><i class="fas fa-hashtag"></i> Enter RGD IDs</h4>
+                    <div class="add-modal-form-group">
+                        <label>RGD IDs (comma or line separated)</label>
+                        <textarea id="modal_rgdids" rows="8" placeholder="Enter RGD IDs...&#10;&#10;Example:&#10;2325, 3000&#10;61999&#10;1359413"></textarea>
                     </div>
                 </div>
             </div>
@@ -584,6 +598,7 @@ function closeAddModal() {
     document.getElementById('modal_stop').value = '';
     document.getElementById('modal_qtl').value = '';
     document.getElementById('modal_symbols').value = '';
+    document.getElementById('modal_rgdids').value = '';
 }
 
 function showModalScreen(num) {
@@ -632,6 +647,23 @@ function goToScreen2(type) {
         p.style.display = 'none';
     });
     document.getElementById('input-panel-' + type).style.display = 'block';
+
+    // Update symbol list labels based on object type
+    if (type === 'symbols') {
+        var oKeyVal = document.getElementById('oKey').value || '1';
+        var titleEl = document.querySelector('#input-panel-symbols h4');
+        var textareaEl = document.getElementById('modal_symbols');
+        if (oKeyVal === '5') {
+            titleEl.innerHTML = '<i class="fas fa-list"></i> Enter Strain Symbols';
+            textareaEl.placeholder = 'Enter strain symbols...\n\nExample:\nSHR, BN\nF344\nWKY';
+        } else if (oKeyVal === '6') {
+            titleEl.innerHTML = '<i class="fas fa-list"></i> Enter QTL Symbols';
+            textareaEl.placeholder = 'Enter QTL symbols...\n\nExample:\nBp1, Bp2\nGluco1';
+        } else {
+            titleEl.innerHTML = '<i class="fas fa-list"></i> Enter Gene Symbols';
+            textareaEl.placeholder = 'Enter gene symbols...\n\nExample:\nIns1, Ins2, Insr\nIrs1\nIrs2';
+        }
+    }
 
     showModalScreen(2);
 
@@ -774,6 +806,22 @@ function getModalAccId() {
         var qtl = document.getElementById('modal_qtl').value.trim();
         if (qtl) {
             accId = 'qtl:' + qtl;
+        }
+    } else if (modalSelectedType === 'rgdids') {
+        var ids = document.getElementById('modal_rgdids').value.trim();
+        if (ids) {
+            var idList = ids.split(/[,\s\n]+/);
+            var idStr = '';
+            for (var i = 0; i < idList.length; i++) {
+                var id = idList[i].trim();
+                if (id === '') continue;
+                if (idStr === '') {
+                    idStr = id;
+                } else {
+                    idStr += '[' + id;
+                }
+            }
+            accId = 'ids:' + idStr;
         }
     } else if (modalSelectedType === 'region') {
         var chr = document.getElementById('modal_chr').value;
@@ -1263,11 +1311,11 @@ $(document).ready(function(){
                 <h4>Genes</h4>
             </div>
             <div class="setup-card" data-okey="6" id="card-qtls" onclick="selectObjectType(this)">
-                <i class="fas fa-map-marker-alt"></i>
+                <i class="fas fa-location-crosshairs"></i>
                 <h4>QTLs</h4>
             </div>
             <div class="setup-card" data-okey="5" id="card-strains" onclick="selectObjectType(this)">
-                <i class="fas fa-flask"></i>
+                <i class="fas fa-paw"></i>
                 <h4>Strains</h4>
             </div>
         </div>
@@ -1554,7 +1602,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (accId.toLowerCase().startsWith("chr")) {
             identifier=accId;
         }else if (accId.toLowerCase().startsWith("lst")) {
-            identifier = "User&nbsp;List";
+            identifier = "User List";
+        }else if (accId.toLowerCase().startsWith("ids")) {
+            identifier = "RGD ID List";
         } else if (accId.toLowerCase().startsWith("qtl")) {
             identifier = accId.substring(4);
         } else {
@@ -1645,7 +1695,7 @@ document.addEventListener('DOMContentLoaded', function() {
 for (String gene: objectSymbols.get(i)) {
     if (!exclude.containsKey(gene)) {
 %>
-        <table cellpadding=0 cellspacing=0><tr><td><a href="javascript:removeGene('<%=StringEscapeUtils.escapeEcmaScript(accId)%>','<%=StringEscapeUtils.escapeEcmaScript(gene)%>')"><img height=10 width=10 src="/rgdweb/common/images/del.jpg" border=0 /></a>&nbsp;&nbsp;&nbsp;<%=StringEscapeUtils.escapeHtml4(gene)%></td></tr></table>
+        <table cellpadding=0 cellspacing=0><tr><td><a href="javascript:removeGene('<%=StringEscapeUtils.escapeEcmaScript(accId)%>','<%=StringEscapeUtils.escapeEcmaScript(gene)%>')"><img height=10 width=10 src="/rgdweb/common/images/del.jpg" border=0 /></a>&nbsp;&nbsp;&nbsp;<% if (oKey != null && oKey == 5) { %><%=gene%><% } else { %><%=StringEscapeUtils.escapeHtml4(gene)%><% } %></td></tr></table>
 <%
     }
 }
@@ -1681,7 +1731,7 @@ for (String gene: objectSymbols.get(i)) {
                    while(it.hasNext()) {
                        String gene = (String)it.next();
                %>
-               <span class="resultList"><%=StringEscapeUtils.escapeHtml4(gene.trim())%></span><br>
+               <span class="resultList"><% if (oKey != null && oKey == 5) { %><%=gene.trim()%><% } else { %><%=StringEscapeUtils.escapeHtml4(gene.trim())%><% } %></span><br>
                <%
                    }
                %>
