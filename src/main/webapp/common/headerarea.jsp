@@ -235,7 +235,6 @@
                                         </button>
 
                                         <div class="rgd-dropdown-content">
-                                            <a href="/rgdweb/search/searchByPosition.html">Search RGD</a><!---RGDD-1856 New Search By Position added -->
                                             <a href="/wg/grants/">Grant Resources</a>
                                             <a href="/wg/citing-rgd/">Citing RGD</a>
                                             <a href="/wg/about-us/">About Us</a>
@@ -248,6 +247,7 @@
                                         </button>
 
                                         <div class="rgd-dropdown-content">
+                                            <a href="/rgdweb/search/searchByPosition.html">Search by Genomic Position</a>
                                             <a href="/rgdweb/search/genes.html?100">Genes</a>
                                             <a href="/rgdweb/search/variants.html">Variants</a>
                                             <a href="/rgdweb/projects/project.html">Community Projects</a>
