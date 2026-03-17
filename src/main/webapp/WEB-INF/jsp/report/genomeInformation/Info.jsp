@@ -322,7 +322,7 @@
                                     <tr>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${chr.mapKey!=720 && chr.mapKey!=44}">
+                                                <c:when test="${chr.mapKey!=720 && chr.mapKey!=44 && not empty chr.refseqId}">
                                             <a href="chromosome.html?chr=${chr.chromosome}&mapKey=${chr.mapKey}&locus=${chr.refseqId}" title="Click to see Chromosome Report">${chr.chromosome}</a>
                                                 </c:when>
                                                 <c:otherwise>
