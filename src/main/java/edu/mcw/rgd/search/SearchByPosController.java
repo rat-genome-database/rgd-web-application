@@ -6,12 +6,25 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
+import edu.mcw.rgd.services.ClientInit;
+import edu.mcw.rgd.web.RgdContext;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.core.TimeValue;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 public class SearchByPosController implements Controller {
@@ -103,6 +116,75 @@ public class SearchByPosController implements Controller {
                     record.append(String.valueOf(s.getStart()) );
                     record.append(String.valueOf(s.getStop()) );
                     report.append(record);
+                }
+            }
+            if (objType.equalsIgnoreCase("variant") || objType.equalsIgnoreCase("all")) {
+                try {
+                    String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey)).replace(" ", "");
+                    String indexName = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + mapKey);
+
+                    BoolQueryBuilder qb = QueryBuilders.boolQuery()
+                            .must(QueryBuilders.termQuery("chromosome.keyword", chr))
+                            .filter(QueryBuilders.rangeQuery("startPos").gte(start).lte(stop));
+
+                    SearchSourceBuilder srb = new SearchSourceBuilder();
+                    srb.query(qb);
+                    srb.size(10000);
+
+                    // Change header for variant-only downloads
+                    if (objType.equalsIgnoreCase("variant")) {
+                        report = new Report();
+                        Record varHeader = new Record();
+                        varHeader.append("Variant RGD ID");
+                        varHeader.append("Chr");
+                        varHeader.append("Position");
+                        varHeader.append("Ref Nucleotide");
+                        varHeader.append("Var Nucleotide");
+                        varHeader.append("Variant Type");
+                        varHeader.append("Sample ID");
+                        report.append(varHeader);
+                    }
+
+                    SearchRequest searchRequest = new SearchRequest(indexName);
+                    searchRequest.source(srb);
+                    searchRequest.scroll(TimeValue.timeValueMinutes(1L));
+
+                    SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+                    String scrollId = sr.getScrollId();
+
+                    for (SearchHit hit : sr.getHits().getHits()) {
+                        Map<String, Object> src = hit.getSourceAsMap();
+                        Record record = new Record();
+                        record.append(String.valueOf(src.getOrDefault("variant_id", "")));
+                        record.append(String.valueOf(src.getOrDefault("chromosome", "")));
+                        record.append(String.valueOf(src.getOrDefault("startPos", "")));
+                        record.append(String.valueOf(src.getOrDefault("refNuc", "")));
+                        record.append(String.valueOf(src.getOrDefault("varNuc", "")));
+                        record.append(String.valueOf(src.getOrDefault("variantType", "")));
+                        record.append(String.valueOf(src.getOrDefault("sampleId", "")));
+                        report.append(record);
+                    }
+
+                    while (sr.getHits().getHits().length > 0) {
+                        SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
+                        scrollRequest.scroll(TimeValue.timeValueSeconds(60));
+                        sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
+                        scrollId = sr.getScrollId();
+                        for (SearchHit hit : sr.getHits().getHits()) {
+                            Map<String, Object> src = hit.getSourceAsMap();
+                            Record record = new Record();
+                            record.append(String.valueOf(src.getOrDefault("variant_id", "")));
+                            record.append(String.valueOf(src.getOrDefault("chromosome", "")));
+                            record.append(String.valueOf(src.getOrDefault("startPos", "")));
+                            record.append(String.valueOf(src.getOrDefault("refNuc", "")));
+                            record.append(String.valueOf(src.getOrDefault("varNuc", "")));
+                            record.append(String.valueOf(src.getOrDefault("variantType", "")));
+                            record.append(String.valueOf(src.getOrDefault("sampleId", "")));
+                            report.append(record);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
             request.setAttribute("report",report);
