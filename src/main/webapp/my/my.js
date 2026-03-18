@@ -513,6 +513,7 @@ rgdModule.controller('RGDPageController', [
                     i3.setAttribute('value',$scope.mapKey);
                     f.appendChild(i3);
                     */
+                    f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -535,6 +536,7 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('value',geneList);
 
                     f.appendChild(i);
+                    f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -560,6 +562,7 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('name',"a");
                     i.setAttribute('value',$scope.a);
                     f.appendChild(i);
+                    f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -579,6 +582,7 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('value',geneList);
 
                     f.appendChild(i);
+                    f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -603,6 +607,7 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('value',geneList);
 
                     f.appendChild(i);
+                    f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -622,6 +627,7 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('value',geneList);
 
                     f.appendChild(i);
+                    f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -640,6 +646,7 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('value',"~lst:" + geneList.replace(/\,/g, '['));
 
                     f.appendChild(i);
+                    f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -663,7 +670,7 @@ rgdModule.controller('RGDPageController', [
                         queryString = location.href.split("?")[1];
                         url = url + "&" + queryString;
                     }
-                    location.href=url;
+                    window.open(url, '_blank');
                 }
                 else if (tool == "distribution") {
 
@@ -681,6 +688,7 @@ rgdModule.controller('RGDPageController', [
                     i.setAttribute('value',geneList);
 
                     f.appendChild(i);
+                    f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
 
@@ -707,6 +715,7 @@ rgdModule.controller('RGDPageController', [
                         form.appendChild(hiddenField);
                     }
 
+                    form.setAttribute('target', '_blank');
                     document.body.appendChild(form);
                     form.submit();
 
@@ -739,6 +748,7 @@ rgdModule.controller('RGDPageController', [
                         form.appendChild(hiddenField);
                     }
 
+                    form.setAttribute('target', '_blank');
                     document.body.appendChild(form);
                     form.submit();
 
