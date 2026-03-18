@@ -447,7 +447,11 @@ function processList(act) {
     document.getElementById("act").value=act;
     document.getElementById("mapKey").value= document.getElementById("mapKey_tmp").options[document.getElementById("mapKey_tmp").selectedIndex].value;
     document.getElementById("oKey").value= document.getElementById("oKey_tmp").options[document.getElementById("oKey_tmp").selectedIndex].value;
+    if (act !== "" && act !== "excel") {
+        document.submitForm.target = "_blank";
+    }
     document.submitForm.submit();
+    document.submitForm.target = "_self";
 
 }
 
