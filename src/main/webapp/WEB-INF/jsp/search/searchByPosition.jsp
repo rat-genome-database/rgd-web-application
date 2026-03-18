@@ -30,15 +30,10 @@
         width: 100%;
         text-align: center;
         font-size: 12px;
-
     }
 
     .t th {
-        background: rgb(246, 248, 249); /* Old browsers */
-        background: -moz-linear-gradient(top, rgba(246, 248, 249, 1) 0%, rgba(229, 235, 238, 1) 50%, rgba(215, 222, 227, 1) 51%, rgba(245, 247, 249, 1) 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(top, rgba(246, 248, 249, 1) 0%, rgba(229, 235, 238, 1) 50%, rgba(215, 222, 227, 1) 51%, rgba(245, 247, 249, 1) 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(to bottom, rgba(246, 248, 249, 1) 0%, rgba(229, 235, 238, 1) 50%, rgba(215, 222, 227, 1) 51%, rgba(245, 247, 249, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f8f9', endColorstr='#f5f7f9', GradientType=0);
+        background: linear-gradient(to bottom, rgba(246, 248, 249, 1) 0%, rgba(229, 235, 238, 1) 50%, rgba(215, 222, 227, 1) 51%, rgba(245, 247, 249, 1) 100%);
         cursor: pointer;
         padding: 5px;
     }
@@ -50,15 +45,15 @@
     }
 
     .t tr:nth-child(odd) {
-        background-color: #f2f2f2
+        background-color: #f2f2f2;
     }
 
     .t tr:hover {
         background-color: #daeffc;
     }
 
-    .t tbody th{
-        background:#99BFE6;
+    .t tbody th {
+        background: #99BFE6;
         border-left: 1px solid #c3c3c3;
         border-right: 1px solid #c3c3c3;
     }
@@ -76,16 +71,6 @@
         overflow-x: auto;
         flex-flow: column wrap;
         max-width: 80vw;
-        overflow-x: auto;
-    }
-
-    .searchBox {
-        border: 3px solid #f1f1f1;
-        margin: 10px;
-        border-color: cornflowerblue;
-        border-width: thin;
-        min-width: 40vw;
-        max-width: 50vw;
     }
 
     .downloadbtn {
@@ -96,15 +81,8 @@
         font-size: 15px;
     }
 
-    /* Darker background on mouse-over */
     .downloadbtn:hover {
         background-color: RoyalBlue;
-    }
-
-    label {
-        font-size: 1.6em;
-        align-self: center;
-        align-items: center;
     }
 
     /* Chrome, Safari, Edge, Opera */
@@ -117,16 +95,153 @@
     /* Firefox */
     input[type=number] {
         -moz-appearance: textfield;
-        height:20px;
-        font-size:11pt;
+    }
+
+    /* Search card styles */
+    .search-hero {
+        background: #f8f9fa;
+        padding: 40px 20px 50px;
+        text-align: center;
+    }
+
+    .search-hero-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #24609c;
+        margin: 0 0 8px 0;
+    }
+
+    .search-hero-subtitle {
+        font-size: 15px;
+        color: #666;
+        margin: 0 0 30px 0;
+    }
+
+    .search-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 32px 36px 28px;
+    }
+
+    .search-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px 24px;
+    }
+
+    .search-form-grid .field-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .search-form-grid .field-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .search-form-grid .field-group label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #24609c;
+        margin-bottom: 6px;
+    }
+
+    .search-form-grid .field-group select,
+    .search-form-grid .field-group input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #fff;
+        color: #333;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+    }
+
+    .search-form-grid .field-group select:focus,
+    .search-form-grid .field-group input[type="text"]:focus {
+        outline: none;
+        border-color: #24609c;
+        box-shadow: 0 0 0 3px rgba(36, 96, 156, 0.12);
+    }
+
+    .search-form-grid .field-group select {
+        appearance: auto;
+    }
+
+    .search-btn-wrap {
+        text-align: center;
+        margin-top: 28px;
+    }
+
+    .search-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #24609c;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 36px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .search-btn-primary:hover {
+        background: #1b4d7e;
+        box-shadow: 0 4px 12px rgba(36, 96, 156, 0.3);
+    }
+
+    .search-btn-primary:active {
+        background: #163f68;
+    }
+
+    .search-errors {
+        background: #fff0f0;
+        border: 1px solid #e0b4b4;
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin-bottom: 20px;
+    }
+
+    .search-errors b {
+        color: #c33;
+        font-size: 14px;
+    }
+
+    .search-errors ul {
+        margin: 6px 0 0 18px;
+        padding: 0;
+    }
+
+    .search-errors li {
+        color: #c33;
+        font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+        .search-form-grid {
+            grid-template-columns: 1fr;
+        }
+        .search-card {
+            padding: 24px 20px 20px;
+        }
+        .search-hero-title {
+            font-size: 22px;
+        }
     }
 </style>
 
 <%
-    String pageHeader = "Search for genes, SSLPs, QTLs, and Strains by position";
-    String pageTitle = "Search By Position";
+    String pageHeader = "Search by Genomic Position";
+    String pageTitle = "Search by Genomic Position";
     String headContent = "";
-    String pageDescription = "Search all objects using Position";
+    String pageDescription = "Search for genes, QTLs, SSLPs, and strains at a specific genomic location";
 %>
 
 <script>
@@ -174,110 +289,81 @@
 
 <%@ include file="/common/headerarea.jsp" %>
 
-<!--Tablesorter
-<script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
-<script src="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.js"></script>
-<script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.js"></script>
-
-<link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
-<link href="/rgdweb/css/report.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>-->
-
-<div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading"><%=pageHeader%>
-    </div>
-</div>
-
 <script>
     window.addEventListener("scroll", (event) => {
         let domRect = document.getElementById("reportMainSidebar").getBoundingClientRect();
         let top = domRect.top + document.body.scrollTop;
     });
 </script>
-<style>
-    input[type=text] {
-        height:20px;
-        font-size:11pt;
-    }
 
-    select{
-        height:20px;
-        font-size:11pt;
-    }
-
-    option{
-        font-size:11pt;
-    }
-
-    .searchBox td{
-        padding: 25px;
-    }
-</style>
 <div id="search">
-    <div align="left">
-        <form>
-            <p v-if="errors.length">
-                <b style="color: red">Please correct the following error(s):</b>
-            <ul>
-                <li v-for="error in errors">{{ error }}</li>
-            </ul>
-            </p>
-        <table class="searchBox">
-            <tr>
-                <td>
-                    <label for="species" style="color: #24609c;">Species: </label>
-                    <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required style="width: 70px;font-size:11pt">
-                        <option value="3" selected="true">Rat</option>
-                        <option value="2">Mouse</option>
-                        <option value="1">Human</option>
-                        <option value="4">Chinchilla</option>
-                        <option value="5">Bonobo</option>
-                        <option value="6">Dog</option>
-                        <option value="7">Squirrel</option>
-                        <option value="9">Pig</option>
-                        <option value="14">Naked Mole-Rat</option>
-                        <option value="13">Green Monkey</option>
-                        <option value="17">Black Rat</option>
-                    </select>
-                </td>
-                <td>
-                    <label for="mapKey" style="color: #24609c;">Assembly: </label>
-                    <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)" style="width: 110px;font-size:11pt">
-                        <option v-for="value in maps" :value="value.key" :selected="mapKey == value.key">{{value.name}}</option>
-                    </select>
-                </td>
-                <td>
-                    <label for="chr" style="color: #24609c;">Chromosome: </label>
-                    <select id="chr" name="chr" v-model="chr" required style="width: 50px;font-size:11pt">
-                        <option v-for="value in chromosomes" :value="value">{{value}}</option>
-                    </select>
-                </td>
-                <td>
-                    <label for="start"
-                           style="color: #24609c;">Start(bp): </label>
-                    <input id="start" type="text" name="start" required style="width: 160px" onkeypress="return isNumber(event)"/>
-                </td>
-                <td>
-                    <label for="stop"
-                           style="color: #24609c;">Stop(bp): </label>
-                    <input id="stop" type="text" name="stop" required style="width: 160px" onkeypress="return isNumber(event)"/>
-                </td>
-                <td>
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit" name="submit" id="searchByPosSubmit" style="font-size: 20px" @click="getData($event)">
-                            <i class="fa fa-search"></i>
-                        </button>&nbsp;&nbsp;
+    <div class="search-hero" v-show="!showResults">
+        <h1 class="search-hero-title">Search by Genomic Position</h1>
+        <p class="search-hero-subtitle">Find genes, QTLs, SSLPs, and strains at a specific genomic location</p>
+
+        <div class="search-card">
+            <form>
+                <div v-if="errors.length" class="search-errors">
+                    <b>Please correct the following error(s):</b>
+                    <ul>
+                        <li v-for="error in errors">{{ error }}</li>
+                    </ul>
+                </div>
+
+                <div class="search-form-grid">
+                    <div class="field-group">
+                        <label for="species">Species</label>
+                        <select id="species" name="species" v-model="species" onchange="v.setMaps(species)" required>
+                            <option value="3" selected="true">Rat</option>
+                            <option value="2">Mouse</option>
+                            <option value="1">Human</option>
+                            <option value="4">Chinchilla</option>
+                            <option value="5">Bonobo</option>
+                            <option value="6">Dog</option>
+                            <option value="7">Squirrel</option>
+                            <option value="9">Pig</option>
+                            <option value="14">Naked Mole-Rat</option>
+                            <option value="13">Green Monkey</option>
+                            <option value="17">Black Rat</option>
+                        </select>
                     </div>
-                </td>
-                <!--<td>
-                    <button type="submit" @click="" class="btn btn-primary reset"> Reset </button>
-                </td>-->
-            </tr>
-        </table>
-        </form>
+
+                    <div class="field-group">
+                        <label for="mapKey">Assembly</label>
+                        <select id="mapKey" name="mapKey" v-model="mapKey" required onchange="v.setKeyMap(mapKey)">
+                            <option v-for="value in maps" :value="value.key" :selected="mapKey == value.key">{{value.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="chr">Chromosome</label>
+                        <select id="chr" name="chr" v-model="chr" required>
+                            <option v-for="value in chromosomes" :value="value">{{value}}</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <!-- empty cell for grid alignment -->
+                    </div>
+
+                    <div class="field-group">
+                        <label for="start">Start (bp)</label>
+                        <input id="start" type="text" name="start" required placeholder="e.g. 1000000" onkeypress="return isNumber(event)"/>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="stop">Stop (bp)</label>
+                        <input id="stop" type="text" name="stop" required placeholder="e.g. 5000000" onkeypress="return isNumber(event)"/>
+                    </div>
+                </div>
+
+                <div class="search-btn-wrap">
+                    <button class="search-btn-primary" type="button" id="searchByPosSubmit" @click="getData($event)">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <br><br><br>
@@ -309,6 +395,12 @@
                 <tr><!--Results summary section-->
                     <td>
                         <div class="bordereddiv" id="searchByPositionResultsId">
+                            <div style="display: flex; align-items: center; padding: 10px 10px 0 10px;">
+                                <button class="search-btn-primary" type="button" @click="showResults=false" style="padding: 8px 20px; font-size: 14px; margin-right: 15px;">
+                                    <i class="fa fa-arrow-left"></i> New Search
+                                </button>
+                                <span style="color: #666; font-size: 14px;">{{searchLabel}}</span>
+                            </div>
                             <div style="display: flex; flex-flow: row; padding: 10px">
                                 <div style="padding: 5px;width: 100%"><h2>Total Objects in the selected region: </h2>
                                     <label for="downloadAllBtnId" style="font-size:small">Download All Objects Here: </label>
@@ -356,6 +448,18 @@
                                                 <button class="downloadbtn" @click="download('strain')"><i
                                                         class="fa fa-download" style="align-self: auto"
                                                         title="Download Strains"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: large">Variants -
+                                                <span v-if="variantCount >= 0">{{variantCount.toLocaleString()}}</span>
+                                                <span v-else><i class="fa fa-spinner fa-spin"></i></span>
+                                            </td>
+                                            <td>
+                                                <button v-if="variantCount >= 0 && variantCount <= 500000" class="downloadbtn" @click="download('variant')"><i
+                                                        class="fa fa-download" style="align-self: auto"
+                                                        title="Download Variants"></i></button>
+                                                <span v-if="variantCount > 500000" style="font-size:11px; color:#999;" title="Narrow your region to enable download">too large</span>
                                             </td>
                                         </tr>
                                     </table>
@@ -558,6 +662,9 @@
             qtlCount: 0,
             sslpCount: 0,
             strainCount: 0,
+            variantCount: -1,
+            showResults: false,
+            searchLabel: '',
             strains: false,
             qtls: false,
             sslps: false,
@@ -571,6 +678,7 @@
         },
         methods: {
             getData: function (e) {
+                e.preventDefault();
                 var chr = document.getElementById('chr').value;
                 var txt = document.getElementById('start').value;
                 var start = txt.replace(/,/g, "");
@@ -585,20 +693,21 @@
                 v.qtlCount = 0;
                 v.sslpCount = 0;
                 v.strainCount = 0;
+                v.variantCount = -1;
                 v.sslps = false;
                 v.genes = false;
                 v.strains = false;
 
                 this.errors = [];
-                //var start = document.getElementById('start').value;
-                //var stop = document.getElementById('stop').value;
                 if(Number(start) > Number(stop)) {
                     this.errors.push('Start number is greater than Stop number.');
                 }
                 if (this.errors.length>0) {
-                    e.preventDefault();
+                    v.showResults = false;
                     document.getElementById('page-container').style.display = 'none';
                 }else {
+                    v.searchLabel = 'Chr' + chr + ':' + Number(start).toLocaleString() + '..' + Number(stop).toLocaleString();
+                    v.showResults = true;
                     axios
                         .get(this.hostName + '/rgdws/genes/mapped/' + chr + '/' + start + '/' + stop + '/' + mapKey)
                         .then(function (response) {
@@ -685,6 +794,15 @@
                             }
                         }).catch(function (error) {
                         console.log(error)
+                    });
+                    // Variant count from elasticsearch
+                    axios
+                        .get('/rgdweb/search/variantCount.html?chr=' + chr + '&start=' + start + '&stop=' + stop + '&mapKey=' + mapKey)
+                        .then(function (response) {
+                            v.variantCount = response.data.count;
+                        }).catch(function (error) {
+                            v.variantCount = 0;
+                            console.log(error);
                     });
                 }
             },
