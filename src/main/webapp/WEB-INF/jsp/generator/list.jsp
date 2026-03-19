@@ -828,35 +828,30 @@ function getModalAccId() {
         var start = document.getElementById('modal_start').value.trim();
         var stop = document.getElementById('modal_stop').value.trim();
         if (chr) {
+            var selOpt = document.getElementById('modal_chr').selectedOptions[0];
+            var chrSize = selOpt ? selOpt.getAttribute('data-size') : null;
             var startNum = 1;
-            var stopNum = 0;
-            // Default to whole chromosome if positions not provided
-            if (!start && !stop) {
-                var selOpt = document.getElementById('modal_chr').selectedOptions[0];
-                var chrSize = selOpt ? selOpt.getAttribute('data-size') : null;
-                if (chrSize) {
-                    stopNum = parseInt(chrSize, 10);
-                } else {
-                    alert('Could not determine chromosome size. Please enter start and stop positions.');
-                    return null;
-                }
-            } else if (start && stop) {
+            var stopNum = chrSize ? parseInt(chrSize, 10) : 0;
+            if (start) {
                 startNum = parseInt(start.replace(/,/g, ''), 10);
+                if (isNaN(startNum) || startNum < 0) {
+                    alert('Start position must be a positive number.');
+                    return null;
+                }
+            }
+            if (stop) {
                 stopNum = parseInt(stop.replace(/,/g, ''), 10);
-                if (isNaN(startNum) || isNaN(stopNum)) {
-                    alert('Start and stop positions must be numeric values.');
+                if (isNaN(stopNum) || stopNum < 0) {
+                    alert('Stop position must be a positive number.');
                     return null;
                 }
-                if (startNum < 0 || stopNum < 0) {
-                    alert('Positions cannot be negative.');
-                    return null;
-                }
-                if (startNum >= stopNum) {
-                    alert('Start position must be less than stop position.');
-                    return null;
-                }
-            } else {
-                alert('Please enter both start and stop positions, or leave both empty to use the whole chromosome.');
+            }
+            if (!stop && !chrSize) {
+                alert('Could not determine chromosome size. Please enter a stop position.');
+                return null;
+            }
+            if (startNum >= stopNum) {
+                alert('Start position must be less than stop position.');
                 return null;
             }
             accId = 'chr' + chr + ':' + startNum + '..' + stopNum;
