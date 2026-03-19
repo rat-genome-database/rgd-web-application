@@ -370,7 +370,7 @@
     <div id="page-container" style="display: none">
         <div id="left-side-wrap" style="margin: 10px">
             <nav id="reportMainSidebar" class="navbar report-page-grey"
-                 style="position: fixed;padding: 10px;height:30vh;overflow-y: hidden;">
+                 style="position: fixed;padding: 10px;height:auto;overflow-y: auto;">
                 <ul class="navbar-nav" id="navbarUlId">
                     <li class="nav-item" id="summary"><a class="nav-link active" href="#top" id="resultDataLink" onclick=checkActiveStatus('result')
                                             style="font-size: large">Results</a></li>
@@ -483,8 +483,8 @@
                                 </div>
                                 <div style="padding: 10px;width: 10%" >
                                     <img src="/rgdweb/common/images/tools-white-50.png" id="showToolsImgId"
-                                         style="cursor:hand; border: 2px solid black;" border="0" onclick="setVariables()"
-                                             ng-click="rgd.showTools('geneList',selectedSpecies,selectedMapKey,1,'')"/>
+                                         style="cursor:pointer; border: 2px solid black;" border="0"
+                                             onclick="setVariables(); var s=angular.element(this).scope(); s.rgd.showTools('geneList',selectedSpecies,selectedMapKey,1,'')"/>
                                 </div>
                             </div>
                             <table id="geneResultsTable" class="t" role="grid">
@@ -500,7 +500,7 @@
                                 <tr v-for="record in geneData">
                                     <td>{{record.gene.rgdId}}</td>
                                     <td>{{record.gene.type}}</td>
-                                    <td><a :href="geneUrl+record.gene.rgdId" class="geneList"> {{record.gene.symbol}}</a></td>
+                                    <td><a :href="geneUrl+record.gene.rgdId" class="geneList" target="_blank"> {{record.gene.symbol}}</a></td>
                                     <td>{{record.gene.name}}</td>
                                     <td>{{record.chromosome}}</td>
                                     <td>{{record.start}}</td>
@@ -525,8 +525,8 @@
                                 </div>
                                 <div style="padding: 10px;width: 10%" >
                                     <img src="/rgdweb/common/images/tools-white-50.png"
-                                         style="cursor:hand; border: 2px solid black;" border="0"
-                                         ng-click="rgd.showTools('geneList',3,60,6,'')"/>
+                                         style="cursor:pointer; border: 2px solid black;" border="0"
+                                         onclick="setVariables(); var s=angular.element(this).scope(); s.rgd.showTools('geneList',selectedSpecies,selectedMapKey,6,'')"/>
                                 </div>
                             </div>
 
@@ -542,7 +542,7 @@
                                 <tr v-for="record in qtlData"
                                     class="record">
                                     <td>{{record.qtl.rgdId}}</td>
-                                    <td><a :href="qtlUrl+record.qtl.rgdId" class="geneList">{{record.qtl.symbol}}</a></td>
+                                    <td><a :href="qtlUrl+record.qtl.rgdId" class="geneList" target="_blank">{{record.qtl.symbol}}</a></td>
                                     <td>{{record.qtl.name}}</td>
                                     <td>{{record.chromosome}}</td>
                                     <td>{{record.start}}</td>
@@ -578,7 +578,7 @@
                                 <tr v-for="record in sslpData"
                                     class="record">
                                     <td>{{record.sslp.rgdId}}</td>
-                                    <td><a :href="sslpUrl+record.sslp.rgdId" class="geneList">{{record.sslp.name}}</a></td>
+                                    <td><a :href="sslpUrl+record.sslp.rgdId" class="geneList" target="_blank">{{record.sslp.name}}</a></td>
                                     <td>{{record.sslp.name}}</td>
                                     <td>{{record.chromosome}}</td>
                                     <td>{{record.start}}</td>
@@ -614,7 +614,7 @@
                                 <tr v-for="record in strainData"
                                     class="record">
                                     <td>{{record.strain.rgdId}}</td>
-                                    <td><a :href="strainUrl+record.strain.rgdId" class="geneList" v-html="record.strain.symbol"></a></td>
+                                    <td><a :href="strainUrl+record.strain.rgdId" class="geneList" target="_blank" v-html="record.strain.symbol"></a></td>
                                     <td  v-html="record.strain.symbol"></td>
                                     <td>{{record.chromosome}}</td>
                                     <td>{{record.start}}</td>
@@ -717,7 +717,6 @@
                                 v.genes = true;
 
                                 document.getElementById('resultDataLink').className = 'active';
-                                document.getElementById('reportMainSidebar').style.height = "30vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchGeneResultId').style.display = 'block';
                                 /*var geneResultsTable = document.getElementById("geneResultsTable");
@@ -728,7 +727,6 @@
                                 }*/
                             }else{
                                 document.getElementById('resultDataLink').className = 'active';
-                                document.getElementById('reportMainSidebar').style.height = "20vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchGeneResultId').style.display = 'none';
                             }
@@ -743,12 +741,10 @@
                                 v.qtlCount = v.qtlData.length;
                                 v.qtls = true;
                                 document.getElementById('resultDataLink').className = 'active';
-                                document.getElementById('reportMainSidebar').style.height = "30vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchQTLsResultId').style.display = 'block';
                             }else{
                                 document.getElementById('resultDataLink').className = 'active';
-                                document.getElementById('reportMainSidebar').style.height = "20vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchQTLsResultId').style.display = 'none';
                             }
@@ -763,12 +759,10 @@
                                 v.sslpCount = v.sslpData.length;
                                 v.sslps = true;
                                 document.getElementById('resultDataLink').className = 'active';
-                                document.getElementById('reportMainSidebar').style.height = "30vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchSSLPsResultId').style.display = 'block';
                             }else{
                                 document.getElementById('resultDataLink').className = 'active';
-                                document.getElementById('reportMainSidebar').style.height = "20vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchSSLPsResultId').style.display = 'none';
                             }
@@ -783,12 +777,10 @@
                                 v.strainCount = v.strainData.length;
                                 v.strains = true;
                                 document.getElementById('resultDataLink').className = 'active';
-                                document.getElementById('reportMainSidebar').style.height = "30vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchStrainsResultId').style.display = 'block';
                             }else{
                                 document.getElementById('resultDataLink').className = 'active';
-                                document.getElementById('reportMainSidebar').style.height = "20vh";
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchStrainsResultId').style.display = 'none';
                             }
@@ -799,7 +791,7 @@
                     axios
                         .get('/rgdweb/search/variantCount.html?chr=' + chr + '&start=' + start + '&stop=' + stop + '&mapKey=' + mapKey)
                         .then(function (response) {
-                            v.variantCount = response.data.count;
+                            v.variantCount = response.data.count >= 0 ? response.data.count : 0;
                         }).catch(function (error) {
                             v.variantCount = 0;
                             console.log(error);
