@@ -484,7 +484,7 @@
                                 <div style="padding: 10px;width: 10%" >
                                     <img src="/rgdweb/common/images/tools-white-50.png" id="showToolsImgId"
                                          style="cursor:pointer; border: 2px solid black;" border="0"
-                                             onclick="setVariables(); var s=angular.element(this).scope(); s.rgd.showTools('geneList',selectedSpecies,selectedMapKey,1,'')"/>
+                                             onclick="setVariables(); var el=document.getElementById('RGDPageController'); var s=angular.element(el).scope(); s.$apply(function(){ s.rgd.showTools('geneList',selectedSpecies,selectedMapKey,1,''); })"/>
                                 </div>
                             </div>
                             <table id="geneResultsTable" class="t" role="grid">
@@ -526,7 +526,7 @@
                                 <div style="padding: 10px;width: 10%" >
                                     <img src="/rgdweb/common/images/tools-white-50.png"
                                          style="cursor:pointer; border: 2px solid black;" border="0"
-                                         onclick="setVariables(); var s=angular.element(this).scope(); s.rgd.showTools('geneList',selectedSpecies,selectedMapKey,6,'')"/>
+                                         onclick="setVariables(); var el=document.getElementById('RGDPageController'); var s=angular.element(el).scope(); s.$apply(function(){ s.rgd.showTools('geneList',selectedSpecies,selectedMapKey,6,''); })"/>
                                 </div>
                             </div>
 
