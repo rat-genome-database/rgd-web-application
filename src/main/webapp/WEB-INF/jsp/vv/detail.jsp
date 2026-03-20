@@ -425,9 +425,6 @@
 
                                     %>
                                     <tr><td  colspan=2 style="color:#053894; font-size:16px;padding-left:5px;font-weight:700;padding-top:5px;">Amino Acid Sequence<br><span style="font-size:12px;">(Calculated using NCBI transcript definition)</span></td></tr>
-                                    <tr><td  colspan=2 style="border:5px solid #D8D8DB;padding:5px; background-color:white; font-size:14px;"><pre><%=aaSequence%></pre></td></tr>
-                                    <% } %>
-                                    <tr><td  colspan=2 style="color:#053894; font-size:16px;padding-left:5px;font-weight:700;padding-top:5px;">Amino Acid Sequence<br><span style="font-size:12px;">(Calculated using NCBI transcript definition)</span></td></tr>
                                     <tr><td  colspan=2 style="border:5px solid #D8D8DB;padding:5px; background-color:white; font-size:12px;"><pre><%=aaSequence%></pre></td></tr>
                                     <%
                                         }
