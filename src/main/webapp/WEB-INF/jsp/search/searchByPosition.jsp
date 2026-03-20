@@ -36,6 +36,14 @@
         background: linear-gradient(to bottom, rgba(246, 248, 249, 1) 0%, rgba(229, 235, 238, 1) 50%, rgba(215, 222, 227, 1) 51%, rgba(245, 247, 249, 1) 100%);
         cursor: pointer;
         padding: 5px;
+        user-select: none;
+        white-space: nowrap;
+    }
+
+    .t th .sort-indicator {
+        font-size: 10px;
+        margin-left: 3px;
+        color: #24609c;
     }
 
     .t td {
@@ -224,6 +232,11 @@
         font-size: 13px;
     }
 
+    .t td a:hover {
+        text-decoration: underline !important;
+        color: #24609c !important;
+    }
+
     @media (max-width: 600px) {
         .search-form-grid {
             grid-template-columns: 1fr;
@@ -247,15 +260,6 @@
 <script>
     var selectedSpecies = 0;
     var selectedMapKey = 0;
-
-    function checkActiveStatus(type){
-        if(type == "result"){
-            document.getElementById("resultDataLink").className = "active";
-        }
-        else{
-            document.getElementById("resultDataLink").className = "";
-        }
-    }
 
     //on press of enter ket getdata()
     var input = document.getElementById("searchByPosSubmit");
@@ -289,12 +293,6 @@
 
 <%@ include file="/common/headerarea.jsp" %>
 
-<script>
-    window.addEventListener("scroll", (event) => {
-        let domRect = document.getElementById("reportMainSidebar").getBoundingClientRect();
-        let top = domRect.top + document.body.scrollTop;
-    });
-</script>
 
 <div id="search">
     <div class="search-hero" v-show="!showResults">
@@ -368,28 +366,6 @@
 
     <br><br><br>
     <div id="page-container" style="display: none">
-        <div id="left-side-wrap" style="margin: 10px">
-            <nav id="reportMainSidebar" class="navbar report-page-grey"
-                 style="position: fixed;padding: 10px;height:auto;overflow-y: auto;">
-                <ul class="navbar-nav" id="navbarUlId">
-                    <li class="nav-item" id="summary"><a class="nav-link active" href="#top" id="resultDataLink" onclick=checkActiveStatus('result')
-                                            style="font-size: large">Results</a></li>
-                    <br>
-                    <li class="nav-item sub-nav-item" v-if="genes"><a class="nav-link" href="#searchGeneResultId"
-                                                         style="font-size: medium;" onclick=checkActiveStatus('gene')>Genes</a>
-                    </li>
-                    <br>
-                    <li class="nav-item sub-nav-item" v-if="qtls"><a class="nav-link" href="#searchQTLsResultId" onclick=checkActiveStatus('qtl')
-                                                        style="font-size: medium;">QTLs</a></li>
-                    <br>
-                    <li class="nav-item sub-nav-item" v-if="sslps"><a class="nav-link" href="#searchSSLPsResultId" onclick=checkActiveStatus('sslp')
-                                                         style="font-size: medium;">SSLPs</a></li>
-                    <br>
-                    <li class="nav-item sub-nav-item" v-if="strains"><a class="nav-link" href="#searchStrainsResultId" onclick=checkActiveStatus('strain')
-                                                                      style="font-size: medium;">Strains</a></li>
-                </ul>
-            </nav>
-        </div>
         <div id="content-wrap">
             <table width="100%" border="0">
                 <tr><!--Results summary section-->
@@ -411,8 +387,8 @@
                                 <div style="padding: 10px; width:100%">
                                     <table style="border-style: dotted" class="t">
                                         <tr>
-                                            <td style="font-size: large">Genes -
-                                                {{geneCount}}
+                                            <td style="font-size: large"><a href="#searchGeneResultId" style="text-decoration:none;color:inherit;">Genes -
+                                                {{geneCount}}</a>
                                             </td>
                                             <td>
                                                 <button class="downloadbtn" @click="download('gene')"><i
@@ -421,8 +397,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: large">QTLs -
-                                                {{qtlCount}}
+                                            <td style="font-size: large"><a href="#searchQTLsResultId" style="text-decoration:none;color:inherit;">QTLs -
+                                                {{qtlCount}}</a>
                                             </td>
                                             <td>
                                                 <button class="downloadbtn" @click="download('qtl')"><i
@@ -431,8 +407,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: large">SSLPs -
-                                                {{sslpCount}}
+                                            <td style="font-size: large"><a href="#searchSSLPsResultId" style="text-decoration:none;color:inherit;">SSLPs -
+                                                {{sslpCount}}</a>
                                             </td>
                                             <td>
                                                 <button class="downloadbtn" @click="download('sslp')"><i
@@ -441,8 +417,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: large">Strains -
-                                                {{strainCount}}
+                                            <td style="font-size: large"><a href="#searchStrainsResultId" style="text-decoration:none;color:inherit;">Strains -
+                                                {{strainCount}}</a>
                                             </td>
                                             <td>
                                                 <button class="downloadbtn" @click="download('strain')"><i
@@ -489,13 +465,13 @@
                             </div>
                             <table id="geneResultsTable" class="t" role="grid">
                                 <tr role="row">
-                                    <th>RGD ID</th>
-                                    <th>Type</th>
-                                    <th>Symbol</th>
-                                    <th>Name</th>
-                                    <th>Chr</th>
-                                    <th>Start</th>
-                                    <th>Stop</th>
+                                    <th @click="sortBy('gene','rgdId','gene')">RGD ID <span class="sort-indicator" v-text="sortIndicator('gene','rgdId','gene')"></span></th>
+                                    <th @click="sortBy('gene','type','gene')">Type <span class="sort-indicator" v-text="sortIndicator('gene','type','gene')"></span></th>
+                                    <th @click="sortBy('gene','symbol','gene')">Symbol <span class="sort-indicator" v-text="sortIndicator('gene','symbol','gene')"></span></th>
+                                    <th @click="sortBy('gene','name','gene')">Name <span class="sort-indicator" v-text="sortIndicator('gene','name','gene')"></span></th>
+                                    <th @click="sortBy('gene','chromosome')">Chr <span class="sort-indicator" v-text="sortIndicator('gene','chromosome')"></span></th>
+                                    <th @click="sortBy('gene','start')">Start <span class="sort-indicator" v-text="sortIndicator('gene','start')"></span></th>
+                                    <th @click="sortBy('gene','stop')">Stop <span class="sort-indicator" v-text="sortIndicator('gene','stop')"></span></th>
                                 </tr>
                                 <tr v-for="record in geneData">
                                     <td>{{record.gene.rgdId}}</td>
@@ -532,12 +508,12 @@
 
                             <table class="t" role="grid">
                                 <tr role="row">
-                                    <th>RGD ID</th>
-                                    <th>Symbol</th>
-                                    <th>Name</th>
-                                    <th>Chr</th>
-                                    <th>Start</th>
-                                    <th>Stop</th>
+                                    <th @click="sortBy('qtl','rgdId','qtl')">RGD ID <span class="sort-indicator" v-text="sortIndicator('qtl','rgdId','qtl')"></span></th>
+                                    <th @click="sortBy('qtl','symbol','qtl')">Symbol <span class="sort-indicator" v-text="sortIndicator('qtl','symbol','qtl')"></span></th>
+                                    <th @click="sortBy('qtl','name','qtl')">Name <span class="sort-indicator" v-text="sortIndicator('qtl','name','qtl')"></span></th>
+                                    <th @click="sortBy('qtl','chromosome')">Chr <span class="sort-indicator" v-text="sortIndicator('qtl','chromosome')"></span></th>
+                                    <th @click="sortBy('qtl','start')">Start <span class="sort-indicator" v-text="sortIndicator('qtl','start')"></span></th>
+                                    <th @click="sortBy('qtl','stop')">Stop <span class="sort-indicator" v-text="sortIndicator('qtl','stop')"></span></th>
                                 </tr>
                                 <tr v-for="record in qtlData"
                                     class="record">
@@ -568,12 +544,12 @@
                             </div>
                             <table class="t" role="grid">
                                 <tr role="row">
-                                    <th>RGD ID</th>
-                                    <th>Symbol</th>
-                                    <th>Name</th>
-                                    <th>Chr</th>
-                                    <th>Start</th>
-                                    <th>Stop</th>
+                                    <th @click="sortBy('sslp','rgdId','sslp')">RGD ID <span class="sort-indicator" v-text="sortIndicator('sslp','rgdId','sslp')"></span></th>
+                                    <th @click="sortBy('sslp','name','sslp')">Symbol <span class="sort-indicator" v-text="sortIndicator('sslp','name','sslp')"></span></th>
+                                    <th @click="sortBy('sslp','name','sslp')">Name <span class="sort-indicator" v-text="sortIndicator('sslp','name','sslp')"></span></th>
+                                    <th @click="sortBy('sslp','chromosome')">Chr <span class="sort-indicator" v-text="sortIndicator('sslp','chromosome')"></span></th>
+                                    <th @click="sortBy('sslp','start')">Start <span class="sort-indicator" v-text="sortIndicator('sslp','start')"></span></th>
+                                    <th @click="sortBy('sslp','stop')">Stop <span class="sort-indicator" v-text="sortIndicator('sslp','stop')"></span></th>
                                 </tr>
                                 <tr v-for="record in sslpData"
                                     class="record">
@@ -604,12 +580,12 @@
                             </div>
                             <table class="t" role="grid">
                                 <tr role="row">
-                                    <th>RGD ID</th>
-                                    <th>Symbol</th>
-                                    <th>Name</th>
-                                    <th>Chr</th>
-                                    <th>Start</th>
-                                    <th>Stop</th>
+                                    <th @click="sortBy('strain','rgdId','strain')">RGD ID <span class="sort-indicator" v-text="sortIndicator('strain','rgdId','strain')"></span></th>
+                                    <th @click="sortBy('strain','symbol','strain')">Symbol <span class="sort-indicator" v-text="sortIndicator('strain','symbol','strain')"></span></th>
+                                    <th @click="sortBy('strain','symbol','strain')">Name <span class="sort-indicator" v-text="sortIndicator('strain','symbol','strain')"></span></th>
+                                    <th @click="sortBy('strain','chromosome')">Chr <span class="sort-indicator" v-text="sortIndicator('strain','chromosome')"></span></th>
+                                    <th @click="sortBy('strain','start')">Start <span class="sort-indicator" v-text="sortIndicator('strain','start')"></span></th>
+                                    <th @click="sortBy('strain','stop')">Stop <span class="sort-indicator" v-text="sortIndicator('strain','stop')"></span></th>
                                 </tr>
                                 <tr v-for="record in strainData"
                                     class="record">
@@ -654,10 +630,10 @@
             species: 3,
             chr: 1,
             mapKey: "Rnor_6.0",
-            geneData: {},
-            qtlData: {},
-            sslpData: {},
-            strainData: {},
+            geneData: [],
+            qtlData: [],
+            sslpData: [],
+            strainData: [],
             geneCount: 0,
             qtlCount: 0,
             sslpCount: 0,
@@ -674,9 +650,55 @@
             geneUrl : "/rgdweb/report/gene/main.html?id=",
             qtlUrl : "/rgdweb/report/qtl/main.html?id=",
             sslpUrl : "/rgdweb/report/marker/main.html?id=",
-            strainUrl: "/rgdweb/report/strain/main.html?id="
+            strainUrl: "/rgdweb/report/strain/main.html?id=",
+            geneSortKey: '',
+            geneSortAsc: true,
+            qtlSortKey: '',
+            qtlSortAsc: true,
+            sslpSortKey: '',
+            sslpSortAsc: true,
+            strainSortKey: '',
+            strainSortAsc: true
         },
         methods: {
+            sortBy: function (type, key, nestedProp) {
+                var sortKeyProp = type + 'SortKey';
+                var sortAscProp = type + 'SortAsc';
+                var fullKey = nestedProp ? nestedProp + '.' + key : key;
+                if (this[sortKeyProp] === fullKey) {
+                    this[sortAscProp] = !this[sortAscProp];
+                } else {
+                    this[sortKeyProp] = fullKey;
+                    this[sortAscProp] = true;
+                }
+                var asc = this[sortAscProp];
+                var numericKeys = ['rgdId', 'start', 'stop'];
+                var isNumeric = numericKeys.indexOf(key) !== -1;
+                var dataProp = type + 'Data';
+                var sorted = this[dataProp].slice().sort(function (a, b) {
+                    var valA = nestedProp ? a[nestedProp][key] : a[key];
+                    var valB = nestedProp ? b[nestedProp][key] : b[key];
+                    if (valA == null) valA = '';
+                    if (valB == null) valB = '';
+                    if (isNumeric) {
+                        valA = Number(valA) || 0;
+                        valB = Number(valB) || 0;
+                        return asc ? valA - valB : valB - valA;
+                    } else {
+                        valA = String(valA).toLowerCase();
+                        valB = String(valB).toLowerCase();
+                        if (valA < valB) return asc ? -1 : 1;
+                        if (valA > valB) return asc ? 1 : -1;
+                        return 0;
+                    }
+                });
+                this[dataProp] = sorted;
+            },
+            sortIndicator: function (type, key, nestedProp) {
+                var fullKey = nestedProp ? nestedProp + '.' + key : key;
+                if (this[type + 'SortKey'] !== fullKey) return '';
+                return this[type + 'SortAsc'] ? '\u25B2' : '\u25BC';
+            },
             getData: function (e) {
                 e.preventDefault();
                 var chr = document.getElementById('chr').value;
@@ -716,7 +738,6 @@
                                 v.geneCount = v.geneData.length;
                                 v.genes = true;
 
-                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchGeneResultId').style.display = 'block';
                                 /*var geneResultsTable = document.getElementById("geneResultsTable");
@@ -726,7 +747,6 @@
                                     });
                                 }*/
                             }else{
-                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchGeneResultId').style.display = 'none';
                             }
@@ -740,11 +760,9 @@
                             if (v.qtlData.length != 0) {
                                 v.qtlCount = v.qtlData.length;
                                 v.qtls = true;
-                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchQTLsResultId').style.display = 'block';
                             }else{
-                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchQTLsResultId').style.display = 'none';
                             }
@@ -758,11 +776,9 @@
                             if (v.sslpData.length != 0) {
                                 v.sslpCount = v.sslpData.length;
                                 v.sslps = true;
-                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchSSLPsResultId').style.display = 'block';
                             }else{
-                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchSSLPsResultId').style.display = 'none';
                             }
@@ -776,11 +792,9 @@
                             if (v.strainData.length != 0) {
                                 v.strainCount = v.strainData.length;
                                 v.strains = true;
-                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchStrainsResultId').style.display = 'block';
                             }else{
-                                document.getElementById('resultDataLink').className = 'active';
                                 document.getElementById('page-container').style.display = 'block';
                                 document.getElementById('searchStrainsResultId').style.display = 'none';
                             }
