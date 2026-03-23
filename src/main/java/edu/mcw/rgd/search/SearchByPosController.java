@@ -7,6 +7,7 @@ import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.reporting.Record;
 import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.services.ClientInit;
+import edu.mcw.rgd.vv.SampleManager;
 import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -130,18 +131,21 @@ public class SearchByPosController implements Controller {
                     SearchSourceBuilder srb = new SearchSourceBuilder();
                     srb.query(qb);
                     srb.size(10000);
+                    srb.sort("startPos", org.elasticsearch.search.sort.SortOrder.ASC);
 
                     // Change header for variant-only downloads
                     if (objType.equalsIgnoreCase("variant")) {
                         report = new Report();
                         Record varHeader = new Record();
                         varHeader.append("Variant RGD ID");
+                        varHeader.append("rsID");
                         varHeader.append("Chr");
                         varHeader.append("Position");
                         varHeader.append("Ref Nucleotide");
                         varHeader.append("Var Nucleotide");
                         varHeader.append("Variant Type");
                         varHeader.append("Sample ID");
+                        varHeader.append("Sample Name");
                         report.append(varHeader);
                     }
 
@@ -156,12 +160,19 @@ public class SearchByPosController implements Controller {
                         Map<String, Object> src = hit.getSourceAsMap();
                         Record record = new Record();
                         record.append(String.valueOf(src.getOrDefault("variant_id", "")));
+                        record.append(String.valueOf(src.getOrDefault("rsId", "")));
                         record.append(String.valueOf(src.getOrDefault("chromosome", "")));
                         record.append(String.valueOf(src.getOrDefault("startPos", "")));
                         record.append(String.valueOf(src.getOrDefault("refNuc", "")));
                         record.append(String.valueOf(src.getOrDefault("varNuc", "")));
                         record.append(String.valueOf(src.getOrDefault("variantType", "")));
-                        record.append(String.valueOf(src.getOrDefault("sampleId", "")));
+                        Object sampleIdObj = src.getOrDefault("sampleId", "");
+                        record.append(String.valueOf(sampleIdObj));
+                        try {
+                            int sid = Integer.parseInt(String.valueOf(sampleIdObj));
+                            Sample sample = SampleManager.getInstance().getSampleName(sid);
+                            record.append(sample != null ? sample.getAnalysisName() : "");
+                        } catch (Exception ex) { record.append(""); }
                         report.append(record);
                     }
 
@@ -174,6 +185,7 @@ public class SearchByPosController implements Controller {
                             Map<String, Object> src = hit.getSourceAsMap();
                             Record record = new Record();
                             record.append(String.valueOf(src.getOrDefault("variant_id", "")));
+                            record.append(String.valueOf(src.getOrDefault("rsId", "")));
                             record.append(String.valueOf(src.getOrDefault("chromosome", "")));
                             record.append(String.valueOf(src.getOrDefault("startPos", "")));
                             record.append(String.valueOf(src.getOrDefault("refNuc", "")));
