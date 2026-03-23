@@ -427,9 +427,9 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: large">Variants -
+                                            <td style="font-size: large"><a href="#top" style="text-decoration:none;color:inherit;">Variants -
                                                 <span v-if="variantCount >= 0">{{variantCount.toLocaleString()}}</span>
-                                                <span v-else><i class="fa fa-spinner fa-spin"></i></span>
+                                                <span v-else><i class="fa fa-spinner fa-spin"></i></span></a>
                                             </td>
                                             <td>
                                                 <button v-if="variantCount >= 0 && variantCount <= 500000" class="downloadbtn" @click="download('variant')"><i
