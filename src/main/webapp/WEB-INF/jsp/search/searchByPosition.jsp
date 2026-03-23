@@ -387,7 +387,7 @@
                                 <div style="padding: 10px; width:100%">
                                     <table style="border-style: dotted" class="t">
                                         <tr>
-                                            <td style="font-size: large"><a href="#searchGeneResultId" style="text-decoration:none;color:inherit;">Genes -
+                                            <td><a href="#searchGeneResultId" style="text-decoration:none;color:inherit;font-size:18px;">Genes -
                                                 {{geneCount}}</a>
                                             </td>
                                             <td>
@@ -397,7 +397,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: large"><a href="#searchQTLsResultId" style="text-decoration:none;color:inherit;">QTLs -
+                                            <td><a href="#searchQTLsResultId" style="text-decoration:none;color:inherit;font-size:18px;">QTLs -
                                                 {{qtlCount}}</a>
                                             </td>
                                             <td>
@@ -407,7 +407,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: large"><a href="#searchSSLPsResultId" style="text-decoration:none;color:inherit;">SSLPs -
+                                            <td><a href="#searchSSLPsResultId" style="text-decoration:none;color:inherit;font-size:18px;">SSLPs -
                                                 {{sslpCount}}</a>
                                             </td>
                                             <td>
@@ -417,7 +417,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: large"><a href="#searchStrainsResultId" style="text-decoration:none;color:inherit;">Strains -
+                                            <td><a href="#searchStrainsResultId" style="text-decoration:none;color:inherit;font-size:18px;">Strains -
                                                 {{strainCount}}</a>
                                             </td>
                                             <td>
@@ -427,7 +427,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="font-size: large"><a href="#top" style="text-decoration:none;color:inherit;">Variants -
+                                            <td><a href="#top" style="text-decoration:none;color:inherit;font-size:18px;">Variants -
                                                 <span v-if="variantCount >= 0">{{variantCount.toLocaleString()}}</span>
                                                 <span v-else><i class="fa fa-spinner fa-spin"></i></span></a>
                                             </td>
