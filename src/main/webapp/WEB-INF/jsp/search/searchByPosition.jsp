@@ -93,6 +93,7 @@
         background-color: RoyalBlue;
     }
 
+
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
@@ -435,11 +436,14 @@
                                                 <button v-if="variantCount >= 0 && variantCount <= 500000" class="downloadbtn" @click="download('variant')"><i
                                                         class="fa fa-download" style="align-self: auto"
                                                         title="Download Variants"></i></button>
-                                                <span v-if="variantCount > 500000" style="font-size:11px; color:#999;" title="Narrow your region to enable download">too large</span>
+                                                <span v-if="variantCount > 500000" style="font-size:11px; color:#888; cursor:help;" title="Variant downloads are limited to 500,000 records. Try narrowing your genomic region to enable the download.">&#9432; too large</span>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
+                            </div>
+                            <div v-if="variantCount > 500000" style="padding: 8px 16px; margin-top: 4px; color: #666; font-size: 13px;">
+                                <b>Note:</b> Variant downloads are limited to 500,000 records. To download variants, try narrowing your genomic region.
                             </div>
                         </div>
                     </td>
