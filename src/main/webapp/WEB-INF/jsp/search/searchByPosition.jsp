@@ -515,8 +515,7 @@
                                     <th @click="sortBy('qtl','start')">Start <span class="sort-indicator" v-text="sortIndicator('qtl','start')"></span></th>
                                     <th @click="sortBy('qtl','stop')">Stop <span class="sort-indicator" v-text="sortIndicator('qtl','stop')"></span></th>
                                 </tr>
-                                <tr v-for="record in qtlData"
-                                    class="record">
+                                <tr v-for="record in qtlData">
                                     <td>{{record.qtl.rgdId}}</td>
                                     <td><a :href="qtlUrl+record.qtl.rgdId" class="geneList" target="_blank">{{record.qtl.symbol}}</a></td>
                                     <td>{{record.qtl.name}}</td>
@@ -551,8 +550,7 @@
                                     <th @click="sortBy('sslp','start')">Start <span class="sort-indicator" v-text="sortIndicator('sslp','start')"></span></th>
                                     <th @click="sortBy('sslp','stop')">Stop <span class="sort-indicator" v-text="sortIndicator('sslp','stop')"></span></th>
                                 </tr>
-                                <tr v-for="record in sslpData"
-                                    class="record">
+                                <tr v-for="record in sslpData">
                                     <td>{{record.sslp.rgdId}}</td>
                                     <td><a :href="sslpUrl+record.sslp.rgdId" class="geneList" target="_blank">{{record.sslp.name}}</a></td>
                                     <td>{{record.sslp.name}}</td>
@@ -587,8 +585,7 @@
                                     <th @click="sortBy('strain','start')">Start <span class="sort-indicator" v-text="sortIndicator('strain','start')"></span></th>
                                     <th @click="sortBy('strain','stop')">Stop <span class="sort-indicator" v-text="sortIndicator('strain','stop')"></span></th>
                                 </tr>
-                                <tr v-for="record in strainData"
-                                    class="record">
+                                <tr v-for="record in strainData">
                                     <td>{{record.strain.rgdId}}</td>
                                     <td><a :href="strainUrl+record.strain.rgdId" class="geneList" target="_blank" v-html="record.strain.symbol"></a></td>
                                     <td  v-html="record.strain.symbol"></td>
