@@ -517,7 +517,7 @@
                                 </tr>
                                 <tr v-for="record in qtlData">
                                     <td>{{record.qtl.rgdId}}</td>
-                                    <td><a :href="qtlUrl+record.qtl.rgdId" class="geneList" target="_blank">{{record.qtl.symbol}}</a></td>
+                                    <td><a :href="qtlUrl+record.qtl.rgdId" class="qtlList" target="_blank">{{record.qtl.symbol}}</a></td>
                                     <td>{{record.qtl.name}}</td>
                                     <td>{{record.chromosome}}</td>
                                     <td>{{record.start}}</td>
@@ -552,7 +552,7 @@
                                 </tr>
                                 <tr v-for="record in sslpData">
                                     <td>{{record.sslp.rgdId}}</td>
-                                    <td><a :href="sslpUrl+record.sslp.rgdId" class="geneList" target="_blank">{{record.sslp.name}}</a></td>
+                                    <td><a :href="sslpUrl+record.sslp.rgdId" class="sslpList" target="_blank">{{record.sslp.name}}</a></td>
                                     <td>{{record.sslp.name}}</td>
                                     <td>{{record.chromosome}}</td>
                                     <td>{{record.start}}</td>
@@ -587,7 +587,7 @@
                                 </tr>
                                 <tr v-for="record in strainData">
                                     <td>{{record.strain.rgdId}}</td>
-                                    <td><a :href="strainUrl+record.strain.rgdId" class="geneList" target="_blank" v-html="record.strain.symbol"></a></td>
+                                    <td><a :href="strainUrl+record.strain.rgdId" class="strainList" target="_blank" v-html="record.strain.symbol"></a></td>
                                     <td  v-html="record.strain.symbol"></td>
                                     <td>{{record.chromosome}}</td>
                                     <td>{{record.start}}</td>
