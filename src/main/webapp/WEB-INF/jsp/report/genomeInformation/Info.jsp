@@ -316,21 +316,21 @@
                         <div style="height:850px;overflow: scroll">
                             <table class="table table-stripped">
                                 <thead>
-                                <tr><td>Chromosome</td><td>Sequence Length</td><td>Gap Length</td><td>Gap Count</td><td>Contig Count</td><td>RefSeq Id</td><td>GenBank Id</td></tr>
+                                <tr><td>Chromosome</td><td>Sequence Length</td><td>Gap Length</td>,<td>Gap Count</td><td>Contig Count</td><td>RefSeq Id</td></tr>
                                 </thead>
                                 <c:forEach items="${model.chromosomes}" var="chr">
                                     <tr>
                                         <td>
                                             <c:choose>
-                                                <c:when test="${chr.mapKey!=720 && chr.mapKey!=44 && not empty chr.refseqId}">
+                                                <c:when test="${chr.mapKey!=720 && chr.mapKey!=44}">
                                             <a href="chromosome.html?chr=${chr.chromosome}&mapKey=${chr.mapKey}&locus=${chr.refseqId}" title="Click to see Chromosome Report">${chr.chromosome}</a>
                                                 </c:when>
                                                 <c:otherwise>
                                                     ${chr.chromosome}
                                                 </c:otherwise>
                                             </c:choose>
-                                        </td>
 
+                                        </td>
                                         <td>${chr.seqLength}</td>
 
                                         <td>
@@ -342,7 +342,9 @@
                                                     ${chr.gapLength}
                                                 </c:otherwise>
                                             </c:choose>
+
                                         </td>
+
 
                                         <td>
                                             <c:choose>
@@ -353,8 +355,8 @@
                                                     ${chr.gapCount}
                                                 </c:otherwise>
                                             </c:choose>
-                                        </td>
 
+                                        </td>
                                         <td>
                                             <c:choose>
                                                 <c:when test="${chr.contigCount==0}">
@@ -364,23 +366,10 @@
                                                     ${chr.contigCount}
                                                 </c:otherwise>
                                             </c:choose>
+
                                         </td>
 
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${not empty chr.refseqId}">
-                                                    <a href="https://www.ncbi.nlm.nih.gov/nuccore/${chr.refseqId}" title="Click to go to NCBI Chromosome Page" target="_blank">${chr.refseqId}</a>
-                                                </c:when>
-                                            </c:choose>
-                                        </td>
-
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${not empty chr.genbankId}">
-                                                    <a href="https://www.ncbi.nlm.nih.gov/nuccore/${chr.genbankId}" title="Click to go to NCBI Chromosome Page" target="_blank">${chr.genbankId}</a>
-                                                </c:when>
-                                            </c:choose>
-                                        </td>
+                                        <td><a href="https://www.ncbi.nlm.nih.gov/nuccore/${chr.refseqId}" title="Click to go NCBI Chromosome Page" target="_blank">${chr.refseqId}</a></td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -465,6 +454,9 @@
                     <div style="overflow: scroll">
                         <c:if test="${model.species.equals('Rat') }">
                             <ul>
+                                <li><a href="/rgdweb/report/reference/main.html?id=640480056">A revamped rat reference genome improves the discovery of genetic diversity in laboratory rats. </a>PMID: 38537634&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/38537634" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
+                                <li><a href="/rgdweb/report/reference/main.html?id=640480057">Construction and evaluation of a new rat reference genome assembly, GRCr8, from long reads and long-range scaffolding </a>PMID: 39516046&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/39516046" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
+
                                 <li><a href="/rgdweb/report/reference/main.html?id=1303377">Genome sequence of the Brown Norway rat yields insights into mammalian evolution. Nature. 2004 Apr 1;428(6982):493-521. </a>PMID: 15057822&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/15057822" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
                                 <li>Integrated and sequence-ordered BAC- and YAC-based physical maps for the rat genome. PMID: 15060021 &nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/15060021" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
                                 <li>Genomic analysis of the nuclear receptor family: new insights into structure, regulation, and evolution from the rat genome. PMID: 15059999 &nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/15059999" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
