@@ -358,7 +358,7 @@
 <br><br>
 -->
 <div style="background-color:#fff3cd; border:1px solid #ffc107; color:#856404; padding:12px 20px; margin:10px auto; max-width:80%; text-align:center; border-radius:6px; font-size:15px;">
-    <b>Scheduled Maintenance:</b> RGD will be undergoing maintenance between 8:00 AM and 11:00 AM (CT) on Monday, March 30th. Some services may be temporarily unavailable during this time.
+    <b>Scheduled Maintenance:</b> RGD will be undergoing maintenance between 10:00 AM and 2:00 PM (CT) on Monday, March 30th. Some services may be temporarily unavailable during this time.
 </div>
 <script>
     function covidPortal() {
