@@ -357,9 +357,9 @@
 <table align=center ><tr><td style="color:red;"> NOTICE: Due to a systems upgrade, portions of RGD may be unavailable Sunday October 3rd</td></tr></table>
 <br><br>
 -->
-<div style="background-color:#fff3cd; border:1px solid #ffc107; color:#856404; padding:12px 20px; margin:10px auto; max-width:80%; text-align:center; border-radius:6px; font-size:15px;">
-    <b>Scheduled Maintenance:</b> RGD will be undergoing maintenance between 10:00 AM and 2:00 PM (CT) on Monday, March 30th. Some services may be temporarily unavailable during this time.
-</div>
+<%--<div style="background-color:#fff3cd; border:1px solid #ffc107; color:#856404; padding:12px 20px; margin:10px auto; max-width:80%; text-align:center; border-radius:6px; font-size:15px;">--%>
+<%--    <b>Scheduled Maintenance:</b> RGD will be undergoing maintenance between 10:00 AM and 2:00 PM (CT) on Monday, March 30th. Some services may be temporarily unavailable during this time.--%>
+<%--</div>--%>
 <script>
     function covidPortal() {
         //location.href="https://rgd.mcw.edu/wg/portals/covid-19-disease-portal-related-links/";
