@@ -1274,27 +1274,27 @@ $(document).ready(function(){
     <div class="setup-section">
         <label>Select Assembly Version</label>
         <select id="setup_mapKey" class="setup-select" onchange="updateObjectTypeOptions()">
-            <option value="380" selected>Rat - GRCr8</option>
-            <option value="372">Rat - mRatBN7.2</option>
-            <option value="360">Rat - Rnor_6.0</option>
-            <option value="70">Rat - Rnor_5.0</option>
-            <option value="60">Rat - RGSC_v3.4</option>
-            <option value="38">Human - GRCh38</option>
-            <option value="17">Human - GRCh37</option>
-            <option value="239">Mouse - GRCm39</option>
-            <option value="35">Mouse - GRCm38</option>
-            <option value="18">Mouse - Build 37</option>
-            <option value="44">Chinchilla - ChiLan1.0</option>
-            <option value="511">Bonobo - panpan1.1</option>
-            <option value="513">Bonobo - Mhudiblu_PPA_v0</option>
-            <option value="634">Dog - ROS_Cfam_1.0</option>
-            <option value="631">Dog - CanFam3.1</option>
-            <option value="720">Squirrel - SpeTri2.0</option>
-            <option value="910">Pig - Sscrofa10.2</option>
-            <option value="911">Pig - Sscrofa11.1</option>
-            <option value="1311">Green Monkey - Vero_WHO_p1.0</option>
-            <option value="1313">Green Monkey - ChlSab1.1</option>
-            <option value="1410">Naked Mole-Rat - HetGla_1.0</option>
+            <option value="380" <% if (mapKey==380) out.print("selected");%>>Rat - GRCr8</option>
+            <option value="372" <% if (mapKey==372) out.print("selected");%>>Rat - mRatBN7.2</option>
+            <option value="360" <% if (mapKey==360) out.print("selected");%>>Rat - Rnor_6.0</option>
+            <option value="70" <% if (mapKey==70) out.print("selected");%>>Rat - Rnor_5.0</option>
+            <option value="60" <% if (mapKey==60) out.print("selected");%>>Rat - RGSC_v3.4</option>
+            <option value="38" <% if (mapKey==38) out.print("selected");%>>Human - GRCh38</option>
+            <option value="17" <% if (mapKey==17) out.print("selected");%>>Human - GRCh37</option>
+            <option value="239" <% if (mapKey==239) out.print("selected");%>>Mouse - GRCm39</option>
+            <option value="35" <% if (mapKey==35) out.print("selected");%>>Mouse - GRCm38</option>
+            <option value="18" <% if (mapKey==18) out.print("selected");%>>Mouse - Build 37</option>
+            <option value="44" <% if (mapKey==44) out.print("selected");%>>Chinchilla - ChiLan1.0</option>
+            <option value="511" <% if (mapKey==511) out.print("selected");%>>Bonobo - panpan1.1</option>
+            <option value="513" <% if (mapKey==513) out.print("selected");%>>Bonobo - Mhudiblu_PPA_v0</option>
+            <option value="634" <% if (mapKey==634) out.print("selected");%>>Dog - ROS_Cfam_1.0</option>
+            <option value="631" <% if (mapKey==631) out.print("selected");%>>Dog - CanFam3.1</option>
+            <option value="720" <% if (mapKey==720) out.print("selected");%>>Squirrel - SpeTri2.0</option>
+            <option value="910" <% if (mapKey==910) out.print("selected");%>>Pig - Sscrofa10.2</option>
+            <option value="911" <% if (mapKey==911) out.print("selected");%>>Pig - Sscrofa11.1</option>
+            <option value="1311" <% if (mapKey==1311) out.print("selected");%>>Green Monkey - Vero_WHO_p1.0</option>
+            <option value="1313" <% if (mapKey==1313) out.print("selected");%>>Green Monkey - ChlSab1.1</option>
+            <option value="1410" <% if (mapKey==1410) out.print("selected");%>>Naked Mole-Rat - HetGla_1.0</option>
         </select>
     </div>
 
