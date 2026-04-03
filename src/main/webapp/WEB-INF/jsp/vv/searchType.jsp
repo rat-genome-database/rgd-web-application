@@ -289,7 +289,7 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
 
             <% if (!strainSet) { %>
             <!-- Search by Function (before strain selection) -->
-            <div class="option-card" onclick="window.location.href='/rgdweb/generator/list.html?vv=1'">
+            <div class="option-card" onclick="window.location.href='/rgdweb/generator/list.html?vv=1&mapKey=<%=mapKey%>'">
                 <div class="option-icon">&#128300;</div>
                 <div class="option-title">Search by Function</div>
                 <div class="option-description">Build a gene list based on one or more ontology annotations</div>
@@ -305,7 +305,7 @@ String pageDescription = "Variant Visualizer - Analyze genomic variation across 
             </div>
 
             <!-- Search by Function (after strain selection - at bottom) -->
-            <div class="option-card" onclick="window.location.href='/rgdweb/generator/list.html?vv=1'">
+            <div class="option-card" onclick="window.location.href='/rgdweb/generator/list.html?vv=1&mapKey=<%=mapKey%>'">
                 <div class="option-icon">&#128300;</div>
                 <div class="option-title">Search by Function</div>
                 <div class="option-description">Build a gene list based on one or more ontology annotations</div>
