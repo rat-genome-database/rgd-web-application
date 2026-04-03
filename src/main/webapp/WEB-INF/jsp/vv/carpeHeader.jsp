@@ -173,21 +173,16 @@
     }
 
     function showVariants(e) {
-
-
         if (!e) e = window.event;
-        var firedDiv = getTarget(e);
+        var firedDiv = e.target || e.srcElement;
 
-        if(document.all) {
-        while ((firedDiv != null) ) {
-            if (firedDiv.gene) {
-                break;
-            }
-
+        // walk up to the .heatCell div that has data attributes
+        while (firedDiv != null && !firedDiv.getAttribute('data-gene')) {
             firedDiv = firedDiv.parentElement;
         }
+        if (firedDiv) {
+            navigate(firedDiv.getAttribute('data-gene'), firedDiv.getAttribute('data-sample') || '');
         }
-        navigate(firedDiv.gene, firedDiv.sample);
     }
 
     function navigate(gene, sample) {

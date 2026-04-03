@@ -232,81 +232,99 @@ public class DistributionController extends HaplotyperController {
          }
 
     }
+    private static final int GENE_BATCH_SIZE = 200;
+
     public Map<String,Map<String, Integer>> getVariantToGeneCountMap(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
 
         Set<String> geneKeys=new HashSet<>();
         List<String> symbols = new ArrayList<>();
         Map<String, Map<String, Integer>> variantGeneCountMap=new HashMap<>();
 
+        // batch large gene lists to avoid ES too_many_buckets / search_phase_execution errors
+        List<String> allGenes = vsb.getGenes();
+        List<List<String>> geneBatches = new ArrayList<>();
+        if (allGenes != null && allGenes.size() > GENE_BATCH_SIZE) {
+            for (int i = 0; i < allGenes.size(); i += GENE_BATCH_SIZE) {
+                geneBatches.add(allGenes.subList(i, Math.min(i + GENE_BATCH_SIZE, allGenes.size())));
+            }
+        } else {
+            geneBatches.add(allGenes);
+        }
+
         if(!req.getParameter("showDifferences").equals("true")){
-            SearchResponse sr=getAggregations(vsb, req);
+            for (List<String> batch : geneBatches) {
+                vsb.setGenes(batch);
+                SearchResponse sr = getAggregations(vsb, req);
 
-            Terms samplesAgg = sr.getAggregations().get("sampleId");
-            List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
-            for (Terms.Bucket b : samplebkts) {
-                Map<String, Integer> geneCountMap = new HashMap<>();
-                Terms geneAggs = b.getAggregations().get("region");
-                int totalDocCount = 0;
-                for (Terms.Bucket gb : geneAggs.getBuckets()) {
-                    totalDocCount = totalDocCount + (int) gb.getDocCount();
-                    geneCountMap.put( gb.getKey().toString().toLowerCase(), (int) gb.getDocCount());
-                    geneKeys.add((gb.getKey().toString().toLowerCase()));
+                Terms samplesAgg = sr.getAggregations().get("sampleId");
+                List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
+                for (Terms.Bucket b : samplebkts) {
+                    Map<String, Integer> geneCountMap = variantGeneCountMap.getOrDefault(String.valueOf(b.getKey()), new HashMap<>());
+                    Terms geneAggs = b.getAggregations().get("region");
+                    for (Terms.Bucket gb : geneAggs.getBuckets()) {
+                        String geneKey = gb.getKey().toString().toLowerCase();
+                        geneCountMap.merge(geneKey, (int) gb.getDocCount(), Integer::sum);
+                        geneKeys.add(geneKey);
+                    }
+                    if (!geneCountMap.isEmpty()) {
+                        variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
+                    }
                 }
-                if (totalDocCount > 0) {
-                    variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
-              }
-
             }
 
         }  else{
+            for (List<String> batch : geneBatches) {
+                vsb.setGenes(batch);
+                SearchResponse sr = getAggregations(vsb, req);
 
-            SearchResponse sr=getAggregations(vsb, req);
+                Terms regionAgg = sr.getAggregations().get("regionName");
 
-            Terms regionAgg = sr.getAggregations().get("regionName");
+                List<Terms.Bucket> regionbkts = (List<Terms.Bucket>) regionAgg.getBuckets();
 
-            List<Terms.Bucket> regionbkts = (List<Terms.Bucket>) regionAgg.getBuckets();
+                for (Terms.Bucket b : regionbkts) {
 
-            for (Terms.Bucket b : regionbkts) {
-
-                geneKeys.add((String) b.getKey());
+                    geneKeys.add((String) b.getKey());
 
 
-                Terms posAggs = b.getAggregations().get("startPos");
+                    Terms posAggs = b.getAggregations().get("startPos");
 
-                for(Terms.Bucket pos:posAggs.getBuckets()){
-                    Terms sampleAggs= pos.getAggregations().get("sample");
+                    for (Terms.Bucket pos : posAggs.getBuckets()) {
+                        Terms sampleAggs = pos.getAggregations().get("sample");
 
-                    if(sampleAggs.getBuckets().size()< vsb.sampleIds.size()) {
-                        for (Terms.Bucket samp : sampleAggs.getBuckets()) {
-                            if (samp.getDocCount() < vsb.sampleIds.size()) {
-                                Map<String, Integer> geneVarCountsOfSample = variantGeneCountMap.get(samp.getKey().toString());
-                                if (geneVarCountsOfSample != null) {
-                                    Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(((String) b.getKey()).toLowerCase());
-                                    if (varNucCountOfGeneOfSample != null) {
-                                        varNucCountOfGeneOfSample = varNucCountOfGeneOfSample + (int) samp.getDocCount();
-                                        geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), varNucCountOfGeneOfSample);
+                        if (sampleAggs.getBuckets().size() < vsb.sampleIds.size()) {
+                            for (Terms.Bucket samp : sampleAggs.getBuckets()) {
+                                if (samp.getDocCount() < vsb.sampleIds.size()) {
+                                    Map<String, Integer> geneVarCountsOfSample = variantGeneCountMap.get(samp.getKey().toString());
+                                    if (geneVarCountsOfSample != null) {
+                                        Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(((String) b.getKey()).toLowerCase());
+                                        if (varNucCountOfGeneOfSample != null) {
+                                            varNucCountOfGeneOfSample = varNucCountOfGeneOfSample + (int) samp.getDocCount();
+                                            geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), varNucCountOfGeneOfSample);
 
+                                        } else {
+                                            geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), (int) samp.getDocCount());
+                                        }
+
+                                        variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
                                     } else {
+                                        geneVarCountsOfSample = new HashMap<>();
                                         geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), (int) samp.getDocCount());
+                                        variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
                                     }
 
-                                    variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
-                                }else{
-                                    geneVarCountsOfSample=new HashMap<>();
-                                    geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(),(int) samp.getDocCount());
-                                    variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
                                 }
-
                             }
                         }
+
                     }
 
+
                 }
-
-
             }
 
         }
+        // restore full gene list
+        vsb.setGenes(allGenes);
         gene:
         for (String g : geneKeys) {
             for (Map.Entry e : variantGeneCountMap.entrySet()) {

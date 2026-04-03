@@ -399,20 +399,12 @@
 
                             %>
                             <td width=24 height=25>
-                                <div id="cell<%=k%>-<%=j%>" class="heatCell"
+                                <div class="heatCell"
+                                     data-gene="<%=region%>"
+                                     data-sample="<%if(req.getParameter("showDifferences")==null || !req.getParameter("showDifferences").equals("true")){%><%=sample%><%}%>"
                                      style="cursor: <%=cursor%>; color: <%=fontColor%>; background-color:<%=color%>; vertical-align: middle; display:table-cell;"><%=count%>
                                 </div>
                             </td>
-
-                            <script>
-                                document.getElementById("cell<%=k%>-<%=j%>").gene = "<%=region%>";
-                                <%if(req.getParameter("showDifferences")==null || !req.getParameter("showDifferences").equals("true")){%>
-                                document.getElementById("cell<%=k%>-<%=j%>").sample = "<%=sample%>";
-                                <%}else{%>
-                                document.getElementById("cell<%=k%>-<%=j%>").sample = "";
-                                <% }%>
-                                document.getElementById("cell<%=k%>-<%=j%>").onclick = showVariants;
-                            </script>
                             <%k++;%>
                             <% } %>
 
@@ -429,6 +421,19 @@
 
 
 <br><br>
+
+<script>
+    // single delegated click handler for all heat cells instead of per-cell listeners
+    document.getElementById("distTable").addEventListener("click", function(e) {
+        var target = e.target;
+        while (target && target !== this && !target.getAttribute('data-gene')) {
+            target = target.parentElement;
+        }
+        if (target && target.getAttribute('data-gene')) {
+            showVariants(e);
+        }
+    });
+</script>
 
 <script>
 
