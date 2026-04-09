@@ -146,6 +146,10 @@ function resetFormValues() {
     document.getElementById("cc_term").value="";
     document.getElementById("vt_acc_id").value="";
     document.getElementById("vt_term").value="";
+    if (document.getElementById("efo_acc_id")) {
+        document.getElementById("efo_acc_id").value="";
+        document.getElementById("efo_term").value="";
+    }
 
     document.getElementById("geneSelectList").value="";
 
@@ -260,6 +264,9 @@ function getUserSelectedAccId() {
     if (document.getElementById("mf_acc_id").value != "") {
         return document.getElementById("mf_acc_id").value;
     }
+    if (document.getElementById("efo_acc_id") && document.getElementById("efo_acc_id").value != "") {
+        return document.getElementById("efo_acc_id").value;
+    }
 
     if (document.getElementById("geneSelectList").value != "") {
 
@@ -372,6 +379,15 @@ function reloadPage() {
     document.getElementById("act").value="";
     document.submitForm.target="_self";
     document.getElementById("a").value=urlString;
+
+    // Show loading overlay to prevent confusion during page load
+    var setupEl = document.querySelector('.setup-container');
+    if (setupEl) setupEl.style.display = 'none';
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.9);z-index:10000;display:flex;align-items:center;justify-content:center;font-size:20px;color:#24609c;';
+    overlay.innerHTML = '<div style="text-align:center;"><i class="fas fa-spinner fa-spin" style="font-size:40px;margin-bottom:15px;display:block;"></i>Building your list...</div>';
+    document.body.appendChild(overlay);
+
     document.submitForm.submit();
 
 }
@@ -431,7 +447,11 @@ function processList(act) {
     document.getElementById("act").value=act;
     document.getElementById("mapKey").value= document.getElementById("mapKey_tmp").options[document.getElementById("mapKey_tmp").selectedIndex].value;
     document.getElementById("oKey").value= document.getElementById("oKey_tmp").options[document.getElementById("oKey_tmp").selectedIndex].value;
+    if (act !== "" && act !== "excel") {
+        document.submitForm.target = "_blank";
+    }
     document.submitForm.submit();
+    document.submitForm.target = "_self";
 
 }
 
@@ -462,6 +482,7 @@ function submitTerm() {
     var c=document.getElementById("chebi_acc_id").value;
     var bp=document.getElementById("bp_acc_id").value;
     var mf=document.getElementById("mf_acc_id").value;
+    var efo=document.getElementById("efo_acc_id") ? document.getElementById("efo_acc_id").value : "";
 
     var termCnt=0;
     if (d!="") {
@@ -501,6 +522,9 @@ function submitTerm() {
         termCnt++;
     }
     if (vt!="") {
+        termCnt++;
+    }
+    if (efo!="") {
         termCnt++;
     }
 
