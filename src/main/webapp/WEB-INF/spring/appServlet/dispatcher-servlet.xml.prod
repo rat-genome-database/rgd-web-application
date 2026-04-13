@@ -190,6 +190,7 @@
                 <prop key="elasticResults.html">ElasticSearchController</prop>
                 <prop key="phenominerTermSearch.html">PhenominerTermSearchController</prop>
                 <prop key="autocompleteList.html">AutocompleteListController</prop>
+                    <prop key="ontology/autocomplete.html">OntologyAutocompleteController</prop>
                 <prop key="phenominerLink.html">phenominerLinkController</prop>
                 <prop key="genomeViewer.html">genomeViewerController</prop>
                 <prop key="search/excelDownload.html">downloadController</prop>
@@ -405,6 +406,7 @@
     <bean id="ElasticSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.ElasticSearchController"/>
     <bean id="PhenominerTermSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.PhenominerSearchController"/>
     <bean id="AutocompleteListController" class="edu.mcw.rgd.search.elasticsearch1.controller.AutocompleteController"/>
+    <bean id="OntologyAutocompleteController" class="edu.mcw.rgd.search.elasticsearch1.controller.OntologyAutocompleteController"/>
     <bean id="phenominerLinkController" class="edu.mcw.rgd.search.elasticsearch1.controller.PhenominerLinkController"/>
     <bean id="genomeViewerController" class="edu.mcw.rgd.search.elasticsearch1.controller.GenomeViewerController"/>
     <bean id="downloadController" class="edu.mcw.rgd.search.elasticsearch1.controller.DownloadController"/>
