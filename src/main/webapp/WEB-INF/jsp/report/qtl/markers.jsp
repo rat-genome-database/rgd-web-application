@@ -89,7 +89,7 @@
         pRsSymbol = obj.getPeakRsId();
 
         if (obj.getSpeciesTypeKey()==3) // don't have it for latest rat assembly
-            mapKey = 372;
+            mapKey = 380;
     }
 
 %>
