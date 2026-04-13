@@ -106,6 +106,7 @@
                 <prop key="curation/edit/geneMerge.html">GeneMergeController</prop>
                 <prop key="curation/edit/termMerge.html">TermMergeController</prop>
                 <prop key="curation/edit/dropManualOrthologs.html">DropManualOrthologsController</prop>
+                <prop key="curation/edit/obsoleteGoTerms.html">ObsoleteGoTermsController</prop>
                 <prop key="curation/edit/editNews.html">NewsConferenceEditController</prop>
                 <prop key="curation/edit/updateNewsConf.html">EditNewsArticleController</prop>
 
@@ -151,6 +152,7 @@
 
                 <prop key="search/search.html">searchController</prop>
                 <prop key="search/searchByPosition.html">searchByPosController</prop>
+                <prop key="search/variantCount.html">variantCountController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
                 <prop key="search/qtls.html">qtlSearchController</prop>
                 <prop key="search/strains.html">strainSearchController</prop>
@@ -254,6 +256,7 @@
                 <prop key="gviewer/welcome.html">GviewerWelcomeController</prop>
 
                 <prop key="gviewer/getAnnotationXml.html">GViewerGetAnnotationXmlController</prop>
+                <prop key="gviewer/getAnnotationJson.html">GViewerGetAnnotationJsonController</prop>
                 <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
 
@@ -298,6 +301,7 @@
                  <prop key="elasticResults.html">ElasticSearchController</prop>
                  <prop key="phenominerTermSearch.html">PhenominerTermSearchController</prop>
                     <prop key="autocompleteList.html">AutocompleteListController</prop>
+                    <prop key="ontology/autocomplete.html">OntologyAutocompleteController</prop>
                 <prop key="phenominerLink.html">phenominerLinkController</prop>
                 <prop key="genomeViewer.html">genomeViewerController</prop>
                 <prop key="search/excelDownload.html">downloadController</prop>
@@ -461,6 +465,7 @@
     <bean id="GeneMergeController" class="edu.mcw.rgd.edit.GeneMergeController"/>
     <bean id="DropManualOrthologsController" class="edu.mcw.rgd.edit.DropManualOrthologsController"/>
     <bean id="TermMergeController" class="edu.mcw.rgd.edit.TermMergeController"/>
+    <bean id="ObsoleteGoTermsController" class="edu.mcw.rgd.edit.ObsoleteGoTermsController"/>
 	<bean id="StrainFileUploadController" class="edu.mcw.rgd.edit.StrainFileUploadController" />
 	<bean id="NewsConferenceEditController" class="edu.mcw.rgd.edit.NewsConferenceEditController"/>
     <bean id="EditNewsArticleController" class="edu.mcw.rgd.edit.EditNewsArticleController"/>
@@ -481,6 +486,7 @@
    <!-- <bean id="advancedExpressionSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.AdvancedExpressionSearchController"/>-->
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
     <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
+    <bean id="variantCountController" class="edu.mcw.rgd.search.VariantCountController"/>
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
 <!--    <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>-->
@@ -543,6 +549,7 @@
     <bean id="PmidImaController" class="edu.mcw.rgd.webservice.PmidImageController"/>
 
     <bean id="GViewerGetAnnotationXmlController" class="edu.mcw.rgd.gviewer.AnnotationXmlController"/>
+    <bean id="GViewerGetAnnotationJsonController" class="edu.mcw.rgd.gviewer.AnnotationJSONController"/>
     <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
 
@@ -596,6 +603,7 @@
     <bean id="ElasticSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.ElasticSearchController"/>
     <bean id="PhenominerTermSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.PhenominerSearchController"/>
     <bean id="AutocompleteListController" class="edu.mcw.rgd.search.elasticsearch1.controller.AutocompleteController"/>
+    <bean id="OntologyAutocompleteController" class="edu.mcw.rgd.search.elasticsearch1.controller.OntologyAutocompleteController"/>
     <bean id="phenominerLinkController" class="edu.mcw.rgd.search.elasticsearch1.controller.PhenominerLinkController"/>
     <bean id="genomeViewerController" class="edu.mcw.rgd.search.elasticsearch1.controller.GenomeViewerController"/>
     <bean id="downloadController" class="edu.mcw.rgd.search.elasticsearch1.controller.DownloadController"/>

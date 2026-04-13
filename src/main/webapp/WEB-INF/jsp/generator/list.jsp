@@ -22,6 +22,7 @@ String pageDescription = "Build lists based on RGD annotation";
 </script>
 <script type="text/javascript"  src="/rgdweb/common/jquery.autocomplete.custom.js"></script>
 <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
+<script type="text/javascript" src="/rgdweb/common/ontologyAutocomplete.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <!--link rel="stylesheet" href="/rgdweb/generator/generator.css" type="text/css" /-->
@@ -884,34 +885,16 @@ function submitWithOperation(operation) {
     reloadPage();
 }
 
+var modalOntAutocomplete = null;
+
 function setupModalAutocomplete() {
-    if (typeof jq14 !== 'undefined') {
-        var ontPrefix = modalCurrentOnt.toUpperCase();
-        if (modalCurrentOnt === 'rdo') ontPrefix = 'RDO';
-        if (modalCurrentOnt === 'bp' || modalCurrentOnt === 'mf' || modalCurrentOnt === 'cc') ontPrefix = 'GO';
-
-        // Remove any existing autocomplete
-        jq14('#modal_ont_term').unautocomplete();
-
-        // Set up autocomplete with Solr endpoint
-        jq14('#modal_ont_term').autocomplete('/solr/OntoSolr/select', {
-            extraParams: {
-                'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
-                'bf': 'term_len_l^.02',
-                'fq': 'cat:(' + ontPrefix + ')',
-                'wt': 'velocity',
-                'v.template': 'termidselect'
-            },
-            max: 100
-        });
-
-        // Handle selection
-        jq14('#modal_ont_term').result(function(data, value) {
-            if (value && value[1]) {
-                document.getElementById('modal_ont_acc_id').value = value[1];
-            }
-        });
+    if (modalOntAutocomplete) {
+        modalOntAutocomplete.destroy();
     }
+    modalOntAutocomplete = setupOntologyAutocomplete('#modal_ont_term', modalCurrentOnt, {
+        accIdField: '#modal_ont_acc_id',
+        max: 100
+    });
 }
 
 // Ontology chip clicks
@@ -1023,8 +1006,9 @@ function filterOntologyChips() {
 
 function browseModalOntology() {
     var ontId = modalCurrentOnt.toUpperCase();
+    var termValue = document.getElementById('modal_ont_term').value || '';
     var url = '/rgdweb/ontology/view.html?mode=popup&ont=' + ontId +
-              '&sel_term=modal_ont_term&sel_acc_id=modal_ont_acc_id';
+              '&sel_term=modal_ont_term&sel_acc_id=modal_ont_acc_id&term=' + encodeURIComponent(termValue);
     window.open(url, 'ontBrowser', 'width=900,height=500,resizable=1,scrollbars=1');
 }
 </script>
