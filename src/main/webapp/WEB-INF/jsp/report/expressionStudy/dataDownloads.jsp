@@ -35,8 +35,8 @@
         genome browsers.
         <ul>
             <li>Instructions for loading the JBrowse2 session are provided in an accompanying
-                JBrowse2_README file. A video tutorial will be available soon on our
-                <a href="https://rgd.mcw.edu/wg/home/rgd_rat_community_videos/" target="_blank">RGD Video Tutorials</a> page.</li>
+                JBrowse2_README file. A <a href="https://www.youtube.com/watch?v=wCS4twcB7E0" target="_blank"><strong>video tutorial</strong></a> is available on the
+                <a href="https://www.youtube.com/@TheRGDVideos" target="_blank">RGD YouTube channel</a>.</li>
         </ul>
     </li>
     <li>Some studies were previously aligned to mRatBN7.2 using earlier versions of the HPC RGD RNAseq workflow.
