@@ -1,11 +1,14 @@
 package edu.mcw.rgd.report;
 
 import edu.mcw.rgd.dao.impl.Jbrowse2UrlConfigDAO;
+import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
 import edu.mcw.rgd.datamodel.variants.VariantMapData;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,19 +37,42 @@ public class  MapDataFormatter {
             MapData m = mapData.get(0);
             mapData.clear();
             mapData.add(m);
+            return buildTable(speciesTypeKey,mapData,0);
         }
-        return buildTable(speciesTypeKey,mapData,0);
+        VariantDAO vdao = new VariantDAO();
+        List<VariantMapData> varMapData = vdao.getAllActiveVariantsByRsId(rsId);
+        if (!varMapData.isEmpty()){
+            return buildTableVar(speciesTypeKey, varMapData, 0);
+        }
+
+        return buildTable(speciesTypeKey,mapData,0); // goes as usual, says no map positions
     }
 
     public static String buildTable(int rgdId, int speciesTypeKey, int objectKey) throws Exception {
-
+        VariantDAO vdao = new VariantDAO();
         MapDAO mdao = new MapDAO();
         List<MapData> mapData = mdao.getMapData(rgdId);
+        if (mapData.isEmpty()){
+            VariantMapData vmd = vdao.getVariant(rgdId);
+            if (vmd != null && !Utils.isStringEmpty(vmd.getRsId()) ){
+                List<VariantMapData> rsIds = vdao.getAllActiveVariantsByRsId(vmd.getRsId());
+                for (VariantMapData v : rsIds){
+                    mapData.add(createMapDataWVariant(v));
+                }
+            }
+            else if (vmd != null){
+                mapData.add(createMapDataWVariant(vmd));
+            }
+        }
         return buildTable(speciesTypeKey, mapData, objectKey);
     }
 
     public static String buildTable(int speciesTypeKey, List<MapData> mapData, int objectKey) throws Exception {
         return buildTable(speciesTypeKey, mapData, objectKey, null);
+    }
+
+    public static String buildTableVar(int speciesTypeKey, List<VariantMapData> mapData, int objectKey) throws Exception {
+        return buildTableVar(speciesTypeKey, mapData, objectKey, null);
     }
 
     public static String buildTable(int rgdId, int speciesTypeKey, int objectKey, String objectSymbol) throws Exception {
@@ -123,7 +149,7 @@ public class  MapDataFormatter {
         for (MapData mdObj: mapData) {
             Map map = mm.getMap(mdObj.getMapKey());
             //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
-			if( map==null ) {
+            if( map==null ) {
                 // map not known
                 ret.append("<td>&nbsp;</td>");
             }
@@ -160,9 +186,9 @@ public class  MapDataFormatter {
 
             if (map!=null && map.getUnit().equals("bp")) {
                 ret.append("<td>")
-                   .append(FormUtility.formatThousands(mdObj.getStartPos()))
-                   .append("&nbsp;-&nbsp;")
-                   .append(FormUtility.formatThousands(mdObj.getStopPos()));
+                        .append(FormUtility.formatThousands(mdObj.getStartPos()))
+                        .append("&nbsp;-&nbsp;")
+                        .append(FormUtility.formatThousands(mdObj.getStopPos()));
                 if( mdObj.getStrand()!=null ) {
                     ret.append(" (").append(mdObj.getStrand()).append(")");
                 }
@@ -215,6 +241,131 @@ public class  MapDataFormatter {
                 generateEnsemblLink(ret, objectKey, mdObj);
                 ret.append("</td>");
             }
+
+            ret.append("</tr>");
+
+        }
+        ret.append("</table>");
+
+        return ret.toString();
+    }
+
+    public static String buildTableVar(int speciesTypeKey, List<VariantMapData> mapData, int objectKey, String objectSymbol) throws Exception{
+
+        if( mapData.isEmpty() ) {
+            return "No map positions available.";
+        }
+
+        final MapManager mm = MapManager.getInstance();
+
+        int activeMapKey = mm.getReferenceAssembly(speciesTypeKey).getKey();
+
+        String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
+
+        // sort map data by order specified in the database
+        Collections.sort(mapData, new Comparator<VariantMapData>() {
+            @Override
+            public int compare(VariantMapData o1, VariantMapData o2) {
+                int rank1 = 0, rank2 = 0;
+                Map map = mm.getMap(o1.getMapKey());
+                if( map!=null ) {
+                    rank1 = map.getRank();
+                }
+                map = mm.getMap(o2.getMapKey());
+                if( map!=null ) {
+                    rank2 = map.getRank();
+                }
+                return rank1 - rank2;
+            }
+        });
+
+        StringBuilder ret = new StringBuilder("<table border=\"0\" class=\"mapDataTable\" width=\"670\">");
+        if( objectKey==RgdId.OBJECT_KEY_GENES ) {
+            ret.append("<tr><th align=\"left\" rowspan=\"2\"><b>").append(mapColumnTitle).append("</b></th>");
+            ret.append("<th align=\"left\" rowspan=\"2\">Chr</th>");
+            ret.append("<th align=\"left\" rowspan=\"2\">Position (strand)</th>");
+            ret.append("<th align=\"left\" rowspan=\"2\">Source</th>");
+            ret.append("<th colspan=\"4\">Genome Browsers</th>");
+            ret.append("</tr>");
+            ret.append("<tr><th>JBrowse</th><th>NCBI</th><th>UCSC</th><th>Ensembl</th></tr>");
+        } else {
+            ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
+            ret.append("<th align=\"left\">Chr</th>");
+            ret.append("<th align=\"left\">Position (strand)</th>");
+            ret.append("<th align=\"left\">Source</th>");
+            if( objectKey==RgdId.OBJECT_KEY_QTLS ||
+                    objectKey==RgdId.OBJECT_KEY_SSLPS ||
+                    objectKey==RgdId.OBJECT_KEY_STRAINS ) {
+                ret.append("<th align=\"left\">JBrowse</th>");
+            }
+            ret.append("</tr>");
+        }
+
+        List<String> activeMapChr=new ArrayList<>();
+        for(VariantMapData mdObj: mapData){
+            Map map = mm.getMap(mdObj.getMapKey());
+            if( map==null ) {
+                // map not known
+                //ret.append("<td>&nbsp;</td>");
+                continue;
+            }
+            if (map.getKey() == activeMapKey) {
+                activeMapChr.add(mdObj.getChromosome());
+            }
+        }
+
+        for (VariantMapData mdObj: mapData) {
+            Map map = mm.getMap(mdObj.getMapKey());
+            //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
+            if( map==null ) {
+                // map not known
+                ret.append("<td>&nbsp;</td>");
+            }
+            else
+            if (map.getKey() == activeMapKey) {
+
+                //System.out.println(" activeMap hit: "+activeMapKey);
+                ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
+                        .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
+                        .append("'>").append(map.getName())
+                        .append("</a></td>");
+
+            }else {
+                //System.out.println(" map hit: "+mdObj.getMapKey());
+                ret.append("<td>").append(map.getName()).append("</td>");
+            }
+
+            if(activeMapChr.size()>1){
+                //System.out.println("active map " + activeMapChr.toString());
+                ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+            }else{
+                if(activeMapChr.size()==1) {
+                    for (String chr : activeMapChr) {
+                        //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
+                        if (mdObj.getChromosome().equals(chr))
+                            ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                        else
+                            ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+                    }
+                }else {
+                    ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                }
+            }
+
+            if (map!=null && map.getUnit().equals("bp")) {
+                ret.append("<td>")
+                        .append(FormUtility.formatThousands(mdObj.getStartPos()))
+                        .append("&nbsp;-&nbsp;")
+                        .append(FormUtility.formatThousands(mdObj.getEndPos()));
+
+                ret.append("</td>");
+            }  else {
+                ret.append("<td>&nbsp;</td>");
+            }
+
+            String src = "RGD";
+
+            ret.append("<td>").append(src).append("</td>");
 
             ret.append("</tr>");
 
@@ -377,9 +528,9 @@ public class  MapDataFormatter {
 
         if( db!=null && track!=null ) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse/index.html?data=")
-                .append(db).append("&tracks=").append(track).append("&highlight=&loc=")
-                .append(FormUtility.getJBrowseLoc(md))
-            .append("\">").append(link).append("</a>");
+                    .append(db).append("&tracks=").append(track).append("&highlight=&loc=")
+                    .append(FormUtility.getJBrowseLoc(md))
+                    .append("\">").append(link).append("</a>");
         }
     }
     static void generateJBrowse2Link(StringBuilder buf, int objectKey, MapData md) throws Exception {
@@ -392,8 +543,8 @@ public class  MapDataFormatter {
 //                        .append("&tracklist=true")
 //                        .append("&tracks=").append(tracks)
 //                        .append("\">").append(link).append("</a>");
-                buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
-                        .append(url).append("\">").append(linkName).append("</a>");
+            buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
+                    .append(url).append("\">").append(linkName).append("</a>");
 
         }
     }
@@ -426,7 +577,6 @@ public class  MapDataFormatter {
 //        System.out.println(url);
         return url;
     }
-
     public static String generateJbrowse2URLForVariants(int objectKey, VariantMapData vmd) throws Exception {
         if(vmd==null){
             System.out.println("null mapdata");
@@ -456,6 +606,7 @@ public class  MapDataFormatter {
 //        System.out.println("url"+url);
         return url;
     }
+
 
     static void generateNcbiGDVLink(StringBuilder buf, String objectSymbol, String refSeqAccId, String mapName) {
         //removed mRatBN7.2 Ensembl from the NCBI section as per RGDD-2799
@@ -641,7 +792,7 @@ public class  MapDataFormatter {
                     link = "SpeTri2.0";
                     break;
 
-                    //green monkey
+                //green monkey
                 case 1312:
                     db = "http://www.ensembl.org/Chlorocebus_sabaeus/Location/View?r=";
                     link = "Vervet-AGM";
@@ -666,4 +817,15 @@ public class  MapDataFormatter {
                     .append("\">").append(link).append("</a>");
         }
     }
+
+    public static MapData createMapDataWVariant(VariantMapData vmd) throws Exception {
+        MapData md = new MapData();
+        md.setChromosome(vmd.getChromosome());
+        md.setStartPos((int)vmd.getStartPos());
+        md.setStopPos((int)vmd.getEndPos());
+        md.setMapKey(vmd.getMapKey());
+        md.setSrcPipeline("RGD");
+        return md;
+    }
+
 }
