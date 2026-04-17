@@ -114,7 +114,7 @@
     </tr>
     <% } else if (peakVar != null) { %>
     <tr>
-        <td valign="top">Flank 1: (<a href="<%=Link.it((int)peakVar.getId())%>"><%=!Utils.isStringEmpty(peakVar.getRsId()) ? peakVar.getRsId() : "RGD:"+peakVar.getId()%></a>)</td>
+        <td valign="top">Peak: (<a href="<%=Link.it((int)peakVar.getId())%>"><%=!Utils.isStringEmpty(peakVar.getRsId()) ? peakVar.getRsId() : "RGD:"+peakVar.getId()%></a>)</td>
         <td><%=MapDataFormatter.buildTable(obj.getPeakRgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
     <% } %>
