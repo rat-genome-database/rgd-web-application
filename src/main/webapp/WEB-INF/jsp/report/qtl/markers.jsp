@@ -14,9 +14,12 @@
     VariantMapData peakRsId = null;
     if (obj.getFlank1RgdId() != null) {
         flank1 = managementDAO.getObject(obj.getFlank1RgdId());
-        if(flank1 == null){
+        if(flank1 == null) {
             flank1Var = vdao.getVariant(obj.getFlank1RgdId());
         }
+    }
+    else if (obj.getFlank1RsId() != null){
+        flank1Var = vdao.getVariantByRsId(obj.getFlank1RsId());
     }
     if (obj.getFlank2RgdId() != null) {
         flank2 = managementDAO.getObject(obj.getFlank2RgdId());
@@ -24,11 +27,17 @@
             flank2Var = vdao.getVariant(obj.getFlank2RgdId());
         }
     }
+    else if (obj.getFlank2RsId() != null){
+        flank2Var = vdao.getVariantByRsId(obj.getFlank2RsId());
+    }
     if (obj.getPeakRgdId() != null) {
         peak = managementDAO.getObject(obj.getPeakRgdId());
         if(peak == null){
             peakVar = vdao.getVariant(obj.getPeakRgdId());
         }
+    }
+    else if (obj.getPeakRsId() != null){
+        peakVar = vdao.getVariantByRsId(obj.getPeakRsId());
     }
 //    if (obj.getPeakRsId() != null){
 //        // get variant object with rsId
@@ -96,44 +105,45 @@
 <br>
 <table>
 
-    <% if (flank1 != null) { %>
+    <% if (flank1Var != null) {%>
+    <tr>
+        <td valign="top">Flank 1: (<a href="<%=!Utils.isStringEmpty(flank1Var.getRsId()) ? "/rgdweb/report/rsId/main.html?id="+flank1Var.getRsId() : Link.it((int)flank1Var.getId())%>"><%=!Utils.isStringEmpty(flank1Var.getRsId()) ? flank1Var.getRsId() : "RGD:"+flank1Var.getId()%></a>)</td>
+        <td><%=!Utils.isStringEmpty(flank1Var.getRsId()) ? MapDataFormatter.buildTable(flank1Var.getRsId(), obj.getSpeciesTypeKey(),mapKey) : MapDataFormatter.buildTable(obj.getFlank1RgdId(),obj.getSpeciesTypeKey())%></td>
+    </tr>
+
+    <% } else if (flank1 != null) {  %>
     <tr>
         <td valign="top">Flank 1: (<a href="<%=Link.it(f1RgdId)%>"><%=f1symbol%></a>)</td>
         <td><%=MapDataFormatter.buildTable(obj.getFlank1RgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
-    <% } else if (flank1Var != null) { %>
-    <tr>
-        <td valign="top">Flank 1: (<a href="<%=Link.it((int)flank1Var.getId())%>"><%=!Utils.isStringEmpty(flank1Var.getRsId()) ? flank1Var.getRsId() : "RGD:"+flank1Var.getId()%></a>)</td>
-        <td><%=MapDataFormatter.buildTable(obj.getFlank1RgdId(),obj.getSpeciesTypeKey())%></td>
-    </tr>
     <% } %>
-    <% if (peak != null) { %>
+    <% if (peakVar != null) {%>
+    <tr>
+        <td valign="top">Peak: (<a href="<%=!Utils.isStringEmpty(peakVar.getRsId()) ? "/rgdweb/report/rsId/main.html?id="+peakVar.getRsId() : Link.it((int)peakVar.getId())%>"><%=!Utils.isStringEmpty(peakVar.getRsId()) ? peakVar.getRsId() : "RGD:"+peakVar.getId()%></a>)</td>
+        <td><%=!Utils.isStringEmpty(peakVar.getRsId()) ? MapDataFormatter.buildTable(peakVar.getRsId(), obj.getSpeciesTypeKey(),mapKey) : MapDataFormatter.buildTable(obj.getPeakRgdId(),obj.getSpeciesTypeKey())%></td>
+    </tr>
+    <% } else if (peak != null) { %>
     <tr>
         <td valign="top">Peak: (<a href="<%=Link.it(pRgdId)%>"><%=psymbol%></a>)</td>
         <td><%=MapDataFormatter.buildTable(obj.getPeakRgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
-    <% } else if (peakVar != null) { %>
-    <tr>
-        <td valign="top">Peak: (<a href="<%=Link.it((int)peakVar.getId())%>"><%=!Utils.isStringEmpty(peakVar.getRsId()) ? peakVar.getRsId() : "RGD:"+peakVar.getId()%></a>)</td>
-        <td><%=MapDataFormatter.buildTable(obj.getPeakRgdId(),obj.getSpeciesTypeKey())%></td>
-    </tr>
     <% } %>
-    <% if (obj.getPeakRsId()!=null){ %>
+<%--    <% if (obj.getPeakRsId()!=null){ %>--%>
+<%--    <tr>--%>
+<%--        <td valign="top">Peak: (<a href="/rgdweb/report/rsId/main.html?id=<%=pRsSymbol%>"><%=pRsSymbol%></a>)</td>--%>
+<%--        <td>--%>
+<%--            <%=MapDataFormatter.buildTable(pRsSymbol, obj.getSpeciesTypeKey(),mapKey)%>--%>
+<%--        </td>--%>
+<%--    </tr>--%>
+<%--    <% } %>--%>
+    <% if (flank2Var != null) { %>
     <tr>
-        <td valign="top">Peak: (<a href="/rgdweb/report/rsId/main.html?id=<%=pRsSymbol%>"><%=pRsSymbol%></a>)</td>
-        <td>
-            <%=MapDataFormatter.buildTable(pRsSymbol, obj.getSpeciesTypeKey(),mapKey)%>
-        </td>
+        <td valign="top">Flank 2: (<a href="<%=!Utils.isStringEmpty(flank2Var.getRsId()) ? "/rgdweb/report/rsId/main.html?id="+flank2Var.getRsId() : Link.it((int)flank2Var.getId())%>"><%=!Utils.isStringEmpty(flank2Var.getRsId()) ? flank2Var.getRsId() : "RGD:"+flank2Var.getId()%></a>)</td>
+        <td><%=!Utils.isStringEmpty(flank2Var.getRsId()) ? MapDataFormatter.buildTable(flank2Var.getRsId(), obj.getSpeciesTypeKey(),mapKey) : MapDataFormatter.buildTable(obj.getFlank2RgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
-    <% } %>
-    <% if (flank2 != null) { %>
+    <% } else if (flank2 != null) { %>
     <tr>
         <td valign="top">Flank 2: (<a href="<%=Link.it(f2RgdId)%>"><%=f2symbol%></a>)</td>
-        <td><%=MapDataFormatter.buildTable(obj.getFlank2RgdId(),obj.getSpeciesTypeKey())%></td>
-    </tr>
-    <% } else if (flank2Var != null) { %>
-    <tr>
-        <td valign="top">Flank 2: (<a href="<%=Link.it((int)flank2Var.getId())%>"><%=!Utils.isStringEmpty(flank2Var.getRsId()) ? flank2Var.getRsId() : "RGD:"+flank2Var.getId()%></a>)</td>
         <td><%=MapDataFormatter.buildTable(obj.getFlank2RgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
     <% } %>
