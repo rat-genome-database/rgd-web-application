@@ -345,7 +345,7 @@ function stickifySideBar(sidebar){
 
             if(minMediaQuery.matches){
                 if(scrollPosition >= 125){
-                    // sidebar.style.position = "fixed";
+                    sidebar.style.position = "fixed";
                     sidebar.style.top = '0';
 
                 }else{
@@ -355,7 +355,7 @@ function stickifySideBar(sidebar){
 
             if(maxMediaQuery.matches){
                 if(scrollPosition >= 175){
-                    // sidebar.style.position = "fixed";
+                    sidebar.style.position = "fixed";
                     sidebar.style.top = '0';
 
                 }else{
@@ -365,7 +365,7 @@ function stickifySideBar(sidebar){
 
         } else {
         if(scrollPosition >= 275){
-            // sidebar.style.position = "fixed";
+            sidebar.style.position = "fixed";
             sidebar.style.top = '0';
 
         }else{
