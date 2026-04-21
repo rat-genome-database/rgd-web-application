@@ -1,6 +1,7 @@
 package edu.mcw.rgd.ontology;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
+import edu.mcw.rgd.datamodel.ontologyx.TermSynonym;
 import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.pathway.PathwayDiagramController;
 import edu.mcw.rgd.process.Utils;
@@ -305,6 +306,11 @@ public class OntBrowser {
                         }
                     }
 
+                    // selected term: flag terms marked 'Not4Curation' via a synonym
+                    if( hasNot4CurationSynonym() ) {
+                        out.append("<br><div style=\"font-size:20px; font-weight:bold; color:red;\">Not4Curation</div>\n");
+                    }
+
                     out.append("</div>");
                 } else {
                     out.append("</br>");
@@ -442,6 +448,17 @@ public class OntBrowser {
         if (!hideZeroAnnotations) {
             out.append("&nbsp;<a class='binoculars' ng-click=\"rgd.addWatch('" + node.getTermAcc() + "')\" title='launch term watcher'></a>");
         }
+    }
+
+    private boolean hasNot4CurationSynonym() {
+        Collection<TermSynonym> synonyms = bean.getTermSynonyms();
+        if( synonyms == null ) return false;
+        for( TermSynonym syn: synonyms ) {
+            if( Utils.stringsAreEqualIgnoreCase(syn.getName(), "Not4Curation") ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String generatePathwayMiniDiagram(String definition) {
