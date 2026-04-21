@@ -308,7 +308,7 @@ public class OntBrowser {
 
                     // selected term: flag terms marked 'Not4Curation' via a synonym
                     if( hasNot4CurationSynonym() ) {
-                        out.append("<br><div style=\"font-size:20px; font-weight:bold; color:red;\">Not4Curation</div>\n");
+                        out.append("<br><div style=\"font-size:16px; font-weight:bold; color:red; padding-left:12px;\">Not4Curation</div>\n");
                     }
 
                     out.append("</div>");
