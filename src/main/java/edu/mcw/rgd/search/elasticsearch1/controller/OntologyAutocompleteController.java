@@ -42,9 +42,6 @@ public class OntologyAutocompleteController implements Controller {
             } catch (NumberFormatException ignored) {}
         }
 
-        // Map ontology prefix to ES subcat value
-        String subcat = mapOntPrefix(ont);
-
         // Build DisMax query across ontology term fields
         DisMaxQueryBuilder dmq = new DisMaxQueryBuilder();
         dmq.add(QueryBuilders.matchQuery("term.symbol", term).operator(Operator.AND).boost(15));
@@ -58,9 +55,27 @@ public class OntologyAutocompleteController implements Controller {
         // Build bool query with category + subcat filters
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(dmq);
         boolQuery.filter(QueryBuilders.termQuery("category.keyword", "Ontology"));
-        if (subcat != null && !subcat.isEmpty()) {
-            // subcat values in ES are formatted as "PREFIX: Full Name" (e.g. "RDO: RGD Disease Ontology")
-            boolQuery.filter(QueryBuilders.prefixQuery("subcat.keyword", subcat + ":"));
+
+        // Apply ontology filter — supports single prefix, comma-separated, or ALL/null for no filter
+        if (ont != null && !ont.trim().isEmpty() && !ont.trim().equalsIgnoreCase("ALL")) {
+            String[] parts = ont.split(",");
+            if (parts.length == 1) {
+                String subcat = mapOntPrefix(parts[0].trim());
+                if (subcat != null && !subcat.isEmpty()) {
+                    boolQuery.filter(QueryBuilders.prefixQuery("subcat.keyword", subcat + ":"));
+                }
+            } else {
+                // Multiple ontology prefixes — use bool should (OR)
+                BoolQueryBuilder subcatFilter = QueryBuilders.boolQuery();
+                for (String part : parts) {
+                    String subcat = mapOntPrefix(part.trim());
+                    if (subcat != null && !subcat.isEmpty()) {
+                        subcatFilter.should(QueryBuilders.prefixQuery("subcat.keyword", subcat + ":"));
+                    }
+                }
+                subcatFilter.minimumShouldMatch(1);
+                boolQuery.filter(subcatFilter);
+            }
         }
 
         SearchSourceBuilder srb = new SearchSourceBuilder();
