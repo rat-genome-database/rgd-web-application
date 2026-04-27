@@ -88,7 +88,7 @@ public class CNVariantsRsIdController implements Controller {
 
                         int activeMapKey = MapManager.getInstance().getReferenceAssembly(g.getSpeciesTypeKey()).getKey();
                         if (g.getSpeciesTypeKey() == 3) {
-                            activeMapKey = 372;
+                            activeMapKey = 380;
                         }
                             
                         MapData mapData = getMapData(rgdId, activeMapKey);

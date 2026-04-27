@@ -136,7 +136,7 @@
         <% for (VariantMapData v : vars) {
             Map m = mapDAO.getMap(v.getMapKey());
 //            VariantMapData v = vars.get(i);
-            List<VariantTranscript> vts = vtdao.getVariantTranscripts(v.getId(),mapKey);
+            List<VariantTranscript> vts = vtdao.getVariantTranscripts(v.getId(),v.getMapKey());
 //            VariantTranscript transcript = null;
             List<PolyPhenPrediction> predictions = null;
             List<String> locNames = new ArrayList<>();
