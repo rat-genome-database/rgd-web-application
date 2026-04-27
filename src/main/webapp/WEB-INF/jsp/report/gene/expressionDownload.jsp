@@ -28,9 +28,9 @@
     out.print(",");
     out.print("Value");
     out.print(",");
-    out.print("Expression Level");
-    out.print(",");
     out.print("Unit");
+    out.print(",");
+    out.print("Expression Level");
     out.print(",");
     out.print("Assembly");
     out.print(",");
