@@ -23,16 +23,14 @@ public class AnnotationJSONController implements Controller {
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        response.setContentType("text/JSON");
+        response.setContentType("application/json");
 
         PrintWriter out = response.getWriter();
-        out.println("{");
 
         GViewerBean bean = new GViewerBean();
         bean.loadParametersFromRequest(request);
 
         String sql = bean.buildSqlForGViewerAnnotations();
-        //System.out.println(sql);
 
         Connection conn = null;
         try {
@@ -40,6 +38,8 @@ public class AnnotationJSONController implements Controller {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
+            out.print("{\"genome\":{\"feature\":[");
+            boolean first = true;
             while (rs.next()) {
                 String rgdId = rs.getString("rgd_id");
                 String objectType = rs.getString("object_type");
@@ -51,22 +51,23 @@ public class AnnotationJSONController implements Controller {
                         objectType.equals("qtl") ? "0xFFFFFF" :
                         objectType.equals("strain") ? "#76AC1A" :
                         "";
-                // strip html tags from symbol (we return xml, so these tags will break the xml structure)
                 String symbol = rs.getString("object_symbol").replaceAll("\\<.*?>", "");
 
+                if (!first) out.print(",");
+                first = false;
 
-                out.println("{");
-                out.println("\"chromosome\":\""+rs.getString("chromosome")+"\",");
-                out.println("\"start\":"+rs.getString("start_pos")+"\",");
-                out.println("\"end\":"+rs.getString("stop_pos")+"\",");
-                out.println("\"type\":\""+objectType+"\",");
-                out.println("\"label\":\""+symbol+"\",");
-                out.println("\"link\":\""+link+"\",");
-                out.println("\"color\":\""+color+"\"");
-                out.println("}");
+                out.print("{");
+                out.print("\"chromosome\":\""+rs.getString("chromosome")+"\",");
+                out.print("\"start\":\""+rs.getString("start_pos")+"\",");
+                out.print("\"end\":\""+rs.getString("stop_pos")+"\",");
+                out.print("\"type\":\""+objectType+"\",");
+                out.print("\"label\":\""+escapeJson(symbol)+"\",");
+                out.print("\"link\":\""+escapeJson(link)+"\",");
+                out.print("\"color\":\""+color+"\"");
+                out.print("}");
             }
+            out.println("]}}");
 
-            out.println("}");
         }catch(SQLException se) {
             se.printStackTrace();
         } finally {
@@ -76,5 +77,10 @@ public class AnnotationJSONController implements Controller {
             }
         }
         return null;
+    }
+
+    private String escapeJson(String value) {
+        if (value == null) return "";
+        return value.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 }

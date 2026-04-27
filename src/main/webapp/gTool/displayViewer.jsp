@@ -24,7 +24,7 @@
 </script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/dhtmlwindow.js">
 /***********************************************
-* DHTML Window script- © Dynamic Drive (http://www.dynamicdrive.com)
+* DHTML Window script- ï¿½ Dynamic Drive (http://www.dynamicdrive.com)
 * This notice MUST stay intact for legal use
 * Visit http://www.dynamicdrive.com/ for this script and 100s more.
 ***********************************************/
@@ -34,7 +34,7 @@
 <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
 /***********************************************
-* Context Menu script- © Dynamic Drive (http://www.dynamicdrive.com)
+* Context Menu script- ï¿½ Dynamic Drive (http://www.dynamicdrive.com)
 * This notice MUST stay intact for legal use
 * Visit http://www.dynamicdrive.com/ for this script and 100s more.
 ***********************************************/
@@ -102,9 +102,7 @@ var gviewer = null;
 
         gviewer.annotationTypes = new Array(<%=types%>);
 
-        gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
-        //gviewer.imageViewerURL = "/fgb2/gbrowse_img/rgd_5/?width=500&name=";
-        gviewer.genomeBrowserName = "JBrowse";
+        gviewer.genomeBrowserName = "JBrowse 2";
         gviewer.regionPadding=2;
         gviewer.annotationPadding = 1;
 
@@ -112,10 +110,13 @@ var gviewer = null;
 
         if (species == 3) {
             gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
+            gviewer.genomeBrowserURL = "/jbrowse2/?assembly=mRatBN7.2&tracklist=true";
         }else if (species == 1) {
             gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml");
+            gviewer.genomeBrowserURL = "/jbrowse2/?assembly=GRCh38.p14&tracklist=true";
         }else {
             gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml");
+            gviewer.genomeBrowserURL = "/jbrowse2/?assembly=GRCm39&tracklist=true";
        }
 
         gviewer.addZoomPane("zoomWrapper", <%=req.getParameter("height")%>, <%=req.getParameter("width")%>);

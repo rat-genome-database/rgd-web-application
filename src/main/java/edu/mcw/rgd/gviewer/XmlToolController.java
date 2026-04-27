@@ -65,12 +65,17 @@ public class XmlToolController implements Controller {
                         objectType.equals("strain") ? Link.strain(Integer.parseInt(rgdId)) :
                         "";
                 String symbol = rs.getString("object_symbol");
+                String chromosome = rs.getString("chromosome");
+                String startPos = rs.getString("start_pos");
+                String stopPos = rs.getString("stop_pos");
 
-                String[] line = new String[4+bean.getTerms().length];
+                String[] line = new String[6+bean.getTerms().length];
                 line[0] = rgdId;
                 line[1] = objectType;
                 line[2] = symbol;
                 line[3] = link;
+                line[4] = chromosome;
+                line[5] = (startPos==null?"":startPos) + (stopPos!=null && !stopPos.equals(startPos) ? "-"+stopPos : "");
 
                 lines.add(line);
 
@@ -113,12 +118,12 @@ public class XmlToolController implements Controller {
                         // this object is not on our annotated obj list;
                         continue;
                     }
-                    String contents = line[4+termIndex];
+                    String contents = line[6+termIndex];
                     if( contents==null )
                         contents = link;
                     else
                         contents += "<br>" + link;
-                    line[4+termIndex] = contents;
+                    line[6+termIndex] = contents;
                 }
 
             }catch(SQLException se) {

@@ -34,13 +34,21 @@ function getPosition(who){
 }
 
 function getTop(who) {
+    // SVG elements don't have offsetTop, use getBoundingClientRect
+    if (who && who.getBoundingClientRect && !who.offsetParent && who.namespaceURI && who.namespaceURI.indexOf("svg") !== -1) {
+        return who.getBoundingClientRect().top + getWindowScroll();
+    }
     var pos = getPosition(who);
     return pos[1];
 }
 
 function getLeft(who) {
+    // SVG elements don't have offsetLeft, use getBoundingClientRect
+    if (who && who.getBoundingClientRect && !who.offsetParent && who.namespaceURI && who.namespaceURI.indexOf("svg") !== -1) {
+        return who.getBoundingClientRect().left + window.scrollX;
+    }
     var pos = getPosition(who);
-    return pos[0];        
+    return pos[0];
 }
 
 function checkMinMax(min, max, value) {
@@ -58,7 +66,12 @@ function show(div) {
 }
 
 function hide(div) {
-    div.style.visibility = "hidden";            
+    div.style.visibility = "hidden";
+}
+
+function hideLoadingOverlay() {
+    var overlay = document.getElementById("gvLoadingOverlay");
+    if (overlay) overlay.style.display = "none";
 }
 
 function getPixelLength(len, ratio) {
@@ -66,17 +79,22 @@ function getPixelLength(len, ratio) {
 }
 
 function getTarget(e) {
-    return document.all ? e.srcElement : e.currentTarget;
+    return e.currentTarget || e.target;
 }
 
 function findTarget(e, clsName) {
-    var fired = getTarget(e);
+    var fired = e.target || e.currentTarget;
 
     while (fired) {
-        if (fired.className == clsName) {
+        var cn = fired.className;
+        // SVG elements have className as SVGAnimatedString
+        if (cn && typeof cn === "object" && cn.baseVal !== undefined) {
+            cn = cn.baseVal;
+        }
+        if (cn == clsName || (cn && cn.indexOf && cn.indexOf(clsName) !== -1)) {
             return fired;
         }
-        fired = fired.offsetParent;
+        fired = fired.parentElement || fired.parentNode;
     }
     return null;
 }
@@ -214,7 +232,7 @@ function setCookie(name, value, expires, path, domain, secure) {
 }
 
 /***********************************************
-* Dynamic Ajax Content- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* Dynamic Ajax Content- ï¿½ Dynamic Drive DHTML code library (www.dynamicdrive.com)
 * This notice MUST stay intact for legal use
 * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
 ***********************************************/

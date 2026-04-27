@@ -17,16 +17,40 @@ function ZoomPane(divId, h, w, parentGviewer) {
         this.div.style.width = w;
         this.div.obj = this;
         this.scaleRatio = this.parentViewer.defaultZoomRatio;
-        
+
         this.imageViewer = appendDiv(this.key + "imageViewer","image-viewer",document.body);
         hide(this.imageViewer);
+
+        // Minimap bar showing viewport position relative to full chromosome
+        this.minimapBar = appendDiv(this.key + "_minimap", "zoom-minimap", this.div);
+        this.minimapViewport = appendDiv(this.key + "_minimap_vp", "zoom-minimap-viewport", this.minimapBar);
+
         this.content = appendDiv(divId + "_content","zoom-pane-content",this.div);
 
         this.div.onmousedown = zoompane_mouseDownEvent;
         this.div.onmouseover = zoompane_mouseOverEvent;
         this.div.onmouseup = zoompane_mouseUpEvent;
         this.div.onmousemove = zoompane_mouseMoveEvent;
-        this.div.onmouseout = zoompane_mouseOutEvent;      
+        this.div.onmouseout = zoompane_mouseOutEvent;
+
+        // Mouse wheel zoom on the zoom pane (requires Ctrl/Cmd to avoid conflict with trackpad scrolling)
+        var self = this;
+        this.div.addEventListener('wheel', function(e) {
+            if (!self.chr) return;
+            if (!e.ctrlKey && !e.metaKey) return; // only zoom on Ctrl+scroll / pinch
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                gview().zoomIn();
+            } else {
+                gview().zoomOut();
+            }
+            gview().moveTo(gview().chr, gview().y);
+        });
+
+        // Sync minimap on scroll
+        this.div.addEventListener('scroll', function() {
+            self.updateMinimap();
+        });
     }
     this.init();
 
@@ -199,6 +223,7 @@ function ZoomPane(divId, h, w, parentGviewer) {
 
         this.render(chr);
         this.chr = chr;
+        this.updateMinimap();
     }
 
     this.moveDivTo = function() {    
@@ -213,8 +238,8 @@ function ZoomPane(divId, h, w, parentGviewer) {
         }
 
         if (this.scaleRatio + (this.scaleRatio * .33) > .00025) {
-            if (confirm("Maximum zoom has been reached.  Select OK to view this region in GBrowse.\n")) {
-                goToGBrowse();
+            if (confirm("Maximum zoom has been reached.  Select OK to view this region in JBrowse 2.\n")) {
+                gview().openGenomeBrowser();
             }else {
                 return;
             }
@@ -277,10 +302,10 @@ function ZoomPane(divId, h, w, parentGviewer) {
         if (!chr || !y) {
             return;
         }
-                
+
         var p = y / Math.floor((chr.length) * gview().scaleRatio);
-        var newLeft = (Math.round(Math.ceil((chr.length) * this.scaleRatio) * p) - (parseInt(this.div.style.width) / 2));
         this.div.scrollLeft = (Math.round(Math.ceil((chr.length) * this.scaleRatio) * p) - (parseInt(this.div.style.width) / 2));
+        this.updateMinimap();
     }
 
     this.dragStart = function(x,y) {
@@ -311,7 +336,25 @@ function ZoomPane(divId, h, w, parentGviewer) {
         this.parentViewer.clearStatus();
     }
 
-    //shows gene model retrieved from gbrowse
+    this.updateMinimap = function() {
+        if (!this.chr || !this.minimapBar) return;
+        var totalWidth = Math.ceil(this.chr.length * this.scaleRatio);
+        var viewWidth = parseInt(this.div.style.width);
+        var scrollLeft = this.div.scrollLeft;
+
+        if (totalWidth <= 0) return;
+
+        var vpLeft = (scrollLeft / totalWidth) * 100;
+        var vpWidth = Math.min((viewWidth / totalWidth) * 100, 100);
+
+        this.minimapViewport.style.left = vpLeft + "%";
+        this.minimapViewport.style.width = vpWidth + "%";
+
+        // Update position display
+        this.parentViewer.writePosition(this.parentViewer.positionDiv);
+    }
+
+    //shows gene model retrieved from jbrowse
     this.showModel = function(obj, x, y) {
         if (this.parentViewer.imageViewerURL && this.parentViewer.imageViewerURL !="") {
 
