@@ -24,19 +24,19 @@
     out.print(",");
     out.print("Tissue");
     out.print(",");
-    out.print("Geo Sample ID");
+    out.print("Source Sample ID");
     out.print(",");
     out.print("Value");
     out.print(",");
-    out.print("Expression Level");
-    out.print(",");
     out.print("Unit");
+    out.print(",");
+    out.print("Expression Level");
     out.print(",");
     out.print("Assembly");
     out.print(",");
     out.print("Reference");
     out.print(",");
-    out.println("GEO Study");
+    out.println("Study Source ID");
     for (GeneExpression ge : expressionList){
 
         GeneExpressionRecordValue v = ge.getGeneExpressionRecordValue();
