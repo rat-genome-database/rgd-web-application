@@ -408,29 +408,41 @@
                                                 int aaPos = sb.indexOf("=");
                                                 aaSequence2 += tr.getAminoAcidVariant().getVariantAminoAcid();
 
+                                                boolean spanOpened = false;
                                                 int pos;
                                                 for (pos = 0; pos < aaSequence2.length() - 80; pos += 80) {
                                                     if (aaPos == pos) {
                                                         aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
+                                                        spanOpened = true;
                                                         aaSequence += aaSequence2.substring(aaPos, pos + 80);
                                                         aaSequence += "<br>";
                                                     } else if (aaPos > pos && aaPos < (pos + 80)) {
                                                         aaSequence += aaSequence2.substring(pos, aaPos);
                                                         aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
+                                                        spanOpened = true;
                                                         aaSequence += aaSequence2.substring(aaPos, pos + 80);
                                                         aaSequence += "<br>";
                                                     } else if (aaPos == (pos + 80)) {
                                                         aaSequence += aaSequence2.substring(pos, aaPos);
                                                         aaSequence += "<br>";
                                                         aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
+                                                        spanOpened = true;
                                                     } else {
                                                         aaSequence += aaSequence2.substring(pos, pos + 80);
                                                         aaSequence += "<br>";
                                                     }
                                                 }
-                                                aaSequence += aaSequence2.substring(pos);
-
-                                                aaSequence += "</span>";
+                                                if (!spanOpened && aaPos >= pos && aaPos <= aaSequence2.length()) {
+                                                    aaSequence += aaSequence2.substring(pos, aaPos);
+                                                    aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
+                                                    aaSequence += aaSequence2.substring(aaPos);
+                                                    spanOpened = true;
+                                                } else {
+                                                    aaSequence += aaSequence2.substring(pos);
+                                                }
+                                                if (spanOpened) {
+                                                    aaSequence += "</span>";
+                                                }
                                             }
                                             else {
                                                 int pos;
