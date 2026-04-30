@@ -233,6 +233,7 @@
                     },
                     {
                         key: 'GeoSampleId',
+                        label: 'Source Sample ID',
                         formatter: value => {
                             if (value == null || value === "")
                                 return "N/A"
@@ -278,7 +279,7 @@
                     },
                     {
                         key: 'geoStudyAcc',
-                        label: 'GEO Study',
+                        label: 'Study Source ID',
                         formatter: 'createGEOLinks',
                         sortable: true
                     }
