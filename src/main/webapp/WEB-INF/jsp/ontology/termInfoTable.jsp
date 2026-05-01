@@ -188,7 +188,8 @@
                   // create pattern based on ontology id
                   int pos = syn.getName().indexOf(":");
                   String ontId = !syn.getType().equals("alt_id") && pos>0 ? syn.getName().substring(0, pos) : null;
-                  if( ontId!=null ) {
+                  // skip if prefix is not a valid ontology id (e.g. chemical names like "GPCho(14:0/16:0)")
+                  if( ontId!=null && ontId.matches("\\w+") ) {
                       Pattern p = Pattern.compile("\\b("+ontId+"\\:\\d{7})\\b");
                       StringBuffer sb = new StringBuffer();
                       Matcher m = p.matcher(syn.getName());
