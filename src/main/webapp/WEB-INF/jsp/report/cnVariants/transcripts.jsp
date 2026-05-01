@@ -24,7 +24,46 @@
                 <td>
                     <a></a>
                     <div id="sampleTranscripts">
-            <% for (TranscriptResult tr: results) { %>
+            <% for (TranscriptResult tr: results) {
+                String aaVar = "";
+                String aaRef = tr.getAminoAcidVariant().getReferenceAminoAcid();
+                int aaVarPos = tr.getAminoAcidVariant().getAaPosition()-1;
+                boolean isFrameshift = Utils.stringsAreEqual("T", tr.getAminoAcidVariant().getFrameshift());
+                if (isFrameshift)
+                    aaVar = tr.getAminoAcidVariant().getVariantAminoAcid();
+                else if ( !Utils.isStringEmpty(tr.getAminoAcidVariant().getVariantAminoAcid()) ){
+                    if  (Utils.stringsAreEqualIgnoreCase("snv", var.getVariantType()) )
+                    {
+                        aaVar = tr.getAminoAcidVariant().getVariantAminoAcid().substring(0,1);
+                        aaVarPos = aaVarPos+1;
+                    }
+                    else if (Utils.isStringEmpty(var.getVariantNucleotide())) { // deletion
+                        if (var.getReferenceNucleotide().length() % 3 != 0) {
+                            // frameshift deletion (nucleotide count not divisible by 3)
+                            isFrameshift = true;
+                            aaVar = tr.getAminoAcidVariant().getVariantAminoAcid();
+                        } else {
+                            int aaAfected = var.getReferenceNucleotide().length()/3;
+                            for(int i = 0; i < aaAfected; i++)
+                                aaVar += "-";
+                            aaVarPos = aaVarPos + aaAfected;
+                        }
+                    }
+                    else { // insertion
+                        if (var.getVariantNucleotide().length() % 3 != 0) {
+                            // frameshift insertion (nucleotide count not divisible by 3)
+                            isFrameshift = true;
+                            aaVar = tr.getAminoAcidVariant().getVariantAminoAcid();
+                        } else {
+                            int aaAfected = var.getVariantNucleotide().length()/3;
+                            aaVar = tr.getAminoAcidVariant().getVariantAminoAcid().substring(0,aaAfected);
+                            aaRef = "-";
+                        }
+                    }
+                }
+                else
+                    aaVarPos++;
+            %>
                     <table border="0" width="100%" style="background-color:white; color:#053867;font-size:12px;">
                 <% try { %>
                 <tr>
@@ -42,7 +81,7 @@
 
                 <% if (tr.getAminoAcidVariant().getVariantAminoAcid() != null && !tr.getAminoAcidVariant().getLocation().equals("Unknown")) {%>
                 <tr>
-                    <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getReferenceAminoAcid()%> to  <%=tr.getAminoAcidVariant().getVariantAminoAcid()%> (<%=tr.getAminoAcidVariant().getSynonymousFlag()%>)</td>
+                    <td class="carpeLabel">Amino Acid Prediction:</td><td> <%= aaRef %> to  <%= isFrameshift ? tr.getAminoAcidVariant().getVariantAminoAcid() : aaVar %> <%= Utils.stringsAreEqualIgnoreCase("snv", var.getVariantType()) ? tr.getAminoAcidVariant().getSynonymousFlag() : "" %></td>
                 </tr>
                 <% }else if (tr.getAminoAcidVariant().getSynonymousFlag() != null){ %>
                 <tr>
@@ -108,26 +147,73 @@
                     if (tr.getAminoAcidVariant().getAASequence() !=null && tr.getAminoAcidVariant().getAASequence().length()  > 1) {
 
                         String aaSequence="";
+                        String aaSequence2="";
                         StringBuilder sb = new StringBuilder(tr.getAminoAcidVariant().getAASequence());
 
                         if (tr.getAminoAcidVariant().getAaPosition() != -1) {
-                            sb.replace(tr.getAminoAcidVariant().getAaPosition()-1, tr.getAminoAcidVariant().getAaPosition(), "=");
+                            sb.replace(tr.getAminoAcidVariant().getAaPosition()-1, aaVarPos, "=");
                         }
+//                        System.out.println(sb.toString());
+                        if (isFrameshift){
+                            aaSequence2 = sb.substring(0, sb.indexOf("="));
+                            int aaPos = sb.indexOf("=");
+                            aaSequence2 += tr.getAminoAcidVariant().getVariantAminoAcid();
 
-                        int pos;
-                        for (pos=0; pos<sb.length()-80; pos+=80) {
-                            aaSequence += sb.substring(pos, pos+80);
-                            aaSequence += "<br>";
+                            boolean spanOpened = false;
+                            int pos;
+                            for (pos = 0; pos < aaSequence2.length() - 100; pos += 100) {
+                                if (aaPos == pos) {
+                                    aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
+                                    spanOpened = true;
+                                    aaSequence += aaSequence2.substring(aaPos, pos + 100);
+                                    aaSequence += "<br>";
+                                } else if (aaPos > pos && aaPos < (pos + 100)) {
+                                    aaSequence += aaSequence2.substring(pos, aaPos);
+                                    aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
+                                    spanOpened = true;
+                                    aaSequence += aaSequence2.substring(aaPos, pos + 100);
+                                    aaSequence += "<br>";
+                                } else if (aaPos == (pos + 100)) {
+                                    aaSequence += aaSequence2.substring(pos, aaPos);
+                                    aaSequence += "<br>";
+                                    aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
+                                    spanOpened = true;
+                                } else {
+                                    aaSequence += aaSequence2.substring(pos, pos + 100);
+                                    aaSequence += "<br>";
+                                }
+                            }
+                            if (!spanOpened && aaPos >= pos && aaPos <= aaSequence2.length()) {
+                                aaSequence += aaSequence2.substring(pos, aaPos);
+                                aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
+                                aaSequence += aaSequence2.substring(aaPos);
+                                spanOpened = true;
+                            } else {
+                                aaSequence += aaSequence2.substring(pos);
+                            }
+                            if (spanOpened) {
+                                aaSequence += "</span>";
+                            }
                         }
-                        aaSequence += sb.substring(pos);
+                        else {
+                            int pos;
+                            for (pos=0; pos<sb.length()-100; pos+=100) {
+                                aaSequence += sb.substring(pos, pos+100);
+                                aaSequence += "<br>";
+                            }
+                            aaSequence += sb.substring(pos);
 
-                        if (tr.getAminoAcidVariant().getAaPosition() != -1) {
-                            aaSequence = aaSequence.replace("=", "<span style='color:red;font-weight:700;font-size:16px;'>" + tr.getAminoAcidVariant().getVariantAminoAcid() + "</span>" );
+                            if (tr.getAminoAcidVariant().getAaPosition() != -1) {
+                                aaSequence = aaSequence.replace("=", "<span style='color:red;font-weight:700;font-size:24px;'>" + aaVar + "</span>" );
+                            }
                         }
+//                        if (tr.getAminoAcidVariant().getAaPosition() != -1) {
+//                            aaSequence = aaSequence2.replace("=", "<span style='color:red;font-weight:700;font-size:24px;'>" + tr.getAminoAcidVariant().getVariantAminoAcid() + "</span>" );
+//                        }
 
                 %>
-                <tr><td  colspan=2 style="color:#053894; font-size:16px;padding-left:5px;font-weight:700;padding-top:5px;">Amino Acid Sequence<br><span style="font-size:12px;">(Calculated using NCBI transcript definition)</span></td></tr>
-                <tr><td  colspan=2 style="border:5px solid #D8D8DB;padding:5px; background-color:white; font-size:12px;"><pre><%=aaSequence%></pre></td></tr>
+                    <tr><td  colspan=2 style="color:#053894; font-size:16px;padding-left:5px;font-weight:700;padding-top:5px;">Amino Acid Sequence<br><span style="font-size:12px;">(Calculated using NCBI transcript definition)</span></td></tr>
+                    <tr><td  colspan=2 style="border:5px solid #D8D8DB;padding:5px; background-color:white; font-size:14px;"><pre><%=aaSequence%></pre></td></tr>
                 <% } %>
 
 <%--                <tr><td>&nbsp;</td></tr>--%>
