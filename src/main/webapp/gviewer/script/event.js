@@ -93,55 +93,58 @@ function zoompane_annotation_mouseOverEvent(e) {
         return cancelEvents(e);
 }
 
-function gviewer_chromosome_mouseOverEvent(e) {
-    if (!e) e = window.event;
-    var firedDiv = findTarget(e, "chr");
-
-    if (gview().isActiveChr(firedDiv.obj.number)) {
-        return;
+function findChrObj(e) {
+    var el = e.target || e.currentTarget;
+    while (el) {
+        if (el.obj && el.obj.number !== undefined) return el.obj;
+        if (el.obj && el.obj.chr) return el.obj.chr;
+        el = el.parentElement || el.parentNode;
     }
+    return null;
+}
 
-    gview().highlightChromosome(firedDiv.obj);
+function gviewer_chromosome_mouseOverEvent(e) {
+    var chr = findChrObj(e);
+    if (!chr || gview().isActiveChr(chr.number)) return;
+    gview().highlightChromosome(chr);
 }
 
 function gviewer_chromosome_mouseOutEvent(e) {
-    if (!e) e = window.event;
-    firedDiv = findTarget(e, "chr");
-
-    if (gview().isActiveChr(firedDiv.obj.number)) {
-        return;
-    }
-    
-    gview().lowlightChromosome(firedDiv.obj);
+    var chr = findChrObj(e);
+    if (!chr || gview().isActiveChr(chr.number)) return;
+    gview().lowlightChromosome(chr);
 }
 
-
 function gviewer_chromosome_clickEvent(e) {
-    if (!e) e = window.event;
-    firedDiv = findTarget(e, "chr");
-    var obj = firedDiv.obj;
+    var chr = findChrObj(e);
+    if (!chr) return;
 
-    if (firedDiv.className == "chr") {
-        if (gview().isActiveChr(obj.number)) {
-            if (gview().frozen) {
-                gview().thaw();
-            }else {
-                gview().freeze();
-            }
-        }else {
-            gview().moveTo(obj,e.clientY);
+    if (gview().isActiveChr(chr.number)) {
+        if (gview().frozen) {
+            gview().thaw();
+        } else {
+            gview().freeze();
         }
+    } else {
+        gview().moveTo(chr, e.clientY);
     }
 }
 
 function gviewer_object_mouseMoveEvent(e) {
-    if (!e) e = window.event;
-    var obj = getTarget(e).obj;
+    var el = e.target || e.currentTarget;
+    var obj = el ? el.obj : null;
+    // Walk up to find an obj with chr reference
+    while (el && !obj) {
+        obj = el.obj;
+        el = el.parentElement || el.parentNode;
+    }
 
     if (gview().frozen) return;
 
-    if (obj && gview().isActiveChr(obj.chr.number)) {
+    if (obj && obj.chr && gview().isActiveChr(obj.chr.number)) {
         gview().moveTo(obj.chr, e.clientY);
+    } else if (obj && obj.number !== undefined && gview().isActiveChr(obj.number)) {
+        gview().moveTo(obj, e.clientY);
     }
 }
 
@@ -160,21 +163,22 @@ function window_mouseWheelEvent(e){
     if (!e) e = window.event;
 
     if (!gview().focus) {
-        return true;    
+        return true;
     }
 
     var delta = 0;
-    if (e.wheelDelta) {
-        delta = e.wheelDelta/120;
-        if (window.opera) delta = -delta;
+    if (e.deltaY !== undefined) {
+        delta = -e.deltaY;
+    } else if (e.wheelDelta) {
+        delta = e.wheelDelta / 120;
     } else if (e.detail) {
-        delta = -e.detail/3;
+        delta = -e.detail / 3;
     }
 
     if (delta) {
-        if (delta <0) {
+        if (delta < 0) {
             gview().zoomOut();
-        }else {
+        } else {
             gview().zoomIn();
         }
     }

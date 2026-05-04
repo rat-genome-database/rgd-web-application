@@ -82,10 +82,20 @@ function Band(bName, bStart, bEnd, bStain, bColor){
 
 function Slider(chr) {
 
-    this.div = appendDiv(chr.div.id + "_slider", "slider", chr.div);
-    //this.div.obj = new Object();
+    // Create slider in the canvas div (parent of SVG), not inside SVG
+    var canvasDiv = gview().canvas;
+    this.div = appendDiv("slider_" + chr.number, "slider", canvasDiv);
     this.chr = chr;
+    this.div.obj = chr;
+    this.div.style.cursor = "pointer";
     this.div.onmousemove=gviewer_object_mouseMoveEvent;
+    this.div.onclick = function() {
+        if (gview().frozen) {
+            gview().thaw();
+        } else {
+            gview().freeze();
+        }
+    };
 
     this.hide = function() {
         hide(this.div);
@@ -96,11 +106,13 @@ function Slider(chr) {
     }
 
     this.freeze = function() {
-        this.div.style.backgroundColor="red";
+        this.div.style.backgroundColor = "transparent";
+        this.div.style.borderColor = "red";
     }
 
     this.thaw = function() {
-        this.div.style.backgroundColor="gray";
+        this.div.style.backgroundColor = "transparent";
+        this.div.style.borderColor = "#555";
     }
 }
 
@@ -177,26 +189,16 @@ function AnnotationTypesManager() {
     }
         
     this.getStatus = function(color_scheme) {
-        if (true) return "";
-        var msg = "";
-        for (var j=0; j < this.types.length; j++) {
-            var span = "<span style='color:" + color_scheme[this.types[j]][0]+"'>"
-                    + this.typeCounts[this.types[j]] + " " + this.types[j] + "s</span>";
-
-            if (j == 0) {
-                msg += span + " ";
-            }else if (j == (this.types.length -1)) {
-                msg += " and " + span + " loaded ";
-            }else {
-                msg += ", " + span + ", ";
-            }
+        var pills = "";
+        for (var j = 0; j < this.types.length; j++) {
+            var t = this.types[j];
+            var color = color_scheme[t][0];
+            pills += "<span class='gv-count-pill' style='background-color:" + color + "'>"
+                  + "<span class='gv-count-num'>" + this.typeCounts[t] + "</span>"
+                  + "<span class='gv-count-label'>" + t + (this.typeCounts[t] == 1 ? "" : "s") + "</span>"
+                  + "</span>";
         }
-
-        if (this.types.length == 1) {
-            msg += "loaded";
-        }
-
-        return msg;
+        return "<span class='gv-counts-wrap'>" + pills + "<span class='gv-counts-loaded'>loaded</span></span>";
     }
 
  }

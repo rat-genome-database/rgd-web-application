@@ -41,7 +41,7 @@ function Gviewer(viewerId, height, width) {
     //Set the available annotatoin types to be displayed by the viewer
     //this.annotationTypes = new Array("gene","qtl");
     this.annotationTypes = new Array("gene","qtl","strain");
-    //enables use of the mouse wheel to control zoom
+    //enables use of the mouse wheel to control zoom (disabled by default - too aggressive on trackpads)
     this.enableMouseWheelZoom = false;
     //url to jbrowse instance. If not set, jbrowse is not used
     this.genomeBrowserURL = "";
@@ -120,14 +120,28 @@ function Gviewer(viewerId, height, width) {
 
         this.loadingBar.innerHTML = "&nbsp;Loading Annotations...&nbsp;";
         
-        var cStr = '<table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size:10px;"><tr><td>&nbsp;&nbsp;<a href="javascript: gview().display()">List&nbsp;All&nbsp;Objects</a>&nbsp;|&nbsp;';
-        cStr += prereq('<a href="javascript: gview().displayExportList()">CSV&nbsp;Export</a>&nbsp;|&nbsp;', this.exportURL);
-        cStr += prereq('<a href="javascript: gview().add()">Add&nbsp;Objects</a>&nbsp;|&nbsp;', this.enableAdd);
-        cStr += '<a href="javascript: gview().reset()">Clear</a>';
-        cStr += '</td><td align=right id="gview_zoomOptions" style="display:none;"><a href="javascript: gview().zoomIn()">Zoom In</a>&nbsp;|&nbsp;';
-        cStr += '<a href="javascript: gview().zoomOut()">Zoom&nbsp;Out</a>&nbsp;|&nbsp;';
-        cStr += prereq('<a href="javascript: gview().openGenomeBrowser()">Send&nbsp;to&nbsp;' + this.genomeBrowserName + '</a>&nbsp;|&nbsp;',this.genomeBrowserURL);
-        cStr += '<a href="javascript: gview().closeZoomPane()">Close&nbsp;Zoom&nbsp;Pane</a>&nbsp;&nbsp;</td></tr></table>';
+        var btnStyle = 'display:inline-block; padding:3px 8px; margin:2px 3px; border-radius:3px; font-size:11px; font-weight:600; text-decoration:none; cursor:pointer; border:1px solid ';
+        var btnBlue = btnStyle + '#3274a5; background:#3274a5; color:#fff;';
+        var btnGreen = btnStyle + '#5a9e3f; background:#5a9e3f; color:#fff;';
+        var btnGray = btnStyle + '#888; background:#6c757d; color:#fff;';
+        var btnRed = btnStyle + '#c9302c; background:#c9302c; color:#fff;';
+        var btnOutline = btnStyle + '#3274a5; background:#fff; color:#3274a5;';
+
+        var cStr = '<div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; padding:4px 6px;">';
+        cStr += '<div>';
+        cStr += '<a href="javascript: gview().display()" style="' + btnBlue + '">List All Objects</a>';
+        cStr += '<a href="javascript: gview().exportCSV()" style="' + btnGreen + '">CSV Export</a>';
+        cStr += '<a href="javascript: gview().exportImage()" style="' + btnGreen + '">Export Image</a>';
+        cStr += '<a href="javascript: gview().getShareableURL()" style="' + btnOutline + '">Share</a>';
+        cStr += prereq('<a href="javascript: gview().add()" style="' + btnOutline + '">Add Objects</a>', this.enableAdd);
+        cStr += '<a href="javascript: gview().reset()" style="' + btnRed + '">Clear</a>';
+        cStr += '</div>';
+        cStr += '<div id="gview_zoomOptions" style="display:none;">';
+        cStr += '<a href="javascript: gview().zoomIn()" style="' + btnBlue + '">Zoom In</a>';
+        cStr += '<a href="javascript: gview().zoomOut()" style="' + btnBlue + '">Zoom Out</a>';
+        cStr += prereq('<a href="javascript: gview().openGenomeBrowser()" style="' + btnGreen + '">Send to ' + this.genomeBrowserName + '</a>',this.genomeBrowserURL);
+        cStr += '<a href="javascript: gview().closeZoomPane()" style="' + btnGray + '">Close Zoom</a>';
+        cStr += '</div></div>';
 
        controlBar.innerHTML = cStr;
 
@@ -253,7 +267,6 @@ function Gviewer(viewerId, height, width) {
     this.loadAnnotationsGET = function(url, color, term) {
 
         try {
-
             show(this.loadingBar);
             this.lastLoad = new Array();
             var index = this.loaded.length;
@@ -265,8 +278,7 @@ function Gviewer(viewerId, height, width) {
 
             this.loaded[index] = obj;
 
-            var xml = new JKL.ParseXML( url );
-            var func = function ( data ) {                  // define call back function
+            $.getJSON(url, function(data) {
                 gview().loadAnnotationData(data, color);
 
                 if (term) {
@@ -277,16 +289,12 @@ function Gviewer(viewerId, height, width) {
                     gview().zoomPane.refresh();
                 }
                 hide(gview().loadingBar);
-            }
-
-            var errorFunc = function(status) {
-                alert("An error occured in fetch of data. Server returned stats code " + status);
+                hideLoadingOverlay();
+            }).fail(function(jqXHR) {
+                alert("An error occurred in fetch of data. Server returned status code " + jqXHR.status);
                 hide(gview().loadingBar);
-            }
-
-            xml.async( func );
-            xml.onerror( errorFunc );
-            xml.parse();
+                hideLoadingOverlay();
+            });
         }catch (e) {
             alert("Error: " + e + " could not load objects");
         }
@@ -294,51 +302,68 @@ function Gviewer(viewerId, height, width) {
 
 
 
-    //retrieves xml file from url and loads objects into the viewer
+    //retrieves data from url via POST and loads objects into the viewer
+    //this endpoint returns XML, so we parse it into the expected JSON-like structure
     this.loadAnnotations = function(url, color, term) {
         try {
+            show(this.loadingBar);
+            this.lastLoad = new Array();
+            var index = this.loaded.length;
 
-        show(this.loadingBar);
-        this.lastLoad = new Array();
-        var index = this.loaded.length;
+            var obj = new Object();
+            obj.url = url;
+            obj.color = color;
+            obj.term = term;
 
-        var obj = new Object();
-        obj.url = url;
-        obj.color = color;
-        obj.term = term;
+            this.loaded[index] = obj;
 
-        this.loaded[index] = obj;
+            var parts = url.split("?");
 
-          var parts = url.split("?");
-            //alert(parts[0]);
-            //alert(parts[1]);
+            $.ajax({
+                url: parts[0],
+                type: "POST",
+                data: parts[1],
+                dataType: "xml",
+                success: function(xml) {
+                    var data = gview().parseAnnotationXml(xml);
+                    gview().loadAnnotationData(data, color);
 
+                    if (term) {
+                        gview().windowManager.open(term ,"<br><b><div style='padding:3px;'>" + gview().lastLoad.length + " objects found for term \"" + term + "\".</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over the symbol to show the objects location)</span><br>" + gview().annotationArrayToList(gview().lastLoad));
+                    }
 
-        var xml = new JKL.ParseXML( parts[0],parts[1],"POST" );
-        var func = function ( data ) {                  // define call back function
-           gview().loadAnnotationData(data, color);
-
-           if (term) {
-                gview().windowManager.open(term ,"<br><b><div style='padding:3px;'>" + gview().lastLoad.length + " objects found for term \"" + term + "\".</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over the symbol to show the objects location)</span><br>" + gview().annotationArrayToList(gview().lastLoad));
-           }
-
-           if (gview().zoomPaneActive()) {
-              gview().zoomPane.refresh();
-           }
-           hide(gview().loadingBar);
+                    if (gview().zoomPaneActive()) {
+                        gview().zoomPane.refresh();
+                    }
+                    hide(gview().loadingBar);
+                hideLoadingOverlay();
+                },
+                error: function(jqXHR) {
+                    alert("An error occurred in fetch of data. Server returned status code " + jqXHR.status);
+                    hide(gview().loadingBar);
+                hideLoadingOverlay();
+                }
+            });
+        }catch (e) {
+            alert("Error: " + e + " could not load objects");
         }
+    }
 
-        var errorFunc = function(status) {
-            alert("An error occured in fetch of data. Server returned stats code " + status);
-            hide(gview().loadingBar);
-        }
-
-        xml.async( func );
-        xml.onerror( errorFunc );
-        xml.parse();
-      }catch (e) {
-          alert("Error: " + e + " could not load objects");    
-      }
+    //Parses annotation XML into the object format expected by loadAnnotationData
+    this.parseAnnotationXml = function(xml) {
+        var data = { genome: { feature: [] } };
+        $(xml).find("feature").each(function() {
+            data.genome.feature.push({
+                chromosome: $(this).find("chromosome").text(),
+                start: $(this).find("start").text(),
+                end: $(this).find("end").text(),
+                type: $(this).find("type").text(),
+                label: $(this).find("label").text(),
+                link: $(this).find("link").text(),
+                color: $(this).find("color").text() || null
+            });
+        });
+        return data;
     }
 
     //loads jklparsexml data object representing banding and chromosomes into the viewer
@@ -375,7 +400,7 @@ function Gviewer(viewerId, height, width) {
     //Retrieves xml document containing chromosome definitions and loads into viewer
     this.loadBands = function(url, species) {
         this.init();
-        
+
         this.bandURL = url;
 
         if (!species) {
@@ -383,15 +408,44 @@ function Gviewer(viewerId, height, width) {
         }
 
         this.species = species;
-        var xml = new JKL.ParseXML( url );
+        var self = this;
 
-        var errorFunc = function(status) {
-            alert("An error occured in load of banding data. Server returned stats code " + status);
-        }
+        $.ajax({
+            url: url,
+            dataType: "xml",
+            async: false,
+            success: function(xml) {
+                var data = self.parseIdeoXml(xml);
+                self.loadBandData(data);
+            },
+            error: function(jqXHR) {
+                alert("An error occurred in load of banding data. Server returned status code " + jqXHR.status);
+            }
+        });
+    }
 
-        xml.onerror(errorFunc);
-        var data = xml.parse();
-        gview().loadBandData(data);
+    //Parses ideogram XML into the object format expected by loadBandData
+    this.parseIdeoXml = function(xml) {
+        var data = { genome: { chromosome: [] } };
+        $(xml).find("chromosome").each(function() {
+            var chr = {
+                index: $(this).attr("index"),
+                number: $(this).attr("number"),
+                length: $(this).attr("length"),
+                band: []
+            };
+            $(this).find("band").each(function() {
+                chr.band.push({
+                    name: $(this).find("name").text() || $(this).attr("name"),
+                    start: $(this).find("start").text(),
+                    end: $(this).find("end").text(),
+                    stain: $(this).find("stain").text(),
+                    color: $(this).find("color").text() || null
+                });
+            });
+            data.genome.chromosome.push(chr);
+        });
+        return data;
     }
 
     //Visually highlights an object in the viewer
@@ -401,19 +455,13 @@ function Gviewer(viewerId, height, width) {
         var chr = this.getChromosome(chrNumber);
         for (var i=0; i< chr.annotations.length; i++) {
             var annot = chr.annotations[i];
-            if (annot.div.style && annot.name == annotName) {
-                annot.div.style.lastBorder = annot.div.style.border;                
-                annot.div.style.border= this.highlightBorderWidth + "px solid " + color;
-
-                if (document.all) {
-                    annot.div.style.width= parseInt(annot.div.style.width) + (this.highlightBorderWidth * 2);
-                    annot.div.style.height = parseInt(annot.div.style.height) + (this.highlightBorderWidth * 2);
+            if (annot.div && annot.name == annotName) {
+                // SVG element - use stroke for highlight
+                if (annot.div.setAttribute) {
+                    annot.div._origStroke = annot.div.getAttribute("stroke") || "none";
+                    annot.div.setAttribute("stroke", color);
+                    annot.div.setAttribute("stroke-width", this.highlightBorderWidth);
                 }
-
-                annot.div.style.marginLeft = (this.highlightBorderWidth * -1);
-                annot.div.style.marginTop = (this.highlightBorderWidth * -1);
-                bringToFront(annot.div);
-
                 return;
             }
         }
@@ -424,28 +472,15 @@ function Gviewer(viewerId, height, width) {
         var chr = this.getChromosome(chrNumber);
         for (var i=0; i< chr.annotations.length; i++) {
             var annot = chr.annotations[i];
-            if (annot.div.style && annot.name == annotName) {
-
-                if (annot.div.style.lastBorder) {
-                    annot.div.style.border = annot.div.style.lastBorder;
-                }else {
-                    annot.div.style.border= "0px solid red";
-                }
-                
-                if (document.all) {
-                    annot.div.style.width= parseInt(annot.div.style.width) - (this.highlightBorderWidth * 2);
-                    annot.div.style.height = parseInt(annot.div.style.height) - (this.highlightBorderWidth * 2);
-                }
-
-                if (parseInt(annot.div.style.borderWidth) == 0) {
-                    annot.div.style.marginLeft = 0;
-                    annot.div.style.marginTop = 0;
+            if (annot.div && annot.name == annotName) {
+                if (annot.div.setAttribute) {
+                    annot.div.setAttribute("stroke", annot.div._origStroke || "none");
+                    annot.div.setAttribute("stroke-width", "0");
                 }
 
                 if (this.zoomPaneActive() && this.isActiveChr(chrNumber)) {
                     this.zoomPane.lowlight(annot);
                 }
-
                 return;
             }
         }
@@ -469,14 +504,20 @@ function Gviewer(viewerId, height, width) {
 
     //visually highlights a chromosome
     this.highlightChromosome = function (chr) {
-        chr.div.style.borderRight = "1px solid red";
-        chr.div.style.borderLeft = "1px solid red";
+        var target = chr.outlinePath || chr.div;
+        if (target && target.setAttribute) {
+            target.setAttribute("stroke", "red");
+            target.setAttribute("stroke-width", "2");
+        }
     }
 
     //removes highlight from a chromosome
     this.lowlightChromosome = function (chr) {
-        chr.div.style.borderRight = "1px solid black";
-        chr.div.style.borderLeft = "1px solid black";
+        var target = chr.outlinePath || chr.div;
+        if (target && target.setAttribute) {
+            target.setAttribute("stroke", "#222");
+            target.setAttribute("stroke-width", "1");
+        }
     }
 
     //removes all active sliders
@@ -503,129 +544,14 @@ function Gviewer(viewerId, height, width) {
         div.obj = obj;
     }
 
-    //renders the viewer
+    //renders the viewer using SVG
     this.render = function() {
-        this.setScaleRatio();
-
-        this.regionWidth = Math.round((this.pixelWidth) / this.chromosomes.length);
-
-        if (!this.chromosomeWidth) {
-            this.chromosomeWidth = Math.round(this.regionWidth / 3);
-        }
-
-        var whiteSpace = (this.annotationPadding * this.annotationTypes.length) + (this.regionPadding * 2);
-
-        if (!this.annotationWidth) {
-            this.annotationWidth = Math.floor((Math.round(this.chromosomeWidth * 2) - whiteSpace) / this.annotationTypes.length);
-        }
-
-        for (i=1; i<this.chromosomes.length; i++) {
-            var chr = this.chromosomes[i];
-
-            var wrapper = appendDiv(this.vid + "wrap", "chr-wrapper", this.canvas);
-            wrapper.innerHTML = chr.name + "<br>";
-
-            var topBand = appendDiv(this.vid + "tb", chr.bands[0].stain, wrapper);
-            topBand.style.width = this.chromosomeWidth + 2;
-            topBand.innerHTML = "<img  width=" + topBand.style.width + " src='" + this.imagePath + "/roundedTop.png' class='roundedImage'/>";
-
-            var cdiv = appendDiv(this.vid + "_c_" + chr.number, "chr", wrapper);
-            cdiv.style.height=0;
-            this.relate(chr,cdiv);
-
-            cdiv.offsetParent.style.left=(((i - 1) * this.regionWidth) + 12);
-            cdiv.style.width = this.chromosomeWidth;
-
-            chr.slider = new Slider(chr);
-            chr.slider.div.style.left = (this.regionPadding + 1) * -1;
-            chr.slider.div.style.width = this.regionWidth;
-            chr.slider.div.style.height = 0;
-            this.relate(chr.slider, chr.slider.div);
-
-            cdiv.onclick = gviewer_chromosome_clickEvent;
-            cdiv.onmouseover = gviewer_chromosome_mouseOverEvent;
-            cdiv.onmouseout = gviewer_chromosome_mouseOutEvent;
-            chr.slider.onmousemove=gviewer_object_mouseMoveEvent;
-
-            var foundP = false;
-            var foundQ = false;
-            for (j=0;j<chr.bands.length; j++) {
-                var band   = chr.bands[j];
-                
-                var bdiv = appendDiv(cdiv.id + "b" + j, band.stain,cdiv);
-                this.relate(band, bdiv);
-
-                bdiv.style.width = this.chromosomeWidth;
-                bdiv.style.height= Math.round((band.end - band.start) * this.scaleRatio);
-                cdiv.style.height = (parseInt(cdiv.style.height) + parseInt(bdiv.style.height));
-                bdiv.onmousemove = gviewer_object_mouseMoveEvent;
-
-                if (band.color) {
-                    bdiv.style.backgroundColor = band.color;
-                }
-
-                if (!foundP && band.name.substring(0,1).toLowerCase() == "p") {
-                    foundP = true;
-                }else if (foundP && !foundQ && band.name.substring(0,1).toLowerCase() == "q") {
-                    var lc = appendDiv(cdiv.id + "lc" + j, "centromere-left",cdiv);
-                    var rc = appendDiv(cdiv.id + "rc" + j, "centromere-right",cdiv);
-
-                    lc.style.height = this.centromereLength;
-                    lc.style.top = (getTop(bdiv) - getTop(cdiv) - (Math.round(parseInt(lc.style.height) / 2)));
-                    rc.style.height = lc.style.height;
-                    rc.style.top = lc.style.top;
-
-                    if (document.all) {
-                        rc.style.width = Math.floor(this.chromosomeWidth / 2);
-                        rc.style.left= this.chromosomeWidth - parseInt(rc.style.width) + 1;
-                    }else {
-                        rc.style.width = Math.floor(this.chromosomeWidth / 3);
-                        rc.style.left= this.chromosomeWidth - parseInt(rc.style.width) ;
-                    }
-
-                    lc.style.width=rc.style.width;
-
-                    lc.style.left="-1px";
-                    foundQ = true;
-                }
-
-                if (j== (chr.bands.length -1)) {
-                    bdiv.style.border = "0px solid white";
-                }
-            }
-
-            var bottomBand = appendDiv(this.vid + "bottom", chr.bands[chr.bands.length-1].stain, wrapper);
-            bottomBand.style.width = topBand.style.width;
-            bottomBand.innerHTML = "<img width='" + bottomBand.style.width + "' src='" + this.imagePath + "/roundedBottom.png' class='roundedImage'/>";
-
-          }
+        renderGenomeSVG(this);
     }
 
-    //renders an object in the viewer
+    //renders an annotation using SVG
     this.renderAnnotation = function(chr, annot) {
-        var adiv = document.getElementById(chr.div.id + "_" + annot.name);
-
-        adiv = appendDiv(chr.div.id + "_" + annot.name, annot.type, chr.div);
-        this.relate(annot,adiv);
-        adiv.style.width = this.annotationWidth;
-
-        var len = Math.ceil((annot.end - annot.start) * this.scaleRatio);
-        adiv.style.top = Math.round(parseInt(annot.start * this.scaleRatio));
-
-        if (len < 4) {
-            len=4;
-        }
-
-        for (i=0; i< this.annotationTypes.length; i++) {
-            if (this.annotationTypes[i] == annot.type) {
-                adiv.style.height=len;
-                adiv.style.left = this.chromosomeWidth + this.regionPadding + ((this.annotationWidth + this.annotationPadding) * i);
-            }
-        }
-
-        adiv.style.backgroundColor = annot.color;
-        adiv.oncontextmenu=window_contextMenuEvent;
-        adiv.onmousemove = gviewer_object_mouseMoveEvent;
+        renderAnnotationSVG(this, chr, annot);
     }
 
     //freezes the slider and zoom pane
@@ -647,10 +573,11 @@ function Gviewer(viewerId, height, width) {
         for (var i=1; i< this.chromosomes.length; i++) {
             for (var j=0; j< this.chromosomes[i].annotations.length; j++) {
                 if (this.chromosomes[i].annotations[j].type == type) {
-                    if (checked) {
-                        this.chromosomes[i].annotations[j].div.style.display = "block";
-                    }else {
-                        this.chromosomes[i].annotations[j].div.style.display = "none";
+                    var el = this.chromosomes[i].annotations[j].div;
+                    if (el && el.setAttribute) {
+                        el.setAttribute("visibility", checked ? "visible" : "hidden");
+                    } else if (el && el.style) {
+                        el.style.display = checked ? "block" : "none";
                     }
                 }
             }
@@ -685,14 +612,25 @@ function Gviewer(viewerId, height, width) {
         var len = chr.getLength(this.scaleRatio);
         sliderHeight = Math.round(len * (this.zoomPane.width / chr.getLength(this.zoomPane.scaleRatio)));
         slider.style.height = checkMinMax(2, len, sliderHeight);
-        mouseY = parseInt(y) - parseInt(getTop(chr.div)) + getWindowScroll();
+
+        // Use getBoundingClientRect for SVG elements, getTop for HTML elements
+        var chrTop;
+        if (chr.div && chr.div.getBoundingClientRect) {
+            chrTop = chr.div.getBoundingClientRect().top + getWindowScroll();
+        } else {
+            chrTop = getTop(chr.div);
+        }
+        mouseY = parseInt(y) - parseInt(chrTop) + getWindowScroll();
+
+        // Offset for SVG-based rendering (slider is in canvas div, not inside chr)
+        var sliderOffsetY = chr._svgOffsetY || 0;
 
         if (mouseY < (parseInt(slider.style.height) / 2)){
-            slider.style.top=0;
+            slider.style.top = sliderOffsetY + "px";
         }else if (mouseY > (len - (parseInt(slider.style.height) / 2))) {
-            slider.style.top= len- parseInt(slider.style.height);
+            slider.style.top = (sliderOffsetY + len - parseInt(slider.style.height)) + "px";
         }else {
-            slider.style.top=parseInt(mouseY - parseInt(slider.style.height) / 2);
+            slider.style.top = (sliderOffsetY + parseInt(mouseY - parseInt(slider.style.height) / 2)) + "px";
         }
 
         if (slider.style.visibility != "visible") {
@@ -772,8 +710,8 @@ function Gviewer(viewerId, height, width) {
     }
 
     this.openGenomeBrowserForObject = function (name) {
-        var url = this.genomeBrowserURL + "&loc=" + name;
-        window.open(url);        
+        var url = this.genomeBrowserURL + "&loc=" + encodeURIComponent(name);
+        window.open(url);
     }
 
     this.openGenomeBrowser = function() {
@@ -782,11 +720,8 @@ function Gviewer(viewerId, height, width) {
             return;
         }
 
-        var url = this.genomeBrowserURL + "&loc=Chr" + gview().chr.number + "%3A" + gview().zoomPane.getWindowStartBP() + ".." + gview().zoomPane.getWindowEndBP();
-        for (var i=0; i< gview().chr.annotations.length; i++) {
-            var annot = gview().chr.annotations[i];
-            url = url + "&add=chr" + gview().chr.number + "+GViewer+" + annot.name + "+chr" + gview().chr.number + ":"+ annot.start + ".." + annot.end;
-        }
+        var loc = "chr" + gview().chr.number + ":" + gview().zoomPane.getWindowStartBP() + ".." + gview().zoomPane.getWindowEndBP();
+        var url = this.genomeBrowserURL + "&loc=" + encodeURIComponent(loc);
         window.open(url);
     }
 
@@ -828,6 +763,92 @@ function Gviewer(viewerId, height, width) {
         appendInput("hidden", "width", "5", f);
 
         f.submit();
+    }
+
+    //Client-side CSV export - downloads directly without server round-trip
+    this.exportCSV = function() {
+        var csv = "Symbol,Chromosome,Start,End,Type\n";
+        for (var i=1; i<this.chromosomes.length; i++) {
+            var chr = this.chromosomes[i];
+            for (var j=0; j< chr.annotations.length; j++) {
+                var annot = chr.annotations[j];
+                csv += '"' + annot.name + '",' + chr.number + ',' + annot.start + ',' + annot.end + ',' + annot.type + "\n";
+            }
+        }
+        var blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "gviewer_annotations.csv";
+        link.click();
+        URL.revokeObjectURL(url);
+        this.status("CSV exported");
+    }
+
+    //Export the genome view as a PNG image
+    this.exportImage = function() {
+        var svgEl = this.svg;
+        if (!svgEl) {
+            alert("No genome view to export");
+            return;
+        }
+        this.status("Exporting image...");
+        var serializer = new XMLSerializer();
+        var svgString = serializer.serializeToString(svgEl);
+        // Add XML declaration and namespace
+        if (svgString.indexOf('xmlns=') === -1) {
+            svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        var canvas = document.createElement("canvas");
+        canvas.width = svgEl.getAttribute("width") * 2;
+        canvas.height = svgEl.getAttribute("height") * 2;
+        var ctx = canvas.getContext("2d");
+        ctx.scale(2, 2);
+        var img = new Image();
+        var blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+        var url = URL.createObjectURL(blob);
+        var self = this;
+        img.onload = function() {
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            URL.revokeObjectURL(url);
+            var pngUrl = canvas.toDataURL("image/png");
+            var link = document.createElement("a");
+            link.href = pngUrl;
+            link.download = "gviewer_genome.png";
+            link.click();
+            self.status("Image exported");
+        };
+        img.onerror = function() {
+            // Fallback: offer SVG download
+            var link = document.createElement("a");
+            link.href = url;
+            link.download = "gviewer_genome.svg";
+            link.click();
+            self.status("SVG exported");
+        };
+        img.src = url;
+    }
+
+    //Generate a shareable URL encoding the current search state
+    this.getShareableURL = function() {
+        var params = new URLSearchParams(window.location.search);
+        var form = document.gviewerForm;
+        if (form) {
+            var formStr = getFormString(form);
+            // Parse the form string and set as URL params
+            var baseUrl = window.location.origin + window.location.pathname;
+            var shareUrl = baseUrl + "?" + formStr + "&autorun=1";
+            // Copy to clipboard
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareUrl).then(function() {
+                    gview().status("Shareable URL copied to clipboard");
+                });
+            } else {
+                prompt("Copy this URL to share:", shareUrl);
+            }
+        }
     }
 
     this.closeZoomPane = function() {
