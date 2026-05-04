@@ -13,91 +13,105 @@
 <%@ include file="../common/headerarea.jsp" %>
 
 
-    <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
-    // ================================================================
-    //  jkl-parsexml.js ---- JavaScript Kantan Library for Parsing XML
-    //  Copyright 2005-2007 Kawasaki Yusuke <u-suke@kawa.net>
-    //  http://www.kawa.net/works/js/jkl/parsexml.html
-    // ================================================================
-    </script>
+    <!-- JKL.ParseXML removed - using jQuery for data loading -->
     <script type="text/javascript" src="/rgdweb/gviewer/script/dhtmlwindow.js">
     /***********************************************
-    * DHTML Window script- © Dynamic Drive (http://www.dynamicdrive.com)
+    * DHTML Window script- ï¿½ Dynamic Drive (http://www.dynamicdrive.com)
     * This notice MUST stay intact for legal use
     * Visit http://www.dynamicdrive.com/ for this script and 100s more.
     ***********************************************/
     </script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js?v=5"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer-renderer.js?v=7"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js?v=5"></script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
     /***********************************************
-    * Context Menu script- © Dynamic Drive (http://www.dynamicdrive.com)
+    * Context Menu script- ï¿½ Dynamic Drive (http://www.dynamicdrive.com)
     * This notice MUST stay intact for legal use
     * Visit http://www.dynamicdrive.com/ for this script and 100s more.
     ***********************************************/
     </script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/event.js"></script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js"></script>
-    <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css" />
+    <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css?v=3" />
 
-<script src="/rgdweb/common/sorttable.js"></script>
-<script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-3.5.0.js"></script>
+<script src="/rgdweb/js/sorttable.js"></script>
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-3.5.0.min.js"></script>
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="/rgdweb/common/ontologyAutocomplete.js"></script>
 
 <!--#F0F6FF    #E3EEFF -->
 
 <style type="text/css">
-.spiffy{display:block}
-.spiffy *{
-  display:block;
-  height:1px;
-  overflow:hidden;
-  font-size:.01em;
-  background:#E3EEFF;
+.gviewer-search-panel {
+    background: #E3EEFF;
+    border-radius: 8px;
+    padding: 20px 24px;
 }
-.spiffy1{
-  margin-left:3px;
-  margin-right:3px;
-  padding-left:1px;
-  padding-right:1px;
-  border-left:1px solid #E3EEFF;
-  border-right:1px solid #E3EEFF;
-  background:#E3EEFF;
+.gviewer-search-panel .form-control {
+    font-size: 15px;
+    padding: 8px 12px;
+    height: auto;
+    min-height: 40px;
 }
-.spiffy2{
-  margin-left:1px;
-  margin-right:1px;
-  padding-right:1px;
-  padding-left:1px;
-  border-left:1px solid #E3EEFF;
-  border-right:1px solid #E3EEFF;
-  background:#E3EEFF;
+.gviewer-search-panel .btn {
+    font-size: 15px;
+    padding: 8px 16px;
 }
-.spiffy3{
-  margin-left:1px;
-  margin-right:1px;
-  border-left:1px solid #E3EEFF;
-  border-right:1px solid #E3EEFF;
+.gv-criteria-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
 }
-.spiffy4{
-  border-left:1px solid #E3EEFF;
-  border-right:1px solid #E3EEFF;
+.gv-criteria-row .gv-operator {
+    flex: 0 0 110px;
 }
-.spiffy5{
-  border-left:1px solid #E3EEFF;
-  border-right:1px solid #E3EEFF;
+.gv-criteria-row .gv-term {
+    flex: 1 1 260px;
 }
-.spiffyfg{
-  background:#E3EEFF;
+.gv-criteria-row .gv-ontology {
+    flex: 0 0 220px;
 }
-table.ontlist{
-    font-size:11px;
-    background-color:white;
-    width:540px;
+.gv-criteria-row .gv-browse {
+    flex: 0 0 auto;
 }
-table.ontlist label{
-    cursor:help;
+.gv-criteria-row .gv-remove {
+    flex: 0 0 auto;
+}
+.gv-top-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+.gv-top-bar label,
+.gv-top-bar .gv-species {
+    font-size: 15px;
+}
+.gv-top-bar .gv-species {
+    flex: 0 0 auto;
+}
+.gv-top-bar .gv-actions {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+.gv-examples {
+    font-size: 11px;
+    color: #666;
+    margin-top: 6px;
+}
+.gv-examples a {
+    font-size: 11px;
+}
+.gviewer-wrapper {
+    overflow-x: auto;
+    width: 100%;
 }
 </style>
 
@@ -107,153 +121,116 @@ table.ontlist label{
 
 <%
     String tutorialLink="/wg/home/rgd_rat_community_videos/gviewer_tutorial/";
-    String pageHeader="GViewer: Genome Visualization";
 %>
-<%@ include file="/common/title.jsp" %>
-<br>
-
-<div id="loading"></div>
-
-<form method="get" name="gviewerForm" action="javascript:runGviewer();void(0);">
-
-<div style="width: 100%;">
-  <b class="spiffy">
-  <b class="spiffy1"><b></b></b>
-  <b class="spiffy2"><b></b></b>
-  <b class="spiffy3"></b>
-  <b class="spiffy4"></b>
-  <b class="spiffy5"></b></b>
-
-<div class="spiffyfg">
-<table border="0" bgcolor="#E3EEFF" align="center" width="100%">
-    <tbody id="expressionTable">
-    <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td style="font-size:12px; font-weight:700;" valign="bottom">Search Term</td>
-        <td>&nbsp;</td>
-        <td style="font-size:12px; font-weight:700;" valign="bottom">Select Ontology Type/s</td>
-        <td>&nbsp;</td>
-        <td align="right"><Input type="submit" Value="Run GViewer"></td>
-    </tr>
-    <tr id="rootExpression">
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td style="font-size:11px;">
-            <input name="term[]" class="ont-auto-complete" value="" size="32"/>
-        </td>
-        <td>&nbsp;</td>
-        <td>
-            <table cellpadding=1 cellspacing=0 border=1 class="ontlist">
-                <tr>
-                    <td>
-                        <label title="GO Ontologies: Biological Process, Cellular Component, Molecular Function">&nbsp;GO&nbsp;<input name="go[]" type="checkbox" value="CC,MF,BP" checked></label>
-                        <label title="RGD Disease Ontology">&nbsp; &nbsp;Disease&nbsp;<input name="do[]" type="checkbox" value="RDO" checked></label>
-                        <label title="Neuro behavioral Ontology">&nbsp; &nbsp;Behavioral&nbsp;<input name="bo[]" type="checkbox" value="NBO" checked></label>
-                        <label title="Mammalian Phenotype Ontology">&nbsp; &nbsp;Phenotype&nbsp;<input name="po[]" type="checkbox" value="MP" checked></label>
-                        <label title="Pathway Ontology">&nbsp; &nbsp;Pathway&nbsp;<input name="wo[]" type="checkbox" value="PW" checked></label>
-                    </td>
-                    <td align="center"><input type="button" value="Select All" style="font-size:smaller;" onclick="selectAllOntologies(this);"></td>
-               </tr>
-                <tr>
-                    <td>
-                        <label title="Clinical Measurement Ontology">&nbsp;CMO&nbsp;<input name="cmo[]" type="checkbox" value="CMO" checked></label>
-                        <label title="Measurement Method Ontology">&nbsp; &nbsp;MMO&nbsp;<input name="mmo[]" type="checkbox" value="MMO" checked></label>
-                        <label title="Experimental Condition Ontology">&nbsp; &nbsp;XCO&nbsp;<input name="xco[]" type="checkbox" value="XCO" checked></label>
-                        <label title="Rat Strain Ontology">&nbsp; &nbsp;Strain&nbsp;<input name="rs[]" type="checkbox" value="RS" checked></label>
-                        <label title="Vertebrate Trait Ontology">&nbsp; &nbsp;Trait&nbsp;<input name="vt[]" type="checkbox" value="VT" checked></label>
-                        <label title="Chemical Entities of Biological Interest Ontology">&nbsp; &nbsp;ChEBI&nbsp;<input name="chebi[]" type="checkbox" value="CHEBI" checked></label>
-                    </td>
-                    <td align="center"><input type="button" value="Unselect All" style="font-size:smaller;" onclick="unselectAllOntologies(this);"></td>
-               </tr>
-            </table>
-        </td>
-        <td  colspan="2" align="center"><a href="javascript:appendExpression()" style="font-size:11px; color:blue; font-weight:700;">Add Search Term</a></td>
-
-    </tr>
-    </tbody>
-</table>
-
+<style>
+.gviewer-header {
+    text-align: center;
+    padding: 20px 0 10px;
+    position: relative;
+}
+.gviewer-header h1 {
+    color: #24609c;
+    font-size: 28px;
+    margin: 0 0 5px;
+}
+.gviewer-header p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+.gviewer-header .tutorial-link {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: #24609c;
+    text-decoration: none;
+}
+.gviewer-header .tutorial-link:hover {
+    text-decoration: underline;
+}
+.gviewer-header .tutorial-link i {
+    margin-right: 4px;
+}
+</style>
+<div class="gviewer-header">
+    <h1><i class="fa fa-dna"></i> GViewer</h1>
+    <p>Genome Visualization - View genes and QTLs annotated to ontology terms across the genome</p>
+    <a class="tutorial-link" href="<%=tutorialLink%>" title="Play the RGD Video Tutorial"><i class="fa fa-play-circle"></i> Video Tutorial</a>
 </div>
-<b class="spiffy">
-  <b class="spiffy5"></b>
-  <b class="spiffy4"></b>
-  <b class="spiffy3"></b>
-  <b class="spiffy2"><b></b></b>
-  <b class="spiffy1"><b></b></b></b>
+
+<div id="loading" aria-live="polite" aria-atomic="true"></div>
+<div id="gvLoadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:99999; justify-content:center; align-items:center;">
+    <div style="text-align:center;">
+        <div class="spinner-border text-primary" role="status" style="width:3rem; height:3rem;"></div>
+        <div style="margin-top:14px; font-size:16px; font-weight:600; color:#24609c;">Loading...</div>
+    </div>
+</div>
+<div id="formAlert" class="alert alert-warning" role="alert" style="display:none;" aria-live="assertive"></div>
+
+<form method="get" name="gviewerForm" action="javascript:runGviewer();void(0);" role="search" aria-label="Genome Viewer Search">
+
+<div class="gviewer-search-panel">
+    <div class="gv-top-bar">
+        <div class="gv-species">
+            <label for="assemblyVersion" style="font-weight:700;">Assembly:</label>
+            <select id="assemblyVersion" class="form-control d-inline-block" style="width:auto;" aria-label="Select assembly version" onchange="document.getElementById('speciesType').value = this.selectedOptions[0].getAttribute('data-species');">
+                <option value="380" data-species="3" selected>Rat - GRCr8</option>
+                <option value="372" data-species="3">Rat - mRatBN7.2</option>
+                <option value="360" data-species="3">Rat - Rnor_6.0</option>
+                <option value="70"  data-species="3">Rat - Rnor_5.0</option>
+                <option value="60"  data-species="3">Rat - RGSC_v3.4</option>
+                <option value="38"  data-species="1">Human - GRCh38</option>
+                <option value="17"  data-species="1">Human - GRCh37</option>
+                <option value="239" data-species="2">Mouse - GRCm39</option>
+                <option value="35"  data-species="2">Mouse - GRCm38</option>
+                <option value="18"  data-species="2">Mouse - Build 37</option>
+            </select>
+            <input type="hidden" name="speciesType" id="speciesType" value="3"/>
+        </div>
+        <div class="gv-actions">
+            <input type="submit" value="Run GViewer" class="btn btn-sm btn-primary"/>
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addCriteria()">+ Add Criteria</button>
+        </div>
+    </div>
+
+    <div id="criteriaContainer">
+        <div class="gv-criteria-row" id="criteria_0">
+            <div class="gv-ontology">
+                <select name="gv_ont" class="form-control form-control-sm" aria-label="Select ontology">
+                    <option value="ALL" selected>All Ontologies</option>
+                    <option value="CC,MF,BP">GO (Gene Ontology)</option>
+                    <option value="RDO">Disease</option>
+                    <option value="NBO">Behavioral</option>
+                    <option value="MP">Phenotype</option>
+                    <option value="PW">Pathway</option>
+                    <option value="CMO">Clinical Measurement</option>
+                    <option value="MMO">Measurement Method</option>
+                    <option value="XCO">Experimental Condition</option>
+                    <option value="RS">Strain</option>
+                    <option value="VT">Trait</option>
+                    <option value="CHEBI">ChEBI</option>
+                </select>
+            </div>
+            <div class="gv-term">
+                <input name="gv_term" class="ont-auto-complete form-control form-control-sm" value="" placeholder="Enter search term (e.g. hypertension)" aria-label="Search term"/>
+                <input type="hidden" name="gv_acc_id" id="gv_acc_id_0" value=""/>
+            </div>
+            <div class="gv-browse">
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="browseOntology(this)" title="Browse ontology tree"><i class="fa fa-sitemap"></i> Browse</button>
+            </div>
+        </div>
+    </div>
 </div>
 </form>
 
-
-<table border="" style="visibility:hidden; position:absolute;">
-    <tbody>
-    <tr id="baseExpression" name="baseExpression">
-        <td align="right" style="font-size:11px;">
-           <select name="op[]">
-                <option value="OR">OR
-               <option value="AND">AND
-                <option value="AND NOT">NOT
-            </select>
-        </td>
-        <td>&nbsp;</td>
-        <td  style="font-size:11px;">
-            <input name="term[]" value="" size="32"/>
-        </td>
-        <td>&nbsp;</td>
-        <td style="font-size:11px;">
-            <table cellpadding=1 cellspacing=0 border=1 class="ontlist">
-                <tr>
-                    <td>
-                        <label title="GO Ontologies: Biological Process, Cellular Component, Molecular Function">&nbsp;GO&nbsp;<input id="go" name="go[]" type="checkbox" value="CC,MF,BP" checked></label>
-                        <label title="RGD Disease Ontology">&nbsp; &nbsp;Disease&nbsp;<input id="rdo" name="do[]" type="checkbox" value="RDO" checked></label>
-                        <label title="Neuro behavioral Ontology">&nbsp; &nbsp;Behavioral&nbsp;<input id="bo" name="bo[]" type="checkbox" value="NBO" checked></label>
-                        <label title="Mammalian Phenotype Ontology">&nbsp; &nbsp;Phenotype&nbsp;<input id="mp" name="po[]" type="checkbox" value="MP" checked></label>
-                        <label title="Pathway Ontology">&nbsp; &nbsp;Pathway&nbsp;<input name="wo[]" type="checkbox" value="PW" checked></label>
-                    </td>
-                    <td align="center"><input type="button" value="Select All" style="font-size:smaller;" onclick="selectAllOntologies(this);"></td>
-               </tr>
-                <tr>
-                    <td>
-                        <label title="Clinical Measurement Ontology">&nbsp;CMO&nbsp;<input name="cmo[]" type="checkbox" value="CMO" checked></label>
-                        <label title="Measurement Method Ontology">&nbsp; &nbsp;MMO&nbsp;<input name="mmo[]" type="checkbox" value="MMO" checked></label>
-                        <label title="Experimental Condition Ontology">&nbsp; &nbsp;XCO&nbsp;<input name="xco[]" type="checkbox" value="XCO" checked></label>
-                        <label title="Rat Strain Ontology">&nbsp; &nbsp;Strain&nbsp;<input name="rs[]" type="checkbox" value="RS" checked></label>
-                        <label title="Vertebrate Trait Ontology">&nbsp; &nbsp;Trait&nbsp;<input name="vt[]" type="checkbox" value="VT" checked></label>
-                        <label title="Chemical Entities of Biological Interest Ontology">&nbsp; &nbsp;ChEBI&nbsp;<input name="chebi[]" type="checkbox" value="CHEBI" checked></label>
-                    </td>
-                    <td align="center"><input type="button" value="Unselect All" style="font-size:smaller;" onclick="unselectAllOntologies(this);"></td>
-               </tr>
-            </table>
-            </td>
-        <td  colspan="2" align="center"><a id="hey2" href="javascript:removeExpression(this)" style="font-size:11px;color:red; font-weight:700;">Remove Search Term</a></td>
-    </tr>
-   </tbody>
-</table>
-
-<div id="content" style="width: 100%; visibility: hidden; ">
-<!--
-  <b class="spiffy">
-  <b class="spiffy1"><b></b></b>
-  <b class="spiffy2"><b></b></b>
-  <b class="spiffy3"></b>
-  <b class="spiffy4"></b>
-  <b class="spiffy5"></b></b>
-
-<div class="spiffyfg">
- -->
-         <!--#E3EEFF-->
-<table  cellpadding=0 cellspacing=0 align="center" border="0" width="100%">
-    <tr><td>&nbsp;</td></tr>
-    <tr>
-        <td align="center"><div id="gviewer" class="gviewer"></div><div id="zoomWrapper" class="zoom-pane"></div></td>
-    </tr>
-    <tr>
-        <td align="center" valign="top" colspan="3" >
-            <div id="gviewerDiv" style="height:960;overflow:auto;"></div>
-        </td>
-    </tr>
-</table>
-
+<div id="content" style="width: 100%; visibility: hidden;" role="region" aria-label="Genome Visualization Results">
+    <div class="gviewer-wrapper" style="margin-top:10px;">
+        <div id="gviewer" class="gviewer" style="width:100%;" role="img" aria-label="Genome chromosome view with annotations"></div>
+        <div id="zoomWrapper" class="zoom-pane" role="region" aria-label="Chromosome zoom pane"></div>
+    </div>
+    <div id="gviewerDiv" style="max-height:960px; overflow:auto;" role="region" aria-label="Annotation results table"></div>
 </div>
 
 
@@ -262,184 +239,240 @@ table.ontlist label{
 
 <script type="text/javascript">
 
-var activeElement = null;
+var criteriaCount = 1;
 
-function selected(e) {
-    if(!e) {
-        activeElement=event.srcElement;
-    }else {
-        activeElement=e.target;
-    }
+// All ontology codes for "All Ontologies" option
+var ALL_ONTS = "CC,MF,BP,RDO,NBO,MP,PW,CMO,MMO,XCO,RS,VT,CHEBI";
+
+function addCriteria() {
+    var container = document.getElementById("criteriaContainer");
+    var id = "criteria_" + criteriaCount++;
+    var html = '<div class="gv-criteria-row" id="' + id + '">';
+    html += '<div class="gv-operator"><select name="gv_op" class="form-control form-control-sm" aria-label="Combine operation">';
+    html += '<option value="OR" style="color:green;">OR (Union)</option>';
+    html += '<option value="AND" style="color:blue;">AND (Intersect)</option>';
+    html += '<option value="AND NOT" style="color:red;">NOT (Subtract)</option>';
+    html += '</select></div>';
+    html += '<div class="gv-ontology"><select name="gv_ont" class="form-control form-control-sm" aria-label="Select ontology">';
+    html += '<option value="ALL" selected>All Ontologies</option>';
+    html += '<option value="CC,MF,BP">GO (Gene Ontology)</option>';
+    html += '<option value="RDO">Disease</option>';
+    html += '<option value="NBO">Behavioral</option>';
+    html += '<option value="MP">Phenotype</option>';
+    html += '<option value="PW">Pathway</option>';
+    html += '<option value="CMO">Clinical Measurement</option>';
+    html += '<option value="MMO">Measurement Method</option>';
+    html += '<option value="XCO">Experimental Condition</option>';
+    html += '<option value="RS">Strain</option>';
+    html += '<option value="VT">Trait</option>';
+    html += '<option value="CHEBI">ChEBI</option>';
+    html += '</select></div>';
+    html += '<div class="gv-term"><input name="gv_term" class="ont-auto-complete form-control form-control-sm" value="" placeholder="Enter search term" aria-label="Search term"/>';
+    html += '<input type="hidden" name="gv_acc_id" id="gv_acc_id_' + criteriaCount + '" value=""/></div>';
+    html += '<div class="gv-browse"><button type="button" class="btn btn-sm btn-outline-primary" onclick="browseOntology(this)" title="Browse ontology tree"><i class="fa fa-sitemap"></i> Browse</button></div>';
+    html += '<div class="gv-remove"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeCriteria(\'' + id + '\')" title="Remove criteria">&times;</button></div>';
+    html += '</div>';
+    container.insertAdjacentHTML('beforeend', html);
+    setupAutoComplete();
 }
 
-function appendExpression() {
-    //var rootExpression = document.getElementById("rootExpression");
-  var baseExpression = document.getElementById("baseExpression").cloneNode(true);
-  var expressionTable = document.getElementById("expressionTable");
-  baseExpression.id =  baseExpression.id + new Date().getTime();
-  expressionTable.appendChild(baseExpression);
-  //activeObjects[activeObjects.lenght] = baseExpression;
-  baseExpression.onmouseover=selected;
-
-  setupAutoComplete();
+function removeCriteria(id) {
+    var el = document.getElementById(id);
+    if (el) el.remove();
 }
 
-
-function removeExpression(obj) {
-
- //obj = document.getElementById(objId);
-  obj=activeElement;
-  var expressionTable = document.getElementById("expressionTable");
-
-  while (obj) {
-      if (obj.id) {
-          if (obj.id.indexOf("baseExpression") != -1) {
-              expressionTable.removeChild(obj);
-          }
-
-      }
-
-      obj=obj.parentNode;
-   }
+function showFormAlert(msg) {
+    var el = document.getElementById("formAlert");
+    el.innerHTML = msg;
+    el.style.display = "block";
+    setTimeout(function() { el.style.display = "none"; }, 5000);
 }
 
-function checkForm(theform) {
-    var atLeastOneTerm = false;
-    var atLeastOneOntology = false;
-    for(i=0; i<theform.elements.length; i++){
-        if (theform.elements[i].name != "module" && theform.elements[i].name != "func") {
-            if(theform.elements[i].type == "text" || theform.elements[i].type == "textarea" || theform.elements[i].type == "hidden"){
-                if (theform.elements[i].name == "term[]" && theform.elements[i].value != "" && theform.elements[i].value.replace("*", "").length < 3) {
-                    alert("Search terms must be at lease 3 characters long.");
-                    return false;
-                }else if (theform.elements[i].value != "") {
-                    atLeastOneTerm = true;
-                }
-            } else if ((theform.elements[i].type == "checkbox" || theform.elements[i].type == "radio")) {
-                if (theform.elements[i].checked) {
-                    atLeastOneOntology = true;
-                }else {
-
-                }
-            } else if (theform.elements[i].type == "select-one") {
-
-            }
+function checkForm() {
+    document.getElementById("formAlert").style.display = "none";
+    var terms = document.querySelectorAll('input[name=gv_term]');
+    var hasterm = false;
+    for (var i = 0; i < terms.length; i++) {
+        var val = terms[i].value.trim();
+        if (val.length > 0 && val.replace(/\*/g, '').length < 3) {
+            showFormAlert("Search terms must be at least 3 characters long.");
+            return false;
         }
+        if (val.length > 0) hasterm = true;
     }
-
-    if (!atLeastOneOntology) {
-        alert("Please select an ontology");
+    if (!hasterm) {
+        showFormAlert("Please enter at least one search term.");
         return false;
     }
+    return true;
+}
 
-    return atLeastOneTerm;
-}//end PostAform function
+// Builds the query string in the format the server expects (term[], op[], go[], do[], etc.)
+function getFormString() {
+    var rows = document.querySelectorAll('.gv-criteria-row');
+    var parts = [];
+    var speciesType = document.getElementById('speciesType').value;
 
+    for (var i = 0; i < rows.length; i++) {
+        var term = rows[i].querySelector('input[name=gv_term]').value.trim();
+        var ontSel = rows[i].querySelector('select[name=gv_ont]').value;
+        var opSel = rows[i].querySelector('select[name=gv_op]');
 
-function getFormString(theform) {
-    var formStr = "";
-    var amp = "";
+        // Add operator for rows after the first
+        if (opSel) {
+            parts.push(encodeURIComponent('op[]') + '=' + encodeURIComponent(opSel.value));
+        }
 
-    for(i=0; i<theform.elements.length; i++){
-        if (theform.elements[i].name != "module" && theform.elements[i].name != "func") {
-            if(theform.elements[i].type == "text" || theform.elements[i].type == "textarea" || theform.elements[i].type == "hidden"){
-                formStr += amp+theform.elements[i].name+"="+encodeURIComponent(theform.elements[i].value);
-            } else if ((theform.elements[i].type == "checkbox" || theform.elements[i].type == "radio")) {
-                if (theform.elements[i].checked) {
-                    formStr += amp+theform.elements[i].name+"="+encodeURIComponent(theform.elements[i].value);
-                }else {
-                    formStr += amp+theform.elements[i].name+"=-1";
-                }
-            } else if (theform.elements[i].type == "select-one") {
-                formStr += amp+theform.elements[i].name+"="+theform.elements[i].options[theform.elements[i].selectedIndex].value;
+        // Add term
+        parts.push(encodeURIComponent('term[]') + '=' + encodeURIComponent(term));
+
+        // Translate ontology dropdown to the checkbox params the server expects
+        var onts = (ontSel === 'ALL') ? ALL_ONTS : ontSel;
+        var allOntKeys = {
+            'go[]': 'CC,MF,BP', 'do[]': 'RDO', 'bo[]': 'NBO', 'po[]': 'MP',
+            'wo[]': 'PW', 'cmo[]': 'CMO', 'mmo[]': 'MMO', 'xco[]': 'XCO',
+            'rs[]': 'RS', 'vt[]': 'VT', 'chebi[]': 'CHEBI'
+        };
+        for (var key in allOntKeys) {
+            var val = allOntKeys[key];
+            // Check if any of the codes in this key match the selected ontology
+            var codes = val.split(',');
+            var match = false;
+            for (var c = 0; c < codes.length; c++) {
+                if (onts.indexOf(codes[c]) !== -1) { match = true; break; }
             }
-            amp = "&";
+            parts.push(encodeURIComponent(key) + '=' + (match ? encodeURIComponent(val) : '-1'));
         }
     }
-    return formStr;
-}//end PostAform function
+
+    parts.push(encodeURIComponent('speciesType') + '=' + encodeURIComponent(speciesType));
+    var assemblySelect = document.getElementById('assemblyVersion');
+    if (assemblySelect) {
+        parts.push(encodeURIComponent('mapKey') + '=' + encodeURIComponent(assemblySelect.value));
+    }
+    return parts.join('&');
+}
 
 var gviewer = null;
+var lastSpecies = null;
+var lastMapKey = null;
+
+// Map mapKey -> ideogram xml file. Keys without a specific file fall through to the species default.
+var MAPKEY_TO_IDEO = {
+    '17':  '/rgdweb/gviewer/data/17_ideo.xml',
+    '38':  '/rgdweb/gviewer/data/38_ideo.xml',
+    '18':  '/rgdweb/gviewer/data/18_ideo.xml',
+    '35':  '/rgdweb/gviewer/data/35_ideo.xml',
+    '60':  '/rgdweb/gviewer/data/60_ideo.xml',
+    '70':  '/rgdweb/gviewer/data/70_ideo.xml',
+    '360': '/rgdweb/gviewer/data/360_ideo.xml'
+};
+
+function getIdeoUrl(species, mapKey) {
+    if (mapKey && MAPKEY_TO_IDEO[mapKey]) return MAPKEY_TO_IDEO[mapKey];
+    if (species == "1") return "/rgdweb/gviewer/data/human_ideo.xml";
+    if (species == "2") return "/rgdweb/gviewer/data/mouse_ideo.xml";
+    return "/rgdweb/gviewer/data/rgd_rat_ideo.xml";
+}
+
+// mapKey -> JBrowse 2 assembly name (matches names in /jbrowse2/config.json)
+var MAPKEY_TO_JBROWSE2 = {
+    '380': 'GRCr8',         // Rat - GRCr8
+    '372': 'mRatBN7.2',     // Rat - mRatBN7.2
+    '360': 'Rnor_6.0',      // Rat - Rnor_6.0
+    '70':  'Rnor_5.0',      // Rat - Rnor_5.0
+    '60':  'RGSC_v3.4',     // Rat - RGSC_v3.4
+    '38':  'GRCh38.p14',    // Human - GRCh38
+    '17':  'GRCh37.p13',    // Human - GRCh37
+    '239': 'GRCm39',        // Mouse - GRCm39
+    '35':  'GRCm38.p6',     // Mouse - GRCm38
+    '18':  'MGSCv37'        // Mouse - Build 37
+};
+
+function getJBrowse2Url(species, mapKey) {
+    var assembly = MAPKEY_TO_JBROWSE2[mapKey];
+    if (!assembly) {
+        // Fall back to species default if mapKey isn't recognized
+        if (species == "1") assembly = "GRCh38.p14";
+        else if (species == "2") assembly = "GRCm39";
+        else assembly = "mRatBN7.2";
+    }
+    return "/jbrowse2/?assembly=" + encodeURIComponent(assembly) + "&tracklist=true";
+}
+
 function runGviewer() {
-    if (checkForm(document.gviewerForm)) {
+    if (checkForm()) {
+        // Close any open autocomplete dropdowns
+        var dropdowns = document.querySelectorAll('.ont-ac-results');
+        for (var d = 0; d < dropdowns.length; d++) {
+            dropdowns[d].style.display = 'none';
+        }
+
         document.getElementById("content").style.visibility = "visible";
-        document.getElementById("loading").innerHTML ="<img src='/common/images/loading_2.gif' />";
+        document.getElementById("gvLoadingOverlay").style.display = "flex";
+
+        var species = document.getElementById("speciesType").value;
+        var assemblySelect = document.getElementById("assemblyVersion");
+        var mapKey = assemblySelect ? assemblySelect.value : null;
+        var ideoUrl = getIdeoUrl(species, mapKey);
 
         if (!gviewer) {
-            gviewer = new Gviewer("gviewer", 300, 1000);
+            var MIN_VIEWER_WIDTH = 1200;
+            var viewerWidth = Math.max(MIN_VIEWER_WIDTH,
+                document.getElementById('gviewer').parentElement.offsetWidth);
+            gviewer = new Gviewer("gviewer", 300, viewerWidth);
 
             gviewer.imagePath = "/rgdweb/gviewer/images";
             gviewer.exportURL = "/rgdweb/report/format.html";
             gviewer.annotationTypes = new Array("gene","qtl","strain");
-            gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
-            //gviewer.imageViewerURL = "/fgb2/gbrowse_img/rgd_5/?width=500&name=";
-            gviewer.genomeBrowserName = "JBrowse";
+            gviewer.genomeBrowserURL = getJBrowse2Url(species, mapKey);
+            gviewer.genomeBrowserName = "JBrowse 2";
             gviewer.regionPadding=2;
             gviewer.annotationPadding = 1;
 
-            gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
-            gviewer.addZoomPane("zoomWrapper", 250, window.screen.availWidth * .8);
+            gviewer.loadBands(ideoUrl);
+            gviewer.addZoomPane("zoomWrapper", 250, viewerWidth);
+            gviewer.mapKey = mapKey;
+            lastSpecies = species;
+            lastMapKey = mapKey;
         }else {
-            gviewer.reset();
+            if (species != lastSpecies || mapKey != lastMapKey) {
+                gviewer.genomeBrowserURL = getJBrowse2Url(species, mapKey);
+                gviewer.reset(ideoUrl, species);
+                gviewer.mapKey = mapKey;
+                lastSpecies = species;
+                lastMapKey = mapKey;
+            } else {
+                gviewer.reset();
+            }
         }
-        gviewer.loadAnnotationsGET("/rgdweb/gviewer/getAnnotationXml.html?z=" + getFormString(document.gviewerForm));
+        gviewer.loadAnnotationsGET("/rgdweb/gviewer/getAnnotationJson.html?" + getFormString());
 
-        //alert(getFormString(document.gviewerForm));
-        //alert("/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm));
-        setTimeout("pageRequest('/rgdweb/gviewer/getXmlTool.html?z=" + getFormString(document.gviewerForm) + "', 'gviewerDiv')",500);
+        var toolUrl = "/rgdweb/gviewer/getXmlTool.html?" + getFormString();
+        setTimeout(function() { pageRequest(toolUrl, 'gviewerDiv'); }, 500);
     }
     return false;
 }
 
-var http_request = false;
-
 function pageRequest(url, divId) {
-    //document.write(url);
-    //return;
-    http_request = false;
-
-    if (window.XMLHttpRequest) // if Mozilla, Safari etc
-        http_request = new XMLHttpRequest();
-    else if (window.ActiveXObject){ // if IE
-        try {
-            http_request = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (e){
-            try{
-                http_request = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (e){}
-        }
-    }
-
-    if (http_request.overrideMimeType) {
-        http_request.overrideMimeType('text/xml');
-    }
-    if (!http_request) {
-        alert('Cannot create XMLHTTP instance');
-        return false;
-    }
-
-    http_request.onreadystatechange = function () {
-    document.getElementById(divId).innerHTML = "";
-    if (http_request.readyState == 4) {
-        if (http_request.status == 200) {
-            document.getElementById(divId).innerHTML =http_request.responseText;
-
-            //forEach(document.getElementsByTagName('table'), function(table) {
-            //    if (table.className.search(/\bsortable\b/) != -1) {
-            //        sorttable.makeSortable(table);
-            //    }
-            //});
-
-        } else {
-            alert(http_request.responseText);
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: { s: new Date().getTime() },
+        success: function(responseText) {
+            document.getElementById(divId).innerHTML = responseText;
+            document.getElementById("loading").innerHTML = "";
+            // Init sorttable on any dynamically loaded tables
+            var tables = document.getElementById(divId).querySelectorAll('table.sortable');
+            for (var i = 0; i < tables.length; i++) {
+                if (typeof sorttable !== 'undefined') sorttable.makeSortable(tables[i]);
+            }
+        },
+        error: function() {
             alert('There was a problem with the request.');
+            document.getElementById("loading").innerHTML = "";
         }
-        document.getElementById("loading").innerHTML ="";
-    }
-}
-http_request.open('GET', url + "&s=" + new Date().getTime(), true);
-http_request.send(null);
-
+    });
 }
 
 
@@ -449,69 +482,100 @@ function init() {
     runGviewer();
 }
 
-function selectAllOntologies(obj) {
-    // obj is a button -- go to the parent table element, and find all checkboxes contained within
-    $(obj).closest('table').find(':checkbox')
-    // check all checkboxes
-    .attr('checked','checked');
-}
-
-function unselectAllOntologies(obj) {
-    // obj is a button -- go to the parent table element, and find all checkboxes contained within
-    $(obj).closest('table').find(':checkbox')
-    // uncheck all checkboxes
-    .removeAttr('checked');
-}
+// Legacy functions - no longer needed with dropdown UI
+function selectAllOntologies(obj) {}
+function unselectAllOntologies(obj) {}
 
 $(document).ready(function(){
     setupAutoComplete();
-    $("input[name='term[]']")
-        .closest('input')
-        .result(function(data, value){
 
-            $("#dataStatus").html("");
-            //selectByTermId(value[1]);
-        });
-
+    // Auto-run from shareable URL parameters
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('autorun') == '1') {
+        var term = urlParams.get('term%5B%5D') || urlParams.get('term[]') || urlParams.get('gv_term');
+        if (term) {
+            $("input[name='gv_term']:first").val(term);
+        }
+        var species = urlParams.get('speciesType');
+        if (species) {
+            $('#speciesType').val(species);
+        }
+        // Uncheck/check ontologies based on URL params
+        // (the form string includes all checkbox states, defaults are fine for auto-run)
+        setTimeout(function() { runGviewer(); }, 500);
+    }
 });
 
+// Map accession ID prefix to the ontology dropdown value
+var ACC_TO_ONT = {
+    'DOID': 'RDO', 'GO': 'CC,MF,BP', 'MP': 'MP', 'PW': 'PW',
+    'NBO': 'NBO', 'CMO': 'CMO', 'MMO': 'MMO', 'XCO': 'XCO',
+    'RS': 'RS', 'VT': 'VT', 'CHEBI': 'CHEBI', 'EFO': 'ALL',
+    'HP': 'ALL'
+};
+
 function setupAutoComplete() {
-
-/*      <!--
-<label title="GO Ontologies: Biological Process, Cellular Component, Molecular Function">&nbsp;GO&nbsp;<input name="go[]" type="checkbox" value="CC,MF,BP" checked></label>
-<label title="RGD Disease Ontology">&nbsp; &nbsp;Disease&nbsp;<input name="do[]" type="checkbox" value="RDO" checked></label>
-<label title="Neuro behavioral Ontology">&nbsp; &nbsp;Behavioral&nbsp;<input name="bo[]" type="checkbox" value="NBO" checked></label>
-<label title="Mammalian Phenotype Ontology">&nbsp; &nbsp;Phenotype&nbsp;<input name="po[]" type="checkbox" value="MP" checked></label>
-<label title="Pathway Ontology">&nbsp; &nbsp;Pathway&nbsp;<input name="wo[]" type="checkbox" value="PW" checked></label>
-</td>
-<td align="center"><input type="button" value="Select All" style="font-size:smaller;" onclick="selectAllOntologies(this);"></td>
-   </tr>
-<tr>
-<td>
-<label title="Clinical Measurement Ontology">&nbsp;CMO&nbsp;<input name="cmo[]" type="checkbox" value="CMO" checked></label>
-<label title="Measurement Method Ontology">&nbsp; &nbsp;MMO&nbsp;<input name="mmo[]" type="checkbox" value="MMO" checked></label>
-<label title="Experimental Condition Ontology">&nbsp; &nbsp;XCO&nbsp;<input name="xco[]" type="checkbox" value="XCO" checked></label>
-<label title="Rat Strain Ontology">&nbsp; &nbsp;Strain&nbsp;<input name="rs[]" type="checkbox" value="RS" checked></label>
-<label title="Vertebrate Trait Ontology">&nbsp; &nbsp;Trait&nbsp;<input name="vt[]" type="checkbox" value="VT" checked></label>
-<label title="Chemical Entities of Biological Interest Ontology">&nbsp; &nbsp;ChEBI&nbsp;<input name="chebi[]" type="checkbox" value="CHEBI" checked></label>
-        -->
-  */
-    $("input[name='term[]']").autocomplete('/solr/OntoSolr/select', {
-            extraParams:{
-                'qf': 'term_en^5 term_str^3 term^3 synonym_en^4.5 synonym_str^2 synonym^2 def^1 anc^1',
-                'bf': 'term_len_l^.02',
-                'fq': 'cat:(BP CC MF RDO NBO MP PW CMO MMO XCO VT CHEBI)',
-                //'fq': cats,
-                'wt': 'velocity',
-                //'v.template': 'termidterm'
-                'v.template': 'termidselect'
-            },
+    $("input[name='gv_term']").each(function() {
+        var input = this;
+        var row = $(input).closest('.gv-criteria-row');
+        var ontSelect = row.find('select[name=gv_ont]');
+        var accIdField = row.find('input[name=gv_acc_id]');
+        var accIdSelector = accIdField.length && accIdField.attr('id') ? '#' + accIdField.attr('id') : null;
+        var ont = ontSelect.length ? ontSelect.val() : 'ALL';
+        // Skip if already set up
+        if ($(input).data('ontAc')) return;
+        var ac = setupOntologyAutocomplete(input, ont, {
+            accIdField: accIdSelector,
             max: 100,
-            'termSeparator': ' OR '
-        }
-    );
+            onSelect: function(termName, accId) {
+                // Update ontology dropdown based on selected term's accession prefix
+                if (accId && ontSelect.length) {
+                    var prefix = accId.split(':')[0];
+                    var ontVal = ACC_TO_ONT[prefix];
+                    if (ontVal) {
+                        ontSelect.val(ontVal);
+                    }
+                }
+            }
+        });
+        $(input).data('ontAc', ac);
+        // Update autocomplete when ontology dropdown changes
+        ontSelect.off('change.ontAc').on('change.ontAc', function() {
+            var prevAc = $(input).data('ontAc');
+            if (prevAc) prevAc.destroy();
+            var newOnt = $(this).val();
+            var newAc = setupOntologyAutocomplete(input, newOnt, {
+                accIdField: accIdSelector,
+                max: 100,
+                onSelect: function(termName, accId) {
+                    if (accId && ontSelect.length) {
+                        var prefix = accId.split(':')[0];
+                        var ontVal = ACC_TO_ONT[prefix];
+                        if (ontVal) {
+                            ontSelect.val(ontVal);
+                        }
+                    }
+                }
+            });
+            $(input).data('ontAc', newAc);
+        });
+    });
+}
 
-
+function browseOntology(btn) {
+    var row = $(btn).closest('.gv-criteria-row');
+    var ontSelect = row.find('select[name=gv_ont]');
+    var termInput = row.find('input[name=gv_term]');
+    var ontVal = ontSelect.length ? ontSelect.val() : 'RDO';
+    // For "ALL" or multi-value, default to RDO for browsing
+    if (ontVal === 'ALL' || ontVal.indexOf(',') >= 0) {
+        ontVal = 'RDO';
+    }
+    var termValue = termInput.val() || '';
+    var url = '/rgdweb/ontology/view.html?mode=popup&ont=' + ontVal +
+              '&sel_term=' + termInput.attr('name') + '&sel_acc_id=' + row.find('input[name=gv_acc_id]').attr('name') +
+              '&term=' + encodeURIComponent(termValue);
+    window.open(url, 'ontBrowser', 'width=900,height=500,resizable=1,scrollbars=1');
 }
 </script>
 

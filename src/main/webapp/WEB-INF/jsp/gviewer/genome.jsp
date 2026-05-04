@@ -35,6 +35,7 @@
 </script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
+<script type="text/javascript" src="/rgdweb/gviewer/script/gviewer-renderer.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
 /***********************************************

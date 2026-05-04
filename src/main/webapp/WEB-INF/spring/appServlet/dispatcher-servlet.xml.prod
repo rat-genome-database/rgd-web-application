@@ -48,6 +48,7 @@
 
                 <prop key="search/search.html">searchController</prop>
                 <prop key="search/searchByPosition.html">searchByPosController</prop>
+                <prop key="search/variantCount.html">variantCountController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
                 <prop key="search/qtls.html">qtlSearchController</prop>
                 <prop key="search/strains.html">strainSearchController</prop>
@@ -149,6 +150,7 @@
                 <prop key="gviewer/getAnnotationXml.html">GViewerGetAnnotationXmlController</prop>
                 <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
+                <prop key="gviewer/addObjects.html">GViewerAddObjectsController</prop>
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
@@ -308,6 +310,7 @@
     <bean id="variantSearchController" class="edu.mcw.rgd.search.VariantSearchController"/>
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
     <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
+    <bean id="variantCountController" class="edu.mcw.rgd.search.VariantCountController"/>
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
     <!--    <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>-->
@@ -370,6 +373,7 @@
     <bean id="GViewerGetAnnotationXmlController" class="edu.mcw.rgd.gviewer.AnnotationXmlController"/>
     <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
+    <bean id="GViewerAddObjectsController" class="edu.mcw.rgd.gviewer.AddObjectsController"/>
 
 
     <bean id="PrimerController" class="edu.mcw.rgd.primerCreate.PrimerController" />

@@ -2,6 +2,7 @@ package edu.mcw.rgd.gviewer;
 
 import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.dao.impl.AnnotationDAO;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.reporting.Link;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,16 +14,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
  * User: mtutaj
  * Date: 8/13/12
  * Time: 4:23 PM
+ *
+ * Position lookup migrated from Oracle (maps_data join) to the
+ * "gviewer" Elasticsearch index. Term resolution still uses the
+ * ontology DAG in Oracle.
  */
 public class XmlToolController implements Controller {
 
@@ -34,102 +42,86 @@ public class XmlToolController implements Controller {
         LinkedList<String[]> lines = new LinkedList<String[]>();
         bean.setLines(lines);
 
-        // handle GViewer - AddObject - OntologyTerm
+        // handle GViewer - AddObject - OntologyTerm (unchanged: ontology browse, no positions)
         String gviewer = request.getParameter("gviewer");
-        if( gviewer!=null && gviewer.equalsIgnoreCase("addObjTerm") ) {
+        if (gviewer != null && gviewer.equalsIgnoreCase("addObjTerm")) {
             return handleGViewerAddObjectTerm(bean);
         }
 
-        String sql = bean.buildSqlForGViewerAnnotations();
-        //System.out.println(sql);
+        int mapKey = bean.getEffectiveMapKey();
+        String[] terms = bean.getTerms();
+        String[] onts = bean.getOnts();
+        String[] ops = bean.getOps();
 
-        Map<String, String[]> linesMap = new HashMap<String, String[]>();
+        OntologyXDAO xdao = new OntologyXDAO();
 
-        Connection conn = null;
-        try {
-            conn = DataSourceFactory.getInstance().getDataSource().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        List<GViewerEsHelper.CriterionResult> criterionResults = new ArrayList<>();
+        List<Set<Integer>> perCriterion = new ArrayList<>();
+        Map<Integer, GViewerEsHelper.Row> firstPosition = new LinkedHashMap<>();
 
-            while (rs.next()) {
-
-                String rgdId = rs.getString("rgd_id");
-
-                // do not insert duplicate lines into 'lines' table
-                if( linesMap.get(rgdId)!=null )
-                    continue;
-
-                String objectType = rs.getString("object_type");
-                String link = objectType.equals("gene") ? Link.gene(Integer.parseInt(rgdId)) :
-                        objectType.equals("qtl") ? Link.qtl(Integer.parseInt(rgdId)) :
-                        objectType.equals("strain") ? Link.strain(Integer.parseInt(rgdId)) :
-                        "";
-                String symbol = rs.getString("object_symbol");
-
-                String[] line = new String[4+bean.getTerms().length];
-                line[0] = rgdId;
-                line[1] = objectType;
-                line[2] = symbol;
-                line[3] = link;
-
-                lines.add(line);
-
-                linesMap.put(rgdId, line);
-            }
-
-        }catch(SQLException se) {
-            se.printStackTrace();
-        } finally {
-            try {
-               if( conn!=null ) conn.close();
-            }catch (Exception ignored) {
+        for (int i = 0; i < terms.length; i++) {
+            String ontList = (onts != null && i < onts.length) ? onts[i] : null;
+            Set<String> expanded = GViewerEsHelper.expandToDescendants(xdao, terms[i], ontList);
+            GViewerEsHelper.CriterionResult cr = GViewerEsHelper.queryCriterion(expanded, mapKey);
+            criterionResults.add(cr);
+            perCriterion.add(cr.rgdIds);
+            for (Map.Entry<Integer, List<GViewerEsHelper.Row>> e : cr.positions.entrySet()) {
+                if (!firstPosition.containsKey(e.getKey()) && !e.getValue().isEmpty()) {
+                    firstPosition.put(e.getKey(), e.getValue().get(0));
+                }
             }
         }
 
-        for( int termIndex=0; termIndex<bean.getTerms().length; termIndex++ ) {
+        Set<Integer> finalRgds = GViewerEsHelper.combine(perCriterion, ops);
 
-            String selTerm = bean.getTerms()[termIndex].toLowerCase();
+        // Build one row per rgdId (table view collapses multi-locus genes
+        // to a single row, matching the original behavior).
+        Map<Integer, String[]> linesMap = new HashMap<>();
+        for (Integer rgdId : finalRgds) {
+            GViewerEsHelper.Row r = firstPosition.get(rgdId);
+            if (r == null) continue;
 
-            try {
-                conn = null;
-                conn = DataSourceFactory.getInstance().getDataSource().getConnection();
-                PreparedStatement ps = conn.prepareStatement(bean.buildSqlForTerm(termIndex));
-                ResultSet rs = ps.executeQuery();
+            String link = "gene".equals(r.objectType) ? Link.gene(rgdId) :
+                    "qtl".equals(r.objectType) ? Link.qtl(rgdId) :
+                    "strain".equals(r.objectType) ? Link.strain(rgdId) :
+                    "";
 
-                while (rs.next()) {
+            String[] line = new String[6 + terms.length];
+            line[0] = String.valueOf(rgdId);
+            line[1] = r.objectType;
+            line[2] = r.objectSymbol;
+            line[3] = link;
+            line[4] = r.chromosome;
+            String start = r.startPos == null ? "" : r.startPos;
+            String stop = r.stopPos;
+            line[5] = start + (stop != null && !stop.isEmpty() && !stop.equals(start) ? "-" + stop : "");
 
-                    String rgdId = rs.getString("rgd_id");
-                    String termAcc = rs.getString("term_acc");
-                    String termName = rs.getString("term");
+            lines.add(line);
+            linesMap.put(rgdId, line);
+        }
 
-                    // extract ont id
-                    int pos = termAcc.indexOf(':');
-                    String ontId = termAcc.substring(0, pos+1) + ' ';
+        // Per-term column: list each criterion's matched terms for the rgdId
+        for (int termIndex = 0; termIndex < terms.length; termIndex++) {
+            String selTerm = terms[termIndex] == null ? "" : terms[termIndex].toLowerCase();
+            Map<Integer, List<GViewerEsHelper.TermHit>> termHits = criterionResults.get(termIndex).termHits;
 
-                    String link = "<a href='"+Link.ontAnnot(termAcc)+"'>"+ontId+GViewerBean.highlight(termName, selTerm)+"</a>";
+            for (Integer rgdId : finalRgds) {
+                String[] line = linesMap.get(rgdId);
+                if (line == null) continue;
+                List<GViewerEsHelper.TermHit> hits = termHits.get(rgdId);
+                if (hits == null) continue;
 
-                    String[] line = linesMap.get(rgdId);
-                    if( line==null ) {
-                        // this object is not on our annotated obj list;
-                        continue;
-                    }
-                    String contents = line[4+termIndex];
-                    if( contents==null )
-                        contents = link;
-                    else
-                        contents += "<br>" + link;
-                    line[4+termIndex] = contents;
+                StringBuilder cell = new StringBuilder();
+                for (GViewerEsHelper.TermHit th : hits) {
+                    int pos = th.termAcc.indexOf(':');
+                    String ontId = pos > 0 ? th.termAcc.substring(0, pos + 1) + ' ' : "";
+                    String formatted = "<a href='" + Link.ontAnnot(th.termAcc) + "'>"
+                            + ontId + GViewerBean.highlight(th.term, selTerm) + "</a>";
+                    if (cell.length() > 0) cell.append("<br>");
+                    cell.append(formatted);
                 }
-
-            }catch(SQLException se) {
-                se.printStackTrace();
-            } finally {
-                try {
-                   if( conn!=null ) conn.close();
-                }catch (Exception ignored) {
-                }
+                line[6 + termIndex] = cell.toString();
             }
-
         }
 
         ModelAndView mv = new ModelAndView("/gTool/GViewerTerms.jsp");
@@ -174,12 +166,12 @@ public class XmlToolController implements Controller {
                 lines.add(line);
             }
 
-        }catch(SQLException se) {
+        } catch (SQLException se) {
             se.printStackTrace();
         } finally {
             try {
-               if( conn!=null ) conn.close();
-            }catch (Exception ignored) {
+                if (conn != null) conn.close();
+            } catch (Exception ignored) {
             }
         }
 
