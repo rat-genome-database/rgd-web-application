@@ -28,13 +28,16 @@ function Gviewer(viewerId, height, width) {
     //set the color scheme used for the annotations in the viewer. array[0] is the initial color.
     //array[1] is used for added objects
     this.colorScheme = new Array();
-    this.colorScheme["gene"] = ["#7e131d","#7e131d"];
-    this.colorScheme["qtl"] = ["#3294d3", "#3294d3"];
-    this.colorScheme["sslp"] = ["#76ac1a", "#76ac1a"];
+    // Okabe-Ito colorblind-safe palette (Nature Methods, 2011) for the three
+    // primary annotation types. Distinguishable under deuteranopia, protanopia,
+    // and tritanopia. https://jfly.uni-koeln.de/color/
+    this.colorScheme["gene"] = ["#D55E00","#D55E00"];   // vermillion (orange-red)
+    this.colorScheme["qtl"] = ["#0072B2", "#0072B2"];   // deep blue
+    this.colorScheme["strain"] = ["#009E73","#009E73"]; // bluish green
+    this.colorScheme["sslp"] = ["#009E73", "#009E73"];  // share strain color
     this.colorScheme["snp"] = ["purple","#f37200"];
-    this.colorScheme["probeset"] = ["#7e131d","#f37200"];
-    this.colorScheme["eqtl"] = ["#7e131d","#f37200"];
-    this.colorScheme["strain"] = ["#76ac1a","#76ac1a"];
+    this.colorScheme["probeset"] = ["#D55E00","#f37200"];
+    this.colorScheme["eqtl"] = ["#D55E00","#f37200"];
     //this line added by JTHOTA
     this.colorScheme["variant"] = ["#f49b42","#f4af41"];
 

@@ -67,9 +67,10 @@ public class AnnotationJSONController implements Controller {
                         "qtl".equals(r.objectType) ? Link.qtl(rgdId) :
                         "strain".equals(r.objectType) ? Link.strain(rgdId) :
                         "";
-                String color = "gene".equals(r.objectType) ? "0x79CC3D" :
-                        "qtl".equals(r.objectType) ? "0xFFFFFF" :
-                        "strain".equals(r.objectType) ? "#76AC1A" :
+                // Okabe-Ito CVD-safe palette; mirrors gviewer.js colorScheme
+                String color = "gene".equals(r.objectType) ? "#D55E00" :
+                        "qtl".equals(r.objectType) ? "#0072B2" :
+                        "strain".equals(r.objectType) ? "#009E73" :
                         "";
                 String symbol = r.objectSymbol.replaceAll("\\<.*?>", "");
 
