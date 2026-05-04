@@ -83,8 +83,9 @@ dependencies {
 
     implementation group: 'org.elasticsearch', name: 'elasticsearch', version: '7.17.4'
     implementation group: 'org.elasticsearch.client', name: 'transport', version: '7.17.4'
-    implementation group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: '7.17.4'
-    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.4'
+// Source: https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch
+    implementation("org.elasticsearch:elasticsearch:9.3.4")
+//    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.4'
     implementation group: 'org.apache.lucene', name: 'lucene-core', version: '8.2.0'
 
     implementation 'org.htmlparser:filterbuilder:2.1'
