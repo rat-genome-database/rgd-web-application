@@ -425,7 +425,8 @@ function runGviewer() {
             gviewer.imagePath = "/rgdweb/gviewer/images";
             gviewer.exportURL = "/rgdweb/report/format.html";
             gviewer.annotationTypes = new Array("gene","qtl","strain");
-            gviewer.genomeBrowserURL = getJBrowse2Url(species, mapKey);
+            // Send to JBrowse 2 button hidden for now — leave URL empty
+            gviewer.genomeBrowserURL = "";
             gviewer.genomeBrowserName = "JBrowse 2";
             gviewer.regionPadding=2;
             gviewer.annotationPadding = 1;
@@ -437,7 +438,7 @@ function runGviewer() {
             lastMapKey = mapKey;
         }else {
             if (species != lastSpecies || mapKey != lastMapKey) {
-                gviewer.genomeBrowserURL = getJBrowse2Url(species, mapKey);
+                gviewer.genomeBrowserURL = "";
                 gviewer.reset(ideoUrl, species);
                 gviewer.mapKey = mapKey;
                 lastSpecies = species;
