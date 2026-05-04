@@ -150,9 +150,10 @@ public class OntGViewerDataController implements Controller {
                         objectType.equals("qtl") ? Link.qtl(Integer.parseInt(rgdId)) :
                                 objectType.equals("strain") ? Link.strain(Integer.parseInt(rgdId)) :
                                         "";
-                String color = objectType.equals("gene") ? "0x79CC3D" :
-                        objectType.equals("qtl") ? "0xFFFFFF" :
-                                objectType.equals("strain") ? "#76AC1A" :
+                // Okabe-Ito CVD-safe palette; mirrors gviewer.js colorScheme
+                String color = objectType.equals("gene") ? "#D55E00" :
+                        objectType.equals("qtl") ? "#0072B2" :
+                                objectType.equals("strain") ? "#009E73" :
                                         "";
                 // strip html tags from symbol (we return xml, so these tags will break the xml structure)
                 String symbol = rs.getString("object_symbol").replaceAll("\\<.*?>", "");
