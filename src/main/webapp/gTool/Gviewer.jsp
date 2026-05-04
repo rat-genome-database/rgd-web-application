@@ -375,10 +375,29 @@ function getIdeoUrl(species, mapKey) {
     return "/rgdweb/gviewer/data/rgd_rat_ideo.xml";
 }
 
-function getJBrowse2Url(species) {
-    if (species == "1") return "/jbrowse2/?assembly=GRCh38.p14&tracklist=true";
-    if (species == "2") return "/jbrowse2/?assembly=GRCm39&tracklist=true";
-    return "/jbrowse2/?assembly=mRatBN7.2&tracklist=true";
+// mapKey -> JBrowse 2 assembly name (matches names in /jbrowse2/config.json)
+var MAPKEY_TO_JBROWSE2 = {
+    '380': 'GRCr8',         // Rat - GRCr8
+    '372': 'mRatBN7.2',     // Rat - mRatBN7.2
+    '360': 'Rnor_6.0',      // Rat - Rnor_6.0
+    '70':  'Rnor_5.0',      // Rat - Rnor_5.0
+    '60':  'RGSC_v3.4',     // Rat - RGSC_v3.4
+    '38':  'GRCh38.p14',    // Human - GRCh38
+    '17':  'GRCh37.p13',    // Human - GRCh37
+    '239': 'GRCm39',        // Mouse - GRCm39
+    '35':  'GRCm38.p6',     // Mouse - GRCm38
+    '18':  'MGSCv37'        // Mouse - Build 37
+};
+
+function getJBrowse2Url(species, mapKey) {
+    var assembly = MAPKEY_TO_JBROWSE2[mapKey];
+    if (!assembly) {
+        // Fall back to species default if mapKey isn't recognized
+        if (species == "1") assembly = "GRCh38.p14";
+        else if (species == "2") assembly = "GRCm39";
+        else assembly = "mRatBN7.2";
+    }
+    return "/jbrowse2/?assembly=" + encodeURIComponent(assembly) + "&tracklist=true";
 }
 
 function runGviewer() {
@@ -398,25 +417,29 @@ function runGviewer() {
         var ideoUrl = getIdeoUrl(species, mapKey);
 
         if (!gviewer) {
-            var viewerWidth = document.getElementById('gviewer').parentElement.offsetWidth - 20;
+            var MIN_VIEWER_WIDTH = 1200;
+            var viewerWidth = Math.max(MIN_VIEWER_WIDTH,
+                document.getElementById('gviewer').parentElement.offsetWidth);
             gviewer = new Gviewer("gviewer", 300, viewerWidth);
 
             gviewer.imagePath = "/rgdweb/gviewer/images";
             gviewer.exportURL = "/rgdweb/report/format.html";
             gviewer.annotationTypes = new Array("gene","qtl","strain");
-            gviewer.genomeBrowserURL = getJBrowse2Url(species);
+            gviewer.genomeBrowserURL = getJBrowse2Url(species, mapKey);
             gviewer.genomeBrowserName = "JBrowse 2";
             gviewer.regionPadding=2;
             gviewer.annotationPadding = 1;
 
             gviewer.loadBands(ideoUrl);
-            gviewer.addZoomPane("zoomWrapper", 250, window.screen.availWidth * .8);
+            gviewer.addZoomPane("zoomWrapper", 250, viewerWidth);
+            gviewer.mapKey = mapKey;
             lastSpecies = species;
             lastMapKey = mapKey;
         }else {
             if (species != lastSpecies || mapKey != lastMapKey) {
-                gviewer.genomeBrowserURL = getJBrowse2Url(species);
+                gviewer.genomeBrowserURL = getJBrowse2Url(species, mapKey);
                 gviewer.reset(ideoUrl, species);
+                gviewer.mapKey = mapKey;
                 lastSpecies = species;
                 lastMapKey = mapKey;
             } else {

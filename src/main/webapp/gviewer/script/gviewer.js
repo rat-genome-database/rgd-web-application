@@ -897,15 +897,18 @@ function Gviewer(viewerId, height, width) {
     this.addObjects = function(type, color, term) {
         this.windowManager.closeLast();
         if (term && term != "") {
-             this.status("Loading Annotations...  (This may take a moment)");
-            var dest = "/rgdweb/search/" + type + "s.html?term=" + term + "&gview=1&speciesType=" + this.species + "&fmt=6";
-            this.loadAnnotations(dest, color, term);
-         }
+            showLoadingOverlay();
+            var mapKey = this.mapKey || (document.getElementById('assemblyVersion') ? document.getElementById('assemblyVersion').value : '');
+            var dest = "/rgdweb/gviewer/addObjects.html?type=" + encodeURIComponent(type)
+                     + "&term=" + encodeURIComponent(term)
+                     + "&mapKey=" + encodeURIComponent(mapKey);
+            this.loadAnnotationsGET(dest, color, term);
+        }
 
-         if (this.zoomPaneActive()) {
-             this.zoomPane.refresh();
-         }
-         this.clearStatus();
+        if (this.zoomPaneActive()) {
+            this.zoomPane.refresh();
+        }
+        this.clearStatus();
     }
 }
 

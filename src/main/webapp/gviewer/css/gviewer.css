@@ -56,13 +56,82 @@
 .gv-counts-loaded { color: #555; font-weight: 500; font-size: 13px; letter-spacing: 0.2px; }
 .canvas{}
 .image-viewer { background-color:#cccccc;font-weight: 700; visibility: hidden; border: 1px solid black; position: absolute;}
-.dhtmlwindow{ position: absolute; border: 2px solid black; visibility: hidden; background-color: white;}
-.drag-handle{ padding: 1px; text-indent: 3px; font: bold 14px Arial; background-color: #CA0000; color: white; cursor: move; overflow: hidden; width: auto; filter:progid:DXImageTransform.Microsoft.alpha(opacity=100); -moz-opacity: 1; opacity: 1;}
-.drag-handle .drag-controls{position: absolute; right: 1px; top: 2px; cursor: hand; cursor: pointer; }
-* html .drag-handle{ width: 100%;}
-.drag-contentarea{border-top: 1px solid brown; background-color: white; color: black; height: 150px; padding: 2px; overflow: auto; }
-.drag-statusarea{ border-top: 1px solid gray; background-color: #F8F8F8; height: 13px;}
-.drag-resizearea{ float: right; width: 13px; height: 13px; cursor: nw-resize; font-size: 0;}
+.dhtmlwindow {
+    position: absolute;
+    visibility: hidden;
+    background-color: #ffffff;
+    border: 1px solid #d6dde4;
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.drag-handle {
+    padding: 10px 14px;
+    background: linear-gradient(180deg, #2b6fb8 0%, #24609c 100%);
+    color: #ffffff;
+    font: 600 14px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    cursor: move;
+    overflow: hidden;
+    width: auto;
+    position: relative;
+    user-select: none;
+}
+.drag-handle .drag-controls {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    gap: 6px;
+    cursor: pointer;
+}
+.drag-handle .drag-controls img {
+    opacity: 0.85;
+    border-radius: 3px;
+    padding: 1px;
+    transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+.drag-handle .drag-controls img:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.18);
+}
+.drag-contentarea {
+    background-color: #ffffff;
+    color: #2c3e50;
+    height: 150px;
+    padding: 14px 18px;
+    overflow: auto;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.drag-contentarea ul {
+    padding-left: 22px;
+    margin: 8px 0;
+}
+.drag-contentarea li {
+    margin: 4px 0;
+}
+.drag-contentarea a {
+    color: #24609c;
+    text-decoration: none;
+}
+.drag-contentarea a:hover {
+    text-decoration: underline;
+}
+.drag-statusarea {
+    border-top: 1px solid #e8ecef;
+    background-color: #f7f9fb;
+    height: 14px;
+}
+.drag-resizearea {
+    float: right;
+    width: 13px;
+    height: 13px;
+    cursor: nw-resize;
+    font-size: 0;
+    opacity: 0.55;
+}
 
 /* Accessibility: focus styles for keyboard navigation */
 .chr-svg-group:focus { outline: 2px solid #3294d3; outline-offset: 2px; }

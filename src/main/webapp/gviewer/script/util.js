@@ -74,6 +74,11 @@ function hideLoadingOverlay() {
     if (overlay) overlay.style.display = "none";
 }
 
+function showLoadingOverlay() {
+    var overlay = document.getElementById("gvLoadingOverlay");
+    if (overlay) overlay.style.display = "flex";
+}
+
 function getPixelLength(len, ratio) {
     return Math.round(len * ratio);        
 }
