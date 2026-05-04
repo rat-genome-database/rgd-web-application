@@ -4,7 +4,10 @@
     RgdId id = managementDAO.getRgdId(obj.getRgdId());
 %>
 
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+<style>
+    #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
+</style>
+<table id="info-table" width="100%" border="0" style="background-color: rgb(249, 249, 249)">
     <tr><td colspan="2"><h3>Marker: <%=obj.getName()%></h3></td></tr>
     <tr>
         <td class="label">Symbol:</td>
