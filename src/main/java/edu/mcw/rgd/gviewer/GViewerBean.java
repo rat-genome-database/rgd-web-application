@@ -19,6 +19,7 @@ public class GViewerBean {
     private List<String[]> lines; // term lines
     private String color;
     private String speciesType;
+    private String mapKey;
 
     public void loadParametersFromRequest(ServletRequest request) {
 
@@ -72,6 +73,7 @@ public class GViewerBean {
 
         this.setColor(request.getParameter("color"));
         this.setSpeciesType(request.getParameter("speciesType"));
+        this.setMapKey(request.getParameter("mapKey"));
     }
 
     public String buildSqlForAnnotations() {
@@ -107,7 +109,28 @@ public class GViewerBean {
     }
 
     public String buildSqlForGViewerAnnotations() throws Exception{
-        return buildSqlForGViewerAnnotations(MapManager.getInstance().getReferenceAssembly(3).getKey());
+        return buildSqlForGViewerAnnotations(getEffectiveMapKey());
+    }
+
+    public int getEffectiveMapKey() throws Exception {
+        if( mapKey!=null && !mapKey.isEmpty() ) {
+            try {
+                return Integer.parseInt(mapKey);
+            } catch( NumberFormatException ignored ) {}
+        }
+        int sp = 3;
+        if( speciesType!=null && !speciesType.isEmpty() ) {
+            sp = Integer.parseInt(speciesType);
+        }
+        return MapManager.getInstance().getReferenceAssembly(sp).getKey();
+    }
+
+    public String getAssemblyName() throws Exception {
+        try {
+            return MapManager.getInstance().getMap(getEffectiveMapKey()).getName();
+        } catch( Exception e ) {
+            return "";
+        }
     }
 
     public String buildSqlForGViewerAnnotations(int mapKey) {
@@ -237,5 +260,13 @@ public class GViewerBean {
 
     public void setSpeciesType(String speciesType) {
         this.speciesType = speciesType;
+    }
+
+    public String getMapKey() {
+        return mapKey;
+    }
+
+    public void setMapKey(String mapKey) {
+        this.mapKey = mapKey;
     }
 }
