@@ -718,7 +718,13 @@
                 v.strains = false;
 
                 this.errors = [];
-                if(Number(start) > Number(stop)) {
+                if(document.getElementById('start').value.trim() === '' || document.getElementById('stop').value.trim() === '') {
+                    this.errors.push('Please enter both a Start and Stop position.');
+                } else if(isNaN(start) || isNaN(stop)) {
+                    this.errors.push('Start and Stop must be valid numbers.');
+                } else if(start <= 0 || stop <= 0) {
+                    this.errors.push('Start and Stop positions must be greater than zero.');
+                } else if(Number(start) > Number(stop)) {
                     this.errors.push('Start number is greater than Stop number.');
                 }
                 if (this.errors.length>0) {

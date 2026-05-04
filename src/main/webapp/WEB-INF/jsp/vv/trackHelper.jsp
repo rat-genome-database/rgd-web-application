@@ -30,8 +30,8 @@
 
          %>
             <td colspan="<%=groupSize%>"  style="background-color:<%=backColor%>;">
-                <div class="geneTrack" id="<%=uniqueId%><%=i%>-<%=pos%>" style="overflow:hidden; cursor:<%=cursor%>; height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>" >
-                     <span style="width:<%=width%>; text-decoration:none; font-weight:700; font-size: 12px; color:<%=fontColor%>;"  title="<%=geneObj%>">
+                <div class="geneTrack" id="<%=uniqueId%><%=i%>-<%=pos%>" style="overflow:hidden; cursor:<%=cursor%>; height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>; position:relative;" >
+                     <span style="position:sticky; left:5px; display:inline-block; text-decoration:none; font-weight:700; font-size: 12px; color:<%=fontColor%>; white-space:nowrap;"  title="<%=geneObj%>">
                         <%=geneObj%>
                      </span>
                </div>
@@ -54,8 +54,8 @@
             }
         %>
             <td colspan="<%=groupSize%>"  style="background-color:<%=backColor%>;">
-                <div class="geneTrack" id="<%=uniqueId%>-<%=pos%>" style="overflow:hidden; ; height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>; border-right: 1px solid white;" >
-                    <span style="  width:<%=width%>;text-decoration:none; font-weight:700; font-size: 12px; cursor:<%=cursor%>;  color:<%=fontColor%>;" title="<%=geneObj%>"><%=geneObj%></span>
+                <div class="geneTrack" id="<%=uniqueId%>-<%=pos%>" style="overflow:hidden; height:<%=cellWidth%>px; border-top: 1px solid white; *height: <%=cellWidth + 1%>px; width:<%=width%>; background-color:<%=backColor%>; border-right: 1px solid white; position:relative;" >
+                    <span style="position:sticky; left:5px; display:inline-block; text-decoration:none; font-weight:700; font-size: 12px; cursor:<%=cursor%>; color:<%=fontColor%>; white-space:nowrap;" title="<%=geneObj%>"><%=geneObj%></span>
                 </div>
             </td>
             <!--script>

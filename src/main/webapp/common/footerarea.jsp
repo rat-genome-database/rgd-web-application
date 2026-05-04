@@ -30,18 +30,9 @@
 
     </div>
 </footer>
-<script language="javascript" src="/common/js/killerZebraStripes.js" type="text/javascript"></script>
-<script>
-    var arr = document.getElementsByTagName("table");
-    for (i=0; i< arr.length; i++) {
-        if (arr[i].className == "striped-table") {
-            if (!arr[i].id) {
-                arr[i].id = "striped-table-" + i;
-            }
-            stripeTables(arr[i].id);
-        }
-    }
-</script>
+<style>
+    table.striped-table tr:nth-child(even) { background-color: #f2f2f2; }
+</style>
 
 
 
