@@ -341,6 +341,7 @@ public class QueryService1 {
                         .must(QueryBuilders.termQuery("synonyms.symbol", term))
                         .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, ONTOLOGY))
                         .boost(EXACT_MATCH_BOOST));
+                dqb.add(QueryBuilders.termQuery("xdbIdentifiers.lc", term).boost(EXACT_MATCH_BOOST));
             } else {
                 addMultiMatchQueries(dqb, term);
             }
