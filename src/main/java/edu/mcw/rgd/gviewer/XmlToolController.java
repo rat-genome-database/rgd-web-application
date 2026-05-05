@@ -52,6 +52,7 @@ public class XmlToolController implements Controller {
         String[] terms = bean.getTerms();
         String[] onts = bean.getOnts();
         String[] ops = bean.getOps();
+        boolean withChildren = !"0".equals(request.getParameter("withChildren"));
 
         OntologyXDAO xdao = new OntologyXDAO();
 
@@ -61,7 +62,7 @@ public class XmlToolController implements Controller {
 
         for (int i = 0; i < terms.length; i++) {
             String ontList = (onts != null && i < onts.length) ? onts[i] : null;
-            Set<String> expanded = GViewerEsHelper.expandToDescendants(xdao, terms[i], ontList);
+            Set<String> expanded = GViewerEsHelper.expandToDescendants(xdao, terms[i], ontList, withChildren);
             GViewerEsHelper.CriterionResult cr = GViewerEsHelper.queryCriterion(expanded, mapKey);
             criterionResults.add(cr);
             perCriterion.add(cr.rgdIds);

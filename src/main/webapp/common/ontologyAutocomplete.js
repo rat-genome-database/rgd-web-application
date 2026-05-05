@@ -17,6 +17,13 @@
  *   - max {number} max results (default 20)
  *   - minChars {number} min chars before searching (default 2)
  *   - delay {number} debounce delay in ms (default 300)
+ *   - annotationCheck {boolean|function} when truthy, after each search the
+ *       autocomplete asks /rgdweb/gviewer/termCounts.html for the unique-
+ *       object count for each term in the dropdown; terms with zero count
+ *       are greyed out and a banner is shown when none have annotations.
+ *       Pass a function returning the mapKey, or true to read the value
+ *       of #assemblyVersion at search time. Direct counts only — descendant
+ *       expansion via the ontology DAG is not considered here.
  */
 function setupOntologyAutocomplete(input, ont, options) {
     options = options || {};
@@ -72,6 +79,15 @@ function setupOntologyAutocomplete(input, ont, options) {
         selectedIndex = -1;
     }
 
+    function getMapKeyForCheck() {
+        if (!options.annotationCheck) return null;
+        if (typeof options.annotationCheck === 'function') {
+            try { return options.annotationCheck(); } catch (e) { return null; }
+        }
+        var el = document.getElementById('assemblyVersion');
+        return el ? el.value : null;
+    }
+
     function showResults(results) {
         currentResults = results;
         selectedIndex = -1;
@@ -86,7 +102,15 @@ function setupOntologyAutocomplete(input, ont, options) {
         for (var i = 0; i < results.length; i++) {
             (function(idx) {
                 var item = jq('<div class="ont-ac-item"></div>');
-                item.text(results[idx].term + ' (' + results[idx].accId + ')');
+                var label = jq('<span class="ont-ac-label"></span>').text(
+                    results[idx].term + ' (' + results[idx].accId + ')');
+                var count = jq('<span class="ont-ac-count"></span>').css({
+                    float: 'right',
+                    color: '#888',
+                    fontSize: '12px',
+                    marginLeft: '8px'
+                });
+                item.append(label).append(count);
                 item.css({
                     padding: '6px 10px',
                     cursor: 'pointer',
@@ -111,6 +135,59 @@ function setupOntologyAutocomplete(input, ont, options) {
 
         positionDropdown();
         $dropdown.show();
+
+        var mapKey = getMapKeyForCheck();
+        if (mapKey) {
+            applyAnnotationCounts(results, mapKey);
+        }
+    }
+
+    function applyAnnotationCounts(results, mapKey) {
+        var accs = [];
+        for (var i = 0; i < results.length; i++) accs.push(results[i].accId);
+        if (!accs.length) return;
+
+        jq.ajax({
+            url: '/rgdweb/gviewer/termCounts.html',
+            data: { accs: accs.join(','), mapKey: mapKey },
+            dataType: 'json',
+            success: function(counts) {
+                if (!$dropdown || !$dropdown.is(':visible')) return;
+                var items = jq('.ont-ac-item', $dropdown);
+                var anyAnnotated = false;
+                items.each(function(idx) {
+                    var acc = results[idx] ? results[idx].accId : null;
+                    var n = (acc && counts && (acc in counts)) ? counts[acc] : 0;
+                    var $row = jq(this);
+                    var $count = $row.find('.ont-ac-count');
+                    if (n > 0) {
+                        anyAnnotated = true;
+                        $count.text(n).css('color', '#2c3e50');
+                        $row.find('.ont-ac-label').css('color', '');
+                    } else {
+                        $count.text('0').css('color', '#bbb');
+                        $row.find('.ont-ac-label').css('color', '#999');
+                    }
+                });
+                renderEmptyBanner(!anyAnnotated);
+            }
+        });
+    }
+
+    function renderEmptyBanner(show) {
+        if (!$dropdown) return;
+        $dropdown.find('.ont-ac-banner').remove();
+        if (!show) return;
+        var banner = jq('<div class="ont-ac-banner"></div>')
+            .text('No annotations for any matching term on this assembly')
+            .css({
+                padding: '6px 10px',
+                fontSize: '12px',
+                color: '#8a6d3b',
+                background: '#fcf8e3',
+                borderBottom: '1px solid #faebcc'
+            });
+        $dropdown.prepend(banner);
     }
 
     function selectItem(idx) {
