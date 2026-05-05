@@ -365,7 +365,10 @@ var gviewer = null;
 var lastSpecies = null;
 var lastMapKey = null;
 
-// Map mapKey -> ideogram xml file. Keys without a specific file fall through to the species default.
+// Map mapKey -> ideogram xml file. Keys without a specific static file
+// fall through to the dynamic /rgdweb/gviewer/ideogram.xml endpoint, which
+// generates an ideogram from MapDAO.getChromosomes() (sequence lengths
+// only, no cytogenetic bands). Hand-built static files retain band detail.
 var MAPKEY_TO_IDEO = {
     '17':  '/rgdweb/gviewer/data/17_ideo.xml',
     '38':  '/rgdweb/gviewer/data/38_ideo.xml',
@@ -378,6 +381,9 @@ var MAPKEY_TO_IDEO = {
 
 function getIdeoUrl(species, mapKey) {
     if (mapKey && MAPKEY_TO_IDEO[mapKey]) return MAPKEY_TO_IDEO[mapKey];
+    // Fall through to dynamic ideogram generation when a mapKey has no
+    // hand-built static file (e.g. GRCr8, mRatBN7.2).
+    if (mapKey) return "/rgdweb/gviewer/ideogram.html?mapKey=" + encodeURIComponent(mapKey);
     if (species == "1") return "/rgdweb/gviewer/data/human_ideo.xml";
     if (species == "2") return "/rgdweb/gviewer/data/mouse_ideo.xml";
     return "/rgdweb/gviewer/data/rgd_rat_ideo.xml";
