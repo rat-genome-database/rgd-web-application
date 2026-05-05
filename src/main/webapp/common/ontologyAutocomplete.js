@@ -153,23 +153,44 @@ function setupOntologyAutocomplete(input, ont, options) {
             dataType: 'json',
             success: function(counts) {
                 if (!$dropdown || !$dropdown.is(':visible')) return;
-                var items = jq('.ont-ac-item', $dropdown);
-                var anyAnnotated = false;
-                items.each(function(idx) {
+
+                // Drop unannotated terms from both the DOM and the
+                // currentResults array so keyboard navigation and the
+                // blur auto-select keep working with the filtered list.
+                var kept = [];
+                jq('.ont-ac-item', $dropdown).each(function(idx) {
                     var acc = results[idx] ? results[idx].accId : null;
                     var n = (acc && counts && (acc in counts)) ? counts[acc] : 0;
-                    var $row = jq(this);
-                    var $count = $row.find('.ont-ac-count');
                     if (n > 0) {
-                        anyAnnotated = true;
-                        $count.text(n).css('color', '#2c3e50');
-                        $row.find('.ont-ac-label').css('color', '');
+                        kept.push(results[idx]);
+                        jq(this).find('.ont-ac-count').text(n).css('color', '#2c3e50');
                     } else {
-                        $count.text('0').css('color', '#bbb');
-                        $row.find('.ont-ac-label').css('color', '#999');
+                        jq(this).remove();
                     }
                 });
-                renderEmptyBanner(!anyAnnotated);
+
+                currentResults = kept;
+                selectedIndex = -1;
+
+                // Re-bind item indices since DOM nodes were removed.
+                jq('.ont-ac-item', $dropdown).each(function(newIdx) {
+                    var $row = jq(this);
+                    $row.off('mouseenter mouseleave mousedown');
+                    $row.on('mouseenter', function() {
+                        jq('.ont-ac-item', $dropdown).css('background', '#fff');
+                        jq(this).css('background', '#e8f0fe');
+                        selectedIndex = newIdx;
+                    });
+                    $row.on('mouseleave', function() {
+                        jq(this).css('background', '#fff');
+                    });
+                    $row.on('mousedown', function(e) {
+                        e.preventDefault();
+                        selectItem(newIdx);
+                    });
+                });
+
+                renderEmptyBanner(kept.length === 0);
             }
         });
     }
