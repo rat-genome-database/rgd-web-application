@@ -92,10 +92,25 @@ public class GViewerEsHelper {
     /**
      * Resolve a free-text term query within the selected ontologies and
      * expand to all active descendants (plus the matched terms themselves).
+     * Equivalent to {@link #expandToDescendants(OntologyXDAO, String, String, boolean)}
+     * with {@code includeChildren = true}.
      */
     public static Set<String> expandToDescendants(OntologyXDAO xdao,
                                                   String termText,
                                                   String ontList) throws Exception {
+        return expandToDescendants(xdao, termText, ontList, true);
+    }
+
+    /**
+     * Resolve a free-text term query within the selected ontologies. When
+     * {@code includeChildren} is true the result also contains every active
+     * descendant of each matched term; when false it contains only the
+     * matched terms themselves.
+     */
+    public static Set<String> expandToDescendants(OntologyXDAO xdao,
+                                                  String termText,
+                                                  String ontList,
+                                                  boolean includeChildren) throws Exception {
         Set<String> result = new LinkedHashSet<>();
         if (termText == null || termText.trim().isEmpty()) return result;
 
@@ -108,7 +123,9 @@ public class GViewerEsHelper {
         for (Term t : matched) {
             if (!ontIds.contains(t.getOntologyId())) continue;
             result.add(t.getAccId());
-            result.addAll(xdao.getAllActiveTermDescendantAccIds(t.getAccId()));
+            if (includeChildren) {
+                result.addAll(xdao.getAllActiveTermDescendantAccIds(t.getAccId()));
+            }
         }
         return result;
     }

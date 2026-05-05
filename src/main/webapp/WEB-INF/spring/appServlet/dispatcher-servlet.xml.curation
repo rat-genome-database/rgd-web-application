@@ -250,6 +250,7 @@
                 <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
                 <prop key="gviewer/addObjects.html">GViewerAddObjectsController</prop>
+                <prop key="gviewer/termCounts.html">GViewerTermCountsController</prop>
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
@@ -532,6 +533,7 @@
     <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
     <bean id="GViewerAddObjectsController" class="edu.mcw.rgd.gviewer.AddObjectsController"/>
+    <bean id="GViewerTermCountsController" class="edu.mcw.rgd.gviewer.TermCountsController"/>
 
 
     <bean id="PrimerController" class="edu.mcw.rgd.primerCreate.PrimerController" />

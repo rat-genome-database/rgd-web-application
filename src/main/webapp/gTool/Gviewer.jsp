@@ -189,6 +189,12 @@
             </select>
             <input type="hidden" name="speciesType" id="speciesType" value="3"/>
         </div>
+        <div class="gv-children" style="display:flex; align-items:center; gap:6px;">
+            <label style="margin:0; font-weight:500; cursor:pointer;" title="Include all descendant terms in the ontology DAG (e.g. searching 'diabetes mellitus' also matches type 1, type 2, gestational, etc.)">
+                <input type="checkbox" id="includeChildren" checked style="vertical-align:middle;"/>
+                Include child terms
+            </label>
+        </div>
         <div class="gv-actions">
             <input type="submit" value="Run GViewer" class="btn btn-sm btn-primary"/>
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addCriteria()">+ Add Criteria</button>
@@ -350,6 +356,8 @@ function getFormString() {
     if (assemblySelect) {
         parts.push(encodeURIComponent('mapKey') + '=' + encodeURIComponent(assemblySelect.value));
     }
+    var includeChildren = document.getElementById('includeChildren');
+    parts.push('withChildren=' + (includeChildren && includeChildren.checked ? '1' : '0'));
     return parts.join('&');
 }
 
@@ -528,6 +536,7 @@ function setupAutoComplete() {
         var ac = setupOntologyAutocomplete(input, ont, {
             accIdField: accIdSelector,
             max: 100,
+            annotationCheck: true,
             onSelect: function(termName, accId) {
                 // Update ontology dropdown based on selected term's accession prefix
                 if (accId && ontSelect.length) {
@@ -548,6 +557,7 @@ function setupAutoComplete() {
             var newAc = setupOntologyAutocomplete(input, newOnt, {
                 accIdField: accIdSelector,
                 max: 100,
+                annotationCheck: true,
                 onSelect: function(termName, accId) {
                     if (accId && ontSelect.length) {
                         var prefix = accId.split(':')[0];
