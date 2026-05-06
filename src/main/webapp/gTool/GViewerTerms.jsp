@@ -16,6 +16,12 @@ td.trm a {
     font-size: 12px;
     font-weight: normal;
 }
+
+/* Hovering a result row highlights the matching dot in the chromosome view */
+table.sortable tbody tr[data-symbol]:hover {
+    background-color: #fff3cd !important;
+    cursor: default;
+}
 </style>
 
 <br>
@@ -55,10 +61,25 @@ td.trm a {
               String chromosome = line[4];
               String position = line[5];
 
+              // Strip any HTML tags from the displayed symbol so that what
+              // we send to gview().highlight matches the SVG annotation name
+              // (which is set from the un-tagged label in the JSON feed).
+              String hlSymbol = symbol == null ? "" : symbol.replaceAll("<.*?>", "");
+              String hlChr = chromosome == null ? "" : chromosome;
+              // Attribute values are HTML-quoted; double-quote and ampersand
+              // are the only chars that need escaping inside the value.
+              String hlSymbolAttr = hlSymbol.replace("&", "&amp;").replace("\"", "&quot;");
+              String hlChrAttr = hlChr.replace("&", "&amp;").replace("\"", "&quot;");
+
+              String hover = " data-chr=\"" + hlChrAttr + "\""
+                  + " data-symbol=\"" + hlSymbolAttr + "\""
+                  + " onmouseover=\"if(typeof gview==='function'&&gview())gview().highlight(this.getAttribute('data-chr'),this.getAttribute('data-symbol'),'#FFD700')\""
+                  + " onmouseout=\"if(typeof gview==='function'&&gview())gview().lowlight(this.getAttribute('data-chr'),this.getAttribute('data-symbol'))\"";
+
               if( ++rowCount %2 == 0) { %>
-       <tr class="oddRow">
+       <tr class="oddRow"<%=hover%>>
        <% } else { %>
-       <tr class="evenRow">
+       <tr class="evenRow"<%=hover%>>
        <% } %>
 
           <td class="objtag_<%=objectType%>" style="color:white;" title="<%=objectType%>"><%=objectType.substring(0,1).toUpperCase() + objectType.substring(1)%></td>
