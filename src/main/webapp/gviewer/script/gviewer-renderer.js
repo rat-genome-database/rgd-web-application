@@ -158,6 +158,10 @@ function renderGenomeSVG(gv) {
         }
         var chrBodyHeight = totalBandHeight;
         var chrTotalHeight = capRadius * 2 + chrBodyHeight;
+        // Expose the full visual height so the zoom slider can extend
+        // through the bottom rounded cap, not just the band body.
+        chr._svgTotalHeight = chrTotalHeight;
+        chr._svgCapRadius = capRadius;
 
         // Pre-compute centromere Y for pinched chromosome outline
         var preCentromereY = -1;

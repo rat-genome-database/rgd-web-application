@@ -453,17 +453,26 @@ function Gviewer(viewerId, height, width) {
 
     //Visually highlights an object in the viewer
     this.highlight = function(chrNumber, annotName, color) {
-        if (!color) color = "red";
+        if (!color) color = "#FFD700";
 
         var chr = this.getChromosome(chrNumber);
+        if (!chr) return;
         for (var i=0; i< chr.annotations.length; i++) {
             var annot = chr.annotations[i];
             if (annot.div && annot.name == annotName) {
-                // SVG element - use stroke for highlight
                 if (annot.div.setAttribute) {
+                    // Save original styling so lowlight can restore it.
                     annot.div._origStroke = annot.div.getAttribute("stroke") || "none";
-                    annot.div.setAttribute("stroke", color);
-                    annot.div.setAttribute("stroke-width", this.highlightBorderWidth);
+                    annot.div._origStrokeWidth = annot.div.getAttribute("stroke-width") || "0";
+                    annot.div._origFill = annot.div.getAttribute("fill") || "";
+                    // Loud highlight: swap fill + add thick contrasting stroke
+                    // and bring it to the top of the SVG paint order.
+                    annot.div.setAttribute("fill", color);
+                    annot.div.setAttribute("stroke", "#222");
+                    annot.div.setAttribute("stroke-width", "2");
+                    if (annot.div.parentNode) {
+                        annot.div.parentNode.appendChild(annot.div);
+                    }
                 }
                 return;
             }
@@ -473,12 +482,14 @@ function Gviewer(viewerId, height, width) {
     //Removes highlight from an object in the viewer
     this.lowlight = function(chrNumber, annotName) {
         var chr = this.getChromosome(chrNumber);
+        if (!chr) return;
         for (var i=0; i< chr.annotations.length; i++) {
             var annot = chr.annotations[i];
             if (annot.div && annot.name == annotName) {
                 if (annot.div.setAttribute) {
                     annot.div.setAttribute("stroke", annot.div._origStroke || "none");
-                    annot.div.setAttribute("stroke-width", "0");
+                    annot.div.setAttribute("stroke-width", annot.div._origStrokeWidth || "0");
+                    if (annot.div._origFill) annot.div.setAttribute("fill", annot.div._origFill);
                 }
 
                 if (this.zoomPaneActive() && this.isActiveChr(chrNumber)) {
@@ -613,8 +624,12 @@ function Gviewer(viewerId, height, width) {
         var slider = chr.slider.div;
 
         var len = chr.getLength(this.scaleRatio);
+        // Visual height of the rendered chromosome, including the rounded
+        // top and bottom caps that extend past the band body. Falls back
+        // to the band body length for non-SVG renderers.
+        var visualHeight = chr._svgTotalHeight || len;
         sliderHeight = Math.round(len * (this.zoomPane.width / chr.getLength(this.zoomPane.scaleRatio)));
-        slider.style.height = checkMinMax(2, len, sliderHeight);
+        slider.style.height = checkMinMax(2, visualHeight, sliderHeight);
 
         // Use getBoundingClientRect for SVG elements, getTop for HTML elements
         var chrTop;
@@ -630,8 +645,8 @@ function Gviewer(viewerId, height, width) {
 
         if (mouseY < (parseInt(slider.style.height) / 2)){
             slider.style.top = sliderOffsetY + "px";
-        }else if (mouseY > (len - (parseInt(slider.style.height) / 2))) {
-            slider.style.top = (sliderOffsetY + len - parseInt(slider.style.height)) + "px";
+        }else if (mouseY > (visualHeight - (parseInt(slider.style.height) / 2))) {
+            slider.style.top = (sliderOffsetY + visualHeight - parseInt(slider.style.height)) + "px";
         }else {
             slider.style.top = (sliderOffsetY + parseInt(mouseY - parseInt(slider.style.height) / 2)) + "px";
         }
