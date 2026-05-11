@@ -1457,7 +1457,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="fas fa-plus-circle"></i> Add Another <%=objectType%> List
     </button>
     <button class="action-btn action-btn-secondary" ng-click="rgd.showTools('resultList',<%=speciesTypeKey%>,<%=mapKey%>,'<%=oKey%>','<%=StringEscapeUtils.escapeEcmaScript(a)%>')">
-        <i class="fas fa-chart-bar"></i> Analyze Result Set
+        <img src="/rgdweb/common/images/tools-white-20.png" alt="" style="vertical-align:middle; width:20px; height:20px;"/> Analyze Result Set
     </button>
     <a href="/rgdweb/generator/list.html" class="action-btn action-btn-outline">
         <i class="fas fa-redo"></i> Start Over
