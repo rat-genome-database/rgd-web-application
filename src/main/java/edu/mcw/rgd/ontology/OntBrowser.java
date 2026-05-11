@@ -502,24 +502,31 @@ public class OntBrowser {
         if (!Utils.isStringEmpty(curationTool)) {
             curTool = "&curationTool=1";
         }
+        // Popup browsers (window.open) reach the launching page via window.opener;
+        // embedded iframes reach it via window.parent. window.parent of a popup is
+        // the popup itself, which silently no-ops the input lookups below.
+        String opener = iframe ? "window.parent" : "window.opener";
         String selectTermFunction = "function selectTerm(accId,termName) {\n";
-        //String opener = iframe ? "  window.parent" : "  window.opener";
-        String opener = "window.parent";
-
-        if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
-            //selectTermFunction += opener + (iframe ? ".postMessage(accId+'|'+termName, '*');\n" :
-            //       ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
-            selectTermFunction += opener + (true ? ".postMessage(accId+'|'+termName, '*');\n" :
-                    ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n");
+        selectTermFunction += "  var _opener = " + opener + ";\n";
+        selectTermFunction += "  if (_opener) {\n";
+        if( iframe && !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
+            selectTermFunction += "    _opener.postMessage(accId+'|'+termName, '*');\n";
         }
+        // Look up by id first, fall back to name= for callers that pass a name
+        // attribute (e.g. dynamically generated rows without unique ids).
         if( !Utils.isStringEmpty(this.opener_sel_acc_id) ) {
             selectTermFunction +=
-                    opener + ".document.getElementById('"+this.opener_sel_acc_id+"').value=accId;\n";
+                    "    var _a = _opener.document.getElementById('"+this.opener_sel_acc_id+"')"
+                    + " || _opener.document.querySelector('[name=\""+this.opener_sel_acc_id+"\"]');\n"
+                    + "    if (_a) _a.value=accId;\n";
         }
         if( !Utils.isStringEmpty(this.opener_sel_term) ) {
             selectTermFunction +=
-                    opener + ".document.getElementById('"+this.opener_sel_term+"').value=termName;\n";
+                    "    var _t = _opener.document.getElementById('"+this.opener_sel_term+"')"
+                    + " || _opener.document.querySelector('[name=\""+this.opener_sel_term+"\"]');\n"
+                    + "    if (_t) _t.value=termName;\n";
         }
+        selectTermFunction += "  }\n";
         selectTermFunction += "  window.close();\n";
         selectTermFunction += "}\n";
 
