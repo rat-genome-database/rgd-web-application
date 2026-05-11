@@ -1,6 +1,6 @@
 <%@ page import="edu.mcw.rgd.gviewer.GViewerBean" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
-<link rel="stylesheet" type="text/css" href="/rgdweb/css/ontology.css">
+<link rel="stylesheet" type="text/css" href="/rgdweb/css/ontology.css?v=2">
 <script src="/common/js/sorttable.js"></script>
 <style>
 /* Sortable tables */
