@@ -175,7 +175,7 @@
     <div class="gv-top-bar">
         <div class="gv-species">
             <label for="assemblyVersion" style="font-weight:700;">Assembly:</label>
-            <select id="assemblyVersion" class="form-control d-inline-block" style="width:auto;" aria-label="Select assembly version" onchange="document.getElementById('speciesType').value = this.selectedOptions[0].getAttribute('data-species');">
+            <select id="assemblyVersion" class="form-control d-inline-block" style="width:auto;" aria-label="Select assembly version" onchange="document.getElementById('speciesType').value = this.selectedOptions[0].getAttribute('data-species'); clearAllCriteriaTerms();">
                 <option value="380" data-species="3" selected>Rat - GRCr8</option>
                 <option value="372" data-species="3">Rat - mRatBN7.2</option>
                 <option value="360" data-species="3">Rat - Rnor_6.0</option>
@@ -204,7 +204,7 @@
     <div id="criteriaContainer">
         <div class="gv-criteria-row" id="criteria_0">
             <div class="gv-ontology">
-                <select name="gv_ont" class="form-control form-control-sm" aria-label="Select ontology">
+                <select name="gv_ont" class="form-control form-control-sm" aria-label="Select ontology" onchange="clearCriteriaRowTerm(this)">
                     <option value="ALL" selected>All Ontologies</option>
                     <option value="CC,MF,BP">GO (Gene Ontology)</option>
                     <option value="RDO">Disease</option>
@@ -259,7 +259,7 @@ function addCriteria() {
     html += '<option value="AND" style="color:blue;">AND (Intersect)</option>';
     html += '<option value="AND NOT" style="color:red;">NOT (Subtract)</option>';
     html += '</select></div>';
-    html += '<div class="gv-ontology"><select name="gv_ont" class="form-control form-control-sm" aria-label="Select ontology">';
+    html += '<div class="gv-ontology"><select name="gv_ont" class="form-control form-control-sm" aria-label="Select ontology" onchange="clearCriteriaRowTerm(this)">';
     html += '<option value="ALL" selected>All Ontologies</option>';
     html += '<option value="CC,MF,BP">GO (Gene Ontology)</option>';
     html += '<option value="RDO">Disease</option>';
@@ -577,6 +577,17 @@ function setupAutoComplete() {
             $(input).data('ontAc', newAc);
         });
     });
+}
+
+function clearCriteriaRowTerm(selectEl) {
+    var row = $(selectEl).closest('.gv-criteria-row');
+    row.find('input[name=gv_term]').val('');
+    row.find('input[name=gv_acc_id]').val('');
+}
+
+function clearAllCriteriaTerms() {
+    $('input[name=gv_term]').val('');
+    $('input[name=gv_acc_id]').val('');
 }
 
 function browseOntology(btn) {
