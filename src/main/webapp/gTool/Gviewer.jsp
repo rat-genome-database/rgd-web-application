@@ -191,7 +191,7 @@
         </div>
         <div class="gv-children" style="display:flex; align-items:center; gap:6px;">
             <label style="margin:0; font-weight:500; cursor:pointer;" title="Include all descendant terms in the ontology DAG (e.g. searching 'diabetes mellitus' also matches type 1, type 2, gestational, etc.)">
-                <input type="checkbox" id="includeChildren" checked style="vertical-align:middle;"/>
+                <input type="checkbox" id="includeChildren" style="vertical-align:middle;"/>
                 Include child terms
             </label>
         </div>
@@ -321,6 +321,8 @@ function getFormString() {
 
     for (var i = 0; i < rows.length; i++) {
         var term = rows[i].querySelector('input[name=gv_term]').value.trim();
+        var accIdInput = rows[i].querySelector('input[name=gv_acc_id]');
+        var accId = accIdInput ? (accIdInput.value || '').trim() : '';
         var ontSel = rows[i].querySelector('select[name=gv_ont]').value;
         var opSel = rows[i].querySelector('select[name=gv_op]');
 
@@ -329,8 +331,11 @@ function getFormString() {
             parts.push(encodeURIComponent('op[]') + '=' + encodeURIComponent(opSel.value));
         }
 
-        // Add term
+        // Add term and (optional) acc id; sending both lets the server use the
+        // exact term when the user picked one from autocomplete/Browse, instead
+        // of fuzzy-matching every term whose name contains the typed text.
         parts.push(encodeURIComponent('term[]') + '=' + encodeURIComponent(term));
+        parts.push(encodeURIComponent('acc[]') + '=' + encodeURIComponent(accId));
 
         // Translate ontology dropdown to the checkbox params the server expects
         var onts = (ontSel === 'ALL') ? ALL_ONTS : ontSel;

@@ -102,6 +102,26 @@ public class GViewerEsHelper {
     }
 
     /**
+     * Expand a single accession id (e.g. picked from autocomplete or the
+     * Browse popup) to itself plus, when {@code includeChildren} is true,
+     * every active descendant. Returns an empty set if {@code accId} is
+     * blank, letting callers fall back to a free-text search.
+     */
+    public static Set<String> expandFromAccId(OntologyXDAO xdao,
+                                              String accId,
+                                              boolean includeChildren) throws Exception {
+        Set<String> result = new LinkedHashSet<>();
+        if (accId == null) return result;
+        String acc = accId.trim();
+        if (acc.isEmpty()) return result;
+        result.add(acc);
+        if (includeChildren) {
+            result.addAll(xdao.getAllActiveTermDescendantAccIds(acc));
+        }
+        return result;
+    }
+
+    /**
      * Resolve a free-text term query within the selected ontologies. When
      * {@code includeChildren} is true the result also contains every active
      * descendant of each matched term; when false it contains only the
