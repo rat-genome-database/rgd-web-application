@@ -53,6 +53,7 @@ public class XmlToolController implements Controller {
         String[] onts = bean.getOnts();
         String[] ops = bean.getOps();
         boolean withChildren = !"0".equals(request.getParameter("withChildren"));
+        String[] accIds = request.getParameterValues("acc[]");
 
         OntologyXDAO xdao = new OntologyXDAO();
 
@@ -62,7 +63,13 @@ public class XmlToolController implements Controller {
 
         for (int i = 0; i < terms.length; i++) {
             String ontList = (onts != null && i < onts.length) ? onts[i] : null;
-            Set<String> expanded = GViewerEsHelper.expandToDescendants(xdao, terms[i], ontList, withChildren);
+            String accId = (accIds != null && i < accIds.length) ? accIds[i] : null;
+            // If the user picked an exact term (autocomplete or Browse popup),
+            // use that acc id directly so unchecking "Include child terms"
+            // really restricts to a single term.
+            Set<String> expanded = (accId != null && !accId.trim().isEmpty())
+                    ? GViewerEsHelper.expandFromAccId(xdao, accId, withChildren)
+                    : GViewerEsHelper.expandToDescendants(xdao, terms[i], ontList, withChildren);
             GViewerEsHelper.CriterionResult cr = GViewerEsHelper.queryCriterion(expanded, mapKey);
             criterionResults.add(cr);
             perCriterion.add(cr.rgdIds);
