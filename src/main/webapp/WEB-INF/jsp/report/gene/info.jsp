@@ -50,6 +50,9 @@
     }
 </script>
 
+<style>
+    #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
+</style>
 <table width="100%" border="0" id="info-table">
     <tbody>
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />

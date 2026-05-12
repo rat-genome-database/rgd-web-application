@@ -33,7 +33,10 @@
     List<Project> p1=new ProjectDAO().getProjectByRgdId(obj.getRgdId());
 %>
 
-<table>
+<style>
+    #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
+</style>
+<table id="info-table">
 <% for (Project i:p1){%>
 <%--<ul>--%>
 <%if(p1.get(0).getSubmitterName()!=null){%>
