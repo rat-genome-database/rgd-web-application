@@ -1,5 +1,9 @@
 package edu.mcw.rgd.report;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import edu.mcw.rgd.dao.impl.MapDAO;
 import edu.mcw.rgd.datamodel.*;
 
@@ -7,14 +11,8 @@ import edu.mcw.rgd.datamodel.Map;
 import edu.mcw.rgd.report.GenomeModel.ExternalDBLinks;
 import edu.mcw.rgd.report.GenomeModel.ExternalDbs;
 import edu.mcw.rgd.services.ClientInit;
+import edu.mcw.rgd.web.EsHit;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -24,9 +22,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by jthota on 10/11/2017.
- */
 public class GenomeInformationController implements Controller{
     MapDAO mdao= new MapDAO();
 
@@ -49,7 +44,7 @@ public class GenomeInformationController implements Controller{
 
             mapKey=Integer.parseInt(key);
         }
-        LinkedList<SearchHit> hits;
+        LinkedList<EsHit> hits;
         model.addAttribute("speciesList", this.getSpeciesList());
 
             if (isDetailsPage || species != null || action != null) {
@@ -109,76 +104,68 @@ public class GenomeInformationController implements Controller{
         return assemblyListsMap;
     }
 
-    public LinkedList<SearchHit> getGenome(int mapkey) throws IOException {
-        List<SearchHit[]> hitsList= new ArrayList<>();
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        srb.query(QueryBuilders.matchAllQuery());
+    public LinkedList<EsHit> getGenome(int mapkey) throws IOException {
+        ElasticsearchClient client = ClientInit.getClient();
+        SearchResponse<java.util.Map> sr = client.search(s -> {
+            s.index(RgdContext.getESIndexName("genome"))
+                    .query(q -> q.matchAll(ma -> ma))
+                    .size(100);
+            if (mapkey == 0) {
+                s.postFilter(pf -> pf.bool(b -> b
+                        .filter(f -> f.match(mq -> mq.field("primaryAssembly").query(FieldValue.of("Y"))))));
+            } else {
+                s.postFilter(pf -> pf.bool(b -> b
+                        .filter(f -> f.match(mq -> mq.field("mapKey").query(FieldValue.of(mapkey))))));
+            }
+            return s;
+        }, java.util.Map.class);
 
-
-
-
-    //    SearchResponse sr;
-        if( mapkey==0 ) {
-            srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("primaryAssembly", "Y")));
-        /*    sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
-                    .setTypes("genome")
-                    .setQuery(QueryBuilders.matchAllQuery())
-                    .setSize(100)
-                 //   .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("primaryAssembly", "Y")))
-                    .get();
-*/
-        }else {
-            srb.postFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("mapKey", mapkey)));
-           /* sr = ClientInit.getClient().prepareSearch(RgdContext.getESIndexName("genome"))
-                    .setTypes("genome")
-                    .setQuery(QueryBuilders.matchAllQuery())
-                    .setPostFilter(QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("mapKey", mapkey)))
-                    .get();*/
+        List<EsHit[]> hitsList = new ArrayList<>();
+        if (sr != null) {
+            List<EsHit> page = new ArrayList<>();
+            for (Hit<java.util.Map> hit : sr.hits().hits()) {
+                @SuppressWarnings("unchecked")
+                java.util.Map<String, Object> source = (java.util.Map<String, Object>) hit.source();
+                page.add(new EsHit(hit.id(), source));
+            }
+            hitsList.add(page.toArray(new EsHit[0]));
         }
-        srb.size(100);
-        SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("genome"));
-        searchRequest.source(srb);
-        SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-        if(sr!=null) {
-            hitsList.add(sr.getHits().getHits());
-
-        }
-        LinkedList<SearchHit> map=new LinkedList<>();
-        for(SearchHit[] hit:hitsList){
-            for(SearchHit h:hit){
+        LinkedList<EsHit> map=new LinkedList<>();
+        for(EsHit[] hit:hitsList){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Rat"))
                 map.add(h);
             }
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Human"))
                     map.add(h);            }
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Mouse"))
                     map.add(h);            }
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Chinchilla"))
                     map.add(h);            }
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Dog"))
                     map.add(h);            }
 
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Bonobo"))
                     map.add(h);            }
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Squirrel"))
                     map.add(h);            }
 
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Pig"))
                     map.add(h);            }
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Naked Mole-rat"))
                     map.add(h);            }
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Green Monkey"))
                     map.add(h);            }
-            for(SearchHit h:hit){
+            for(EsHit h:hit){
                 if(h.getSourceAsMap().get("species").toString().equalsIgnoreCase("Black Rat"))
                     map.add(h);            }
 
@@ -224,4 +211,3 @@ public class GenomeInformationController implements Controller{
      return 0;
  }
 }
-

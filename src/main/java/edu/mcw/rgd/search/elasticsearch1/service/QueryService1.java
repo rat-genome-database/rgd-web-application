@@ -1,28 +1,28 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.SortOptions;
+import co.elastic.clients.elasticsearch._types.SortOrder;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.ChildScoreMode;
+import co.elastic.clients.elasticsearch._types.query_dsl.DisMaxQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Highlight;
+import co.elastic.clients.elasticsearch.core.search.HighlightField;
+import co.elastic.clients.json.JsonData;
+import co.elastic.clients.util.NamedValue;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
-import org.apache.lucene.search.join.ScoreMode;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.*;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.BucketOrder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.elasticsearch.search.sort.NestedSortBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Service for building and executing Elasticsearch queries.
- */
 public class QueryService1 {
 
     // Category constants
@@ -66,222 +66,243 @@ public class QueryService1 {
     );
 
 
-    public SearchResponse getSearchResponse(String term, SearchBean sb) throws IOException {
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        sourceBuilder.query(boolQueryBuilder(term, sb));
+    public SearchResponse<Map> getSearchResponse(String term, SearchBean sb) throws IOException {
+        Query mainQuery = boolQuery(term, sb);
+        List<SortOptions> sort = (sb != null) ? buildSort(sb) : Collections.emptyList();
+        Map<String, Aggregation> aggs = (sb != null && !sb.isPage()) ? buildAggregations() : Collections.emptyMap();
+        Query postFilter = (sb != null) ? buildPostFilter(sb) : null;
+        Highlight highlight = (sb != null) ? buildHighlights() : null;
+        int from = (sb != null) ? sb.getFrom() : 0;
+        int size = (sb != null) ? sb.getSize() : 10;
 
-        if (sb != null) {
-            applySorting(sourceBuilder, sb);
-            applyAggregations(sourceBuilder, sb);
-            applyPaginationAndHighlighting(sourceBuilder, sb);
-            applyPostFilters(sourceBuilder, sb);
-        }
-
-        SearchRequest searchRequest = new SearchRequest(RgdContext.getESIndexName("search"));
-        searchRequest.source(sourceBuilder);
-        return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        ElasticsearchClient client = ClientInit.getClient();
+        return client.search(s -> {
+            s.index(RgdContext.getESIndexName("search"))
+                    .query(mainQuery)
+                    .from(from)
+                    .size(size);
+            if (!sort.isEmpty()) {
+                s.sort(sort);
+            }
+            if (!aggs.isEmpty()) {
+                s.aggregations(aggs);
+            }
+            if (postFilter != null) {
+                s.postFilter(postFilter);
+            }
+            if (highlight != null) {
+                s.highlight(highlight);
+            }
+            return s;
+        }, Map.class);
     }
 
-    private void applySorting(SearchSourceBuilder sourceBuilder, SearchBean sb) {
+    private List<SortOptions> buildSort(SearchBean sb) {
         String sortBy = sb.getSortBy();
         String category = sb.getCategory();
-        SortOrder order = "asc".equalsIgnoreCase(sb.getSortOrder()) ? SortOrder.ASC : SortOrder.DESC;
+        SortOrder order = "asc".equalsIgnoreCase(sb.getSortOrder()) ? SortOrder.Asc : SortOrder.Desc;
 
         if ("relevance".equalsIgnoreCase(sortBy) && !VARIANT.equalsIgnoreCase(category)) {
-            sourceBuilder.sort(SortBuilders.scoreSort().order(SortOrder.DESC));
-            return;
+            return List.of(SortOptions.of(s -> s.score(sc -> sc.order(SortOrder.Desc))));
         }
 
         if ("symbol".equalsIgnoreCase(sortBy)) {
-            sourceBuilder.sort(SortBuilders.fieldSort(sortBy + KEYWORD_SUFFIX)
+            return List.of(SortOptions.of(s -> s.field(f -> f
+                    .field(sortBy + KEYWORD_SUFFIX)
                     .missing("_last")
-                    .order(order));
-            return;
+                    .order(order))));
         }
 
         // Nested sort for map data
         String sortField = VARIANT.equalsIgnoreCase(category)
                 ? "mapDataList.rank"
                 : "mapDataList." + sortBy;
-        SortOrder nestedOrder = VARIANT.equalsIgnoreCase(category) ? SortOrder.ASC : order;
+        SortOrder nestedOrder = VARIANT.equalsIgnoreCase(category) ? SortOrder.Asc : order;
 
-        sourceBuilder.sort(SortBuilders.fieldSort(sortField)
+        return List.of(SortOptions.of(s -> s.field(f -> f
+                .field(sortField)
                 .missing("_last")
                 .order(nestedOrder)
-                .setNestedSort(new NestedSortBuilder("mapDataList")));
+                .nested(ns -> ns.path("mapDataList")))));
     }
 
-    private void applyAggregations(SearchSourceBuilder sourceBuilder, SearchBean sb) {
-        if (sb.isPage()) {
-            return;
-        }
-
+    private Map<String, Aggregation> buildAggregations() {
+        Map<String, Aggregation> aggs = new LinkedHashMap<>();
         for (String field : AGG_FIELDS) {
-            AggregationBuilder agg = buildAggregations(field);
+            Aggregation agg = buildAggregation(field);
             if (agg != null) {
-                sourceBuilder.aggregation(agg);
+                aggs.put(field, agg);
             }
         }
+        return aggs;
     }
 
-    private void applyPaginationAndHighlighting(SearchSourceBuilder sourceBuilder, SearchBean sb) {
-        sourceBuilder.highlighter(buildHighlights())
-                .from(sb.getFrom())
-                .size(sb.getSize());
-    }
-
-    private void applyPostFilters(SearchSourceBuilder sourceBuilder, SearchBean sb) {
+    private Query buildPostFilter(SearchBean sb) {
         boolean hasSpecies = isNotBlank(sb.getSpecies());
         boolean isGeneralCategory = GENERAL.equalsIgnoreCase(sb.getCategory());
 
         if (hasSpecies && !isGeneralCategory) {
-            applySpeciesAndCategoryFilters(sourceBuilder, sb);
+            return speciesAndCategoryPostFilter(sb);
         } else {
-            applyGeneralFilters(sourceBuilder, sb);
+            return generalPostFilter(sb);
         }
     }
 
-    private void applySpeciesAndCategoryFilters(SearchSourceBuilder sourceBuilder, SearchBean sb) {
-        BoolQueryBuilder filter = QueryBuilders.boolQuery()
-                .filter(QueryBuilders.termQuery(SPECIES_KEYWORD, sb.getSpecies()))
-                .filter(QueryBuilders.termQuery(CATEGORY_KEYWORD, sb.getCategory()));
+    private Query speciesAndCategoryPostFilter(SearchBean sb) {
+        BoolQuery.Builder b = new BoolQuery.Builder();
+        b.filter(termFilter(SPECIES_KEYWORD, sb.getSpecies()));
+        b.filter(termFilter(CATEGORY_KEYWORD, sb.getCategory()));
 
         if (isNotBlank(sb.getType()) && !"null".equals(sb.getType())) {
-            filter.filter(QueryBuilders.termQuery("type.keyword", sb.getType()));
-            sourceBuilder.postFilter(filter);
+            b.filter(termFilter("type.keyword", sb.getType()));
+            return Query.of(q -> q.bool(b.build()));
         } else if (isNotBlank(sb.getTrait())) {
-            filter.filter(QueryBuilders.termQuery("trait.keyword", sb.getTrait()));
-            sourceBuilder.postFilter(filter);
+            b.filter(termFilter("trait.keyword", sb.getTrait()));
+            return Query.of(q -> q.bool(b.build()));
         } else if (sb.getType() != null) {
-            sourceBuilder.postFilter(filter);
+            return Query.of(q -> q.bool(b.build()));
         }
+        return null;
     }
 
-    private void applyGeneralFilters(SearchSourceBuilder sourceBuilder, SearchBean sb) {
+    private Query generalPostFilter(SearchBean sb) {
         if (isNotBlank(sb.getSpecies())) {
-            sourceBuilder.postFilter(QueryBuilders.termQuery(SPECIES_KEYWORD, sb.getSpecies()));
+            return termFilter(SPECIES_KEYWORD, sb.getSpecies());
         }
 
         String category = sb.getCategory();
         if (!GENERAL.equalsIgnoreCase(category) && isNotBlank(category)) {
             if (ONTOLOGY.equalsIgnoreCase(category) && isNotBlank(sb.getSubCat())) {
-                sourceBuilder.postFilter(QueryBuilders.boolQuery()
-                        .filter(QueryBuilders.termQuery(CATEGORY_KEYWORD, category))
-                        .filter(QueryBuilders.termQuery("subcat.keyword", sb.getSubCat())));
+                BoolQuery.Builder b = new BoolQuery.Builder();
+                b.filter(termFilter(CATEGORY_KEYWORD, category));
+                b.filter(termFilter("subcat.keyword", sb.getSubCat()));
+                return Query.of(q -> q.bool(b.build()));
             } else {
-                sourceBuilder.postFilter(QueryBuilders.termQuery(CATEGORY_KEYWORD, category));
+                return termFilter(CATEGORY_KEYWORD, category);
             }
         }
+        return null;
+    }
+
+    private Query termFilter(String field, String value) {
+        return Query.of(q -> q.term(t -> t.field(field).value(FieldValue.of(value))));
     }
 
     private boolean isNotBlank(String str) {
         return str != null && !str.isEmpty();
     }
 
-    public BoolQueryBuilder boolQueryBuilder(String term, SearchBean sb) {
-        BoolQueryBuilder builder = new BoolQueryBuilder();
-        builder.must(getDisMaxQuery(term, sb));
+    public Query boolQuery(String term, SearchBean sb) {
+        BoolQuery.Builder b = new BoolQuery.Builder();
+        b.must(getDisMaxQuery(term, sb));
 
         if (sb == null) {
-            return builder;
+            return Query.of(q -> q.bool(b.build()));
         }
 
         // Basic filters
-        addCategoryFilter(builder, sb);
-        addSpeciesFilter(builder, sb);
-        addAssemblyFilter(builder, sb);
-        addChromosomeFilter(builder, sb);
-        addPositionRangeFilter(builder, sb);
+        addCategoryFilter(b, sb);
+        addSpeciesFilter(b, sb);
+        addAssemblyFilter(b, sb);
+        addChromosomeFilter(b, sb);
+        addPositionRangeFilter(b, sb);
 
         // Additional filters
-        addTermFilter(builder, "polyphenStatus.keyword", sb.getPolyphenStatus());
-        addTermFilter(builder, "variantCategory.keyword", sb.getVariantCategory());
-        addTermFilter(builder, "analysisName.keyword", sb.getSample());
-        addTermFilter(builder, "regionName.keyword", sb.getRegion());
-        addTermFilter(builder, "expressionLevel.keyword", sb.getExpressionLevel());
-        addTermFilter(builder, "strainTerms.keyword", sb.getStrainTerms());
-        addTermFilter(builder, "tissueTerms.keyword", sb.getTissueTerms());
-        addTermFilter(builder, "cellTypeTerms.keyword", sb.getCellTypeTerms());
-        addTermFilter(builder, "conditionTerms.keyword", sb.getConditions());
-        addTermFilter(builder, "expressionSource.keyword", sb.getExpressionSource());
+        addTermFilter(b, "polyphenStatus.keyword", sb.getPolyphenStatus());
+        addTermFilter(b, "variantCategory.keyword", sb.getVariantCategory());
+        addTermFilter(b, "analysisName.keyword", sb.getSample());
+        addTermFilter(b, "regionName.keyword", sb.getRegion());
+        addTermFilter(b, "expressionLevel.keyword", sb.getExpressionLevel());
+        addTermFilter(b, "strainTerms.keyword", sb.getStrainTerms());
+        addTermFilter(b, "tissueTerms.keyword", sb.getTissueTerms());
+        addTermFilter(b, "cellTypeTerms.keyword", sb.getCellTypeTerms());
+        addTermFilter(b, "conditionTerms.keyword", sb.getConditions());
+        addTermFilter(b, "expressionSource.keyword", sb.getExpressionSource());
 
-        return builder;
+        return Query.of(q -> q.bool(b.build()));
     }
 
-    private void addCategoryFilter(BoolQueryBuilder builder, SearchBean sb) {
+    private void addCategoryFilter(BoolQuery.Builder b, SearchBean sb) {
         String category = sb.getCategory();
         if (isNotBlank(category) && !GENERAL.equalsIgnoreCase(category)) {
-            builder.filter(QueryBuilders.termQuery(CATEGORY_KEYWORD, category));
+            b.filter(termFilter(CATEGORY_KEYWORD, category));
         }
     }
 
-    private void addSpeciesFilter(BoolQueryBuilder builder, SearchBean sb) {
+    private void addSpeciesFilter(BoolQuery.Builder b, SearchBean sb) {
         if (isNotBlank(sb.getSpecies())) {
-            builder.filter(QueryBuilders.termQuery(SPECIES_KEYWORD, sb.getSpecies()));
+            b.filter(termFilter(SPECIES_KEYWORD, sb.getSpecies()));
         }
     }
 
-    private void addAssemblyFilter(BoolQueryBuilder builder, SearchBean sb) {
+    private void addAssemblyFilter(BoolQuery.Builder b, SearchBean sb) {
         String assembly = sb.getAssembly();
         if (isNotBlank(assembly) && !"all".equalsIgnoreCase(assembly)) {
-            builder.filter(buildNestedMapQuery(
-                    QueryBuilders.termQuery("mapDataList.map", assembly)));
+            b.filter(nestedMapQuery(termFilter("mapDataList.map", assembly)));
         }
     }
 
-    private void addChromosomeFilter(BoolQueryBuilder builder, SearchBean sb) {
+    private void addChromosomeFilter(BoolQuery.Builder b, SearchBean sb) {
         String chr = sb.getChr();
         if (isNotBlank(chr) && !"all".equalsIgnoreCase(chr)) {
-            builder.filter(buildNestedMapQuery(
-                    QueryBuilders.termQuery("mapDataList.chromosome", chr)));
+            b.filter(nestedMapQuery(termFilter("mapDataList.chromosome", chr)));
         }
     }
 
-    private void addPositionRangeFilter(BoolQueryBuilder builder, SearchBean sb) {
+    private void addPositionRangeFilter(BoolQuery.Builder b, SearchBean sb) {
         if (!isNotBlank(sb.getStart()) || !isNotBlank(sb.getStop())) {
             return;
         }
 
-        BoolQueryBuilder rangeQuery = QueryBuilders.boolQuery()
-                .must(QueryBuilders.rangeQuery("mapDataList.startPos").lte(sb.getStop()))
-                .must(QueryBuilders.rangeQuery("mapDataList.stopPos").gte(sb.getStart()));
+        BoolQuery.Builder rb = new BoolQuery.Builder();
+        rb.must(Query.of(q -> q.range(r -> r.untyped(u -> u.field("mapDataList.startPos").lte(JsonData.of(sb.getStop()))))));
+        rb.must(Query.of(q -> q.range(r -> r.untyped(u -> u.field("mapDataList.stopPos").gte(JsonData.of(sb.getStart()))))));
 
         String assembly = sb.getAssembly();
         boolean hasAssembly = isNotBlank(assembly) && !"all".equalsIgnoreCase(assembly);
 
         if (hasAssembly) {
-            rangeQuery.must(QueryBuilders.termQuery("mapDataList.map", assembly));
+            rb.must(termFilter("mapDataList.map", assembly));
             if (sb.getChr() != null) {
-                rangeQuery.must(QueryBuilders.rangeQuery("mapDataList.chromosome").lte(sb.getStop()));
+                rb.must(Query.of(q -> q.range(r -> r.untyped(u -> u.field("mapDataList.chromosome").lte(JsonData.of(sb.getStop()))))));
             }
         }
 
-        builder.filter(QueryBuilders.boolQuery().filter(
-                QueryBuilders.nestedQuery("mapDataList", rangeQuery, ScoreMode.None)));
+        BoolQuery rangeQuery = rb.build();
+        BoolQuery.Builder outer = new BoolQuery.Builder();
+        outer.filter(Query.of(q -> q.nested(n -> n
+                .path("mapDataList")
+                .query(qq -> qq.bool(rangeQuery))
+                .scoreMode(ChildScoreMode.None))));
+        b.filter(Query.of(q -> q.bool(outer.build())));
     }
 
-    private void addTermFilter(BoolQueryBuilder builder, String field, String value) {
+    private void addTermFilter(BoolQuery.Builder b, String field, String value) {
         if (isNotBlank(value)) {
-            builder.filter(QueryBuilders.termQuery(field, value));
+            b.filter(termFilter(field, value));
         }
     }
 
-    private QueryBuilder buildNestedMapQuery(QueryBuilder query) {
-        return QueryBuilders.nestedQuery("mapDataList",
-                QueryBuilders.boolQuery().must(query), ScoreMode.None);
+    private Query nestedMapQuery(Query query) {
+        return Query.of(q -> q.nested(n -> n
+                .path("mapDataList")
+                .query(qq -> qq.bool(b -> b.must(query)))
+                .scoreMode(ChildScoreMode.None)));
     }
 
 
-    public BoolQueryBuilder getCategoryOrSpeciesQuery(String term, Map<String, String> filterMap) {
-        BoolQueryBuilder builder = new BoolQueryBuilder();
-
+    public Query getCategoryOrSpeciesQuery(String term, Map<String, String> filterMap) {
         if (SPECIES_SET.contains(term.toLowerCase())) {
-            return builder.must(QueryBuilders.matchPhraseQuery("species", term));
+            BoolQuery.Builder b = new BoolQuery.Builder();
+            b.must(Query.of(q -> q.matchPhrase(m -> m.field("species").query(term))));
+            return Query.of(q -> q.bool(b.build()));
         }
 
         if (CATEGORY_SET.contains(term.toLowerCase())) {
             String categoryTerm = normalizeCategoryTerm(term);
-            return builder.must(QueryBuilders.matchPhraseQuery("category", categoryTerm));
+            BoolQuery.Builder b = new BoolQuery.Builder();
+            b.must(Query.of(q -> q.matchPhrase(m -> m.field("category").query(categoryTerm))));
+            return Query.of(q -> q.bool(b.build()));
         }
 
         return null;
@@ -301,71 +322,79 @@ public class QueryService1 {
         return term;
     }
 
-    public QueryBuilder getDisMaxQuery(String term, SearchBean sb) {
-        DisMaxQueryBuilder dqb = new DisMaxQueryBuilder();
+    public Query getDisMaxQuery(String term, SearchBean sb) {
+        List<Query> queries = new ArrayList<>();
         // If term is numeric
         if (term.matches("\\d+")) {
-            dqb.add((QueryBuilders.matchPhraseQuery("term_acc", term)));
-        }else {
+            queries.add(Query.of(q -> q.matchPhrase(m -> m.field("term_acc").query(term))));
+        } else {
             // Handle empty term
             if (!isNotBlank(term) && sb != null) {
-                return dqb.add(QueryBuilders.boolQuery()
-                        .must(QueryBuilders.matchAllQuery())
-                        .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, sb.getCategory())));
+                final String cat = sb.getCategory();
+                BoolQuery.Builder bb = new BoolQuery.Builder();
+                bb.must(Query.of(q -> q.matchAll(ma -> ma)));
+                bb.must(termFilter(CATEGORY_KEYWORD, cat));
+                queries.add(Query.of(q -> q.bool(bb.build())));
+                return Query.of(q -> q.disMax(DisMaxQuery.of(d -> d.queries(queries))));
             }
 
             // Handle null search bean
             if (sb == null) {
-                return dqb.add(QueryBuilders.termQuery("term_acc", term));
+                queries.add(termFilter("term_acc", term));
+                return Query.of(q -> q.disMax(DisMaxQuery.of(d -> d.queries(queries))));
             }
 
             // Handle specific match types
             String matchType = sb.getMatchType();
             if (isNotBlank(matchType) && !"contains".equalsIgnoreCase(matchType)) {
-                buildQuery(sb, dqb);
-                return dqb;
+                buildQuery(sb, queries);
+                return Query.of(q -> q.disMax(DisMaxQuery.of(d -> d.queries(queries))));
             }
 
             // Build default query with category-specific boosting
-            addCategoryBoostedQueries(dqb, term, sb);
-            addExactMatchQueries(dqb, term);
+            addCategoryBoostedQueries(queries, term, sb);
+            addExactMatchQueries(queries, term);
 
             if (isAccessionId(term)) {
-                dqb.add(QueryBuilders.boolQuery()
-                        .must(QueryBuilders.termQuery("synonyms.symbol", term))
-                        .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, ONTOLOGY))
-                        .boost(EXACT_MATCH_BOOST));
-                dqb.add(QueryBuilders.termQuery("xdbIdentifiers.lc", term).boost(EXACT_MATCH_BOOST));
+                final String t = term;
+                BoolQuery.Builder bb = new BoolQuery.Builder();
+                bb.must(termFilter("synonyms.symbol", t));
+                bb.must(termFilter(CATEGORY_KEYWORD, ONTOLOGY));
+                bb.boost(EXACT_MATCH_BOOST);
+                queries.add(Query.of(q -> q.bool(bb.build())));
+                queries.add(Query.of(q -> q.term(tq -> tq.field("xdbIdentifiers.lc").value(FieldValue.of(t)).boost(EXACT_MATCH_BOOST))));
             } else {
-                addMultiMatchQueries(dqb, term);
+                addMultiMatchQueries(queries, term);
             }
         }
-        return dqb;
+        return Query.of(q -> q.disMax(DisMaxQuery.of(d -> d.queries(queries))));
     }
 
-    private void addCategoryBoostedQueries(DisMaxQueryBuilder dqb, String term, SearchBean sb) {
+    private void addCategoryBoostedQueries(List<Query> queries, String term, SearchBean sb) {
         String category = sb.getCategory();
 
         // Add category-specific boosted queries
         if (matchesCategory(category, "gene")) {
-            addBoostedSymbolQuery(dqb, term, GENE, GENE_BOOST);
+            addBoostedSymbolQuery(queries, term, GENE, GENE_BOOST);
         }
         if (matchesCategory(category, "sslp")) {
-            addBoostedSymbolQuery(dqb, term, SSLP, SSLP_BOOST);
+            addBoostedSymbolQuery(queries, term, SSLP, SSLP_BOOST);
         }
         if (matchesCategory(category, "strain")) {
-            addBoostedSymbolQuery(dqb, term, STRAIN, STRAIN_BOOST);
+            addBoostedSymbolQuery(queries, term, STRAIN, STRAIN_BOOST);
             // Also add ngram match for strains
-            dqb.add(QueryBuilders.boolQuery()
-                    .must(QueryBuilders.termQuery("htmlStrippedSymbol.ngram", term))
-                    .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, STRAIN))
-                    .boost(NGRAM_BOOST));
+            final String t = term;
+            BoolQuery.Builder bb = new BoolQuery.Builder();
+            bb.must(termFilter("htmlStrippedSymbol.ngram", t));
+            bb.must(termFilter(CATEGORY_KEYWORD, STRAIN));
+            bb.boost(NGRAM_BOOST);
+            queries.add(Query.of(q -> q.bool(bb.build())));
         }
         if (matchesCategory(category, "variant")) {
-            addBoostedSymbolQuery(dqb, term, "Variant", VARIANT_BOOST);
+            addBoostedSymbolQuery(queries, term, "Variant", VARIANT_BOOST);
         }
         if (matchesCategory(category, "qtl")) {
-            addBoostedSymbolQuery(dqb, term, QTL, QTL_BOOST);
+            addBoostedSymbolQuery(queries, term, QTL, QTL_BOOST);
         }
     }
 
@@ -376,107 +405,121 @@ public class QueryService1 {
                 GENERAL.equalsIgnoreCase(category));
     }
 
-    private void addBoostedSymbolQuery(DisMaxQueryBuilder dqb, String term, String categoryValue, float boost) {
-        dqb.add(QueryBuilders.boolQuery()
-                .must(QueryBuilders.termQuery(SYMBOL_FIELD, term))
-                .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, categoryValue))
-                .boost(boost));
+    private void addBoostedSymbolQuery(List<Query> queries, String term, String categoryValue, float boost) {
+        BoolQuery.Builder bb = new BoolQuery.Builder();
+        bb.must(termFilter(SYMBOL_FIELD, term));
+        bb.must(termFilter(CATEGORY_KEYWORD, categoryValue));
+        bb.boost(boost);
+        queries.add(Query.of(q -> q.bool(bb.build())));
     }
 
-    private void addExactMatchQueries(DisMaxQueryBuilder dqb, String term) {
-        dqb.add(QueryBuilders.termQuery(SYMBOL_FIELD, term).boost(EXACT_MATCH_BOOST));
-        dqb.add(QueryBuilders.termQuery(TERM_FIELD, term).boost(EXACT_MATCH_BOOST));
-        dqb.add(QueryBuilders.termQuery("expressedGeneSymbols.symbol", term).boost(EXACT_MATCH_BOOST));
+    private void addExactMatchQueries(List<Query> queries, String term) {
+        final String t = term;
+        queries.add(Query.of(q -> q.term(tq -> tq.field(SYMBOL_FIELD).value(FieldValue.of(t)).boost(EXACT_MATCH_BOOST))));
+        queries.add(Query.of(q -> q.term(tq -> tq.field(TERM_FIELD).value(FieldValue.of(t)).boost(EXACT_MATCH_BOOST))));
+        queries.add(Query.of(q -> q.term(tq -> tq.field("expressedGeneSymbols.symbol").value(FieldValue.of(t)).boost(EXACT_MATCH_BOOST))));
     }
 
-    private void addMultiMatchQueries(DisMaxQueryBuilder dqb, String term) {
-        dqb.add(QueryBuilders.multiMatchQuery(term)
-                .field(SYMBOL_FIELD, 100)
-                .field(TERM_FIELD, 100)
+    private void addMultiMatchQueries(List<Query> queries, String term) {
+        final String t = term;
+        queries.add(Query.of(q -> q.multiMatch(m -> m
+                .query(t)
+                .fields(SYMBOL_FIELD + "^100", TERM_FIELD + "^100")
                 .analyzer("standard")
-                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX)
-                .boost(10));
+                .type(TextQueryType.PhrasePrefix)
+                .boost(10f))));
 
-        dqb.add(QueryBuilders.multiMatchQuery(term)
-                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX)
+        queries.add(Query.of(q -> q.multiMatch(m -> m
+                .query(t)
+                .type(TextQueryType.PhrasePrefix)
                 .analyzer("standard")
-                .boost(8));
+                .boost(8f))));
 
-        dqb.add(QueryBuilders.multiMatchQuery(term)
-                .type(MultiMatchQueryBuilder.Type.PHRASE)
+        queries.add(Query.of(q -> q.multiMatch(m -> m
+                .query(t)
+                .type(TextQueryType.Phrase)
                 .analyzer("standard")
-                .boost(5));
+                .boost(5f))));
 
-        dqb.add(QueryBuilders.multiMatchQuery(term)
-                .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                .operator(Operator.AND)
-                .boost(3));
+        queries.add(Query.of(q -> q.multiMatch(m -> m
+                .query(t)
+                .type(TextQueryType.CrossFields)
+                .operator(Operator.And)
+                .boost(3f))));
     }
 
     private boolean isAccessionId(String term) {
         return term != null && term.contains(":");
     }
-    public void buildQuery(SearchBean sb, DisMaxQueryBuilder dqb) {
+
+    public void buildQuery(SearchBean sb, List<Query> queries) {
         switch (sb.getMatchType()) {
-            case "equals" -> addExactMatchQueries(dqb, sb);
-            case "begins" -> addBeginsWithQueries(dqb, sb);
-            case "ends" -> addEndsWithQueries(dqb, sb);
+            case "equals" -> addExactMatchQueriesSb(queries, sb);
+            case "begins" -> addBeginsWithQueries(queries, sb);
+            case "ends" -> addEndsWithQueries(queries, sb);
             default -> { }
         }
     }
 
-    private void addExactMatchQueries(DisMaxQueryBuilder dqb, SearchBean sb) {
+    private void addExactMatchQueriesSb(List<Query> queries, SearchBean sb) {
         String term = sb.getTerm();
         String category = sb.getCategory();
         float boost = 1000f;
 
-        dqb.add(buildCategoryMatchQuery(SYMBOL_FIELD, term, category, boost));
-        dqb.add(buildCategoryMatchQuery("name.symbol", term, category, boost));
+        queries.add(buildCategoryMatchQuery(SYMBOL_FIELD, term, category, boost));
+        queries.add(buildCategoryMatchQuery("name.symbol", term, category, boost));
     }
 
-    private void addBeginsWithQueries(DisMaxQueryBuilder dqb, SearchBean sb) {
-        String term = sb.getTerm();
-        String category = sb.getCategory();
-        float boost = 1000f;
+    private void addBeginsWithQueries(List<Query> queries, SearchBean sb) {
+        final String term = sb.getTerm();
+        final String category = sb.getCategory();
+        final float boost = 1000f;
 
-        dqb.add(QueryBuilders.boolQuery()
-                .must(QueryBuilders.matchPhrasePrefixQuery("symbol", term))
-                .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, category).caseInsensitive(true))
-                .boost(boost));
+        BoolQuery.Builder b1 = new BoolQuery.Builder();
+        b1.must(Query.of(q -> q.matchPhrasePrefix(m -> m.field("symbol").query(term))));
+        b1.must(Query.of(q -> q.term(t -> t.field(CATEGORY_KEYWORD).value(FieldValue.of(category)).caseInsensitive(true))));
+        b1.boost(boost);
+        queries.add(Query.of(q -> q.bool(b1.build())));
 
-        dqb.add(QueryBuilders.boolQuery()
-                .must(QueryBuilders.matchPhrasePrefixQuery("name.symbol", term))
-                .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, category).caseInsensitive(true))
-                .boost(boost));
+        BoolQuery.Builder b2 = new BoolQuery.Builder();
+        b2.must(Query.of(q -> q.matchPhrasePrefix(m -> m.field("name.symbol").query(term))));
+        b2.must(Query.of(q -> q.term(t -> t.field(CATEGORY_KEYWORD).value(FieldValue.of(category)).caseInsensitive(true))));
+        b2.boost(boost);
+        queries.add(Query.of(q -> q.bool(b2.build())));
     }
 
-    private void addEndsWithQueries(DisMaxQueryBuilder dqb, SearchBean sb) {
-        String term = sb.getTerm();
-        String category = sb.getCategory();
-        String regexPattern = ".*(" + term + ")";
-        float boost = 1000f;
+    private void addEndsWithQueries(List<Query> queries, SearchBean sb) {
+        final String term = sb.getTerm();
+        final String category = sb.getCategory();
+        final String regexPattern = ".*(" + term + ")";
+        final float boost = 1000f;
 
         for (String field : SEARCH_PRIMARY_FIELDS) {
-            dqb.add(QueryBuilders.boolQuery()
-                    .must(QueryBuilders.regexpQuery(field + ".symbol", regexPattern).caseInsensitive(true))
-                    .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, category))
-                    .boost(boost));
+            final String f1 = field + ".symbol";
+            BoolQuery.Builder b1 = new BoolQuery.Builder();
+            b1.must(Query.of(q -> q.regexp(r -> r.field(f1).value(regexPattern).caseInsensitive(true))));
+            b1.must(termFilter(CATEGORY_KEYWORD, category));
+            b1.boost(boost);
+            queries.add(Query.of(q -> q.bool(b1.build())));
 
-            dqb.add(QueryBuilders.boolQuery()
-                    .must(QueryBuilders.regexpQuery(field + KEYWORD_SUFFIX, regexPattern).caseInsensitive(true))
-                    .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, category))
-                    .boost(boost));
+            final String f2 = field + KEYWORD_SUFFIX;
+            BoolQuery.Builder b2 = new BoolQuery.Builder();
+            b2.must(Query.of(q -> q.regexp(r -> r.field(f2).value(regexPattern).caseInsensitive(true))));
+            b2.must(termFilter(CATEGORY_KEYWORD, category));
+            b2.boost(boost);
+            queries.add(Query.of(q -> q.bool(b2.build())));
         }
     }
 
-    private BoolQueryBuilder buildCategoryMatchQuery(String field, String term, String category, float boost) {
-        return QueryBuilders.boolQuery()
-                .must(QueryBuilders.termQuery(field, term))
-                .must(QueryBuilders.termQuery(CATEGORY_KEYWORD, category).caseInsensitive(true))
-                .boost(boost);
+    private Query buildCategoryMatchQuery(String field, String term, String category, float boost) {
+        BoolQuery.Builder b = new BoolQuery.Builder();
+        b.must(termFilter(field, term));
+        b.must(Query.of(q -> q.term(t -> t.field(CATEGORY_KEYWORD).value(FieldValue.of(category)).caseInsensitive(true))));
+        b.boost(boost);
+        return Query.of(q -> q.bool(b.build()));
     }
 
-    public AggregationBuilder buildAggregations(String aggField) {
+    public Aggregation buildAggregation(String aggField) {
         return switch (aggField.toLowerCase()) {
             case "species" -> buildSpeciesAggregation(aggField);
             case "category" -> buildCategoryAggregation(aggField);
@@ -485,61 +528,92 @@ public class QueryService1 {
         };
     }
 
-    private AggregationBuilder buildSpeciesAggregation(String aggField) {
-        var categoryFilter = AggregationBuilders.terms("categoryFilter").field(CATEGORY_KEYWORD)
-                .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
-                .subAggregation(AggregationBuilders.terms("trait").field("trait.keyword").size(LARGE_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
-                .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword").size(MEDIUM_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
-                .subAggregation(AggregationBuilders.terms("strainTerms").field("strainTerms.keyword").size(LARGE_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("tissueTerms").field("tissueTerms.keyword").size(LARGE_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("cellTypeTerms").field("cellTypeTerms.keyword").size(LARGE_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("conditions").field("conditionTerms.keyword").size(LARGE_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("expressionSource").field("expressionSource.keyword"))
-                .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword").size(MEDIUM_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword").size(LARGE_AGG_SIZE));
+    private Aggregation buildSpeciesAggregation(String aggField) {
+        Map<String, Aggregation> categorySubAggs = new LinkedHashMap<>();
+        categorySubAggs.put("typeFilter", termsAgg("type.keyword", DEFAULT_AGG_SIZE));
+        categorySubAggs.put("trait", termsAgg("trait.keyword", LARGE_AGG_SIZE));
+        categorySubAggs.put("polyphen", termsAgg("polyphenStatus.keyword", DEFAULT_AGG_SIZE));
+        categorySubAggs.put("region", termsAgg("regionName.keyword", MEDIUM_AGG_SIZE));
+        categorySubAggs.put("expressionLevel", termsAgg("expressionLevel.keyword", DEFAULT_AGG_SIZE));
+        categorySubAggs.put("strainTerms", termsAgg("strainTerms.keyword", LARGE_AGG_SIZE));
+        categorySubAggs.put("tissueTerms", termsAgg("tissueTerms.keyword", LARGE_AGG_SIZE));
+        categorySubAggs.put("cellTypeTerms", termsAgg("cellTypeTerms.keyword", LARGE_AGG_SIZE));
+        categorySubAggs.put("conditions", termsAgg("conditionTerms.keyword", LARGE_AGG_SIZE));
+        categorySubAggs.put("expressionSource", termsAgg("expressionSource.keyword", DEFAULT_AGG_SIZE));
+        categorySubAggs.put("sample", termsAgg("analysisName.keyword", MEDIUM_AGG_SIZE));
+        categorySubAggs.put("variantCategory", termsAgg("variantCategory.keyword", LARGE_AGG_SIZE));
 
-        return AggregationBuilders.terms(aggField).field(aggField + KEYWORD_SUFFIX).size(DEFAULT_AGG_SIZE)
-                .subAggregation(categoryFilter)
-                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(50).order(BucketOrder.key(true)));
+        Aggregation categoryFilter = Aggregation.of(a -> a
+                .terms(t -> t.field(CATEGORY_KEYWORD).size(DEFAULT_AGG_SIZE))
+                .aggregations(categorySubAggs));
+
+        Aggregation ontologies = Aggregation.of(a -> a
+                .terms(t -> t.field("subcat.keyword").size(50)
+                        .order(List.of(NamedValue.of("_key", SortOrder.Asc)))));
+
+        Map<String, Aggregation> speciesSubAggs = new LinkedHashMap<>();
+        speciesSubAggs.put("categoryFilter", categoryFilter);
+        speciesSubAggs.put("ontologies", ontologies);
+
+        return Aggregation.of(a -> a
+                .terms(t -> t.field(aggField + KEYWORD_SUFFIX).size(DEFAULT_AGG_SIZE))
+                .aggregations(speciesSubAggs));
     }
 
-    private AggregationBuilder buildCategoryAggregation(String aggField) {
-        return AggregationBuilders.terms(aggField).field(aggField + KEYWORD_SUFFIX).size(DEFAULT_AGG_SIZE)
-                .subAggregation(AggregationBuilders.terms("speciesFilter").field(SPECIES_KEYWORD).size(DEFAULT_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("subspecies").field(SPECIES_KEYWORD).size(DEFAULT_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("typeFilter").field("type.keyword"))
-                .subAggregation(AggregationBuilders.terms("polyphen").field("polyphenStatus.keyword"))
-                .subAggregation(AggregationBuilders.terms("region").field("regionName.keyword"))
-                .subAggregation(AggregationBuilders.terms("expressionLevel").field("expressionLevel.keyword"))
-                .subAggregation(AggregationBuilders.terms("sample").field("analysisName.keyword"))
-                .subAggregation(AggregationBuilders.terms("variantCategory").field("variantCategory.keyword"))
-                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(DEFAULT_AGG_SIZE).order(BucketOrder.key(true)));
+    private Aggregation buildCategoryAggregation(String aggField) {
+        Map<String, Aggregation> subAggs = new LinkedHashMap<>();
+        subAggs.put("speciesFilter", termsAgg(SPECIES_KEYWORD, DEFAULT_AGG_SIZE));
+        subAggs.put("subspecies", termsAgg(SPECIES_KEYWORD, DEFAULT_AGG_SIZE));
+        subAggs.put("typeFilter", termsAgg("type.keyword", DEFAULT_AGG_SIZE));
+        subAggs.put("polyphen", termsAgg("polyphenStatus.keyword", DEFAULT_AGG_SIZE));
+        subAggs.put("region", termsAgg("regionName.keyword", DEFAULT_AGG_SIZE));
+        subAggs.put("expressionLevel", termsAgg("expressionLevel.keyword", DEFAULT_AGG_SIZE));
+        subAggs.put("sample", termsAgg("analysisName.keyword", DEFAULT_AGG_SIZE));
+        subAggs.put("variantCategory", termsAgg("variantCategory.keyword", DEFAULT_AGG_SIZE));
+        subAggs.put("ontologies", Aggregation.of(a -> a
+                .terms(t -> t.field("subcat.keyword").size(DEFAULT_AGG_SIZE)
+                        .order(List.of(NamedValue.of("_key", SortOrder.Asc))))));
+
+        return Aggregation.of(a -> a
+                .terms(t -> t.field(aggField + KEYWORD_SUFFIX).size(DEFAULT_AGG_SIZE))
+                .aggregations(subAggs));
     }
 
-    private AggregationBuilder buildAssemblyAggregation(String aggField) {
-        return AggregationBuilders.nested("assemblyAggs", "mapDataList")
-                .subAggregation(AggregationBuilders.terms(aggField).field("mapDataList.map").size(ASSEMBLY_AGG_SIZE).order(BucketOrder.key(true)));
+    private Aggregation buildAssemblyAggregation(String aggField) {
+        Map<String, Aggregation> subAggs = new LinkedHashMap<>();
+        subAggs.put(aggField, Aggregation.of(a -> a
+                .terms(t -> t.field("mapDataList.map").size(ASSEMBLY_AGG_SIZE)
+                        .order(List.of(NamedValue.of("_key", SortOrder.Asc))))));
+        return Aggregation.of(a -> a
+                .nested(n -> n.path("mapDataList"))
+                .aggregations(subAggs));
     }
 
-    private AggregationBuilder buildDefaultAggregation(String aggField) {
-        return AggregationBuilders.terms(aggField).field(aggField + KEYWORD_SUFFIX)
-                .subAggregation(AggregationBuilders.terms("subspecies").field(SPECIES_KEYWORD).size(DEFAULT_AGG_SIZE))
-                .subAggregation(AggregationBuilders.terms("ontologies").field("subcat.keyword").size(ASSEMBLY_AGG_SIZE).order(BucketOrder.key(true)));
+    private Aggregation buildDefaultAggregation(String aggField) {
+        Map<String, Aggregation> subAggs = new LinkedHashMap<>();
+        subAggs.put("subspecies", termsAgg(SPECIES_KEYWORD, DEFAULT_AGG_SIZE));
+        subAggs.put("ontologies", Aggregation.of(a -> a
+                .terms(t -> t.field("subcat.keyword").size(ASSEMBLY_AGG_SIZE)
+                        .order(List.of(NamedValue.of("_key", SortOrder.Asc))))));
+        return Aggregation.of(a -> a
+                .terms(t -> t.field(aggField + KEYWORD_SUFFIX))
+                .aggregations(subAggs));
     }
 
-    public HighlightBuilder buildHighlights() {
-        return new HighlightBuilder().field("*");
+    private Aggregation termsAgg(String field, int size) {
+        return Aggregation.of(a -> a.terms(t -> t.field(field).size(size)));
     }
 
-    public SearchResponse getSearchResponseByTermAcc(String term) throws Exception {
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()
-                .query(QueryBuilders.termQuery("term_acc", term));
+    public Highlight buildHighlights() {
+        return Highlight.of(h -> h.fields(List.of(
+                NamedValue.of("*", HighlightField.of(f -> f)))));
+    }
 
-        SearchRequest searchRequest = new SearchRequest(RgdContext.getESIndexName("search"))
-                .source(sourceBuilder);
-
-        return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+    public SearchResponse<Map> getSearchResponseByTermAcc(String term) throws Exception {
+        ElasticsearchClient client = ClientInit.getClient();
+        return client.search(s -> s
+                        .index(RgdContext.getESIndexName("search"))
+                        .query(q -> q.term(t -> t.field("term_acc").value(FieldValue.of(term)))),
+                Map.class);
     }
 }

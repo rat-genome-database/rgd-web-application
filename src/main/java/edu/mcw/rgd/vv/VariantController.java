@@ -15,10 +15,9 @@ import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
+import edu.mcw.rgd.web.EsHit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.common.recycler.Recycler;
-import org.elasticsearch.search.SearchHit;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -146,13 +145,13 @@ public class VariantController extends HaplotyperController {
     }
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
         VVService service= new VVService(vsb,req);
-        List<SearchHit> hits=service.getVariants();
+        List<EsHit> hits=service.getVariants();
         if(hits==null){
             throw new VVException("0 results found. Please verify query parameters");
 
         }
         List<VariantResult> variantResults=new ArrayList<>();
-        for (SearchHit h : hits) {
+        for (EsHit h : hits) {
             java.util.Map<String, Object> m = h.getSourceAsMap();
             VariantResult vr = new VariantResult();
             Variant v = new Variant();

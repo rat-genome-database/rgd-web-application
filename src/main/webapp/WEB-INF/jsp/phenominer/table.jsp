@@ -7,7 +7,6 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
-<%@ page import="org.elasticsearch.action.search.SearchResponse" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <meta name="referrer" content="no-referrer" />
@@ -28,7 +27,7 @@
 <script src="/rgdweb/common/chartjs/chartjs-error-bars/Plugin.Errorbars.js"></script>
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <script>
-    var hits=${fn:length(sr.hits.hits)};
+    var hits=${hitsListSize};
     <c:if test="${plotData!=null}">
     var plotData=${plotData}
         </c:if>
@@ -45,7 +44,8 @@
 </script>
 <script src="/rgdweb/common/jquery.tabletoCSV.js"> </script>
 <%
-    SearchResponse sr= (SearchResponse) request.getAttribute("sr");
+    long hitsCount = (Long) request.getAttribute("hitsCount");
+    int hitsListSize = (Integer) request.getAttribute("hitsListSize");
 %>
 <div id="site-wrapper" style="position:relative; left:0px; top:00px;">
 
@@ -97,7 +97,7 @@
 
         <div class="row">
             <div class="col-sm-5">
-                <h3>PhenoMiner Database Results (<%=sr.getHits().getTotalHits().value%>&nbsp;results)</h3>
+                <h3>PhenoMiner Database Results (<%=hitsCount%>&nbsp;results)</h3>
             </div>
             <div class="col-xs-2">
                 <button class="btn btn-primary"><a href="/rgdweb/phenominer/ontChoices.html?terms=${terms}&species=${species}" style="text-decoration: none;color:white">Edit Query</a></button>&nbsp;
@@ -118,7 +118,7 @@
         <c:if test="${fn:length(selectedFilters)>0}">
         <span><strong style="color:black">Remove Filters:</strong>
             <button class="btn btn-light btn-sm" value="all"><a href="/rgdweb/phenominer/table.html?terms=${terms}&refRgdId=${refRgdId}&species=${species}">All&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red"></i></a></button>
-            <c:if test="${fn:length(sr.hits.hits)>0}">
+            <c:if test="${hitsListSize>0}">
             <c:forEach items="${selectedFilters}" var="termList">
             <c:forEach items="${termList.value}" var="filter">
                 <button class="btn btn-light btn-lg " value="${filter}" onclick="removeFilter('${filter}', '${termList.key}')">${filter}&nbsp;<i class="fa fa-times-circle" style="font-size:15px;color:red" ></i></button>
@@ -129,7 +129,7 @@
         </c:if>
 
         <c:choose>
-        <c:when test="${fn:length(sr.hits.hits)>0}">
+        <c:when test="${hitsListSize>0}">
         <c:choose>
         <c:when test="${plotData!=null}">
 

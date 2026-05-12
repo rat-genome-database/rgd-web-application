@@ -1,4 +1,4 @@
-<%@ page import="java.util.stream.Collectors" %><%--
+﻿<%@ page import="java.util.stream.Collectors" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 7/11/2025
@@ -30,7 +30,7 @@
     <tbody>
 
     <%
-        for(SearchHit hit:searchHits){
+        for(EsHit hit:searchHits){
             Map<String, Object> sourceMap=hit.getSourceAsMap();
             String url="/rgdweb/report/"+sourceMap.get("category").toString().toLowerCase()+"/main.html?id="+sourceMap.get("term_acc");
             String hitSpecies=sourceMap.get("species").toString();

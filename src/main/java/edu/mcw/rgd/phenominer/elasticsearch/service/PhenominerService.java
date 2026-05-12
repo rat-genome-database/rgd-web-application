@@ -1,291 +1,264 @@
 package edu.mcw.rgd.phenominer.elasticsearch.service;
 
 
-
-
-import com.google.gson.Gson;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.SortOrder;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsAggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.DisMaxQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.util.NamedValue;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.VVException;
+import edu.mcw.rgd.web.EsBucket;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.ml.job.results.Bucket;
-import org.elasticsearch.core.TimeValue;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.DisMaxQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.BucketOrder;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
-
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PhenominerService {
     private static String phenominerIndex;
-    private static int speciesTypeKey=3;
+    private static int speciesTypeKey = 3;
+
     public static void setPhenominerIndex(String phenominerIndex) {
         PhenominerService.phenominerIndex = phenominerIndex;
     }
 
 
-    public SearchResponse getSearchResponse(HttpRequestFacade req, Map<String,String> filterMap) throws VVException, IOException {
+    public SearchResponse<Map> getSearchResponse(HttpRequestFacade req, Map<String, String> filterMap) throws VVException, IOException {
 
+        if (req.getParameter("species") != null && !req.getParameter("species").equals(""))
+            speciesTypeKey = Integer.parseInt(req.getParameter("species"));
 
-        BoolQueryBuilder builder=this.boolQueryBuilder(req, filterMap);
-        if(req.getParameter("species")!=null && !req.getParameter("species").equals(""))
-            speciesTypeKey= Integer.parseInt(req.getParameter("species"));
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        srb.query(builder);
-        srb.size(10000);
-        srb.aggregation(this.buildAggregations("cmoTermWithUnits"));
-        srb.aggregation(this.buildAggregations("cmoTerm"));
-        srb.aggregation(this.buildAggregations("mmoTerm"));
-        srb.aggregation(this.buildAggregations("rsTerm"));
-        srb.aggregation(this.buildAggregations("xcoTerm"));
-        srb.aggregation(this.buildAggregations("vtTerm"));
-        srb.aggregation(this.buildAggregations("sex"));
-        srb.aggregation(this.buildAggregations("units"));
-        SearchRequest searchRequest=new SearchRequest(phenominerIndex);
-        searchRequest.source(srb);
-     //   searchRequest.scroll(TimeValue.timeValueMinutes(1L));
-        return ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        Query mainQuery = this.boolQuery(req, filterMap);
+        Map<String, Aggregation> aggs = new LinkedHashMap<>();
+        aggs.put("cmoTermWithUnits", this.buildAggregation("cmoTermWithUnits"));
+        aggs.put("cmoTerm", this.buildAggregation("cmoTerm"));
+        aggs.put("mmoTerm", this.buildAggregation("mmoTerm"));
+        aggs.put("rsTerm", this.buildAggregation("rsTerm"));
+        aggs.put("xcoTerm", this.buildAggregation("xcoTerm"));
+        aggs.put("vtTerm", this.buildAggregation("vtTerm"));
+        aggs.put("sex", this.buildAggregation("sex"));
+        aggs.put("units", this.buildAggregation("units"));
 
+        ElasticsearchClient client = ClientInit.getClient();
+        return client.search(s -> s
+                        .index(phenominerIndex)
+                        .query(mainQuery)
+                        .size(10000)
+                        .aggregations(aggs),
+                Map.class);
     }
-    public AggregationBuilder buildAggregations(String fieldName){
-        //System.out.println("SPECIES TYPE KEY IN AGGS:" + speciesTypeKey);
-        AggregationBuilder aggs= null;
-        if(fieldName.equalsIgnoreCase("units")){
-            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
-                    .size(1000).order(BucketOrder.key(true))
-                    .subAggregation(AggregationBuilders.terms("experimentName").field("experimentName.keyword")
-                            .subAggregation(AggregationBuilders.terms("cmoTerm").field("cmoTerm.keyword"))
-                   );
-        }else
-            if(fieldName.equalsIgnoreCase("rsTerm") && speciesTypeKey==3){
-                aggs= AggregationBuilders.terms("rsTopLevelTerm").field("rsTopLevelTerm"+".keyword")
-                        .size(1000).order(BucketOrder.key(true))
-                                .subAggregation(AggregationBuilders.terms(fieldName).field(fieldName+".keyword"));
 
-            }else
-            aggs= AggregationBuilders.terms(fieldName).field(fieldName+".keyword")
-                    .size(1000).order(BucketOrder.key(true));
-
-
-        return aggs;
-    }
-    public BoolQueryBuilder boolQueryBuilder(HttpRequestFacade req, Map<String, String> filterMap){
-        BoolQueryBuilder builder=new BoolQueryBuilder();
-        builder.must(this.getDisMaxQuery( req));
-        Map<String, List<String>> termsMap=getSegregatedTerms(req);
-        if(termsMap.get("CMO")!=null)
-        builder.filter(QueryBuilders.termsQuery("cmoTermAcc.keyword",termsMap.get("CMO")));
-        if(termsMap.get("MMO")!=null)
-               builder.filter(QueryBuilders.termsQuery("mmoTermAcc.keyword", termsMap.get("MMO")));
-        if(termsMap.get("RS")!=null)
-                builder.filter(QueryBuilders.termsQuery("rsTermAcc.keyword", termsMap.get("RS")));
-        if(termsMap.get("XCO")!=null)
-                builder.filter(QueryBuilders.termsQuery("xcoTermAcc.keyword", termsMap.get("XCO"))
-               );
-        if(termsMap.get("VT")!=null)
-            builder.filter(QueryBuilders.boolQuery().should(QueryBuilders.termsQuery("vtTermAcc.keyword", termsMap.get("VT")))
-                    .should(QueryBuilders.termsQuery("vtTerm2Acc.keyword", termsMap.get("VT")))
-                    .should(QueryBuilders.termsQuery("vtTerm3Acc.keyword", termsMap.get("VT"))));
-
-        if(filterMap!=null && filterMap.size()>0)
-            for(String key:filterMap.keySet()){
-              /*  if(key.equalsIgnoreCase("cmoTerm")){
-                  //  builder.filter(QueryBuilders.termsQuery("cmoTermWithUnits.keyword", filterMap.get(key).split(",")));
-                }else*/
-               builder.filter(QueryBuilders.termsQuery(key+".keyword", filterMap.get(key).split(",")));
-            }
-
-            if(speciesTypeKey>0){
-                builder.filter(QueryBuilders.termQuery("speciesTypeKey", speciesTypeKey));
-
-            }
-       // System.out.println(builder);
-        return builder;
-    }
-    public Map<String, List<String>> getSegregatedTerms(HttpRequestFacade req){
-        Map<String, List<String>> segregatedTermsMap=new HashMap<>();
-        List<String> terms= Arrays.asList(req.getParameter("terms").split(","));
-        for(String term:terms){
-            if(term.contains("CMO")){
-                List<String> cmoTerms=segregatedTermsMap.get("CMO");
-                if(cmoTerms==null) {
-                    cmoTerms=new ArrayList<>();
-                }
-                cmoTerms.add(term);
-                segregatedTermsMap.put("CMO", cmoTerms);
-            }
-            if(term.contains("XCO")){
-                List<String> xcoTerms=segregatedTermsMap.get("XCO");
-                if(xcoTerms==null) {
-                    xcoTerms=new ArrayList<>();
-                }
-                xcoTerms.add(term);
-                segregatedTermsMap.put("XCO", xcoTerms);
-            }
-            if(term.contains("MMO")){
-                List<String> mmoTerms=segregatedTermsMap.get("MMO");
-                if(mmoTerms==null) {
-                    mmoTerms=new ArrayList<>();
-                }
-                mmoTerms.add(term);
-                segregatedTermsMap.put("MMO", mmoTerms);
-            }
-            if(term.contains("VT")){
-                List<String> vtTerms=segregatedTermsMap.get("VT");
-                if(vtTerms==null) {
-                    vtTerms=new ArrayList<>();
-                }
-                vtTerms.add(term);
-                segregatedTermsMap.put("VT", vtTerms);
-            }
-            if(term.contains("RS") || term.contains("CS")){
-                List<String> rsTerms=segregatedTermsMap.get("RS");
-                if(rsTerms==null) {
-                    rsTerms=new ArrayList<>();
-                }
-                rsTerms.add(term);
-                segregatedTermsMap.put("RS", rsTerms);
-            }
-
+    public Aggregation buildAggregation(String fieldName) {
+        if (fieldName.equalsIgnoreCase("units")) {
+            Map<String, Aggregation> expSubs = new LinkedHashMap<>();
+            expSubs.put("cmoTerm", Aggregation.of(a -> a.terms(t -> t.field("cmoTerm.keyword"))));
+            Map<String, Aggregation> unitsSubs = new LinkedHashMap<>();
+            unitsSubs.put("experimentName", Aggregation.of(a -> a
+                    .terms(t -> t.field("experimentName.keyword"))
+                    .aggregations(expSubs)));
+            return Aggregation.of(a -> a
+                    .terms(t -> t.field(fieldName + ".keyword").size(1000)
+                            .order(List.of(NamedValue.of("_key", SortOrder.Asc))))
+                    .aggregations(unitsSubs));
         }
-      //  Gson gson=new Gson();
-      //  System.out.println("TERMS MAP:"+ gson.toJson(segregatedTermsMap));
+        if (fieldName.equalsIgnoreCase("rsTerm") && speciesTypeKey == 3) {
+            Map<String, Aggregation> rsSubs = new LinkedHashMap<>();
+            rsSubs.put(fieldName, Aggregation.of(a -> a.terms(t -> t.field(fieldName + ".keyword"))));
+            return Aggregation.of(a -> a
+                    .terms(t -> t.field("rsTopLevelTerm.keyword").size(1000)
+                            .order(List.of(NamedValue.of("_key", SortOrder.Asc))))
+                    .aggregations(rsSubs));
+        }
+        return Aggregation.of(a -> a
+                .terms(t -> t.field(fieldName + ".keyword").size(1000)
+                        .order(List.of(NamedValue.of("_key", SortOrder.Asc)))));
+    }
+
+    public Query boolQuery(HttpRequestFacade req, Map<String, String> filterMap) {
+        BoolQuery.Builder b = new BoolQuery.Builder();
+        b.must(this.getDisMaxQuery(req));
+        Map<String, List<String>> termsMap = getSegregatedTerms(req);
+        if (termsMap.get("CMO") != null) {
+            b.filter(termsFilterStr("cmoTermAcc.keyword", termsMap.get("CMO")));
+        }
+        if (termsMap.get("MMO") != null) {
+            b.filter(termsFilterStr("mmoTermAcc.keyword", termsMap.get("MMO")));
+        }
+        if (termsMap.get("RS") != null) {
+            b.filter(termsFilterStr("rsTermAcc.keyword", termsMap.get("RS")));
+        }
+        if (termsMap.get("XCO") != null) {
+            b.filter(termsFilterStr("xcoTermAcc.keyword", termsMap.get("XCO")));
+        }
+        if (termsMap.get("VT") != null) {
+            List<String> vts = termsMap.get("VT");
+            BoolQuery.Builder vt = new BoolQuery.Builder();
+            vt.should(termsFilterStr("vtTermAcc.keyword", vts));
+            vt.should(termsFilterStr("vtTerm2Acc.keyword", vts));
+            vt.should(termsFilterStr("vtTerm3Acc.keyword", vts));
+            b.filter(Query.of(q -> q.bool(vt.build())));
+        }
+
+        if (filterMap != null && filterMap.size() > 0) {
+            for (String key : filterMap.keySet()) {
+                List<String> vals = Arrays.asList(filterMap.get(key).split(","));
+                b.filter(termsFilterStr(key + ".keyword", vals));
+            }
+        }
+
+        if (speciesTypeKey > 0) {
+            b.filter(Query.of(q -> q.term(t -> t.field("speciesTypeKey").value(FieldValue.of(speciesTypeKey)))));
+        }
+        return Query.of(q -> q.bool(b.build()));
+    }
+
+    public Map<String, List<String>> getSegregatedTerms(HttpRequestFacade req) {
+        Map<String, List<String>> segregatedTermsMap = new HashMap<>();
+        List<String> terms = Arrays.asList(req.getParameter("terms").split(","));
+        for (String term : terms) {
+            if (term.contains("CMO")) {
+                segregatedTermsMap.computeIfAbsent("CMO", k -> new ArrayList<>()).add(term);
+            }
+            if (term.contains("XCO")) {
+                segregatedTermsMap.computeIfAbsent("XCO", k -> new ArrayList<>()).add(term);
+            }
+            if (term.contains("MMO")) {
+                segregatedTermsMap.computeIfAbsent("MMO", k -> new ArrayList<>()).add(term);
+            }
+            if (term.contains("VT")) {
+                segregatedTermsMap.computeIfAbsent("VT", k -> new ArrayList<>()).add(term);
+            }
+            if (term.contains("RS") || term.contains("CS")) {
+                segregatedTermsMap.computeIfAbsent("RS", k -> new ArrayList<>()).add(term);
+            }
+        }
         return segregatedTermsMap;
     }
-    public QueryBuilder getDisMaxQuery( HttpRequestFacade req){
-        DisMaxQueryBuilder dqb=new DisMaxQueryBuilder();
-        if(req.getParameter("refRgdId")!=null && !req.getParameter("refRgdId").equals("") && Integer.parseInt(req.getParameter("refRgdId"))>0){
-            dqb.add(QueryBuilders.termQuery("refRgdId", Integer.parseInt(req.getParameter("refRgdId"))));
 
-        }else {
-            dqb.add(QueryBuilders.termsQuery("cmoTermAcc.keyword", req.getParameter("terms").split(",")));
-            dqb.add(QueryBuilders.termsQuery("mmoTermAcc.keyword", req.getParameter("terms").split(",")));
-            dqb.add(QueryBuilders.termsQuery("rsTermAcc.keyword", req.getParameter("terms").split(",")));
-            dqb.add(QueryBuilders.termsQuery("xcoTermAcc.keyword", req.getParameter("terms").split(",")));
-            dqb.add(QueryBuilders.termsQuery("xcoTerm.keyword", req.getParameter("terms").split(",")));
-            dqb.add(QueryBuilders.boolQuery().should(QueryBuilders.termsQuery("vtTermAcc.keyword", req.getParameter("terms").split(",")))
-                    .should(QueryBuilders.termsQuery("vtTerm2Acc.keyword", req.getParameter("terms").split(",")))
-                    .should(QueryBuilders.termsQuery("vtTerm3Acc.keyword",req.getParameter("terms").split(","))));
+    public Query getDisMaxQuery(HttpRequestFacade req) {
+        List<Query> queries = new ArrayList<>();
+        if (req.getParameter("refRgdId") != null && !req.getParameter("refRgdId").equals("")
+                && Integer.parseInt(req.getParameter("refRgdId")) > 0) {
+            final int refRgdId = Integer.parseInt(req.getParameter("refRgdId"));
+            queries.add(Query.of(q -> q.term(t -> t.field("refRgdId").value(FieldValue.of(refRgdId)))));
+        } else {
+            List<String> terms = Arrays.asList(req.getParameter("terms").split(","));
+            queries.add(termsFilterStr("cmoTermAcc.keyword", terms));
+            queries.add(termsFilterStr("mmoTermAcc.keyword", terms));
+            queries.add(termsFilterStr("rsTermAcc.keyword", terms));
+            queries.add(termsFilterStr("xcoTermAcc.keyword", terms));
+            queries.add(termsFilterStr("xcoTerm.keyword", terms));
 
+            BoolQuery.Builder vt = new BoolQuery.Builder();
+            vt.should(termsFilterStr("vtTermAcc.keyword", terms));
+            vt.should(termsFilterStr("vtTerm2Acc.keyword", terms));
+            vt.should(termsFilterStr("vtTerm3Acc.keyword", terms));
+            queries.add(Query.of(q -> q.bool(vt.build())));
         }
-        return dqb;
-
+        return Query.of(q -> q.disMax(DisMaxQuery.of(d -> d.queries(queries))));
     }
-    public java.util.Map<String, List<Terms.Bucket>> getAggregationsBeforeFilters(HttpRequestFacade req) throws IOException, VVException {
-        SearchResponse sr= getSearchResponse(req, null);
+
+    public java.util.Map<String, List<EsBucket>> getAggregationsBeforeFilters(HttpRequestFacade req) throws IOException, VVException {
+        SearchResponse<Map> sr = getSearchResponse(req, null);
         return getSearchAggregations(sr);
     }
-    public java.util.Map<String, List<Terms.Bucket>> getSearchAggregations(SearchResponse sr){
-        java.util.Map<String, List<Terms.Bucket>> aggregations=new HashMap<>();
-        if(sr!=null && sr.getAggregations()!=null) {
-            Terms cmoAggs = sr.getAggregations().get("cmoTerm");
-            if (cmoAggs != null) {
-                aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
-//                for (Terms.Bucket bkt : cmoAggs.getBuckets()) {
-//                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-//                }
-            }
-       /*     Terms cmoAggs=sr.getAggregations().get("cmoTermWithUnits");
-            if(cmoAggs!=null){
-                aggregations.put("cmoTermBkts", (List<Terms.Bucket>) cmoAggs.getBuckets());
-                for(Terms.Bucket bkt:cmoAggs.getBuckets()){
-                //    System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-                }}*/
-            Terms mmoAggs = sr.getAggregations().get("mmoTerm");
-            if (mmoAggs != null) {
-                aggregations.put("mmoTermBkts", (List<Terms.Bucket>) mmoAggs.getBuckets());
-//                for (Terms.Bucket bkt : mmoAggs.getBuckets()) {
-//                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-//                }
-            }
-            Terms vtAggs = sr.getAggregations().get("vtTerm");
-            if (vtAggs != null) {
-                aggregations.put("vtTermBkts", (List<Terms.Bucket>) vtAggs.getBuckets());
-//                for (Terms.Bucket bkt : vtAggs.getBuckets()) {
-//                    //   System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-//                }
-            }
-            Terms xcoAggs = sr.getAggregations().get("xcoTerm");
-            if (xcoAggs != null) {
-                aggregations.put("xcoTermBkts", (List<Terms.Bucket>) xcoAggs.getBuckets());
-//                for (Terms.Bucket bkt : xcoAggs.getBuckets()) {
-//                    // System.out.println(bkt.getKey()+"\t"+bkt.getDocCount());
-//                }
-            }
-            Terms rsTopLevelTerm = sr.getAggregations().get("rsTopLevelTerm");
-            if (rsTopLevelTerm != null) {
-                aggregations.put("rsTermBkts", (List<Terms.Bucket>) rsTopLevelTerm.getBuckets());
 
+    public java.util.Map<String, List<EsBucket>> getSearchAggregations(SearchResponse<Map> sr) {
+        java.util.Map<String, List<EsBucket>> aggregations = new HashMap<>();
+        if (sr != null && sr.aggregations() != null) {
+            Map<String, Aggregate> aggs = sr.aggregations();
+            StringTermsAggregate cmoAggs = optSterms(aggs, "cmoTerm");
+            if (cmoAggs != null) {
+                aggregations.put("cmoTermBkts", toEsBuckets(cmoAggs.buckets().array()));
             }
-            if (speciesTypeKey == 4){
-                Terms rsTermAggs = sr.getAggregations().get("rsTerm");
-            if (rsTermAggs != null) {
-                aggregations.put("rsTerms", (List<Terms.Bucket>) rsTermAggs.getBuckets());
-//                for (Terms.Bucket bkt : rsTermAggs.getBuckets()) {
-//                   //System.out.println("CHINCHILLA:"+bkt.getKey()+"\t"+bkt.getDocCount());
-//                }
+            StringTermsAggregate mmoAggs = optSterms(aggs, "mmoTerm");
+            if (mmoAggs != null) {
+                aggregations.put("mmoTermBkts", toEsBuckets(mmoAggs.buckets().array()));
+            }
+            StringTermsAggregate vtAggs = optSterms(aggs, "vtTerm");
+            if (vtAggs != null) {
+                aggregations.put("vtTermBkts", toEsBuckets(vtAggs.buckets().array()));
+            }
+            StringTermsAggregate xcoAggs = optSterms(aggs, "xcoTerm");
+            if (xcoAggs != null) {
+                aggregations.put("xcoTermBkts", toEsBuckets(xcoAggs.buckets().array()));
+            }
+            StringTermsAggregate rsTopLevelTerm = optSterms(aggs, "rsTopLevelTerm");
+            if (rsTopLevelTerm != null) {
+                aggregations.put("rsTermBkts", toEsBuckets(rsTopLevelTerm.buckets().array()));
+            }
+            if (speciesTypeKey == 4) {
+                StringTermsAggregate rsTermAggs = optSterms(aggs, "rsTerm");
+                if (rsTermAggs != null) {
+                    aggregations.put("rsTerms", toEsBuckets(rsTermAggs.buckets().array()));
+                }
+            }
+            StringTermsAggregate sexAggs = optSterms(aggs, "sex");
+            if (sexAggs != null) {
+                aggregations.put("sexBkts", toEsBuckets(sexAggs.buckets().array()));
+            }
+            StringTermsAggregate unitsAggs = optSterms(aggs, "units");
+            if (unitsAggs != null) {
+                aggregations.put("unitBkts", toEsBuckets(unitsAggs.buckets().array()));
+                // The original code intentionally overwrites cmoTermBkts with an empty list here.
+                aggregations.put("cmoTermBkts", new ArrayList<>());
             }
         }
-        Terms sexAggs=sr.getAggregations().get("sex");
-        if(sexAggs!=null){
-        aggregations.put("sexBkts", (List<Terms.Bucket>) sexAggs.getBuckets());
-        }
-        Terms unitsAggs=sr.getAggregations().get("units");
-        if(unitsAggs!=null) {
-            aggregations.put("unitBkts", (List<Terms.Bucket>) unitsAggs.getBuckets());
-            List<Terms.Bucket> unitsSubBkts=new ArrayList<>();
-//            for (Terms.Bucket bkt : unitsAggs.getBuckets()) {
-//               // System.out.println(bkt.getKey() + "\t" + bkt.getDocCount());
-//                Terms unitsSubAggs=bkt.getAggregations().get("experimentName");
-//                for(Terms.Bucket subBkt:unitsSubAggs.getBuckets()){
-//                   //System.out.println(subBkt.getKey()+"\t"+ subBkt.getDocCount());
-//                 //   unitsSubBkts.add(subBkt);
-//                }
-//            }
-            aggregations.put("cmoTermBkts", unitsSubBkts);
-        }}
         return aggregations;
     }
 
-    public java.util.Map<String, List<Terms.Bucket>> getFilteredAggregations(Map<String, String> filterMap, HttpRequestFacade req) throws IOException, VVException {
-        SearchResponse sr=null;
-      /*  if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.get("experimentName")!=null)){
-         sr= getSearchResponse(req, null);
-        }else{
-             sr= getSearchResponse(req, filterMap);
-        }*/
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        if(filterMap.size()==1 || (filterMap.size()==2 && filterMap.containsKey("experimentName")) ) {
-            srb.query(this.boolQueryBuilder(req, null));
-            //   srb.aggregation(this.buildSearchAggregations("category", category));
-           String  filterField=filterMap.entrySet().iterator().next().getKey();
-            if(filterField.equalsIgnoreCase("cmoTerm"))
-            srb.aggregation(this.buildAggregations("units"));
-            else
-                srb.aggregation(this.buildAggregations(filterField));
+    public java.util.Map<String, List<EsBucket>> getFilteredAggregations(Map<String, String> filterMap, HttpRequestFacade req) throws IOException, VVException {
+        SearchResponse<Map> sr = null;
+        if (filterMap.size() == 1 || (filterMap.size() == 2 && filterMap.containsKey("experimentName"))) {
+            Query mainQuery = this.boolQuery(req, null);
+            String filterField = filterMap.entrySet().iterator().next().getKey();
+            final String aggField = filterField.equalsIgnoreCase("cmoTerm") ? "units" : filterField;
+            Aggregation agg = this.buildAggregation(aggField);
+            ElasticsearchClient client = ClientInit.getClient();
+            sr = client.search(s -> s
+                            .index(phenominerIndex)
+                            .size(0)
+                            .query(mainQuery)
+                            .aggregations(aggField, agg),
+                    Map.class);
+        } else {
+            // Empty aggregations: original code only attached aggs in the single-filter branch.
+            Query mainQuery = this.boolQuery(req, null);
+            ElasticsearchClient client = ClientInit.getClient();
+            sr = client.search(s -> s
+                            .index(phenominerIndex)
+                            .size(0)
+                            .query(mainQuery),
+                    Map.class);
         }
-
-        //   srb.highlighter(this.buildHighlights());
-        srb.size(0);
-        //  SearchRequest searchRequest=new SearchRequest("scge_search_test");
-        SearchRequest searchRequest=new SearchRequest(phenominerIndex);
-        searchRequest.source(srb);
-
-        sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-
         return getSearchAggregations(sr);
+    }
 
+    private static Query termsFilterStr(String field, List<String> values) {
+        List<FieldValue> fvs = values.stream().map(FieldValue::of).collect(Collectors.toList());
+        return Query.of(q -> q.terms(t -> t.field(field).terms(tqf -> tqf.value(fvs))));
+    }
+
+    private static StringTermsAggregate optSterms(Map<String, Aggregate> aggs, String name) {
+        Aggregate a = aggs.get(name);
+        if (a == null) return null;
+        if (!a.isSterms()) return null;
+        return a.sterms();
+    }
+
+    private static List<EsBucket> toEsBuckets(List<StringTermsBucket> buckets) {
+        List<EsBucket> out = new ArrayList<>(buckets.size());
+        for (StringTermsBucket b : buckets) {
+            out.add(new EsBucket(b.key().stringValue(), b.docCount()));
+        }
+        return out;
     }
 }

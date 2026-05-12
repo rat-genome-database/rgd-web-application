@@ -1,4 +1,5 @@
-<%@ page import="java.util.HashMap" %><%--
+﻿<%@ page import="java.util.HashMap" %>
+<%@ page import="com.google.gson.Gson" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 7/11/2025
@@ -28,7 +29,7 @@
     <tbody>
 
     <% Gson gson=new Gson();
-        for(SearchHit hit:searchHits){
+        for(EsHit hit:searchHits){
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
             String url="";

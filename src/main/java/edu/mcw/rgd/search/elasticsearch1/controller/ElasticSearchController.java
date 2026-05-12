@@ -1,5 +1,7 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.TotalHits;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.Map;
@@ -15,8 +17,6 @@ import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
 import jakarta.servlet.RequestDispatcher;
-import org.apache.lucene.search.TotalHits;
-import org.elasticsearch.action.search.SearchResponse;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,9 +30,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Controller for Elasticsearch-based search functionality.
- */
 public class ElasticSearchController extends RGDSearchController {
 
     private static final Logger logger = Logger.getLogger(ElasticSearchController.class.getName());
@@ -147,16 +144,17 @@ public class ElasticSearchController extends RGDSearchController {
         String sp1 = (postCount <= 1) ? searchBean.getSpecies() : req.getParameter("sp1");
 
         int pageSize = (searchBean.getSize() > 0) ? searchBean.getSize() : DEFAULT_PAGE_SIZE;
-        SearchResponse searchResponse = service.getSearchResponse(request, term, searchBean);
+        SearchResponse<java.util.Map> searchResponse = service.getSearchResponse(request, term, searchBean);
 
         int totalPages = 0;
         if (searchResponse != null) {
-            TotalHits hits = searchResponse.getHits().getTotalHits();
-            totalPages = (int) ((hits.value + pageSize - 1) / pageSize);
+            TotalHits hits = searchResponse.hits().total();
+            long hitCount = (hits != null) ? hits.value() : 0L;
+            totalPages = (int) ((hitCount + pageSize - 1) / pageSize);
             model.putAll(service.getResultsMap(searchResponse, term));
 
             if (shouldLog) {
-                logResults(term, searchBean.getCategory(), hits.value);
+                logResults(term, searchBean.getCategory(), hitCount);
             }
         }
 
@@ -292,11 +290,11 @@ public class ElasticSearchController extends RGDSearchController {
 
     private String getRedirectForSingleResult(HttpServletRequest request, String term, SearchBean searchBean) throws Exception {
         SearchService service = new SearchService();
-        SearchResponse response = service.getSearchResponse(request, term, searchBean);
+        SearchResponse<java.util.Map> response = service.getSearchResponse(request, term, searchBean);
 
-        if (response != null && response.getHits() != null) {
-            TotalHits hits = response.getHits().getTotalHits();
-            if (hits.value == 1) {
+        if (response != null) {
+            TotalHits hits = response.hits().total();
+            if (hits != null && hits.value() == 1) {
                 return getUrlFromSearchHit(response, request, term);
             }
         }
@@ -306,10 +304,12 @@ public class ElasticSearchController extends RGDSearchController {
     private String buildFullUrl(String path) {
         return (path != null) ? RgdContext.getHostname() + path : null;
     }
-    private String getUrlFromSearchHit(SearchResponse response, HttpServletRequest request, String term) {
-        logResults(term, request.getParameter("category"), response.getHits().getTotalHits().value);
+    private String getUrlFromSearchHit(SearchResponse<java.util.Map> response, HttpServletRequest request, String term) {
+        TotalHits totalHits = response.hits().total();
+        logResults(term, request.getParameter("category"), totalHits != null ? totalHits.value() : 0L);
 
-        java.util.Map<String, Object> source = response.getHits().getHits()[0].getSourceAsMap();
+        @SuppressWarnings("unchecked")
+        java.util.Map<String, Object> source = (java.util.Map<String, Object>) response.hits().hits().get(0).source();
         String docId = (String) source.get("term_acc");
         String category = (String) source.get("category");
         String species = (String) source.get("species");
