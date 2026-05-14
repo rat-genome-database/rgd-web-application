@@ -177,7 +177,7 @@
 <%--                        {{ data.value }}--%>
                     </template>
                     <template #cell(geoStudyAcc)="data">
-                        <span v-html="data.value"></span>
+                        <span v-html="data.value" title="Click on the link to see more information about the study"></span>
                     </template>
                 </b-table>
             </template>
@@ -233,7 +233,7 @@
                     },
                     {
                         key: 'GeoSampleId',
-                        label: 'Source Sample ID',
+                        label: 'RGD Study Report',
                         formatter: value => {
                             if (value == null || value === "")
                                 return "N/A"
