@@ -174,9 +174,12 @@ public class VariantController extends HaplotyperController {
                 v.setQualityScore((int) m.get("qualityScore"));
             v.setZygosityStatus((String) m.get("zygosityStatus"));
             v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
-            v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
-            double p= (double) m.get("zygosityPercentRead");
-            v.setZygosityPercentRead((int) p);
+            if(m.get("zygosityNumAllele")!=null)
+                v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
+            if(m.get("zygosityPercentRead")!=null) {
+                double p = (double) m.get("zygosityPercentRead");
+                v.setZygosityPercentRead((int) p);
+            }
             v.setZygosityPossibleError((String) m.get("zygosityPossError"));
             v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
             v.conservationScore.add(mapConservation(m));
