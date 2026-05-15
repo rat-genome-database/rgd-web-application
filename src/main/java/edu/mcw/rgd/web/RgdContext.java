@@ -72,7 +72,6 @@ public class RgdContext {
             isCurator = isPipelines || isDev;
             isTest = hostname.contains("rgd-27p8tr1") || hostname.contains("rgd-c6vhv52");
 
-            //System.out.println("RgdContext: HOSTNAME="+hostname);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,7 +135,8 @@ public class RgdContext {
                     if( isDev() ) {
                         indexName= index+"_index_dev"+","+"variant_index_dev"+","+"expression-search_index_dev";
                     }else
-                        indexName= index+"_index_dev"+","+"variant_index_dev"+","+"expression-search_index_dev";
+                       // indexName= index+"_index_dev"+","+"variant_index_dev"+","+"expression-search_index_dev";
+                        indexName= index+"_index_dev";
                     break;
 
                 default:
@@ -196,7 +196,6 @@ public class RgdContext {
         }
         return "http://localhost:8080";
 
-      //  return "http://127.0.0.1:8080";
     }
     public static Properties getGitHubProperties(){
         Properties props= new Properties();
@@ -222,30 +221,12 @@ public class RgdContext {
     }
     public static String getSolrUrl(String collection){
         String url=new String();
-        switch (collection.toLowerCase()){
-            case "solr":
-                if(isProduction || isPipelines){
-                    url= "https://ontomate.rgd.mcw.edu/QueryBuilder";
-                }else{
-                    url= "https://dev.rgd.mcw.edu/QueryBuilder";
-                }
-                break;
-//            case "ontosolr":
-//                if(isProduction || isPipelines){
-//                    url="/solr/OntoSolr";
-//                }else{
-//                    url="/solr/OntoSolr";
-//                }
-//                break;
-//            case "preprintsolr":
-//                if(isProduction || isPipelines){
-//                    url= "https://ontomate.rgd.mcw.edu/preprintSolr";
-//                }else{
-//                    url=  "/solr/preprintSolr";
-//                }
-//                break;
-
-
+        if ("solr".equals(collection.toLowerCase())) {
+            if (isProduction || isPipelines) {
+                url = "https://ontomate.rgd.mcw.edu/QueryBuilder";
+            } else {
+                url = "https://dev.rgd.mcw.edu/QueryBuilder";
+            }
         }
         return url;
     }
