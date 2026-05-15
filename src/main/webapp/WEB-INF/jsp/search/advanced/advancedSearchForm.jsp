@@ -143,7 +143,7 @@
                         <option value="0" disabled hidden>All</option>
 <%--                        <% } %>--%>
                         <%--            <select name="species")>--%>
-                        <% if (request.getServletPath().endsWith("markers.jsp")|| request.getServletPath().endsWith("qtls.jsp")) { %>
+                        <% if (request.getServletPath().endsWith("markers.jsp") || request.getServletPath().endsWith("qtls.jsp")) { %>
                         <% for( int speciesTypeKey: new int[]{1,2,3} ) {
                             if(speciesTypeKey==selSpecies){%>
                         <option selected value="<%=speciesTypeKey%>"><%=SpeciesType.getCommonName(speciesTypeKey)%></option>
