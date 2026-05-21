@@ -193,12 +193,16 @@ function AnnotationTypesManager() {
         for (var j = 0; j < this.types.length; j++) {
             var t = this.types[j];
             var color = color_scheme[t][0];
-            pills += "<span class='gv-count-pill' style='background-color:" + color + "'>"
+            pills += "<button type='button' class='gv-count-pill' data-type='" + t + "'"
+                  + " style='background-color:" + color + "'"
+                  + " onclick=\"gviewerFilterType('" + t + "')\""
+                  + " title=\"Click to show only " + t + "s (click again to clear)\">"
                   + "<span class='gv-count-num'>" + this.typeCounts[t] + "</span>"
                   + "<span class='gv-count-label'>" + t + (this.typeCounts[t] == 1 ? "" : "s") + "</span>"
-                  + "</span>";
+                  + "</button>";
         }
-        return "<span class='gv-counts-wrap'>" + pills + "<span class='gv-counts-loaded'>loaded</span></span>";
+        return "<span class='gv-counts-wrap'>" + pills + "<span class='gv-counts-loaded'>loaded</span>"
+             + "<a href='javascript:void(0)' class='gv-clear-filter' onclick='gviewerClearFilter()'>Show All</a></span>";
     }
 
  }

@@ -154,11 +154,10 @@ sorttable = {
 	        
 	        tb = this.sorttable_tbody;
 	        for (var j=0; j<row_array.length; j++) {
-            // set classes for alternate row coloring
-            var elems = row_array[j][1].getElementsByTagName("td");
-            for(var k=0; k < elems.length; k++) {
-              elems[k].className = j % 2 ? 'sorttable_evenrow' : 'sorttable_oddrow';
-            }
+            // Re-alternate row coloring. Set the class on the <tr>, not each
+            // <td> â€” overwriting cell classes wipes domain-specific ones
+            // (e.g. objtag_gene / objtag_qtl / objtag_strain in GViewer).
+            row_array[j][1].className = j % 2 ? 'oddRow' : 'evenRow';
 
             tb.appendChild(row_array[j][1]);
 	        }
@@ -175,7 +174,7 @@ sorttable = {
     for (var i=0; i<table.tBodies[0].rows.length; i++) {
       text = sorttable.getInnerText(table.tBodies[0].rows[i].cells[column]);
       if (text != '') {
-        if (text.match(/^-?[£$¤]?[\d,.]+%?$/)) {
+        if (text.match(/^-?[ï¿½$ï¿½]?[\d,.]+%?$/)) {
           return sorttable.sort_numeric;
         }
         // check for a date: dd/mm/yyyy or dd/mm/yy 
