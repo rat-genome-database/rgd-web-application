@@ -123,7 +123,7 @@ public class XmlToolController implements Controller {
                 for (GViewerEsHelper.TermHit th : hits) {
                     int pos = th.termAcc.indexOf(':');
                     String ontId = pos > 0 ? th.termAcc.substring(0, pos + 1) + ' ' : "";
-                    String formatted = "<a href='" + Link.ontAnnot(th.termAcc) + "'>"
+                    String formatted = "<a href='" + Link.ontAnnot(th.termAcc) + "' target='_blank' rel='noopener'>"
                             + ontId + GViewerBean.highlight(th.term, selTerm) + "</a>";
                     if (cell.length() > 0) cell.append("<br>");
                     cell.append(formatted);

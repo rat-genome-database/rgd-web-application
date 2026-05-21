@@ -137,7 +137,6 @@ function Gviewer(viewerId, height, width) {
         cStr += '<a href="javascript: gview().exportImage()" style="' + btnGreen + '">Export Image</a>';
         cStr += '<a href="javascript: gview().getShareableURL()" style="' + btnOutline + '">Share</a>';
         cStr += prereq('<a href="javascript: gview().add()" style="' + btnOutline + '">Add Objects</a>', this.enableAdd);
-        cStr += '<a href="javascript: gview().reset()" style="' + btnRed + '">Clear</a>';
         cStr += '</div>';
         cStr += '<div id="gview_zoomOptions" style="display:none;">';
         cStr += '<a href="javascript: gview().zoomIn()" style="' + btnBlue + '">Zoom In</a>';
@@ -180,8 +179,10 @@ function Gviewer(viewerId, height, width) {
     this.reset = function (url, species) {
         this.div.innerHTML = "";
         this.closeZoomPane();
-        this.chromosomes = new Array();        
+        this.chromosomes = new Array();
         this.loaded = new Array();
+        var countsBar = document.getElementById('gvCountsBar');
+        if (countsBar) countsBar.innerHTML = "";
         this.status("Loading Bands");
 
         if (!url) {
@@ -261,7 +262,15 @@ function Gviewer(viewerId, height, width) {
             }
 
             this.currentColorScheme=1;
-            this.status(this.typesManager.getStatus(this.colorScheme));
+            // Render the type-count pills into their own bar so they survive
+            // transient status updates (e.g. when the zoom pane opens and
+            // clearStatus() runs against the regular status bar).
+            var countsBar = document.getElementById('gvCountsBar');
+            if (countsBar) {
+                countsBar.innerHTML = this.typesManager.getStatus(this.colorScheme);
+            } else {
+                this.status(this.typesManager.getStatus(this.colorScheme));
+            }
         }else {
             this.status("0 Results Found")
         }
@@ -285,7 +294,8 @@ function Gviewer(viewerId, height, width) {
                 gview().loadAnnotationData(data, color);
 
                 if (term) {
-                    gview().windowManager.open(term ,"<br><b><div style='padding:3px;'>" + gview().lastLoad.length + " objects found for term \"" + term + "\".</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over the symbol to show the objects location)</span><br>" + gview().annotationArrayToList(gview().lastLoad));
+                    gview().emphasizeAdded();
+                    gview().windowManager.open(term ,"<br><b><div style='padding:3px;'>" + gview().lastLoad.length + " objects found for term \"" + term + "\".</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over a symbol — it will turn yellow to show the object's location)</span><br>" + gview().annotationArrayToList(gview().lastLoad));
                 }
 
                 if (gview().zoomPaneActive()) {
@@ -332,7 +342,8 @@ function Gviewer(viewerId, height, width) {
                     gview().loadAnnotationData(data, color);
 
                     if (term) {
-                        gview().windowManager.open(term ,"<br><b><div style='padding:3px;'>" + gview().lastLoad.length + " objects found for term \"" + term + "\".</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over the symbol to show the objects location)</span><br>" + gview().annotationArrayToList(gview().lastLoad));
+                        gview().emphasizeAdded();
+                        gview().windowManager.open(term ,"<br><b><div style='padding:3px;'>" + gview().lastLoad.length + " objects found for term \"" + term + "\".</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over a symbol — it will turn yellow to show the object's location)</span><br>" + gview().annotationArrayToList(gview().lastLoad));
                     }
 
                     if (gview().zoomPaneActive()) {
@@ -475,6 +486,21 @@ function Gviewer(viewerId, height, width) {
                     }
                 }
                 return;
+            }
+        }
+    }
+
+    // Make the items in lastLoad visually distinct from same-type items
+    // already on the chromosomes (Add Objects flow): give each rect a
+    // thick contrasting outline and bring it to the top of the SVG paint
+    // order so it isn't hidden under existing annotations of the same type.
+    this.emphasizeAdded = function() {
+        for (var k = 0; k < this.lastLoad.length; k++) {
+            var a = this.lastLoad[k];
+            if (a && a.div && a.div.setAttribute) {
+                a.div.setAttribute("stroke", "#000");
+                a.div.setAttribute("stroke-width", "1.5");
+                if (a.div.parentNode) a.div.parentNode.appendChild(a.div);
             }
         }
     }
@@ -722,7 +748,7 @@ function Gviewer(viewerId, height, width) {
             }
         }
 
-        this.windowManager.open("List All Annotations","<br><b><div style='padding:3px;'>" + count + " objects loaded.</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over the symbol to show the objects location)</span><br>" + out);
+        this.windowManager.open("List All Annotations","<br><b><div style='padding:3px;'>" + count + " objects loaded.</div></b>(<span style=\"font-size:12px;padding:3px;\">&nbsp;Hover over a symbol — it will turn yellow to show the object's location)</span><br>" + out);
         this.clearStatus();
 
     }

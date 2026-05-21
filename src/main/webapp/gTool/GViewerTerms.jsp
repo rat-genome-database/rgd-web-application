@@ -1,6 +1,6 @@
 <%@ page import="edu.mcw.rgd.gviewer.GViewerBean" %>
 <link rel="stylesheet" type="text/css" href="/rgdweb/css/ontology.css?v=2">
-<script src="/rgdweb/js/sorttable.js"></script>
+<script src="/rgdweb/js/sorttable.js?v=2"></script>
 <style>
 /* Sortable tables */
 table.sortable thead {
@@ -8,6 +8,17 @@ table.sortable thead {
     color:#666666;
     font-weight: bold;
     cursor: pointer;
+}
+
+/* Pin the header row inside #gviewerDiv (which scrolls vertically) so it
+   stays visible while the rows below scroll past. Stickiness must be set
+   on the cells because <thead>/<tr> sticky is not honored by every
+   browser. The cells need an opaque background so rows scroll under them. */
+table.sortable thead th {
+    position: sticky;
+    top: 0;
+    background-color: #b0c4de;
+    z-index: 5;
 }
 
 td.trm a {
@@ -73,6 +84,7 @@ table.sortable tbody tr[data-symbol]:hover {
 
               String hover = " data-chr=\"" + hlChrAttr + "\""
                   + " data-symbol=\"" + hlSymbolAttr + "\""
+                  + " data-type=\"" + objectType + "\""
                   + " onmouseover=\"if(typeof gview==='function'&&gview())gview().highlight(this.getAttribute('data-chr'),this.getAttribute('data-symbol'),'#FFD700')\""
                   + " onmouseout=\"if(typeof gview==='function'&&gview())gview().lowlight(this.getAttribute('data-chr'),this.getAttribute('data-symbol'))\"";
 
@@ -83,7 +95,7 @@ table.sortable tbody tr[data-symbol]:hover {
        <% } %>
 
           <td class="objtag_<%=objectType%>" style="color:white;" title="<%=objectType%>"><%=objectType.substring(0,1).toUpperCase() + objectType.substring(1)%></td>
-          <td><a href="<%=link%>"><%=symbol%></a></td>
+          <td><a href="<%=link%>" target="_blank" rel="noopener"><%=symbol%></a></td>
           <td><%=chromosome==null?"":chromosome%></td>
           <td><%=position==null?"":position%></td>
           <%

@@ -151,7 +151,7 @@ function ZoomPane(divId, h, w, parentGviewer) {
             adiv.viewWidth = len;
             this.mapXRef(annot, adiv);
 
-            adivLabel = appendDiv(adiv.id + "_l", "annotation-label", this.content);
+            adivLabel = appendDiv(adiv.id + "_l", "annotation-label " + annot.type, this.content);
             adivLabel.obj = annot;
             adiv.label = adivLabel;
 

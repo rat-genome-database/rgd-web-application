@@ -12,7 +12,7 @@ ajaxbustcache: true, //Bust caching when fetching a file via Ajax?
 ajaxloadinghtml: '<b>Loading Page. Please wait...</b>', //HTML to show while window fetches Ajax Content?
 
 minimizeorder: 0,
-zIndexvalue:10000,
+zIndexvalue:99999,
 tobjects: [], //object to contain references to dhtml window divs, for cleanup purposes
 lastactivet: {}, //reference to last active DHTML window
 

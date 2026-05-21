@@ -14,7 +14,7 @@
 
 
     <!-- JKL.ParseXML removed - using jQuery for data loading -->
-    <script type="text/javascript" src="/rgdweb/gviewer/script/dhtmlwindow.js">
+    <script type="text/javascript" src="/rgdweb/gviewer/script/dhtmlwindow.js?v=2">
     /***********************************************
     * DHTML Window script- � Dynamic Drive (http://www.dynamicdrive.com)
     * This notice MUST stay intact for legal use
@@ -22,9 +22,9 @@
     ***********************************************/
     </script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js?v=5"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js?v=9"></script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer-renderer.js?v=7"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js?v=5"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js?v=7"></script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
     /***********************************************
     * Context Menu script- � Dynamic Drive (http://www.dynamicdrive.com)
@@ -33,10 +33,10 @@
     ***********************************************/
     </script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/event.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js"></script>
-    <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css?v=3" />
+    <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js?v=2"></script>
+    <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css?v=7" />
 
-<script src="/rgdweb/js/sorttable.js"></script>
+<script src="/rgdweb/js/sorttable.js?v=2"></script>
 <script type="text/javascript" src="/rgdweb/js/jquery/jquery-migrate-3.5.0.min.js"></script>
 <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="/rgdweb/common/ontologyAutocomplete.js"></script>
@@ -113,6 +113,22 @@
     overflow-x: auto;
     width: 100%;
 }
+/* When a count pill is clicked, the active type id is stored on #content
+   as data-gv-filter and the rules below hide all other types in the
+   chromosome view, zoom pane, and result table. Clicking the pill again
+   clears the attribute and shows everything. */
+#content[data-gv-filter="gene"]   .annot-svg:not(.gene),
+#content[data-gv-filter="qtl"]    .annot-svg:not(.qtl),
+#content[data-gv-filter="strain"] .annot-svg:not(.strain) { display: none !important; }
+#content[data-gv-filter="gene"]   #zoomWrapper .qtl,
+#content[data-gv-filter="gene"]   #zoomWrapper .strain,
+#content[data-gv-filter="qtl"]    #zoomWrapper .gene,
+#content[data-gv-filter="qtl"]    #zoomWrapper .strain,
+#content[data-gv-filter="strain"] #zoomWrapper .gene,
+#content[data-gv-filter="strain"] #zoomWrapper .qtl { display: none !important; }
+#content[data-gv-filter="gene"]   #gviewerDiv tr[data-type]:not([data-type="gene"]),
+#content[data-gv-filter="qtl"]    #gviewerDiv tr[data-type]:not([data-type="qtl"]),
+#content[data-gv-filter="strain"] #gviewerDiv tr[data-type]:not([data-type="strain"]) { display: none !important; }
 </style>
 
 
@@ -175,7 +191,7 @@
     <div class="gv-top-bar">
         <div class="gv-species">
             <label for="assemblyVersion" style="font-weight:700;">Assembly:</label>
-            <select id="assemblyVersion" class="form-control d-inline-block" style="width:auto;" aria-label="Select assembly version" onchange="document.getElementById('speciesType').value = this.selectedOptions[0].getAttribute('data-species'); clearAllCriteriaTerms();">
+            <select id="assemblyVersion" class="form-control d-inline-block" style="width:auto;" aria-label="Select assembly version" onchange="onAssemblyChange(this)">
                 <option value="380" data-species="3" selected>Rat - GRCr8</option>
                 <option value="372" data-species="3">Rat - mRatBN7.2</option>
                 <option value="360" data-species="3">Rat - Rnor_6.0</option>
@@ -187,7 +203,7 @@
                 <option value="35"  data-species="2">Mouse - GRCm38</option>
                 <option value="18"  data-species="2">Mouse - Build 37</option>
             </select>
-            <input type="hidden" name="speciesType" id="speciesType" value="3"/>
+            <input type="hidden" name="speciesType" id="gv_speciesType" value="3"/>
         </div>
         <div class="gv-children" style="display:flex; align-items:center; gap:6px;">
             <label style="margin:0; font-weight:500; cursor:pointer;" title="Include all descendant terms in the ontology DAG (e.g. searching 'diabetes mellitus' also matches type 1, type 2, gestational, etc.)">
@@ -233,6 +249,7 @@
 
 <div id="content" style="width: 100%; visibility: hidden;" role="region" aria-label="Genome Visualization Results">
     <div class="gviewer-wrapper" style="margin-top:10px;">
+        <div id="gvCountsBar" class="gv-counts-bar" role="region" aria-label="Annotation type counts and filter"></div>
         <div id="gviewer" class="gviewer" style="width:100%;" role="img" aria-label="Genome chromosome view with annotations"></div>
         <div id="zoomWrapper" class="zoom-pane" role="region" aria-label="Chromosome zoom pane"></div>
     </div>
@@ -317,7 +334,7 @@ function checkForm() {
 function getFormString() {
     var rows = document.querySelectorAll('.gv-criteria-row');
     var parts = [];
-    var speciesType = document.getElementById('speciesType').value;
+    var speciesType = document.getElementById('gv_speciesType').value;
 
     for (var i = 0; i < rows.length; i++) {
         var term = rows[i].querySelector('input[name=gv_term]').value.trim();
@@ -428,9 +445,10 @@ function runGviewer() {
         }
 
         document.getElementById("content").style.visibility = "visible";
+        document.getElementById("content").removeAttribute("data-gv-filter");
         document.getElementById("gvLoadingOverlay").style.display = "flex";
 
-        var species = document.getElementById("speciesType").value;
+        var species = document.getElementById("gv_speciesType").value;
         var assemblySelect = document.getElementById("assemblyVersion");
         var mapKey = assemblySelect ? assemblySelect.value : null;
         var ideoUrl = getIdeoUrl(species, mapKey);
@@ -502,6 +520,39 @@ function init() {
     runGviewer();
 }
 
+// Toggle a single-type filter when a count pill in the viewer status bar
+// is clicked. Stores the active type on #content's data-gv-filter attr,
+// which the CSS rules above use to hide non-matching annotations in the
+// chromosome view, zoom pane, and table. Clicking the same pill again
+// clears the filter.
+function gviewerFilterType(type) {
+    var content = document.getElementById('content');
+    if (!content) return;
+    var current = content.getAttribute('data-gv-filter');
+    if (current === type) {
+        content.removeAttribute('data-gv-filter');
+    } else {
+        content.setAttribute('data-gv-filter', type);
+    }
+    var pills = document.querySelectorAll('.gv-count-pill');
+    var active = content.getAttribute('data-gv-filter');
+    for (var i = 0; i < pills.length; i++) {
+        if (pills[i].getAttribute('data-type') === active) {
+            pills[i].classList.add('active');
+        } else {
+            pills[i].classList.remove('active');
+        }
+    }
+}
+
+function gviewerClearFilter() {
+    var content = document.getElementById('content');
+    if (!content) return;
+    content.removeAttribute('data-gv-filter');
+    var pills = document.querySelectorAll('.gv-count-pill.active');
+    for (var i = 0; i < pills.length; i++) pills[i].classList.remove('active');
+}
+
 // Legacy functions - no longer needed with dropdown UI
 function selectAllOntologies(obj) {}
 function unselectAllOntologies(obj) {}
@@ -518,7 +569,7 @@ $(document).ready(function(){
         }
         var species = urlParams.get('speciesType');
         if (species) {
-            $('#speciesType').val(species);
+            $('#gv_speciesType').val(species);
         }
         // Uncheck/check ontologies based on URL params
         // (the form string includes all checkbox states, defaults are fine for auto-run)
@@ -590,9 +641,17 @@ function clearCriteriaRowTerm(selectEl) {
     row.find('input[name=gv_acc_id]').val('');
 }
 
-function clearAllCriteriaTerms() {
-    $('input[name=gv_term]').val('');
-    $('input[name=gv_acc_id]').val('');
+// Triggered when the Assembly dropdown changes. Keep the user's search
+// terms intact and immediately re-run the search against the new assembly
+// if results are already on the page (runGviewer's reset() will clear
+// the old chromosome/zoom/table data before reloading).
+function onAssemblyChange(selectEl) {
+    document.getElementById('gv_speciesType').value =
+        selectEl.selectedOptions[0].getAttribute('data-species');
+    var content = document.getElementById('content');
+    if (content && content.style.visibility === 'visible') {
+        runGviewer();
+    }
 }
 
 function browseOntology(btn) {

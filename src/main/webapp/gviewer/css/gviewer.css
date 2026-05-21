@@ -49,11 +49,18 @@
 .control-bar a { font-weight: 600; font-size: 11px;}
 .loading-bar {border: 1px solid black; font-weight: 700px; background-color: #f1f1ec; color: black; padding:3px; font-size: 18; visibility: hidden; position: absolute; z-index:2000;}
 .status-bar {  text-align: center;  height:28px; font-size: 14px; font-weight: 600; color: #2865a3; padding: 4px 0;}
+.gv-counts-bar { text-align: center; padding: 6px 0; min-height: 28px; }
 .gv-counts-wrap { display: inline-flex; align-items: center; gap: 8px; }
-.gv-count-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; color: #fff; font-weight: 600; font-size: 13px; letter-spacing: 0.2px; box-shadow: 0 1px 2px rgba(0,0,0,0.12); }
+.gv-count-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; color: #fff; font-weight: 600; font-size: 13px; letter-spacing: 0.2px; box-shadow: 0 1px 2px rgba(0,0,0,0.12); border: 2px solid transparent; cursor: pointer; transition: opacity 0.15s, transform 0.1s; }
+.gv-count-pill:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.18); }
+.gv-count-pill:focus { outline: none; }
 .gv-count-pill .gv-count-num { font-weight: 700; font-size: 14px; }
 .gv-count-pill .gv-count-label { text-transform: lowercase; opacity: 0.95; }
+#content[data-gv-filter] .gv-count-pill { opacity: 0.45; }
+#content[data-gv-filter] .gv-count-pill.active { opacity: 1; border-color: #24609c; }
 .gv-counts-loaded { color: #555; font-weight: 500; font-size: 13px; letter-spacing: 0.2px; }
+.gv-clear-filter { display: none; margin-left: 6px; font-size: 12px; color: #24609c; text-decoration: underline; cursor: pointer; }
+#content[data-gv-filter] .gv-clear-filter { display: inline-block; }
 .canvas{}
 .image-viewer { background-color:#cccccc;font-weight: 700; visibility: hidden; border: 1px solid black; position: absolute;}
 .dhtmlwindow {
@@ -65,7 +72,9 @@
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
     overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    z-index: 99999;
 }
+#dhtmlwindowholder { position: relative; z-index: 99999; }
 .drag-handle {
     padding: 10px 14px;
     background: linear-gradient(180deg, #2b6fb8 0%, #24609c 100%);
