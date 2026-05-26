@@ -68,6 +68,24 @@
         if (SD != null && SD != unitValue && SD != "")
             document.getElementById("termScale").style.display = "block";
     }
+    function CheckPresence(existing, unitValue) {
+        for (var i = 0; i < existing.length; i++) {
+            if (existing[i].value == unitValue) {
+                alert("Unit exists in the database - Only conversion will be added");
+                return;
+            }
+        }
+    }
+    function saveUnit() {
+        var unitType = document.getElementById("unitType").value;
+        var unitValue = document.getElementById("unitValue").value;
+        if (unitType == 3) {
+            CheckPresence(document.getElementsByName("existingCmoUnits")[0].options, unitValue);
+        } else {
+            CheckPresence(document.getElementsByName("existingExpUnits")[0].options, unitValue);
+        }
+        document.addUnitForm.submit();
+    }
 </script>
 <br>
 <div id="unit" style="display:none;">
@@ -83,12 +101,19 @@
                                                                                    border="0"/></a>
         Standard Unit <input id="unitSD" name="unitSD" style="background-color: #dddddd"
                              readonly="true">
-        <br>
+        <br><br>
+        <b>Existing CMO Units:</b>
+        <%=fu.buildSelectListNewValue("existingCmoUnits", dao.getDistinct("PHENOMINER_ENUMERABLES where type=3", "label", true), "", false)%>
+        &nbsp;&nbsp;
+        <b>Existing Experiment Units:</b>
+        <%=fu.buildSelectListNewValue("existingExpUnits", dao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true), "", false)%>
+        <br><br>
         *New Unit <input name="unitValue" id="unitValue" onchange="checkUnitConversion()">
         Description <input name="description">
         <br>
         <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
-        <button type="submit">Add</button>
+        <br>
+        <button type="button" onclick="saveUnit()">Save</button>
     </form>
 </div>
 
