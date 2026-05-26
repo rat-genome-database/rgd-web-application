@@ -23,7 +23,7 @@
     <li class="asm-collapsed"><span>Assembly</span>
         <ul>
             <% for(Terms.Bucket asmBkt : asmBkts){ %>
-            <li><button style="border:none;background-color: transparent;cursor:pointer" onclick="filterClick('<%=searchBean.getCategory()%>', '<%=species%>','', '', '', '<%=StringEscapeUtils.escapeHtml4(asmBkt.getKeyAsString())%>')"><%=asmBkt.getKeyAsString()%> (<%=asmBkt.getDocCount()%>)</button></li>
+            <li><button style="border:none;background-color: transparent;cursor:pointer" onclick="assemblyClick('<%=searchBean.getCategory()%>', '<%=species%>', '<%=StringEscapeUtils.escapeHtml4(asmBkt.getKeyAsString())%>')"><%=asmBkt.getKeyAsString()%> (<%=asmBkt.getDocCount()%>)</button></li>
             <% } %>
         </ul>
     </li>

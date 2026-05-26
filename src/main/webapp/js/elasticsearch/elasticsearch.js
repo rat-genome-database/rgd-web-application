@@ -289,6 +289,21 @@ function submitFunction(e) {
 
 }
 
+function assemblyClick(category, species, assembly) {
+    var term = $('#searchTerm').val() || '';
+    var cat = category || '';
+    if (cat === '' || cat.toLowerCase() === 'general') {
+        cat = 'General';
+    }
+    var url = '/rgdweb/elasticResults.html'
+        + '?term=' + encodeURIComponent(term)
+        + '&category=' + encodeURIComponent(cat)
+        + '&species=' + encodeURIComponent(species || '')
+        + '&assembly=' + encodeURIComponent(assembly || '')
+        + '&assemblyView=true';
+    window.location.href = url;
+}
+
 function filterClick(category, species,subCat, type, filter, objectAssembly) {
 
     getParameters();

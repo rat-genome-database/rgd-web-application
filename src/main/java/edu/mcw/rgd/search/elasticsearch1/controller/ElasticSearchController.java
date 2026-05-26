@@ -47,6 +47,7 @@ public class ElasticSearchController extends RGDSearchController {
     private static final String VIEW_CONTENT = "/WEB-INF/jsp/search/elasticsearch/elasticsearch1/content.jsp";
     private static final String VIEW_SUMMARY = "/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResultsSummary.jsp";
     private static final String VIEW_RESULTS = "/WEB-INF/jsp/search/elasticsearch/elasticsearch1/searchResults.jsp";
+    private static final String VIEW_ASSEMBLY = "/WEB-INF/jsp/search/elasticsearch/elasticsearch1/assemblyResults.jsp";
 
     private static final java.util.Map<Integer, String> assemblyMapsByRank = initializeAssemblyMaps();
 
@@ -190,6 +191,12 @@ public class ElasticSearchController extends RGDSearchController {
     private String selectView(HttpRequestFacade req, SearchBean searchBean) {
         if ("true".equals(req.getParameter("page"))) {
             return VIEW_CONTENT;
+        }
+
+        if ("true".equalsIgnoreCase(req.getParameter("assemblyView"))
+                && !isBlank(searchBean.getAssembly())
+                && !ALL.equalsIgnoreCase(searchBean.getAssembly())) {
+            return VIEW_ASSEMBLY;
         }
 
         if (GENERAL.equalsIgnoreCase(searchBean.getCategory())
