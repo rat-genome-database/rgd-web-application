@@ -88,32 +88,46 @@
     }
 </script>
 <br>
-<div id="unit" style="display:none;">
+<div id="unit" style="display:none; border:1px solid #999; border-radius:5px; padding:15px; margin-top:10px; display:inline-block; background-color:#f9f9f9;">
     <form name="addUnitForm" action="home.html" method="get">
         <input type="hidden" name="action" value="addUnit"/>
-        <b>Add Unit</b>
-        Unit Type: <select name="unitType" id="unitType">
-            <option value="3">CMO Unit</option>
-            <option value="2">Experiment Unit</option>
-        </select>
-        *ACC ID <input type="text" id="accId" name="accId" size="40" value="" onchange="addSD()"/>
-        <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png"
-                                                                                   border="0"/></a>
-        Standard Unit <input id="unitSD" name="unitSD" style="background-color: #dddddd"
-                             readonly="true">
-        <br><br>
-        <b>Existing CMO Units:</b>
-        <%=fu.buildSelectListNewValue("existingCmoUnits", dao.getDistinct("PHENOMINER_ENUMERABLES where type=3", "label", true), "", false)%>
-        &nbsp;&nbsp;
-        <b>Existing Experiment Units:</b>
-        <%=fu.buildSelectListNewValue("existingExpUnits", dao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true), "", false)%>
-        <br><br>
-        *New Unit <input name="unitValue" id="unitValue" onchange="checkUnitConversion()">
-        Description <input name="description">
-        <br>
-        <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
-        <br>
-        <button type="button" onclick="saveUnit()">Save</button>
+        <b style="font-size:14px;">Add Unit</b><br><br>
+        <table cellpadding="4" cellspacing="0">
+            <tr>
+                <td><b>Unit Type:</b></td>
+                <td><select name="unitType" id="unitType">
+                    <option value="3">CMO Unit</option>
+                    <option value="2">Experiment Unit</option>
+                </select></td>
+                <td><b>*ACC ID:</b></td>
+                <td><input type="text" id="accId" name="accId" size="40" value="" onchange="addSD()"/>
+                    <a href="javascript:lookup_treeRender('accId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a></td>
+                <td><b>Standard Unit:</b></td>
+                <td><input id="unitSD" name="unitSD" style="background-color:#dddddd" readonly="true"></td>
+            </tr>
+            <tr>
+                <td><b>Existing CMO Units:</b></td>
+                <td><%=fu.buildSelectListNewValue("existingCmoUnits", dao.getDistinct("PHENOMINER_ENUMERABLES where type=3", "label", true), "", false)%></td>
+                <td><b>Existing Experiment Units:</b></td>
+                <td><%=fu.buildSelectListNewValue("existingExpUnits", dao.getDistinct("PHENOMINER_ENUMERABLES where type=2", "value", true), "", false)%></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>*New Unit:</b></td>
+                <td><input name="unitValue" id="unitValue" onchange="checkUnitConversion()"></td>
+                <td><b>Description:</b></td>
+                <td><input name="description" size="40"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <input id="termScale" style="display:none;" name="termScale" placeholder="Term Specific Scale">
+                    <button type="button" onclick="saveUnit()" style="margin-top:5px; padding:4px 12px;">Save</button>
+                </td>
+            </tr>
+        </table>
     </form>
 </div>
 
