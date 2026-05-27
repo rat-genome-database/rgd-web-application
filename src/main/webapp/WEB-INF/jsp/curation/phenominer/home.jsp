@@ -88,7 +88,7 @@
     }
 </script>
 <br>
-<div id="unit" style="display:none; border:1px solid #999; border-radius:5px; padding:15px; margin-top:10px; display:inline-block; background-color:#f9f9f9;">
+<div id="unit" style="display:none; border:1px solid #999; border-radius:5px; padding:15px; margin-top:10px; background-color:#f9f9f9;">
     <form name="addUnitForm" action="home.html" method="get">
         <input type="hidden" name="action" value="addUnit"/>
         <b style="font-size:14px;">Add Unit</b><br><br>
