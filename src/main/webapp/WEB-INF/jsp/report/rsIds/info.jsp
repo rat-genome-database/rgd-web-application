@@ -208,7 +208,7 @@
                 %>
                 <%=varLess%><% if (varNuc.length()>16) {%><span class="more" style="display: none;"><%=varMore%></span><a href="" class="moreLink" title="Click to see more">...</a><% } %>
             </td>
-            <td><%=Utils.NVL(locName,"-")%></td>
+            <td><%=locName!=null ? Utils.NVL(locName,"-") : v.getGenicStatus()%></td>
             <td><%=Utils.NVL(isDamaging,"-")%></td>
             <% if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
             <td><a title="View with selected Strains" href="/rgdweb/front/select.html?start=<%=v.getStartPos()%>&stop=<%=v.getEndPos()%>&chr=<%=v.getChromosome()%>&geneStart=&geneStop=&geneList=&mapKey=<%=v.getMapKey()%>">
