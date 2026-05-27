@@ -49,7 +49,7 @@
 <script>
     function addUnit() {
         var unit = document.getElementById("unit");
-        unit.style.display = "block";
+        unit.style.display = "inline-block";
     }
     function addSD() {
         var ontId = document.getElementById("accId").value;
