@@ -274,10 +274,12 @@
                                 <tr>
                                    <td align="center" ng-if="oKey==1"> <img src="/rgdweb/images/MOET.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('enrichment')"/></td>
                                     <td align="center" ng-if="oKey==1"> <img src="/rgdweb/images/GOLF.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('golf')"/></td>
+                                    <td align="center" ng-if="oKey==1"> <img src="/rgdweb/common/images/geneticModels.png" border="0" style="cursor:pointer;padding:5px; margin-bottom:5px; border:1px solid black;" ng-click="rgd.toolSubmit('alleleStrain')"/></td>
                                 </tr>
                                 <tr>
                                     <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('enrichment')">MOET (Multi-Ontology Enrichement)</td>
                                     <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('golf')">GOLF (Gene-Ortholog Location Finder)</td>
+                                    <td align="center" ng-if="oKey==1" style="cursor:pointer;font-size:16px;font-weight:400;" ng-click="rgd.toolSubmit('alleleStrain')">Alleles &amp; Mutated Strains</td>
 
                                 </tr>
                             </table>

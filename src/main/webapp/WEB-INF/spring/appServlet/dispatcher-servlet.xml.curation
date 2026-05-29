@@ -219,6 +219,8 @@
                 <prop key="ga/window.html">GACrossCompareController</prop>
                 <prop key="ga/termDetail.html">GATermDetailController</prop>
 
+                <prop key="alleleStrain/report.html">AlleleStrainController</prop>
+
                 <prop key="enrichment/analysis.html">EnrichmentController</prop>
                 <prop key="enrichment/start.html">EnrichmentSelectController</prop>
 
@@ -508,6 +510,8 @@
     <bean id="GAGenomeController" class="edu.mcw.rgd.ga.GAGenomeController" />
     <bean id="GACrossCompareController" class="edu.mcw.rgd.ga.GACrossCompareController" />
     <bean id="GATermDetailController" class="edu.mcw.rgd.ga.GATermDetailController" />
+
+    <bean id="AlleleStrainController" class="edu.mcw.rgd.allelestrain.AlleleStrainController"/>
 
     <bean id="PATermCompareController" class="edu.mcw.rgd.ga.PATermCompareController" />
     <bean id="PACrossCompareController" class="edu.mcw.rgd.ga.PACrossCompareController" />
