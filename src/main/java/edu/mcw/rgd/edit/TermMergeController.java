@@ -219,6 +219,15 @@ public class TermMergeController implements Controller {
             ontologyXDAO.updateTerm(bean.getTermTo());
         }
 
+        // when a custom RDO term (acc id DOID:9xxxxxx) is merged into a non-custom RDO term,
+        // carry over the created_by field from the from-term to the to-term
+        if( isCustomRdoTerm(bean.getTermFrom().getAccId())
+            && !isCustomRdoTerm(bean.getTermTo().getAccId()) ) {
+            bean.getTermTo().setCreatedBy(bean.getTermFrom().getCreatedBy());
+            bean.getTermTo().setModificationDate(new Date());
+            ontologyXDAO.updateTerm(bean.getTermTo());
+        }
+
         // insert synonyms
         for( TermSynonym syn: bean.getToBeInsertedSynonyms() ) {
             ontologyXDAO.insertTermSynonym(syn);
@@ -234,5 +243,10 @@ public class TermMergeController implements Controller {
         ontologyXDAO.deleteDagsForObsoleteTerm(bean.getTermFrom().getAccId());
 
         new AnnotationDAO().reassignAnnotations(bean.getTermFrom().getAccId(), bean.getTermTo().getAccId());
+    }
+
+    // a custom RDO term has an acc id of the form DOID:9xxxxxx (9 followed by 6 digits)
+    boolean isCustomRdoTerm(String accId) {
+        return accId!=null && accId.matches("DOID:9\\d{6}");
     }
 }
