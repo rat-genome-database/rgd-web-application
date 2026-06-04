@@ -1,4 +1,5 @@
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Comparator" %>
 <%@ page import="edu.mcw.rgd.vv.SampleManager" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
@@ -268,6 +269,17 @@
                         <tr>
                             <td>
 
+                                <% result.getTranscriptResults().sort(Comparator.comparingInt((TranscriptResult x) -> {
+                                       String sym = x.getAminoAcidVariant() != null ? x.getAminoAcidVariant().getTranscriptSymbol() : null;
+                                       if (sym == null) return 3;
+                                       if (sym.startsWith("NM_")) return 0;
+                                       if (sym.startsWith("NR_")) return 1;
+                                       if (sym.startsWith("XM_") || sym.startsWith("XR_")) return 2;
+                                       return 3;
+                                   }).thenComparing(x -> {
+                                       String sym = x.getAminoAcidVariant() != null ? x.getAminoAcidVariant().getTranscriptSymbol() : "";
+                                       return sym == null ? "" : sym;
+                                   })); %>
                                 <% for (TranscriptResult tr: result.getTranscriptResults()) {
                                     String aaVar = "";
                                     String aaRef = tr.getAminoAcidVariant().getReferenceAminoAcid();
