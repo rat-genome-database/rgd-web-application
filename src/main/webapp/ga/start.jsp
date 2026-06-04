@@ -230,7 +230,7 @@
 %>
 
 
-<form action="/rgdweb/ga/search.html" method="POST">
+<form action="/rgdweb/ga/search.html" method="POST" onsubmit="var s=this.elements['start'],e=this.elements['stop']; if(s)s.value=s.value.replace(/,/g,''); if(e)e.value=e.value.replace(/,/g,''); return true;">
 <table border=0>
     <tr><td style='background-color:#e6e6e6;' colspan="2"><br><b>Step One: &nbsp;&nbsp;<span style="color:#205080;"></span></b>Define a list of genes to annotate (2000 gene maximum).  The GA Tool will provide counts/percentages of genes from your list based on their annotations.  It does not perform statistical analysis of enrichment.<br><br></td></tr>
     <tr><td>&nbsp;</td></tr>
