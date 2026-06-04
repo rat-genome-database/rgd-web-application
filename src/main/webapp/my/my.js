@@ -562,6 +562,7 @@ rgdModule.controller('RGDPageController', [
                     f.appendChild(i);
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
+                    $('#tools-modal').modal('hide');
 
                     //window.open(url);
 
