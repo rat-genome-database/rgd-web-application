@@ -141,7 +141,15 @@ public class ProcessListController implements Controller {
         int speciesTypeKey= edu.mcw.rgd.datamodel.SpeciesType.getSpeciesTypeKeyForMap(Integer.parseInt(request.getParameter("mapKey")));
 
         HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("Genes");
+        String sheetName;
+        if (oKey == 5) {
+            sheetName = "Strains";
+        } else if (oKey == 6) {
+            sheetName = "QTLs";
+        } else {
+            sheetName = "Genes";
+        }
+        HSSFSheet sheet = workbook.createSheet(sheetName);
 
         int rownum =0;
         int cellnum = 0;
