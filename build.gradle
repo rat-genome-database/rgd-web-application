@@ -180,4 +180,5 @@ task update_rgdcore(type:Copy){
 war {
     webAppDirectory = file('src/main/webapp')
     webXml = file('src/templates/war/web.xml')
+    archiveBaseName = 'rgdweb'
 }
