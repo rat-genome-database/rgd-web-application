@@ -1,6 +1,6 @@
 <%@ page import="org.springframework.ui.ModelMap" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.elasticsearch.search.SearchHit" %>
+<%@ page import="edu.mcw.rgd.web.EsHit" %>
 <%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -21,7 +21,7 @@ height: 100px;
         java.util.Map<String, List<edu.mcw.rgd.datamodel.Map>> assemblies=null;
     if(request.getAttribute("model")!=null)
         modelMap=   (ModelMap) request.getAttribute("model");
-        List<SearchHit> hits= (List<SearchHit>) modelMap.get("hits");
+        List<EsHit> hits= (List<EsHit>) modelMap.get("hits");
        assemblies= (java.util.Map<String, List<edu.mcw.rgd.datamodel.Map>>) modelMap.get("assemblyListsMap");
 
         int rows=0;
@@ -35,7 +35,7 @@ height: 100px;
         for(int i=0;i<rows;i++){%>
         <div class="card-deck">
            <%for(int j=0;hitCount<hits.size() && j<3;j++){
-                SearchHit hit=hits.get(hitCount);
+                EsHit hit=hits.get(hitCount);
                 Map<String, Object> sourceMap=hit.getSourceAsMap();
                 hitCount++;
            %>

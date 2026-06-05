@@ -1,19 +1,19 @@
 package edu.mcw.rgd.search.elasticsearch1.service;
 
 
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsAggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.model.Sort;
 import edu.mcw.rgd.search.elasticsearch1.model.SortMap;
 import edu.mcw.rgd.services.ClientInit;
+import edu.mcw.rgd.web.EsBucket;
+import edu.mcw.rgd.web.EsHit;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import org.apache.lucene.search.TotalHits;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.bucket.filter.Filter;
-
-import org.elasticsearch.search.aggregations.bucket.nested.Nested;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.ui.ModelMap;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,153 +23,129 @@ import java.net.UnknownHostException;
 import java.util.*;
 import java.util.logging.Logger;
 
-/**
- * Created by jthota on 2/22/2017.
- */
 public class SearchService {
 
     private static final Logger logger = Logger.getLogger(SearchService.class.getName());
 
-    public ModelMap getResultsMap(SearchResponse sr, String term ) throws IOException {
-        ModelMap model= new ModelMap();
-    //    List<SearchHit[]> searchHits=new ArrayList<>();
+    public ModelMap getResultsMap(SearchResponse<Map> sr, String term) throws IOException {
+        ModelMap model = new ModelMap();
 
-    //    String scrollId= sr.getScrollId();
+        long totalHits = 0;
 
-        long totalHits=0;
-
-        Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
+        Map<String, List<EsBucket>> aggregations = new HashMap<>();
         String[][] speciesCatArray = new String[9][13];
-        int matrixElements=(9*13);
-        speciesCatArray[0][0]="Gene";
-        speciesCatArray[1][0]="Gene (With Expression)";
+        int matrixElements = (9 * 13);
+        speciesCatArray[0][0] = "Gene";
+        speciesCatArray[1][0] = "Gene (With Expression)";
 
-        speciesCatArray[2][0]="Strain";
-        speciesCatArray[3][0]="QTL";
-        speciesCatArray[4][0]="SSLP";
-        speciesCatArray[5][0]="Variant";
-        speciesCatArray[6][0]="Promoter";
-        speciesCatArray[7][0]="Cell line";
+        speciesCatArray[2][0] = "Strain";
+        speciesCatArray[3][0] = "QTL";
+        speciesCatArray[4][0] = "SSLP";
+        speciesCatArray[5][0] = "Variant";
+        speciesCatArray[6][0] = "Promoter";
+        speciesCatArray[7][0] = "Cell line";
 
-        speciesCatArray[8][0]="Expression Study";
-        Terms speciesAgg, categoryAgg, typeAgg, assembly = null;
-        Filter chromosomeAgg;
+        speciesCatArray[8][0] = "Expression Study";
+
         long totalTerms = 0;
-        int nvCount=0;
+        int nvCount = 0;
 
-            if (sr.getAggregations() != null) {
-                speciesAgg = sr.getAggregations().get("species");
-                aggregations.put("species", speciesAgg.getBuckets());
+        Map<String, Aggregate> aggResults = sr.aggregations();
+        if (aggResults != null && !aggResults.isEmpty()) {
+            StringTermsAggregate speciesAgg = aggResults.get("species").sterms();
+            List<StringTermsBucket> speciesBuckets = speciesAgg.buckets().array();
+            aggregations.put("species", toEsBuckets(speciesBuckets));
 
-                categoryAgg = sr.getAggregations().get("category");
-                List<Terms.Bucket> catBuckets= (List<Terms.Bucket>) categoryAgg.getBuckets();
-                aggregations.put("category", catBuckets);
+            StringTermsAggregate categoryAgg = aggResults.get("category").sterms();
+            List<StringTermsBucket> catBuckets = categoryAgg.buckets().array();
+            aggregations.put("category", toEsBuckets(catBuckets));
 
 
+            for (StringTermsBucket speciesBkt : speciesBuckets) {
+                StringTermsAggregate catFilterAgg = speciesBkt.aggregations().get("categoryFilter").sterms();
+                String species = speciesBkt.key().stringValue().toLowerCase().replace(" ", "").replace("-", "");
 
-                for(Terms.Bucket speciesBkt:speciesAgg.getBuckets()) {
-                   Terms catFilterAgg = speciesBkt.getAggregations().get("categoryFilter");
-                   String species = new String();
-                    species=   speciesBkt.getKey().toString().toLowerCase().replace(" ", "").replace("-","");
+                List<StringTermsBucket> catFilterBuckets = catFilterAgg.buckets().array();
+                aggregations.put(species, toEsBuckets(catFilterBuckets));
+                for (StringTermsBucket bucket : catFilterBuckets) {
+                    Map<String, Aggregate> subAggs = bucket.aggregations();
+                    StringTermsAggregate typeFilterAgg = optSterms(subAggs, "typeFilter");
+                    StringTermsAggregate traitFilterAgg = optSterms(subAggs, "trait");
+                    StringTermsAggregate polyphenFilterAgg = optSterms(subAggs, "polyphen");
+                    StringTermsAggregate regionFilterAgg = optSterms(subAggs, "region");
+                    StringTermsAggregate sampleFilterAgg = optSterms(subAggs, "sample");
+                    StringTermsAggregate variantCategoryFilterAgg = optSterms(subAggs, "variantCategory");
+                    StringTermsAggregate expressionLevelFilterAgg = optSterms(subAggs, "expressionLevel");
+                    StringTermsAggregate strainTermsFilterAgg = optSterms(subAggs, "strainTerms");
+                    StringTermsAggregate tissueTermsFilterAgg = optSterms(subAggs, "tissueTerms");
+                    StringTermsAggregate cellTypeTermsFilterAgg = optSterms(subAggs, "cellTypeTerms");
+                    StringTermsAggregate conditionsFilterAgg = optSterms(subAggs, "conditions");
+                    StringTermsAggregate expressionSourceFilterAgg = optSterms(subAggs, "expressionSource");
 
-                    aggregations.put(species, catFilterAgg.getBuckets());
-                    Nested speciesAssemblyAggs = speciesBkt.getAggregations().get("assemblyAggs");
-                    if (speciesAssemblyAggs != null) {
-                        Terms speciesAssemblies = speciesAssemblyAggs.getAggregations().get("assembly");
-                        if (speciesAssemblies != null) {
-                            aggregations.put(species + "Assembly", speciesAssemblies.getBuckets());
+                    String bucketKey = bucket.key().stringValue();
+                    if (bucketKey.equalsIgnoreCase("variant")) {
+                        putIfNotNull(aggregations, species + "Polyphen", polyphenFilterAgg);
+                        putIfNotNull(aggregations, species + "Region", regionFilterAgg);
+                        putIfNotNull(aggregations, species + "Sample", sampleFilterAgg);
+                        putIfNotNull(aggregations, species + "VariantCategory", variantCategoryFilterAgg);
+                    }
+                    if (bucketKey.equalsIgnoreCase("expressed Gene")) {
+                        putIfNotNull(aggregations, species + "ExpressionLevel", expressionLevelFilterAgg);
+                        putIfNotNull(aggregations, species + "CellTypeTerms", cellTypeTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "Conditions", conditionsFilterAgg);
+                        putIfNotNull(aggregations, species + "StrainTerms", strainTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "TissueTerms", tissueTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "ExpressionSource", expressionSourceFilterAgg);
+                        putIfNotNull(aggregations, species + "ExpressionGeneType", typeFilterAgg);
+                    }
+                    if (bucketKey.equalsIgnoreCase("expression Study")) {
+                        putIfNotNull(aggregations, species + "ExpressionLevel", expressionLevelFilterAgg);
+                        putIfNotNull(aggregations, species + "CellTypeTerms", cellTypeTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "Conditions", conditionsFilterAgg);
+                        putIfNotNull(aggregations, species + "StrainTerms", strainTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "TissueTerms", tissueTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "ExpressionSource", expressionSourceFilterAgg);
+                        putIfNotNull(aggregations, species + bucketKey.replace(" ", ""), typeFilterAgg);
+                    }
+                    if (bucketKey.equalsIgnoreCase("qtl")) {
+                        putIfNotNull(aggregations, species + bucketKey, traitFilterAgg);
+                    } else {
+                        putIfNotNull(aggregations, species + bucketKey, typeFilterAgg);
+                    }
+                }
+            }
+            for (StringTermsBucket bucket : catBuckets) {
+
+                String bucketType = bucket.key().stringValue();
+                String bType = bucketType;
+
+                // Debug logging for Expression Study
+                if (bucketType.equalsIgnoreCase("Expression Study")) {
+                    logger.info("Expression Study bucket found with docCount: " + bucket.docCount());
+                    StringTermsAggregate subAgg = optSterms(bucket.aggregations(), "subspecies");
+                    if (subAgg != null) {
+                        for (StringTermsBucket b : subAgg.buckets().array()) {
+                            logger.info("  Subspecies: " + b.key().stringValue() + " count: " + b.docCount());
                         }
+                    } else {
+                        logger.info("  No subspecies aggregation found for Expression Study");
                     }
-                   for (Terms.Bucket bucket : catFilterAgg.getBuckets()) {
-//                       System.out.println(bucket.getKey().toString() +"\t"+bucket.getDocCount());
-                       Terms typeFilterAgg = bucket.getAggregations().get("typeFilter");
-                       Terms traitFilterAgg=bucket.getAggregations().get("trait");
-                       Terms polyphenFilterAgg=bucket.getAggregations().get("polyphen");
-                       Terms regionFilterAgg=bucket.getAggregations().get("region");
-                       Terms sampleFilterAgg=bucket.getAggregations().get("sample");
-                       Terms variantCategoryFilterAgg=bucket.getAggregations().get("variantCategory");
-                       Terms expressionLevelFilterAgg=bucket.getAggregations().get("expressionLevel");
-                       Terms strainTermsFilterAgg=bucket.getAggregations().get("strainTerms");
-                       Terms tissueTermsFilterAgg=bucket.getAggregations().get("tissueTerms");
-                       Terms cellTypeTermsFilterAgg=bucket.getAggregations().get("cellTypeTerms");
-                       Terms conditionsFilterAgg=bucket.getAggregations().get("conditions");
-                       Terms expressionSourceFilterAgg=bucket.getAggregations().get("expressionSource");
-                       if(bucket.getKey().toString().equalsIgnoreCase("variant")){
-                           aggregations.put(species + "Polyphen", polyphenFilterAgg.getBuckets());
-                           aggregations.put(species + "Region", regionFilterAgg.getBuckets());
-                           aggregations.put(species + "Sample", sampleFilterAgg.getBuckets());
-                           aggregations.put(species + "VariantCategory", variantCategoryFilterAgg.getBuckets());
+                }
 
-                       }
-                       if(bucket.getKey().toString().equalsIgnoreCase("expressed Gene")){
-
-                           if(expressionLevelFilterAgg!=null)
-                           aggregations.put(species + "ExpressionLevel", expressionLevelFilterAgg.getBuckets());
-                           aggregations.put(species + "CellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
-                           aggregations.put(species + "Conditions", conditionsFilterAgg.getBuckets());
-                           aggregations.put(species + "StrainTerms", strainTermsFilterAgg.getBuckets());
-                           aggregations.put(species + "TissueTerms", tissueTermsFilterAgg.getBuckets());
-                           if(expressionSourceFilterAgg!=null)
-                               aggregations.put(species + "ExpressionSource", expressionSourceFilterAgg.getBuckets());
-                           if(typeFilterAgg!=null)
-                               aggregations.put(species +"ExpressionGeneType", typeFilterAgg.getBuckets());
-//                           aggregations.put(species + bucket.getKey().toString(), typeFilterAgg.getBuckets());
-                       }
-                       if(bucket.getKey().toString().equalsIgnoreCase("expression Study")){
-
-                           if(expressionLevelFilterAgg!=null)
-                               aggregations.put(species + "ESExpressionLevel", expressionLevelFilterAgg.getBuckets());
-                           if(cellTypeTermsFilterAgg!=null)
-                           aggregations.put(species + "ESCellTypeTerms", cellTypeTermsFilterAgg.getBuckets());
-                           if(conditionsFilterAgg!=null)
-                               aggregations.put(species + "ESConditions", conditionsFilterAgg.getBuckets());
-                           if(strainTermsFilterAgg!=null)
-                           aggregations.put(species + "ESStrainTerms", strainTermsFilterAgg.getBuckets());
-                           if(tissueTermsFilterAgg!=null)
-                           aggregations.put(species + "ESTissueTerms", tissueTermsFilterAgg.getBuckets());
-                           if(expressionSourceFilterAgg!=null)
-                               aggregations.put(species + "ESExpressionSource", expressionSourceFilterAgg.getBuckets());
-                           if(typeFilterAgg!=null)
-                           aggregations.put(species + bucket.getKey().toString().replace(" ", ""), typeFilterAgg.getBuckets());
-                       }
-                       if(bucket.getKey().toString().equalsIgnoreCase("qtl")){
-                           aggregations.put(species + bucket.getKey().toString(), traitFilterAgg.getBuckets());
-                       }else
-                       aggregations.put(species + bucket.getKey().toString(), typeFilterAgg.getBuckets());
-
-                   }
-               }
-                chromosomeAgg=sr.getAggregations().get("chromosome");
-                 for (Terms.Bucket bucket :catBuckets) {
-
-                    String bucketType = bucket.getKey().toString();
-                    String bType = new String();
-                    bType = bucketType;
-
-                    // Debug logging for Expression Study
-                    if (bucketType.equalsIgnoreCase("Expression Study")) {
-                        logger.info("Expression Study bucket found with docCount: " + bucket.getDocCount());
-                        Terms subAgg = bucket.getAggregations().get("subspecies");
-                        if (subAgg != null) {
-                            for (Terms.Bucket b : subAgg.getBuckets()) {
-                                logger.info("  Subspecies: " + b.getKey() + " count: " + b.getDocCount());
-                            }
-                        } else {
-                            logger.info("  No subspecies aggregation found for Expression Study");
-                        }
+                if (bucketType.equalsIgnoreCase("ontology")) {
+                    StringTermsAggregate ontologySubcatAgg = optSterms(bucket.aggregations(), "ontologies");
+                    if (ontologySubcatAgg != null) {
+                        aggregations.put("ontology", toEsBuckets(ontologySubcatAgg.buckets().array()));
                     }
+                }
 
-                    if(bucketType.equalsIgnoreCase("ontology")){
-                        Terms ontologySubcatAgg=bucket.getAggregations().get("ontologies");
-                        aggregations.put("ontology", ontologySubcatAgg.getBuckets());
-                    }
-
-                    Terms subAgg = bucket.getAggregations().get("subspecies");
-                    int k = 0;
-                    for (Terms.Bucket b : subAgg.getBuckets()) {
-                        String key = (String) b.getKey();
-                        int speciesTypeKey= SpeciesType.parse(key);
-                        if(SpeciesType.isSearchable(speciesTypeKey)){
+                StringTermsAggregate subAgg = optSterms(bucket.aggregations(), "subspecies");
+                if (subAgg == null) continue;
+                int k = 0;
+                for (StringTermsBucket b : subAgg.buckets().array()) {
+                    String key = b.key().stringValue();
+                    int speciesTypeKey = SpeciesType.parse(key);
+                    if (SpeciesType.isSearchable(speciesTypeKey)) {
                         if (key.equalsIgnoreCase("Rat")) {
                             k = 1;   //Matrix column 1
 
@@ -185,105 +161,114 @@ public class SearchService {
                             k = 6;      //Matrix column 6
                         } else if (key.equalsIgnoreCase("Squirrel")) {
                             k = 7;      //Matrix column 7
-                        }else if (key.equalsIgnoreCase("Pig")) {
+                        } else if (key.equalsIgnoreCase("Pig")) {
                             k = 8;
-                        }
-                        else if (key.equalsIgnoreCase("Green Monkey")) {
+                        } else if (key.equalsIgnoreCase("Green Monkey")) {
                             k = 9;
-                        }
-                        else if (key.equalsIgnoreCase("Naked Mole-rat")) {
+                        } else if (key.equalsIgnoreCase("Naked Mole-rat")) {
                             k = 10;
                         } else if (key.equalsIgnoreCase("Black Rat")) {
                             k = 11;
                         }
-                        int all=12;
+                        int all = 12;
 
-                            switch (bType) {
+                        switch (bType) {
                             case "Gene":
-                                speciesCatArray[0][k] = String.valueOf(b.getDocCount());
-                                speciesCatArray[0][all] = String.valueOf(bucket.getDocCount()) ;
+                                speciesCatArray[0][k] = String.valueOf(b.docCount());
+                                speciesCatArray[0][all] = String.valueOf(bucket.docCount());
                                 break;
-                                case "Expressed Gene":
-                                    speciesCatArray[1][k] =  String.valueOf(b.getDocCount()) ;
-                                    speciesCatArray[1][all] = String.valueOf(bucket.getDocCount()) ;
-                                    break;
-
-                                case "Strain":
-                                speciesCatArray[2][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[2][all] = String.valueOf(bucket.getDocCount());
-
-                                break;
-                                case "QTL":
-                                speciesCatArray[3][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[3][all] =  String.valueOf(bucket.getDocCount()) ;
-                              //  System.out.println(key + " : "+ b.getDocCount());
-                                break;
-                                case "SSLP":
-                                speciesCatArray[4][k] = String.valueOf(b.getDocCount());
-                                speciesCatArray[4][all] = String.valueOf(bucket.getDocCount());
-                                break;
-                                case "Variant":
-                                    speciesCatArray[5][k] =  String.valueOf(b.getDocCount()) ;
-                                    speciesCatArray[5][all] = String.valueOf(bucket.getDocCount()) ;
-                                    break;
-                                case "Promoter":
-
-                                speciesCatArray[6][k] =  String.valueOf(b.getDocCount());
-                                speciesCatArray[6][all] = String.valueOf(bucket.getDocCount()) ;
-                                break;
-                                case "Cell line":
-                                speciesCatArray[7][k] =  String.valueOf(b.getDocCount()) ;
-                                speciesCatArray[7][all] = String.valueOf(bucket.getDocCount()) ;
+                            case "Expressed Gene":
+                                speciesCatArray[1][k] = String.valueOf(b.docCount());
+                                speciesCatArray[1][all] = String.valueOf(bucket.docCount());
                                 break;
 
-                                case "Expression Study":
-                                    speciesCatArray[8][k] =  String.valueOf(b.getDocCount()) ;
-                                    speciesCatArray[8][all] = String.valueOf(bucket.getDocCount()) ;
-                                    break;
+                            case "Strain":
+                                speciesCatArray[2][k] = String.valueOf(b.docCount());
+                                speciesCatArray[2][all] = String.valueOf(bucket.docCount());
+
+                                break;
+                            case "QTL":
+                                speciesCatArray[3][k] = String.valueOf(b.docCount());
+                                speciesCatArray[3][all] = String.valueOf(bucket.docCount());
+                                break;
+                            case "SSLP":
+                                speciesCatArray[4][k] = String.valueOf(b.docCount());
+                                speciesCatArray[4][all] = String.valueOf(bucket.docCount());
+                                break;
+                            case "Variant":
+                                speciesCatArray[5][k] = String.valueOf(b.docCount());
+                                speciesCatArray[5][all] = String.valueOf(bucket.docCount());
+                                break;
+                            case "Promoter":
+
+                                speciesCatArray[6][k] = String.valueOf(b.docCount());
+                                speciesCatArray[6][all] = String.valueOf(bucket.docCount());
+                                break;
+                            case "Cell line":
+                                speciesCatArray[7][k] = String.valueOf(b.docCount());
+                                speciesCatArray[7][all] = String.valueOf(bucket.docCount());
+                                break;
+
+                            case "Expression Study":
+                                speciesCatArray[8][k] = String.valueOf(b.docCount());
+                                speciesCatArray[8][all] = String.valueOf(bucket.docCount());
+                                break;
 
                             default:
                                 break;
                         }
-                    }}
-                }
-
-             // Debug: log Expression Study row before null-fill
-                logger.info("Expression Study row BEFORE null-fill: " + Arrays.toString(speciesCatArray[8]));
-
-                for (int j = 0; j < 9; j++) {
-
-                    for (int l = 1; l < 13; l++) {
-                        if (speciesCatArray[j][l] == null || Objects.equals(speciesCatArray[j][l], "")) {
-                            nvCount=nvCount+1;
-                            speciesCatArray[j][l] = "-";
-                        }
                     }
                 }
-
-                // Debug: log Expression Study row after null-fill
-                logger.info("Expression Study row AFTER null-fill: " + Arrays.toString(speciesCatArray[8]));
-
-
-                typeAgg = sr.getAggregations().get("type");
-                aggregations.put("type", typeAgg.getBuckets());
-                Nested assemblyAggs= sr.getAggregations().get("assemblyAggs");
-                Terms assemblies=assemblyAggs.getAggregations().get("assembly");
-
-
-                aggregations.put("assembly", assemblies.getBuckets());
             }
-       TotalHits hits= sr.getHits().getTotalHits();
-           totalHits =hits.value ;
-          //  searchHits.add(sr.getHits().getHits());
-            SearchHit[] searchHits=sr.getHits().getHits();
-        int matrixResultsExists=0;
 
-        if(nvCount<matrixElements){
-          matrixResultsExists=1;
+            // Debug: log Expression Study row before null-fill
+            logger.info("Expression Study row BEFORE null-fill: " + Arrays.toString(speciesCatArray[8]));
+
+            for (int j = 0; j < 9; j++) {
+
+                for (int l = 1; l < 13; l++) {
+                    if (speciesCatArray[j][l] == null || Objects.equals(speciesCatArray[j][l], "")) {
+                        nvCount = nvCount + 1;
+                        speciesCatArray[j][l] = "-";
+                    }
+                }
+            }
+
+            // Debug: log Expression Study row after null-fill
+            logger.info("Expression Study row AFTER null-fill: " + Arrays.toString(speciesCatArray[8]));
+
+
+            StringTermsAggregate typeAgg = optSterms(aggResults, "type");
+            if (typeAgg != null) {
+                aggregations.put("type", toEsBuckets(typeAgg.buckets().array()));
+            }
+            Aggregate assemblyAggsAgg = aggResults.get("assemblyAggs");
+            if (assemblyAggsAgg != null && assemblyAggsAgg.isNested()) {
+                StringTermsAggregate assemblies = optSterms(assemblyAggsAgg.nested().aggregations(), "assembly");
+                if (assemblies != null) {
+                    aggregations.put("assembly", toEsBuckets(assemblies.buckets().array()));
+                }
+            }
         }
-        String message="";
-        if(totalHits==0){
-            message="0 results found for \"" + term + "\"";
+        totalHits = sr.hits().total() != null ? sr.hits().total().value() : 0;
+
+        // Wrap hits in EsHit[] so JSPs that read hit.sourceAsMap still work
+        List<Hit<Map>> rawHits = sr.hits().hits();
+        EsHit[] searchHits = new EsHit[rawHits.size()];
+        for (int i = 0; i < rawHits.size(); i++) {
+            Hit<Map> h = rawHits.get(i);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> source = (Map<String, Object>) h.source();
+            searchHits[i] = new EsHit(h.id(), source, h.highlight());
+        }
+        int matrixResultsExists = 0;
+
+        if (nvCount < matrixElements) {
+            matrixResultsExists = 1;
+        }
+        String message = "";
+        if (totalHits == 0) {
+            message = "0 results found for \"" + term + "\"";
         }
 
         model.addAttribute("totalHits", totalHits);
@@ -291,12 +276,33 @@ public class SearchService {
         model.addAttribute("hitArray", searchHits);
         model.addAttribute("speciesCatArray", speciesCatArray);
         model.addAttribute("message", message);
-        model.addAttribute("matrixResultsExists", matrixResultsExists );
+        model.addAttribute("matrixResultsExists", matrixResultsExists);
         model.addAttribute("ontologyTermCount", totalTerms);
-        model.addAttribute("took", sr.getTook());
+        model.addAttribute("took", sr.took());
         return model;
     }
-   public SearchResponse getSearchResponse(HttpServletRequest request, String term, SearchBean sb) throws UnknownHostException {
+
+    private static StringTermsAggregate optSterms(Map<String, Aggregate> aggs, String name) {
+        Aggregate a = aggs.get(name);
+        if (a == null) return null;
+        if (!a.isSterms()) return null;
+        return a.sterms();
+    }
+
+    private static void putIfNotNull(Map<String, List<EsBucket>> aggregations, String key, StringTermsAggregate agg) {
+        if (agg == null) return;
+        aggregations.put(key, toEsBuckets(agg.buckets().array()));
+    }
+
+    private static List<EsBucket> toEsBuckets(List<StringTermsBucket> buckets) {
+        List<EsBucket> out = new ArrayList<>(buckets.size());
+        for (StringTermsBucket b : buckets) {
+            out.add(new EsBucket(b.key().stringValue(), b.docCount()));
+        }
+        return out;
+    }
+
+   public SearchResponse<Map> getSearchResponse(HttpServletRequest request, String term, SearchBean sb) throws UnknownHostException {
            try {
             QueryService1 qs = new QueryService1();
            return qs.getSearchResponse(term, sb);

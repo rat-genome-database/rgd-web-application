@@ -1,22 +1,21 @@
 package edu.mcw.rgd.models.findModels;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsAggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.DisMaxQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import edu.mcw.rgd.services.ClientInit;
+import edu.mcw.rgd.web.EsBucket;
+import edu.mcw.rgd.web.EsHit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.DisMaxQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -25,27 +24,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by jthota on 2/27/2020.
- */
 public class FindModelsController implements Controller {
-    Map<String,  List<? extends Terms.Bucket>> aggregations=new HashMap<>();
-    int hitsCount=0;
+    Map<String, List<EsBucket>> aggregations = new HashMap<>();
+    int hitsCount = 0;
 
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        HttpRequestFacade req= new HttpRequestFacade(httpServletRequest);
-        String aspect=req.getParameter("models-aspect");
-        String qualifier=req.getParameter("qualifier");
-        String term=req.getParameter("modelsSearchTerm");
-        String searchType=req.getParameter("searchType");
-        String strainType=req.getParameter("strainType");
-        String condition=req.getParameter("condition");
-        if(!Objects.equals(term, "")){
-            List<SearchHit[]> searchHits=new ArrayList<>();
-            if(aspect.equals("all")) aspect="";
-            searchHits= this.getSearchResults(term, aspect,qualifier, searchType,strainType, condition);
+        HttpRequestFacade req = new HttpRequestFacade(httpServletRequest);
+        String aspect = req.getParameter("models-aspect");
+        String qualifier = req.getParameter("qualifier");
+        String term = req.getParameter("modelsSearchTerm");
+        String searchType = req.getParameter("searchType");
+        String strainType = req.getParameter("strainType");
+        String condition = req.getParameter("condition");
+        if (!Objects.equals(term, "")) {
+            List<EsHit[]> searchHits = new ArrayList<>();
+            if (aspect.equals("all")) aspect = "";
+            searchHits = this.getSearchResults(term, aspect, qualifier, searchType, strainType, condition);
             httpServletRequest.setAttribute("term", term);
             httpServletRequest.setAttribute("aspect", aspect);
             httpServletRequest.setAttribute("qualifier", qualifier);
@@ -54,244 +50,211 @@ public class FindModelsController implements Controller {
             httpServletRequest.setAttribute("hitsCount", hitsCount);
             httpServletRequest.setAttribute("strainType", strainType);
             httpServletRequest.setAttribute("condition", condition);
-            if(!qualifier.equals("")){
+            if (!qualifier.equals("")) {
                 return new ModelAndView("/WEB-INF/jsp/models/findModels/tableData.jsp");
-            }else
+            } else
                 return new ModelAndView("/WEB-INF/jsp/models/findModels/results.jsp");
-        }else
+        } else
 
-        return new ModelAndView("/WEB-INF/jsp/models/findModels.jsp");
+            return new ModelAndView("/WEB-INF/jsp/models/findModels.jsp");
     }
 
-    public List<SearchHit[]> getSearchResults(String term1, String aspect, String qualifier, String searchType, String strainType, String condition) throws IOException {
-     //   System.out.println("ASPECT: "+ aspect+"\n"+"QUALIFIER: "+ qualifier+"\nSearchType: "+ searchType+"\tTERM: "+ term);
-        List<SearchHit[]> hitsList= new ArrayList<>();
-        SearchSourceBuilder srb=new SearchSourceBuilder();
-        DisMaxQueryBuilder qb=new DisMaxQueryBuilder();
-        String term=term1.toLowerCase();
-        if(aspect.equals("") && qualifier.equals("") && searchType.equals("") || qualifier.equals("all")){
-            qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term).boost(500));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term))
-                            .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                    .boost(900)
-                            );
+    public List<EsHit[]> getSearchResults(String term1, String aspect, String qualifier, String searchType, String strainType, String condition) throws IOException {
+        List<EsHit[]> hitsList = new ArrayList<>();
+        List<Query> dq = new ArrayList<>();
+        final String term = term1.toLowerCase();
 
-           qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                    .boost(10)
-                    );
+        if (aspect.equals("") && qualifier.equals("") && searchType.equals("") || qualifier.equals("all")) {
+            dq.add(termBoosted("annotatedObjectSymbol.lowercase", term, 500f));
+            dq.add(mustWithQualifier(termFilter("annotatedObjectSymbol.lowercase", term), "MODEL", 900f));
+
+            dq.add(matchPhraseQ("annotatedObjectSymbol", term));
+            dq.add(mustWithQualifier(matchPhraseQ("annotatedObjectSymbol", term), "MODEL", 10f));
 
             //************************************************************************//
-            qb.add(QueryBuilders.termQuery("term.keyword", term).boost(500));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.termQuery("term.keyword", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                    .boost(900)
-            );
-          qb.add(QueryBuilders.matchPhraseQuery("term", term));
-           qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.matchPhraseQuery("term", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                    .boost(10)
-            );
+            dq.add(termBoosted("term.keyword", term, 500f));
+            dq.add(mustWithQualifier(termFilter("term.keyword", term), "MODEL", 900f));
+            dq.add(matchPhraseQ("term", term));
+            dq.add(mustWithQualifier(matchPhraseQ("term", term), "MODEL", 10f));
 
-           /*******************Parent Terms***********************/
-           qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.matchPhraseQuery("parentTerms.term", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                    .boost(10)
-            );
+            /*******************Parent Terms***********************/
+            dq.add(matchPhraseQ("parentTerms.term", term));
+            dq.add(mustWithQualifier(matchPhraseQ("parentTerms.term", term), "MODEL*", 10f));
             /*******************synonyms***********************/
-            qb.add(QueryBuilders.termQuery("termSynonyms.keyword", term));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.termQuery("termSynonyms.keyword", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                    .boost(10)
-            );
+            dq.add(termFilter("termSynonyms.keyword", term));
+            dq.add(mustWithQualifier(termFilter("termSynonyms.keyword", term), "MODEL*", 10f));
             /*******************aliases***********************/
-           qb.add(QueryBuilders.matchPhraseQuery("aliases", term));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.matchPhraseQuery("aliases", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                    .boost(10)
-            );
+            dq.add(matchPhraseQ("aliases", term));
+            dq.add(mustWithQualifier(matchPhraseQ("aliases", term), "MODEL*", 10f));
             /*******************associations***********************/
-           qb.add(QueryBuilders.matchPhraseQuery("associations", term));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.matchPhraseQuery("associations", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                    .boost(10)
-            );
+            dq.add(matchPhraseQ("associations", term));
+            dq.add(mustWithQualifier(matchPhraseQ("associations", term), "MODEL*", 10f));
             /********************Experimental Condition***********************/
-            qb.add(QueryBuilders.termQuery("infoTerms.term.keyword", term).boost(500));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.termQuery("infoTerms.term.keyword", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                    .boost(900)
-            );
-            qb.add(QueryBuilders.matchPhraseQuery("infoTerms.term", term));
-            qb.add(QueryBuilders.boolQuery().must(
-                    QueryBuilders.matchPhraseQuery("infoTerms.term", term))
-                    .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                    .boost(10)
-            );
+            dq.add(termBoosted("infoTerms.term.keyword", term, 500f));
+            dq.add(mustWithQualifier(termFilter("infoTerms.term.keyword", term), "MODEL", 900f));
+            dq.add(matchPhraseQ("infoTerms.term", term));
+            dq.add(mustWithQualifier(matchPhraseQ("infoTerms.term", term), "MODEL", 10f));
 
 
-
-        }else {
+        } else {
             if (aspect.equalsIgnoreCase("model") || searchType.equalsIgnoreCase("model")) {
-                term = term.replaceAll("/", "\\/");
-                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(500));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                        .boost(900)
-                );
-                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term).boost(500));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                        .boost(900)
-                );
+                final String t = term.replaceAll("/", "\\/");
+                dq.add(termBoosted("annotatedObjectSymbol.keyword", t, 500f));
+                dq.add(mustWithQualifier(termFilter("annotatedObjectSymbol.keyword", t), "MODEL*", 900f));
+                dq.add(termBoosted("annotatedObjectSymbol.lowercase", t, 500f));
+                dq.add(mustWithQualifier(termFilter("annotatedObjectSymbol.lowercase", t), "MODEL", 900f));
 
-                qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                        .boost(10)
-                );
+                dq.add(matchPhraseQ("annotatedObjectSymbol", t));
+                dq.add(mustWithQualifier(matchPhraseQ("annotatedObjectSymbol", t), "MODEL", 10f));
 
 
                 if (searchType.equalsIgnoreCase("model")) {
-                    qb.add(QueryBuilders.boolQuery().filter(QueryBuilders.termQuery("aspect", aspect)));
+                    final String asp = aspect;
+                    BoolQuery.Builder b = new BoolQuery.Builder();
+                    b.filter(termFilter("aspect", asp));
+                    dq.add(Query.of(q -> q.bool(b.build())));
                 }
             } else {
-            //    term = term.replaceAll("/", "\\/");
-                qb.add(QueryBuilders.termQuery("term.keyword", term).boost(500));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("term.keyword", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                        .boost(900)
-                );
-                qb.add(QueryBuilders.matchPhraseQuery("term", term));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.matchPhraseQuery("term", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                        .boost(10)
-                );
-                qb.add(QueryBuilders.matchPhraseQuery("parentTerms.term", term));
+                dq.add(termBoosted("term.keyword", term, 500f));
+                dq.add(mustWithQualifier(termFilter("term.keyword", term), "MODEL*", 900f));
+                dq.add(matchPhraseQ("term", term));
+                dq.add(mustWithQualifier(matchPhraseQ("term", term), "MODEL", 10f));
+                dq.add(matchPhraseQ("parentTerms.term", term));
 
-                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term).boost(500));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("annotatedObjectSymbol.keyword", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                        .boost(900)
-                );
-                qb.add(QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term).boost(500));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("annotatedObjectSymbol.lowercase", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                        .boost(900)
-                );
+                dq.add(termBoosted("annotatedObjectSymbol.keyword", term, 500f));
+                dq.add(mustWithQualifier(termFilter("annotatedObjectSymbol.keyword", term), "MODEL*", 900f));
+                dq.add(termBoosted("annotatedObjectSymbol.lowercase", term, 500f));
+                dq.add(mustWithQualifier(termFilter("annotatedObjectSymbol.lowercase", term), "MODEL", 900f));
 
-                qb.add(QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.matchPhraseQuery("annotatedObjectSymbol", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL"))
-                        .boost(10)
-                );
+                dq.add(matchPhraseQ("annotatedObjectSymbol", term));
+                dq.add(mustWithQualifier(matchPhraseQ("annotatedObjectSymbol", term), "MODEL", 10f));
                 /*******************synonyms***********************/
-                qb.add(QueryBuilders.termQuery("termSynonyms.keyword", term));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.termQuery("termSynonyms.keyword", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                        .boost(10)
-                );
+                dq.add(termFilter("termSynonyms.keyword", term));
+                dq.add(mustWithQualifier(termFilter("termSynonyms.keyword", term), "MODEL*", 10f));
                 /*******************aliases***********************/
-                qb.add(QueryBuilders.matchPhraseQuery("aliases", term));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.matchPhraseQuery("aliases", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                        .boost(10)
-                );
+                dq.add(matchPhraseQ("aliases", term));
+                dq.add(mustWithQualifier(matchPhraseQ("aliases", term), "MODEL*", 10f));
                 /*******************associations***********************/
-                qb.add(QueryBuilders.matchPhraseQuery("associations", term));
-                qb.add(QueryBuilders.boolQuery().must(
-                        QueryBuilders.matchPhraseQuery("associations", term))
-                        .must(QueryBuilders.matchPhraseQuery("qualifiers","MODEL*"))
-                        .boost(10)
-                );
-
+                dq.add(matchPhraseQ("associations", term));
+                dq.add(mustWithQualifier(matchPhraseQ("associations", term), "MODEL*", 10f));
             }
         }
 
-        BoolQueryBuilder query= new BoolQueryBuilder();
-        query.must(qb);
-        if(!aspect.equals("") && !aspect.equalsIgnoreCase("model")){
-           query.filter(QueryBuilders.termQuery("aspect.keyword", aspect));
+        Query disMax = Query.of(q -> q.disMax(DisMaxQuery.of(d -> d.queries(dq))));
+        BoolQuery.Builder query = new BoolQuery.Builder();
+        query.must(disMax);
+        if (!aspect.equals("") && !aspect.equalsIgnoreCase("model")) {
+            query.filter(termFilter("aspect.keyword", aspect));
         }
-        if(!qualifier.equals("") && !qualifier.equals("all") && !aspect.equalsIgnoreCase("model")){
-         query.filter(QueryBuilders.termQuery("qualifiers.keyword", qualifier.trim()));
+        if (!qualifier.equals("") && !qualifier.equals("all") && !aspect.equalsIgnoreCase("model")) {
+            query.filter(termFilter("qualifiers.keyword", qualifier.trim()));
         }
-        if(!strainType.equals("")){
-            query.filter(QueryBuilders.termQuery("annotatedObjectType.keyword", strainType));
+        if (!strainType.equals("")) {
+            query.filter(termFilter("annotatedObjectType.keyword", strainType));
         }
-        if(!condition.equals("")){
-            query.filter(QueryBuilders.termQuery("infoTerms.term.keyword", condition));
+        if (!condition.equals("")) {
+            query.filter(termFilter("infoTerms.term.keyword", condition));
         }
-       // srb.query(QueryBuilders.matchAllQuery());
-        srb.query(query);
-        srb.aggregation(getAggregations("aspect"));
-        srb.aggregation(getAggregations("annotatedObjectType"));
-        srb.aggregation(getAggregations("infoTerms.term"));
-    //    srb.sort("annotatedObjectSymbol.keyword", SortOrder.ASC);
-        srb.size(10000);
-        SearchRequest searchRequest=new SearchRequest(RgdContext.getESIndexName("models"));
-        searchRequest.source(srb);
-        SearchResponse sr= ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-        if(sr!=null) {
-        //    System.out.println(sr.getHits().getTotalHits());
-            Terms aspectAgg;
-            Terms typeAgg;
-            Terms conditionsAgg;
-            if(sr.getAggregations()!=null){
-                aspectAgg=sr.getAggregations().get("aspect");
-                aggregations.put("aspectAgg", aspectAgg.getBuckets());
-                for( Terms.Bucket bkt: aspectAgg.getBuckets()){
-                    Terms modelsAgg=   bkt.getAggregations().get("qualifiers");
-                 //   System.out.println("bkt.getKey().toString():"+ bkt.getKey().toString());
-                    aggregations.put(bkt.getKey().toString(), modelsAgg.getBuckets());
+        Query mainQuery = Query.of(q -> q.bool(query.build()));
+
+        Map<String, Aggregation> aggs = new LinkedHashMap<>();
+        aggs.put("aspect", buildAggregation("aspect"));
+        aggs.put("annotatedObjectType", buildAggregation("annotatedObjectType"));
+        aggs.put("infoTerms", buildAggregation("infoTerms.term"));
+
+        ElasticsearchClient client = ClientInit.getClient();
+        SearchResponse<java.util.Map> sr = client.search(s -> s
+                        .index(RgdContext.getESIndexName("models"))
+                        .query(mainQuery)
+                        .size(10000)
+                        .aggregations(aggs),
+                java.util.Map.class);
+
+        if (sr != null) {
+            if (sr.aggregations() != null) {
+                Map<String, Aggregate> aggResults = sr.aggregations();
+                StringTermsAggregate aspectAgg = optSterms(aggResults, "aspect");
+                if (aspectAgg != null) {
+                    aggregations.put("aspectAgg", toEsBuckets(aspectAgg.buckets().array()));
+                    for (StringTermsBucket bkt : aspectAgg.buckets().array()) {
+                        StringTermsAggregate modelsAgg = optSterms(bkt.aggregations(), "qualifiers");
+                        if (modelsAgg != null) {
+                            aggregations.put(bkt.key().stringValue(), toEsBuckets(modelsAgg.buckets().array()));
+                        }
+                    }
                 }
-            typeAgg=sr.getAggregations().get("annotatedObjectType");
-                aggregations.put("typeAgg", typeAgg.getBuckets());
-            conditionsAgg=sr.getAggregations().get("infoTerms");
-            aggregations.put("conditionsAgg", conditionsAgg.getBuckets());
+                StringTermsAggregate typeAgg = optSterms(aggResults, "annotatedObjectType");
+                if (typeAgg != null) {
+                    aggregations.put("typeAgg", toEsBuckets(typeAgg.buckets().array()));
+                }
+                StringTermsAggregate conditionsAgg = optSterms(aggResults, "infoTerms");
+                if (conditionsAgg != null) {
+                    aggregations.put("conditionsAgg", toEsBuckets(conditionsAgg.buckets().array()));
+                }
             }
-            hitsCount= (int) sr.getHits().getTotalHits().value;
-        //  System.out.println("SEARCH HITS:"+sr.getHits().getTotalHits());
-            hitsList.add(sr.getHits().getHits());
-
+            hitsCount = (sr.hits().total() != null) ? (int) sr.hits().total().value() : 0;
+            List<Hit<java.util.Map>> rawHits = sr.hits().hits();
+            EsHit[] hitArr = new EsHit[rawHits.size()];
+            for (int i = 0; i < rawHits.size(); i++) {
+                Hit<java.util.Map> h = rawHits.get(i);
+                @SuppressWarnings("unchecked")
+                java.util.Map<String, Object> src = (java.util.Map<String, Object>) h.source();
+                hitArr[i] = new EsHit(h.id(), src);
+            }
+            hitsList.add(hitArr);
         }
         return hitsList;
     }
-    public AggregationBuilder getAggregations(String field){
-      //  return AggregationBuilders.terms("qualifier").field("qualifier.keyword");
 
-       if(field.equalsIgnoreCase("aspect"))
-        return AggregationBuilders.terms("aspect").field("aspect.keyword")
-                .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
-       if(field.equalsIgnoreCase("annotatedObjectType")){
-           return AggregationBuilders.terms("annotatedObjectType").field("annotatedObjectType.keyword");
-                  // .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
-       }
-        if(field.equalsIgnoreCase("infoTerms.term")){
-            return AggregationBuilders.terms("infoTerms").field("infoTerms.term.keyword");
-            // .subAggregation(AggregationBuilders.terms("qualifiers").field("qualifiers.keyword"));
+    public Aggregation buildAggregation(String field) {
+        if (field.equalsIgnoreCase("aspect")) {
+            Map<String, Aggregation> subs = new LinkedHashMap<>();
+            subs.put("qualifiers", Aggregation.of(a -> a.terms(t -> t.field("qualifiers.keyword"))));
+            return Aggregation.of(a -> a
+                    .terms(t -> t.field("aspect.keyword"))
+                    .aggregations(subs));
+        }
+        if (field.equalsIgnoreCase("annotatedObjectType")) {
+            return Aggregation.of(a -> a.terms(t -> t.field("annotatedObjectType.keyword")));
+        }
+        if (field.equalsIgnoreCase("infoTerms.term")) {
+            return Aggregation.of(a -> a.terms(t -> t.field("infoTerms.term.keyword")));
         }
         return null;
+    }
+
+    private static Query termFilter(String field, String value) {
+        return Query.of(q -> q.term(t -> t.field(field).value(FieldValue.of(value))));
+    }
+
+    private static Query termBoosted(String field, String value, float boost) {
+        return Query.of(q -> q.term(t -> t.field(field).value(FieldValue.of(value)).boost(boost)));
+    }
+
+    private static Query matchPhraseQ(String field, String value) {
+        return Query.of(q -> q.matchPhrase(m -> m.field(field).query(value)));
+    }
+
+    private static Query mustWithQualifier(Query inner, String qualifierValue, float boost) {
+        BoolQuery.Builder b = new BoolQuery.Builder();
+        b.must(inner);
+        b.must(matchPhraseQ("qualifiers", qualifierValue));
+        b.boost(boost);
+        return Query.of(q -> q.bool(b.build()));
+    }
+
+    private static StringTermsAggregate optSterms(Map<String, Aggregate> aggs, String name) {
+        Aggregate a = aggs.get(name);
+        if (a == null) return null;
+        if (!a.isSterms()) return null;
+        return a.sterms();
+    }
+
+    private static List<EsBucket> toEsBuckets(List<StringTermsBucket> buckets) {
+        List<EsBucket> out = new ArrayList<>(buckets.size());
+        for (StringTermsBucket b : buckets) {
+            out.add(new EsBucket(b.key().stringValue(), b.docCount()));
+        }
+        return out;
     }
 }

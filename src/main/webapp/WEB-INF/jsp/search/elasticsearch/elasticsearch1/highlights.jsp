@@ -1,9 +1,6 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
-<%@ page import="org.elasticsearch.search.fetch.subphase.highlight.HighlightField" %>
-<%@ page import="org.elasticsearch.common.text.Text" %>
-<%@ page import="java.util.Arrays" %>
-<%@ page import="com.google.gson.Gson" %>
-<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script>
     $('[data-toggle="popover"]').popover({
@@ -34,7 +31,7 @@
         if (!RgdContext.isProduction()) {
             String id = (String) sourceMap.get("term_acc");
             String highlightId = id != null ? id.replace(":", "") : "";
-            Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+            Map<String, List<String>> highlightFields = hit.getHighlightFields();
     %>
 
     <button type="button" class="btn btn-light btn-sm"
@@ -52,20 +49,18 @@
         <div class="popover-body">
             <%
                 if (highlightFields != null && !highlightFields.isEmpty()) {
-                    for (Map.Entry<String, HighlightField> entry : highlightFields.entrySet()) {
+                    for (Map.Entry<String, List<String>> entry : highlightFields.entrySet()) {
                         String key = entry.getKey();
-                        HighlightField hf = entry.getValue();
+                        List<String> fragments = entry.getValue();
                         if (key != null &&
                                 !key.equalsIgnoreCase("category") &&
                                 !key.equalsIgnoreCase("species") &&
-                                hf != null &&
-                                !hf.getName().contains(".")) {%>
+                                !key.contains(".")) {%>
 
-                            <%=hf.getName() + ": "%>
-                           <% Text[] fragments = hf.getFragments();
-                            if (fragments != null && fragments.length > 0) {
-                                for (Text fragment : fragments) {%>
-                                "<%=fragment.toString()%>"
+                            <%=key + ": "%>
+                           <% if (fragments != null && !fragments.isEmpty()) {
+                                for (String fragment : fragments) {%>
+                                "<%=fragment%>"
                                 <%}}%><br>
             <%
                     }

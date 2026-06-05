@@ -1,7 +1,7 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.elasticsearch.search.SearchHit" %>
+<%@ page import="edu.mcw.rgd.web.EsHit" %>
 <%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.js"> </script>
 <script src="/rgdweb/common/tablesorter-2.18.4/js/jquery.tablesorter.widgets.js"></script>
@@ -32,7 +32,7 @@
         String term1 = (String) request.getAttribute("term");
         String aspect2 = (String) request.getAttribute("aspect");
         String qualifier = (String) request.getAttribute("qualifier");
-        List<SearchHit[]> searchHits = (List) request.getAttribute("searchHits");
+        List<EsHit[]> searchHits = (List) request.getAttribute("searchHits");
         String strainType = (String) request.getAttribute("strainType");
         String condition1 = (String) request.getAttribute("condition");
         int hitsCount1 = (Integer) request.getAttribute("hitsCount");
@@ -70,9 +70,9 @@
     </tr>
     </thead>
     <tbody>
-    <% for (SearchHit[] hitArray : searchHits) {
+    <% for (EsHit[] hitArray : searchHits) {
         for (int i = 0; i < hitArray.length; i++) {
-            SearchHit hit = hitArray[i];
+            EsHit hit = hitArray[i];
             List<Object> refRgdIds;
             String qualifiers = (String) hit.getSourceAsMap().get("qualifiers");
             List infoTerms = (List) hit.getSourceAsMap().get("infoTerms");

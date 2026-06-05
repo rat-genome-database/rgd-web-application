@@ -1,19 +1,19 @@
 <%@ page import="edu.mcw.rgd.search.elasticsearch1.model.SearchBean" %>
 <%@ page import="org.springframework.ui.ModelMap" %>
-<%@ page import="org.elasticsearch.search.aggregations.bucket.terms.Terms" %>
+<%@ page import="edu.mcw.rgd.web.EsBucket" %>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
     ModelMap model= (ModelMap) request.getAttribute("model");
     SearchBean searchBean= (SearchBean) model.get("searchBean");
-    Map<String, List<? extends Terms.Bucket>> aggregations= (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
-    List<Terms.Bucket> speciesBkts= (List<Terms.Bucket>) aggregations.get("species");
+    Map<String, List<? extends EsBucket>> aggregations= (Map<String, List<? extends EsBucket>>) model.get("aggregations");
+    List<EsBucket> speciesBkts= (List<EsBucket>) aggregations.get("species");
     List<String> speciesOrderList=Arrays.asList("Rat", "Human", "Mouse","Chinchilla","Bonobo","Dog","Squirrel",
             "Pig", "Green Monkey", "Naked Mole-Rat", "Black Rat");
-    List<Terms.Bucket> speciesOrderedBkts= new ArrayList<>();
+    List<EsBucket> speciesOrderedBkts= new ArrayList<>();
     for(String orderedSpecies: speciesOrderList) {
-        for (Terms.Bucket species : speciesBkts) {
+        for (EsBucket species : speciesBkts) {
             if (orderedSpecies.trim().equalsIgnoreCase(species.getKeyAsString().trim())){
                 speciesOrderedBkts.add(species);
             }
@@ -50,14 +50,14 @@
         <% if(!searchBean.getCategory().equalsIgnoreCase("general") || model.get("defaultAssembly")!=null){%>
         <%
 
-            for(Terms.Bucket speciesBkt:speciesOrderedBkts){
+            for(EsBucket speciesBkt:speciesOrderedBkts){
                 Map<String, Integer> docCounts=new HashMap<>();
                 long docCount=speciesBkt.getDocCount();
                 String species=speciesBkt.getKey().toString();
                 String speciesLC=species.toLowerCase().replaceAll(" ", "").replace("-","");
-                    List<Terms.Bucket> buckets= (List<Terms.Bucket>) aggregations.get(speciesLC);
+                    List<EsBucket> buckets= (List<EsBucket>) aggregations.get(speciesLC);
                     if(buckets!=null){
-                    for(Terms.Bucket bkt:buckets){
+                    for(EsBucket bkt:buckets){
                         docCounts.put((String) bkt.getKey(), Math.toIntExact(bkt.getDocCount()));
                     }
                     String variant=species.toLowerCase()+"Variant";
@@ -79,12 +79,6 @@
                         String expressionSource=species.toLowerCase()+"ExpressionSource";
                         String expressionStudy=species.toLowerCase()+"ExpressionStudy";
                         String expressionGeneType=species.toLowerCase()+"ExpressionGeneType";
-                        String esStrainTerms=species.toLowerCase()+"ESStrainTerms";
-                        String esTissueTerms=species.toLowerCase()+"ESTissueTerms";
-                        String esCellTypeTerms=species.toLowerCase()+"ESCellTypeTerms";
-                        String esConditions=species.toLowerCase()+"ESConditions";
-                        String esExpressionSource=species.toLowerCase()+"ESExpressionSource";
-                        String esExpressionLevel=species.toLowerCase()+"ESExpressionLevel";
                     if(docCount!=0){
         %>
         <%@include file="facets.jsp"%>

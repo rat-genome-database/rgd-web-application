@@ -5,7 +5,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.InetAddress" %>
 
-<%@ page import="org.elasticsearch.common.recycler.Recycler" %>
 <%@ page import="org.locationtech.jts.awt.PointShapeFactory" %>
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantSSId" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
