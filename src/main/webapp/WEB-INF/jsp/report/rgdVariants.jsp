@@ -4,6 +4,25 @@
 <%@ page import="edu.mcw.rgd.datamodel.RgdVariant" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
 <%@ page import="java.util.ArrayList" %>
+<%!
+    // Long ref/var nucleotide sequences (deletions/insertions can be kb-scale)
+    // are shown collapsed with a FASTA-wrapped expander.
+    String formatNuc(String s) {
+        if (s == null || s.isEmpty()) return "-";
+        if (s.length() <= 60) return s;
+        StringBuilder fasta = new StringBuilder(s.length() + s.length()/60 + 4);
+        for (int i = 0; i < s.length(); i += 60) {
+            fasta.append(s, i, Math.min(i + 60, s.length())).append('\n');
+        }
+        return "<details style=\"display:inline-block; vertical-align:top; max-width:520px;\">"
+            + "<summary style=\"cursor:pointer; color:#24609c; font-family:monospace; font-size:11px;\">"
+            + s.substring(0, 30) + "&hellip; <span style=\"color:#666; font-family:Arial; font-size:11px;\">("
+            + s.length() + " bp)</span></summary>"
+            + "<pre style=\"font-family:monospace; font-size:11px; margin:4px 0 0 0; white-space:pre; "
+            + "max-height:240px; max-width:520px; overflow:auto; padding:4px; background:#f7f7f7; "
+            + "border:1px solid #ddd;\">" + fasta + "</pre></details>";
+    }
+%>
 
 <%@ include file="sectionHeader.jsp"%>
 <%
@@ -49,14 +68,8 @@
             <td align="center"><%="chr"+var.getChromosome()%></td>
             <td align="center"><%=var.getStartPos()%></td>
             <td align="center"><%=var.getStopPos()%></td>
-            <td align="center"><%if(variant.getRefNuc() == null)
-                    out.print("-");
-                  else
-                    out.print(variant.getRefNuc());%></td>
-            <td align="center"><%if(variant.getVarNuc() == null)
-                out.print("-");
-            else
-                out.print(variant.getVarNuc());%></td>
+            <td align="left" style="vertical-align:top; word-break:break-all;"><%= formatNuc(variant.getRefNuc()) %></td>
+            <td align="left" style="vertical-align:top; word-break:break-all;"><%= formatNuc(variant.getVarNuc()) %></td>
             <td align="center"><%
                 Term so = odao.getTermByAccId(variant.getType());
                 out.print(so.getTerm());
