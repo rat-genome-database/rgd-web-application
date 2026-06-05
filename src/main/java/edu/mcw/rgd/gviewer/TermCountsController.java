@@ -1,25 +1,24 @@
 package edu.mcw.rgd.gviewer;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.aggregations.metrics.Cardinality;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,34 +64,38 @@ public class TermCountsController implements Controller {
             return null;
         }
 
-        BoolQueryBuilder q = QueryBuilders.boolQuery()
-                .filter(QueryBuilders.termsQuery("termAcc", accs))
-                .filter(QueryBuilders.termQuery("mapKey", mapKey))
-                .filter(QueryBuilders.termsQuery("objectType",
-                        Arrays.asList("gene", "qtl", "strain")));
+        List<FieldValue> accValues = new ArrayList<>();
+        for (String acc : accs) accValues.add(FieldValue.of(acc));
+        List<FieldValue> typeValues = new ArrayList<>();
+        for (String t : Arrays.asList("gene", "qtl", "strain")) typeValues.add(FieldValue.of(t));
+        final long mapKeyFilter = mapKey;
+        final int aggSize = accs.size();
 
-        SearchSourceBuilder ssb = new SearchSourceBuilder()
-                .query(q)
-                .size(0)
-                .aggregation(AggregationBuilders.terms("by_term")
-                        .field("termAcc")
-                        .size(accs.size())
-                        .subAggregation(AggregationBuilders.cardinality("uniq")
-                                .field("annotatedObjectRgdId")));
+        Query query = Query.of(qq -> qq.bool(b -> b
+                .filter(f -> f.terms(t -> t.field("termAcc").terms(tt -> tt.value(accValues))))
+                .filter(f -> f.term(t -> t.field("mapKey").value(FieldValue.of(mapKeyFilter))))
+                .filter(f -> f.terms(t -> t.field("objectType").terms(tt -> tt.value(typeValues))))));
 
-        SearchResponse resp = ClientInit.getClient().search(
-                new SearchRequest(RgdContext.getESIndexName("gviewer")).source(ssb),
-                RequestOptions.DEFAULT);
+        ElasticsearchClient client = ClientInit.getClient();
+        SearchResponse<Void> resp = client.search(s -> s
+                        .index(RgdContext.getESIndexName("gviewer"))
+                        .query(query)
+                        .size(0)
+                        .aggregations("by_term", a -> a
+                                .terms(t -> t.field("termAcc").size(aggSize))
+                                .aggregations("uniq", u -> u
+                                        .cardinality(c -> c.field("annotatedObjectRgdId")))),
+                Void.class);
 
         Map<String, Long> counts = new LinkedHashMap<>();
         for (String acc : accs) counts.put(acc, 0L);
 
-        Terms agg = resp.getAggregations().get("by_term");
-        if (agg != null) {
-            for (Terms.Bucket b : agg.getBuckets()) {
-                Cardinality uniq = b.getAggregations().get("uniq");
-                long n = uniq == null ? b.getDocCount() : uniq.getValue();
-                counts.put(b.getKeyAsString(), n);
+        Aggregate byTerm = resp.aggregations().get("by_term");
+        if (byTerm != null) {
+            for (StringTermsBucket b : byTerm.sterms().buckets().array()) {
+                Aggregate uniq = b.aggregations().get("uniq");
+                long n = uniq == null ? b.docCount() : uniq.cardinality().value();
+                counts.put(b.key().stringValue(), n);
             }
         }
 

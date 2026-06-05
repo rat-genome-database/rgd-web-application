@@ -1,23 +1,22 @@
 package edu.mcw.rgd.gviewer;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.Operator;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.collapse.CollapseBuilder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,10 +27,10 @@ import java.util.Map;
  */
 public class AddObjectsController implements Controller {
 
-    private static final String[] FIELDS = new String[]{
+    private static final List<String> FIELDS = Arrays.asList(
             "annotatedObjectRgdId", "objectSymbol", "objectType",
             "chromosome", "startPos", "stopPos"
-    };
+    );
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -56,32 +55,41 @@ public class AddObjectsController implements Controller {
             return null;
         }
 
+        final String typeFilter = type;
+        final long mapKeyFilter = mapKey;
+        final String termValue = term;
+
         // Symbol match: case-insensitive substring on the keyword field
         // OR analyzed match on the text field. minimumShouldMatch=1.
-        BoolQueryBuilder symbolMatch = QueryBuilders.boolQuery()
-                .should(QueryBuilders.wildcardQuery("objectSymbol.keyword", "*" + term + "*").caseInsensitive(true))
-                .should(QueryBuilders.matchQuery("objectSymbol", term).operator(Operator.AND))
-                .minimumShouldMatch(1);
+        Query symbolMatch = Query.of(q -> q.bool(b -> b
+                .should(s -> s.wildcard(w -> w
+                        .field("objectSymbol.keyword")
+                        .value("*" + termValue + "*")
+                        .caseInsensitive(true)))
+                .should(s -> s.match(m -> m
+                        .field("objectSymbol")
+                        .query(termValue)
+                        .operator(Operator.And)))
+                .minimumShouldMatch("1")));
 
-        BoolQueryBuilder query = QueryBuilders.boolQuery()
-                .filter(QueryBuilders.termQuery("objectType", type))
-                .filter(QueryBuilders.termQuery("mapKey", mapKey))
-                .must(symbolMatch);
+        Query query = Query.of(q -> q.bool(b -> b
+                .filter(f -> f.term(t -> t.field("objectType").value(FieldValue.of(typeFilter))))
+                .filter(f -> f.term(t -> t.field("mapKey").value(FieldValue.of(mapKeyFilter))))
+                .must(symbolMatch)));
 
-        SearchSourceBuilder ssb = new SearchSourceBuilder()
-                .query(query)
-                .fetchSource(FIELDS, null)
-                .size(1000)
-                .collapse(new CollapseBuilder("annotatedObjectRgdId"));
-
-        SearchResponse resp = ClientInit.getClient().search(
-                new SearchRequest(RgdContext.getESIndexName("gviewer")).source(ssb),
-                RequestOptions.DEFAULT);
+        ElasticsearchClient client = ClientInit.getClient();
+        SearchResponse<Map> resp = client.search(s -> s
+                        .index(RgdContext.getESIndexName("gviewer"))
+                        .query(query)
+                        .size(1000)
+                        .source(src -> src.filter(sf -> sf.includes(FIELDS)))
+                        .collapse(c -> c.field("annotatedObjectRgdId")),
+                Map.class);
 
         out.print("{\"genome\":{\"feature\":[");
         boolean first = true;
-        for (SearchHit hit : resp.getHits().getHits()) {
-            Map<String, Object> src = hit.getSourceAsMap();
+        for (Hit<Map> hit : resp.hits().hits()) {
+            Map<String, Object> src = hit.source();
             if (src == null) continue;
 
             int rgdId = src.get("annotatedObjectRgdId") instanceof Number

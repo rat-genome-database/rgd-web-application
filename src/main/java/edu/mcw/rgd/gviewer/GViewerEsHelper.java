@@ -1,20 +1,15 @@
 package edu.mcw.rgd.gviewer;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.ScrollResponse;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.action.search.ClearScrollRequest;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchScrollRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.core.TimeValue;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.util.*;
 
@@ -179,41 +174,49 @@ public class GViewerEsHelper {
             return res;
         }
 
-        BoolQueryBuilder query = QueryBuilders.boolQuery()
-                .filter(QueryBuilders.termsQuery("termAcc", expandedAccs))
-                .filter(QueryBuilders.termQuery("mapKey", mapKey))
-                .filter(QueryBuilders.termsQuery("objectType", SUPPORTED_OBJECT_TYPES));
+        List<FieldValue> accValues = new ArrayList<>();
+        for (String acc : expandedAccs) accValues.add(FieldValue.of(acc));
+        List<FieldValue> typeValues = new ArrayList<>();
+        for (String t : SUPPORTED_OBJECT_TYPES) typeValues.add(FieldValue.of(t));
+        final long mapKeyFilter = mapKey;
+        final List<String> sourceFields = Arrays.asList(POSITION_SOURCE_FIELDS);
+        final String scrollKeepAlive = "1m";
 
-        SearchSourceBuilder ssb = new SearchSourceBuilder()
-                .query(query)
-                .fetchSource(POSITION_SOURCE_FIELDS, null)
-                .size(SCROLL_PAGE_SIZE);
+        Query query = Query.of(q -> q.bool(b -> b
+                .filter(f -> f.terms(t -> t.field("termAcc").terms(tt -> tt.value(accValues))))
+                .filter(f -> f.term(t -> t.field("mapKey").value(FieldValue.of(mapKeyFilter))))
+                .filter(f -> f.terms(t -> t.field("objectType").terms(tt -> tt.value(typeValues))))));
 
-        RestHighLevelClient client = ClientInit.getClient();
-        TimeValue scrollKeepAlive = TimeValue.timeValueMinutes(1);
-        SearchRequest req = new SearchRequest(RgdContext.getESIndexName("gviewer"))
-                .source(ssb)
-                .scroll(scrollKeepAlive);
+        ElasticsearchClient client = ClientInit.getClient();
+        SearchResponse<Map> resp = client.search(s -> s
+                        .index(RgdContext.getESIndexName("gviewer"))
+                        .query(query)
+                        .source(src -> src.filter(sf -> sf.includes(sourceFields)))
+                        .size(SCROLL_PAGE_SIZE)
+                        .scroll(t -> t.time(scrollKeepAlive)),
+                Map.class);
 
-        SearchResponse resp = client.search(req, RequestOptions.DEFAULT);
-        String scrollId = resp.getScrollId();
+        String scrollId = resp.scrollId();
+        List<Hit<Map>> hits = resp.hits().hits();
         try {
-            while (resp.getHits().getHits().length > 0) {
-                for (SearchHit hit : resp.getHits().getHits()) {
-                    Map<String, Object> src = hit.getSourceAsMap();
+            while (!hits.isEmpty()) {
+                for (Hit<Map> hit : hits) {
+                    Map<String, Object> src = hit.source();
                     if (src == null) continue;
                     consumeHit(src, res);
                 }
-                SearchScrollRequest scrollReq = new SearchScrollRequest(scrollId)
-                        .scroll(scrollKeepAlive);
-                resp = client.scroll(scrollReq, RequestOptions.DEFAULT);
-                scrollId = resp.getScrollId();
+                final String sid = scrollId;
+                ScrollResponse<Map> scrollResp = client.scroll(sc -> sc
+                                .scrollId(sid)
+                                .scroll(t -> t.time(scrollKeepAlive)),
+                        Map.class);
+                scrollId = scrollResp.scrollId();
+                hits = scrollResp.hits().hits();
             }
         } finally {
             if (scrollId != null) {
-                ClearScrollRequest clear = new ClearScrollRequest();
-                clear.addScrollId(scrollId);
-                try { client.clearScroll(clear, RequestOptions.DEFAULT); } catch (Exception ignored) {}
+                final String sid = scrollId;
+                try { client.clearScroll(c -> c.scrollId(sid)); } catch (Exception ignored) {}
             }
         }
         return res;
