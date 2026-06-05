@@ -257,8 +257,25 @@ public class PhenominerService {
     private static List<EsBucket> toEsBuckets(List<StringTermsBucket> buckets) {
         List<EsBucket> out = new ArrayList<>(buckets.size());
         for (StringTermsBucket b : buckets) {
-            out.add(new EsBucket(b.key().stringValue(), b.docCount()));
+            out.add(new EsBucket(b.key().stringValue(), b.docCount(), toSubAggregations(b.aggregations())));
         }
         return out;
+    }
+
+    // Recursively convert a bucket's sub-aggregations (e.g. units -> experimentName ->
+    // cmoTerm, or rsTopLevelTerm -> rsTerm) into the EsBucket.getSubAggregations() map so
+    // the sideBar.jsp facet tree can walk them. Only terms (sterms) sub-aggregations are kept.
+    private static Map<String, List<EsBucket>> toSubAggregations(Map<String, Aggregate> aggs) {
+        if (aggs == null || aggs.isEmpty()) {
+            return Map.of();
+        }
+        Map<String, List<EsBucket>> subs = new LinkedHashMap<>();
+        for (Map.Entry<String, Aggregate> e : aggs.entrySet()) {
+            Aggregate a = e.getValue();
+            if (a != null && a.isSterms()) {
+                subs.put(e.getKey(), toEsBuckets(a.sterms().buckets().array()));
+            }
+        }
+        return subs;
     }
 }

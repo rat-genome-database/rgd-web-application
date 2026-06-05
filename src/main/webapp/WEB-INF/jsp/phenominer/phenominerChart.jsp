@@ -173,7 +173,7 @@
     </script>
 
     <tbody>
-        <c:forEach items="${sr.hits.hits}" var="hit">
+        <c:forEach items="${hits}" var="hit">
             <tr>
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.rsTermAcc}">${hit.sourceAsMap.rsTerm}</a></td>
                 <td><a href="/rgdweb/ontology/annot.html?acc_id=${hit.sourceAsMap.cmoTermAcc}">${hit.sourceAsMap.cmoTerm}</a></td>

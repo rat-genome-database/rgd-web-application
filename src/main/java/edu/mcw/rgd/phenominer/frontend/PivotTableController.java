@@ -11,6 +11,7 @@ import edu.mcw.rgd.phenominer.elasticsearch.service.Colors;
 import edu.mcw.rgd.phenominer.elasticsearch.service.PhenominerService;
 
 import edu.mcw.rgd.web.EsBucket;
+import edu.mcw.rgd.web.EsHit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,6 +84,17 @@ public class PivotTableController implements Controller {
                 request.setAttribute("yaxisLabel", unitsSet.iterator().next());
 
             }
+
+            // Expose hits to the JSP as bean-style EsHit objects. The typed client's
+            // SearchResponse/Hit use fluent accessors (hits()/source()) that JSP EL can't
+            // resolve, so the table.jsp/phenominerChart.jsp iterate this list instead of sr.
+            List<EsHit> hits = new ArrayList<>();
+            for (Hit<Map> hit : sr.hits().hits()) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> src = (Map<String, Object>) hit.source();
+                hits.add(new EsHit(hit.id(), src));
+            }
+            request.setAttribute("hits", hits);
 
             request.setAttribute("labels", gson.toJson(labels));
             request.setAttribute("columns", getTableColumns(sr));
