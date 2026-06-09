@@ -136,7 +136,7 @@
             <%}%>
             <%if(aggregations.get(sample)!=null && aggregations.get(sample).size()>0){%>
 
-            <li><span>Sample</span>
+            <li class="asm-collapsed"><span>Sample</span>
                 <ul><%for(EsBucket bkt:aggregations.get(sample)){%>
                     <li onclick="filterClick('Variant', '<%=species%>','', '<%=bkt.getKey()%>', 'sample')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
@@ -148,7 +148,7 @@
     </li>
     <%}%>
     <% if(docCounts.get("Expression Study")!=null){%>
-    <li><button style="border:none;background-color: transparent" onclick="filterClick('Expression Study', '<%=species%>','','')"><span>Expression (<%=docCounts.get("Expression Study")%>)</span></button>
+    <li><button style="border:none;background-color: transparent" onclick="filterClick('Expression Study', '<%=species%>','','')"><span>Expression Studies (<%=docCounts.get("Expression Study")%>)</span></button>
 
         <ul>
             <%if(aggregations.get(expressionStudy)!=null && aggregations.get(expressionStudy).size()>0){%>
@@ -179,7 +179,7 @@
 <%--            <%}%>--%>
                         <%if(aggregations.get(strainTerms)!=null && aggregations.get(strainTerms).size()>0){%>
 
-                        <li><span>Strains</span>
+                        <li class="asm-collapsed"><span>Strains</span>
                             <ul><%for(EsBucket bkt:aggregations.get(strainTerms)){%>
                                 <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','strainTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                                 <%}%>
@@ -190,7 +190,7 @@
 
             <%if(aggregations.get(tissueTerms)!=null && aggregations.get(tissueTerms).size()>0){%>
 
-            <li><span>Tissues</span>
+            <li class="asm-collapsed"><span>Tissues</span>
                 <ul><%for(EsBucket bkt:aggregations.get(tissueTerms)){%>
                     <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','tissueTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
@@ -199,7 +199,7 @@
             <%}%>
             <%if(aggregations.get(cellTypeTerms)!=null && aggregations.get(cellTypeTerms).size()>0){%>
 
-            <li><span>Cell Type</span>
+            <li class="asm-collapsed"><span>Cell Type</span>
                 <ul><%for(EsBucket bkt:aggregations.get(cellTypeTerms)){%>
                     <li onclick="filterClick('Expression Study', '<%=species%>','', '<%=bkt.getKey()%>','cellTypeTerms')"><%=bkt.getKey()%> (<%=bkt.getDocCount()%>)</li>
                     <%}%>
@@ -209,7 +209,7 @@
             <%if(aggregations.get(conditions)!=null && aggregations.get(conditions).size()>0){%>
 
 
-            <li><span>Conditions</span>
+            <li class="asm-collapsed"><span>Conditions</span>
                 <ul><%for(EsBucket bkt:aggregations.get(conditions)){
                     String facet="";
                     if(bkt.getKey().toString().length()>30){
@@ -230,7 +230,7 @@
     <%}%>
 
     <% if(docCounts.get("Expressed Gene")!=null){%>
-    <li><button style="border:none;background-color: transparent" onclick="filterClick('Expressed Gene', '<%=species%>','','')"><span>Expression (<%=docCounts.get("Expressed Gene")%>)</span></button>
+    <li><button style="border:none;background-color: transparent" onclick="filterClick('Expressed Gene', '<%=species%>','','')"><span>Expression Genes (<%=docCounts.get("Expressed Gene")%>)</span></button>
 
         <ul>
             <%if(aggregations.get(expressionSource)!=null && aggregations.get(expressionSource).size()>0){%>
