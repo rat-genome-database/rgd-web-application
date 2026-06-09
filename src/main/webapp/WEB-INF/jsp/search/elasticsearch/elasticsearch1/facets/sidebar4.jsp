@@ -79,6 +79,12 @@
                         String expressionSource=species.toLowerCase()+"ExpressionSource";
                         String expressionStudy=species.toLowerCase()+"ExpressionStudy";
                         String expressionGeneType=species.toLowerCase()+"ExpressionGeneType";
+                        String esStrainTerms=species.toLowerCase()+"ESStrainTerms";
+                        String esTissueTerms=species.toLowerCase()+"ESTissueTerms";
+                        String esCellTypeTerms=species.toLowerCase()+"ESCellTypeTerms";
+                        String esConditions=species.toLowerCase()+"ESConditions";
+                        String esExpressionSource=species.toLowerCase()+"ESExpressionSource";
+                        String esExpressionLevel=species.toLowerCase()+"ESExpressionLevel";
                     if(docCount!=0){
         %>
         <%@include file="facets.jsp"%>

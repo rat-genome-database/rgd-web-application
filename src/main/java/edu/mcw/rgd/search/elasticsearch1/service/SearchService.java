@@ -67,6 +67,14 @@ public class SearchService {
 
                 List<StringTermsBucket> catFilterBuckets = catFilterAgg.buckets().array();
                 aggregations.put(species, toEsBuckets(catFilterBuckets));
+
+                Aggregate speciesAssemblyAggs = speciesBkt.aggregations().get("assemblyAggs");
+                if (speciesAssemblyAggs != null && speciesAssemblyAggs.isNested()) {
+                    StringTermsAggregate speciesAssemblies = optSterms(speciesAssemblyAggs.nested().aggregations(), "assembly");
+                    if (speciesAssemblies != null) {
+                        aggregations.put(species + "Assembly", toEsBuckets(speciesAssemblies.buckets().array()));
+                    }
+                }
                 for (StringTermsBucket bucket : catFilterBuckets) {
                     Map<String, Aggregate> subAggs = bucket.aggregations();
                     StringTermsAggregate typeFilterAgg = optSterms(subAggs, "typeFilter");

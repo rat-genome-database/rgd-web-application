@@ -551,9 +551,18 @@ public class QueryService1 {
                 .terms(t -> t.field("subcat.keyword").size(50)
                         .order(List.of(NamedValue.of("_key", SortOrder.Asc)))));
 
+        Map<String, Aggregation> assemblySubAggs = new LinkedHashMap<>();
+        assemblySubAggs.put("assembly", Aggregation.of(a -> a
+                .terms(t -> t.field("mapDataList.map").size(ASSEMBLY_AGG_SIZE)
+                        .order(List.of(NamedValue.of("_key", SortOrder.Asc))))));
+        Aggregation assemblyAggs = Aggregation.of(a -> a
+                .nested(n -> n.path("mapDataList"))
+                .aggregations(assemblySubAggs));
+
         Map<String, Aggregation> speciesSubAggs = new LinkedHashMap<>();
         speciesSubAggs.put("categoryFilter", categoryFilter);
         speciesSubAggs.put("ontologies", ontologies);
+        speciesSubAggs.put("assemblyAggs", assemblyAggs);
 
         return Aggregation.of(a -> a
                 .terms(t -> t.field(aggField + KEYWORD_SUFFIX).size(DEFAULT_AGG_SIZE))

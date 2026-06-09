@@ -16,6 +16,17 @@
 <li>
 <button style="border:none;background-color: transparent" onclick="filterClick('<%=searchBean.getCategory()%>', '<%=species%>','', '')"><span style="font-weight: bold;color:#24609c"><%=species%> ( <%=docCount%>)</span></button>
 <ul>
+    <% String assemblyKey = species.toLowerCase().replaceAll(" ", "").replace("-","") + "Assembly";
+        List<? extends EsBucket> asmBkts = aggregations.get(assemblyKey);
+        if(asmBkts!=null && asmBkts.size()>0){ %>
+    <li class="asm-collapsed"><span>Assembly</span>
+        <ul>
+            <% for(EsBucket asmBkt : asmBkts){ %>
+            <li><button style="border:none;background-color: transparent;cursor:pointer" onclick="assemblyClick('<%=searchBean.getCategory()%>', '<%=species%>', '<%=StringEscapeUtils.escapeHtml4(asmBkt.getKeyAsString())%>')"><%=asmBkt.getKeyAsString()%> (<%=asmBkt.getDocCount()%>)</button></li>
+            <% } %>
+        </ul>
+    </li>
+    <% } %>
     <% if(docCounts.get("Gene")!=null){%>
     <li> <button style="border:none;background-color: transparent" onclick="filterClick('Gene', '<%=species%>','','')"><span>Gene (<%=docCounts.get("Gene")%>)</span></button>
         <ul><%
