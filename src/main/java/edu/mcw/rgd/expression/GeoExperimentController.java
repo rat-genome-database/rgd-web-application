@@ -312,6 +312,8 @@ public class GeoExperimentController implements Controller {
                         catch (Exception e){
                             oldCmoId = null;
                         }
+                        boolean oldStudyControl = (gre != null) && gre.getStudyControl();
+                        boolean isStudyControl = "true".equalsIgnoreCase(request.getParameter("isStudyControl" + i));
 
                         Integer cmoId = null;
 //                        GeneExpressionRecord copy = gre;
@@ -322,6 +324,7 @@ public class GeoExperimentController implements Controller {
                             gre.setCurationStatus(35);
                             gre.setSpeciesTypeKey(speciesType);
                             gre.setLastModifiedBy(login);
+                            gre.setStudyControl(isStudyControl);
                             ClinicalMeasurement cmo = null;
 //                            cmoId = cmo.getId();
                             String cmoAcc = Utils.NVL(request.getParameter("cmoId"+i),"");
@@ -360,7 +363,10 @@ public class GeoExperimentController implements Controller {
                                     geDAO.updateClinicalMeasurement(cmo);
                                 }
                             }
-                            if (cmoId != null && !cmoId.equals(oldCmoId)) {
+                            gre.setStudyControl(isStudyControl);
+                            boolean cmoChanged = cmoId != null && !cmoId.equals(oldCmoId);
+                            boolean studyControlChanged = oldStudyControl != isStudyControl;
+                            if (cmoChanged || studyControlChanged) {
                                 gre.setLastModifiedBy(login);
                                 geDAO.updateGeneExpressionRecord(gre);
                             }

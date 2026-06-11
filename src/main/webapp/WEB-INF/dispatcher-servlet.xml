@@ -219,6 +219,8 @@
                 <prop key="ga/window.html">GACrossCompareController</prop>
                 <prop key="ga/termDetail.html">GATermDetailController</prop>
 
+                <prop key="alleleStrain/report.html">AlleleStrainController</prop>
+
                 <prop key="enrichment/analysis.html">EnrichmentController</prop>
                 <prop key="enrichment/start.html">EnrichmentSelectController</prop>
 
@@ -242,6 +244,10 @@
                 <prop key="front/geneList.html">nGeneListController</prop>
                 <prop key="front/config.html">nConfigController</prop>
 
+                <prop key="expressMiner/config.html">ExpressMinerController</prop>
+                <prop key="expressMiner/geneList.html">ExpressMineGeneList</prop>
+                <prop key="expressMiner/studyList.html">ExpressMineStudyList</prop>
+
                 <prop key="generator/list.html">ProcessListController</prop>
                 <prop key="generator/wizard.html">ListWizardController</prop>
                 <prop key="generator/preview.html">ListPreviewController</prop>
@@ -259,6 +265,9 @@
                 <prop key="gviewer/getAnnotationJson.html">GViewerGetAnnotationJsonController</prop>
                 <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
+                <prop key="gviewer/addObjects.html">GViewerAddObjectsController</prop>
+                <prop key="gviewer/termCounts.html">GViewerTermCountsController</prop>
+                <prop key="gviewer/ideogram.html">GViewerIdeogramController</prop>
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
@@ -378,6 +387,7 @@
     <bean id="GeneDamagingVariantsController" class="edu.mcw.rgd.report.ajax.GeneDamagingVariantsController"/>
     <bean id="QTLReportController" class="edu.mcw.rgd.report.QTLReportController"/>
     <bean id="StrainReportController" class="edu.mcw.rgd.report.StrainReportController"/>
+    <!--<bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>-->
     <bean id="MarkerReportController" class="edu.mcw.rgd.report.MarkerReportController"/>
     <bean id="ReferenceReportController" class="edu.mcw.rgd.report.ReferenceReportController"/>
     <bean id="AnnotationReportController" class="edu.mcw.rgd.report.AnnotationReportController"/>
@@ -506,6 +516,8 @@
     <bean id="GACrossCompareController" class="edu.mcw.rgd.ga.GACrossCompareController" />
     <bean id="GATermDetailController" class="edu.mcw.rgd.ga.GATermDetailController" />
 
+    <bean id="AlleleStrainController" class="edu.mcw.rgd.allelestrain.AlleleStrainController"/>
+
     <bean id="PATermCompareController" class="edu.mcw.rgd.ga.PATermCompareController" />
     <bean id="PACrossCompareController" class="edu.mcw.rgd.ga.PACrossCompareController" />
 
@@ -521,6 +533,10 @@
     <bean id="nSearchTypeController" class="edu.mcw.rgd.vv.SearchTypeController" />
     <bean id="nGeneListController" class="edu.mcw.rgd.vv.GeneListController" />
     <bean id="nConfigController" class="edu.mcw.rgd.vv.ConfigController" />
+
+    <bean id="ExpressMinerController" class="edu.mcw.rgd.expressMiner.ExpressMinerController"/>
+    <bean id="ExpressMineGeneList" class="edu.mcw.rgd.expressMiner.GeneListEMController"/>
+    <bean id="ExpressMineStudyList" class="edu.mcw.rgd.expressMiner.StudyListEMController"/>
 
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
     <!--<bean id="GviewerDownloadController" class="edu.mcw.rgd.gviewer.DownloadController" />-->
@@ -552,6 +568,9 @@
     <bean id="GViewerGetAnnotationJsonController" class="edu.mcw.rgd.gviewer.AnnotationJSONController"/>
     <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
+    <bean id="GViewerAddObjectsController" class="edu.mcw.rgd.gviewer.AddObjectsController"/>
+    <bean id="GViewerTermCountsController" class="edu.mcw.rgd.gviewer.TermCountsController"/>
+    <bean id="GViewerIdeogramController" class="edu.mcw.rgd.gviewer.IdeogramController"/>
 
 
     <bean id="PrimerController" class="edu.mcw.rgd.primerCreate.PrimerController" />

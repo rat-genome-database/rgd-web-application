@@ -244,6 +244,10 @@
                 <prop key="front/geneList.html">nGeneListController</prop>
                 <prop key="front/config.html">nConfigController</prop>
 
+                <prop key="expressMiner/config.html">ExpressMinerController</prop>
+                <prop key="expressMiner/geneList.html">ExpressMineGeneList</prop>
+                <prop key="expressMiner/studyList.html">ExpressMineStudyList</prop>
+
                 <prop key="generator/list.html">ProcessListController</prop>
                 <prop key="generator/wizard.html">ListWizardController</prop>
                 <prop key="generator/preview.html">ListPreviewController</prop>
@@ -529,6 +533,10 @@
     <bean id="nSearchTypeController" class="edu.mcw.rgd.vv.SearchTypeController" />
     <bean id="nGeneListController" class="edu.mcw.rgd.vv.GeneListController" />
     <bean id="nConfigController" class="edu.mcw.rgd.vv.ConfigController" />
+
+    <bean id="ExpressMinerController" class="edu.mcw.rgd.expressMiner.ExpressMinerController"/>
+    <bean id="ExpressMineGeneList" class="edu.mcw.rgd.expressMiner.GeneListEMController"/>
+    <bean id="ExpressMineStudyList" class="edu.mcw.rgd.expressMiner.StudyListEMController"/>
 
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
     <!--<bean id="GviewerDownloadController" class="edu.mcw.rgd.gviewer.DownloadController" />-->
