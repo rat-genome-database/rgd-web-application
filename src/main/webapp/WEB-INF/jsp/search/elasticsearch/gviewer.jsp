@@ -90,11 +90,11 @@ annotationType="variant";
 
       if (species == 3) {
           console.log(species);
-          gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
+          gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml", species);
       }else if (species == 1) {
-          gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml");
+          gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml", species);
       }else {
-          gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml");
+          gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml", species);
       }
 
       gviewer.addZoomPane("zoomWrapper", 250, 800);

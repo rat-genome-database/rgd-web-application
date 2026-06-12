@@ -264,8 +264,36 @@
 
 var criteriaCount = 1;
 
-// All ontology codes for "All Ontologies" option
+// All ontology codes for "All Ontologies" option. Phenotype is MP for most
+// species and HP (Human Phenotype) for human assemblies; rebuilt by
+// updatePhenotypeOntology() whenever the assembly/species changes.
 var ALL_ONTS = "CC,MF,BP,RDO,NBO,MP,PW,CMO,MMO,XCO,RS,VT,CHEBI";
+
+function getPhenotypeOnt() {
+    var s = document.getElementById('gv_speciesType');
+    return (s && s.value === '1') ? 'HP' : 'MP';
+}
+
+function updatePhenotypeOntology() {
+    var ont = getPhenotypeOnt();
+    ALL_ONTS = "CC,MF,BP,RDO,NBO," + ont + ",PW,CMO,MMO,XCO,RS,VT,CHEBI";
+    ACC_TO_ONT['HP'] = ont;
+    ACC_TO_ONT['MP'] = ont;
+    var selects = document.querySelectorAll('select[name=gv_ont]');
+    selects.forEach(function(sel) {
+        var prev = sel.value;
+        sel.querySelectorAll('option').forEach(function(opt) {
+            if (opt.textContent.trim() === 'Phenotype') {
+                opt.value = ont;
+            }
+        });
+        // Keep "Phenotype" selected across species switches even though its value changed
+        if (prev === 'MP' || prev === 'HP') {
+            sel.value = ont;
+            sel.dispatchEvent(new Event('change'));
+        }
+    });
+}
 
 function addCriteria() {
     var container = document.getElementById("criteriaContainer");
@@ -297,6 +325,7 @@ function addCriteria() {
     html += '</div>';
     container.insertAdjacentHTML('beforeend', html);
     setupAutoComplete();
+    updatePhenotypeOntology();
 }
 
 function removeCriteria(id) {
@@ -357,7 +386,7 @@ function getFormString() {
         // Translate ontology dropdown to the checkbox params the server expects
         var onts = (ontSel === 'ALL') ? ALL_ONTS : ontSel;
         var allOntKeys = {
-            'go[]': 'CC,MF,BP', 'do[]': 'RDO', 'bo[]': 'NBO', 'po[]': 'MP',
+            'go[]': 'CC,MF,BP', 'do[]': 'RDO', 'bo[]': 'NBO', 'po[]': getPhenotypeOnt(),
             'wo[]': 'PW', 'cmo[]': 'CMO', 'mmo[]': 'MMO', 'xco[]': 'XCO',
             'rs[]': 'RS', 'vt[]': 'VT', 'chebi[]': 'CHEBI'
         };
@@ -468,7 +497,7 @@ function runGviewer() {
             gviewer.regionPadding=2;
             gviewer.annotationPadding = 1;
 
-            gviewer.loadBands(ideoUrl);
+            gviewer.loadBands(ideoUrl, species);
             gviewer.addZoomPane("zoomWrapper", 250, viewerWidth);
             gviewer.mapKey = mapKey;
             lastSpecies = species;
@@ -559,6 +588,7 @@ function unselectAllOntologies(obj) {}
 
 $(document).ready(function(){
     setupAutoComplete();
+    updatePhenotypeOntology();
 
     // Auto-run from shareable URL parameters
     var urlParams = new URLSearchParams(window.location.search);
@@ -570,6 +600,7 @@ $(document).ready(function(){
         var species = urlParams.get('speciesType');
         if (species) {
             $('#gv_speciesType').val(species);
+            updatePhenotypeOntology();
         }
         // Uncheck/check ontologies based on URL params
         // (the form string includes all checkbox states, defaults are fine for auto-run)
@@ -648,6 +679,7 @@ function clearCriteriaRowTerm(selectEl) {
 function onAssemblyChange(selectEl) {
     document.getElementById('gv_speciesType').value =
         selectEl.selectedOptions[0].getAttribute('data-species');
+    updatePhenotypeOntology();
     var content = document.getElementById('content');
     if (content && content.style.visibility === 'visible') {
         runGviewer();

@@ -915,7 +915,10 @@ function Gviewer(viewerId, height, width) {
         this.windowManager.closeLast();
 
         if (term && term != "") {
-            this.windowManager.openExternal("Search: " + term ,"/rgdweb/gviewer/getXmlTool.html?gviewer=addObjTerm&term[]=" + term + "&go[]=CC,MF,BP,RDO,NBO,PW,MP,CMO,MMO,XCO,RS,VT,CHEBI&speciesType=" + this.species + "&color=" + escape(color));
+            // HP (Human Phenotype) for human assemblies; MP (Mammalian Phenotype) for everything else
+            var phenoOnt = (this.species == 1) ? "HP" : "MP";
+            var goList = "CC,MF,BP,RDO,NBO,PW," + phenoOnt + ",CMO,MMO,XCO,RS,VT,CHEBI";
+            this.windowManager.openExternal("Search: " + term ,"/rgdweb/gviewer/getXmlTool.html?gviewer=addObjTerm&term[]=" + term + "&go[]=" + goList + "&speciesType=" + this.species + "&color=" + escape(color));
          }
 
          if (this.zoomPaneActive()) {

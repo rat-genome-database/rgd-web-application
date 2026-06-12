@@ -110,13 +110,13 @@ var gviewer = null;
         species = <%=req.getParameter("species")%>;
 
         if (species == 3) {
-            gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
+            gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml", species);
             gviewer.genomeBrowserURL = "/jbrowse2/?assembly=mRatBN7.2&tracklist=true";
         }else if (species == 1) {
-            gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml");
+            gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml", species);
             gviewer.genomeBrowserURL = "/jbrowse2/?assembly=GRCh38.p14&tracklist=true";
         }else {
-            gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml");
+            gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml", species);
             gviewer.genomeBrowserURL = "/jbrowse2/?assembly=GRCm39&tracklist=true";
        }
 

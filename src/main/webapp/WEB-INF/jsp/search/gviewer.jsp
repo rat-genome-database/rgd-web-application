@@ -99,7 +99,7 @@ window.onload= function() {
      }
 
      //gviewer.annotationTypes = new Array(type);
-     gviewer.loadBands("<%=baseMap%>");
+     gviewer.loadBands("<%=baseMap%>", "<%=search.getSpeciesType()%>");
      gviewer.loadAnnotations(location.href.replace("fmt=5","fmt=6"));
      gviewer.addZoomPane("zoomWrapper", 250, 750);
 }
