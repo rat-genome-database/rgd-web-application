@@ -726,7 +726,7 @@
                     gviewer.annotationPadding = 1;
 
 
-                    gviewer.loadBands("/rgdweb/gviewer/data/portal_" + $scope.speciesTypeKey + "_ideo.xml");
+                    gviewer.loadBands("/rgdweb/gviewer/data/portal_" + $scope.speciesTypeKey + "_ideo.xml", $scope.speciesTypeKey);
                     gviewer.addZoomPane("zoomWrapper", 250, 800);
 
 

@@ -115,7 +115,7 @@
                  gviewer.annotationPadding = 1;
 
                  species = <%=speciesTypeKey%>;
-                 gviewer.loadBands("/rgdweb/gviewer/data/<%=req.getParameter("mapKey")%>" + "_ideo.xml");
+                 gviewer.loadBands("/rgdweb/gviewer/data/<%=req.getParameter("mapKey")%>" + "_ideo.xml", species);
 
                  gviewer.addZoomPane("zoomWrapper", 250, window.screen.availWidth * .8);
              }else {

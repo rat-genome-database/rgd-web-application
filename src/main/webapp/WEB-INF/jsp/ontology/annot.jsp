@@ -274,7 +274,7 @@ try {
     gviewer.genomeBrowserName = "JBrowse";
     gviewer.regionPadding=2;
     gviewer.annotationPadding = 1;
-    gviewer.loadBands("/rgdweb/gviewer/data/portal_<%=bean.getSpeciesTypeKey()%>_ideo.xml");
+    gviewer.loadBands("/rgdweb/gviewer/data/portal_<%=bean.getSpeciesTypeKey()%>_ideo.xml", "<%=bean.getSpeciesTypeKey()%>");
     gviewer.addZoomPane("zoomWrapper", 200, 750);
 
     if (geneIds != "") {

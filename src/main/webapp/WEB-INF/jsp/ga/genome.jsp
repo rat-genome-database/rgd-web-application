@@ -124,7 +124,7 @@
                         gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
                 }
 
-                gviewer.loadBands("/rgdweb/gviewer/data/portal_"+ species +"_ideo.xml");
+                gviewer.loadBands("/rgdweb/gviewer/data/portal_"+ species +"_ideo.xml", species);
 
                 gviewer.addZoomPane("zoomWrapper", 250, 800);
             } catch (err) {

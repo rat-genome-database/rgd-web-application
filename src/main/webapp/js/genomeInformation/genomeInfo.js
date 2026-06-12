@@ -113,6 +113,9 @@ function runGviewer() {
 
     }
 
+    var speciesCodes = {'Human':1,'Mouse':2,'Rat':3,'Chinchilla':4,'Bonobo':5,'Dog':6,'Squirrel':7,'Zebrafish':8,'Pig':9,'Vervet':13,'Naked Mole-Rat':14,'Black Rat':17};
+    var speciesCode = speciesCodes[species];
+
     if(!gviewer) {
         gviewer = new Gviewer("gviewer",300,600, mapKey);
     //    gviewer.genomeBrowserURL = "http://rgd.mcw.edu/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
@@ -120,7 +123,7 @@ function runGviewer() {
         gviewer.genomeBrowserName = "JBrowse";
         gviewer.regionPadding=2;
         gviewer.annotationPadding = 1;
-        gviewer.loadBands(bandURL);
+        gviewer.loadBands(bandURL, speciesCode);
 
     }
 }

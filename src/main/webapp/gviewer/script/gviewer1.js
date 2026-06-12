@@ -885,7 +885,10 @@ function Gviewer(viewerId, height, width, mapKey) {
 
         if (term && term != "") {
 //            this.windowManager.openExternal("Search: " + term ,"/plf/plfRGD/?module=gviewer&func=getxml&term[]=" + term + "&gview=1&go[]=4&do[]=7&bo[]=8&po[]=5&wo[]=6&cmo[]=10&mmo[]=11&xco[]=12&rs[]=13&vt[]=14&chebi[]=15&speciesType=" + this.species + "&color=" + escape(color));
-            this.windowManager.openExternal("Search: " + term ,"/rgdweb/gviewer/getXmlTool.html?gviewer=addObjTerm&term[]=" + term + "&go[]=CC,MF,BP,RDO,NBO,PW,MP,CMO,MMO,XCO,RS,VT,CHEBI&speciesType=" + this.species + "&color=" + escape(color));
+            // HP (Human Phenotype) for human assemblies; MP (Mammalian Phenotype) for everything else
+            var phenoOnt = (this.species == 1) ? "HP" : "MP";
+            var goList = "CC,MF,BP,RDO,NBO,PW," + phenoOnt + ",CMO,MMO,XCO,RS,VT,CHEBI";
+            this.windowManager.openExternal("Search: " + term ,"/rgdweb/gviewer/getXmlTool.html?gviewer=addObjTerm&term[]=" + term + "&go[]=" + goList + "&speciesType=" + this.species + "&color=" + escape(color));
         }
 
         if (this.zoomPaneActive()) {
