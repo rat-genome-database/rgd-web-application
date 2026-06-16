@@ -170,13 +170,28 @@
     .hidden-form {
         display: none;
     }
+
+    /* Error banner */
+    .em-error {
+        background: #f8d7da;
+        border: 1px solid #f1aeb5;
+        border-left: 4px solid #c0392b;
+        color: #b30000;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 12px 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
 </style>
 
 <% try { %>
 
 <%
-    int mapKey = (Integer) request.getAttribute("mapKey");
-
+    Integer mapKeyObj = (Integer) request.getAttribute("mapKey");
+    int mapKey = mapKeyObj == null ? 380 : mapKeyObj;
+    String errorMessage = (String) request.getAttribute("errorMessage");
 %>
 
 <div class="typerMat">
@@ -186,6 +201,10 @@
             <div class="config-title">Expression Miner</div>
             <div class="config-subtitle">View expression data through strains and genes</div>
         </div>
+
+        <% if (errorMessage != null && !errorMessage.isEmpty()) { %>
+        <div class="em-error"><%= errorMessage %></div>
+        <% } %>
 
         <!-- Assembly Selector -->
         <div class="assembly-card">
@@ -226,13 +245,6 @@
                 <div class="option-icon">&#128271;</div>
                 <div class="option-title">Limit by Genes</div>
                 <div class="option-description">Start with a gene list, then pick studies that have expression data for those genes</div>
-            </div>
-
-            <!-- Limit by Studies -->
-            <div class="option-card" onclick="submitForm('studyList.html')">
-                <div class="option-icon">&#128218;</div>
-                <div class="option-title">Limit by Studies</div>
-                <div class="option-description">Start by picking studies with expression data on this assembly, then provide a gene list</div>
             </div>
 
         </div>

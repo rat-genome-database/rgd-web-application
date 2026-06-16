@@ -17,22 +17,27 @@ public class GeneListEMController implements Controller {
             mapKey = Integer.parseInt(request.getParameter("mapKey"));
         } catch (Exception ignore) {}
 
-        String[] studyIds = request.getParameterValues("studyId");
-        List<String> selectedStudyIds = new ArrayList<>();
-        if (studyIds != null) {
-            for (String id : studyIds) {
-                if (id != null && !id.trim().isEmpty()) selectedStudyIds.add(id.trim());
+        try {
+            String[] studyIds = request.getParameterValues("studyId");
+            List<String> selectedStudyIds = new ArrayList<>();
+            if (studyIds != null) {
+                for (String id : studyIds) {
+                    if (id != null && !id.trim().isEmpty()) selectedStudyIds.add(id.trim());
+                }
             }
+            boolean studiesFirst = !selectedStudyIds.isEmpty();
+
+            request.setAttribute("mapKey", mapKey);
+            request.setAttribute("selectedStudyIds", selectedStudyIds);
+            request.setAttribute("studiesFirst", studiesFirst);
+            request.setAttribute("nextAction", "/rgdweb/expressMiner/config.html");
+
+            return new ModelAndView("/WEB-INF/jsp/expressMiner/geneList.jsp");
+        } catch (Exception e) {
+            request.setAttribute("mapKey", mapKey);
+            request.setAttribute("errorMessage",
+                    "Could not load gene list page: " + (e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage()));
+            return new ModelAndView("/WEB-INF/jsp/expressMiner/main.jsp");
         }
-        boolean studiesFirst = !selectedStudyIds.isEmpty();
-
-        request.setAttribute("mapKey", mapKey);
-        request.setAttribute("selectedStudyIds", selectedStudyIds);
-        request.setAttribute("studiesFirst", studiesFirst);
-        request.setAttribute("nextAction", studiesFirst
-                ? "/rgdweb/expressMiner/config.html"
-                : "/rgdweb/expressMiner/studyList.html");
-
-        return new ModelAndView("/WEB-INF/jsp/expressMiner/geneList.jsp");
     }
 }

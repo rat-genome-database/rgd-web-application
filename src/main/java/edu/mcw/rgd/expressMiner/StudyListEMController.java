@@ -23,49 +23,56 @@ public class StudyListEMController implements Controller {
             mapKey = Integer.parseInt(request.getParameter("mapKey"));
         } catch (Exception ignore) {}
 
-        String geneListParam = request.getParameter("geneList");
-        boolean genesFirst = geneListParam != null && !geneListParam.trim().isEmpty();
+        try {
+            String geneListParam = request.getParameter("geneList");
+            boolean genesFirst = geneListParam != null && !geneListParam.trim().isEmpty();
 
-        List<Study> studies;
-        List<String> unresolvedSymbols = new ArrayList<>();
-        Integer resolvedSymbolCount = null;
+            List<Study> studies;
+            List<String> unresolvedSymbols = new ArrayList<>();
+            Integer resolvedSymbolCount = null;
 
-        if (genesFirst) {
-            int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
-            List<String> symbols = parseSymbols(geneListParam);
+            if (genesFirst) {
+                int speciesTypeKey = MapManager.getInstance().getMap(mapKey).getSpeciesTypeKey();
+                List<String> symbols = parseSymbols(geneListParam);
 
-            GeneDAO geneDAO = new GeneDAO();
-            List<Integer> rgdIds = new ArrayList<>();
-            for (String sym : symbols) {
-                List<Gene> matches = geneDAO.getAllGenesBySymbol(sym, speciesTypeKey);
-                if (matches == null || matches.isEmpty()) {
-                    unresolvedSymbols.add(sym);
-                } else {
-                    rgdIds.add(matches.get(0).getRgdId());
+                GeneDAO geneDAO = new GeneDAO();
+                List<Integer> rgdIds = new ArrayList<>();
+                for (String sym : symbols) {
+                    List<Gene> matches = geneDAO.getAllGenesBySymbol(sym, speciesTypeKey);
+                    if (matches == null || matches.isEmpty()) {
+                        unresolvedSymbols.add(sym);
+                    } else {
+                        rgdIds.add(matches.get(0).getRgdId());
+                    }
                 }
+                resolvedSymbolCount = symbols.size() - unresolvedSymbols.size();
+
+                GeneExpressionDAO geneExpressionDAO = new GeneExpressionDAO();
+                studies = rgdIds.isEmpty()
+                        ? Collections.emptyList()
+                        : geneExpressionDAO.getStudiesWithExpressionForObjects(rgdIds, mapKey);
+
+                request.setAttribute("nextAction", "/rgdweb/expressMiner/config.html");
+            } else {
+                GeneExpressionDAO geneExpressionDAO = new GeneExpressionDAO();
+                studies = geneExpressionDAO.getStudiesWithExpressionForMap(mapKey);
+                request.setAttribute("nextAction", "/rgdweb/expressMiner/geneList.html");
             }
-            resolvedSymbolCount = symbols.size() - unresolvedSymbols.size();
 
-            GeneExpressionDAO geneExpressionDAO = new GeneExpressionDAO();
-            studies = rgdIds.isEmpty()
-                    ? Collections.emptyList()
-                    : geneExpressionDAO.getStudiesWithExpressionForObjects(rgdIds, mapKey);
+            request.setAttribute("mapKey", mapKey);
+            request.setAttribute("geneList", geneListParam);
+            request.setAttribute("genesFirst", genesFirst);
+            request.setAttribute("resolvedSymbolCount", resolvedSymbolCount);
+            request.setAttribute("unresolvedSymbols", unresolvedSymbols);
+            request.setAttribute("studies", studies);
 
-            request.setAttribute("nextAction", "/rgdweb/expressMiner/config.html");
-        } else {
-            GeneExpressionDAO geneExpressionDAO = new GeneExpressionDAO();
-            studies = geneExpressionDAO.getStudiesWithExpressionForMap(mapKey);
-            request.setAttribute("nextAction", "/rgdweb/expressMiner/geneList.html");
+            return new ModelAndView("/WEB-INF/jsp/expressMiner/studyList.jsp");
+        } catch (Exception e) {
+            request.setAttribute("mapKey", mapKey);
+            request.setAttribute("errorMessage",
+                    "Could not load studies: " + (e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage()));
+            return new ModelAndView("/WEB-INF/jsp/expressMiner/main.jsp");
         }
-
-        request.setAttribute("mapKey", mapKey);
-        request.setAttribute("geneList", geneListParam);
-        request.setAttribute("genesFirst", genesFirst);
-        request.setAttribute("resolvedSymbolCount", resolvedSymbolCount);
-        request.setAttribute("unresolvedSymbols", unresolvedSymbols);
-        request.setAttribute("studies", studies);
-
-        return new ModelAndView("/WEB-INF/jsp/expressMiner/studyList.jsp");
     }
 
     private List<String> parseSymbols(String input) {

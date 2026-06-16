@@ -194,7 +194,7 @@
   Boolean studiesFirstObj = (Boolean) request.getAttribute("studiesFirst");
   boolean studiesFirst = studiesFirstObj != null && studiesFirstObj;
   String nextAction = (String) request.getAttribute("nextAction");
-  if (nextAction == null) nextAction = "/rgdweb/expressMiner/studyList.html";
+  if (nextAction == null) nextAction = "/rgdweb/expressMiner/config.html";
 %>
 
 <script>
