@@ -12,7 +12,9 @@ import edu.mcw.rgd.datamodel.variants.VariantMapData;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +44,12 @@ public class  MapDataFormatter {
         VariantDAO vdao = new VariantDAO();
         List<VariantMapData> varMapData = vdao.getAllActiveVariantsByRsId(rsId);
         if (!varMapData.isEmpty()){
-            return buildTableVar(speciesTypeKey, varMapData, 0);
+            List<VariantMapData> oncePerAssembly = new ArrayList<>();
+            Set<Integer> seenMapKeys = new HashSet<>();
+            for (VariantMapData v : varMapData) {
+                if (seenMapKeys.add(v.getMapKey())) oncePerAssembly.add(v);
+            }
+            return buildTableVar(speciesTypeKey, oncePerAssembly, 0);
         }
 
         return buildTable(speciesTypeKey,mapData,0); // goes as usual, says no map positions
