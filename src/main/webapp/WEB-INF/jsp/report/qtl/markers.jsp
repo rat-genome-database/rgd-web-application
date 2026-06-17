@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantMapData" %>
 <%@ page import="edu.mcw.rgd.dao.impl.variants.VariantDAO" %>
+<%@ page import="java.util.List" %>
 <%@ include file="../sectionHeader.jsp"%>
 
 
@@ -7,37 +8,80 @@
     VariantDAO vdao = new VariantDAO();
     Object flank1 = null;
     VariantMapData flank1Var = null;
+    VariantMapData flank1RsVar = null;
     Object flank2 = null;
     VariantMapData flank2Var = null;
+    VariantMapData flank2RsVar = null;
     Object peak = null;
     VariantMapData peakVar = null;
+    VariantMapData peakRsVar = null;
     VariantMapData peakRsId = null;
+    boolean isHuman = obj.getSpeciesTypeKey() == 1;
     if (obj.getFlank1RgdId() != null) {
         flank1 = managementDAO.getObject(obj.getFlank1RgdId());
         if(flank1 == null) {
             flank1Var = vdao.getVariant(obj.getFlank1RgdId());
         }
+        if (obj.getFlank1RsId() != null){
+            if (isHuman) {
+                List<VariantMapData> vmds = vdao.getAllVariantUnionByRsId(obj.getFlank1RsId());
+                if (!vmds.isEmpty()) flank1RsVar = vmds.get(0);
+            } else {
+                flank1RsVar = vdao.getVariantByRsId(obj.getFlank1RsId());
+            }
+        }
     }
     else if (obj.getFlank1RsId() != null){
-        flank1Var = vdao.getVariantByRsId(obj.getFlank1RsId());
+        if (isHuman) {
+            List<VariantMapData> vmds = vdao.getAllVariantUnionByRsId(obj.getFlank1RsId());
+            if (!vmds.isEmpty()) flank1Var = vmds.get(0);
+        } else {
+            flank1Var = vdao.getVariantByRsId(obj.getFlank1RsId());
+        }
     }
     if (obj.getFlank2RgdId() != null) {
         flank2 = managementDAO.getObject(obj.getFlank2RgdId());
         if(flank2 == null){
             flank2Var = vdao.getVariant(obj.getFlank2RgdId());
         }
+        if (obj.getFlank2RsId() != null){
+            if (isHuman) {
+                List<VariantMapData> vmds = vdao.getAllVariantUnionByRsId(obj.getFlank2RsId());
+                if (!vmds.isEmpty()) flank2RsVar = vmds.get(0);
+            } else {
+                flank2RsVar = vdao.getVariantByRsId(obj.getFlank2RsId());
+            }
+        }
     }
     else if (obj.getFlank2RsId() != null){
-        flank2Var = vdao.getVariantByRsId(obj.getFlank2RsId());
+        if (isHuman) {
+            List<VariantMapData> vmds = vdao.getAllVariantUnionByRsId(obj.getFlank2RsId());
+            if (!vmds.isEmpty()) flank2Var = vmds.get(0);
+        } else {
+            flank2Var = vdao.getVariantByRsId(obj.getFlank2RsId());
+        }
     }
     if (obj.getPeakRgdId() != null) {
         peak = managementDAO.getObject(obj.getPeakRgdId());
         if(peak == null){
             peakVar = vdao.getVariant(obj.getPeakRgdId());
         }
+        if (obj.getPeakRsId() != null){
+            if (isHuman) {
+                List<VariantMapData> vmds = vdao.getAllVariantUnionByRsId(obj.getPeakRsId());
+                if (!vmds.isEmpty()) peakRsVar = vmds.get(0);
+            } else {
+                peakRsVar = vdao.getVariantByRsId(obj.getPeakRsId());
+            }
+        }
     }
     else if (obj.getPeakRsId() != null){
-        peakVar = vdao.getVariantByRsId(obj.getPeakRsId());
+        if (isHuman) {
+            List<VariantMapData> vmds = vdao.getAllVariantUnionByRsId(obj.getPeakRsId());
+            if (!vmds.isEmpty()) peakVar = vmds.get(0);
+        } else {
+            peakVar = vdao.getVariantByRsId(obj.getPeakRsId());
+        }
     }
 //    if (obj.getPeakRsId() != null){
 //        // get variant object with rsId
@@ -117,6 +161,12 @@
         <td><%=MapDataFormatter.buildTable(obj.getFlank1RgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
     <% } %>
+    <% if (flank1RsVar != null) { %>
+    <tr>
+        <td valign="top">Flank 1: (<a href="/rgdweb/report/rsId/main.html?id=<%=flank1RsVar.getRsId()%>"><%=flank1RsVar.getRsId()%></a>)</td>
+        <td><%=MapDataFormatter.buildTable(flank1RsVar.getRsId(), obj.getSpeciesTypeKey(), mapKey)%></td>
+    </tr>
+    <% } %>
     <% if (peakVar != null) {%>
     <tr>
         <td valign="top">Peak: (<a href="<%=!Utils.isStringEmpty(peakVar.getRsId()) ? "/rgdweb/report/rsId/main.html?id="+peakVar.getRsId() : Link.it((int)peakVar.getId())%>"><%=!Utils.isStringEmpty(peakVar.getRsId()) ? peakVar.getRsId() : "RGD:"+peakVar.getId()%></a>)</td>
@@ -126,6 +176,12 @@
     <tr>
         <td valign="top">Peak: (<a href="<%=Link.it(pRgdId)%>"><%=psymbol%></a>)</td>
         <td><%=MapDataFormatter.buildTable(obj.getPeakRgdId(),obj.getSpeciesTypeKey())%></td>
+    </tr>
+    <% } %>
+    <% if (peakRsVar != null) { %>
+    <tr>
+        <td valign="top">Peak: (<a href="/rgdweb/report/rsId/main.html?id=<%=peakRsVar.getRsId()%>"><%=peakRsVar.getRsId()%></a>)</td>
+        <td><%=MapDataFormatter.buildTable(peakRsVar.getRsId(), obj.getSpeciesTypeKey(), mapKey)%></td>
     </tr>
     <% } %>
 <%--    <% if (obj.getPeakRsId()!=null){ %>--%>
@@ -145,6 +201,12 @@
     <tr>
         <td valign="top">Flank 2: (<a href="<%=Link.it(f2RgdId)%>"><%=f2symbol%></a>)</td>
         <td><%=MapDataFormatter.buildTable(obj.getFlank2RgdId(),obj.getSpeciesTypeKey())%></td>
+    </tr>
+    <% } %>
+    <% if (flank2RsVar != null) { %>
+    <tr>
+        <td valign="top">Flank 2: (<a href="/rgdweb/report/rsId/main.html?id=<%=flank2RsVar.getRsId()%>"><%=flank2RsVar.getRsId()%></a>)</td>
+        <td><%=MapDataFormatter.buildTable(flank2RsVar.getRsId(), obj.getSpeciesTypeKey(), mapKey)%></td>
     </tr>
     <% } %>
 </table>
