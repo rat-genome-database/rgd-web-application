@@ -154,25 +154,43 @@ function setupOntologyAutocomplete(input, ont, options) {
             success: function(counts) {
                 if (!$dropdown || !$dropdown.is(':visible')) return;
 
-                // Drop unannotated terms from both the DOM and the
-                // currentResults array so keyboard navigation and the
-                // blur auto-select keep working with the filtered list.
+                // First pass: count how many results have annotations on the
+                // current assembly.
+                var totalWithAnnots = 0;
+                for (var i = 0; i < results.length; i++) {
+                    var a = results[i].accId;
+                    if (a && counts && (a in counts) && counts[a] > 0) {
+                        totalWithAnnots++;
+                    }
+                }
+
+                // If at least one result has annotations, hide the zero-count
+                // ones (the usual MP+rat / RDO+human path). Otherwise — common
+                // case is HP+human where HP is not present in the gviewer
+                // index — keep everything visible and greyed out so the user
+                // still sees suggestions instead of an empty dropdown.
+                var hideZeros = totalWithAnnots > 0;
                 var kept = [];
+
                 jq('.ont-ac-item', $dropdown).each(function(idx) {
                     var acc = results[idx] ? results[idx].accId : null;
                     var n = (acc && counts && (acc in counts)) ? counts[acc] : 0;
                     if (n > 0) {
                         kept.push(results[idx]);
                         jq(this).find('.ont-ac-count').text(n).css('color', '#2c3e50');
-                    } else {
+                    } else if (hideZeros) {
                         jq(this).remove();
+                    } else {
+                        kept.push(results[idx]);
+                        jq(this).find('.ont-ac-count').text(0).css('color', '#bbb');
+                        jq(this).css('color', '#999');
                     }
                 });
 
                 currentResults = kept;
                 selectedIndex = -1;
 
-                // Re-bind item indices since DOM nodes were removed.
+                // Re-bind item indices since DOM nodes may have been removed.
                 jq('.ont-ac-item', $dropdown).each(function(newIdx) {
                     var $row = jq(this);
                     $row.off('mouseenter mouseleave mousedown');
@@ -190,7 +208,7 @@ function setupOntologyAutocomplete(input, ont, options) {
                     });
                 });
 
-                renderEmptyBanner(kept.length === 0);
+                renderEmptyBanner(totalWithAnnots === 0);
             }
         });
     }
