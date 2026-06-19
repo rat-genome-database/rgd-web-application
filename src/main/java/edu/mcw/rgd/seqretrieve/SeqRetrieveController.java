@@ -49,8 +49,8 @@ public class SeqRetrieveController implements Controller{
 
         parser.setChr(Utils.defaultString(request.getParameter("chr")));
 
-        int startPos = Integer.parseInt(Utils.defaultString(request.getParameter("startPos")));
-        int stopPos = Integer.parseInt(Utils.defaultString(request.getParameter("stopPos")));
+        int startPos = Integer.parseInt(Utils.defaultString(request.getParameter("startPos")).replace(",", ""));
+        int stopPos = Integer.parseInt(Utils.defaultString(request.getParameter("stopPos")).replace(",", ""));
 
         String fasta = parser.getSequence(startPos, stopPos);
         if( parser.getLastError()!=null ) {
