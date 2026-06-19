@@ -2,6 +2,7 @@ package edu.mcw.rgd.report;
 
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
+import edu.mcw.rgd.dao.impl.XdbIdDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontology.Annotation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
@@ -164,13 +165,17 @@ public class AnnotationFormatter {
         rec.append("Evidence");
         rec.append("With");
         if(!excludeReferences){
-            rec.append("Reference");
+            rec.append("RGD Reference");
         }
         rec.append("Notes");
         rec.append("Source");
         rec.append("Original Reference(s)");
 
         report.append(rec);
+
+        // cache of PubMed IDs keyed by reference rgd id, so we only hit the db once per reference
+        XdbIdDAO xdbIdDAO = new XdbIdDAO();
+        Map<Integer, List<XdbId>> refPubmedCache = new HashMap<>();
 
 //        Map<Integer,List> index = new HashMap<>();
 //
@@ -295,10 +300,37 @@ public class AnnotationFormatter {
 
                 rec.append(a.getDataSrc());
 
-                if (a.getXrefSource() == null) {
+                // Original Reference(s): the annotation's xref source, plus any PubMed IDs
+                // attached to the RGD reference(s) that aren't already shown here
+                StringBuilder origRef = new StringBuilder();
+                String xref = a.getXrefSource() == null ? "" : a.getXrefSource();
+                if (!xref.isEmpty()) {
+                    origRef.append(formatXdbUrlsShort(xref, a));
+                }
+
+                if (a.getRefRgdId() != null && a.getRefRgdId() > 0) {
+                    List<XdbId> refPubmedIds = refPubmedCache.get(a.getRefRgdId());
+                    if (refPubmedIds == null) {
+                        refPubmedIds = xdbIdDAO.getPubmedIdsByRefRgdId(a.getRefRgdId());
+                        refPubmedCache.put(a.getRefRgdId(), refPubmedIds);
+                    }
+                    for (XdbId xdbId : refPubmedIds) {
+                        String pmid = xdbId.getAccId();
+                        // skip blanks and PubMed IDs already present in the xref source
+                        if (pmid == null || pmid.isEmpty() || xref.contains(pmid)) {
+                            continue;
+                        }
+                        if (origRef.length() > 0) {
+                            origRef.append(" ");
+                        }
+                        origRef.append(formatXdbUrl("PMID:" + pmid, a.getRgdObjectKey()));
+                    }
+                }
+
+                if (origRef.length() == 0) {
                     rec.append("&nbsp;");
                 } else {
-                    rec.append(formatXdbUrlsShort(a.getXrefSource(), a));
+                    rec.append(origRef.toString());
                 }
 
                 report.append(rec);
