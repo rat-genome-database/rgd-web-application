@@ -10,7 +10,7 @@
 <%
     Integer mapKey = (Integer) request.getAttribute("mapKey");
     if( mapKey==null )
-        mapKey=17;
+        mapKey=380;
     int speciesTypeKey = SpeciesType.getSpeciesTypeKeyForMap(mapKey);
 
     String chr = Utils.defaultString((String) request.getAttribute("chr"));
@@ -33,9 +33,9 @@
     <tr>
       <td>
         <select onchange="populateMapKeys()" id="selectSpecies">
+          <option <%=speciesTypeKey==SpeciesType.RAT?"selected=\"selected\"":""%>>Rat</option>
           <option <%=speciesTypeKey==SpeciesType.HUMAN?"selected=\"selected\"":""%>>Human</option>
           <option <%=speciesTypeKey==SpeciesType.MOUSE?"selected=\"selected\"":""%>>Mouse</option>
-          <option <%=speciesTypeKey==SpeciesType.RAT?"selected=\"selected\"":""%>>Rat</option>
         </select>
       </td>
       <td>
@@ -49,6 +49,7 @@
               <option value="35" <%=mapKey==35?"selected":""%>>GRCm38 (mm10)</option>
               <option value="18" <%=mapKey==18?"selected":""%>>MGSCv37 (mm9)</option>
             <% } else if( speciesTypeKey==SpeciesType.RAT ) { %>
+            <option value="380" <%=mapKey==380?"selected":""%>>GRCr8 (rn8)</option>
             <option value="372" <%=mapKey==372?"selected":""%>>mRatBN7.2 (rn7)</option>
             <option value="360" <%=mapKey==360?"selected":""%>>Rnor6.0 (rn6)</option>
             <option value="70" <%=mapKey==70?"selected":""%>>Rnor5.0 (rn5)</option>
@@ -58,8 +59,8 @@
         </select>
       </td>
       <td><input type="text" name="chr" size="2" maxlength="2" value="<%=chr%>"></td>
-      <td><input type="text" name="startPos" value="<%=startPos%>"></td>
-      <td><input type="text" name="stopPos" value="<%=stopPos%>"></td>
+      <td><input type="text" name="startPos" value="<%=startPos!=null?startPos:""%>"></td>
+      <td><input type="text" name="stopPos" value="<%=stopPos!=null?stopPos:""%>"></td>
     </tr>
   </table>
 
@@ -110,6 +111,7 @@
         }
         else if( speciesName=='Rat' ) {
             mapKeyObj.innerHTML =
+            '<option value="380">GRCr8 (rn8)</option>\n'+
             '<option value="372">mRatBN7.2 (rn7)</option>\n'+
             '<option value="360">Rnor6.0 (rn6)</option>\n'+
             '<option value="70">Rnor5.0 (rn5)</option>\n'+
