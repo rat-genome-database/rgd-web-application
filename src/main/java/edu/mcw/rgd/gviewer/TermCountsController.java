@@ -25,7 +25,10 @@ import java.util.Set;
 /**
  * For a list of termAcc IDs, returns the unique-object (gene/QTL/strain)
  * count directly annotated to each in the gviewer index for the given
- * mapKey. Counts are *direct* — no ontology DAG expansion.
+ * mapKey. Counts are *direct* — no ontology DAG expansion. The autocomplete
+ * client treats all-zero responses as "greyed out, still shown" so the
+ * dropdown isn't silently empty for ontologies (like HP) that the gviewer
+ * index does not currently include.
  *
  * Used by the GViewer search autocomplete to grey out terms with zero
  * annotations and to show a "no annotations found" hint when all of the
