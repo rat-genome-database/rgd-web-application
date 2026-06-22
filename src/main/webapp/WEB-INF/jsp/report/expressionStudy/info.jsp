@@ -74,7 +74,7 @@
         if(downloadAvailable){
     %>
     <tr>
-        <td class="label">Data&nbsp;Available:</td>
+        <td class="label">Available&nbsp;Data:</td>
         <td class="labelValue"><a href="<%=downloadUrl%>" target="_blank">Download Site</a></td>
     </tr>
     <%}%>
