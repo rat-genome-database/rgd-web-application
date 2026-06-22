@@ -47,6 +47,33 @@
         <td class="labelValue"><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=obj.getGeoSeriesAcc()%>" target="_blank"><%=obj.getGeoSeriesAcc()%></a></td>
     </tr>
     <%}%>
+    <%
+        // Check whether downloadable data/metadata exists for this study on the RGD download site.
+        // Only render the row when the GEO series directory actually responds OK.
+        String downloadUrl = null;
+        boolean downloadAvailable = false;
+        if(obj.getGeoSeriesAcc()!=null && !obj.getGeoSeriesAcc().isEmpty()){
+            downloadUrl = "https://download.rgd.mcw.edu/expression/" + obj.getGeoSeriesAcc() + "/";
+            try {
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) new java.net.URL(downloadUrl).openConnection();
+                conn.setRequestMethod("HEAD");
+                conn.setConnectTimeout(3000);
+                conn.setReadTimeout(3000);
+                conn.setInstanceFollowRedirects(true);
+                int code = conn.getResponseCode();
+                downloadAvailable = (code >= 200 && code < 400);
+                conn.disconnect();
+            } catch (Exception ex) {
+                downloadAvailable = false;
+            }
+        }
+        if(downloadAvailable){
+    %>
+    <tr>
+        <td class="label">Data&nbsp;Available:</td>
+        <td class="labelValue"><a href="<%=downloadUrl%>" target="_blank">Download Site</a></td>
+    </tr>
+    <%}%>
 </table>
 <%if(obj.getRefRgdIds()!=null && !obj.getRefRgdIds().isEmpty()){ %>
 <hr>
