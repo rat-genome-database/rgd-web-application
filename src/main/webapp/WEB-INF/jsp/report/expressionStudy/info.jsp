@@ -52,7 +52,11 @@
         // Only render the row when the GEO series directory actually responds OK.
         String downloadUrl = null;
         boolean downloadAvailable = false;
-        if(obj.getGeoSeriesAcc()!=null && !obj.getGeoSeriesAcc().isEmpty()){
+        if(obj.getId()==3714){
+            downloadUrl = "https://download.rgd.mcw.edu/expression/HRDP/";
+            downloadAvailable = true;
+        }
+        else if(obj.getGeoSeriesAcc()!=null && !obj.getGeoSeriesAcc().isEmpty()){
             downloadUrl = "https://download.rgd.mcw.edu/expression/" + obj.getGeoSeriesAcc() + "/";
             try {
                 java.net.HttpURLConnection conn = (java.net.HttpURLConnection) new java.net.URL(downloadUrl).openConnection();
