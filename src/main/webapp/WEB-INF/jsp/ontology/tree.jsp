@@ -240,7 +240,10 @@ function toggleSynonyms(synType) {
               // create pattern based on ontology id
               int pos = syn.getName().indexOf(":");
               String ontId = !syn.getType().equals("alt_id") && pos>0 ? syn.getName().substring(0, pos) : null;
-              if( ontId!=null ) {
+              // only linkify when the prefix is a real ontology-id token; some synonyms (e.g. strain names
+              // like "LH.LH-Chr 17LN-( rn4_17:30894361 ...)") contain ':' in free text and would otherwise
+              // produce an invalid regex
+              if( ontId!=null && ontId.matches("\\w+") ) {
                   Pattern p = Pattern.compile("\\b("+ontId+"\\:\\d{7})\\b");
                   StringBuffer sb = new StringBuffer();
                   Matcher m = p.matcher(syn.getName());
