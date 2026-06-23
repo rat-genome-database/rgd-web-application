@@ -229,6 +229,8 @@ function toggleSynonyms(synType) {
               synLink = "<a href='" + XDBIndex.getInstance().getXDB(93).getUrl() + "EFO_" + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
           } else if( syn.getName().startsWith("OBA:") ) {
               synLink = "<a href='" + XDBIndex.getInstance().getXDB(159).getUrl() + "OBA_" + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("RRRC:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(141).getUrl() + syn.getName().substring(5) + "'>" + syn.getName() + "</a>";
           } else if( syn.getType().startsWith("omim_gene") ) {
               List<Gene> omimGenes = new GeneDAO().getActiveGenes(SpeciesType.HUMAN, syn.getName());
               if( !omimGenes.isEmpty() ) {
