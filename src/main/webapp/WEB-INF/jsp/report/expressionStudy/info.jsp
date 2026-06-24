@@ -71,13 +71,16 @@
                 downloadAvailable = false;
             }
         }
-        if(downloadAvailable){
     %>
     <tr>
         <td class="label">Available&nbsp;Data:</td>
-        <td class="labelValue"><a href="<%=downloadUrl%>" target="_blank">Download Site</a></td>
+        <%if (downloadAvailable){%>
+        <td class="labelValue"><a href="<%=downloadUrl%>" target="_blank">Metadata and Reporcessed Data</a></td>
+        <% } else {%>
+        <td class="labelValue">Metadata only</td>
+        <%}%>
     </tr>
-    <%}%>
+
 </table>
 <%if(obj.getRefRgdIds()!=null && !obj.getRefRgdIds().isEmpty()){ %>
 <hr>
