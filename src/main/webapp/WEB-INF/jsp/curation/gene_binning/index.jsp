@@ -137,7 +137,7 @@
             <div class="show_bins">
                 <button>
                     <c:choose>
-                        <c:when test="${model.pepDetail != null && model.pepDetail.getTotalGenes() > 15}">
+                        <c:when test="${model.pepDetail != null && model.pepDetail.getTotalGenes() > model.binLimit}">
                             <a style="text-decoration: none" href="/rgdweb/curation/geneBinning/bins.html?termAcc=GO:0008233&term=peptidase activity&parent=0&childTermAcc=GO:0070001&childTerm=aspartic-type peptidase activity&username=${model.username}&accessToken=${model.accessToken}&sessionId=${model.sessionId}">
                                 Show Gene Bins
                             </a>
@@ -159,7 +159,7 @@
                     <input type="hidden" name="accessToken" value="${model.accessToken}"/>
                     <input type="hidden" name="sessionId" value="${model.sessionId}"/>
                     <c:choose>
-                        <c:when test="${model.pepDetail != null && model.pepDetail.getTotalGenes() > 15}">
+                        <c:when test="${model.pepDetail != null && model.pepDetail.getTotalGenes() > model.binLimit}">
                             <input type="hidden" name="parent" value="0">
                             <input type="hidden" name="childTermAcc" value="GO:0070001" />
                             <input type="hidden" name="childTerm" value="aspartic-type peptidase activity" />

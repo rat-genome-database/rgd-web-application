@@ -106,6 +106,7 @@ public class GeneBinningController implements Controller {
         model.put("message", message);
         model.put("username", username);
         model.put("accessToken", accessToken);
+        model.put("binLimit", PerformBinningController.BIN_LIMIT);
         return new ModelAndView("/WEB-INF/jsp/curation/gene_binning/index.jsp","model", model);
     }
 }

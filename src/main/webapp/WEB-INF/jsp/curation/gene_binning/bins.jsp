@@ -67,8 +67,8 @@
             <c:forEach var="term" items="${model.assignees}">
                 <c:choose>
 
-<%--                Create Tree structure if the number of genes > 15 count --%>
-                    <c:when test="${term.getTotalGenes() > 15 && term.getTermAcc() != 'NA' && term.getTermAcc() == model.termAccString && term.getIsParent()==1}">
+<%--                Create Tree structure if the number of genes exceeds the bin limit --%>
+                    <c:when test="${term.getTotalGenes() > model.binLimit && term.getTermAcc() != 'NA' && term.getTermAcc() == model.termAccString && term.getIsParent()==1}">
                         <div>
                             <details open>
                                     <summary>
@@ -109,7 +109,7 @@
                                 </details>
                         </div>
                     </c:when>
-                    <c:when test="${term.getTotalGenes() > 15 && term.getTermAcc() != 'NA' && term.getTermAcc() != model.termAccString  && term.getIsParent()==1}">
+                    <c:when test="${term.getTotalGenes() > model.binLimit && term.getTermAcc() != 'NA' && term.getTermAcc() != model.termAccString  && term.getIsParent()==1}">
                         <div>
                             <details close>
                                 <summary>
@@ -339,8 +339,8 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                        <c:if test="${(15 - model.genes.size()) > 0}">
-                            <c:forEach begin = "${1}" end="${15 - model.genes.size()}">
+                        <c:if test="${(model.binLimit - model.genes.size()) > 0}">
+                            <c:forEach begin = "${1}" end="${model.binLimit - model.genes.size()}">
                                 <tr class="geneBinTableRow">
                                     <td class="geneBinTableData">&nbsp</td>
                                 </tr>

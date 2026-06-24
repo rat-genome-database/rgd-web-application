@@ -34,6 +34,8 @@ public class PerformBinningController implements Controller {
         "GO:0045182", "GO:0009975", "GO:0016874", "GO:0016491", "GO:0016740",
         "GO:0032451", "GO:0140223", "GO:0140110", "GO:0140104", "GO:0140299", "GO:0005198",
         "GO:0005215", "GO:0003774"};
+    // Maximum number of genes allowed in a single (sub)bin before it is subdivided / split into subsets
+    public static final int BIN_LIMIT = 5;
     private GeneDAO gdao;
     private GeneBinDAO geneBinDAO;
     private OntologyXDAO ontologyXDAO;
@@ -244,7 +246,7 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren(String ses
     }
 
 private void createSubsetsForBin(String termAcc, int totalGenes, String sessionId) throws Exception {
-    int numSubsets = (int) Math.ceil(totalGenes / 10.0);
+    int numSubsets = (int) Math.ceil((double) totalGenes / BIN_LIMIT);
     System.out.println("Entered subset method for term:"+ termAcc);
     List<GeneBinAssignee> termDetails = geneBinAssigneeDAO.getAssigneeName(termAcc, sessionId);
     System.out.println("Subset count:"+termDetails.get(0).getTotalGenes());
@@ -252,8 +254,8 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
         String term = termDetails.get(0).getTerm();
 
         for (int i = 1; i <= numSubsets; i++) {
-            int startIdx = (i-1) * 10;
-            int endIdx = Math.min(startIdx + 10, totalGenes);
+            int startIdx = (i-1) * BIN_LIMIT;
+            int endIdx = Math.min(startIdx + BIN_LIMIT, totalGenes);
             int genesInSubset = endIdx - startIdx;
             String subsetTermAcc = termAcc + " (" + i + ")";
 
@@ -392,14 +394,14 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
                 geneInsertionToBin(geneExists, i, genesAliasList.get(i).getRgdId(), genesAliasList.get(i).getValue(), sessionId);
             }
 
-            //recursive logic to check if genes in child bins>15
+            //recursive logic to check if genes in child bins exceed the bin limit
             boolean needsMoreSubdivision;
             do {
                 needsMoreSubdivision = false;
                 List<GeneBinCountGenes> childBinCounts = geneBinDAO.getGeneChildCounts(sessionId);
 
                 for(GeneBinCountGenes binCount : childBinCounts) {
-                    if(binCount.getTotalGenes() > 15) {
+                    if(binCount.getTotalGenes() > BIN_LIMIT) {
                         // Only continue if we actually redistributed some genes
                         boolean redistributed = subdivideOverflowBin(binCount, sessionId);
                         if(!redistributed) {
@@ -414,7 +416,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
             System.out.println("Finished subdividing");
             List<GeneBinCountGenes> finalCounts = geneBinDAO.getGeneChildCounts(sessionId);
             for(GeneBinCountGenes binCount : finalCounts) {
-                if(binCount.getTotalGenes() > 10) {
+                if(binCount.getTotalGenes() > BIN_LIMIT) {
                     createSubsetsForBin(binCount.getTermAcc(), binCount.getTotalGenes(), sessionId);
                 }
             }
@@ -425,7 +427,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
         if(inputCompleted != null && Integer.parseInt(inputCompleted) == 1){
             if(Objects.equals(isParent, "1")){
                 int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId).get(0).getTotalGenes();
-                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
+                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
                     geneBinAssigneeDAO.updateCompletedStatus("GO:0070001", sessionId);
                 } else{
                     geneBinAssigneeDAO.updateCompletedStatus(inputTermAcc, sessionId);
@@ -481,15 +483,15 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
                 List<GeneBin> allGenes = geneBinDAO.getGenesOfDecendents(originalTermAcc, sessionId);
 
                 // Get the subset of genes
-                int startIdx = (subsetNum-1) * 10;
-                int endIdx = Math.min(startIdx + 10, allGenes.size());
+                int startIdx = (subsetNum-1) * BIN_LIMIT;
+                int endIdx = Math.min(startIdx + BIN_LIMIT, allGenes.size());
                 genes = allGenes.subList(startIdx, endIdx);
             } else {
                 genes = geneBinDAO.getGenesOfDecendents(inputChildTermAcc, sessionId);
             }
             model.put("childTermAccString", inputChildTermAcc);
             model.put("childTermString", WordUtils.capitalize(inputChildTerm));
-        } else if (genes.size() > 15 && !Objects.equals(inputTermAcc, "NA")){
+        } else if (genes.size() > BIN_LIMIT && !Objects.equals(inputTermAcc, "NA")){
             genes = geneBinDAO.getGenesOfDecendents("GO:0070001", sessionId);
             model.put("childTermAccString", "GO:0070001");
             model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
@@ -499,7 +501,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
         if(inputAssigneeName != null && !inputAssigneeName.equals("")){
             if(Objects.equals(isParent, "1")){
                 int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId).get(0).getTotalGenes();
-                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
+                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
                     geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, "GO:0070001", sessionId);
                     model.put("childTermAccString", "GO:0070001");
                     model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
@@ -515,7 +517,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
         if(unassignFlag != null){
             if(Objects.equals(isParent, "1")){
                 int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId).get(0).getTotalGenes();
-                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
+                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
                     geneBinAssigneeDAO.updateAssigneeName(null, "GO:0070001", sessionId);
                     model.put("childTermAccString", "GO:0070001");
                     model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
@@ -530,7 +532,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
 //      Fetch the assignee details of the current bin
         if(Objects.equals(isParent, "1")){
             int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId).get(0).getTotalGenes();
-            if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
+            if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
                 assigneeName = geneBinAssigneeDAO.getAssigneeName("GO:0070001", sessionId);
                 model.put("assignee", assigneeName.get(0));
             }else{
@@ -568,6 +570,7 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
         model.put("username", username);
         model.put("accessToken", accessToken);
         model.put("sessionId", sessionId);
+        model.put("binLimit", BIN_LIMIT);
 
         return new ModelAndView("/WEB-INF/jsp/curation/gene_binning/bins.jsp","model", model);
     }
