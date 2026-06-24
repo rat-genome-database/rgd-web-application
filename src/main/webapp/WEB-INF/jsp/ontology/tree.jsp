@@ -182,7 +182,7 @@ function toggleSynonyms(synType) {
               inHiddenSection = false;
               %>
               <tr>
-                  <td class="syn_type"><%=syn.getFriendlyType()%>:</td><td class="myDiv" style='padding:3px;'>
+                  <td class="syn_type"><%= "citation_id".equals(syn.getType()) ? "Citation ID" : syn.getFriendlyType() %>:</td><td class="myDiv" style='padding:3px;'>
 
               <%
               synonymsPerType = 0;
@@ -231,6 +231,9 @@ function toggleSynonyms(synType) {
               synLink = "<a href='" + XDBIndex.getInstance().getXDB(159).getUrl() + "OBA_" + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
           } else if( syn.getName().startsWith("RRRC:") ) {
               synLink = "<a href='" + XDBIndex.getInstance().getXDB(141).getUrl() + syn.getName().substring(5) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getType().equals("citation_id") ) {
+              // Citation ID (RRID) -> link to the SciCrunch RRID resolver
+              synLink = "<a href='https://scicrunch.org/resolver/" + syn.getName() + "' target='_blank'>" + syn.getName() + "</a>";
           } else if( syn.getType().startsWith("omim_gene") ) {
               List<Gene> omimGenes = new GeneDAO().getActiveGenes(SpeciesType.HUMAN, syn.getName());
               if( !omimGenes.isEmpty() ) {
