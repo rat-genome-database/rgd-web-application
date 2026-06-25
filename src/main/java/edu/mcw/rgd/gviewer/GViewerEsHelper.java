@@ -34,6 +34,12 @@ public class GViewerEsHelper {
             "chromosome", "startPos", "stopPos", "termAcc", "term"
     };
 
+    /** Refuse criterion queries that would pull more than this many hits
+     * (a broad root-level term can otherwise OOM the JVM). */
+    public static final int MAX_HITS = 50_000;
+
+    private static final int SCROLL_PAGE_SIZE = 5_000;
+
     /** One position row for an object (matches a maps_data row). */
     public static class Row {
         public final int rgdId;
@@ -187,7 +193,8 @@ public class GViewerEsHelper {
         SearchSourceBuilder ssb = new SearchSourceBuilder()
                 .query(query)
                 .fetchSource(POSITION_SOURCE_FIELDS, null)
-                .size(SCROLL_PAGE_SIZE);
+                .size(SCROLL_PAGE_SIZE)
+                .trackTotalHits(true);
 
         RestHighLevelClient client = ClientInit.getClient();
         TimeValue scrollKeepAlive = TimeValue.timeValueMinutes(1);
@@ -197,6 +204,17 @@ public class GViewerEsHelper {
 
         SearchResponse resp = client.search(req, RequestOptions.DEFAULT);
         String scrollId = resp.getScrollId();
+        long total = (resp.getHits().getTotalHits() == null) ? -1 : resp.getHits().getTotalHits().value;
+        if (total > MAX_HITS) {
+            if (scrollId != null) {
+                ClearScrollRequest clear = new ClearScrollRequest();
+                clear.addScrollId(scrollId);
+                try { client.clearScroll(clear, RequestOptions.DEFAULT); } catch (Exception ignored) {}
+            }
+            throw new IllegalStateException(
+                    "GViewer search matched " + total + " annotations; please narrow your query "
+                    + "(limit is " + MAX_HITS + ").");
+        }
         try {
             while (resp.getHits().getHits().length > 0) {
                 for (SearchHit hit : resp.getHits().getHits()) {
@@ -218,8 +236,6 @@ public class GViewerEsHelper {
         }
         return res;
     }
-
-    private static final int SCROLL_PAGE_SIZE = 5_000;
 
     private static void consumeHit(Map<String, Object> src, CriterionResult res) {
         int rgdId = numAsInt(src.get("annotatedObjectRgdId"));

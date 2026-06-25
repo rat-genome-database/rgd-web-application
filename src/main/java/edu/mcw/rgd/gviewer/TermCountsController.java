@@ -1,5 +1,6 @@
 package edu.mcw.rgd.gviewer;
 
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.elasticsearch.action.search.SearchRequest;
@@ -113,6 +114,6 @@ public class TermCountsController implements Controller {
 
     private static String escapeJson(String v) {
         if (v == null) return "";
-        return v.replace("\\", "\\\\").replace("\"", "\\\"");
+        return new String(JsonStringEncoder.getInstance().quoteAsString(v));
     }
 }

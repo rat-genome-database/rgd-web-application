@@ -1,5 +1,6 @@
 package edu.mcw.rgd.gviewer;
 
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
@@ -116,6 +117,6 @@ public class AddObjectsController implements Controller {
     }
 
     private static String escapeJson(String v) {
-        return v == null ? "" : v.replace("\\", "\\\\").replace("\"", "\\\"");
+        return v == null ? "" : new String(JsonStringEncoder.getInstance().quoteAsString(v));
     }
 }
