@@ -262,25 +262,27 @@ public class ElasticSearchController extends RGDSearchController {
         int rgdId = Integer.parseInt(term);
         RGDManagementDAO dao = new RGDManagementDAO();
         RgdId id = dao.getRgdId2(rgdId);
-        boolean studyId=isStudyId(rgdId);
-        if ((id == null && !studyId) ||(id!=null && studyId) ) {
-            return null;
-        }
+        if(id.getObjectStatus().equalsIgnoreCase("active")) {
+            boolean studyId = isStudyId(rgdId);
+            if ((id == null && !studyId) || (id != null && studyId)) {
+                return null;
+            }
 
-        String url;
-        // Non-human variants use different report page
-        if (id.getSpeciesTypeKey() != 1 && id.getObjectKey() == 7) {
-            url = "/rgdweb/report/variants/main.html?id=" + id.getRgdId();
-        } else {
-            if(!studyId)
-            url = Link.it(rgdId, id.getObjectKey());
-            else
-                url="/rgdweb/report/expressionStudy/main.html?id="+term;
-        }
+            String url;
+            // Non-human variants use different report page
+            if (id.getSpeciesTypeKey() != 1 && id.getObjectKey() == 7) {
+                url = "/rgdweb/report/variants/main.html?id=" + id.getRgdId();
+            } else {
+                if (!studyId)
+                    url = Link.it(rgdId, id.getObjectKey());
+                else
+                    url = "/rgdweb/report/expressionStudy/main.html?id=" + term;
+            }
 
-        // Only redirect if Link.it returned a valid URL (not just the ID)
-        if (url != null && !url.equals(String.valueOf(rgdId))) {
-            return buildFullUrl(url);
+            // Only redirect if Link.it returned a valid URL (not just the ID)
+            if (url != null && !url.equals(String.valueOf(rgdId))) {
+                return buildFullUrl(url);
+            }
         }
         return null;
     }
