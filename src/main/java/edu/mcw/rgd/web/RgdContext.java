@@ -111,6 +111,7 @@ public class RgdContext {
                 case "genome":
                 case "phenominer":
                 case "models":
+                case "gviewer":
                     if( isProduction() ) {
                         indexName= index+"_index_prod";
                     }else
