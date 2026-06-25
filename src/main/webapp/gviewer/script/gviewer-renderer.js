@@ -318,8 +318,17 @@ function renderAnnotationSVG(gv, chr, annot) {
     var svg = gv.svg;
     var chrGroup = chr.svgGroup;
 
-    var len = Math.ceil((annot.end - annot.start) * gv.scaleRatio);
-    var top = Math.round(parseInt(annot.start * gv.scaleRatio)) + Math.min(gv.chromosomeWidth / 2, 6); // offset for top cap
+    // Clamp to chromosome length so a stray annotation with a stop_pos past
+    // the chromosome end doesn't render a dot below the ideogram tip.
+    var startBp = Math.max(0, parseInt(annot.start));
+    var endBp = parseInt(annot.end);
+    if (chr.length > 0) {
+        if (startBp >= chr.length) return;
+        if (endBp > chr.length) endBp = chr.length;
+    }
+
+    var len = Math.ceil((endBp - startBp) * gv.scaleRatio);
+    var top = Math.round(startBp * gv.scaleRatio) + Math.min(gv.chromosomeWidth / 2, 6); // offset for top cap
 
     if (len < 4) {
         len = 4;
