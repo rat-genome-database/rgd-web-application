@@ -1,5 +1,6 @@
 package edu.mcw.rgd.gviewer;
 
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.reporting.Link;
 import org.springframework.web.servlet.ModelAndView;
@@ -114,6 +115,6 @@ public class AnnotationJSONController implements Controller {
 
     private String escapeJson(String value) {
         if (value == null) return "";
-        return value.replace("\\", "\\\\").replace("\"", "\\\"");
+        return new String(JsonStringEncoder.getInstance().quoteAsString(value));
     }
 }

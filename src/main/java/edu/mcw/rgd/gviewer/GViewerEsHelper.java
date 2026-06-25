@@ -29,6 +29,12 @@ public class GViewerEsHelper {
             "chromosome", "startPos", "stopPos", "termAcc", "term"
     };
 
+    /** Refuse criterion queries that would pull more than this many hits
+     * (a broad root-level term can otherwise OOM the JVM). */
+    public static final int MAX_HITS = 50_000;
+
+    private static final int SCROLL_PAGE_SIZE = 5_000;
+
     /** One position row for an object (matches a maps_data row). */
     public static class Row {
         public final int rgdId;
@@ -193,10 +199,21 @@ public class GViewerEsHelper {
                         .query(query)
                         .source(src -> src.filter(sf -> sf.includes(sourceFields)))
                         .size(SCROLL_PAGE_SIZE)
+                        .trackTotalHits(t -> t.enabled(true))
                         .scroll(t -> t.time(scrollKeepAlive)),
                 Map.class);
 
         String scrollId = resp.scrollId();
+        long total = (resp.hits().total() == null) ? -1 : resp.hits().total().value();
+        if (total > MAX_HITS) {
+            if (scrollId != null) {
+                final String sid = scrollId;
+                try { client.clearScroll(c -> c.scrollId(sid)); } catch (Exception ignored) {}
+            }
+            throw new IllegalStateException(
+                    "GViewer search matched " + total + " annotations; please narrow your query "
+                    + "(limit is " + MAX_HITS + ").");
+        }
         List<Hit<Map>> hits = resp.hits().hits();
         try {
             while (!hits.isEmpty()) {
@@ -221,8 +238,6 @@ public class GViewerEsHelper {
         }
         return res;
     }
-
-    private static final int SCROLL_PAGE_SIZE = 5_000;
 
     private static void consumeHit(Map<String, Object> src, CriterionResult res) {
         int rgdId = numAsInt(src.get("annotatedObjectRgdId"));

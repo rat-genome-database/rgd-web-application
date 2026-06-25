@@ -6,6 +6,7 @@ import co.elastic.clients.elasticsearch._types.aggregations.Aggregate;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.springframework.web.servlet.ModelAndView;
@@ -116,6 +117,6 @@ public class TermCountsController implements Controller {
 
     private static String escapeJson(String v) {
         if (v == null) return "";
-        return v.replace("\\", "\\\\").replace("\"", "\\\"");
+        return new String(JsonStringEncoder.getInstance().quoteAsString(v));
     }
 }
