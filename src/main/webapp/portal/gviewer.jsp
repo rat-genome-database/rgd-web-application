@@ -20,6 +20,7 @@
 </script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
+<script type="text/javascript" src="/rgdweb/gviewer/script/gviewer-renderer.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
     /***********************************************
@@ -54,11 +55,11 @@
         species = 3;
 
         if (species == 3) {
-            gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml");
+            gviewer.loadBands("/rgdweb/gviewer/data/rgd_rat_ideo.xml", species);
         }else if (species == 1) {
-            gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml");
+            gviewer.loadBands("/rgdweb/gviewer/data/human_ideo.xml", species);
         }else {
-            gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml");
+            gviewer.loadBands("/rgdweb/gviewer/data/mouse_ideo.xml", species);
         }
 
         gviewer.addZoomPane("zoomWrapper", 250, 800);

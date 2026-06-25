@@ -150,8 +150,12 @@
                 <prop key="gviewer/welcome.html">GviewerWelcomeController</prop>
 
                 <prop key="gviewer/getAnnotationXml.html">GViewerGetAnnotationXmlController</prop>
+                <prop key="gviewer/getAnnotationJson.html">GViewerGetAnnotationJsonController</prop>
                 <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
+                <prop key="gviewer/addObjects.html">GViewerAddObjectsController</prop>
+                <prop key="gviewer/termCounts.html">GViewerTermCountsController</prop>
+                <prop key="gviewer/ideogram.html">GViewerIdeogramController</prop>
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
@@ -375,8 +379,12 @@
     <bean id="PmidImaController" class="edu.mcw.rgd.webservice.PmidImageController"/>
 
     <bean id="GViewerGetAnnotationXmlController" class="edu.mcw.rgd.gviewer.AnnotationXmlController"/>
+    <bean id="GViewerGetAnnotationJsonController" class="edu.mcw.rgd.gviewer.AnnotationJSONController"/>
     <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
+    <bean id="GViewerAddObjectsController" class="edu.mcw.rgd.gviewer.AddObjectsController"/>
+    <bean id="GViewerTermCountsController" class="edu.mcw.rgd.gviewer.TermCountsController"/>
+    <bean id="GViewerIdeogramController" class="edu.mcw.rgd.gviewer.IdeogramController"/>
 
 
     <bean id="PrimerController" class="edu.mcw.rgd.primerCreate.PrimerController" />

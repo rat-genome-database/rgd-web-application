@@ -33,6 +33,7 @@
 </script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
+<script type="text/javascript" src="/rgdweb/gviewer/script/gviewer-renderer.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
 /***********************************************
@@ -98,7 +99,7 @@ window.onload= function() {
      }
 
      //gviewer.annotationTypes = new Array(type);
-     gviewer.loadBands("<%=baseMap%>");
+     gviewer.loadBands("<%=baseMap%>", "<%=search.getSpeciesType()%>");
      gviewer.loadAnnotations(location.href.replace("fmt=5","fmt=6"));
      gviewer.addZoomPane("zoomWrapper", 250, 750);
 }

@@ -22,6 +22,7 @@
 </script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js"></script>
+<script type="text/javascript" src="/rgdweb/gviewer/script/gviewer-renderer.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
 /***********************************************
@@ -123,7 +124,7 @@
                         gviewer.genomeBrowserURL = "/jbrowse/?data=data_rgd6&tracks=ARGD_curated_genes";
                 }
 
-                gviewer.loadBands("/rgdweb/gviewer/data/portal_"+ species +"_ideo.xml");
+                gviewer.loadBands("/rgdweb/gviewer/data/portal_"+ species +"_ideo.xml", species);
 
                 gviewer.addZoomPane("zoomWrapper", 250, 800);
             } catch (err) {

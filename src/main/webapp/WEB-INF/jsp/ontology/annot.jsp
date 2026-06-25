@@ -23,6 +23,7 @@
     "</script>\n"+
     "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/util.js\"></script>\n"+
     "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/gviewer.js\"></script>\n"+
+    "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/gviewer-renderer.js\"></script>\n"+
     "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/domain.js\"></script>\n"+
     "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/contextMenu.js\">\n"+
     "/***********************************************\n"+
@@ -273,7 +274,7 @@ try {
     gviewer.genomeBrowserName = "JBrowse";
     gviewer.regionPadding=2;
     gviewer.annotationPadding = 1;
-    gviewer.loadBands("/rgdweb/gviewer/data/portal_<%=bean.getSpeciesTypeKey()%>_ideo.xml");
+    gviewer.loadBands("/rgdweb/gviewer/data/portal_<%=bean.getSpeciesTypeKey()%>_ideo.xml", "<%=bean.getSpeciesTypeKey()%>");
     gviewer.addZoomPane("zoomWrapper", 200, 750);
 
     if (geneIds != "") {
