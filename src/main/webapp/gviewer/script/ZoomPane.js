@@ -137,18 +137,9 @@ function ZoomPane(divId, h, w, parentGviewer) {
             var annot   = chr.annotations[j];
             var adiv = appendDiv(cdiv.id + "a" + j, annot.type, this.content);
 
-            // Clamp to chromosome length so bars don't extend past the q-arm tip
-            // when an annotation has a stop_pos beyond chr.length.
-            var aStart = Math.max(0, parseInt(annot.start));
-            var aEnd = parseInt(annot.end);
-            if (chr.length > 0) {
-                if (aStart >= chr.length) { hide(adiv); continue; }
-                if (aEnd > chr.length) aEnd = chr.length;
-            }
+            var len = Math.round((annot.end - annot.start) * this.scaleRatio);
 
-            var len = Math.round((aEnd - aStart) * this.scaleRatio);
-
-            adiv.style.left = Math.round(aStart * this.scaleRatio);
+            adiv.style.left = Math.round(annot.start * this.scaleRatio);
             adiv.style.backgroundColor =  annot.color;
             adiv.style.height = 10;
 
