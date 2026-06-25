@@ -38,6 +38,8 @@
 .zoom-minimap-viewport {position: absolute; top: 2px; height: 16px; background-color: rgba(50, 148, 211, 0.4); border: 1px solid #3294d3; border-radius: 2px; min-width: 4px;}
 .rounded-image {width: 100%;}
 .annotation-label {position: absolute; font-size: 12px; font-weight: 700; overflow: visible;}
+.annotation-label.qtl    { color: #ffffff; }
+.annotation-label.strain { color: #ffffff; }
 .gviewer {position: relative; background-color: white; border: 1px solid black; max-width: 100%; overflow-x: auto; }
 .position-bar { height: 15px; text-align: center; width:100%;  margin-bottom: 2px; background-color: #ffffff;  color: #000000; font-size: 13px;}
 .scale-pixel { background-color: white; font-size: 1px; position: absolute; top: 17; width: 1; height: 13; border-right: 1px solid #000000;}
