@@ -77,8 +77,8 @@
                     <%@include file="chromosomeTPMPlot.jsp"%>
                     <%@include file="genomeBrowser.jsp"%>
 
-                    <%@ include file="dataProcessing.jsp"%>
                     <% if (downloadAvailable) { %>
+                    <%@ include file="dataProcessing.jsp"%>
                     <%@ include file="dataDownloads.jsp"%>
                     <% } %>
                 </td>
