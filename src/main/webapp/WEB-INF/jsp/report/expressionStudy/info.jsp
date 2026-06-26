@@ -47,31 +47,6 @@
         <td class="labelValue"><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=<%=obj.getGeoSeriesAcc()%>" target="_blank"><%=obj.getGeoSeriesAcc()%></a></td>
     </tr>
     <%}%>
-    <%
-        // Check whether downloadable data/metadata exists for this study on the RGD download site.
-        // Only render the row when the GEO series directory actually responds OK.
-        String downloadUrl = null;
-        boolean downloadAvailable = false;
-        if(obj.getId()==3714){
-            downloadUrl = "https://download.rgd.mcw.edu/expression/HRDP/";
-            downloadAvailable = true;
-        }
-        else if(obj.getGeoSeriesAcc()!=null && !obj.getGeoSeriesAcc().isEmpty()){
-            downloadUrl = "https://download.rgd.mcw.edu/expression/" + obj.getGeoSeriesAcc() + "/";
-            try {
-                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) new java.net.URL(downloadUrl).openConnection();
-                conn.setRequestMethod("HEAD");
-                conn.setConnectTimeout(3000);
-                conn.setReadTimeout(3000);
-                conn.setInstanceFollowRedirects(true);
-                int code = conn.getResponseCode();
-                downloadAvailable = (code >= 200 && code < 400);
-                conn.disconnect();
-            } catch (Exception ex) {
-                downloadAvailable = false;
-            }
-        }
-    %>
     <tr>
         <td class="label">Available&nbsp;Data:</td>
         <%if (downloadAvailable){%>
