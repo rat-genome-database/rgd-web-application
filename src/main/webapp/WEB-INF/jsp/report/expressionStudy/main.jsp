@@ -20,6 +20,7 @@
 <html>
 <script>
     let reportTitle = "Expression Study";
+    let objectId="<%=obj.getId()%>";
 </script>
 <body>
 <style>
@@ -27,6 +28,31 @@
         scroll-behavior: smooth;
     }
 </style>
+<%
+    // Check whether downloadable data/metadata exists for this study on the RGD download site.
+    // Only render the row when the GEO series directory actually responds OK.
+    String downloadUrl = null;
+    boolean downloadAvailable = false;
+    if(obj.getId()==3714){
+        downloadUrl = "https://download.rgd.mcw.edu/expression/HRDP/";
+        downloadAvailable = true;
+    }
+    else if(obj.getGeoSeriesAcc()!=null && !obj.getGeoSeriesAcc().isEmpty()){
+        downloadUrl = "https://download.rgd.mcw.edu/expression/" + obj.getGeoSeriesAcc() + "/";
+        try {
+            java.net.HttpURLConnection conn = (java.net.HttpURLConnection) new java.net.URL(downloadUrl).openConnection();
+            conn.setRequestMethod("HEAD");
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(3000);
+            conn.setInstanceFollowRedirects(true);
+            int code = conn.getResponseCode();
+            downloadAvailable = (code >= 200 && code < 400);
+            conn.disconnect();
+        } catch (Exception ex) {
+            downloadAvailable = false;
+        }
+    }
+%>
 <div id="top" ></div>
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
@@ -43,8 +69,11 @@
                     <br>
                    <%@ include file="info.jsp"%>
                     <%@ include file="sampleMetadata.jsp"%>
+
+                    <% if (downloadAvailable) { %>
                     <%@ include file="dataProcessing.jsp"%>
                     <%@ include file="dataDownloads.jsp"%>
+                    <% } %>
                 </td>
             </tr>
         </table>
