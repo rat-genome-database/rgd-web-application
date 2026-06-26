@@ -50,7 +50,7 @@
     <tr>
         <td class="label">Available&nbsp;Data:</td>
         <%if (downloadAvailable){%>
-        <td class="labelValue"><a href="<%=downloadUrl%>" target="_blank">Metadata and Reporcessed Data</a></td>
+        <td class="labelValue"><a href="<%=downloadUrl%>" target="_blank">Metadata and Reprocessed Data</a></td>
         <% } else {%>
         <td class="labelValue">Metadata only</td>
         <%}%>
