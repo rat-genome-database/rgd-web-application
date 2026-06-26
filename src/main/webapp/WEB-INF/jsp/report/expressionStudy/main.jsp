@@ -70,13 +70,6 @@
                    <%@ include file="info.jsp"%>
                     <%@ include file="sampleMetadata.jsp"%>
 
-<%--                    <%@include file="expressionValues_heatmap.jsp"%>--%>
-<%--                    <%@include file="expressionValues_dot_chatjs.jsp"%>--%>
-
-<%--                    <%@include file="dotPlot.jsp"%>--%>
-                    <%@include file="chromosomeTPMPlot.jsp"%>
-                    <%@include file="genomeBrowser.jsp"%>
-
                     <% if (downloadAvailable) { %>
                     <%@ include file="dataProcessing.jsp"%>
                     <%@ include file="dataDownloads.jsp"%>
