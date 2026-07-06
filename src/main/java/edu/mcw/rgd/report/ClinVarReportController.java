@@ -1,6 +1,7 @@
 package edu.mcw.rgd.report;
 
 import com.google.gson.Gson;
+import edu.mcw.rgd.dao.impl.RgdVariantDAO;
 import edu.mcw.rgd.dao.impl.VariantInfoDAO;
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.VariantInfo;
@@ -22,8 +23,14 @@ public class ClinVarReportController extends ReportController {
         if(variant==null) {
             VariantInfoDAO variantDAO = new VariantInfoDAO();
             VariantInfo variantInfo = variantDAO.getVariant(rgdId);
-            this.url="variant/main.jsp";
-            return variantInfo;
+            if(variantInfo!=null) {
+                this.url = "variant/main.jsp";
+                return variantInfo;
+            }else{
+                this.url="rgdvariant/main.jsp";
+                return new RgdVariantDAO().getVariant(rgdId);
+
+            }
         }else {
             this.url="cnVariants/main.jsp";
             return variant;

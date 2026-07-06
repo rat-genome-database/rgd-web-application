@@ -1,10 +1,10 @@
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
 <%@ page import="org.springframework.ui.ModelMap" %>
 <%@ page import="edu.mcw.rgd.search.elasticsearch1.model.SearchBean" %>
-<%@ page import="org.elasticsearch.search.aggregations.bucket.terms.Terms" %>
+<%@ page import="edu.mcw.rgd.web.EsBucket" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="org.elasticsearch.search.SearchHit" %>
+<%@ page import="edu.mcw.rgd.web.EsHit" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -12,8 +12,8 @@
 
 
 <script>
-    var link=true;
-    var highlightTerm="${model.term}";
+    let link=true;
+    let highlightTerm="${model.term}";
 </script>
 <script>
     $(function () {
@@ -59,23 +59,23 @@
     ModelMap model= (ModelMap) request.getAttribute("model");
     SearchBean searchBean= (SearchBean) model.get("searchBean");
     String category=searchBean.getCategory();
-    Map<String, List<? extends Terms.Bucket>> aggregations=new HashMap<>();
+    Map<String, List<? extends EsBucket>> aggregations=new HashMap<>();
     if( model.get("aggregations")!=null )
-         aggregations=   (Map<String, List<? extends Terms.Bucket>>) model.get("aggregations");
-    List<Terms.Bucket> speciesAggregations= new ArrayList<>();
+         aggregations=   (Map<String, List<? extends EsBucket>>) model.get("aggregations");
+    List<EsBucket> speciesAggregations= new ArrayList<>();
     if(aggregations.get("species")!=null)
-          speciesAggregations=  (List<Terms.Bucket>) aggregations.get("species");
-    List<Terms.Bucket> ontologyAggregations=new ArrayList<>();
+          speciesAggregations=  (List<EsBucket>) aggregations.get("species");
+    List<EsBucket> ontologyAggregations=new ArrayList<>();
     if(aggregations.get("ontology")!=null)
-           ontologyAggregations= (List<Terms.Bucket>) aggregations.get("ontology");
+           ontologyAggregations= (List<EsBucket>) aggregations.get("ontology");
 
     String defaultAssembly= null;
             if(model.get("defaultAssembly")!=null) {
                 defaultAssembly=    model.get("defaultAssembly").toString();
             }
-    SearchHit[] searchHits= null;
+    EsHit[] searchHits= null;
     if(model.get("hitArray")!=null)
-        searchHits= (SearchHit[]) model.get("hitArray");
+        searchHits= (EsHit[]) model.get("hitArray");
     if(searchHits!=null){
 
 

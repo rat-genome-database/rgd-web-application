@@ -1,4 +1,4 @@
-<%@ page import="org.elasticsearch.search.aggregations.bucket.terms.Terms" %>
+<%@ page import="edu.mcw.rgd.web.EsBucket" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
@@ -9,7 +9,7 @@
 
 <%@ include file="/common/headerarea.jsp"%>
 <%
-    Map<String, List<? extends Terms.Bucket>> aggregations = (Map) request.getAttribute("aggregations");
+    Map<String, List<? extends EsBucket>> aggregations = (Map) request.getAttribute("aggregations");
     String aspect1 = (String) request.getAttribute("aspect");
     int hitsCount = (Integer) request.getAttribute("hitsCount");
 %>
@@ -28,14 +28,14 @@
 
         <p style="font-weight: bold;color:steelblue">Models</p>
         <ul class="list-group">
-            <% for (Terms.Bucket aspect : aggregations.get("aspectAgg")) {
+            <% for (EsBucket aspect : aggregations.get("aspectAgg")) {
                 if (!aspect1.equals("MODEL")){%>
             <li class="list-group-item">
 
                 <%if (aspect.getKey().equals("D")) {%>
                 <a  onclick="searchByQualifier('<%=term%>>','<%=aspect.getKey()%>', 'all')" style="cursor:hand;font-weight: bold;color:steelblue">Disease (<%=aspect.getDocCount()%>)</a>
                 <ul class="list-group">
-                    <%for (Terms.Bucket dm : aggregations.get("D")) {%>
+                    <%for (EsBucket dm : aggregations.get("D")) {%>
                     <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('<%=term%>','<%=aspect.getKey()%>', '<%=dm.getKey()%>')" style="cursor: hand;text-decoration: underline"><%=dm.getKey()%> (<%=dm.getDocCount()%>)</a></li>
                     <% } %>
                 </ul>
@@ -43,7 +43,7 @@
                     if (aspect.getKey().equals("N")) {%>
                 <a  onclick="searchByQualifier('<%=term%>','<%=aspect.getKey()%>', 'all')" style="cursor:hand;font-weight: bold;color:steelblue"> Phenotype (<%=aspect.getDocCount()%>)</a>
                 <ul class="list-group">
-                    <%for (Terms.Bucket pm : aggregations.get("N")) {%>
+                    <%for (EsBucket pm : aggregations.get("N")) {%>
                     <li class="list-group-item" style="padding: 0"><a href="" onclick="searchByQualifier('<%=term%>','<%=aspect.getKey()%>', '<%=pm.getKey()%>')" style="cursor: hand;text-decoration: underline"><%=pm.getKey()%> (<%=pm.getDocCount()%>)</a></li>
                     <% } %>
                 </ul>
@@ -79,7 +79,7 @@
         <p></p>
         <p style="font-weight: bold;color: steelblue">Strain Types</p>
         <ul class="list-group">
-                <%for (Terms.Bucket typeBkt : aggregations.get("typeAgg")){%>
+                <%for (EsBucket typeBkt : aggregations.get("typeAgg")){%>
                 <li class="list-group-item" style="padding: 0">
                     <a  href="" onclick="searchByQualifier('<%=term%>','', 'all', '<%=aspect1%>', '<%=typeBkt.getKey()%>')"><%=typeBkt.getKey()%> (<%=typeBkt.getDocCount()%>)</a></li>
             <% } %>
@@ -87,7 +87,7 @@
         <p></p>
         <p style="font-weight: bold;color: steelblue">Conditions</p>
         <ul class="list-group">
-            <%for (Terms.Bucket condition : aggregations.get("conditionsAgg")) {%>
+            <%for (EsBucket condition : aggregations.get("conditionsAgg")) {%>
                 <li class="list-group-item" style="padding: 0">
                     <a  href="" onclick="searchByQualifier('<%=term%>','', 'all', '<%=aspect1%>','', '<%=condition.getKey()%>')"><%=condition.getKey()%> (<%=condition.getDocCount()%>)</a></li>
             <% } %>
