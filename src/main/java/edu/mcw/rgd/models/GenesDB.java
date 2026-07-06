@@ -16,7 +16,6 @@ public class GenesDB {
     private List<String> genes;
     GeneDAO geneDAO= new GeneDAO();
     public GenesDB() throws Exception {
-        genes= new ArrayList<>();
         genes= new ArrayList<>(Arrays.asList("a2m", "prkdc", "adora2a", "adcy2") );
         totalGenes=genes.size();
     }

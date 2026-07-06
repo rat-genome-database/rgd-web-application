@@ -1,5 +1,9 @@
 package edu.mcw.rgd.vv;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.variants.VariantTranscript;
 import edu.mcw.rgd.process.mapping.MapManager;
@@ -9,12 +13,6 @@ import edu.mcw.rgd.dao.impl.TranscriptDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,12 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jdepons
- * Date: 9/25/12
- * Time: 9:49 AM
- */
 public class DetailController extends HaplotyperController {
     VariantController ctrl=new VariantController();
     VariantDAO vdao= new VariantDAO();
@@ -93,7 +85,6 @@ public class DetailController extends HaplotyperController {
 
        }else{
              if(vid !=null && !vid.isEmpty() && !vid.equals("0")) {
-                 //System.out.println("VID:"+ vid);
                  String[] vids = vid.split("\\|");
                  for (int i = 0; i < vids.length; i++) {
                      SearchResult sr = new SearchResult();
@@ -126,37 +117,30 @@ public class DetailController extends HaplotyperController {
 
 
         public List<TranscriptResult> getTranscriptResults(Variant v, int mapKey) throws IOException {
-        int speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(mapKey);
+            int speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(mapKey);
             List<TranscriptResult> tds = new ArrayList<>();
 
-            SearchSourceBuilder srb = new SearchSourceBuilder();
-            // srb.query(QueryBuilders.termQuery("startPos", startPos));
+            ElasticsearchClient client = ClientInit.getClient();
+            SearchResponse<java.util.Map> sr = client.search(s -> s
+                            .index("transcripts_human_dev")
+                            .size(10000)
+                            .query(q -> q.bool(b -> b
+                                    .must(m -> m.term(t -> t.field("chromosome").value(FieldValue.of(v.getChromosome()))))
+                                    .filter(f -> f.term(t -> t.field("startPos").value(FieldValue.of(v.getStartPos())))))),
+                    java.util.Map.class);
 
-            srb.query(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("chromosome", v.getChromosome()))
-                            .filter(QueryBuilders.termQuery("startPos", v.getStartPos()))
-                    //  .filter(QueryBuilders.boolQuery().must(QueryBuilders.termQuery("refNuc", refNuc)).must(QueryBuilders.termQuery("varNuc", varNuc)))
-
-            );
-            srb.size(10000);
-            SearchRequest request = new SearchRequest("transcripts_human_dev");
-
-            request.source(srb);
-
-            SearchResponse sr = ClientInit.getClient().search(request, RequestOptions.DEFAULT);
-
-
-            if (sr.getHits().getTotalHits().value > 0) {
-                for (SearchHit h : sr.getHits().getHits()) {
+            if (sr.hits().total() != null && sr.hits().total().value() > 0) {
+                for (Hit<java.util.Map> h : sr.hits().hits()) {
                     TranscriptResult tr = new TranscriptResult();
                     AminoAcidVariant aa = new AminoAcidVariant();
-                    java.util.Map source = h.getSourceAsMap();
+                    @SuppressWarnings("unchecked")
+                    java.util.Map<String, Object> source = (java.util.Map<String, Object>) h.source();
 
                     aa.setTripletError((String) source.get("tripletError"));
                     aa.setSynonymousFlag((String) source.get("synStatus"));
                     aa.setPolyPhenStatus((String) source.get("polyphenStatus"));
                     aa.setNearSpliceSite((String) source.get("nearSpliceSite"));
                     aa.setGeneSpliceStatus((String) source.get("genespliceStatus"));
-                    // tr.set.setFrameShift((String) source.get("frameShift"));
                     tr.setTranscriptId(source.get("transcriptRgdId").toString());
                     aa.setLocation((String) source.get("locationName"));
                     aa.setReferenceAminoAcid((String) source.get("refAA"));
