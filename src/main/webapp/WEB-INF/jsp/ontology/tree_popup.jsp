@@ -93,6 +93,16 @@
         window.opener.document.getElementById('<%=request.getParameter("sel_term")%>').dispatchEvent(new Event('input', { bubbles: true }));
         <% } %>
 
+        // Optional hook: a launching page that wants to collect multiple terms in
+        // a list (instead of overwriting a single input) can define a global
+        // onOntTermSelected(accId, term, selAccId) function. Pages that do not
+        // define it are unaffected.
+        try {
+            if (window.opener && typeof window.opener.onOntTermSelected === 'function') {
+                window.opener.onOntTermSelected(accId, term, '<%=request.getParameter("sel_acc_id")%>');
+            }
+        } catch (e) {}
+
         window.close();
 
     }

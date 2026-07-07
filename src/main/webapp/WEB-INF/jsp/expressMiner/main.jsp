@@ -214,27 +214,27 @@
                 <option value='372' <% if (mapKey==372) out.print("selected");%>>mRatBN7.2 Assembly</option>
                 <option value='360' <% if (mapKey==360) out.print("selected");%>>RGSC Genome Assembly v6.0</option>
 <%--                <option value='70' <% if (mapKey==70) out.print("selected");%>>RGSC Genome Assembly v5.0</option>--%>
-<%--                <option value='60' <% if (mapKey==60) out.print("selected");%>>RGSC Genome Assembly v3.4</option>--%>
-<%--                <option value='38' <% if (mapKey==38) out.print("selected");%>>Human Genome Assembly GRCh38</option>--%>
+                <option value='60' <% if (mapKey==60) out.print("selected");%>>RGSC Genome Assembly v3.4</option>
+                <option value='38' <% if (mapKey==38) out.print("selected");%>>Human Genome Assembly GRCh38</option>
 <%--                <option value='17' <% if (mapKey==17) out.print("selected");%>>Human Genome Assembly GRCh37</option>--%>
-<%--                <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>--%>
+                <option value='631' <% if (mapKey==631) out.print("selected");%>>Dog CanFam3.1 Assembly</option>
 <%--                <option value='634' <% if (mapKey==634) out.print("selected");%>>ROS_Cfam_1.0 Assembly</option>--%>
-<%--                <option value='911' <% if (mapKey==911) out.print("selected");%>>Pig Sscrofa11.1 Assembly</option>--%>
+                <option value='911' <% if (mapKey==911) out.print("selected");%>>Pig Sscrofa11.1 Assembly</option>
 <%--                <option value='35' <% if (mapKey==35) out.print("selected");%>>Mouse Assembly GRCm38</option>--%>
 <%--                <option value='239' <% if (mapKey==239) out.print("selected");%>>Mouse Assembly GRCm39</option>--%>
-<%--                <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey Assembly Vervet 1.1</option>--%>
+                <option value='1311' <% if (mapKey==1311) out.print("selected");%>>Green Monkey Assembly Vervet 1.1</option>
             </select>
         </div>
 
         <!-- Section Title -->
-        <div class="section-title">
-            Which genes would you like to analyze?
-        </div>
+<%--        <div class="section-title">--%>
+<%--            Which genes would you like to analyze?--%>
+<%--        </div>--%>
 
-        <!-- Hidden Form for submissions -->
-        <form id="optionForm" action="annotation.html" name="optionForm" method="post" class="hidden-form">
-            <input type="hidden" name="mapKey" value="<%=mapKey%>"/>
-        </form>
+<%--        <!-- Hidden Form for submissions -->--%>
+<%--        <form id="optionForm" action="annotation.html" name="optionForm" method="post" class="hidden-form">--%>
+<%--            <input type="hidden" name="mapKey" value="<%=mapKey%>"/>--%>
+<%--        </form>--%>
 
         <!-- Options Grid -->
         <div class="options-grid">
@@ -245,6 +245,13 @@
                 <div class="option-icon">&#128271;</div>
                 <div class="option-title">Limit by Genes</div>
                 <div class="option-description">Start with a gene list, then pick studies that have expression data for those genes</div>
+            </div>
+
+            <!-- Limit by Strain / Tissue -->
+            <div class="option-card" onclick="location.href='strainTissue.html?mapKey=<%=mapKey%>'">
+                <div class="option-icon">&#129516;</div>
+                <div class="option-title">Limit by Strain / Tissue</div>
+                <div class="option-description">Browse the ontology tree to select one or more strains (RS) and/or tissues (UBERON)</div>
             </div>
 
         </div>
