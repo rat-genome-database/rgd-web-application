@@ -6,6 +6,23 @@
     String headContent = "";
     String pageDescription = "Contents of all the bin Categories and their assignee details.";
 %>
+<style>
+    .clear-all-button {
+        padding: 6px 8px;
+        border: none;
+        border-radius: 4px;
+        background-color: #FF0000;
+        color: white;
+        font-size: 13px;
+        cursor: pointer;
+        width: 100px;
+        transition: background-color 0.2s;
+    }
+
+    .clear-all-button:hover {
+        background-color: #CC0000;
+    }
+</style>
 <script>
     //Function To Display Popup
     function div_show() {
@@ -30,22 +47,6 @@
         document.getElementById('changeCurator').style.display = "none";
     }
 </script>
-<style>
-    .clear-all-button {
-        padding: 6px 8px;
-        border: none;
-        border-radius: 4px;
-        background-color: #FF0000;
-        color: white;
-        font-size: 13px;
-        cursor: pointer;
-        width: 100px;
-        transition: background-color 0.2s;
-    }
-    .clear-all-button:hover {
-        background-color: #CC0000;
-    }
-</style>
 
 <%--Header of the page--%>
 <%@ include file="../../../../common/headerarea.jsp" %>
@@ -55,6 +56,7 @@
 
 <%--    Sidebar for displaying all the bin categories--%>
     <div class="sidebar">
+<%--        <h3>Bin Categories</h3>--%>
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <h3>Bin Categories</h3>
             <button class="clear-all-button" onclick="clearAllBins()">
@@ -65,8 +67,8 @@
             <c:forEach var="term" items="${model.assignees}">
                 <c:choose>
 
-<%--                Create Tree structure if the number of genes > 15 count --%>
-                    <c:when test="${term.getTotalGenes() > 15 && term.getTermAcc() != 'NA' && term.getTermAcc() == model.termAccString && term.getIsParent()==1}">
+<%--                Create Tree structure if the number of genes exceeds the bin limit --%>
+                    <c:when test="${term.getTotalGenes() > model.binLimit && term.getTermAcc() != 'NA' && term.getTermAcc() == model.termAccString && term.getIsParent()==1}">
                         <div>
                             <details open>
                                     <summary>
@@ -86,7 +88,7 @@
                                         <c:forEach var="child" items="${model.binChildren.get(term.getTermAcc())}">
                                             <div class="sidebar-row-nested">
                                                 <li>
-                                                    <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&termAcc=<c:out value="${term.getTermAcc()}"/>&term=<c:out value="${term.getTerm()}"/>&childTermAcc=<c:out value="${child.getTermAcc()}"/>&childTerm=<c:out value="${child.getTerm()}"/>&parent=0&username=${model.username}"
+                                                    <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&termAcc=<c:out value="${term.getTermAcc()}"/>&term=<c:out value="${term.getTerm()}"/>&childTermAcc=<c:out value="${child.getTermAcc()}"/>&childTerm=<c:out value="${child.getTerm()}"/>&parent=0&username=${model.username}&sessionId=${model.sessionId}"
                                                        style='<c:if test="${child.getCompleted() == 1}">color:red; text-decoration: line-through;</c:if>'>
                                                             ${child.getTerm()} - ${child.getTermAcc()}
                                                                 <br>
@@ -107,7 +109,7 @@
                                 </details>
                         </div>
                     </c:when>
-                    <c:when test="${term.getTotalGenes() > 15 && term.getTermAcc() != 'NA' && term.getTermAcc() != model.termAccString  && term.getIsParent()==1}">
+                    <c:when test="${term.getTotalGenes() > model.binLimit && term.getTermAcc() != 'NA' && term.getTermAcc() != model.termAccString  && term.getIsParent()==1}">
                         <div>
                             <details close>
                                 <summary>
@@ -126,7 +128,7 @@
                                     <c:forEach var="child" items="${model.binChildren.get(term.getTermAcc())}">
                                         <div class="sidebar-row-nested">
                                             <li>
-                                                <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&termAcc=<c:out value="${term.getTermAcc()}"/>&term=<c:out value="${term.getTerm()}"/>&childTermAcc=<c:out value="${child.getTermAcc()}"/>&childTerm=<c:out value="${child.getTerm()}"/>&parent=0&username=${model.username}"
+                                                <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&termAcc=<c:out value="${term.getTermAcc()}"/>&term=<c:out value="${term.getTerm()}"/>&childTermAcc=<c:out value="${child.getTermAcc()}"/>&childTerm=<c:out value="${child.getTerm()}"/>&parent=0&username=${model.username}&sessionId=${model.sessionId}"
                                                    style='<c:if test="${child.getCompleted() == 1}">color:red; text-decoration: line-through;</c:if>'>
                                                         ${child.getTerm()} - ${child.getTermAcc()}
                                                             <br>
@@ -149,7 +151,7 @@
                         </div>
                     </c:when>
                     <c:when test="${term.getIsParent()==1}">
-                        <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&termAcc=<c:out value="${term.getTermAcc()}"/>&term=<c:out value="${term.getTerm()}"/>&parent=1&username=${model.username}"
+                        <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&termAcc=<c:out value="${term.getTermAcc()}"/>&term=<c:out value="${term.getTerm()}"/>&parent=1&username=${model.username}&sessionId=${model.sessionId}"
                                style='<c:if test="${term.getCompleted() == 1}">color:red; text-decoration: line-through;</c:if>'>
                                 <div class="sidebar-row">
                                     <c:if test="${term.getTerm() == 'not annotated'}">
@@ -178,7 +180,7 @@
     <div class="gene_bin_content">
         <div class="gene_bin_header">
             <h3 id="binCategory" style="text-decoration:underline;"><c:out value="${model.termString}"/> (<c:out value="${model.termAccString}"/>)</h3>
-            <a href="/rgdweb/curation/geneBinning/index.html?accessToken=${model.accessToken}" class="btn btn-info btn-md" style="text-decoration: none; border: none; background-color:#FF7B23; color: white; width: 100px"> << Back</a>
+            <a href="/rgdweb/curation/geneBinning/index.html?accessToken=${model.accessToken}&sessionId=${model.sessionId}" class="btn btn-info btn-md" style="text-decoration: none; border: none; background-color:#FF7B23; color: white; width: 100px"> << Back</a>
         </div>
         <c:if test="${model.childTermString != null}">
             <h5><b>Sub Category:</b> <span  id="subBinCategory" style="text-decoration:underline;">
@@ -207,13 +209,14 @@
                                         <input type="hidden" name="childTermAcc" value="${model.childTermAccString}" />
                                         <input type="hidden" name="childTerm" value="${model.childTermString}" />
                                     </c:if>
+                                    <input type="hidden" name="sessionId" value="${model.sessionId}"/>
                                     <input type="hidden" name="unassignFlag" value="1"/>
                                     <input class="btn btn-info btn-md" style="background-color:#FF7B23; width: 100px; color: white" type="submit" value="Unassign">
                                 </form>
                             </div>
                             <%--                    <button class="btn btn-info btn-md" style="background-color:#FF7B23; color: white" onclick="div_show()">Change Assignee</button>--%>
                             <div>
-                                <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&username=${model.username}&termAcc=<c:out value="${model.termAccString}"/>&term=<c:out value="${model.termString}"/>&completed=1&parent=<c:out value="${model.parent}"/><c:if test="${model.childTermAccString != null}">&childTermAcc=${model.childTermAccString}&childTerm=${model.childTermString}</c:if>">
+                                <a href="/rgdweb/curation/geneBinning/bins.html?accessToken=${model.accessToken}&username=${model.username}&termAcc=<c:out value="${model.termAccString}"/>&term=<c:out value="${model.termString}"/>&completed=1&parent=<c:out value="${model.parent}"/>&sessionId=${model.sessionId}<c:if test="${model.childTermAccString != null}">&childTermAcc=${model.childTermAccString}&childTerm=${model.childTermString}</c:if>">
                                     <button class="btn btn-info btn-md" style="background-color:#FF7B23; width: 100px; color: white">Completed</button>
                                 </a>
                             </div>
@@ -232,6 +235,7 @@
                             <input type="hidden" name="childTermAcc" value="${model.childTermAccString}" />
                             <input type="hidden" name="childTerm" value="${model.childTermString}" />
                             <input type="hidden" name="parent" value="${model.parent}"/>
+                            <input type="hidden" name="sessionId" value="${model.sessionId}"/>
                             <h4><b>Curator Name:</b></h4>
                             <input type="text" style="border: 1px solid black; width: 50%;" id="assigneeName" name="assigneeName"/>
                             <div class="popupChangeCuratorButtons">
@@ -254,6 +258,7 @@
                             <input type="hidden" name="childTermAcc" value="${model.childTermAccString}" />
                             <input type="hidden" name="childTerm" value="${model.childTermString}" />
                         </c:if>
+                        <input type="hidden" name="sessionId" value="${model.sessionId}"/>
                         <input type="hidden" name="assigneeName" value="${model.username}"/>
                         <input class="btn btn-info btn-md" style="background-color:#FF7B23; color: white" type="submit" value="Assign to me">
                     </form>
@@ -334,8 +339,8 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                        <c:if test="${(15 - model.genes.size()) > 0}">
-                            <c:forEach begin = "${1}" end="${15 - model.genes.size()}">
+                        <c:if test="${(model.binLimit - model.genes.size()) > 0}">
+                            <c:forEach begin = "${1}" end="${model.binLimit - model.genes.size()}">
                                 <tr class="geneBinTableRow">
                                     <td class="geneBinTableData">&nbsp</td>
                                 </tr>
@@ -383,6 +388,7 @@
         </div>
     </div>
 </div>
+
 <script>
     function clearAllBins() {
         if(confirm('Are you sure you want to clear all genes from bins?')) {
@@ -390,6 +396,7 @@
             let form = document.createElement('form');
             form.method = 'post';
             form.action = '/rgdweb/curation/geneBinning/bins.html';
+
             // Add required hidden fields
             let fields = {
                 'clearAll': 'delete',
@@ -397,13 +404,16 @@
                 'term': '${model.termString}',
                 'parent': '${model.parent}',
                 'username': '${model.username}',
-                'accessToken': '${model.accessToken}'
+                'accessToken': '${model.accessToken}',
+                'sessionId': '${model.sessionId}'
             };
+
             // Add child term fields if they exist
             if('${model.childTermAccString}' !== '') {
                 fields['childTermAcc'] = '${model.childTermAccString}';
                 fields['childTerm'] = '${model.childTermString}';
             }
+
             // Create and append hidden inputs
             for(let name in fields) {
                 let input = document.createElement('input');
@@ -412,6 +422,7 @@
                 input.value = fields[name];
                 form.appendChild(input);
             }
+
             document.body.appendChild(form);
             form.submit();
         }
