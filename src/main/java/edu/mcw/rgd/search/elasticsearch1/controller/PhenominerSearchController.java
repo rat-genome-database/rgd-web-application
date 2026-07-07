@@ -1,5 +1,7 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.TotalHits;
 import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.dao.impl.SearchLogDAO;
 import edu.mcw.rgd.datamodel.RgdId;
@@ -11,8 +13,6 @@ import edu.mcw.rgd.search.elasticsearch1.model.SearchBean;
 import edu.mcw.rgd.search.elasticsearch1.service.SearchService;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import org.apache.lucene.search.TotalHits;
-import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -22,9 +22,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Created by jthota on 2/22/2017.
- */
 public class PhenominerSearchController implements Controller {
 
     @Override
@@ -78,14 +75,15 @@ public class PhenominerSearchController implements Controller {
             }else {
                 int defaultPageSize = 1000;
                 sb.setSize(defaultPageSize);
-                SearchResponse sr = service.getSearchResponse(request, term, sb);
+                SearchResponse<java.util.Map> sr = service.getSearchResponse(request, term, sb);
                 int totalPages = 0;
                 if (sr != null) {
-                    TotalHits hits = sr.getHits().getTotalHits();
-                    totalPages = (int) ((hits.value / defaultPageSize)) + (((int) (hits.value) % defaultPageSize > 0) ? 1 : 0);
+                    TotalHits hits = sr.hits().total();
+                    long hitCount = (hits != null) ? hits.value() : 0L;
+                    totalPages = (int) ((hitCount / defaultPageSize)) + (((int) (hitCount) % defaultPageSize > 0) ? 1 : 0);
                     ModelMap resultsMap = service.getResultsMap(sr, term);
                     if (log) {
-                        if (sr != null) this.logResults(term, sb.getCategory(), hits.value);
+                        this.logResults(term, sb.getCategory(), hitCount);
                     }
                     model.putAll(resultsMap);
                 }
@@ -133,7 +131,6 @@ public class PhenominerSearchController implements Controller {
                 }
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
-                    //   redirUrl = RgdContext.getHostname() + ":8080" + redirUrl;
                     redirUrl = RgdContext.getHostname() + redirUrl;
                     return redirUrl;
                 }
@@ -141,16 +138,15 @@ public class PhenominerSearchController implements Controller {
 
 
                     SearchService service = new SearchService();
-                    SearchResponse sr;
+                    SearchResponse<java.util.Map> sr;
              if(sb.isRedirect()) { // if in the summarys results there is only one result, then redirect to report page directly.
                    sr = service.getSearchResponse(request, term, sb);
                 }else{
                     sr = service.getSearchResponse(request, term, null);
                 }
-            //    sr = service.getSearchResponse(request, term, sb);
                 if (sr != null) {
-                    TotalHits hits=sr.getHits().getTotalHits();
-                        if (sr.getHits() != null && hits.value == 1)
+                    TotalHits hits=sr.hits().total();
+                        if (hits != null && hits.value() == 1)
                             return getUrl(sr, request, term);
                         else return null;
                     }
@@ -163,15 +159,18 @@ public class PhenominerSearchController implements Controller {
         }
         return null;
     }
-    public String getUrl(SearchResponse sr, HttpServletRequest request,String term){
-        this.logResults(term,request.getParameter("category"), sr.getHits().getTotalHits().value);
+    public String getUrl(SearchResponse<java.util.Map> sr, HttpServletRequest request,String term){
+        TotalHits totalHits = sr.hits().total();
+        this.logResults(term,request.getParameter("category"), totalHits != null ? totalHits.value() : 0L);
         int rgdIdValue=0;
 
         RGDManagementDAO rdao= new RGDManagementDAO();
         String redirUrl=null;
-        String docId= (String) sr.getHits().getHits()[0].getSourceAsMap().get("term_acc");
-        String category=(String) sr.getHits().getHits()[0].getSourceAsMap().get("category");
-        String species=(String) sr.getHits().getHits()[0].getSourceAsMap().get("species");
+        @SuppressWarnings("unchecked")
+        java.util.Map<String, Object> source = (java.util.Map<String, Object>) sr.hits().hits().get(0).source();
+        String docId = (String) source.get("term_acc");
+        String category = (String) source.get("category");
+        String species = (String) source.get("species");
 
 
         try {
@@ -193,7 +192,6 @@ public class PhenominerSearchController implements Controller {
               redirUrl = Link.ontAnnot(docId);
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
-            //      redirUrl = RgdContext.getHostname() + ":8080" + redirUrl;
               redirUrl = RgdContext.getHostname() + redirUrl;
 
             }

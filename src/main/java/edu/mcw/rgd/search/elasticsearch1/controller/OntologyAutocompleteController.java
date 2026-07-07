@@ -1,21 +1,22 @@
 package edu.mcw.rgd.search.elasticsearch1.controller;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.DisMaxQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.DisMaxQueryBuilder;
-import org.elasticsearch.index.query.Operator;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class OntologyAutocompleteController implements Controller {
@@ -34,7 +35,7 @@ public class OntologyAutocompleteController implements Controller {
             return null;
         }
 
-        term = term.trim().toLowerCase();
+        final String t = term.trim().toLowerCase();
 
         if (maxParam != null) {
             try {
@@ -43,18 +44,19 @@ public class OntologyAutocompleteController implements Controller {
         }
 
         // Build DisMax query across ontology term fields
-        DisMaxQueryBuilder dmq = new DisMaxQueryBuilder();
-        dmq.add(QueryBuilders.matchQuery("term.symbol", term).operator(Operator.AND).boost(15));
-        dmq.add(QueryBuilders.matchQuery("term", term).boost(10));
-        dmq.add(QueryBuilders.matchQuery("name.symbol", term).operator(Operator.AND).boost(5));
-        dmq.add(QueryBuilders.matchQuery("synonyms.symbol", term).operator(Operator.AND).boost(3));
-        dmq.add(QueryBuilders.matchQuery("synonyms", term).boost(2));
-        dmq.add(QueryBuilders.prefixQuery("term.symbol", term).boost(8));
-        dmq.tieBreaker(0.3f);
+        List<Query> dmqQueries = new ArrayList<>();
+        dmqQueries.add(Query.of(q -> q.match(m -> m.field("term.symbol").query(t).operator(Operator.And).boost(15f))));
+        dmqQueries.add(Query.of(q -> q.match(m -> m.field("term").query(t).boost(10f))));
+        dmqQueries.add(Query.of(q -> q.match(m -> m.field("name.symbol").query(t).operator(Operator.And).boost(5f))));
+        dmqQueries.add(Query.of(q -> q.match(m -> m.field("synonyms.symbol").query(t).operator(Operator.And).boost(3f))));
+        dmqQueries.add(Query.of(q -> q.match(m -> m.field("synonyms").query(t).boost(2f))));
+        dmqQueries.add(Query.of(q -> q.prefix(p -> p.field("term.symbol").value(t).boost(8f))));
+        Query disMax = Query.of(q -> q.disMax(DisMaxQuery.of(d -> d.queries(dmqQueries).tieBreaker(0.3))));
 
         // Build bool query with category + subcat filters
-        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(dmq);
-        boolQuery.filter(QueryBuilders.termQuery("category.keyword", "Ontology"));
+        BoolQuery.Builder boolQuery = new BoolQuery.Builder();
+        boolQuery.must(disMax);
+        boolQuery.filter(Query.of(q -> q.term(tq -> tq.field("category.keyword").value(FieldValue.of("Ontology")))));
 
         // Apply ontology filter — supports single prefix, comma-separated, or ALL/null for no filter
         if (ont != null && !ont.trim().isEmpty() && !ont.trim().equalsIgnoreCase("ALL")) {
@@ -62,34 +64,41 @@ public class OntologyAutocompleteController implements Controller {
             if (parts.length == 1) {
                 String subcat = mapOntPrefix(parts[0].trim());
                 if (subcat != null && !subcat.isEmpty()) {
-                    boolQuery.filter(QueryBuilders.prefixQuery("subcat.keyword", subcat + ":"));
+                    final String sc = subcat;
+                    boolQuery.filter(Query.of(q -> q.prefix(p -> p.field("subcat.keyword").value(sc + ":"))));
                 }
             } else {
                 // Multiple ontology prefixes — use bool should (OR)
-                BoolQueryBuilder subcatFilter = QueryBuilders.boolQuery();
+                BoolQuery.Builder subcatFilter = new BoolQuery.Builder();
                 for (String part : parts) {
                     String subcat = mapOntPrefix(part.trim());
                     if (subcat != null && !subcat.isEmpty()) {
-                        subcatFilter.should(QueryBuilders.prefixQuery("subcat.keyword", subcat + ":"));
+                        final String sc = subcat;
+                        subcatFilter.should(Query.of(q -> q.prefix(p -> p.field("subcat.keyword").value(sc + ":"))));
                     }
                 }
-                subcatFilter.minimumShouldMatch(1);
-                boolQuery.filter(subcatFilter);
+                subcatFilter.minimumShouldMatch("1");
+                boolQuery.filter(Query.of(q -> q.bool(subcatFilter.build())));
             }
         }
 
-        SearchSourceBuilder srb = new SearchSourceBuilder();
-        srb.query(boolQuery);
-        srb.from(0).size(max);
+        BoolQuery builtBool = boolQuery.build();
+        Query finalQuery = Query.of(q -> q.bool(builtBool));
+        final int maxResults = max;
 
-        SearchRequest searchRequest = new SearchRequest(RgdContext.getESIndexName("search"));
-        searchRequest.source(srb);
-        SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
+        ElasticsearchClient client = ClientInit.getClient();
+        SearchResponse<Map> sr = client.search(s -> s
+                        .index(RgdContext.getESIndexName("search"))
+                        .query(finalQuery)
+                        .from(0)
+                        .size(maxResults),
+                Map.class);
 
         // Build pipe-delimited response: term_name|term_acc
         StringBuilder sb = new StringBuilder();
-        for (SearchHit hit : sr.getHits().getHits()) {
-            Map<String, Object> source = hit.getSourceAsMap();
+        for (Hit<Map> hit : sr.hits().hits()) {
+            Map<String, Object> source = hit.source();
+            if (source == null) continue;
             String termName = source.get("term") != null ? source.get("term").toString() : "";
             String termAcc = source.get("term_acc") != null ? source.get("term_acc").toString() : "";
             if (!termName.isEmpty() && !termAcc.isEmpty()) {
