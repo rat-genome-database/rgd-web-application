@@ -45,7 +45,20 @@ public class GeneBinningController implements Controller {
                 message = "A session named '" + newSession + "' already exists.";
                 sessionId = newSession;
             } else {
-                geneBinAssigneeDAO.createSession(newSession);
+                // Seed the new session's bin definitions. Prefer copying from the template session;
+                // fall back to any existing session; if the table is empty, bootstrap from the ontology.
+                List<String> existing = geneBinAssigneeDAO.getSessions();
+                String template = null;
+                if (existing.contains(GeneBinAssigneeDAO.TEMPLATE_SESSION)) {
+                    template = GeneBinAssigneeDAO.TEMPLATE_SESSION;
+                } else if (!existing.isEmpty()) {
+                    template = existing.get(0);
+                }
+                if (template != null) {
+                    geneBinAssigneeDAO.createSession(newSession, template);
+                } else {
+                    new PerformBinningController().seedSessionFromOntology(newSession);
+                }
                 sessionId = newSession;
                 message = "Created session '" + newSession + "'.";
             }

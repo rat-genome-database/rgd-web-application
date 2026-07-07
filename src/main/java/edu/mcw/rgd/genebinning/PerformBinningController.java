@@ -92,6 +92,35 @@ private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren(String ses
     return parentChildTermsAcc;
 }
 
+    /**
+     * Seed a brand-new session's bin definitions directly from the ontology, for the case where no
+     * existing session exists to copy from (e.g. a fresh/empty GENEBIN_ASSIGNEE table). Inserts each
+     * top-level bin category (PARENT=1) and every ontology descendant of it (PARENT=0). Term accessions
+     * are de-duplicated so a term that is a descendant of more than one category is only inserted once
+     * (the composite (TERM_ACC, SESSION_ID) primary key would otherwise be violated).
+     */
+    public void seedSessionFromOntology(String sessionId) throws Exception {
+        Set<String> inserted = new HashSet<>();
+        for (String binCategory : binCategories) {
+            // top-level category row (parent)
+            if (inserted.add(binCategory)) {
+                Term parentTerm = ontologyXDAO.getTermByAccId(binCategory);
+                String parentName = (parentTerm != null) ? parentTerm.getTerm() : binCategory;
+                geneBinAssigneeDAO.insertAssignee(binCategory, parentName, 1, sessionId);
+            }
+            // ontology descendants (children)
+            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
+            for (String key : childTermAccs.keySet()) {
+                if (inserted.add(key)) {
+                    Term term = ontologyXDAO.getTermByAccId(key);
+                    if (term != null) {
+                        geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0, sessionId);
+                    }
+                }
+            }
+        }
+    }
+
     // Final call - complete relationships
     private HashMap<String, List<GeneBinAssignee>> getBinChildren(String sessionId) throws Exception {
         HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
@@ -500,7 +529,8 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
 //      Insert the new Assignee
         if(inputAssigneeName != null && !inputAssigneeName.equals("")){
             if(Objects.equals(isParent, "1")){
-                int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId).get(0).getTotalGenes();
+                List<GeneBinAssignee> pepList = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId);
+                int tempPepCount = pepList.isEmpty() ? 0 : pepList.get(0).getTotalGenes();
                 if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
                     geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, "GO:0070001", sessionId);
                     model.put("childTermAccString", "GO:0070001");
@@ -516,7 +546,8 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
 //      Unassign the Bin
         if(unassignFlag != null){
             if(Objects.equals(isParent, "1")){
-                int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId).get(0).getTotalGenes();
+                List<GeneBinAssignee> pepList = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId);
+                int tempPepCount = pepList.isEmpty() ? 0 : pepList.get(0).getTotalGenes();
                 if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
                     geneBinAssigneeDAO.updateAssigneeName(null, "GO:0070001", sessionId);
                     model.put("childTermAccString", "GO:0070001");
@@ -531,17 +562,18 @@ private void createSubsetsForBin(String termAcc, int totalGenes, String sessionI
 
 //      Fetch the assignee details of the current bin
         if(Objects.equals(isParent, "1")){
-            int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId).get(0).getTotalGenes();
+            List<GeneBinAssignee> pepList = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId);
+            int tempPepCount = pepList.isEmpty() ? 0 : pepList.get(0).getTotalGenes();
             if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
                 assigneeName = geneBinAssigneeDAO.getAssigneeName("GO:0070001", sessionId);
-                model.put("assignee", assigneeName.get(0));
             }else{
                 assigneeName = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId);
-                model.put("assignee", assigneeName.get(0));
             }
         }
         else{
             assigneeName = geneBinAssigneeDAO.getAssigneeName(inputChildTermAcc, sessionId);
+        }
+        if(!assigneeName.isEmpty()){
             model.put("assignee", assigneeName.get(0));
         }
 
