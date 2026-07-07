@@ -8,6 +8,7 @@ import edu.mcw.rgd.datamodel.GeneBin.GeneBinChild;
 import edu.mcw.rgd.datamodel.GeneBin.GeneBinCountGenes;
 import edu.mcw.rgd.datamodel.ontologyx.Relation;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
+import edu.mcw.rgd.datamodel.ontologyx.TermWithStats;
 import edu.mcw.rgd.security.User;
 import edu.mcw.rgd.security.UserManager;
 import org.apache.commons.lang3.StringUtils;
@@ -17,13 +18,24 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.FileWriter;
 import java.util.*;
 
 
 public class PerformBinningController implements Controller {
-    private static final String[] binCategories = {"GO:0008233","GO:0009975","GO:0016874","GO:0016491",
-            "GO:0016740","GO:0032451","GO:0140223","GO:0140110","GO:0140104","GO:0140299","GO:0005198",
-            "GO:0005215","GO:0003774"};
+//    private static final String[] binCategories = {"GO:0008233","GO:0009975","GO:0016874","GO:0016491",
+//            "GO:0016740","GO:0032451","GO:0140223","GO:0140110","GO:0140104","GO:0140299","GO:0005198",
+//            "GO:0005215","GO:0003774"};
+    private static final String[] binCategories = {"GO:0008233","GO:0016209", "GO:0140657", "GO:0005488", "GO:0038024", "GO:0003824", "GO:0102910",
+        "GO:0009055", "GO:0140522", "GO:0180020", "GO:0060090", "GO:0140912", "GO:0180024",
+        "GO:0098772", "GO:0140313", "GO:0141047", "GO:0140489", "GO:0060089", "GO:0045735",
+        "GO:0140911", "GO:0044183", "GO:0140776", "GO:0140777", "GO:0140691", "GO:0090729",
+        "GO:0045182", "GO:0009975", "GO:0016874", "GO:0016491", "GO:0016740",
+        "GO:0032451", "GO:0140223", "GO:0140110", "GO:0140104", "GO:0140299", "GO:0005198",
+        "GO:0005215", "GO:0003774"};
+    // Maximum number of genes allowed in a single (sub)bin before it is subdivided / split into subsets
+    public static final int BIN_LIMIT = 5;
     private GeneDAO gdao;
     private GeneBinDAO geneBinDAO;
     private OntologyXDAO ontologyXDAO;
@@ -34,6 +46,7 @@ public class PerformBinningController implements Controller {
     private List<String> incorrectGenesList;
     private HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc;
     private String username;
+    private HashMap<String, String> childBinCountMap;
 
     public PerformBinningController() {
         gdao = new GeneDAO();
@@ -45,37 +58,120 @@ public class PerformBinningController implements Controller {
         genesAliasList = new ArrayList<>();
         incorrectGenesList = new ArrayList<>();
         parentChildTermsAcc = new HashMap<>();
+        childBinCountMap = new HashMap<>();
     }
 
-    private HashMap<String, List<GeneBinAssignee>> getBinChildren() throws Exception {
-        HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
-        for (String binCategory : binCategories) {
-            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
-            List<GeneBinAssignee> allChildterms = new ArrayList<>();
-            Set<String> keys = childTermAccs.keySet();
-            for (String key : keys) {
-                Term term = ontologyXDAO.getTermByAccId(key);
-                GeneBinChild child = new GeneBinChild(term.getAccId(), term.getTerm());
-                List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId());
-                if( !assigneeObjChild.isEmpty() ) {
-                    allChildterms.add(assigneeObjChild.get(0));
-                }
+// First call - only ontology terms
+private HashMap<String, List<GeneBinAssignee>> getOntologyBinChildren(String sessionId) throws Exception {
+        System.out.println("entered the first call of generating child bins");
+    HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
+    for (String binCategory : binCategories) {
+        Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
+        List<GeneBinAssignee> allChildterms = new ArrayList<>();
+        Set<String> keys = childTermAccs.keySet();
+        for (String key : keys) {
+            Term term = ontologyXDAO.getTermByAccId(key);
+            GeneBinChild child = new GeneBinChild(term.getAccId(), term.getTerm());
+            List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId(), sessionId);
+            if( !assigneeObjChild.isEmpty() ) {
+                allChildterms.add(assigneeObjChild.get(0));
+            }
 
 /*              Use it for initialization of the database table
                 Insert all the children into the bin assignee table
-                geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0);
+                geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0, sessionId);
 */
+        }
+        List<GeneBinAssignee> selfChild = geneBinAssigneeDAO.getTerm(binCategory, sessionId);
+        if( !selfChild.isEmpty() ) {
+            allChildterms.add(selfChild.get(0));
+        }
+        parentChildTermsAcc.put(binCategory, allChildterms);
+        System.out.println("leaving the first call of generating child bins");
+    }
+    return parentChildTermsAcc;
+}
+
+    /**
+     * Seed a brand-new session's bin definitions directly from the ontology, for the case where no
+     * existing session exists to copy from (e.g. a fresh/empty GENEBIN_ASSIGNEE table). Inserts each
+     * top-level bin category (PARENT=1) and every ontology descendant of it (PARENT=0). Term accessions
+     * are de-duplicated so a term that is a descendant of more than one category is only inserted once
+     * (the composite (TERM_ACC, SESSION_ID) primary key would otherwise be violated).
+     */
+    public void seedSessionFromOntology(String sessionId) throws Exception {
+        Set<String> inserted = new HashSet<>();
+        for (String binCategory : binCategories) {
+            // top-level category row (parent)
+            if (inserted.add(binCategory)) {
+                Term parentTerm = ontologyXDAO.getTermByAccId(binCategory);
+                String parentName = (parentTerm != null) ? parentTerm.getTerm() : binCategory;
+                geneBinAssigneeDAO.insertAssignee(binCategory, parentName, 1, sessionId);
             }
-            List<GeneBinAssignee> selfChild = geneBinAssigneeDAO.getTerm(binCategory);
-            if( !selfChild.isEmpty() ) {
-                allChildterms.add(selfChild.get(0));
+            // ontology descendants (children)
+            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
+            for (String key : childTermAccs.keySet()) {
+                if (inserted.add(key)) {
+                    Term term = ontologyXDAO.getTermByAccId(key);
+                    if (term != null) {
+                        geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0, sessionId);
+                    }
+                }
             }
+        }
+    }
+
+    // Final call - complete relationships
+    private HashMap<String, List<GeneBinAssignee>> getBinChildren(String sessionId) throws Exception {
+        HashMap<String, List<GeneBinAssignee>> parentChildTermsAcc = new HashMap<>();
+        System.out.println("In the final tree");
+        for (String binCategory : binCategories) {
+            List<GeneBinAssignee> allChildterms = new ArrayList<>();
+            Set<String> termsWithSubsets = new HashSet<>();
+
+            // First identify terms that have subsets
+            List<String> binChildTerms = geneBinDAO.getChildTermsForParent(binCategory, sessionId);
+            for (String childTerm : binChildTerms) {
+                List<GeneBinAssignee> subsets = geneBinAssigneeDAO.getAssigneeRecordsWithSubsets(childTerm+" (%)", sessionId);
+                if (!subsets.isEmpty()) {
+                    termsWithSubsets.add(childTerm);
+                    for (GeneBinAssignee subset : subsets) {
+                        if (subset.getSubsetNum() > 0) {
+                            allChildterms.add(subset);
+                        }
+                    }
+                }
+            }
+
+            // Get regular children from ontology
+            Map<String, Relation> childTermAccs = ontologyXDAO.getTermDescendants(binCategory);
+            Set<String> keys = childTermAccs.keySet();
+            for (String key : keys) {
+                if (!termsWithSubsets.contains(key)) {
+                    Term term = ontologyXDAO.getTermByAccId(key);
+                    List<GeneBinAssignee> assigneeObjChild = geneBinAssigneeDAO.getAssigneeName(term.getAccId(), sessionId);
+                    if (!assigneeObjChild.isEmpty()&&childBinCountMap.containsKey(term.getAccId())) {
+                        allChildterms.add(assigneeObjChild.get(0));
+                    }
+                }
+            }
+
+            // Add regular child terms that aren't from ontology and don't have subsets
+            for (String childTerm : binChildTerms) {
+                if (!termsWithSubsets.contains(childTerm) && !childTermAccs.containsKey(childTerm)) {
+                    List<GeneBinAssignee> assigneeObj = geneBinAssigneeDAO.getAssigneeName(childTerm, sessionId);
+                    if (!assigneeObj.isEmpty()) {
+                        allChildterms.add(assigneeObj.get(0));
+                    }
+                }
+            }
+
             parentChildTermsAcc.put(binCategory, allChildterms);
         }
         return parentChildTermsAcc;
     }
 
-    public void geneInsertionToBin(List<GeneBin> geneExists, int i, int rgdId, String geneSymbol) throws Exception{
+    public void geneInsertionToBin(List<GeneBin> geneExists, int i, int rgdId, String geneSymbol, String sessionId) throws Exception{
         boolean binAcquiredFlag = false;
 
 //      Check if the gene is already allocated to a bin category
@@ -100,26 +196,124 @@ public class PerformBinningController implements Controller {
                     }
 
 //                  Insert the Gene in the table
-                    geneBinDAO.insertGeneInBin(curGene.getRgdId(), curGene.getGeneSymbol(), curGene.getTerm(), curGene.getTermAcc(), childTermAcc);
+                    geneBinDAO.insertGeneInBin(curGene.getRgdId(), curGene.getGeneSymbol(), curGene.getTerm(), curGene.getTermAcc(), childTermAcc, sessionId);
                     binAcquiredFlag = true;
                 }
             }
 
 //          Gene is not yet annotated and goes to the NA bin
             if(!binAcquiredFlag){
-                geneBinDAO.insertGeneInBin(rgdId, geneSymbol, "not annotated", "NA", null);
+                geneBinDAO.insertGeneInBin(rgdId, geneSymbol, "not annotated", "NA", null, sessionId);
             }
         }
     }
+    private Set<String> unsubdividableBins = new HashSet<>();
+
+    public boolean subdivideOverflowBin(GeneBinCountGenes binToSubdivide, String sessionId) throws Exception {
+        String parentTermAcc = binToSubdivide.getTermAcc();
+
+        // Skip if we already know this bin can't be subdivided
+        if(unsubdividableBins.contains(parentTermAcc)) {
+            return false;
+        }
+
+            List<GeneBin> genesInBin = geneBinDAO.getGenesOfDecendents(parentTermAcc, sessionId);
+
+            List<TermWithStats> nextLevelTerms = ontologyXDAO.getActiveChildTerms(parentTermAcc, 0);
+            if(nextLevelTerms.isEmpty()) {
+                unsubdividableBins.add(parentTermAcc);
+                return false;
+            }
+
+            boolean anyGenesRedistributed = false;
+
+            // Insert new terms into GENEBIN_ASSIGNEE for tracking
+            for(TermWithStats term : nextLevelTerms) {
+                List<GeneBinAssignee> existingTerm = geneBinAssigneeDAO.getAssigneeName(term.getAccId(), sessionId);
+                if(existingTerm.isEmpty()) {
+                    geneBinAssigneeDAO.insertAssignee(term.getAccId(), term.getTerm(), 0, sessionId);
+                }
+            }
+
+            // For each gene in current bin, find most specific term
+            for(GeneBin gene : genesInBin) {
+                String foundTermAcc = findMostSpecificTerm(gene.getRgdId(), nextLevelTerms);
+                if(foundTermAcc != null) {
+                    geneBinDAO.updateGeneChildTerm(gene.getRgdId(), foundTermAcc, sessionId);
+                    anyGenesRedistributed = true;
+                }
+            }
+
+            if(!anyGenesRedistributed) {
+                unsubdividableBins.add(parentTermAcc);
+            }
+
+            return anyGenesRedistributed;
+
+    }
+
+    private String findMostSpecificTerm(int rgdId, List<TermWithStats> terms) throws Exception {
+
+        for(TermWithStats term : terms) {
+
+            // Check if gene has direct annotation to this term
+            List<GeneBin> hasAnnotation = geneBinDAO.getGeneBinPair(rgdId, term.getAccId());
+            if(hasAnnotation.size() > 0) {
+                return hasAnnotation.get(0).getTermAcc();
+            }
+
+            // If not, get children and check recursively
+            List<TermWithStats> childTerms = ontologyXDAO.getActiveChildTerms(term.getAccId(), 0);
+            if(!childTerms.isEmpty()) {
+                String foundTerm = findMostSpecificTerm(rgdId, childTerms);
+                if(foundTerm != null) {
+                    return foundTerm;
+                }
+            }
+        }
+        return null;
+    }
+
+private void createSubsetsForBin(String termAcc, int totalGenes, String sessionId) throws Exception {
+    int numSubsets = (int) Math.ceil((double) totalGenes / BIN_LIMIT);
+    System.out.println("Entered subset method for term:"+ termAcc);
+    List<GeneBinAssignee> termDetails = geneBinAssigneeDAO.getAssigneeName(termAcc, sessionId);
+    System.out.println("Subset count:"+termDetails.get(0).getTotalGenes());
+    if (!termDetails.isEmpty()) {
+        String term = termDetails.get(0).getTerm();
+
+        for (int i = 1; i <= numSubsets; i++) {
+            int startIdx = (i-1) * BIN_LIMIT;
+            int endIdx = Math.min(startIdx + BIN_LIMIT, totalGenes);
+            int genesInSubset = endIdx - startIdx;
+            String subsetTermAcc = termAcc + " (" + i + ")";
+
+            // Check if subset already exists
+            List<GeneBinAssignee> existingSubset = geneBinAssigneeDAO.getAssigneeName(subsetTermAcc, sessionId);
+            if (existingSubset.isEmpty()) {
+                // Insert new record
+                geneBinAssigneeDAO.insertSubsetRecord(subsetTermAcc, term, i, genesInSubset, 0, sessionId);
+                System.out.println("Inserted subsetTerm"+subsetTermAcc+"count"+genesInSubset);
+            } else {
+                // Update entire record with latest values
+                geneBinAssigneeDAO.updateSubsetRecord(subsetTermAcc, term, i, genesInSubset, 0, sessionId);
+                System.out.println("Updated subsetTerm"+subsetTermAcc+"count"+genesInSubset);
+            }
+            childBinCountMap.put(subsetTermAcc, Integer.toString(genesInSubset));
+        }
+    }
+}
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//      Initialize all the variables
+//      Initialize all the variables (reset per request so sessions never leak into one another)
         genesList = new ArrayList<>();
         genesAliasList = new ArrayList<>();
         incorrectGenesList = new ArrayList<>();
         parentChildTermsAcc = new HashMap<>();
+        childBinCountMap = new HashMap<>();
+        unsubdividableBins = new HashSet<>();
 
 //      Getting the request parameters
         String reqGenes = request.getParameter("inputdata");
@@ -133,11 +327,39 @@ public class PerformBinningController implements Controller {
         String unassignFlag = request.getParameter("unassignFlag");
         String username = request.getParameter("username");
         String accessToken = request.getParameter("accessToken");
+        String clearAll = request.getParameter("clearAll");
+        String sessionId = request.getParameter("sessionId");
         ModelMap model = new ModelMap();
 
+//      A session is required for every binning operation; without one send the curator back to pick/create one
+        if(sessionId == null || sessionId.trim().isEmpty()){
+            return new ModelAndView("redirect:/curation/geneBinning/index.html?accessToken="+accessToken);
+        }
 
+        //clear All button logic
+        if(clearAll!=null && clearAll.equals("delete")){
+            // Clear all genes from bins for this session only
+            geneBinDAO.deleteAllGeneBins(sessionId);
+            geneBinAssigneeDAO.deleteSubsetRecords(sessionId);
+            // Reset internal state variables
+            parentChildTermsAcc = new HashMap<>();
+            childBinCountMap = new HashMap<>();
+            genesList = new ArrayList<>();
+            genesAliasList = new ArrayList<>();
+            incorrectGenesList = new ArrayList<>();
+
+//            // Force re-initialization of key structures
+//            parentChildTermsAcc = getOntologyBinChildren(sessionId);
+            //Set the total gene count to 0
+            List<GeneBinAssignee>allAssignees = geneBinAssigneeDAO.getAllAssignees(sessionId);
+            for(GeneBinAssignee assignee:allAssignees){
+                geneBinAssigneeDAO.resetBin(assignee.getTermAcc(), sessionId);
+            }
+            return new ModelAndView("redirect:/curation/geneBinning/bins.html?accessToken="+accessToken+
+                    "&termAcc=GO:0008233&term=peptidase%20activity&parent=1&username="+username+"&sessionId="+sessionId);
+        }
 //      Fetch all the child termAcc for bin category
-        parentChildTermsAcc = getBinChildren();
+        parentChildTermsAcc = getOntologyBinChildren(sessionId);
 
         List<GeneBinAssignee> allAssignees;
         List<GeneBinAssignee> assigneeName;
@@ -191,54 +413,115 @@ public class PerformBinningController implements Controller {
 
 //          Process genes on the genesList
             for(int i=0;i< genesList.size();i++){
-                List<GeneBin> geneExists = geneBinDAO.getGenesByRgdId(genesList.get(i).getRgdId());
-                geneInsertionToBin(geneExists, i, genesList.get(i).getRgdId(), genesList.get(i).getSymbol());
+                List<GeneBin> geneExists = geneBinDAO.getGenesByRgdId(genesList.get(i).getRgdId(), sessionId);
+                geneInsertionToBin(geneExists, i, genesList.get(i).getRgdId(), genesList.get(i).getSymbol(), sessionId);
             }
 
 //          Process genes on the genesAliasList
             for(int i=0;i< genesAliasList.size();i++){
-                List<GeneBin> geneExists = geneBinDAO.getGenesByRgdId(genesAliasList.get(i).getRgdId());
-                geneInsertionToBin(geneExists, i, genesAliasList.get(i).getRgdId(), genesAliasList.get(i).getValue());
+                List<GeneBin> geneExists = geneBinDAO.getGenesByRgdId(genesAliasList.get(i).getRgdId(), sessionId);
+                geneInsertionToBin(geneExists, i, genesAliasList.get(i).getRgdId(), genesAliasList.get(i).getValue(), sessionId);
+            }
+
+            //recursive logic to check if genes in child bins exceed the bin limit
+            boolean needsMoreSubdivision;
+            do {
+                needsMoreSubdivision = false;
+                List<GeneBinCountGenes> childBinCounts = geneBinDAO.getGeneChildCounts(sessionId);
+
+                for(GeneBinCountGenes binCount : childBinCounts) {
+                    if(binCount.getTotalGenes() > BIN_LIMIT) {
+                        // Only continue if we actually redistributed some genes
+                        boolean redistributed = subdivideOverflowBin(binCount, sessionId);
+                        if(!redistributed) {
+                            System.out.println("Could not redistribute genes for bin: " + binCount.getTermAcc());
+                            continue;
+                        }
+                        needsMoreSubdivision = true;
+                        break;
+                    }
+                }
+            } while(needsMoreSubdivision);
+            System.out.println("Finished subdividing");
+            List<GeneBinCountGenes> finalCounts = geneBinDAO.getGeneChildCounts(sessionId);
+            for(GeneBinCountGenes binCount : finalCounts) {
+                if(binCount.getTotalGenes() > BIN_LIMIT) {
+                    createSubsetsForBin(binCount.getTermAcc(), binCount.getTotalGenes(), sessionId);
+                }
             }
         }
+
 
 //      Completed button action
         if(inputCompleted != null && Integer.parseInt(inputCompleted) == 1){
             if(Objects.equals(isParent, "1")){
-                int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
-                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
-                    geneBinAssigneeDAO.updateCompletedStatus("GO:0070001");
+                int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId).get(0).getTotalGenes();
+                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
+                    geneBinAssigneeDAO.updateCompletedStatus("GO:0070001", sessionId);
                 } else{
-                    geneBinAssigneeDAO.updateCompletedStatus(inputTermAcc);
+                    geneBinAssigneeDAO.updateCompletedStatus(inputTermAcc, sessionId);
                 }
             }else{
-                geneBinAssigneeDAO.updateCompletedStatus(inputChildTermAcc);
+                geneBinAssigneeDAO.updateCompletedStatus(inputChildTermAcc, sessionId);
             }
         }
 
 //      Update the total genes an assignee/bin has.
-        List<GeneBinCountGenes> geneCounts = geneBinDAO.getGeneCounts();
+        List<GeneBinCountGenes> geneCounts = geneBinDAO.getGeneCounts(sessionId);
         for (GeneBinCountGenes geneCount : geneCounts) {
-            geneBinAssigneeDAO.updateTotalGenes(geneCount.getTermAcc(), geneCount.getTotalGenes());
+            geneBinAssigneeDAO.updateTotalGenes(geneCount.getTermAcc(), geneCount.getTotalGenes(), sessionId);
         }
 
 //      Fetch the count of all the child bins
-        HashMap<String, String> childBinCountMap = new HashMap<>();
-        List<GeneBinCountGenes> childBinCounts = geneBinDAO.getGeneChildCounts();
+//        HashMap<String, String> childBinCountMap = new HashMap<>();
+        List<GeneBinCountGenes> childBinCounts = geneBinDAO.getGeneChildCounts(sessionId);
         for(int i=0;i<childBinCounts.size();i++){
-            childBinCountMap.put(childBinCounts.get(i).getTermAcc(), Integer.toString(childBinCounts.get(i).getTotalGenes()));
+            if(childBinCounts.get(i).getTotalGenes()>0) {
+                childBinCountMap.put(childBinCounts.get(i).getTermAcc(), Integer.toString(childBinCounts.get(i).getTotalGenes()));
+            }
+        }
+
+        List<GeneBinCountGenes> subsetBinCounts = geneBinAssigneeDAO.getGeneChildCounts(sessionId);
+        if(subsetBinCounts!=null) {
+            for (GeneBinCountGenes count : subsetBinCounts) {
+                childBinCountMap.put(count.getTermAcc(), Integer.toString(count.getTotalGenes()));
+            }
         }
 
 //      Fetch all the values from the bin where term_acc is inputTermAcc
         List<GeneBin> genes = new ArrayList<>();
-        genes = geneBinDAO.getGenes(inputTermAcc);
+        genes = geneBinDAO.getGenes(inputTermAcc, sessionId);
 
-        if(inputChildTermAcc != null){
-            genes = geneBinDAO.getGenesOfDecendents(inputChildTermAcc);
+//        if(inputChildTermAcc != null){
+//            genes = geneBinDAO.getGenesOfDecendents(inputChildTermAcc);
+//            model.put("childTermAccString", inputChildTermAcc);
+//            model.put("childTermString", WordUtils.capitalize(inputChildTerm));
+//        } else if (genes.size() > 15 && !Objects.equals(inputTermAcc, "NA")){
+//            genes = geneBinDAO.getGenesOfDecendents("GO:0070001");
+//            model.put("childTermAccString", "GO:0070001");
+//            model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
+//        }
+        if (inputChildTermAcc != null) {
+            if (inputChildTermAcc.contains("(")) {  // This is a subset
+                // Get the original termAcc and subset number
+                String[] parts = inputChildTermAcc.split(" \\(");
+                String originalTermAcc = parts[0];
+                int subsetNum = Integer.parseInt(parts[1].replace(")", ""));
+
+                // Get all genes for original termAcc
+                List<GeneBin> allGenes = geneBinDAO.getGenesOfDecendents(originalTermAcc, sessionId);
+
+                // Get the subset of genes
+                int startIdx = (subsetNum-1) * BIN_LIMIT;
+                int endIdx = Math.min(startIdx + BIN_LIMIT, allGenes.size());
+                genes = allGenes.subList(startIdx, endIdx);
+            } else {
+                genes = geneBinDAO.getGenesOfDecendents(inputChildTermAcc, sessionId);
+            }
             model.put("childTermAccString", inputChildTermAcc);
             model.put("childTermString", WordUtils.capitalize(inputChildTerm));
-        } else if (genes.size() > 15 && !Objects.equals(inputTermAcc, "NA")){
-            genes = geneBinDAO.getGenesOfDecendents("GO:0070001");
+        } else if (genes.size() > BIN_LIMIT && !Objects.equals(inputTermAcc, "NA")){
+            genes = geneBinDAO.getGenesOfDecendents("GO:0070001", sessionId);
             model.put("childTermAccString", "GO:0070001");
             model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
         }
@@ -246,58 +529,69 @@ public class PerformBinningController implements Controller {
 //      Insert the new Assignee
         if(inputAssigneeName != null && !inputAssigneeName.equals("")){
             if(Objects.equals(isParent, "1")){
-                int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
-                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
-                    geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, "GO:0070001");
+                List<GeneBinAssignee> pepList = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId);
+                int tempPepCount = pepList.isEmpty() ? 0 : pepList.get(0).getTotalGenes();
+                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
+                    geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, "GO:0070001", sessionId);
                     model.put("childTermAccString", "GO:0070001");
                     model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
                 } else{
-                    geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, inputTermAcc);
+                    geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, inputTermAcc, sessionId);
                 }
             } else {
-                geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, inputChildTermAcc);
+                geneBinAssigneeDAO.updateAssigneeName(inputAssigneeName, inputChildTermAcc, sessionId);
             }
         }
 
 //      Unassign the Bin
         if(unassignFlag != null){
             if(Objects.equals(isParent, "1")){
-                int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
-                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
-                    geneBinAssigneeDAO.updateAssigneeName(null, "GO:0070001");
+                List<GeneBinAssignee> pepList = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId);
+                int tempPepCount = pepList.isEmpty() ? 0 : pepList.get(0).getTotalGenes();
+                if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
+                    geneBinAssigneeDAO.updateAssigneeName(null, "GO:0070001", sessionId);
                     model.put("childTermAccString", "GO:0070001");
                     model.put("childTermString", WordUtils.capitalize("aspartic-type peptidase activity"));
                 } else{
-                    geneBinAssigneeDAO.updateAssigneeName(null, inputTermAcc);
+                    geneBinAssigneeDAO.updateAssigneeName(null, inputTermAcc, sessionId);
                 }
             } else {
-                geneBinAssigneeDAO.updateAssigneeName(null, inputChildTermAcc);
+                geneBinAssigneeDAO.updateAssigneeName(null, inputChildTermAcc, sessionId);
             }
         }
-        
+
 //      Fetch the assignee details of the current bin
         if(Objects.equals(isParent, "1")){
-            int tempPepCount = geneBinAssigneeDAO.getAssigneeName(inputTermAcc).get(0).getTotalGenes();
-            if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> 15){
-                assigneeName = geneBinAssigneeDAO.getAssigneeName("GO:0070001");
-                model.put("assignee", assigneeName.get(0));
+            List<GeneBinAssignee> pepList = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId);
+            int tempPepCount = pepList.isEmpty() ? 0 : pepList.get(0).getTotalGenes();
+            if(Objects.equals(inputTermAcc,"GO:0008233") && tempPepCount> BIN_LIMIT){
+                assigneeName = geneBinAssigneeDAO.getAssigneeName("GO:0070001", sessionId);
             }else{
-                assigneeName = geneBinAssigneeDAO.getAssigneeName(inputTermAcc);
-                model.put("assignee", assigneeName.get(0));
+                assigneeName = geneBinAssigneeDAO.getAssigneeName(inputTermAcc, sessionId);
             }
         }
         else{
-            assigneeName = geneBinAssigneeDAO.getAssigneeName(inputChildTermAcc);
+            assigneeName = geneBinAssigneeDAO.getAssigneeName(inputChildTermAcc, sessionId);
+        }
+        if(!assigneeName.isEmpty()){
             model.put("assignee", assigneeName.get(0));
         }
 
 //      Fetch all the bin details
-        allAssignees = geneBinAssigneeDAO.getAllAssignees();
-
+        allAssignees = geneBinAssigneeDAO.getAllAssignees(sessionId);
 //      Fetch updated children of each bin
-        parentChildTermsAcc = getBinChildren();
+        parentChildTermsAcc = getBinChildren(sessionId);
 
-        model.put("assignees", allAssignees);
+//        // Filter out parent bins with zero genes
+        List<GeneBinAssignee> filteredAssignees = new ArrayList<>();
+        for (GeneBinAssignee assignee : allAssignees) {
+            if (assignee.getIsParent() == 0 || assignee.getTotalGenes() > 0) {
+                filteredAssignees.add(assignee);
+            }
+        }
+        model.put("assignees", filteredAssignees);
+
+//        model.put("assignees", allAssignees);
         model.put("termAccString", inputTermAcc);
         model.put("termString", WordUtils.capitalize(inputTerm));
         model.put("genes", genes);
@@ -307,6 +601,8 @@ public class PerformBinningController implements Controller {
         model.put("childBinCountMap", childBinCountMap);
         model.put("username", username);
         model.put("accessToken", accessToken);
+        model.put("sessionId", sessionId);
+        model.put("binLimit", BIN_LIMIT);
 
         return new ModelAndView("/WEB-INF/jsp/curation/gene_binning/bins.jsp","model", model);
     }
