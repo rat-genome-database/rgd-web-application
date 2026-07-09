@@ -1,16 +1,14 @@
 package edu.mcw.rgd.search;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.json.JsonData;
 import edu.mcw.rgd.datamodel.SpeciesType;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -36,20 +34,20 @@ public class VariantCountController implements Controller {
             String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey)).replace(" ", "");
             String indexName = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + mapKey);
 
-            BoolQueryBuilder qb = QueryBuilders.boolQuery()
-                    .must(QueryBuilders.termQuery("chromosome.keyword", chr))
-                    .filter(QueryBuilders.rangeQuery("startPos").gte(start).lte(stop));
-
-            SearchSourceBuilder srb = new SearchSourceBuilder();
-            srb.query(qb);
-            srb.size(0);
-            srb.trackTotalHits(true);
-
-            SearchRequest searchRequest = new SearchRequest(indexName);
-            searchRequest.source(srb);
-
-            SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-            long count = sr.getHits().getTotalHits().value;
+            ElasticsearchClient client = ClientInit.getClient();
+            SearchResponse<Void> sr = client.search(s -> s
+                            .index(indexName)
+                            .size(0)
+                            .trackTotalHits(t -> t.enabled(true))
+                            .query(q -> q.bool(b -> b
+                                    .must(m -> m.term(t -> t.field("chromosome.keyword").value(FieldValue.of(chr))))
+                                    .filter(f -> f.range(r -> r.untyped(u -> u
+                                            .field("startPos")
+                                            .gte(JsonData.of(start))
+                                            .lte(JsonData.of(stop)))))
+                            )),
+                    Void.class);
+            long count = sr.hits().total().value();
 
             out.print("{\"count\":" + count + "}");
         } catch (Exception e) {

@@ -1,5 +1,10 @@
 package edu.mcw.rgd.vv;
 
+import co.elastic.clients.elasticsearch._types.aggregations.LongTermsAggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.LongTermsBucket;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsAggregate;
+import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.vv.vvservice.VVService;
@@ -8,8 +13,6 @@ import edu.mcw.rgd.dao.impl.GeneDAO;
 import edu.mcw.rgd.dao.impl.GeneLociDAO;
 import edu.mcw.rgd.dao.impl.SampleDAO;
 import edu.mcw.rgd.web.HttpRequestFacade;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,12 +24,6 @@ import java.util.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jdepons
- * Date: 10/21/11
- * Time: 9:53 AM
- */
 public class DistributionController extends HaplotyperController {
     private List<String> gSymbols;
 
@@ -112,7 +109,6 @@ public class DistributionController extends HaplotyperController {
 
             for(Map<String,Integer> map: resultHash.values()) {
                 masterKeySet.addAll(map.keySet());
-                //         vsb.genes.addAll(map.keySet());             //add gene symbols from the results returned by search response.
                 for (Object o : map.keySet()) {
                     int value = map.get(o);
                     if (value > maxValue) {
@@ -125,8 +121,6 @@ public class DistributionController extends HaplotyperController {
         String symbol = "";
         String lastGene="";
         String first = "";
-
-        //need to be different for functional search
 
         if (vsb.getGenes().size()==0) {
             if(resultHash.size()>0) {
@@ -254,20 +248,21 @@ public class DistributionController extends HaplotyperController {
         if(!req.getParameter("showDifferences").equals("true")){
             for (List<String> batch : geneBatches) {
                 vsb.setGenes(batch);
-                SearchResponse sr = getAggregations(vsb, req);
+                SearchResponse<java.util.Map> sr = getAggregations(vsb, req);
+                if (sr == null) continue;
 
-                Terms samplesAgg = sr.getAggregations().get("sampleId");
-                List<Terms.Bucket> samplebkts = (List<Terms.Bucket>) samplesAgg.getBuckets();
-                for (Terms.Bucket b : samplebkts) {
-                    Map<String, Integer> geneCountMap = variantGeneCountMap.getOrDefault(String.valueOf(b.getKey()), new HashMap<>());
-                    Terms geneAggs = b.getAggregations().get("region");
-                    for (Terms.Bucket gb : geneAggs.getBuckets()) {
-                        String geneKey = gb.getKey().toString().toLowerCase();
-                        geneCountMap.merge(geneKey, (int) gb.getDocCount(), Integer::sum);
+                LongTermsAggregate samplesAgg = sr.aggregations().get("sampleId").lterms();
+                for (LongTermsBucket b : samplesAgg.buckets().array()) {
+                    String sampleIdKey = String.valueOf(b.key());
+                    Map<String, Integer> geneCountMap = variantGeneCountMap.getOrDefault(sampleIdKey, new HashMap<>());
+                    StringTermsAggregate geneAggs = b.aggregations().get("region").sterms();
+                    for (StringTermsBucket gb : geneAggs.buckets().array()) {
+                        String geneKey = gb.key().stringValue().toLowerCase();
+                        geneCountMap.merge(geneKey, (int) gb.docCount(), Integer::sum);
                         geneKeys.add(geneKey);
                     }
                     if (!geneCountMap.isEmpty()) {
-                        variantGeneCountMap.put(String.valueOf(b.getKey()), geneCountMap);
+                        variantGeneCountMap.put(sampleIdKey, geneCountMap);
                     }
                 }
             }
@@ -275,41 +270,40 @@ public class DistributionController extends HaplotyperController {
         }  else{
             for (List<String> batch : geneBatches) {
                 vsb.setGenes(batch);
-                SearchResponse sr = getAggregations(vsb, req);
+                SearchResponse<java.util.Map> sr = getAggregations(vsb, req);
+                if (sr == null) continue;
 
-                Terms regionAgg = sr.getAggregations().get("regionName");
+                StringTermsAggregate regionAgg = sr.aggregations().get("regionName").sterms();
 
-                List<Terms.Bucket> regionbkts = (List<Terms.Bucket>) regionAgg.getBuckets();
+                for (StringTermsBucket b : regionAgg.buckets().array()) {
+                    String regionKey = b.key().stringValue();
+                    geneKeys.add(regionKey);
 
-                for (Terms.Bucket b : regionbkts) {
+                    LongTermsAggregate posAggs = b.aggregations().get("startPos").lterms();
 
-                    geneKeys.add((String) b.getKey());
+                    for (LongTermsBucket pos : posAggs.buckets().array()) {
+                        LongTermsAggregate sampleAggs = pos.aggregations().get("sample").lterms();
 
-
-                    Terms posAggs = b.getAggregations().get("startPos");
-
-                    for (Terms.Bucket pos : posAggs.getBuckets()) {
-                        Terms sampleAggs = pos.getAggregations().get("sample");
-
-                        if (sampleAggs.getBuckets().size() < vsb.sampleIds.size()) {
-                            for (Terms.Bucket samp : sampleAggs.getBuckets()) {
-                                if (samp.getDocCount() < vsb.sampleIds.size()) {
-                                    Map<String, Integer> geneVarCountsOfSample = variantGeneCountMap.get(samp.getKey().toString());
+                        if (sampleAggs.buckets().array().size() < vsb.sampleIds.size()) {
+                            for (LongTermsBucket samp : sampleAggs.buckets().array()) {
+                                if (samp.docCount() < vsb.sampleIds.size()) {
+                                    String sampKey = String.valueOf(samp.key());
+                                    Map<String, Integer> geneVarCountsOfSample = variantGeneCountMap.get(sampKey);
                                     if (geneVarCountsOfSample != null) {
-                                        Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(((String) b.getKey()).toLowerCase());
+                                        Integer varNucCountOfGeneOfSample = geneVarCountsOfSample.get(regionKey.toLowerCase());
                                         if (varNucCountOfGeneOfSample != null) {
-                                            varNucCountOfGeneOfSample = varNucCountOfGeneOfSample + (int) samp.getDocCount();
-                                            geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), varNucCountOfGeneOfSample);
+                                            varNucCountOfGeneOfSample = varNucCountOfGeneOfSample + (int) samp.docCount();
+                                            geneVarCountsOfSample.put(regionKey.toLowerCase(), varNucCountOfGeneOfSample);
 
                                         } else {
-                                            geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), (int) samp.getDocCount());
+                                            geneVarCountsOfSample.put(regionKey.toLowerCase(), (int) samp.docCount());
                                         }
 
-                                        variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
+                                        variantGeneCountMap.put(sampKey, geneVarCountsOfSample);
                                     } else {
                                         geneVarCountsOfSample = new HashMap<>();
-                                        geneVarCountsOfSample.put(b.getKey().toString().toLowerCase(), (int) samp.getDocCount());
-                                        variantGeneCountMap.put(samp.getKey().toString(), geneVarCountsOfSample);
+                                        geneVarCountsOfSample.put(regionKey.toLowerCase(), (int) samp.docCount());
+                                        variantGeneCountMap.put(sampKey, geneVarCountsOfSample);
                                     }
 
                                 }
@@ -348,7 +342,7 @@ public class DistributionController extends HaplotyperController {
         return variantGeneCountMap;
     }
 
-    public SearchResponse getAggregations(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
+    public SearchResponse<java.util.Map> getAggregations(VariantSearchBean vsb, HttpRequestFacade req) throws VVException {
         VVService vvService=new VVService(vsb,req);
        return vvService.getAggregations();
     }

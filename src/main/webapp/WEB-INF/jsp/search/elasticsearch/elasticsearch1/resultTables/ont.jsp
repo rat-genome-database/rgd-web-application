@@ -1,4 +1,4 @@
-<%--
+﻿<%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 7/11/2025
@@ -24,7 +24,7 @@
     <tbody>
 
     <%
-        for(SearchHit hit:searchHits){
+        for(EsHit hit:searchHits){
 
             Map<String, Object> sourceMap=hit.getSourceAsMap();
             String url="/rgdweb/ontology/annot.html?acc_id="+sourceMap.get("term_acc");

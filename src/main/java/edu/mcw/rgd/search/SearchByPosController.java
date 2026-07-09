@@ -1,6 +1,14 @@
 package edu.mcw.rgd.search;
 
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.FieldValue;
+import co.elastic.clients.elasticsearch._types.SortOrder;
+import co.elastic.clients.elasticsearch._types.Time;
+import co.elastic.clients.elasticsearch.core.ScrollResponse;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.json.JsonData;
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
@@ -9,21 +17,11 @@ import edu.mcw.rgd.reporting.Report;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.vv.SampleManager;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchScrollRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.core.TimeValue;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -124,15 +122,6 @@ public class SearchByPosController implements Controller {
                     String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(mapKey)).replace(" ", "");
                     String indexName = RgdContext.getESVariantIndexName("variants_" + species.toLowerCase() + mapKey);
 
-                    BoolQueryBuilder qb = QueryBuilders.boolQuery()
-                            .must(QueryBuilders.termQuery("chromosome.keyword", chr))
-                            .filter(QueryBuilders.rangeQuery("startPos").gte(start).lte(stop));
-
-                    SearchSourceBuilder srb = new SearchSourceBuilder();
-                    srb.query(qb);
-                    srb.size(10000);
-                    srb.sort("startPos", org.elasticsearch.search.sort.SortOrder.ASC);
-
                     // Change header for variant-only downloads
                     if (objType.equalsIgnoreCase("variant")) {
                         report = new Report();
@@ -149,50 +138,49 @@ public class SearchByPosController implements Controller {
                         report.append(varHeader);
                     }
 
-                    SearchRequest searchRequest = new SearchRequest(indexName);
-                    searchRequest.source(srb);
-                    searchRequest.scroll(TimeValue.timeValueMinutes(1L));
+                    final int startF = start;
+                    final int stopF = stop;
+                    final String chrF = chr;
+                    ElasticsearchClient client = ClientInit.getClient();
+                    SearchResponse<java.util.Map> sr = client.search(s -> s
+                                    .index(indexName)
+                                    .size(10000)
+                                    .scroll(Time.of(t -> t.time("1m")))
+                                    .query(q -> q.bool(b -> b
+                                            .must(m -> m.term(t -> t.field("chromosome.keyword").value(FieldValue.of(chrF))))
+                                            .filter(f -> f.range(r -> r.untyped(u -> u
+                                                    .field("startPos")
+                                                    .gte(JsonData.of(startF))
+                                                    .lte(JsonData.of(stopF)))))
+                                    ))
+                                    .sort(sort -> sort.field(fs -> fs.field("startPos").order(SortOrder.Asc))),
+                            java.util.Map.class);
+                    String scrollId = sr.scrollId();
 
-                    SearchResponse sr = ClientInit.getClient().search(searchRequest, RequestOptions.DEFAULT);
-                    String scrollId = sr.getScrollId();
-
-                    for (SearchHit hit : sr.getHits().getHits()) {
-                        Map<String, Object> src = hit.getSourceAsMap();
-                        Record record = new Record();
-                        record.append(String.valueOf(src.getOrDefault("variant_id", "")));
-                        record.append(String.valueOf(src.getOrDefault("rsId", "")));
-                        record.append(String.valueOf(src.getOrDefault("chromosome", "")));
-                        record.append(String.valueOf(src.getOrDefault("startPos", "")));
-                        record.append(String.valueOf(src.getOrDefault("refNuc", "")));
-                        record.append(String.valueOf(src.getOrDefault("varNuc", "")));
-                        record.append(String.valueOf(src.getOrDefault("variantType", "")));
-                        Object sampleIdObj = src.getOrDefault("sampleId", "");
-                        record.append(String.valueOf(sampleIdObj));
-                        try {
-                            int sid = Integer.parseInt(String.valueOf(sampleIdObj));
-                            Sample sample = SampleManager.getInstance().getSampleName(sid);
-                            record.append(sample != null ? sample.getAnalysisName() : "");
-                        } catch (Exception ex) { record.append(""); }
-                        report.append(record);
+                    for (Hit<java.util.Map> hit : sr.hits().hits()) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> src = (Map<String, Object>) hit.source();
+                        appendVariantRecord(report, src);
                     }
 
-                    while (sr.getHits().getHits().length > 0) {
-                        SearchScrollRequest scrollRequest = new SearchScrollRequest(scrollId);
-                        scrollRequest.scroll(TimeValue.timeValueSeconds(60));
-                        sr = ClientInit.getClient().scroll(scrollRequest, RequestOptions.DEFAULT);
-                        scrollId = sr.getScrollId();
-                        for (SearchHit hit : sr.getHits().getHits()) {
-                            Map<String, Object> src = hit.getSourceAsMap();
-                            Record record = new Record();
-                            record.append(String.valueOf(src.getOrDefault("variant_id", "")));
-                            record.append(String.valueOf(src.getOrDefault("rsId", "")));
-                            record.append(String.valueOf(src.getOrDefault("chromosome", "")));
-                            record.append(String.valueOf(src.getOrDefault("startPos", "")));
-                            record.append(String.valueOf(src.getOrDefault("refNuc", "")));
-                            record.append(String.valueOf(src.getOrDefault("varNuc", "")));
-                            record.append(String.valueOf(src.getOrDefault("variantType", "")));
-                            record.append(String.valueOf(src.getOrDefault("sampleId", "")));
-                            report.append(record);
+                    boolean variantOnly = objType.equalsIgnoreCase("variant");
+                    int pageHits = sr.hits().hits().size();
+                    while (pageHits > 0) {
+                        final String scrollIdF = scrollId;
+                        ScrollResponse<java.util.Map> scrollResp = client.scroll(sb -> sb
+                                        .scrollId(scrollIdF)
+                                        .scroll(Time.of(t -> t.time("60s"))),
+                                java.util.Map.class);
+                        scrollId = scrollResp.scrollId();
+                        pageHits = scrollResp.hits().hits().size();
+                        for (Hit<java.util.Map> hit : scrollResp.hits().hits()) {
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> src = (Map<String, Object>) hit.source();
+                            if (variantOnly) {
+                                appendVariantRecord(report, src);
+                            } else {
+                                appendVariantRecordSimple(report, src);
+                            }
                         }
                     }
                 } catch (Exception e) {
@@ -204,4 +192,36 @@ public class SearchByPosController implements Controller {
         }
         return new ModelAndView(path + "searchByPosition.jsp");
         }
+
+    private void appendVariantRecord(Report report, Map<String, Object> src) {
+        Record record = new Record();
+        record.append(String.valueOf(src.getOrDefault("variant_id", "")));
+        record.append(String.valueOf(src.getOrDefault("rsId", "")));
+        record.append(String.valueOf(src.getOrDefault("chromosome", "")));
+        record.append(String.valueOf(src.getOrDefault("startPos", "")));
+        record.append(String.valueOf(src.getOrDefault("refNuc", "")));
+        record.append(String.valueOf(src.getOrDefault("varNuc", "")));
+        record.append(String.valueOf(src.getOrDefault("variantType", "")));
+        Object sampleIdObj = src.getOrDefault("sampleId", "");
+        record.append(String.valueOf(sampleIdObj));
+        try {
+            int sid = Integer.parseInt(String.valueOf(sampleIdObj));
+            Sample sample = SampleManager.getInstance().getSampleName(sid);
+            record.append(sample != null ? sample.getAnalysisName() : "");
+        } catch (Exception ex) { record.append(""); }
+        report.append(record);
+    }
+
+    private void appendVariantRecordSimple(Report report, Map<String, Object> src) {
+        Record record = new Record();
+        record.append(String.valueOf(src.getOrDefault("variant_id", "")));
+        record.append(String.valueOf(src.getOrDefault("rsId", "")));
+        record.append(String.valueOf(src.getOrDefault("chromosome", "")));
+        record.append(String.valueOf(src.getOrDefault("startPos", "")));
+        record.append(String.valueOf(src.getOrDefault("refNuc", "")));
+        record.append(String.valueOf(src.getOrDefault("varNuc", "")));
+        record.append(String.valueOf(src.getOrDefault("variantType", "")));
+        record.append(String.valueOf(src.getOrDefault("sampleId", "")));
+        report.append(record);
+    }
     }

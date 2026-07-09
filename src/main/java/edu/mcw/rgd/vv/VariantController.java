@@ -15,10 +15,9 @@ import edu.mcw.rgd.dao.DataSourceFactory;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
+import edu.mcw.rgd.web.EsHit;
 import edu.mcw.rgd.web.HttpRequestFacade;
 import edu.mcw.rgd.web.RgdContext;
-import org.elasticsearch.common.recycler.Recycler;
-import org.elasticsearch.search.SearchHit;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -146,13 +145,13 @@ public class VariantController extends HaplotyperController {
     }
     public List<VariantResult> getVariantResults(VariantSearchBean vsb, HttpRequestFacade req, boolean requiredTranscripts) throws Exception {
         VVService service= new VVService(vsb,req);
-        List<SearchHit> hits=service.getVariants();
+        List<EsHit> hits=service.getVariants();
         if(hits==null){
             throw new VVException("0 results found. Please verify query parameters");
 
         }
         List<VariantResult> variantResults=new ArrayList<>();
-        for (SearchHit h : hits) {
+        for (EsHit h : hits) {
             java.util.Map<String, Object> m = h.getSourceAsMap();
             VariantResult vr = new VariantResult();
             Variant v = new Variant();
@@ -175,9 +174,12 @@ public class VariantController extends HaplotyperController {
                 v.setQualityScore((int) m.get("qualityScore"));
             v.setZygosityStatus((String) m.get("zygosityStatus"));
             v.setZygosityInPseudo((String) m.get("zygosityInPseudo"));
-            v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
-            double p= (double) m.get("zygosityPercentRead");
-            v.setZygosityPercentRead((int) p);
+            if(m.get("zygosityNumAllele")!=null)
+                v.setZygosityNumberAllele((Integer) m.get("zygosityNumAllele"));
+            if(m.get("zygosityPercentRead")!=null) {
+                double p = (double) m.get("zygosityPercentRead");
+                v.setZygosityPercentRead((int) p);
+            }
             v.setZygosityPossibleError((String) m.get("zygosityPossError"));
             v.setZygosityRefAllele((String) m.get("zygosityRefAllele"));
             v.conservationScore.add(mapConservation(m));

@@ -1,4 +1,4 @@
-<%@ page import="java.util.Objects" %><%--
+﻿<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: jthota
   Date: 7/11/2025
@@ -31,7 +31,7 @@
     <tbody>
 
     <%
-        for (SearchHit hit : searchHits) {
+        for (EsHit hit : searchHits) {
             Map<String, Object> sourceMap = hit.getSourceAsMap();
 
             String termAcc = (String) sourceMap.get("term_acc");
