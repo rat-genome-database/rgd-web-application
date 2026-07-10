@@ -119,7 +119,7 @@
             </tr>
             <tr>
                 <% for (String t : include){%>
-                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>')" style="cursor: pointer; background: lightcyan;" onclick="highlightCurrent('<%=col%>','<%=t%>')" title="">
+                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>','<%=termCnt.get(t)%>')" style="cursor: pointer; background: lightcyan;" onclick="highlightCurrent('<%=col%>','<%=t%>')" title="">
                     <%=termCnt.get(t)%>
                 </td>
                 <% col++;} %>
@@ -127,7 +127,7 @@
         </table>
         <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;top: 5px;position: relative;" value="Hide Table">
         <div id="tooManyMsg" style="display: none;">
-            <label style="color: red; padding-top: 10px;">Too many to show, limit is 500. Download them if you would like to view them all.</label>
+            <label style="color: red; padding-top: 10px;">Too many to show, limit is 1000. Download them if you would like to view them all.</label>
         </div>
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
             <div style="margin-bottom: 10px; padding: 5px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px;">
@@ -310,14 +310,29 @@
             },
             // need to do 3 api calls to get proper record, and study
             // proceed like in expression controller
-            createTable(termAcc,rgdId){
+            createTable(termAcc,rgdId,count){
                 // clear table if full
                 // termAcc = termAcc.replace(':','%3A')
                 // Reset filters when loading new data
                 this.selectedLevels = [];
-                tableVue.isBusy = true;
                 var download = document.getElementById("downloadTerm"+termAcc);
                 download.style.display = 'block';
+                // Limit display to 500 records; if the count for this system exceeds 500,
+                // show the "too many" message and skip loading the table (user can still download)
+                var recordCount = parseInt(String(count).replace(/[^0-9]/g, ''), 10);
+                if (!isNaN(recordCount) && recordCount > 1000) {
+                    this.expItems = [];
+                    tableVue.isBusy = false;
+                    var coolTableDiv = document.getElementById("coolTable");
+                    if (coolTableDiv)
+                        coolTableDiv.style.display = 'none';
+                    var hideBtn = document.getElementById("hideBtn1");
+                    if (hideBtn)
+                        hideBtn.style.display = 'block';
+                    showErrorMessage();
+                    return;
+                }
+                tableVue.isBusy = true;
                 var someItems = [];
                 $.ajax({
                     type: "GET",
