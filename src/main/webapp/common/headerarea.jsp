@@ -21,6 +21,19 @@
     <meta name="description" content="<%=pageDescription%>" />
     <% } %>
 
+    <%
+        // Result pages echo a caller-supplied term back into the page, so any URL with one is a
+        // search result, not content of ours. Left crawlable on purpose: a robots.txt Disallow would
+        // stop Googlebot from ever reading this tag, freezing already-indexed junk in the index.
+        String searchTermForRobots = request.getParameter("term");
+        if (searchTermForRobots == null || searchTermForRobots.trim().equals("")) {
+            searchTermForRobots = request.getParameter("search");
+        }
+        if (searchTermForRobots != null && !searchTermForRobots.trim().equals("")) {
+    %>
+    <meta name="robots" content="noindex,follow" />
+    <% } %>
+
     <%=headContent%>
 
 
