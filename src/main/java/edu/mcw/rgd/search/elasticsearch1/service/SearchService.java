@@ -107,12 +107,15 @@ public class SearchService {
                         putIfNotNull(aggregations, species + "ExpressionGeneType", typeFilterAgg);
                     }
                     if (bucketKey.equalsIgnoreCase("expression Study")) {
-                        putIfNotNull(aggregations, species + "ExpressionLevel", expressionLevelFilterAgg);
-                        putIfNotNull(aggregations, species + "CellTypeTerms", cellTypeTermsFilterAgg);
-                        putIfNotNull(aggregations, species + "Conditions", conditionsFilterAgg);
-                        putIfNotNull(aggregations, species + "StrainTerms", strainTermsFilterAgg);
-                        putIfNotNull(aggregations, species + "TissueTerms", tissueTermsFilterAgg);
-                        putIfNotNull(aggregations, species + "ExpressionSource", expressionSourceFilterAgg);
+                        // Keyed under ES* so they don't collide with the "Expressed Gene" sub-aggs above:
+                        // both categories aggregate the same fields, and a shared key lets whichever
+                        // category bucket is written last silently overwrite the other.
+                        putIfNotNull(aggregations, species + "ESExpressionLevel", expressionLevelFilterAgg);
+                        putIfNotNull(aggregations, species + "ESCellTypeTerms", cellTypeTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "ESConditions", conditionsFilterAgg);
+                        putIfNotNull(aggregations, species + "ESStrainTerms", strainTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "ESTissueTerms", tissueTermsFilterAgg);
+                        putIfNotNull(aggregations, species + "ESExpressionSource", expressionSourceFilterAgg);
                         putIfNotNull(aggregations, species + bucketKey.replace(" ", ""), typeFilterAgg);
                     }
                     if (bucketKey.equalsIgnoreCase("qtl")) {

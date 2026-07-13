@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.WatchedObject" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedTerm" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -18,7 +19,7 @@
     <%
         if (!pageDescription.equals("")) {
     %>
-    <meta name="description" content="<%=pageDescription%>" />
+    <meta name="description" content="<%=StringEscapeUtils.escapeHtml4(pageDescription)%>" />
     <% } %>
 
     <%
@@ -38,7 +39,7 @@
 
 
 
-    <title><%=pageTitle%></title>
+    <title><%=StringEscapeUtils.escapeHtml4(pageTitle)%></title>
 
     <link rel="stylesheet" href="/rgdweb/css/jquery/jquery-ui-1.8.18.custom.css">
     <link rel="SHORTCUT ICON" href="/favicon.ico" />
