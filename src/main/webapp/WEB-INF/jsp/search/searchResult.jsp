@@ -6,6 +6,9 @@
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
 <%@ page import="edu.mcw.rgd.datamodel.RgdId" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
 <%--
   Created by IntelliJ IDEA.
   User: jdepons
@@ -18,10 +21,16 @@
 try {
       GeneralSearchResult result = (GeneralSearchResult) request.getAttribute("GeneralSearchResult");
       String term = request.getParameter("term");
-      term = term.replaceAll("\"", "&quot;");
+      if (term == null) {
+          term = "";
+      }
+      // termHtml is for HTML text sinks; termUrl for the search: tags, which paste it into an href.
+      String termHtml = StringEscapeUtils.escapeHtml4(term);
+      String termUrl = URLEncoder.encode(term, StandardCharsets.UTF_8);
 
       List<Pathway> pathways = (List<Pathway>) request.getAttribute("pathways");
 
+    // headerarea.jsp escapes pageTitle/pageDescription, so pass the raw term here.
     String pageTitle = term + " General Search Result - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = result.getTotal() + " genes, strains, sslps, qtls, promoters, cell lines, variants and ontology terms found for search term " + term;
@@ -63,21 +72,21 @@ td {
 
   <table  style="background-color:white;"><tr><td><h1><%=RgdContext.getSiteName(request)%> Search Result</h1></td></tr></table>
 
-  <span style="font-size: 16px;"><b><%=result.getTotal()%></b> records found for search term <b><%=term%></b></span>
+  <span style="font-size: 16px;"><b><%=result.getTotal()%></b> records found for search term <b><%=termHtml%></b></span>
   <br>
   <br>
   
   <table width=90% border=0 id="searchSummary">
 
       <tr><td valign="top">
-          <search:summary term="<%=term%>" title="Genes" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_GENES)%>" view="genes.html"/>
-          <search:summary term="<%=term%>" title="QTLs" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_QTLS)%>" view="qtls.html"/>
-          <search:summary term="<%=term%>" title="Strains" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_STRAINS)%>" view="strains.html"/>
-          <search:summary term="<%=term%>" title="SSLPs" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_SSLPS)%>" view="markers.html"/>
-          <search:summary term="<%=term%>" title="References" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_REFERENCES)%>" view="references.html" showDetails="false"/>
-          <search:summary term="<%=term%>" title="Promoters" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_PROMOTERS)%>" view="ge.html" showDetails="false"/>
-          <search:summary term="<%=term%>" title="Cell Lines" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_CELL_LINES)%>" view="ge.html" showDetails="false"/>
-          <search:summary term="<%=term%>" title="Variants" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_VARIANTS)%>" view="variants.html" showDetails="false"/>
+          <search:summary term="<%=termUrl%>" title="Genes" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_GENES)%>" view="genes.html"/>
+          <search:summary term="<%=termUrl%>" title="QTLs" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_QTLS)%>" view="qtls.html"/>
+          <search:summary term="<%=termUrl%>" title="Strains" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_STRAINS)%>" view="strains.html"/>
+          <search:summary term="<%=termUrl%>" title="SSLPs" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_SSLPS)%>" view="markers.html"/>
+          <search:summary term="<%=termUrl%>" title="References" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_REFERENCES)%>" view="references.html" showDetails="false"/>
+          <search:summary term="<%=termUrl%>" title="Promoters" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_PROMOTERS)%>" view="ge.html" showDetails="false"/>
+          <search:summary term="<%=termUrl%>" title="Cell Lines" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_CELL_LINES)%>" view="ge.html" showDetails="false"/>
+          <search:summary term="<%=termUrl%>" title="Variants" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_VARIANTS)%>" view="variants.html" showDetails="false"/>
         </td>
 <td>&nbsp;</td>
 <td valign="top" width="200" align="center">
@@ -107,13 +116,13 @@ td {
         <% }%>
     </tr>
 
-    <search:matrix term="<%=term%>" title="Genes" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_GENES)%>" view="genes.html"/>
-    <search:matrix term="<%=term%>" title="QTLs" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_QTLS)%>" view="qtls.html"/>
-    <search:matrix term="<%=term%>" title="Strains" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_STRAINS)%>" view="strains.html"/>
-    <search:matrix term="<%=term%>" title="SSLPs" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_SSLPS)%>" view="markers.html"/>
-    <search:matrix term="<%=term%>" title="Promoters" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_PROMOTERS)%>" view="ge.html"/>
-    <search:matrix term="<%=term%>" title="Cell Lines" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_CELL_LINES)%>" view="ge.html"/>
-    <search:matrix term="<%=term%>" title="Variants" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_VARIANTS)%>" view="variants.html"/>
+    <search:matrix term="<%=termUrl%>" title="Genes" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_GENES)%>" view="genes.html"/>
+    <search:matrix term="<%=termUrl%>" title="QTLs" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_QTLS)%>" view="qtls.html"/>
+    <search:matrix term="<%=termUrl%>" title="Strains" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_STRAINS)%>" view="strains.html"/>
+    <search:matrix term="<%=termUrl%>" title="SSLPs" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_SSLPS)%>" view="markers.html"/>
+    <search:matrix term="<%=termUrl%>" title="Promoters" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_PROMOTERS)%>" view="ge.html"/>
+    <search:matrix term="<%=termUrl%>" title="Cell Lines" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_CELL_LINES)%>" view="ge.html"/>
+    <search:matrix term="<%=termUrl%>" title="Variants" counts="<%=result.getHitCounts(RgdId.OBJECT_KEY_VARIANTS)%>" view="variants.html"/>
 
 </table>
  </div>
