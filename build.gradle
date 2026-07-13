@@ -87,6 +87,7 @@ dependencies {
     implementation 'commons-fileupload:commons-fileupload:1.5'
     implementation 'commons-io:commons-io:2.13.0'
     implementation 'org.apache.commons:commons-lang3:3.13.0'
+    implementation 'org.apache.commons:commons-text:1.10.0'
     implementation 'commons-logging:commons-logging:1.2'
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'commons-net:commons-net:3.9.0'
