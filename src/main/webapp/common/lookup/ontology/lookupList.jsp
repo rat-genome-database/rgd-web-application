@@ -5,6 +5,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="edu.mcw.rgd.dao.impl.OntologyXDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.ontologyx.Term" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 
 
 <table border="0" width="95%">
@@ -41,6 +42,6 @@
 </table>
 
 <% if (lookupList.size() == 0) { %>
-  <br>&nbsp;&nbsp;<b>O</b> records found for search term <b>"<%=request.getParameter("search")%>"</b>     
+  <br>&nbsp;&nbsp;<b>O</b> records found for search term <b>"<%=StringEscapeUtils.escapeHtml4(request.getParameter("search"))%>"</b>
 
 <% } %>

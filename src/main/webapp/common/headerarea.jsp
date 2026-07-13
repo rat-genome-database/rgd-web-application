@@ -3,6 +3,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.WatchedObject" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedTerm" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -18,14 +19,27 @@
     <%
         if (!pageDescription.equals("")) {
     %>
-    <meta name="description" content="<%=pageDescription%>" />
+    <meta name="description" content="<%=StringEscapeUtils.escapeHtml4(pageDescription)%>" />
+    <% } %>
+
+    <%
+        // Result pages echo a caller-supplied term back into the page, so any URL with one is a
+        // search result, not content of ours. Left crawlable on purpose: a robots.txt Disallow would
+        // stop Googlebot from ever reading this tag, freezing already-indexed junk in the index.
+        String searchTermForRobots = request.getParameter("term");
+        if (searchTermForRobots == null || searchTermForRobots.trim().equals("")) {
+            searchTermForRobots = request.getParameter("search");
+        }
+        if (searchTermForRobots != null && !searchTermForRobots.trim().equals("")) {
+    %>
+    <meta name="robots" content="noindex,follow" />
     <% } %>
 
     <%=headContent%>
 
 
 
-    <title><%=pageTitle%></title>
+    <title><%=StringEscapeUtils.escapeHtml4(pageTitle)%></title>
 
     <link rel="stylesheet" href="/rgdweb/css/jquery/jquery-ui-1.8.18.custom.css">
     <link rel="SHORTCUT ICON" href="/favicon.ico" />

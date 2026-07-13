@@ -14,6 +14,9 @@
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.datamodel.Chromosome" %>
 <%@ page import="java.util.List" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
 
 <% if (RgdContext.isChinchilla(request)) {%>
 <link href="/rgdweb/common/searchNGC.css" rel="stylesheet" type="text/css" />
@@ -41,7 +44,10 @@
     FormUtility fu = new FormUtility();
     SearchBean search = (SearchBean) request.getAttribute("searchBean");
 
-    String term = search.getTerm().replaceAll("\"", "&quot;");
+    String term = search.getTerm() == null ? "" : search.getTerm();
+    // termHtml is for HTML text/attribute sinks; termUrl for the search.html link below.
+    String termHtml = StringEscapeUtils.escapeHtml4(term);
+    String termUrl = URLEncoder.encode(term, StandardCharsets.UTF_8);
 
     String ratId = "";
     String mouseId = "";
@@ -87,12 +93,12 @@
 
     String displayText = "";
     if (total == 1000) {
-        displayText = "<b>More than 1000</b> records found for search term <b>" + term + "</b> (Displaying 1000)" +
+        displayText = "<b>More than 1000</b> records found for search term <b>" + termHtml + "</b> (Displaying 1000)" +
                 "<br><span style=\"color:blue;\">For a more accurate result, please refine your search term.</span><br><br>";
     }else {
         displayText = "<b>" + (report.records.size() - 1) + "</b> records found ";
         if( !Utils.isStringEmpty(term) )
-            displayText += "for search term <b>" + term + "</b>";
+            displayText += "for search term <b>" + termHtml + "</b>";
 
         if( !Utils.isStringEmpty(search.getTermAccId1()) ) {
             Term oterm1 = new OntologyXDAO().getTermByAccId(search.getTermAccId1());
@@ -107,7 +113,7 @@
 
 <table  width="96%" border="0"><tr>
     <td id="searchResultSummary">
-<b><%=title%></b> search result for <i><b><%=SpeciesType.getTaxonomicName(search.getSpeciesType())%></b></i> <a style="font-size:12px;" href="/rgdweb/search/search.html?term=<%=term%>"/><br>(View Results for all Objects and Ontologies)</a><br><br>
+<b><%=title%></b> search result for <i><b><%=SpeciesType.getTaxonomicName(search.getSpeciesType())%></b></i> <a style="font-size:12px;" href="/rgdweb/search/search.html?term=<%=termUrl%>"/><br>(View Results for all Objects and Ontologies)</a><br><br>
         <%=displayText%>
     </td>
     <td align="right">
@@ -121,7 +127,7 @@
                     <td class="atitle" align="right">
                         <input type=text name=keyword
                                size=35
-                               value="<%=term%>" class="">
+                               value="<%=termHtml%>" class="">
 
                     </td>
                     <td>
