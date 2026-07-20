@@ -277,6 +277,45 @@ DisplayMapper dm = new DisplayMapper(rq, error);
      areaCount++;
 
      enableAllOnChangeEvents();
+
+     return input;
+ }
+
+ // Create an RGD reference from a PubMed ID and drop the resulting REF_RGD_ID into a new
+ // association input. Reuses the existing importReferences endpoint (action=retrieve), which
+ // creates the reference if it is not already in RGD and returns "PMID:x REF_RGD_ID:y".
+ // The curator still clicks Update to persist the new association.
+ function importRefFromPubmed(pmidInputId, idVal, speciesTypeKey, objectKey) {
+
+     var pmidInput = document.getElementById(pmidInputId);
+     var pmid = pmidInput.value.replace(/[^0-9]/g, "");
+     if (pmid == "") {
+         alert("Please enter a PubMed ID (digits only).");
+         return;
+     }
+
+     var req = new XMLHttpRequest();
+     req.onreadystatechange = function() {
+         if (req.readyState != 4) {
+             return;
+         }
+         if (req.status != 200) {
+             alert("Could not reach the PubMed import service (status " + req.status + ").");
+             return;
+         }
+         var match = req.responseText.match(/REF_RGD_ID:(\d+)/);
+         if (!match || match[1] == "0") {
+             alert("No RGD reference could be created for PMID " + pmid + ". Please verify the PubMed ID.");
+             return;
+         }
+
+         var input = addTextArea(idVal, speciesTypeKey, objectKey);
+         input.value = match[1];
+         setElementChanged(input);
+         pmidInput.value = "";
+     };
+     req.open("GET", "/rgdweb/pubmed/importReferences.html?action=retrieve&pmid_list=" + pmid, true);
+     req.send(null);
  }
 
  function removeAssociation(associationId) {
