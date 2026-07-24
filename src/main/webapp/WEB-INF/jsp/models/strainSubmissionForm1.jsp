@@ -346,6 +346,11 @@
             alert(msg2);
             return false;
         }
+        // Always cancel native form submission; the #formSubmit click handler
+        // in submission.js posts via AJAX. Falling through with an implicit
+        // undefined return let the browser POST the form a second time,
+        // reusing the g-recaptcha-response token and triggering a 500.
+        return false;
     }
 
     function isblank(s){
