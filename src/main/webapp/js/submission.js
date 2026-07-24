@@ -36,7 +36,13 @@ $(function () {
             }
         })
     });
-    $('#formSubmit').click(function () {
+    $('#formSubmit').click(function (e) {
+        // Prevent the native form submit that would otherwise fire after this
+        // click handler. Without this the browser POSTs the form a second time
+        // with the same g-recaptcha-response token; Google returns
+        // {"success":false,"error-codes":["timeout-or-duplicate"]} on the
+        // duplicate call, and the user sees a 500 error page.
+        if (e && e.preventDefault) e.preventDefault();
         $("#action").val("submit");
         //   alert("submit")
         var _this=$("#myForm");
