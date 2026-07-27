@@ -1,6 +1,16 @@
 <%@ page import="java.util.Iterator" %>
 
 <% {  %>
+<% if (associationType.equals("Reference")) { %>
+<tr>
+    <td class="label">Import&nbsp;from&nbsp;PubMed</td>
+    <td align="left">
+        PMID:&nbsp;<input type="text" id="<%=objectType%><%=associationType%>PmidImport" size="12"/>
+        <input type="button" value="Create Reference from PubMed"
+               onclick="importRefFromPubmed('<%=objectType%><%=associationType%>PmidImport','<%=objectType%><%=associationType%>Association',<%=speciesTypeKey%>,'<%=objectKey%>');void(0);"/>
+    </td>
+</tr>
+<% } %>
 <tr>
     <td class="label"><a href="javascript:addTextArea('<%=objectType%><%=associationType%>Association',<%=speciesTypeKey%>,'<%=objectKey%>');void(0);" class="addButton">Add&nbsp;<%=associationType%></a>&nbsp;</td>
     <td id="<%=objectType%><%=associationType%>AssociationTD" align="left"> 
