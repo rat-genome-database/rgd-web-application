@@ -320,7 +320,7 @@
                 // Limit display to 500 records; if the count for this system exceeds 500,
                 // show the "too many" message and skip loading the table (user can still download)
                 var recordCount = parseInt(String(count).replace(/[^0-9]/g, ''), 10);
-                if (!isNaN(recordCount) && recordCount > 1000) {
+                if (!isNaN(recordCount) && recordCount > 5000) {
                     this.expItems = [];
                     tableVue.isBusy = false;
                     var coolTableDiv = document.getElementById("coolTable");
