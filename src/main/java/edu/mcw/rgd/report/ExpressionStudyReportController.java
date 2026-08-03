@@ -50,6 +50,14 @@ public class ExpressionStudyReportController implements Controller {
                         obj = studies.get(0);
                     }
                 }
+                if (obj!=null){
+                    try {
+                        obj.setRefRgdIds(pdao.getStudyReferences(obj.getId()));
+                    }
+                    catch (Exception e){
+                        obj.setRefRgdIds(null);
+                    }
+                }
             }
             if (obj == null){
                 error.add("No study was found with the given ID!");
