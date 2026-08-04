@@ -181,7 +181,7 @@
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
-                <prop key="report/variants/main.html">CNVariantReportController</prop>
+                <prop key="report/variants/main.html">ClinVarReportController</prop>
                 <prop key="report/variants/downloadGwas.html">GwasDownloadController</prop>
                 <prop key="report/gene/downloadExpression.html">ExpressionDownloadController</prop>
                 <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
