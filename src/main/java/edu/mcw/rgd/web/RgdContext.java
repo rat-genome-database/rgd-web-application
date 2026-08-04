@@ -199,6 +199,25 @@ public class RgdContext {
 
       //  return "http://127.0.0.1:8080";
     }
+    public static String getAPIHostname(){
+        try {
+            if( isProduction() ) {
+                return "https://rest.rgd.mcw.edu";
+            }
+            if( isPipelines() ) {
+                return "https://pipelines.rgd.mcw.edu";
+            }
+            if( isDev() ) {
+                return "https://dev.rgd.mcw.edu";
+            }
+
+        } catch( UnknownHostException e ) {
+            return "https://rest.rgd.mcw.edu";
+        }
+        return "https://dev.rgd.mcw.edu";
+
+        //  return "http://127.0.0.1:8080";
+    }
     public static Properties getGitHubProperties(){
         Properties props= new Properties();
         FileInputStream fis=null;

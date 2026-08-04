@@ -248,6 +248,7 @@
                 <prop key="expressMiner/geneList.html">ExpressMineGeneList</prop>
                 <prop key="expressMiner/studyList.html">ExpressMineStudyList</prop>
                 <prop key="expressMiner/strainTissue.html">ExpressMineStrainTissue</prop>
+                <prop key="expressMiner/result.html">ExpressMineResult</prop>
 
                 <prop key="generator/list.html">ProcessListController</prop>
                 <prop key="generator/wizard.html">ListWizardController</prop>
@@ -539,6 +540,7 @@
     <bean id="ExpressMineGeneList" class="edu.mcw.rgd.expressMiner.GeneListEMController"/>
     <bean id="ExpressMineStudyList" class="edu.mcw.rgd.expressMiner.StudyListEMController"/>
     <bean id="ExpressMineStrainTissue" class="edu.mcw.rgd.expressMiner.StrainTissueEMController"/>
+    <bean id="ExpressMineResult" class="edu.mcw.rgd.expressMiner.ExpressMinerResultController"/>
 
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
     <!--<bean id="GviewerDownloadController" class="edu.mcw.rgd.gviewer.DownloadController" />-->

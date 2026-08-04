@@ -241,10 +241,10 @@
 
 
             <!-- Limit by Genes -->
-            <div class="option-card" onclick="submitForm('geneList.html')">
+            <div class="option-card" onclick="location.href='geneList.html?mapKey=<%=mapKey%>'">
                 <div class="option-icon">&#128271;</div>
                 <div class="option-title">Limit by Genes</div>
-                <div class="option-description">Start with a gene list, then pick studies that have expression data for those genes</div>
+                <div class="option-description">Start with a gene list, then choose strains and tissues to see their expression</div>
             </div>
 
             <!-- Limit by Strain / Tissue -->
@@ -257,14 +257,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    function submitForm(action) {
-        var form = document.getElementById('optionForm');
-        form.action = action;
-        form.submit();
-    }
-</script>
 
 <% } catch (Exception e) {
     // Handle error silently

@@ -131,6 +131,39 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
   }
 
+  .continueButtonSecondary {
+    font-size: 14px;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #4a8ac9 0%, #3a7aba 100%);
+    color: white;
+    border: 1px solid #2f6699;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+  }
+
+  .continueButtonSecondary:hover {
+    background: linear-gradient(to bottom, #5a9ada 0%, #4a8ac9 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  }
+
+  .gene-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .gene-error {
+    display: none;
+    color: #b34747;
+    font-size: 12px;
+    text-align: right;
+    margin-top: 8px;
+  }
+
   /* Strains Selected Card */
   .strains-card {
     background: #dce8f4;
@@ -193,13 +226,34 @@
   List<String> selectedStudyIds = (List<String>) request.getAttribute("selectedStudyIds");
   Boolean studiesFirstObj = (Boolean) request.getAttribute("studiesFirst");
   boolean studiesFirst = studiesFirstObj != null && studiesFirstObj;
+
+  List<String> selectedStrainIds = (List<String>) request.getAttribute("selectedStrainIds");
+  if (selectedStrainIds == null) selectedStrainIds = new ArrayList<String>();
+  List<String> selectedTissueIds = (List<String>) request.getAttribute("selectedTissueIds");
+  if (selectedTissueIds == null) selectedTissueIds = new ArrayList<String>();
+
   String nextAction = (String) request.getAttribute("nextAction");
   if (nextAction == null) nextAction = "/rgdweb/expressMiner/config.html";
+
+  Boolean genesEntryObj = (Boolean) request.getAttribute("genesEntry");
+  boolean genesEntry = genesEntryObj != null && genesEntryObj;
 %>
 
 <script>
-  function checkGeneList() {
-    document.optionForm.submit();
+  // Submit the gene list to the chosen next step. When requireGenes is true (going straight
+  // to the genes-only results), at least one gene symbol must be entered first.
+  function proceedGeneList(action, requireGenes) {
+    if (requireGenes) {
+      var v = document.getElementById('geneList').value.trim();
+      if (!v) {
+        document.getElementById('geneListError').style.display = 'block';
+        document.getElementById('geneList').focus();
+        return;
+      }
+    }
+    var form = document.optionForm;
+    form.action = action;
+    form.submit();
   }
 </script>
 
@@ -215,10 +269,14 @@
 
     <!-- Instructions -->
     <div class="genelist-instructions">
-      Enter one or more <strong>gene symbols</strong> to search for variants.
+      Enter one or more <strong>gene symbols</strong> to search for expression data.
       If entering multiple genes, separate them with <strong>commas</strong> or place each symbol on its own line.
       <% if (studiesFirst) { %>
       <br/><strong><%=selectedStudyIds.size()%></strong> <%=selectedStudyIds.size() == 1 ? "study" : "studies"%> selected on the previous step will be carried forward.
+      <% } %>
+      <% int stCount = selectedStrainIds.size() + selectedTissueIds.size();
+         if (stCount > 0) { %>
+      <br/><strong><%=stCount%></strong> strain/tissue selection<%=stCount == 1 ? "" : "s"%> from the previous step will be carried forward.
       <% } %>
     </div>
 
@@ -230,6 +288,12 @@
       <input type="hidden" name="studyId" value="<%=sid%>"/>
       <% }
          } %>
+      <% for (String strainId : selectedStrainIds) { %>
+      <input type="hidden" name="strainId" value="<%=strainId%>"/>
+      <% } %>
+      <% for (String tissueId : selectedTissueIds) { %>
+      <input type="hidden" name="tissueId" value="<%=tissueId%>"/>
+      <% } %>
       <div class="genelist-card">
         <div class="card-title">Gene Symbol List</div>
         <textarea
@@ -241,9 +305,22 @@
         <div class="input-hint">
           Tip: You can paste a list of genes directly from a spreadsheet or text file
         </div>
-        <div class="form-actions">
-          <input class="continueButtonPrimary" type="button" onClick="checkGeneList();" value="Continue..."/>
+        <% if (genesEntry) { %>
+        <div class="gene-actions">
+          <input class="continueButtonSecondary" type="button"
+                 onClick="proceedGeneList('/rgdweb/expressMiner/strainTissue.html', false);"
+                 value="Add Strains / Tissues..."/>
+          <input class="continueButtonPrimary" type="button"
+                 onClick="proceedGeneList('<%=nextAction%>', true);"
+                 value="View Results"/>
         </div>
+        <div id="geneListError" class="gene-error">Enter at least one gene symbol to view results.</div>
+        <% } else { %>
+        <div class="form-actions">
+          <input class="continueButtonPrimary" type="button"
+                 onClick="proceedGeneList('<%=nextAction%>', false);" value="Continue..."/>
+        </div>
+        <% } %>
       </div>
 
     </form>

@@ -94,6 +94,54 @@
     transform: translateY(-1px);
   }
 
+  .st-add {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  .st-add-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #bccada;
+    border-radius: 4px;
+    background: #f8fafc;
+    color: #333;
+    font-size: 13px;
+  }
+
+  .st-add-input:focus {
+    outline: none;
+    border-color: #3a7aba;
+    box-shadow: 0 0 0 3px rgba(58, 122, 186, 0.15);
+    background: #fff;
+  }
+
+  .st-add-btn {
+    font-size: 13px;
+    font-weight: bold;
+    background: #eef4fb;
+    color: #2f6699;
+    border: 1px solid #bccada;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .st-add-btn:hover {
+    background: #dce8f4;
+    border-color: #3a7aba;
+  }
+
+  .st-add-error {
+    color: #b34747;
+    font-size: 12px;
+    margin-top: 6px;
+    min-height: 14px;
+  }
+
   .st-list {
     list-style: none;
     margin: 14px 0 0 0;
@@ -170,6 +218,46 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
   }
 
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .st-secondary-btn {
+    font-size: 14px;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #4a8ac9 0%, #3a7aba 100%);
+    color: white;
+    border: 1px solid #2f6699;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+  }
+
+  .st-secondary-btn:hover {
+    background: linear-gradient(to bottom, #5a9ada 0%, #4a8ac9 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  }
+
+  .continueButtonPrimary[disabled], .st-secondary-btn[disabled] {
+    background: #aab8c5;
+    border-color: #93a2b0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .st-selection-hint {
+    text-align: right;
+    color: #8a6d1a;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
   .backLink {
     color: #0052a1;
     text-decoration: none;
@@ -216,9 +304,9 @@
     </div>
 
     <div class="st-instructions">
-      Use the <strong>ontology browser</strong> to add one or more <strong>strains</strong> (RS) and/or
-      <strong>tissues</strong> (UBERON). You may choose either, both, or neither &mdash; selections are optional.
-      Click <em>Browse Ontology Tree</em>, find a term, and it will be added to the list below.
+      Add one or more <strong>strains</strong> (RS) and/or <strong>tissues</strong> (UBERON). You may choose either,
+      both, or neither &mdash; selections are optional. Either click <em>Browse Ontology Tree</em> to find a term, or
+      type an accession id directly (e.g. <em>RS:0000681</em> or <em>UBERON:0002107</em>) and click <em>Add</em>.
     </div>
 
     <form action="<%=nextAction%>" name="optionForm" id="optionForm" method="post">
@@ -240,6 +328,13 @@
           <button type="button" class="st-browse-btn"
                   onclick="ontPopup('strainStaging','rs','strainStaging_term'); return false;">Browse Ontology Tree</button>
         </div>
+        <div class="st-add">
+          <input type="text" id="strainManualInput" class="st-add-input"
+                 placeholder="Enter a strain accession, e.g. RS:0000681"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('strainStaging');}"/>
+          <button type="button" class="st-add-btn" onclick="addManual('strainStaging')">Add</button>
+        </div>
+        <div id="strainAddError" class="st-add-error"></div>
         <ul id="strainList" class="st-list"></ul>
         <div id="strainEmpty" class="st-list-empty">No strains selected yet.</div>
       </div>
@@ -251,14 +346,27 @@
           <button type="button" class="st-browse-btn"
                   onclick="ontPopup('tissueStaging','uberon','tissueStaging_term'); return false;">Browse Ontology Tree</button>
         </div>
+        <div class="st-add">
+          <input type="text" id="tissueManualInput" class="st-add-input"
+                 placeholder="Enter a tissue accession, e.g. UBERON:0002107"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('tissueStaging');}"/>
+          <button type="button" class="st-add-btn" onclick="addManual('tissueStaging')">Add</button>
+        </div>
+        <div id="tissueAddError" class="st-add-error"></div>
         <ul id="tissueList" class="st-list"></ul>
         <div id="tissueEmpty" class="st-list-empty">No tissues selected yet.</div>
       </div>
 
       <div class="form-actions">
         <a class="backLink" href="javascript:history.back()">&#8592; Back</a>
-        <input class="continueButtonPrimary" type="submit" value="Continue..."/>
+        <div class="action-buttons">
+          <button type="button" id="addGeneBtn" class="st-secondary-btn"
+                  onclick="proceed('/rgdweb/expressMiner/geneList.html')" disabled>Add Gene List&hellip;</button>
+          <button type="button" id="continueBtn" class="continueButtonPrimary"
+                  onclick="proceed('<%=nextAction%>')" disabled>Continue&hellip;</button>
+        </div>
       </div>
+      <div id="selectionHint" class="st-selection-hint">Select at least one strain or tissue to continue.</div>
     </form>
   </div>
 </div>
@@ -268,9 +376,11 @@
   // ontology popup was pointed at.
   var ST_LISTS = {
     strainStaging: { type: 'strain', inputName: 'strainId', listId: 'strainList',
-                     countId: 'strainCount', emptyId: 'strainEmpty', prefix: 'RS:' },
+                     countId: 'strainCount', emptyId: 'strainEmpty', prefix: 'RS:',
+                     manualInputId: 'strainManualInput', errorId: 'strainAddError' },
     tissueStaging: { type: 'tissue', inputName: 'tissueId', listId: 'tissueList',
-                     countId: 'tissueCount', emptyId: 'tissueEmpty', prefix: 'UBERON:' }
+                     countId: 'tissueCount', emptyId: 'tissueEmpty', prefix: 'UBERON:',
+                     manualInputId: 'tissueManualInput', errorId: 'tissueAddError' }
   };
 
   // Track selected accession ids per type to avoid duplicates.
@@ -290,6 +400,58 @@
     var count = Object.keys(selectedAcc[cfg.type]).length;
     document.getElementById(cfg.countId).innerText = count;
     document.getElementById(cfg.emptyId).style.display = count === 0 ? 'block' : 'none';
+    updateProceedState();
+  }
+
+  // Normalize a typed accession to PREFIX + digits (e.g. "681" or "rs:681" -> "RS:681"),
+  // returning null if it can't be coerced into the expected prefix.
+  function normalizeAcc(raw, prefix) {
+    var v = (raw || '').toUpperCase().replace(/\s+/g, '');
+    if (/^[0-9]+$/.test(v)) v = prefix + v;   // bare number -> prepend the expected prefix
+    if (v.indexOf(prefix) !== 0) return null;
+    var rest = v.substring(prefix.length);
+    if (!/^[0-9]+$/.test(rest)) return null;
+    return v;
+  }
+
+  // Add a term by typed accession, no ontology tree needed. The name is shown as the
+  // accession here; the results page resolves the real term name server-side.
+  function addManual(stagingId) {
+    var cfg = ST_LISTS[stagingId];
+    var input = document.getElementById(cfg.manualInputId);
+    var err = document.getElementById(cfg.errorId);
+    err.innerText = '';
+
+    var raw = (input.value || '').trim();
+    if (!raw) return;
+
+    var accId = normalizeAcc(raw, cfg.prefix);
+    if (!accId) {
+      err.innerText = 'Enter a valid ' + cfg.prefix + ' accession (e.g. ' + cfg.prefix + '0000123).';
+      return;
+    }
+    if (selectedAcc[cfg.type][accId]) {
+      err.innerText = accId + ' is already in the list.';
+      return;
+    }
+    addTerm(accId, accId, cfg);
+    input.value = '';
+  }
+
+  // Require at least one strain or tissue before either action is allowed.
+  function updateProceedState() {
+    var total = Object.keys(selectedAcc.strain).length + Object.keys(selectedAcc.tissue).length;
+    var has = total > 0;
+    document.getElementById('continueBtn').disabled = !has;
+    document.getElementById('addGeneBtn').disabled = !has;
+    document.getElementById('selectionHint').style.display = has ? 'none' : 'block';
+  }
+
+  // Submit the shared form to the chosen next step (results, or the gene-list step).
+  function proceed(action) {
+    var form = document.getElementById('optionForm');
+    form.action = action;
+    form.submit();
   }
 
   function addTerm(accId, term, cfg) {
@@ -360,6 +522,7 @@
     <% for (String accId : selectedTissueIds) { %>
     addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.tissueStaging);
     <% } %>
+    updateProceedState();
   })();
 </script>
 

@@ -37,7 +37,7 @@ public class StrainTissueEMController implements Controller {
             request.setAttribute("geneList", geneListParam);
             request.setAttribute("selectedStrainIds", selectedStrainIds);
             request.setAttribute("selectedTissueIds", selectedTissueIds);
-            request.setAttribute("nextAction", "/rgdweb/expressMiner/config.html");
+            request.setAttribute("nextAction", "/rgdweb/expressMiner/result.html");
 
             return new ModelAndView("/WEB-INF/jsp/expressMiner/strainTissue.jsp");
         } catch (Exception e) {

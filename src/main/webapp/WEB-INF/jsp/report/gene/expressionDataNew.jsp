@@ -7,6 +7,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.Gene" %>
 <%@ page import="edu.mcw.rgd.datamodel.RgdId" %>
 <%@ page import="edu.mcw.rgd.dao.impl.RGDManagementDAO" %>
+<%@ page import="static edu.mcw.rgd.web.RgdContext.getAPIHostname" %>
 
 <script src="https://unpkg.com/bootstrap-vue@2.5.0/dist/bootstrap-vue.min.js"></script>
 
@@ -189,6 +190,7 @@
 <%@ include file="../sectionFooter.jsp"%>
 
 <script>
+    var apiUrl = <%=getAPIHostname()%>;
         var tableVue = new Vue({
         el: '#expresTable',
         data() {
@@ -336,7 +338,7 @@
                 var someItems = [];
                 $.ajax({
                     type: "GET",
-                    url: "https://rest.rgd.mcw.edu/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
+                    url: apiUrl+"/rgdws/expression/"+termAcc+"/"+rgdId+"/TPM",
                     dataType: "json",
                     success: function (result, status, xhr){
                             result.forEach((recVal) => {
@@ -383,7 +385,7 @@
                                 var geoStudyAcc = recVal["geoSeriesAcc"];
                                 $.ajax({
                                     type: "GET",
-                                    url: "https://rest.rgd.mcw.edu/rgdws/expression/study/references/" + studyId,
+                                    url: apiUrl+"/rgdws/expression/study/references/" + studyId,
                                     dataType: "json",
                                     success: function (refRes, status, xhr) {
                                         refRes.forEach((ref) => {
@@ -391,7 +393,7 @@
                                         })
                                         $.ajax({
                                             type: "GET",
-                                            url: "https://rest.rgd.mcw.edu/rgdws/maps/assembly/" + mapKey,
+                                            url: apiUrl+"/rgdws/maps/assembly/" + mapKey,
                                             dataType: "json",
                                             success: function (resMap) {
                                                 // var json = $.parseJSON(resMap);
@@ -403,7 +405,7 @@
                                                     $.ajax({
                                                         type: "GET",
                                                         context: this,
-                                                        url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + strainTerm,
+                                                        url: apiUrl+"/rgdws/ontology/term/" + strainTerm,
                                                         dataType: "json",
                                                         success: function (r, s, x) {
                                                             var link = '';
@@ -438,7 +440,7 @@
                                                                 $.ajax({
                                                                     type: "GET",
                                                                     context: this,
-                                                                    url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
+                                                                    url: apiUrl+"/rgdws/ontology/term/" + tissue,
                                                                     dataType: "json",
                                                                     success: function (r2, s, x) {
                                                                         // console.log('tissue');
@@ -497,7 +499,7 @@
                                                         $.ajax({
                                                             type: "GET",
                                                             context: this,
-                                                            url: "https://rest.rgd.mcw.edu/rgdws/ontology/term/" + tissue,
+                                                            url: apiUrl+"/rgdws/ontology/term/" + tissue,
                                                             dataType: "json",
                                                             success: function (r, s, x) {
                                                                 // console.log("tissue: "+r)
