@@ -147,7 +147,7 @@
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
-                <prop key="report/variants/main.html">CNVariantReportController</prop>
+                <prop key="report/variants/main.html">ClinVarReportController</prop>
                 <prop key="report/variants/downloadGwas.html">GwasDownloadController</prop>
                 <prop key="report/gene/downloadExpression.html">ExpressionDownloadController</prop>
                 <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
@@ -341,7 +341,6 @@
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
     <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
        <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
-    <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
     <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
     <bean id="GwasDownloadController" class="edu.mcw.rgd.report.GwasDownloadController"/>
     <bean id="ExpressionDownloadController" class="edu.mcw.rgd.report.ExpressionDownloadController"/>
