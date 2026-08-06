@@ -6,6 +6,7 @@ import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.report.AnnotationFormatter;
+import edu.mcw.rgd.report.MapDataFormatter;
 import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.web.FormUtility;
 
@@ -349,42 +350,33 @@ public class OntAnnotation  {
             fullEnsPos = fullEnsPos.replaceAll("\\s", "&nbsp;");
 
             if(JBrowseLink == null){
-                StringBuilder buf = new StringBuilder(128);
-                buf.append("/jbrowse/?highlight=&data=");
-                if( speciesTypeKey== SpeciesType.RAT ){
-                    buf.append("data_rgd6");
-                }else if( speciesTypeKey==SpeciesType.MOUSE ){
-                    buf.append("data_mm38"); // was mm37
-                }else if( speciesTypeKey==SpeciesType.HUMAN ){
-                    buf.append("data_hg38"); // was hg19
-                }else if (speciesTypeKey==SpeciesType.CHINCHILLA) {
-                    buf.append("data_cl1_0");
-                }else if (speciesTypeKey==SpeciesType.DOG) {
-                    buf.append("data_dog3_1");
-                }else if (speciesTypeKey==SpeciesType.BONOBO) {
-                    buf.append("data_bonobo2");
-                }else if (speciesTypeKey==SpeciesType.SQUIRREL) {
-                    buf.append("data_squirrel2_0");
-                }else if (speciesTypeKey==SpeciesType.PIG) {
-                    buf.append("data_pig11_1");
-                }else if (speciesTypeKey==SpeciesType.NAKED_MOLE_RAT) {
-                    buf.append("HetGla 1.0");
-                }else if (speciesTypeKey==SpeciesType.VERVET) {
-                    buf.append("ChlSab1.1");
+                MapData ensMd = ensemblData.get(0);
+
+                // Prefer JBrowse 2; fall back to JBrowse 1 keyed off the actual map_key
+                // so the JBrowse instance matches the assembly the position came from -- RGDD-3062.
+                String jb2Url = MapDataFormatter.generateJbrowse2URL(rgdObjectKey, ensMd);
+                if( jb2Url != null ) {
+                    JBrowseLink = jb2Url;
+                } else {
+                    String dataset = MapDataFormatter.getJBrowse1DatasetForMapKey(ensMd.getMapKey());
+                    if( dataset != null ) {
+                        StringBuilder buf = new StringBuilder(128);
+                        buf.append("/jbrowse/?highlight=&data=").append(dataset);
+
+                        if( isGene() ) {
+                            buf.append("&tracks=ARGD_curated_genes%2CEnsembl_genes");
+                        } else if( isQtl() ) {
+                            buf.append("&tracks=AQTLS");
+                        } else if( isStrain() ) {
+                            buf.append("&tracks=CongenicStrains,MutantStrains");
+                        }
+
+                        buf.append("&loc=");
+                        buf.append(FormUtility.getJBrowseLoc(ensMd));
+
+                        JBrowseLink = buf.toString();
+                    }
                 }
-
-                if( isGene() ) {
-                    buf.append("&tracks=ARGD_curated_genes%2CEnsembl_genes");
-                } else if( isQtl() ) {
-                    buf.append("&tracks=AQTLS");
-                } else if( isStrain() ) {
-                    buf.append("&tracks=CongenicStrains,MutantStrains");
-                }
-
-                buf.append("&loc=");
-                buf.append(FormUtility.getJBrowseLoc(ensemblData.get(0)));
-
-                JBrowseLink = buf.toString();
             }
 
         }

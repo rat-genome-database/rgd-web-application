@@ -13,6 +13,7 @@ import edu.mcw.rgd.datamodel.pheno.Condition;
 import edu.mcw.rgd.datamodel.pheno.Record;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
+import edu.mcw.rgd.report.MapDataFormatter;
 import edu.mcw.rgd.web.FormUtility;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -566,29 +567,25 @@ public class OntAnnotController implements Controller {
         if( md.getStartPos()==null || md.getStopPos()==null )
             return;
 
-        StringBuilder buf = new StringBuilder(128);
-        buf.append("/jbrowse/?highlight=&data=");
-        if( speciesTypeKey==SpeciesType.RAT ){
-            buf.append("data_rgd6");
-        }else if( speciesTypeKey==SpeciesType.MOUSE ){
-            buf.append("data_mm38"); // was mm37
-        }else if( speciesTypeKey==SpeciesType.HUMAN ){
-            buf.append("data_hg38"); // was hg19
-        }else if (speciesTypeKey==SpeciesType.CHINCHILLA) {
-            buf.append("data_cl1_0");
-        }else if (speciesTypeKey==SpeciesType.DOG) {
-            buf.append("data_dog3_1");
-        }else if (speciesTypeKey==SpeciesType.BONOBO) {
-            buf.append("data_bonobo2");
-        }else if (speciesTypeKey==SpeciesType.SQUIRREL) {
-            buf.append("data_squirrel2_0");
-        }else if (speciesTypeKey==SpeciesType.PIG) {
-            buf.append("data_pig11_1");
-        }else if (speciesTypeKey==SpeciesType.NAKED_MOLE_RAT) {
-            buf.append("HetGla 1.0");
-        }else if (speciesTypeKey==SpeciesType.VERVET) {
-            buf.append("ChlSab1.1");
+        // Prefer JBrowse 2 (assembly is looked up from md.getMapKey()); fall back to JBrowse 1
+        // built off the same map_key. Both paths guarantee the JBrowse instance matches the
+        // assembly the position was fetched from -- RGDD-3062.
+        try {
+            String jb2Url = MapDataFormatter.generateJbrowse2URL(a.getRgdObjectKey(), md);
+            if( jb2Url != null ) {
+                a.setJBrowseLink(jb2Url);
+                return;
+            }
+        } catch( Exception ignored ) {
+            // fall through to JBrowse 1
         }
+
+        String dataset = MapDataFormatter.getJBrowse1DatasetForMapKey(md.getMapKey());
+        if( dataset == null )
+            return; // no JBrowse instance for this assembly -- skip the link rather than build a broken one
+
+        StringBuilder buf = new StringBuilder(128);
+        buf.append("/jbrowse/?highlight=&data=").append(dataset);
 
         if( a.isGene() ) {
             buf.append("&tracks=ARGD_curated_genes%2CEnsembl_genes");
