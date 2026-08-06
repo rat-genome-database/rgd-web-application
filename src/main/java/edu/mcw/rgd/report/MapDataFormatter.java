@@ -556,6 +556,47 @@ public class  MapDataFormatter {
         }
     }
 
+    // JBrowse 1 dataset name for a given assembly (map_key).
+    // Returns null if the assembly isn't wired up in JBrowse 1.
+    public static String getJBrowse1DatasetForMapKey(int mapKey) {
+        switch (mapKey) {
+            // Rat
+            case 380: case 381: return "data_rn8";       // GRCr8
+            case 372: case 373: return "data_rn7_2";     // mRatBN7.2
+            case 360: case 361: return "data_rgd6";      // Rnor_6.0
+            case 70:            return "data_rgd5";      // Rnor_5.0
+            case 60:            return "data_rgd3_4";    // RGSC_v3.4
+            case 301:           return "data_uth_shr";
+            case 302:           return "data_uth_shrsp";
+            case 303:           return "data_uth_wky";
+            // Mouse
+            case 239: case 240: return "data_mm39";      // GRCm39
+            case 35:  case 39:  return "data_mm38";      // GRCm38
+            case 18:            return "data_mm37";      // MGSCv37
+            // Human
+            case 38:  case 40:  return "data_hg38";      // GRCh38
+            case 17:            return "data_hg19";      // GRCh37
+            case 13:            return "data_hg18";      // NCBI36
+            // Chinchilla
+            case 44:  case 45:  return "data_cl1_0";
+            // Dog
+            case 631: case 632: return "data_dog3_1";
+            // Bonobo
+            case 511: case 512: return "data_bonobo1_1";
+            case 513:           return "data_bonobo2";
+            // Squirrel
+            case 720: case 721: return "data_squirrel2_0";
+            // Pig
+            case 910:           return "data_pig10_2";
+            case 911: case 912: return "data_pig11_1";
+            // Naked mole rat
+            case 1410: case 1411: return "data_hetGla2";
+            // Vervet / Green monkey
+            case 1311: case 1312: return "data_chlSab2";
+            default: return null;
+        }
+    }
+
     public static String generateJbrowse2URL(int objectKey, MapData md) throws Exception {
         if(md==null){
             return null;
