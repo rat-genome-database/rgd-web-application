@@ -1248,14 +1248,17 @@
             const gridViewport = document.querySelector('.ag-center-cols-viewport');
             const gridHScroll = document.querySelector('.ag-body-horizontal-scroll-viewport');
 
-            // Constrain track content width so the top scrollbar cannot scroll
-            // further than the bottom grid scrollbar
+            // Force the top (track) scrollbar's range to exactly match the bottom
+            // (grid) scrollbar's range, in both directions. The grid's horizontal
+            // viewport is narrower than the top wrapper by the width of its own
+            // vertical scrollbar, so without this the top scrollbar runs short and
+            // the last column is only half-visible.
             if (trackContent && gridHScroll) {
                 var gridMaxScroll = gridHScroll.scrollWidth - gridHScroll.clientWidth;
                 var trackMaxScroll = trackWrapper.scrollWidth - trackWrapper.clientWidth;
-                if (gridMaxScroll > 0 && trackMaxScroll > gridMaxScroll) {
+                if (gridMaxScroll > 0 && trackMaxScroll !== gridMaxScroll) {
                     var newWidth = trackWrapper.clientWidth + gridMaxScroll;
-                    trackContent.style.maxWidth = newWidth + 'px';
+                    trackContent.style.width = newWidth + 'px';
                     trackContent.style.overflow = 'hidden';
                 }
             }
