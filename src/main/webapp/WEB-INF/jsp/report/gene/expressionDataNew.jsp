@@ -190,7 +190,7 @@
 <%@ include file="../sectionFooter.jsp"%>
 
 <script>
-    var apiUrl = <%=getAPIHostname()%>;
+    var apiUrl = "<%=getAPIHostname()%>";
         var tableVue = new Vue({
         el: '#expresTable',
         data() {
