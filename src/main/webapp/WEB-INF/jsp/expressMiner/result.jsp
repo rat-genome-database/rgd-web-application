@@ -483,6 +483,7 @@
             <thead>
               <tr>
                 <th>Gene</th>
+                <th>Vertebrate Trait</th>
                 <th>Tissue</th>
                 <th>Strain</th>
                 <th>Value</th>
@@ -624,7 +625,7 @@
     for (var i = 0; i < records.length; i++) {
       var r = records[i];
       var key = [
-        r.geneRgdId, r.geneSymbol, r.tissueAcc, r.tissueTerm, r.strainAcc, r.strainTerm,
+        r.geneRgdId, r.geneSymbol, r.traitOntId, r.tissueAcc, r.tissueTerm, r.strainAcc, r.strainTerm,
         r.expressionValue, r.expressionUnit, r.expressionLevel,
         (r.sex || r.computedSex || ''), r.lifeStage, r.species, r.studyId, r.geoSeriesAcc
       ].join('');
@@ -653,6 +654,7 @@
       rows.push(
         '<tr>' +
           '<td>' + geneCell(r) + '</td>' +
+          '<td>' + ontCell(r.traitTerm, r.traitOntId) + '</td>' +
           '<td>' + ontCell(r.tissueTerm, r.tissueAcc) + '</td>' +
           '<td>' + ontCell(r.strainTerm, r.strainAcc) + '</td>' +
           '<td class="num">' + num(r.expressionValue) + '</td>' +
