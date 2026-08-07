@@ -908,9 +908,16 @@
   }
 
   function updateCount(rows, loaded, total) {
-    var meta = 'Showing <strong>' + rows + '</strong> row' + (rows === 1 ? '' : 's');
-    if (loaded !== rows) meta += ' <span style="color:#7a8a9a;">(' + loaded + ' records)</span>';
-    if (total != null && total !== loaded) meta += ' of <strong>' + total + '</strong> total';
+    // rows = matching display rows after grouping; loaded = records behind them; total = server total.
+    // Only RENDER_CAP rows are actually drawn, so lead with what's shown vs matched to stay honest.
+    var displayed = Math.min(rows, RENDER_CAP);
+    var meta = displayed < rows
+      ? 'Showing <strong>' + displayed + '</strong> of <strong>' + rows + '</strong> rows'
+      : '<strong>' + rows + '</strong> row' + (rows === 1 ? '' : 's');
+    var recPart = '';
+    if (total != null && total > loaded) recPart = loaded + ' of ' + total + ' records';
+    else if (loaded !== rows) recPart = loaded + ' records';
+    if (recPart) meta += ' <span style="color:#7a8a9a;">(' + recPart + ')</span>';
     if (anyFacetSelected()) meta += ' <span style="color:#7a8a9a;">(filtered)</span>';
     document.getElementById('emCount').innerHTML = meta;
   }
@@ -1249,11 +1256,12 @@
     updateCount(rowCount, filtered.length, serverTotal);
     syncHeatmap();
 
+    // Guidance only -- the exact counts live in emCount, so this just says how to see more.
     var note = '';
     if (rowCount > RENDER_CAP) {
-      note = 'Showing first ' + RENDER_CAP + ' of ' + rowCount + ' rows -- refine filters to narrow.';
+      note = 'Refine filters to narrow the results.';
     } else if (serverTotal > allRecords.length) {
-      note = 'Loaded first ' + allRecords.length + ' of ' + serverTotal + ' records -- refine filters for the full set.';
+      note = 'Not all matching records are loaded -- refine filters for the full set.';
     }
     document.getElementById('emTruncated').innerText = note;
 
