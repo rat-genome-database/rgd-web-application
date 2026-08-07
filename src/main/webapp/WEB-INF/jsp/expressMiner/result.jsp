@@ -282,6 +282,40 @@
 
   .backLink { color: #0052a1; text-decoration: none; font-size: 13px; }
   .backLink:hover { color: #bd80ff; text-decoration: underline; }
+
+  /* Heatmap panel */
+  .em-heatmap-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: flex-end;
+    padding: 12px 18px;
+    border-bottom: 1px solid #dde5ef;
+    font-size: 12px;
+    color: #1a3a5a;
+  }
+  .em-heatmap-controls label {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-weight: 600;
+  }
+  .em-heatmap-controls select {
+    padding: 5px 8px;
+    border: 1px solid #bccada;
+    border-radius: 4px;
+    background: #f8fafc;
+    font-size: 12px;
+    min-width: 130px;
+    cursor: pointer;
+  }
+  .em-heatmap-controls select:focus {
+    outline: none;
+    border-color: #3a7aba;
+    box-shadow: 0 0 0 2px rgba(58, 122, 186, 0.15);
+    background: #fff;
+  }
+  #emHeatmap { width: 100%; min-height: 320px; padding: 6px; }
 </style>
 
 <%
@@ -326,6 +360,7 @@
 
       <div class="em-toolbar">
         <button type="button" id="emFacetToggle" class="em-facet-toggle" onclick="toggleFacets()">&#9776; Filters</button>
+        <button type="button" id="emHeatmapToggle" class="em-facet-toggle" onclick="toggleHeatmap()">&#128202; Heatmap</button>
       </div>
 
       <div class="em-filters">
@@ -354,6 +389,41 @@
 
       <!-- Status region: loading / warning / empty / error -->
       <div id="emStatus" class="em-status loading">Loading expression records&hellip;</div>
+
+      <!-- Heatmap (toggled from the toolbar; driven by the same filtered records as the table) -->
+      <div id="emHeatmapCard" class="em-table-card" style="display:none; margin-bottom:20px;">
+        <div class="em-table-meta">
+          <span style="font-weight:600;">Expression Heatmap</span>
+          <span id="emHeatmapNote" style="color:#7a8a9a; font-weight:normal;"></span>
+        </div>
+        <div class="em-heatmap-controls">
+          <label>Rows
+            <select id="emHmY" onchange="renderHeatmap()">
+              <option value="gene">Gene</option>
+              <option value="tissue">Tissue</option>
+              <option value="strain">Strain</option>
+            </select>
+          </label>
+          <label>Columns
+            <select id="emHmX" onchange="renderHeatmap()">
+              <option value="gene">Gene</option>
+              <option value="tissue">Tissue</option>
+              <option value="strain">Strain</option>
+            </select>
+          </label>
+          <label>Unit
+            <select id="emHmUnit" onchange="renderHeatmap()"></select>
+          </label>
+          <label>Value
+            <select id="emHmAgg" onchange="renderHeatmap()">
+              <option value="mean">Mean</option>
+              <option value="max">Max</option>
+              <option value="median">Median</option>
+            </select>
+          </label>
+        </div>
+        <div id="emHeatmap"></div>
+      </div>
 
       <!-- Table (hidden until we have rows) -->
       <div id="emTableCard" class="em-table-card" style="display:none;">
@@ -406,8 +476,10 @@
   var FACET_SEARCH_THRESHOLD = 8; // groups longer than this get a search box
 
   var GENES_ONLY = TISSUE_IDS.length === 0 && STRAIN_IDS.length === 0 && RGD_IDS.length > 0;
-  var allRecords = [];   // the loaded records; all facet filtering runs against these
-  var serverTotal = 0;   // total matching records reported by the server
+  var allRecords = [];      // the loaded records; all facet filtering runs against these
+  var serverTotal = 0;      // total matching records reported by the server
+  var filteredRecords = []; // records surviving the current facet selection (feeds table + heatmap)
+  var heatmapInited = false; // whether the row/column selects have been auto-picked yet
 
   // Facet groups shown in the panel. Options and counts come from the server /index/facets call;
   // `accOf` maps a record to the value the facet keys on, used to filter the table client-side so
@@ -694,6 +766,182 @@
     document.getElementById('emCount').innerHTML = meta;
   }
 
+  // ---- Heatmap ---------------------------------------------------------------
+  // Plotly is loaded globally by headerarea.jsp (cdn.plot.ly). The heatmap plots one chosen
+  // dimension (gene/tissue/strain) on each axis, colored by an aggregate of the expression value.
+  // It reads `filteredRecords`, so it always matches whatever the table currently shows.
+
+  var HEATMAP_DIMS = {
+    gene:   { title: 'Gene',   keyOf: function (r) { return r.geneRgdId != null ? String(r.geneRgdId) : ''; },
+                                labelOf: function (r) { return r.geneSymbol || r.geneSymbolWithRgdId || (r.geneRgdId != null ? String(r.geneRgdId) : ''); } },
+    tissue: { title: 'Tissue', keyOf: function (r) { return r.tissueAcc || ''; },
+                                labelOf: function (r) { return r.tissueTerm || r.tissueAcc || ''; } },
+    strain: { title: 'Strain', keyOf: function (r) { return r.strainAcc || ''; },
+                                labelOf: function (r) { return r.strainTerm || r.strainAcc || ''; } }
+  };
+
+  function isNumericValue(r) {
+    return !(r.expressionValue === null || r.expressionValue === undefined || r.expressionValue === '' || isNaN(r.expressionValue));
+  }
+
+  function distinctDimCount(records, dim) {
+    var seen = {};
+    for (var i = 0; i < records.length; i++) {
+      var k = HEATMAP_DIMS[dim].keyOf(records[i]);
+      if (k) seen[k] = true;
+    }
+    return Object.keys(seen).length;
+  }
+
+  // Default the axes to the two dimensions with the most distinct values (a fuller grid).
+  function autoPickDims(records) {
+    var dims = ['gene', 'tissue', 'strain'];
+    dims.sort(function (a, b) { return distinctDimCount(records, b) - distinctDimCount(records, a); });
+    return { y: dims[0], x: dims[1] };
+  }
+
+  // Units can't be mixed in one aggregate (TPM vs counts), so the heatmap plots one unit at a time.
+  function refreshUnitOptions(records) {
+    var sel = document.getElementById('emHmUnit');
+    var prev = sel.value;
+    var counts = {};
+    for (var i = 0; i < records.length; i++) {
+      if (!isNumericValue(records[i])) continue;
+      var u = records[i].expressionUnit || '';
+      counts[u] = (counts[u] || 0) + 1;
+    }
+    var units = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+    sel.innerHTML = units.map(function (u) {
+      return '<option value="' + esc(u) + '">' + esc((u || '(no unit)') + ' (' + counts[u] + ')') + '</option>';
+    }).join('');
+    if (units.indexOf(prev) !== -1) sel.value = prev; // keep the user's unit across redraws when still present
+    sel.disabled = units.length < 2;
+    return units;
+  }
+
+  function aggregate(values, mode) {
+    if (mode === 'max') return Math.max.apply(null, values);
+    if (mode === 'median') {
+      var s = values.slice().sort(function (a, b) { return a - b; });
+      var m = Math.floor(s.length / 2);
+      return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+    }
+    var sum = 0;
+    for (var i = 0; i < values.length; i++) sum += values[i];
+    return sum / values.length;
+  }
+
+  // Build the z-matrix: rows = yDim values, columns = xDim values, cell = aggregate of the
+  // expression values for that (row, column) pair (only records matching the chosen unit).
+  function buildHeatmap(records, yDim, xDim, unit, agg) {
+    var Y = HEATMAP_DIMS[yDim], X = HEATMAP_DIMS[xDim];
+    var yLabels = {}, xLabels = {}, cells = {};
+    for (var i = 0; i < records.length; i++) {
+      var r = records[i];
+      if ((r.expressionUnit || '') !== (unit || '')) continue;
+      if (!isNumericValue(r)) continue;
+      var yk = Y.keyOf(r), xk = X.keyOf(r);
+      if (!yk || !xk) continue;
+      yLabels[yk] = Y.labelOf(r);
+      xLabels[xk] = X.labelOf(r);
+      var ck = yk + '' + xk;
+      (cells[ck] || (cells[ck] = [])).push(Number(r.expressionValue));
+    }
+    var yKeys = Object.keys(yLabels).sort(function (a, b) { return String(yLabels[a]).localeCompare(String(yLabels[b])); });
+    var xKeys = Object.keys(xLabels).sort(function (a, b) { return String(xLabels[a]).localeCompare(String(xLabels[b])); });
+    var z = [], counts = [];
+    for (var yi = 0; yi < yKeys.length; yi++) {
+      var zRow = [], cRow = [];
+      for (var xi = 0; xi < xKeys.length; xi++) {
+        var arr = cells[yKeys[yi] + '' + xKeys[xi]];
+        if (!arr || !arr.length) { zRow.push(null); cRow.push(0); }
+        else { zRow.push(aggregate(arr, agg)); cRow.push(arr.length); }
+      }
+      z.push(zRow); counts.push(cRow);
+    }
+    return {
+      x: xKeys.map(function (k) { return xLabels[k]; }),
+      y: yKeys.map(function (k) { return yLabels[k]; }),
+      z: z, counts: counts
+    };
+  }
+
+  function toggleHeatmap() {
+    var card = document.getElementById('emHeatmapCard');
+    if (card.style.display !== 'none') { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+    if (!heatmapInited) {
+      var picks = autoPickDims(filteredRecords.length ? filteredRecords : allRecords);
+      document.getElementById('emHmY').value = picks.y;
+      document.getElementById('emHmX').value = picks.x;
+      heatmapInited = true;
+    }
+    renderHeatmap();
+  }
+
+  // Redraw the heatmap only when its panel is open (keeps applyClientFilters cheap otherwise).
+  function syncHeatmap() {
+    if (document.getElementById('emHeatmapCard').style.display !== 'none') renderHeatmap();
+  }
+
+  function renderHeatmap() {
+    var card = document.getElementById('emHeatmapCard');
+    if (card.style.display === 'none') return;
+    var note = document.getElementById('emHeatmapNote');
+
+    if (typeof Plotly === 'undefined') { note.innerText = 'Charting library not available.'; return; }
+
+    var records = filteredRecords || [];
+    refreshUnitOptions(records);
+
+    var yDim = document.getElementById('emHmY').value;
+    var xDim = document.getElementById('emHmX').value;
+    var unit = document.getElementById('emHmUnit').value;
+    var agg  = document.getElementById('emHmAgg').value;
+
+    if (yDim === xDim) {
+      note.innerText = 'Pick two different dimensions for rows and columns.';
+      Plotly.purge('emHeatmap');
+      return;
+    }
+
+    var d = buildHeatmap(records, yDim, xDim, unit, agg);
+    if (!d.y.length || !d.x.length) {
+      note.innerText = 'No numeric values to plot for this selection.';
+      Plotly.purge('emHeatmap');
+      return;
+    }
+
+    var aggLabel = agg.charAt(0).toUpperCase() + agg.slice(1);
+    note.innerText = d.y.length + ' x ' + d.x.length + ' cells - ' + aggLabel + (unit ? ' ' + unit : '');
+
+    var data = [{
+      type: 'heatmap',
+      z: d.z, x: d.x, y: d.y, customdata: d.counts,
+      colorscale: 'YlOrRd',
+      hoverongaps: false,
+      xgap: 1, ygap: 1,
+      colorbar: { title: { text: aggLabel + (unit ? ' ' + unit : ''), side: 'right' }, thickness: 14 },
+      hovertemplate:
+        HEATMAP_DIMS[yDim].title + ': %{y}<br>' +
+        HEATMAP_DIMS[xDim].title + ': %{x}<br>' +
+        aggLabel + ': %{z}<br>n = %{customdata}<extra></extra>'
+    }];
+
+    var height = Math.max(320, Math.min(28 * d.y.length + 160, 900));
+    var layout = {
+      margin: { l: 170, r: 20, t: 10, b: 130 },
+      height: height,
+      xaxis: { title: HEATMAP_DIMS[xDim].title, type: 'category', tickangle: -40, automargin: true },
+      yaxis: { title: HEATMAP_DIMS[yDim].title, type: 'category', automargin: true },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: '#f3f7fb'
+    };
+
+    Plotly.react('emHeatmap', data, layout,
+      { responsive: true, displaylogo: false, modeBarButtonsToRemove: ['lasso2d', 'select2d'] });
+  }
+
   // ---- Data loading ----------------------------------------------------------
 
   // Records query with the checked facets folded in, so the server returns ALL matching records
@@ -730,28 +978,76 @@
     return apiUrl + '/rgdws/expression/index/records/tissues/strains?' + params.join('&');
   }
 
+  function fetchRecordsJson(url) {
+    return fetch(url, { headers: { 'Accept': 'application/json' } }).then(function (resp) {
+      if (!resp.ok) throw new Error('Server returned ' + resp.status + ' ' + resp.statusText);
+      return resp.json();
+    });
+  }
+
+  // Above this many genes we stop fanning out into per-gene calls (to bound the request count) and
+  // accept the single-call 10k window instead.
+  var GENES_FANOUT_LIMIT = 60;
+
+  // A genes-only selection can hold far more than the 10,000-record window (e.g. 17 genes x ~4,800 =
+  // ~64k). A single call returns only the first 10k -- which all belong to the highest-volume gene(s),
+  // so the rest never appear in the table or heatmap. Fetch each gene separately (each assembly slice
+  // is well under the cap) and merge, so every gene is represented. mapKey scopes each call to the
+  // assembly -- this needs the deployed genes endpoint to honor mapKey to be exact; it is harmless if
+  // not (the client-side mapKey guard still trims to the assembly).
+  function loadGenesOnlyRecords() {
+    var genes = selectedFor('genes', RGD_IDS.map(String));
+    var gLevels = checkedValues('levels');
+    var levelParam = gLevels.length === 1 ? '&expressionLevel=' + encodeURIComponent(gLevels[0]) : '';
+    var base = apiUrl + '/rgdws/expression/index/records/genes?page=0&size=' + PAGE_SIZE +
+               (MAP_KEY ? '&mapKey=' + MAP_KEY : '') + levelParam;
+
+    // One gene has no window problem; very long lists fall back to a single call.
+    if (genes.length <= 1 || genes.length > GENES_FANOUT_LIMIT) {
+      return fetchRecordsJson(base + '&rgdIds=' + encodeURIComponent(genes.join(','))).then(function (d) {
+        return { records: d.records || [], total: (d.total != null ? d.total : (d.records || []).length) };
+      });
+    }
+
+    var calls = genes.map(function (g) {
+      return fetchRecordsJson(base + '&rgdIds=' + encodeURIComponent(g))
+        .catch(function () { return { records: [], total: 0 }; }); // one failed gene shouldn't sink the rest
+    });
+    return Promise.all(calls).then(function (results) {
+      var records = [], total = 0;
+      for (var i = 0; i < results.length; i++) {
+        if (results[i].records) records = records.concat(results[i].records);
+        total += (results[i].total || 0);
+      }
+      return { records: records, total: total };
+    });
+  }
+
   // Re-query the server for the current facet selection, then draw the table (with a client-side
   // pass that enforces any facets the endpoint couldn't apply).
   function reloadRecords() {
     setStatus('loading', 'Loading expression records&hellip;');
     document.getElementById('emTableCard').style.display = 'none';
 
-    fetch(serverRecordsUrl(), { headers: { 'Accept': 'application/json' } })
-      .then(function (resp) {
-        if (!resp.ok) throw new Error('Server returned ' + resp.status + ' ' + resp.statusText);
-        return resp.json();
-      })
-      .then(function (data) {
+    var source = GENES_ONLY
+      ? loadGenesOnlyRecords()
+      : fetchRecordsJson(serverRecordsUrl()).then(function (d) {
+          return { records: d.records || [], total: (d.total != null ? d.total : (d.records || []).length) };
+        });
+
+    source.then(function (data) {
         allRecords = data.records || [];
-        serverTotal = (data.total !== undefined && data.total !== null) ? data.total : allRecords.length;
+        serverTotal = (data.total != null) ? data.total : allRecords.length;
 
         if (allRecords.length === 0) {
           document.getElementById('emTableCard').style.display = 'none';
+          filteredRecords = [];
           setStatus('empty', anyFacetSelected()
             ? 'No records match the selected filters. <a onclick="clearFacets()" style="cursor:pointer;text-decoration:underline;">Clear the filters</a>.'
             : (GENES_ONLY
                 ? ('No expression records for the selected gene' + (RGD_IDS.length === 1 ? '' : 's') + ' on this assembly.')
                 : 'No expression records match the selected tissues and strains on this assembly.'));
+          syncHeatmap();
           return;
         }
         applyClientFilters();
@@ -765,18 +1061,21 @@
   // the table, and refresh the per-value counts. This is what makes the table track the filters.
   function applyClientFilters() {
     var filtered = allRecords.filter(recordPassesFilters);
+    filteredRecords = filtered;
 
     if (filtered.length === 0) {
       document.getElementById('emTableCard').style.display = 'none';
       setStatus('empty', anyFacetSelected()
         ? 'No records match the selected filters. <a onclick="clearFacets()" style="cursor:pointer;text-decoration:underline;">Clear the filters</a>.'
         : 'No expression records to show.');
+      syncHeatmap();
       return;
     }
 
     hideStatus();
     var rowCount = renderRows(filtered);
     updateCount(rowCount, filtered.length, serverTotal);
+    syncHeatmap();
 
     var note = '';
     if (rowCount > RENDER_CAP) {
