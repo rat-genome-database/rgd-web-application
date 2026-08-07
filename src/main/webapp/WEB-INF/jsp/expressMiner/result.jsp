@@ -34,10 +34,28 @@
     border: 1px solid #c0d0e0;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    /* Stay pinned beside the results while the page scrolls, and cap to the viewport so the panel
+       scrolls internally instead of running off the bottom of the page. */
+    position: sticky;
+    top: 12px;
+    align-self: flex-start;
+    max-height: calc(100vh - 35px);
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
   }
 
   .em-facet-panel.collapsed { display: none; }
+
+  /* Header and clear stay put; only the groups scroll. */
+  .em-facet-panel .em-facet-header,
+  .em-facet-panel .em-facet-clear { flex: 0 0 auto; }
+
+  .em-facet-scroll {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
   .em-facet-header {
     display: flex;
@@ -134,12 +152,27 @@
   .em-facet-label { flex: 1; }
   .em-facet-count { color: #7a8a9a; white-space: nowrap; }
 
-  /* Results toolbar */
+  /* Heatmap toggle: stays at the top of the page (scrolls away normally). */
+  .em-heatmap-bar {
+    margin-bottom: 12px;
+  }
+
+  /* Filters toggle -- a compact pill that stays pinned while the results scroll, so the panel can be
+     shown/hidden anywhere on the page (mirroring the sticky filter panel). It shrink-wraps the button
+     and carries its own opaque background so scrolling content doesn't bleed through. */
   .em-toolbar {
     display: flex;
+    width: fit-content;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 12px;
+    position: sticky;
+    top: 12px;
+    z-index: 30;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: #dce8f4;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.18);
   }
 
   .em-facet-toggle {
@@ -220,7 +253,9 @@
     border-bottom: 1px solid #dde5ef;
   }
 
-  .em-table-scroll { overflow-x: auto; }
+  /* Own bounded scroll region so the header can stick to the top of the table (top:0 below) instead of
+     to a full-table-height box. Vertical scroll happens here; horizontal scroll is preserved. */
+  .em-table-scroll { overflow: auto; max-height: calc(100vh - 90px); }
 
   table.em-table {
     width: 100%;
@@ -236,8 +271,10 @@
     font-weight: 600;
     white-space: nowrap;
     border-bottom: 1px solid #c0d0e0;
+    /* Freeze the header at the top of the table's own scroll region (.em-table-scroll). */
     position: sticky;
     top: 0;
+    z-index: 1;
   }
 
   table.em-table tbody td {
@@ -347,7 +384,12 @@
         <button type="button" class="em-facet-close" title="Hide filters" onclick="toggleFacets()">&times;</button>
       </div>
       <div class="em-facet-clear"><a onclick="clearFacets()">Clear all filters</a></div>
-      <div id="emFacetGroups"></div>
+      <div class="em-facet-scroll">
+        <div id="emFacetGroups"></div>
+        <!-- Sex / Life Stage facets are computed on the client from the loaded records (the server
+             /facets endpoint does not provide them). -->
+        <div id="emClientFacetGroups"></div>
+      </div>
     </aside>
 
     <div class="em-result-main">
@@ -358,9 +400,14 @@
         <% } %>
       </div>
 
+      <!-- Heatmap toggle stays at the top of the page and scrolls away with the content. -->
+      <div class="em-heatmap-bar">
+        <button type="button" id="emHeatmapToggle" class="em-facet-toggle" onclick="toggleHeatmap()">&#128202; Heatmap</button>
+      </div>
+
+      <!-- Filters toggle stays pinned so the panel can be shown/hidden anywhere on the page. -->
       <div class="em-toolbar">
         <button type="button" id="emFacetToggle" class="em-facet-toggle" onclick="toggleFacets()">&#9776; Filters</button>
-        <button type="button" id="emHeatmapToggle" class="em-facet-toggle" onclick="toggleHeatmap()">&#128202; Heatmap</button>
       </div>
 
       <div class="em-filters">
@@ -475,21 +522,38 @@
   var RENDER_CAP = 2000; // max rows drawn at once (the query still returns up to PAGE_SIZE)
   var FACET_SEARCH_THRESHOLD = 8; // groups longer than this get a search box
 
-  var GENES_ONLY = TISSUE_IDS.length === 0 && STRAIN_IDS.length === 0 && RGD_IDS.length > 0;
+  var HAS_GENES  = RGD_IDS.length > 0;
+  var HAS_TISSUE = TISSUE_IDS.length > 0;
+  var HAS_STRAIN = STRAIN_IDS.length > 0;
+
+  // The deployed /records/tissues/strains endpoint REQUIRES both a tissue and a strain (and an empty
+  // list matches nothing), so it can only serve a query that has both. Whenever there is a gene list
+  // but not both dimensions, we load through the gene-scoped endpoints instead and apply the assembly
+  // and base tissue/strain constraints on the client.
+  var USE_GENES_ENDPOINT = HAS_GENES && !(HAS_TISSUE && HAS_STRAIN);
+
   var allRecords = [];      // the loaded records; all facet filtering runs against these
   var serverTotal = 0;      // total matching records reported by the server
   var filteredRecords = []; // records surviving the current facet selection (feeds table + heatmap)
   var heatmapInited = false; // whether the row/column selects have been auto-picked yet
 
-  // Facet groups shown in the panel. Options and counts come from the server /index/facets call;
-  // `accOf` maps a record to the value the facet keys on, used to filter the table client-side so
-  // it updates immediately when a facet is checked.
+  function capitalize(v) { return v ? String(v).charAt(0).toUpperCase() + String(v).slice(1) : ''; }
+
+  // Facet groups shown in the panel. `accOf` maps a record to the value the facet keys on, used to
+  // filter the table client-side. Server groups get their options/counts from the /index/facets call;
+  // `client: true` groups (Sex, Life Stage) are not provided by that endpoint, so their options and
+  // counts are computed from the loaded records instead (see renderClientFacets). `labelOf` formats a
+  // value for display on client groups.
   var FACET_GROUPS = [
     { key: 'levels',  title: 'Expression Level', accOf: function (r) { return r.expressionLevel; } },
     { key: 'units',   title: 'Unit',             accOf: function (r) { return r.expressionUnit; } },
     { key: 'genes',   title: 'Gene',             accOf: function (r) { return String(r.geneRgdId); } },
     { key: 'tissues', title: 'Tissue',           accOf: function (r) { return r.tissueAcc; } },
-    { key: 'strains', title: 'Strain',           accOf: function (r) { return r.strainAcc; } }
+    { key: 'strains', title: 'Strain',           accOf: function (r) { return r.strainAcc; } },
+    { key: 'sex',        title: 'Sex',        client: true, labelOf: capitalize,
+      accOf: function (r) { return (r.sex || r.computedSex || '').trim().toLowerCase(); } },
+    { key: 'lifeStages', title: 'Life Stage', client: true, labelOf: capitalize,
+      accOf: function (r) { return (r.lifeStage || '').trim().toLowerCase(); } }
   ];
   var selectedFacets = {}; // key -> { accValue: true }
 
@@ -622,9 +686,9 @@
 
   function clearFacets() {
     selectedFacets = {};
-    var boxes = document.querySelectorAll('#emFacetGroups input[type=checkbox]');
+    var boxes = document.querySelectorAll('#emFacetPanel input[type=checkbox]');
     for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
-    reloadRecords();
+    reloadRecords();     // also re-renders the client facets (Sex / Life Stage) via applyClientFilters
     loadFacets(false);
   }
 
@@ -648,6 +712,7 @@
     var html = [];
     for (var g = 0; g < FACET_GROUPS.length; g++) {
       var group = FACET_GROUPS[g];
+      if (group.client) continue; // client-computed groups are rendered by renderClientFacets
       var values = facets[group.key] || [];
       if (values.length < 2) continue;
 
@@ -720,6 +785,7 @@
   // without rebuilding the panel (checked state, scroll and search text survive). Missing -> 0.
   function updateFacetCounts(facets) {
     for (var g = 0; g < FACET_GROUPS.length; g++) {
+      if (FACET_GROUPS[g].client) continue; // client groups are refreshed by renderClientFacets
       var key = FACET_GROUPS[g].key;
       var vals = facets[key] || [];
       var map = {};
@@ -733,14 +799,87 @@
     }
   }
 
-  // Client-side test: does a record satisfy every checked facet group? (Drives the table.)
-  function recordPassesFilters(r) {
-    // Enforce the selected assembly. The genes endpoint (genes-only mode) does not yet filter by
-    // mapKey, so it returns records for every assembly; keep only the one the facets are scoped to.
-    if (MAP_KEY && Number(r.mapKey) !== Number(MAP_KEY)) return false;
+  // Build the client-computed facet groups (Sex, Life Stage) from the loaded records. Each value's
+  // count reflects the records passing every OTHER filter, so checking one value does not zero the
+  // rest. Checked state comes from selectedFacets, so a rebuild preserves the user's choices.
+  function renderClientFacets() {
+    var container = document.getElementById('emClientFacetGroups');
+    if (!container) return;
+    var html = [];
+    for (var g = 0; g < FACET_GROUPS.length; g++) {
+      var group = FACET_GROUPS[g];
+      if (!group.client) continue;
+
+      var counts = {};
+      for (var i = 0; i < allRecords.length; i++) {
+        var r = allRecords[i];
+        if (!recordMatches(r, group.key)) continue;
+        var val = group.accOf(r);
+        if (!val) continue;
+        counts[val] = (counts[val] || 0) + 1;
+      }
+      var values = Object.keys(counts).sort();
+      var sel = selectedFacets[group.key] || {};
+      // Keep a checked value visible even if it now counts 0, so it can still be unchecked.
+      for (var s in sel) { if (values.indexOf(s) === -1) values.push(s); }
+      if (values.length < 2) continue; // nothing meaningful to filter on
+
+      html.push('<div class="em-facet-group">');
+      html.push('<div class="em-facet-group-title" onclick="toggleGroup(this)">' +
+                '<span>' + esc(group.title) + '</span><span class="em-facet-caret">&#9662;</span></div>');
+      html.push('<div class="em-facet-group-body">');
+      if (values.length > FACET_SEARCH_THRESHOLD) {
+        html.push('<input type="text" class="em-facet-search" oninput="filterFacetItems(this)" ' +
+                  'placeholder="Search ' + esc(group.title.toLowerCase()) + '"/>');
+      }
+      for (var k = 0; k < values.length; k++) {
+        var v = values[k];
+        var label = group.labelOf ? group.labelOf(v) : v;
+        var hay = esc((label + ' ' + v).toLowerCase());
+        var checked = sel[v] ? ' checked' : '';
+        html.push(
+          '<label class="em-facet-item" data-group="' + esc(group.key) + '" data-search="' + hay + '">' +
+            '<input type="checkbox" onchange="onFacetChange(\'' + esc(group.key) + '\', this)" value="' + esc(v) + '"' + checked + '/>' +
+            '<span class="em-facet-label">' + esc(label) + '</span>' +
+            '<span class="em-facet-count">' + (counts[v] || 0) + '</span>' +
+          '</label>'
+        );
+      }
+      html.push('</div></div>');
+    }
+    container.innerHTML = html.join('');
+  }
+
+  function isClientFacet(groupKey) {
+    for (var i = 0; i < FACET_GROUPS.length; i++) {
+      if (FACET_GROUPS[i].key === groupKey) return !!FACET_GROUPS[i].client;
+    }
+    return false;
+  }
+
+  // Does a record satisfy the current selection, ignoring the facet group `exceptKey` (pass null to
+  // apply them all)? Used both to drive the table and to count a client facet's own options without
+  // that group filtering itself out.
+  function recordMatches(r, exceptKey) {
+    // Records loaded via the gene-scoped endpoints are not constrained by assembly (those endpoints
+    // ignore mapKey) and, in the genes-only / gene+single-dimension cases, are not constrained by the
+    // missing dimension either. Enforce the wizard's assembly and base tissue/strain here so the table
+    // matches the selection. (In tissue+strain mode the server already applied all of these.)
+    if (USE_GENES_ENDPOINT) {
+      if (MAP_KEY && Number(r.mapKey) !== Number(MAP_KEY)) return false;
+      if (exceptKey !== 'tissues' && HAS_TISSUE) {
+        var effT = selectedFor('tissues', TISSUE_IDS);
+        if (effT.length && effT.indexOf(r.tissueAcc) === -1) return false;
+      }
+      if (exceptKey !== 'strains' && HAS_STRAIN) {
+        var effS = selectedFor('strains', STRAIN_IDS);
+        if (effS.length && effS.indexOf(r.strainAcc) === -1) return false;
+      }
+    }
 
     for (var g = 0; g < FACET_GROUPS.length; g++) {
       var group = FACET_GROUPS[g];
+      if (group.key === exceptKey) continue;
       var sel = selectedFacets[group.key];
       if (!sel) continue;
       var chosen = Object.keys(sel);
@@ -750,12 +889,22 @@
     return true;
   }
 
+  // Client-side test: does a record satisfy every checked facet group? (Drives the table.)
+  function recordPassesFilters(r) { return recordMatches(r, null); }
+
   function onFacetChange(groupKey, box) {
     if (!selectedFacets[groupKey]) selectedFacets[groupKey] = {};
     if (box.checked) selectedFacets[groupKey][box.value] = true;
     else delete selectedFacets[groupKey][box.value];
-    reloadRecords();    // re-query the server for the full matching set
-    loadFacets(false);  // refresh the facet counts
+
+    // Sex / Life Stage are derived from records already loaded, so just re-filter -- no server round
+    // trip. Server-backed facets narrow the query, so re-fetch records and refresh their counts.
+    if (isClientFacet(groupKey)) {
+      applyClientFilters();
+    } else {
+      reloadRecords();
+      loadFacets(false);
+    }
   }
 
   function updateCount(rows, loaded, total) {
@@ -947,20 +1096,14 @@
   // Records query with the checked facets folded in, so the server returns ALL matching records
   // (up to PAGE_SIZE) -- e.g. selecting level=high fetches every high record, not just the ones
   // already on screen. Facets the endpoint can't apply are handled by the client-side pass below.
+  // Only used for the tissue+strain endpoint, which is reached only when both a tissue and a strain
+  // are present (queries with a gene list but not both go through the gene-scoped endpoints instead).
   function serverRecordsUrl() {
     var params = [];
-    if (GENES_ONLY) {
-      // The genes endpoint supports gene + assembly + a single expression level.
-      params.push('rgdIds=' + encodeURIComponent(selectedFor('genes', RGD_IDS.map(String)).join(',')));
-      if (MAP_KEY) params.push('mapKey=' + MAP_KEY);
-      var gLevels = checkedValues('levels');
-      if (gLevels.length === 1) params.push('expressionLevel=' + encodeURIComponent(gLevels[0]));
-      params.push('page=0');
-      params.push('size=' + PAGE_SIZE);
-      return apiUrl + '/rgdws/expression/index/records/genes?' + params.join('&');
-    }
-    params.push('tissueIds=' + encodeURIComponent(selectedFor('tissues', TISSUE_IDS).join(',')));
-    params.push('strainAccIds=' + encodeURIComponent(selectedFor('strains', STRAIN_IDS).join(',')));
+    var tissues = selectedFor('tissues', TISSUE_IDS);
+    var strains = selectedFor('strains', STRAIN_IDS);
+    if (tissues.length) params.push('tissueIds=' + encodeURIComponent(tissues.join(',')));
+    if (strains.length) params.push('strainAccIds=' + encodeURIComponent(strains.join(',')));
     var genes = selectedFor('genes', RGD_IDS.map(String));
     if (genes.length) params.push('rgdIds=' + encodeURIComponent(genes.join(',')));
     if (MAP_KEY) params.push('mapKey=' + MAP_KEY);
@@ -985,42 +1128,68 @@
     });
   }
 
-  // Above this many genes we stop fanning out into per-gene calls (to bound the request count) and
-  // accept the single-call 10k window instead.
+  // Bounds on request fan-out. Beyond GENE_CALL_LIMIT gene x dimension pairs we fall back to a per-gene
+  // load; beyond GENES_FANOUT_LIMIT genes that per-gene load collapses to a single combined call.
   var GENES_FANOUT_LIMIT = 60;
+  var GENE_CALL_LIMIT = 80;
 
-  // A genes-only selection can hold far more than the 10,000-record window (e.g. 17 genes x ~4,800 =
-  // ~64k). A single call returns only the first 10k -- which all belong to the highest-volume gene(s),
-  // so the rest never appear in the table or heatmap. Fetch each gene separately (each assembly slice
-  // is well under the cap) and merge, so every gene is represented. mapKey scopes each call to the
-  // assembly -- this needs the deployed genes endpoint to honor mapKey to be exact; it is harmless if
-  // not (the client-side mapKey guard still trims to the assembly).
-  function loadGenesOnlyRecords() {
-    var genes = selectedFor('genes', RGD_IDS.map(String));
-    var gLevels = checkedValues('levels');
-    var levelParam = gLevels.length === 1 ? '&expressionLevel=' + encodeURIComponent(gLevels[0]) : '';
-    var base = apiUrl + '/rgdws/expression/index/records/genes?page=0&size=' + PAGE_SIZE +
-               (MAP_KEY ? '&mapKey=' + MAP_KEY : '') + levelParam;
-
-    // One gene has no window problem; very long lists fall back to a single call.
-    if (genes.length <= 1 || genes.length > GENES_FANOUT_LIMIT) {
-      return fetchRecordsJson(base + '&rgdIds=' + encodeURIComponent(genes.join(','))).then(function (d) {
-        return { records: d.records || [], total: (d.total != null ? d.total : (d.records || []).length) };
-      });
-    }
-
-    var calls = genes.map(function (g) {
-      return fetchRecordsJson(base + '&rgdIds=' + encodeURIComponent(g))
-        .catch(function () { return { records: [], total: 0 }; }); // one failed gene shouldn't sink the rest
+  // Fetch every url and concatenate the record pages; a failed page contributes nothing rather than
+  // failing the whole load.
+  function mergeRecordPages(urls) {
+    var calls = urls.map(function (u) {
+      return fetchRecordsJson(u).catch(function () { return { records: [], total: 0 }; });
     });
     return Promise.all(calls).then(function (results) {
       var records = [], total = 0;
       for (var i = 0; i < results.length; i++) {
-        if (results[i].records) records = records.concat(results[i].records);
-        total += (results[i].total || 0);
+        if (results[i] && results[i].records) records = records.concat(results[i].records);
+        total += (results[i] && results[i].total) || 0;
       }
       return { records: records, total: total };
     });
+  }
+
+  // Load records for a gene list that lacks a full tissue+strain pair (the tissue+strain endpoint
+  // requires both). Uses the most specific deployed endpoint available:
+  //   genes + strain(s)  -> /records/gene/{g}/strain/{s}   (server-scoped, small result per pair)
+  //   genes + tissue(s)  -> /records/gene/{g}/tissue/{t}
+  //   genes only         -> /records/genes per gene (spreads the 10k window across genes so all appear)
+  // None of these filter by assembly, so recordPassesFilters trims to the wizard's mapKey (and to the
+  // base tissue/strain in the genes-only fallback) afterwards.
+  function loadRecordsViaGenesEndpoint() {
+    var genes = selectedFor('genes', RGD_IDS.map(String));
+    var gLevels = checkedValues('levels');
+    var levelParam = gLevels.length === 1 ? '&expressionLevel=' + encodeURIComponent(gLevels[0]) : '';
+    var sizeParam = 'page=0&size=' + PAGE_SIZE;
+    var recBase = apiUrl + '/rgdws/expression/index/records/';
+
+    var urls = [];
+    if (HAS_STRAIN && !HAS_TISSUE) {
+      var strains = selectedFor('strains', STRAIN_IDS);
+      genes.forEach(function (g) {
+        strains.forEach(function (s) {
+          urls.push(recBase + 'gene/' + encodeURIComponent(g) + '/strain/' + encodeURIComponent(s) + '?' + sizeParam + levelParam);
+        });
+      });
+    } else if (HAS_TISSUE && !HAS_STRAIN) {
+      var tissues = selectedFor('tissues', TISSUE_IDS);
+      genes.forEach(function (g) {
+        tissues.forEach(function (t) {
+          urls.push(recBase + 'gene/' + encodeURIComponent(g) + '/tissue/' + encodeURIComponent(t) + '?' + sizeParam + levelParam);
+        });
+      });
+    }
+
+    // Genes only, or too many gene x dimension pairs: fall back to a per-gene load through the plain
+    // genes endpoint (bounded by gene count; any base tissue/strain is applied client-side).
+    if (!urls.length || urls.length > GENE_CALL_LIMIT) {
+      var genesBase = recBase + 'genes?' + sizeParam + levelParam + '&rgdIds=';
+      urls = genes.length > GENES_FANOUT_LIMIT
+        ? [genesBase + encodeURIComponent(genes.join(','))]              // very long list: one call
+        : genes.map(function (g) { return genesBase + encodeURIComponent(g); });
+    }
+
+    return mergeRecordPages(urls);
   }
 
   // Re-query the server for the current facet selection, then draw the table (with a client-side
@@ -1029,8 +1198,8 @@
     setStatus('loading', 'Loading expression records&hellip;');
     document.getElementById('emTableCard').style.display = 'none';
 
-    var source = GENES_ONLY
-      ? loadGenesOnlyRecords()
+    var source = USE_GENES_ENDPOINT
+      ? loadRecordsViaGenesEndpoint()
       : fetchRecordsJson(serverRecordsUrl()).then(function (d) {
           return { records: d.records || [], total: (d.total != null ? d.total : (d.records || []).length) };
         });
@@ -1044,8 +1213,8 @@
           filteredRecords = [];
           setStatus('empty', anyFacetSelected()
             ? 'No records match the selected filters. <a onclick="clearFacets()" style="cursor:pointer;text-decoration:underline;">Clear the filters</a>.'
-            : (GENES_ONLY
-                ? ('No expression records for the selected gene' + (RGD_IDS.length === 1 ? '' : 's') + ' on this assembly.')
+            : (USE_GENES_ENDPOINT
+                ? ('No expression records for the selected gene' + (RGD_IDS.length === 1 ? '' : 's') + '.')
                 : 'No expression records match the selected tissues and strains on this assembly.'));
           syncHeatmap();
           return;
@@ -1062,12 +1231,15 @@
   function applyClientFilters() {
     var filtered = allRecords.filter(recordPassesFilters);
     filteredRecords = filtered;
+    renderClientFacets(); // (re)build Sex / Life Stage from the loaded records, self-excluded counts
 
     if (filtered.length === 0) {
       document.getElementById('emTableCard').style.display = 'none';
       setStatus('empty', anyFacetSelected()
         ? 'No records match the selected filters. <a onclick="clearFacets()" style="cursor:pointer;text-decoration:underline;">Clear the filters</a>.'
-        : 'No expression records to show.');
+        : (USE_GENES_ENDPOINT
+            ? 'No expression records for this selection on the chosen assembly.'
+            : 'No expression records to show.'));
       syncHeatmap();
       return;
     }
@@ -1089,11 +1261,15 @@
   }
 
   function loadResults() {
-    // Valid queries: a gene list (genes-only), or at least one tissue AND one strain.
-    var hasTissuesAndStrains = TISSUE_IDS.length > 0 && STRAIN_IDS.length > 0;
-    if (!hasTissuesAndStrains && !GENES_ONLY) {
-      setStatus('warn', 'This result view needs a <strong>gene list</strong>, or at least one <strong>tissue</strong> and ' +
-        'one <strong>strain</strong>. Go back and make a selection.');
+    // Valid queries:
+    //  - a gene list, alone or with any tissues/strains (a single tissue or strain is enough), or
+    //  - no gene list: at least one tissue AND one strain.
+    var hasGenes = RGD_IDS.length > 0;
+    var valid = hasGenes ? true : (TISSUE_IDS.length > 0 && STRAIN_IDS.length > 0);
+    if (!valid) {
+      setStatus('warn', 'This result view needs a <strong>gene list</strong> (on its own, or with a tissue or strain), ' +
+        'or -- with no gene list -- at least one <strong>tissue</strong> and one <strong>strain</strong>. ' +
+        'Go back and make a selection.');
       return;
     }
 
