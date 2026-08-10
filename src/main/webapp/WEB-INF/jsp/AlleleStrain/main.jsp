@@ -59,6 +59,11 @@
     </div>
 
     <c:if test="${not empty submittedSymbols}">
+        <div class="controls" style="margin-bottom: 12px;">
+            <label style="cursor: pointer; user-select: none;">
+                <input type="checkbox" id="hideNoHits"> Hide genes with no alleles / mutated strains
+            </label>
+        </div>
         <table id="alleleStrainTable" class="tablesorter table table-striped table-bordered">
             <thead>
                 <tr>
@@ -82,17 +87,20 @@
                                 <td>
                                     <strong>${geneSymbol}</strong>
                                 </td>
-                                <td colspan="6">No alleles / mutated strains found</td>
+                                <td>No alleles / mutated strains found</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="m" items="${models}" varStatus="loop">
                                 <tr>
                                     <td>
-                                        <c:if test="${loop.first}">
-                                            <a href="/rgdweb/report/gene/main.html?id=${m.geneRgdId}"
-                                               target="_blank">${m.geneSymbol}</a>
-                                        </c:if>
+                                        <a href="/rgdweb/report/gene/main.html?id=${m.geneRgdId}"
+                                           target="_blank">${m.geneSymbol}</a>
                                     </td>
                                     <td>
                                         <c:choose>
@@ -142,8 +150,15 @@
 <script>
     $(function () {
         if ($('#alleleStrainTable').length) {
-            $('#alleleStrainTable').tablesorter({ theme: 'blue' });
+            $('#alleleStrainTable').tablesorter({
+                theme: 'blue',
+                sortList: [[0, 0]]   // default: sort by Gene Symbol ascending
+            });
         }
+
+        $('#hideNoHits').on('change', function () {
+            $('#alleleStrainTable tr.no-hits').toggle(!this.checked);
+        });
     });
 </script>
 
