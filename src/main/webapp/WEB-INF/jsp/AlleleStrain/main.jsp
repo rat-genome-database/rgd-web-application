@@ -59,10 +59,11 @@
     </div>
 
     <c:if test="${not empty submittedSymbols}">
-        <div class="controls" style="margin-bottom: 12px;">
-            <label style="cursor: pointer; user-select: none;">
+        <div class="controls" style="margin-bottom: 12px; display: flex; align-items: center; gap: 16px;">
+            <label style="cursor: pointer; user-select: none; font-size: 12px">
                 <input type="checkbox" id="hideNoHits"> Hide genes with no alleles / mutated strains
             </label>
+            <button type="button" id="downloadTsv" class="btn btn-primary btn-sm">Download TSV</button>
         </div>
         <table id="alleleStrainTable" class="tablesorter table table-striped table-bordered">
             <thead>
@@ -158,6 +159,45 @@
 
         $('#hideNoHits').on('change', function () {
             $('#alleleStrainTable tr.no-hits').toggle(!this.checked);
+        });
+
+        function cellText(cell) {
+            // keep ONLY <sup> tags; strip every other tag (links, <i>, tablesorter header divs, etc.)
+            // and collapse whitespace so stray tabs/newlines don't break the TSV columns
+            return $(cell).html()
+                .replace(/<(?!\/?sup\b)[^>]*>/gi, '')   // remove all tags except <sup> / </sup>
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        $('#downloadTsv').on('click', function () {
+            var $table = $('#alleleStrainTable');
+            if (!$table.length) return;
+
+            var lines = [];
+
+            // header row
+            var headers = [];
+            $table.find('thead th').each(function () { headers.push(cellText(this)); });
+            lines.push(headers.join('\t'));
+
+            // body rows — only those currently visible (respects the hide-no-hits filter)
+            $table.find('tbody tr:visible').each(function () {
+                var cols = [];
+                $(this).find('td').each(function () { cols.push(cellText(this)); });
+                lines.push(cols.join('\t'));
+            });
+
+            var tsv = lines.join('\r\n');
+            var blob = new Blob([tsv], { type: 'text/tab-separated-values;charset=utf-8;' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'alleles_and_mutated_strains.tsv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         });
     });
 </script>
