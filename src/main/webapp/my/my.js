@@ -565,7 +565,6 @@ rgdModule.controller('RGDPageController', [
                     f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
-                    $('#tools-modal').modal('hide');
 
                     //window.open(url);
 
@@ -757,6 +756,22 @@ rgdModule.controller('RGDPageController', [
 
                     //                  url += "&genes=" + geneList;
 //                    window.open(url);
+                } else if (tool == "alleleStrain") {
+                    url = "/rgdweb/alleleStrain/report.html?species=" + $scope.speciesTypeKey + "&mapKey=" + $scope.mapKey;
+
+                    var f = document.createElement("form");
+                    f.setAttribute('method', "post");
+                    f.setAttribute('action', url);
+
+                    var i = document.createElement("input");
+                    i.setAttribute('type', "hidden");
+                    i.setAttribute('name', "genes");
+                    i.setAttribute('value', geneList);
+
+                    f.appendChild(i);
+                    f.setAttribute('target', '_blank');
+                    document.getElementsByTagName('body')[0].appendChild(f);
+                    f.submit();
                 }
 
                 //location.href=url;
