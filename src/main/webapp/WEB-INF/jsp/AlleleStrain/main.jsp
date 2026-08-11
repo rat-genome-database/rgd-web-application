@@ -23,7 +23,6 @@
         vertical-align: top;
         padding: 8px 10px;
         line-height: 1.5;
-        word-break: break-word;
         border: 1px solid #ddd;
     }
     #alleleStrainContent th {
@@ -42,6 +41,11 @@
     #alleleStrainContent sup { top: -0.5em; }
     #alleleStrainContent sub { bottom: -0.25em; }
     #alleleStrainContent tr.no-hits td { font-style: italic; color: #777; }
+    /* keep genotype text inside a superscript (e.g. "em1Sage -/-") on one line.
+       (word-break is intentionally left at its default so a symbol's base is never
+       split from its <sup>; cells still wrap at real spaces / the <br> between
+       compound-strain allele groups, so columns stay narrow.) */
+    #alleleStrainContent sup { white-space: nowrap; }
 </style>
 
 <div id="alleleStrainContent">
@@ -116,9 +120,9 @@
                                         <c:choose>
                                             <c:when test="${m.strainRgdId > 0}">
                                                 <a href="/rgdweb/report/strain/main.html?id=${m.strainRgdId}"
-                                                   target="_blank">${m.strainSymbol}</a>
+                                                   target="_blank">${fn:replace(m.strainSymbol, '</i> <i>', '</i><br><i>')}</a>
                                             </c:when>
-                                            <c:otherwise>${m.strainSymbol}</c:otherwise>
+                                            <c:otherwise>${fn:replace(m.strainSymbol, '</i> <i>', '</i><br><i>')}</c:otherwise>
                                         </c:choose>
                                     </td>
                                     <td>
