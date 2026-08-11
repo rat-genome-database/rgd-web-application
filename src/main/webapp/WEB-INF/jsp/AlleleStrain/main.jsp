@@ -102,7 +102,10 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach var="m" items="${models}" varStatus="loop">
-                                <tr>
+                                <tr data-gene-rgdid="${m.geneRgdId}"
+                                    data-allele-rgdid="${m.alleleRgdId}"
+                                    data-strain-rgdid="${m.strainRgdId}"
+                                    data-background-rgdid="${m.backgroundStrainRgdId}">
                                     <td>
                                         <a href="/rgdweb/report/gene/main.html?id=${m.geneRgdId}"
                                            target="_blank">${m.geneSymbol}</a>
@@ -174,21 +177,38 @@
                 .trim();
         }
 
+        function idOrBlank(v) {
+            // RGD ids of 0 (or missing, e.g. on no-hits rows) mean "no linked object" -> blank
+            return (v === undefined || v === null || v === '' || parseInt(v, 10) <= 0) ? '' : String(v);
+        }
+
         $('#downloadTsv').on('click', function () {
             var $table = $('#alleleStrainTable');
             if (!$table.length) return;
 
-            var lines = [];
-
-            // header row
-            var headers = [];
-            $table.find('thead th').each(function () { headers.push(cellText(this)); });
-            lines.push(headers.join('\t'));
+            // RGD ids are interleaved next to their symbol column
+            var headers = ['Gene Symbol', 'Gene RGD ID', 'Allele Symbol', 'Allele RGD ID',
+                           'Strain Symbol', 'Strain RGD ID', 'Background Strain', 'Background Strain RGD ID',
+                           'Modification Method', 'Origination', 'Source'];
+            var lines = [headers.join('\t')];
 
             // body rows — only those currently visible (respects the hide-no-hits filter)
             $table.find('tbody tr:visible').each(function () {
-                var cols = [];
-                $(this).find('td').each(function () { cols.push(cellText(this)); });
+                var $row = $(this);
+                var td = $row.find('td');
+                var cols = [
+                    cellText(td[0]),                             // Gene Symbol
+                    idOrBlank($row.attr('data-gene-rgdid')),     // Gene RGD ID
+                    cellText(td[1]),                             // Allele Symbol
+                    idOrBlank($row.attr('data-allele-rgdid')),   // Allele RGD ID
+                    cellText(td[2]),                             // Strain Symbol
+                    idOrBlank($row.attr('data-strain-rgdid')),   // Strain RGD ID
+                    cellText(td[3]),                             // Background Strain
+                    idOrBlank($row.attr('data-background-rgdid')),// Background Strain RGD ID
+                    cellText(td[4]),                             // Modification Method
+                    cellText(td[5]),                             // Origination
+                    cellText(td[6])                              // Source
+                ];
                 lines.push(cols.join('\t'));
             });
 
