@@ -75,7 +75,7 @@
                 <prop key="report/ge/main.html">GenomicElementReportController</prop>
                 <prop key="report/variant/main.html">ClinVarReportController</prop>
                 <prop key="report/rgdvariant/main.html">VariantReportController</prop>
-                <prop key="report/variants/main.html">CNVariantReportController</prop>
+                <prop key="report/variants/main.html">ClinVarReportController</prop>
                 <prop key="report/variants/downloadGwas.html">GwasDownloadController</prop>
                 <prop key="report/gene/downloadExpression.html">ExpressionDownloadController</prop>
                 <prop key="report/rsId/main.html">CNVariantsRsIdController</prop>
@@ -86,7 +86,6 @@
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
-                <prop key="report/geneFamily/main.html">GeneFamilyReportController</prop>
                 <!--                <prop key="overgo/find.html">OvergoController</prop>-->
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
 
@@ -113,8 +112,6 @@
                 <prop key="ga/genome.html">GAGenomeController</prop>
                 <prop key="ga/window.html">GACrossCompareController</prop>
                 <prop key="ga/termDetail.html">GATermDetailController</prop>
-
-                <prop key="alleleStrain/report.html">AlleleStrainController</prop>
 
                 <prop key="enrichment/analysis.html">EnrichmentController</prop>
                 <prop key="enrichment/start.html">EnrichmentSelectController</prop>
@@ -267,19 +264,17 @@
     <bean id="GeneTermAnnotationsController" class="edu.mcw.rgd.report.GeneTermAnnotationsController"/>
     <bean id="ClinVarReportController" class="edu.mcw.rgd.report.ClinVarReportController"/>
     <bean id="VariantReportController" class="edu.mcw.rgd.report.VariantReportController"/>
-    <bean id="CNVariantReportController" class="edu.mcw.rgd.report.CNVariantReportController"/>
     <bean id="CNVariantsRsIdController" class="edu.mcw.rgd.report.CNVariantsRsIdController"/>
     <bean id="GwasDownloadController" class="edu.mcw.rgd.report.GwasDownloadController"/>
     <bean id="ExpressionDownloadController" class="edu.mcw.rgd.report.ExpressionDownloadController"/>
     <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
-<!--    <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>-->
+    <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
     <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
     <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
-    <bean id="GeneFamilyReportController" class="edu.mcw.rgd.report.GeneFamilyReportController"/>
     <bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
     <bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
@@ -336,8 +331,6 @@
     <bean id="GAGenomeController" class="edu.mcw.rgd.ga.GAGenomeController" />
     <bean id="GACrossCompareController" class="edu.mcw.rgd.ga.GACrossCompareController" />
     <bean id="GATermDetailController" class="edu.mcw.rgd.ga.GATermDetailController" />
-
-    <bean id="AlleleStrainController" class="edu.mcw.rgd.allelestrain.AlleleStrainController"/>
 
     <bean id="PATermCompareController" class="edu.mcw.rgd.ga.PATermCompareController" />
     <bean id="PACrossCompareController" class="edu.mcw.rgd.ga.PACrossCompareController" />

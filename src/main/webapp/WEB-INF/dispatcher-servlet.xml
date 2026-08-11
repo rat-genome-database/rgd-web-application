@@ -48,6 +48,7 @@
 
                 <prop key="search/search.html">searchController</prop>
                 <prop key="search/searchByPosition.html">searchByPosController</prop>
+                <prop key="search/variantCount.html">variantCountController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
                 <prop key="search/qtls.html">qtlSearchController</prop>
                 <prop key="search/strains.html">strainSearchController</prop>
@@ -59,13 +60,14 @@
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
                 <prop key="report/strain/strainFileDownload.html">StrainFileDownloadController</prop>
-                <prop key="report/gene/expressionData.html">ExpressionDataController</prop>
+<!--                <prop key="report/gene/expressionData.html">ExpressionDataController</prop>-->
 
                 <prop key="report/format.html">FormatController</prop>
                 <prop key="report/gene/main.html">GeneReportController</prop>
                 <prop key="report/gene/damagingVariants.html">GeneDamagingVariantsController</prop>
                 <prop key="report/qtl/main.html">QTLReportController</prop>
                 <prop key="report/strain/main.html">StrainReportController</prop>
+                <prop key="report/strainOnt/main.html">StrainRedirectController</prop>
                 <prop key="report/marker/main.html">MarkerReportController</prop>
                 <prop key="report/reference/main.html">ReferenceReportController</prop>
                 <prop key="report/annotation/main.html">AnnotationReportController</prop>
@@ -84,6 +86,7 @@
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
+                <prop key="report/geneFamily/main.html">GeneFamilyReportController</prop>
                 <!--                <prop key="overgo/find.html">OvergoController</prop>-->
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
 
@@ -111,6 +114,8 @@
                 <prop key="ga/window.html">GACrossCompareController</prop>
                 <prop key="ga/termDetail.html">GATermDetailController</prop>
 
+                <prop key="alleleStrain/report.html">AlleleStrainController</prop>
+
                 <prop key="enrichment/analysis.html">EnrichmentController</prop>
                 <prop key="enrichment/start.html">EnrichmentSelectController</prop>
 
@@ -135,11 +140,9 @@
                 <prop key="front/config.html">nConfigController</prop>
 
                 <prop key="generator/list.html">ProcessListController</prop>
-                <prop key="generator/wizard.html">ListWizardController</prop>
                 <prop key="generator/preview.html">ListPreviewController</prop>
                 <prop key="generator/save.html">ListSaveController</prop>
                 <prop key="generator/process.html">ProcessListController</prop>
-                <prop key="generator/chromosomes.html">ChromosomeController</prop>
 
 
                 <prop key="gviewer/genome.html">GviewerGenomeController</prop>
@@ -148,8 +151,12 @@
                 <prop key="gviewer/welcome.html">GviewerWelcomeController</prop>
 
                 <prop key="gviewer/getAnnotationXml.html">GViewerGetAnnotationXmlController</prop>
+                <prop key="gviewer/getAnnotationJson.html">GViewerGetAnnotationJsonController</prop>
                 <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
+                <prop key="gviewer/addObjects.html">GViewerAddObjectsController</prop>
+                <prop key="gviewer/termCounts.html">GViewerTermCountsController</prop>
+                <prop key="gviewer/ideogram.html">GViewerIdeogramController</prop>
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
@@ -216,9 +223,6 @@
                 <prop key="/hrdp_panel.html">hrdpController</prop>
                 <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
                 <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
-                <prop key="report/expressionStudy/main.html">ExpressionStudyReportController</prop>
-                <prop key="report/expressionStudy/downloadMetadata.html">ExpressionStudyDownloadController</prop>
-                <prop key="report/geneFamily/main.html">GeneFamilyReportController</prop>
             </props>
         </property>
     </bean>
@@ -270,12 +274,14 @@
     <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
-    <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
+<!--    <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>-->
     <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
     <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
+    <bean id="GeneFamilyReportController" class="edu.mcw.rgd.report.GeneFamilyReportController"/>
     <bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
+    <bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>
     <bean id="PipelineRecListController" class="edu.mcw.rgd.pipeline.PipelineRecListController"/>
@@ -311,6 +317,7 @@
     <bean id="variantSearchController" class="edu.mcw.rgd.search.VariantSearchController"/>
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
     <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
+    <bean id="variantCountController" class="edu.mcw.rgd.search.VariantCountController"/>
 
     <bean id="FormatController" class="edu.mcw.rgd.web.FormatController"/>
     <!--    <bean id="OvergoController" class="edu.mcw.rgd.overgo.OvergoController"/>-->
@@ -329,6 +336,8 @@
     <bean id="GAGenomeController" class="edu.mcw.rgd.ga.GAGenomeController" />
     <bean id="GACrossCompareController" class="edu.mcw.rgd.ga.GACrossCompareController" />
     <bean id="GATermDetailController" class="edu.mcw.rgd.ga.GATermDetailController" />
+
+    <bean id="AlleleStrainController" class="edu.mcw.rgd.allelestrain.AlleleStrainController"/>
 
     <bean id="PATermCompareController" class="edu.mcw.rgd.ga.PATermCompareController" />
     <bean id="PACrossCompareController" class="edu.mcw.rgd.ga.PACrossCompareController" />
@@ -353,11 +362,9 @@
 
 
     <bean id="ListGeneratorController" class="edu.mcw.rgd.generator.ListGeneratorController" />
-    <bean id="ListWizardController" class="edu.mcw.rgd.generator.ListWizardController" />
     <bean id="ListPreviewController" class="edu.mcw.rgd.generator.ListPreviewController" />
     <bean id="ListSaveController" class="edu.mcw.rgd.generator.ListSaveController" />
     <bean id="ProcessListController" class="edu.mcw.rgd.generator.ProcessListController" />
-    <bean id="ChromosomeController" class="edu.mcw.rgd.generator.ChromosomeController" />
 
     <bean id="SeqRetrieveController" class="edu.mcw.rgd.seqretrieve.SeqRetrieveController"/>
     <bean id="GbrowseTrackAssociationController" class="edu.mcw.rgd.report.GbrowseTracksAssocController"/>
@@ -373,8 +380,12 @@
     <bean id="PmidImaController" class="edu.mcw.rgd.webservice.PmidImageController"/>
 
     <bean id="GViewerGetAnnotationXmlController" class="edu.mcw.rgd.gviewer.AnnotationXmlController"/>
+    <bean id="GViewerGetAnnotationJsonController" class="edu.mcw.rgd.gviewer.AnnotationJSONController"/>
     <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
+    <bean id="GViewerAddObjectsController" class="edu.mcw.rgd.gviewer.AddObjectsController"/>
+    <bean id="GViewerTermCountsController" class="edu.mcw.rgd.gviewer.TermCountsController"/>
+    <bean id="GViewerIdeogramController" class="edu.mcw.rgd.gviewer.IdeogramController"/>
 
 
     <bean id="PrimerController" class="edu.mcw.rgd.primerCreate.PrimerController" />
@@ -430,8 +441,5 @@
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
     <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
     <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
-    <bean id="ExpressionStudyReportController" class="edu.mcw.rgd.report.ExpressionStudyReportController"/>
-    <bean id="ExpressionStudyDownloadController" class="edu.mcw.rgd.report.ExpressionStudyDownloadController"/>
-    <bean id="GeneFamilyReportController" class="edu.mcw.rgd.report.GeneFamilyReportController"/>
 </beans>
 
