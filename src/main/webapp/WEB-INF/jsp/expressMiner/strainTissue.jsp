@@ -293,6 +293,7 @@
 %>
 
 <script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
+<script type="text/javascript" src="/rgdweb/common/ontologyAutocomplete.js"></script>
 
 <div class="typerMat">
   <div class="st-container">
@@ -329,8 +330,12 @@
                   onclick="ontPopup('strainStaging','rs','strainStaging_term'); return false;">Browse Ontology Tree</button>
         </div>
         <div class="st-add">
+          <input type="text" id="strainSearchInput" class="st-add-input" autocomplete="off"
+                 placeholder="Search strains by name, e.g. SS/JrHsd"/>
+        </div>
+        <div class="st-add">
           <input type="text" id="strainManualInput" class="st-add-input"
-                 placeholder="Enter a strain accession, e.g. RS:0000681"
+                 placeholder="...or enter an accession, e.g. RS:0000681"
                  onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('strainStaging');}"/>
           <button type="button" class="st-add-btn" onclick="addManual('strainStaging')">Add</button>
         </div>
@@ -347,8 +352,12 @@
                   onclick="ontPopup('tissueStaging','uberon','tissueStaging_term'); return false;">Browse Ontology Tree</button>
         </div>
         <div class="st-add">
+          <input type="text" id="tissueSearchInput" class="st-add-input" autocomplete="off"
+                 placeholder="Search tissues by name, e.g. liver"/>
+        </div>
+        <div class="st-add">
           <input type="text" id="tissueManualInput" class="st-add-input"
-                 placeholder="Enter a tissue accession, e.g. UBERON:0002107"
+                 placeholder="...or enter an accession, e.g. UBERON:0002107"
                  onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('tissueStaging');}"/>
           <button type="button" class="st-add-btn" onclick="addManual('tissueStaging')">Add</button>
         </div>
@@ -524,6 +533,26 @@
     <% } %>
     updateProceedState();
   })();
+
+  // Term-name search: type a strain (RS) or tissue (UBERON) name and pick from the ontology
+  // suggestions. Selecting adds the term (with its real name) to the list, same as the tree browse.
+  // Reuses the shared component from /rgdweb/common/ontologyAutocomplete.js.
+  if (typeof setupOntologyAutocomplete === 'function') {
+    setupOntologyAutocomplete('#strainSearchInput', 'RS', {
+      onSelect: function (term, accId) {
+        addTerm(accId, term, ST_LISTS.strainStaging);
+        var el = document.getElementById('strainSearchInput');
+        if (el) el.value = '';
+      }
+    });
+    setupOntologyAutocomplete('#tissueSearchInput', 'UBERON', {
+      onSelect: function (term, accId) {
+        addTerm(accId, term, ST_LISTS.tissueStaging);
+        var el = document.getElementById('tissueSearchInput');
+        if (el) el.value = '';
+      }
+    });
+  }
 </script>
 
 <%@ include file="/common/footerarea.jsp" %>

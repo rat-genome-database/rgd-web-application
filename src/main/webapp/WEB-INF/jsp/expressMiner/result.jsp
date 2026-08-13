@@ -296,6 +296,7 @@
   .em-link:hover { text-decoration: underline; }
 
   .em-acc { color: #7a8a9a; font-size: 11px; }
+  .em-lifestage { border-bottom: 1px dotted #888; cursor: help; }
 
   .level-badge {
     display: inline-block;
@@ -468,6 +469,16 @@
               <option value="median">Median</option>
             </select>
           </label>
+          <label>Color
+            <select id="emHmColor" onchange="renderHeatmap()">
+              <option value="Viridis">Viridis (colorblind-safe)</option>
+              <option value="Cividis">Cividis (colorblind-safe)</option>
+              <option value="Plasma">Plasma (colorblind-safe)</option>
+              <option value="YlOrRd">Yellow-Orange-Red</option>
+              <option value="Blues">Blues</option>
+              <option value="Greys">Greyscale</option>
+            </select>
+          </label>
         </div>
         <div id="emHeatmap"></div>
       </div>
@@ -588,6 +599,25 @@
     return '<span class="level-badge ' + cls + '">' + esc(level) + '</span>';
   }
 
+  // Rat life-stage -> age range (in days), shown as a hover tooltip on Life Stage values.
+  var LIFE_STAGE_AGES = {
+    'embryonic': '< 0',
+    'neonatal': '0 - 20',
+    'weanling': '21 - 34',
+    'juvenile': '35 - 55',
+    'adult': '56 - 719',
+    'aged': '> 719'
+  };
+  function lifeStageAge(stage) {
+    return LIFE_STAGE_AGES[String(stage || '').trim().toLowerCase()] || '';
+  }
+  function lifeStageCell(stage) {
+    if (!stage) return '';
+    var age = lifeStageAge(stage);
+    if (!age) return esc(stage);
+    return '<span class="em-lifestage" title="Age: ' + esc(age) + ' days">' + esc(stage) + '</span>';
+  }
+
   function geneCell(rec) {
     var sym = rec.geneSymbol || rec.geneSymbolWithRgdId || '';
     if (rec.geneRgdId) {
@@ -630,16 +660,24 @@
         (r.sex || r.computedSex || ''), r.lifeStage, r.species, r.studyId, r.geoSeriesAcc
       ].join('');
       var g = byKey[key];
-      if (!g) { g = { rec: r, conditions: [] }; byKey[key] = g; order.push(key); }
-      if (r.condition && g.conditions.indexOf(r.condition) === -1) g.conditions.push(r.condition);
+      if (!g) { g = { rec: r, conditions: [], condSeen: {} }; byKey[key] = g; order.push(key); }
+      // Condition is an ontology term (accession in r.condition, label in r.conditionTerm).
+      // Collect distinct terms across the merged rows, keyed by accession (label as fallback).
+      var cAcc = r.condition || '', cTerm = r.conditionTerm || '';
+      var cKey = cAcc || cTerm;
+      if (cKey && !g.condSeen[cKey]) { g.condSeen[cKey] = 1; g.conditions.push({ acc: cAcc, term: cTerm }); }
     }
     return order.map(function (k) { return byKey[k]; });
   }
 
+  // Render conditions like the other ontology columns: term name with its accession linked to the
+  // ontology term report. Merged rows may carry several distinct conditions, shown as a list.
   function conditionCell(conditions) {
     if (!conditions || conditions.length === 0) return '';
-    if (conditions.length === 1) return esc(conditions[0]);
-    var items = conditions.slice().sort().map(function (c) { return '<li>' + esc(c) + '</li>'; });
+    if (conditions.length === 1) return ontCell(conditions[0].term, conditions[0].acc);
+    var items = conditions.slice().sort(function (a, b) {
+      return (a.term || a.acc).localeCompare(b.term || b.acc);
+    }).map(function (c) { return '<li>' + ontCell(c.term, c.acc) + '</li>'; });
     return '<ul class="em-cond-list">' + items.join('') + '</ul>';
   }
 
@@ -661,7 +699,7 @@
           '<td>' + esc(r.expressionUnit) + '</td>' +
           '<td>' + levelBadge(r.expressionLevel) + '</td>' +
           '<td>' + esc(r.sex || r.computedSex || '') + '</td>' +
-          '<td>' + esc(r.lifeStage) + '</td>' +
+          '<td>' + lifeStageCell(r.lifeStage) + '</td>' +
           '<td>' + conditionCell(groups[i].conditions) + '</td>' +
           '<td>' + esc(r.species) + '</td>' +
           '<td>' + studyCell(r) + '</td>' +
@@ -839,10 +877,15 @@
         var label = group.labelOf ? group.labelOf(v) : v;
         var hay = esc((label + ' ' + v).toLowerCase());
         var checked = sel[v] ? ' checked' : '';
+        var labelExtra = '';
+        if (group.key === 'lifeStages') {
+          var lsAge = lifeStageAge(v);
+          if (lsAge) labelExtra = ' class="em-lifestage" title="Age: ' + esc(lsAge) + ' days"';
+        }
         html.push(
           '<label class="em-facet-item" data-group="' + esc(group.key) + '" data-search="' + hay + '">' +
             '<input type="checkbox" onchange="onFacetChange(\'' + esc(group.key) + '\', this)" value="' + esc(v) + '"' + checked + '/>' +
-            '<span class="em-facet-label">' + esc(label) + '</span>' +
+            '<span class="em-facet-label"><span' + labelExtra + '>' + esc(label) + '</span></span>' +
             '<span class="em-facet-count">' + (counts[v] || 0) + '</span>' +
           '</label>'
         );
@@ -1056,6 +1099,8 @@
     var xDim = document.getElementById('emHmX').value;
     var unit = document.getElementById('emHmUnit').value;
     var agg  = document.getElementById('emHmAgg').value;
+    var colorEl = document.getElementById('emHmColor');
+    var colorscale = colorEl ? colorEl.value : 'Viridis';
 
     if (yDim === xDim) {
       note.innerText = 'Pick two different dimensions for rows and columns.';
@@ -1076,7 +1121,7 @@
     var data = [{
       type: 'heatmap',
       z: d.z, x: d.x, y: d.y, customdata: d.counts,
-      colorscale: 'YlOrRd',
+      colorscale: colorscale,
       hoverongaps: false,
       xgap: 1, ygap: 1,
       colorbar: { title: { text: aggLabel + (unit ? ' ' + unit : ''), side: 'right' }, thickness: 14 },
