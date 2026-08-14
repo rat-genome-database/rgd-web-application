@@ -221,6 +221,53 @@
     margin: 2px 3px;
   }
 
+  .em-addgenes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: -8px 0 20px 0;
+    padding: 10px 15px;
+    background: #f3f8fc;
+    border-left: 4px solid #7aa9d0;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+    color: #2a4a6a;
+  }
+
+  .em-addgenes label { font-weight: 600; }
+
+  .em-addgenes input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 7px 10px;
+    border: 1px solid #bccada;
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+    font-size: 13px;
+  }
+
+  .em-addgenes input[type="text"]:focus {
+    outline: none;
+    border-color: #3a7aba;
+    box-shadow: 0 0 0 3px rgba(58, 122, 186, 0.15);
+  }
+
+  .em-addgenes button {
+    font-size: 13px;
+    font-weight: bold;
+    background: #eef4fb;
+    color: #2f6699;
+    border: 1px solid #bccada;
+    border-radius: 4px;
+    padding: 7px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .em-addgenes button:hover { background: #dce8f4; border-color: #3a7aba; }
+
   .em-status {
     padding: 14px 15px;
     margin-bottom: 20px;
@@ -373,6 +420,11 @@
   if (rgdIds == null) rgdIds = new ArrayList<Integer>();
   List<String> unresolvedSymbols = (List<String>) request.getAttribute("unresolvedSymbols");
   if (unresolvedSymbols == null) unresolvedSymbols = new ArrayList<String>();
+
+  // Gene symbols the user originally typed (resolved server-side to rgdIds). Preserved so the
+  // "Add genes" control on this page can re-submit them alongside any newly typed symbols.
+  String geneListParam = (String) request.getAttribute("geneList");
+  if (geneListParam == null) geneListParam = "";
 %>
 
 <div class="typerMat">
@@ -427,6 +479,24 @@
         <% } %>
       </div>
 
+      <!-- Inline "add genes" control. Re-posts to this same result page with the current
+           tissue/strain/assembly selection plus the combined gene list; the controller resolves
+           the symbols to RGD ids server-side and re-renders, so the user never leaves this page. -->
+      <form id="emAddGeneForm" class="em-addgenes" method="post" action="/rgdweb/expressMiner/result.html">
+        <input type="hidden" name="mapKey" value="<%=mapKey%>"/>
+        <% for (String t : tissueIds) { %><input type="hidden" name="tissueId" value="<%=t%>"/><% } %>
+        <% for (String s : strainAccIds) { %><input type="hidden" name="strainId" value="<%=s%>"/><% } %>
+        <% if (expressionLevel != null && !expressionLevel.isBlank()) { %>
+        <input type="hidden" name="expressionLevel" value="<%=expressionLevel%>"/>
+        <% } %>
+        <input type="hidden" name="geneList" id="emExistingGeneList" value="<%= geneListParam.replace("\"","&quot;") %>"/>
+        <label for="emAddGeneInput"><%= rgdIds.isEmpty() ? "Add a gene list:" : "Add more genes:" %></label>
+        <input type="text" id="emAddGeneInput" autocomplete="off"
+               placeholder="Enter gene symbols, e.g. Tp53, Brca1 Lepr"
+               onkeydown="if(event.key==='Enter'){event.preventDefault(); submitAddGenes();}"/>
+        <button type="button" onclick="submitAddGenes()">Add Genes</button>
+      </form>
+
       <% if (!unresolvedSymbols.isEmpty()) { %>
       <div class="em-status warn">
         Could not resolve <%=unresolvedSymbols.size()%> gene symbol<%=unresolvedSymbols.size()==1?"":"s"%>
@@ -471,10 +541,10 @@
           </label>
           <label>Color
             <select id="emHmColor" onchange="renderHeatmap()">
+              <option value="YlOrRd">Yellow-Orange-Red</option>
               <option value="Viridis">Viridis (colorblind-safe)</option>
               <option value="Cividis">Cividis (colorblind-safe)</option>
               <option value="Plasma">Plasma (colorblind-safe)</option>
-              <option value="YlOrRd">Yellow-Orange-Red</option>
               <option value="Blues">Blues</option>
               <option value="Greys">Greyscale</option>
             </select>
@@ -553,9 +623,10 @@
 
   // Facet groups shown in the panel. `accOf` maps a record to the value the facet keys on, used to
   // filter the table client-side. Server groups get their options/counts from the /index/facets call;
-  // `client: true` groups (Sex, Life Stage) are not provided by that endpoint, so their options and
-  // counts are computed from the loaded records instead (see renderClientFacets). `labelOf` formats a
-  // value for display on client groups.
+  // `client: true` groups (Sex, Life Stage, Condition) are not provided by that endpoint, so their
+  // options and counts are computed from the loaded records instead (see renderClientFacets). `labelOf`
+  // formats a value for display; `recLabelOf` pulls a display label straight off a record (used when
+  // the facet keys on an id/accession but should show a friendlier name).
   var FACET_GROUPS = [
     { key: 'levels',  title: 'Expression Level', accOf: function (r) { return r.expressionLevel; } },
     { key: 'units',   title: 'Unit',             accOf: function (r) { return r.expressionUnit; } },
@@ -565,7 +636,13 @@
     { key: 'sex',        title: 'Sex',        client: true, labelOf: capitalize,
       accOf: function (r) { return (r.sex || r.computedSex || '').trim().toLowerCase(); } },
     { key: 'lifeStages', title: 'Life Stage', client: true, labelOf: capitalize,
-      accOf: function (r) { return (r.lifeStage || '').trim().toLowerCase(); } }
+      accOf: function (r) { return (r.lifeStage || '').trim().toLowerCase(); } },
+    // Condition (XCO ontology). Keyed on the accession so this can move to a server facet / API filter
+    // with no UI change; for now options and counts are computed client-side from the loaded records
+    // (same trick as Sex / Life Stage). recLabelOf supplies the human-readable term name to display.
+    { key: 'conditions', title: 'Condition', client: true,
+      accOf: function (r) { return (r.condition || '').trim(); },
+      recLabelOf: function (r) { return (r.conditionTerm || r.condition || '').trim(); } }
   ];
   var selectedFacets = {}; // key -> { accValue: true }
 
@@ -576,6 +653,19 @@
     el.style.display = 'block';
   }
   function hideStatus() { document.getElementById('emStatus').style.display = 'none'; }
+
+  // Merge the newly typed gene symbols into the existing gene list and re-post to this same result
+  // page. The controller resolves symbols -> RGD ids server-side, so we stay on the results page and
+  // the new genes are simply folded into the query (unresolved symbols are reported as usual).
+  function submitAddGenes() {
+    var input = document.getElementById('emAddGeneInput');
+    var added = (input.value || '').trim();
+    if (!added) { input.focus(); return; }
+    var hidden = document.getElementById('emExistingGeneList');
+    var existing = (hidden.value || '').trim();
+    hidden.value = existing ? (existing + ' ' + added) : added;
+    document.getElementById('emAddGeneForm').submit();
+  }
 
   function esc(s) {
     if (s === null || s === undefined) return '';
@@ -851,14 +941,22 @@
       if (!group.client) continue;
 
       var counts = {};
+      var labels = {}; // accValue -> display label captured from a record (for recLabelOf groups)
       for (var i = 0; i < allRecords.length; i++) {
         var r = allRecords[i];
         if (!recordMatches(r, group.key)) continue;
         var val = group.accOf(r);
         if (!val) continue;
         counts[val] = (counts[val] || 0) + 1;
+        if (group.recLabelOf && labels[val] === undefined) labels[val] = group.recLabelOf(r);
       }
-      var values = Object.keys(counts).sort();
+      var labelFor = function (v) {
+        if (labels[v] !== undefined && labels[v] !== '') return labels[v];
+        return group.labelOf ? group.labelOf(v) : v;
+      };
+      var values = Object.keys(counts).sort(function (a, b) {
+        return String(labelFor(a)).localeCompare(String(labelFor(b)));
+      });
       var sel = selectedFacets[group.key] || {};
       // Keep a checked value visible even if it now counts 0, so it can still be unchecked.
       for (var s in sel) { if (values.indexOf(s) === -1) values.push(s); }
@@ -874,7 +972,7 @@
       }
       for (var k = 0; k < values.length; k++) {
         var v = values[k];
-        var label = group.labelOf ? group.labelOf(v) : v;
+        var label = labelFor(v);
         var hay = esc((label + ' ' + v).toLowerCase());
         var checked = sel[v] ? ' checked' : '';
         var labelExtra = '';
@@ -1100,7 +1198,7 @@
     var unit = document.getElementById('emHmUnit').value;
     var agg  = document.getElementById('emHmAgg').value;
     var colorEl = document.getElementById('emHmColor');
-    var colorscale = colorEl ? colorEl.value : 'Viridis';
+    var colorscale = colorEl ? colorEl.value : 'YlOrRd';
 
     if (yDim === xDim) {
       note.innerText = 'Pick two different dimensions for rows and columns.';

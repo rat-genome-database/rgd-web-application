@@ -107,8 +107,15 @@
 
   .form-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 15px;
+  }
+
+  .backLink {
+    color: #0052a1;
+    text-decoration: none;
+    font-size: 13px;
   }
 
   /* Continue Button */
@@ -152,7 +159,12 @@
 
   .gene-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .gene-action-buttons {
+    display: flex;
     gap: 10px;
   }
 
@@ -307,16 +319,20 @@
         </div>
         <% if (genesEntry) { %>
         <div class="gene-actions">
-          <input class="continueButtonSecondary" type="button"
-                 onClick="proceedGeneList('/rgdweb/expressMiner/strainTissue.html', false);"
-                 value="Add Strains / Tissues..."/>
-          <input class="continueButtonPrimary" type="button"
-                 onClick="proceedGeneList('<%=nextAction%>', true);"
-                 value="View Results"/>
+          <a class="backLink" href="javascript:history.back()">&#8592; Back</a>
+          <div class="gene-action-buttons">
+            <input class="continueButtonSecondary" type="button"
+                   onClick="proceedGeneList('/rgdweb/expressMiner/strainTissue.html', false);"
+                   value="Add Strains / Tissues..."/>
+            <input class="continueButtonPrimary" type="button"
+                   onClick="proceedGeneList('<%=nextAction%>', true);"
+                   value="View Results"/>
+          </div>
         </div>
         <div id="geneListError" class="gene-error">Enter at least one gene symbol to view results.</div>
         <% } else { %>
         <div class="form-actions">
+          <a class="backLink" href="javascript:history.back()">&#8592; Back</a>
           <input class="continueButtonPrimary" type="button"
                  onClick="proceedGeneList('<%=nextAction%>', false);" value="Continue..."/>
         </div>
