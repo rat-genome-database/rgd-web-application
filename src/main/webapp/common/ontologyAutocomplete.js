@@ -24,6 +24,9 @@
  *       Pass a function returning the mapKey, or true to read the value
  *       of #assemblyVersion at search time. Direct counts only — descendant
  *       expansion via the ontology DAG is not considered here.
+ *   - root {string} accession ID of a root term (e.g. 'DOID:409'). When set,
+ *       results are restricted to descendants of that term (plus the root
+ *       itself). Useful for portal-scoped search.
  */
 function setupOntologyAutocomplete(input, ont, options) {
     options = options || {};
@@ -248,9 +251,13 @@ function setupOntologyAutocomplete(input, ont, options) {
     }
 
     function doSearch(term) {
+        var params = { term: term, ont: ont, max: max };
+        if (options.root) {
+            params.root = options.root;
+        }
         jq.ajax({
             url: '/rgdweb/ontology/autocomplete.html',
-            data: { term: term, ont: ont, max: max },
+            data: params,
             dataType: 'text',
             success: function(data) {
                 var results = [];
