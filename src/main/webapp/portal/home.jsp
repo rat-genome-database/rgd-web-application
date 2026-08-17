@@ -1297,10 +1297,10 @@
     <div style="text-align:center; margin: 12px auto 16px; padding: 12px; background-color:#EAF1FB; border:1px solid #B7CDE8; border-radius:6px; max-width:640px;">
         <label for="portalTermSearch"
                style="display:block; font-size:14px; font-weight:700; color:#24609C; margin-bottom:8px; font-family:Helvetica;">
-            Jump to a term in this portal
+            Jump to a disease term
         </label>
         <input id="portalTermSearch" type="text" autocomplete="off"
-               placeholder="Start typing a disease term..."
+               placeholder="Start typing any disease term..."
                style="width:80%; max-width:500px; padding:8px 12px; border:2px solid #24609C; border-radius:6px; font-size:15px; box-shadow: 0 1px 3px rgba(36,96,156,0.15);" />
     </div>
 
@@ -1313,7 +1313,6 @@
                     return;
                 }
                 setupOntologyAutocomplete('#portalTermSearch', 'RDO', {
-                    root: '<%=filter%>',
                     onSelect: function(termName, accId) {
                         browse(accId, termName);
                         jQuery('#portalTermSearch').val('');
