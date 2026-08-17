@@ -871,6 +871,64 @@
 
     <%@ include file="updateForm.jsp"%>
 
+    <div id="colorLegendPanel" style="margin: 10px auto; max-width: 1000px; background-color: white; border: 1px solid #ccc; border-radius: 4px; padding: 8px 12px; font-family: arial; font-size: 12px;">
+        <div style="cursor: pointer; user-select: none; font-weight: bold; color: #063968;" onclick="toggleColorLegend()">
+            <span id="colorLegendToggle">&#9654;</span>&nbsp;Color Legend
+        </div>
+        <div id="colorLegendContent" style="display: none; padding-top: 10px;">
+            <table cellpadding="0" cellspacing="0" style="width:100%;">
+                <tr>
+                    <td style="vertical-align:top; padding-right:20px;">
+                        <div style="font-weight:bold; margin-bottom:6px; color:#063968;">Homozygous</div>
+                        <table cellpadding="3" cellspacing="2">
+                            <tr><td style="width:32px; height:22px; background-color:#0A224E; color:white; text-align:center;">A</td><td>A / A</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:#BF381A; color:white; text-align:center;">T</td><td>T / T</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:#A0D8F1; color:black; text-align:center;">C</td><td>C / C</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:#E07628; color:white; text-align:center;">G</td><td>G / G</td></tr>
+                        </table>
+                    </td>
+                    <td style="vertical-align:top; padding-right:20px;">
+                        <div style="font-weight:bold; margin-bottom:6px; color:#063968;">Heterozygous</div>
+                        <table cellpadding="3" cellspacing="2">
+                            <tr><td style="width:40px; height:22px; background-color:#652D34; color:white; text-align:center;">A/T</td><td>A/T or T/A</td></tr>
+                            <tr><td style="width:40px; height:22px; background-color:#557DA0; color:white; text-align:center;">A/C</td><td>A/C or C/A</td></tr>
+                            <tr><td style="width:40px; height:22px; background-color:#754C3B; color:white; text-align:center;">A/G</td><td>A/G or G/A</td></tr>
+                            <tr><td style="width:40px; height:22px; background-color:#B08886; color:white; text-align:center;">T/C</td><td>T/C or C/T</td></tr>
+                            <tr><td style="width:40px; height:22px; background-color:#D05721; color:white; text-align:center;">T/G</td><td>T/G or G/T</td></tr>
+                            <tr><td style="width:40px; height:22px; background-color:#C0A78D; color:black; text-align:center;">C/G</td><td>C/G or G/C</td></tr>
+                        </table>
+                    </td>
+                    <td style="vertical-align:top;">
+                        <div style="font-weight:bold; margin-bottom:6px; color:#063968;">Other</div>
+                        <table cellpadding="3" cellspacing="2">
+                            <tr><td style="width:32px; height:22px; background-color:#E9AF32; color:black; text-align:center;">het</td><td>Heterozygous (unspecified)</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:purple; color:white; text-align:center;">-</td><td>Deletion</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:black; color:white; text-align:center;">?</td><td>Multiple variants at position</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:pink; color:black; text-align:center;">n</td><td>Long indel (n = length in bp)</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:#E8E4D5; color:black; text-align:center;">-</td><td>No variant called</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:#42433E; color:white; text-align:center;">A</td><td>Reference nucleotide (in exon)</td></tr>
+                            <tr><td style="width:32px; height:22px; background-color:#E8E4De; color:black; text-align:center;">A</td><td>Reference nucleotide (outside exon)</td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleColorLegend() {
+            var content = document.getElementById("colorLegendContent");
+            var toggle = document.getElementById("colorLegendToggle");
+            if (content.style.display === "none") {
+                content.style.display = "block";
+                toggle.innerHTML = "&#9660;";
+            } else {
+                content.style.display = "none";
+                toggle.innerHTML = "&#9654;";
+            }
+        }
+    </script>
+
     <%
         Gene gene = (Gene) request.getAttribute("gene");
         DescriptionGenerator dg = new DescriptionGenerator();
