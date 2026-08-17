@@ -16,20 +16,35 @@ edu.mcw.rgd.dao.impl.VariantInfoDAO"
     response.setHeader("Content-Type", "text/tab");
     response.setHeader("Content-Disposition","attachment; filename=annotation.tab" );
     if(bean.getObjectKey()==6){
-        out.println("Species\tTerm Accession\tTerm\tObject\tRGD ID\tSymbol\tName\tType\tQualifiers\tEvidence\trsID\tP Value\tLOD Score\tChr\tStart\tStop\tReference(s)\tSource(s)\tOriginal Reference(s)\tNotes");
+        out.println("Species\tTerm Accession\tTerm\tObject\tRGD ID\tSymbol\tName\tType\tQualifiers\tEvidence\trsID\tP Value\tLOD Score\tChr\tStart\tStop\tRGD Reference(s)\tSource(s)\tPubMed Reference(s)\tNotes");
     }
     else {
-        out.println("Species\tTerm Accession\tTerm\tObject\tRGD ID\tSymbol\tName\tType\tQualifiers\tEvidence\tChr\tStart\tStop\tReference(s)\tSource(s)\tOriginal Reference(s)\tNotes");
+        out.println("Species\tTerm Accession\tTerm\tObject\tRGD ID\tSymbol\tName\tType\tQualifiers\tEvidence\tChr\tStart\tStop\tRGD Reference(s)\tSource(s)\tPubMed Reference(s)\tNotes");
     }
     for( Map.Entry<Term, List<OntAnnotation>> entry: bean.getAnnots().entrySet() ) {
         Term term = entry.getKey();
         for( OntAnnotation annot: entry.getValue() ) {
 
-            String ref = annot.getReference();
-            if( ref!=null ) {
-                ref = ref.replaceAll("<BR>", ", ");
-                ref = ref.replaceAll("\\<[^>]*>", "");
+            // "RGD Reference(s)" column: match the web-page report (annotTable.jsp),
+            // which combines rgdRefSource (from pipeline xrefs) and
+            // referenceTurnedRGDRef (from manual/RGD-sourced refRgdIds).
+            // annot.getReference() is only populated for pipeline refs and was
+            // producing the literal "null" for RGD-manual annotations (RGDD-3023).
+            String rgdRefSrc = annot.getRgdRefSource();
+            String rgdRef = annot.getReferenceTurnedRGDRef();
+            String ref;
+            if (rgdRefSrc != null && !rgdRefSrc.isEmpty() && rgdRef != null && !rgdRef.isEmpty()) {
+                ref = rgdRefSrc + ", " + rgdRef;
+            } else if (rgdRefSrc != null && !rgdRefSrc.isEmpty()) {
+                ref = rgdRefSrc;
+            } else if (rgdRef != null && !rgdRef.isEmpty()) {
+                ref = rgdRef;
+            } else {
+                ref = "";
             }
+            ref = ref.replaceAll("<BR>", ", ");
+            ref = ref.replaceAll("\\<[^>]*>", "");
+            ref = ref.trim();
 
             String xref = annot.getXrefSource();
             String xref2 = annot.getHiddenPmId();
