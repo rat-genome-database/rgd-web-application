@@ -462,7 +462,15 @@
 
                 $.ajax({url: "/rgdweb/ontology/view.html?pv=1&mode=popup&filter=<%=filter%>&acc_id=" + ontId, success: function(result){
                     $("#browser").html(result);
-                    //alert(result);
+                    // The injected browser HTML wires its scroll-to-current-term
+                    // via window.onload, which does not fire on AJAX injection.
+                    // Invoke it explicitly (after the injected script has had a
+                    // chance to define loadIt) so the selected term is visible.
+                    setTimeout(function() {
+                        if (typeof loadIt === 'function') {
+                            try { loadIt(); } catch (e) {}
+                        }
+                    }, 0);
                 }});
 
                 $scope.currentTerm=term;
@@ -1285,6 +1293,36 @@
             <td><div style='font-size:14px; clear:left; padding:5px; color:#24609C;"'>Select a term</div></td>
         </tr>
     </table>
+
+    <div style="text-align:center; margin: 12px auto 16px; padding: 12px; background-color:#EAF1FB; border:1px solid #B7CDE8; border-radius:6px; max-width:640px;">
+        <label for="portalTermSearch"
+               style="display:block; font-size:14px; font-weight:700; color:#24609C; margin-bottom:8px; font-family:Helvetica;">
+            Jump to a term in this portal
+        </label>
+        <input id="portalTermSearch" type="text" autocomplete="off"
+               placeholder="Start typing a disease term..."
+               style="width:80%; max-width:500px; padding:8px 12px; border:2px solid #24609C; border-radius:6px; font-size:15px; box-shadow: 0 1px 3px rgba(36,96,156,0.15);" />
+    </div>
+
+    <script src="/rgdweb/common/ontologyAutocomplete.js"></script>
+    <script>
+        (function() {
+            function initPortalSearch() {
+                if (typeof setupOntologyAutocomplete !== 'function' || typeof jQuery === 'undefined') {
+                    setTimeout(initPortalSearch, 100);
+                    return;
+                }
+                setupOntologyAutocomplete('#portalTermSearch', 'RDO', {
+                    root: '<%=filter%>',
+                    onSelect: function(termName, accId) {
+                        browse(accId, termName);
+                        jQuery('#portalTermSearch').val('');
+                    }
+                });
+            }
+            initPortalSearch();
+        })();
+    </script>
 
     <div id="browser" ng-init="portal.browse('<%=filter%>','d')">
 
