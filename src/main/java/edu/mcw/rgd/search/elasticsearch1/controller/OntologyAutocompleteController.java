@@ -8,6 +8,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import edu.mcw.rgd.dao.impl.OntologyXDAO;
 import edu.mcw.rgd.services.ClientInit;
 import edu.mcw.rgd.web.RgdContext;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,16 +17,25 @@ import org.springframework.web.servlet.mvc.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class OntologyAutocompleteController implements Controller {
+
+    // Cache of descendant term acc IDs keyed by root term acc.
+    // Lazy-loaded on first request per root; cleared only on Tomcat restart.
+    private static final ConcurrentHashMap<String, Set<String>> DESCENDANT_CACHE = new ConcurrentHashMap<>();
+    private static final OntologyXDAO ONTOLOGY_DAO = new OntologyXDAO();
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String term = request.getParameter("term");
         String ont = request.getParameter("ont");
+        String root = request.getParameter("root");
         String maxParam = request.getParameter("max");
         int max = 20;
 
@@ -84,7 +94,12 @@ public class OntologyAutocompleteController implements Controller {
 
         BoolQuery builtBool = boolQuery.build();
         Query finalQuery = Query.of(q -> q.bool(builtBool));
-        final int maxResults = max;
+
+        // When restricting to a portal subtree, over-fetch from ES so the
+        // post-filter can still return up to `max` matches.
+        boolean hasRootFilter = root != null && !root.trim().isEmpty();
+        Set<String> descendantAccs = hasRootFilter ? getDescendantAccs(root.trim()) : null;
+        final int maxResults = hasRootFilter ? Math.max(max * 10, 100) : max;
 
         ElasticsearchClient client = ClientInit.getClient();
         SearchResponse<Map> sr = client.search(s -> s
@@ -96,19 +111,41 @@ public class OntologyAutocompleteController implements Controller {
 
         // Build pipe-delimited response: term_name|term_acc
         StringBuilder sb = new StringBuilder();
+        int emitted = 0;
         for (Hit<Map> hit : sr.hits().hits()) {
+            if (emitted >= max) break;
             Map<String, Object> source = hit.source();
             if (source == null) continue;
             String termName = source.get("term") != null ? source.get("term").toString() : "";
             String termAcc = source.get("term_acc") != null ? source.get("term_acc").toString() : "";
-            if (!termName.isEmpty() && !termAcc.isEmpty()) {
-                sb.append(termName).append("|").append(termAcc).append("\n");
-            }
+            if (termName.isEmpty() || termAcc.isEmpty()) continue;
+            if (descendantAccs != null && !descendantAccs.contains(termAcc)) continue;
+            sb.append(termName).append("|").append(termAcc).append("\n");
+            emitted++;
         }
 
         response.setContentType("text/plain; charset=UTF-8");
         response.getWriter().write(sb.toString());
         return null;
+    }
+
+    // Loads and caches the set of descendant term acc IDs for a root term.
+    // Includes the root itself so a user can select it too.
+    private Set<String> getDescendantAccs(String rootAcc) {
+        Set<String> cached = DESCENDANT_CACHE.get(rootAcc);
+        if (cached != null) return cached;
+        try {
+            List<String> descendants = ONTOLOGY_DAO.getAllActiveTermDescendantAccIds(rootAcc);
+            Set<String> set = new HashSet<>(descendants);
+            set.add(rootAcc);
+            DESCENDANT_CACHE.put(rootAcc, set);
+            return set;
+        } catch (Exception e) {
+            e.printStackTrace();
+            // On failure, return an empty set — better to show no results than to
+            // silently fall back to the full ontology and mislead the user.
+            return new HashSet<>();
+        }
     }
 
     private String mapOntPrefix(String ont) {
