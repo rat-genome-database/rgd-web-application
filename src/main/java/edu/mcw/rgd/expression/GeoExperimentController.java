@@ -128,6 +128,7 @@ public class GeoExperimentController implements Controller {
                         break;
                 }
             for (int i = 0; i < count; i++) {
+              try {
                 Sample s = new Sample();
 
                 List<Condition> conditions = new ArrayList<>();
@@ -230,71 +231,50 @@ public class GeoExperimentController implements Controller {
                     Experiment exp = null;
                     // create an experiment for each count and use a map, vId -> experiment
                     Term vtTerm = xdao.getTerm(request.getParameter("vtId" + i));
-                    if (eList == null || eList.isEmpty()) {
+                    String vtId = request.getParameter("vtId" + i);
+                    if (eList == null)
                         eList = new ArrayList<>();
+
+                    // does this sample already have a record? (decides insert vs. update below)
+                    gre = geDAO.getGeneExpressionRecordBySampleId(sampleId);
+
+                    // Resolve the experiment for this VT. One experiment == one VT trait, so
+                    // reuse an existing one before creating another: first any experiment
+                    // created earlier in THIS request, then one already in the DB for this
+                    // study, then the sample record's own experiment if its VT matches.
+                    exp = newExpMap.get(vtId);
+                    if (exp == null)
+                        exp = findExperimentByVt(eList, vtId);
+                    if (exp == null && gre != null) {
+                        Experiment recExp = geDAO.getExperiment(gre.getExperimentId());
+                        if (recExp != null && Utils.stringsAreEqual(recExp.getTraitOntId(), vtId))
+                            exp = recExp;
+                    }
+                    if (exp == null) {
+                        // no experiment exists for this VT yet -> create it
+                        if (vtTerm == null) {
+                            error.add("Row " + i + " (sample " + Utils.NVL(s.getGeoSampleAcc(), "?")
+                                    + "): could not resolve vertebrate trait '" + vtId + "'; sample skipped.");
+                            continue;
+                        }
                         Experiment e = new Experiment();
                         e.setStudyId(studyId);
-                        e.setName(vtTerm.getTerm()); // change to VT term name
+                        e.setName(vtTerm.getTerm());
                         e.setCreatedBy(login);
                         e.setTraitOntId(vtTerm.getAccId());
                         geDAO.insertExperiment(e);
                         exp = e;
                         eList.add(e);
-                        newExpMap.put(e.getTraitOntId(),e);
+                        newExpMap.put(e.getTraitOntId(), e);
+                    } else {
+                        newExpMap.put(exp.getTraitOntId(), exp);
                     }
-                    else { // need to find correct experiment based on VT
-                        Experiment e = null;
-                        String vtId = request.getParameter("vtId" + i);
-                        gre = geDAO.getGeneExpressionRecordBySampleId(sampleId);
-                        if (gre==null) { // store experiment to make sure another is not made
-                            if (newExpMap.get(vtId)!=null)
-                                exp = newExpMap.get(vtId);
-                            if (exp == null) {
-                                e = new Experiment();
-                                e.setStudyId(studyId);
-                                e.setName(vtTerm.getTerm());// change to VT term name
-                                e.setCreatedBy(login);
-                                e.setTraitOntId(vtTerm.getAccId());
-                                geDAO.insertExperiment(e);
-                                exp = e;
-                                eList.add(e);
-                                newExpMap.put(e.getTraitOntId(),e);
-                            }
-                        }
-                        else {
-                            exp = geDAO.getExperiment(gre.getExperimentId());
-                            if (exp!=null && !Utils.stringsAreEqual(exp.getTraitOntId(),vtId) ) {
-                                for (Experiment experiment : eList) {
-                                    if (Utils.stringsAreEqual(experiment.getTraitOntId(), vtId))
-                                        exp = experiment;
-                                }
-                            }
-                            if (!Utils.stringsAreEqual(exp.getTraitOntId(),vtId) && newExpMap.get(vtId)==null)
-                                exp = null;
-                            if (exp == null) {
-                                e = new Experiment();
-                                e.setStudyId(studyId);
-                                e.setName(vtTerm.getTerm());
-                                e.setCreatedBy(login);
-                                e.setTraitOntId(vtTerm.getAccId());
-                                geDAO.insertExperiment(e);
-                                gre.setExperimentId(e.getId());
-                                geDAO.updateGeneExpressionRecord(gre);
-                                exp = e;
-                                eList.add(e);
-                                newExpMap.put(e.getTraitOntId(),e);
-                            } else if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(), vtId)) {
-                                exp.setName(vtTerm.getTerm());
-                                exp.setTraitOntId(vtId);
-                                newExpMap.put(exp.getTraitOntId(),e);
-                                geDAO.updateExperiment(exp);
-                            }
-                            else if (exp.getId()!=gre.getExperimentId()){
-                                gre.setExperimentId(exp.getId());
-                                geDAO.updateGeneExpressionRecord(gre);
-                            }
-                        }
 
+                    // if the sample's existing record points at a different experiment than
+                    // the one selected for its VT, repoint it
+                    if (gre != null && exp.getId() != gre.getExperimentId()) {
+                        gre.setExperimentId(exp.getId());
+                        geDAO.updateGeneExpressionRecord(gre);
                     }
                     sampleExperiment.put(s.getGeoSampleAcc(), exp);
 
@@ -312,6 +292,8 @@ public class GeoExperimentController implements Controller {
                         catch (Exception e){
                             oldCmoId = null;
                         }
+                        boolean oldStudyControl = (gre != null) && gre.getStudyControl();
+                        boolean isStudyControl = "true".equalsIgnoreCase(request.getParameter("isStudyControl" + i));
 
                         Integer cmoId = null;
 //                        GeneExpressionRecord copy = gre;
@@ -322,6 +304,7 @@ public class GeoExperimentController implements Controller {
                             gre.setCurationStatus(35);
                             gre.setSpeciesTypeKey(speciesType);
                             gre.setLastModifiedBy(login);
+                            gre.setStudyControl(isStudyControl);
                             ClinicalMeasurement cmo = null;
 //                            cmoId = cmo.getId();
                             String cmoAcc = Utils.NVL(request.getParameter("cmoId"+i),"");
@@ -360,7 +343,10 @@ public class GeoExperimentController implements Controller {
                                     geDAO.updateClinicalMeasurement(cmo);
                                 }
                             }
-                            if (cmoId != null && !cmoId.equals(oldCmoId)) {
+                            gre.setStudyControl(isStudyControl);
+                            boolean cmoChanged = cmoId != null && !cmoId.equals(oldCmoId);
+                            boolean studyControlChanged = oldStudyControl != isStudyControl;
+                            if (cmoChanged || studyControlChanged) {
                                 gre.setLastModifiedBy(login);
                                 geDAO.updateGeneExpressionRecord(gre);
                             }
@@ -431,6 +417,11 @@ public class GeoExperimentController implements Controller {
                     insertConditions(conditions, geId);
                     sampleConditions.put(sampleId, conditions);
                 }
+              } catch (Exception rowEx) {
+                  // isolate per-sample failures so the rest of the batch still loads
+                  error.add("Row " + i + " failed and was skipped: " + rowEx);
+                  rowEx.printStackTrace();
+              }
 
             } // end for
             int tissue = 0, strain = 0, cell = 0, culture = 0, cellLine = 0, age = 0, lifeStage = 0, notes = 0, cNotes = 0;
@@ -465,7 +456,11 @@ public class GeoExperimentController implements Controller {
 
 //                    List<Experiment> expList = sampleExperiment.get(s.getId());
                 Experiment e = sampleExperiment.get(s.getGeoSampleAcc());
+                if (e == null)
+                    continue;
                 GeneExpressionRecord gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(e.getId(),s.getId());
+                if (gre == null)
+                    continue;
                 List<Condition> condList = sampleConditions.get(s.getId());
                 if (condList != null && condList.size() > maxCond)
                     maxCond = condList.size();
@@ -732,6 +727,17 @@ public class GeoExperimentController implements Controller {
         }
 
         return Condition.convertStringToDurationBound(units);
+    }
+
+    /** Find an experiment in the list whose vertebrate-trait id matches vtId, or null. */
+    private Experiment findExperimentByVt(List<Experiment> eList, String vtId) {
+        if (eList == null || Utils.isStringEmpty(vtId))
+            return null;
+        for (Experiment e : eList) {
+            if (Utils.stringsAreEqual(e.getTraitOntId(), vtId))
+                return e;
+        }
+        return null;
     }
 
     private void insertConditions(List<Condition> conds, int expRecId) throws Exception{
