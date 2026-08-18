@@ -4,6 +4,19 @@ $(function() {
     if (typeof cytoscape !== 'undefined' && typeof cytoscapeFcose !== 'undefined') {
         try { cytoscape.use(cytoscapeFcose); } catch (e) {}
     }
+
+    // Shim for the legacy v2 jQuery-plugin pattern that this file uses in many
+    // click handlers: $("#cy").cytoscape(function(){ var cy = this; ... }).
+    // Cytoscape v3 removed the jQuery plugin, so replace it with a call that
+    // invokes the callback with `window.cy` as `this` (populated below).
+    if (typeof $.fn.cytoscape === 'undefined') {
+        $.fn.cytoscape = function(fn) {
+            if (typeof fn === 'function' && window.cy) {
+                fn.call(window.cy);
+            }
+            return this;
+        };
+    }
     var cy = cytoscape({
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
@@ -205,7 +218,11 @@ $(function() {
             name: (typeof cytoscapeFcose !== 'undefined') ? 'fcose' : 'cose',
             animate: false,
             randomize: true,
-            nodeSeparation: 75,
+            // Loosen default spacing so dense graphs don't render as a tight
+            // ball. fcose nodeSeparation default is 75; bump for readability.
+            nodeSeparation: 150,
+            idealEdgeLength: 80,
+            nodeRepulsion: 6000,
             ready: function () {},
             stop: function () {
                 var overlay = document.getElementById('cyLayoutOverlay');
@@ -318,32 +335,38 @@ $(function() {
            gUrl=n.data('href0');
        }
         
-        n.qtip({
-            content: [
-                {
-                    name: g+' (Uniprot ID)',
-                    url: uUrl
-                },
-                {
-                    name: 'Gene Report',
-                    url: gUrl
-                }
-            ].map(function (link) {
-                return '<a target="_blank" href="' + link.url + '">' + link.name + '</a>';
-            }).join('<br />\n'),
-            position: {
-                my: 'top center',
-                at: 'bottom center'
-
-            },
-            style: {
-                classes: 'qtip-bootstrap',
-                tip: {
-                    width: 16,
-                    height: 8
-                }
-            }
-        });
+        // The v2 cytoscape-qtip plugin doesn't register with Cytoscape v3, so
+        // guard the call to keep the rest of the sidebar-setup script running.
+        // Tooltips are non-essential; the same links appear in the Details panel.
+        if (typeof n.qtip === 'function') {
+            try {
+                n.qtip({
+                    content: [
+                        {
+                            name: g+' (Uniprot ID)',
+                            url: uUrl
+                        },
+                        {
+                            name: 'Gene Report',
+                            url: gUrl
+                        }
+                    ].map(function (link) {
+                        return '<a target="_blank" href="' + link.url + '">' + link.name + '</a>';
+                    }).join('<br />\n'),
+                    position: {
+                        my: 'top center',
+                        at: 'bottom center'
+                    },
+                    style: {
+                        classes: 'qtip-bootstrap',
+                        tip: {
+                            width: 16,
+                            height: 8
+                        }
+                    }
+                });
+            } catch (e) { /* qtip incompatible with v3, tooltip unavailable */ }
+        }
 
     });
   

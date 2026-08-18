@@ -297,7 +297,7 @@
     <div class="iv-secondary-card">
         <h3><i class="fas fa-download"></i> Bulk Downloads</h3>
         <p style="font-size:13px; color:#555; margin:0 0 8px;">Download every binary interaction by species.</p>
-        <a href="ftp://ftp.rgd.mcw.edu/pub/data_release/interactions/" target="_blank">Open FTP directory <i class="fas fa-external-link-alt" style="font-size:11px;"></i></a>
+        <a href="https://download.rgd.mcw.edu/data_release/interactions/" target="_blank">Open download directory <i class="fas fa-external-link-alt" style="font-size:11px;"></i></a>
     </div>
     <div class="iv-secondary-card">
         <h3><i class="fas fa-list"></i> Browse Rat Interactions</h3>
