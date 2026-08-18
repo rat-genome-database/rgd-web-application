@@ -69,7 +69,33 @@
             position: fixed;
             top: 0;
             left: 0;
+            background-color: white;
         }
+        /* Style the browser's native fullscreen state so the graph fills the viewport. */
+        #cy:fullscreen,
+        #cy:-webkit-full-screen {
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+        }
+        #cyExitFullscreen {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 10000;
+            padding: 8px 14px;
+            background: #24609c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            display: none;
+        }
+        #cyExitFullscreen:hover { background: #1a4a7a; }
+        body.cy-fs-fallback #cyExitFullscreen { display: block; }
     </style>
     <script>
         var nodesList= ${model.nodes};
@@ -97,6 +123,68 @@
 </script>
 
 <script src="/rgdweb/js/code1-v3.js"></script>
+
+<!-- Fullscreen toggle for the graph. Uses the browser's Fullscreen API when
+     available (best UX: ESC exits natively). Falls back to a CSS-based
+     fixed-position mode with an on-screen Exit button. -->
+<button id="cyExitFullscreen" type="button" onclick="toggleGraphFullscreen()">Exit Fullscreen (Esc)</button>
+<script>
+    function toggleGraphFullscreen(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        var el = document.getElementById('cy');
+        if (!el) return;
+
+        var nativeFsElement = document.fullscreenElement || document.webkitFullscreenElement;
+        var inCssFallback = el.classList.contains('fullscreen');
+
+        if (nativeFsElement === el) {
+            (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+            return;
+        }
+        if (inCssFallback) {
+            el.classList.remove('fullscreen');
+            document.body.classList.remove('cy-fs-fallback');
+            if (window.cy && typeof window.cy.resize === 'function') {
+                setTimeout(function() { window.cy.resize(); window.cy.fit(); }, 50);
+            }
+            return;
+        }
+
+        var req = el.requestFullscreen || el.webkitRequestFullscreen;
+        if (req) {
+            req.call(el).catch(function() {
+                el.classList.add('fullscreen');
+                document.body.classList.add('cy-fs-fallback');
+            });
+        } else {
+            el.classList.add('fullscreen');
+            document.body.classList.add('cy-fs-fallback');
+        }
+    }
+
+    // When the browser exits native fullscreen (ESC), tell Cytoscape to
+    // re-fit so the graph reflows into the smaller container.
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(function(ev) {
+        document.addEventListener(ev, function() {
+            if (window.cy && typeof window.cy.resize === 'function') {
+                setTimeout(function() { window.cy.resize(); window.cy.fit(); }, 100);
+            }
+        });
+    });
+
+    // Keyboard shortcut: F to toggle, ESC handled natively by the browser
+    // (and by our fallback below).
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'f' || e.key === 'F') {
+            var tag = (e.target && e.target.tagName) || '';
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+            toggleGraphFullscreen();
+        }
+        if (e.key === 'Escape' && document.getElementById('cy').classList.contains('fullscreen')) {
+            toggleGraphFullscreen();
+        }
+    });
+</script>
 <!--script src="/rgdweb/js/rgdJquery.js"></script-->
 <div id="container">
   <form action="cy.html"> <div id="search" style="float:right"><input type="hidden" value="12" name="browser"><label style="font-weight: bold">Enter Search Terms: </label><!--input type="hidden" value="4" name="species"--><input type="text" name="identifiers"><label style="font-weight: bold">Species:</label> <select name="species" id="species" >
@@ -119,15 +207,9 @@
         <div class="panel-heading cy-panel-heading">
             <div class="panel-title cy-panel-title">InterViewer - Cytoscape Graph Visuals
                 <div class="dropdown" style="float: right">
+                    <a href="#" onclick="toggleGraphFullscreen(event)" title="Toggle graph fullscreen (or press F)">Fullscreen</a><span>  ||  </span>
                     <a href="#" onclick="reportFunction()" title="Printable Report">Report</a><span>  ||  </span>
                     <a href="#" onclick="pngFunction()" id="myLink" title="Printable Graph Image">Graph PNG</a>
-                 <!--button onclick="myFunction()" class="dropbtn">Options <!--img src="/rgdweb/images/drop_menu.png" style="width: 25px;height:25px"--><!--/button>
-                <div id="myDropdown" class="dropdown-content" style="z-index: 9999">
-                    <a href="#" onclick="reportFunction()">Report</a>
-                    <a href="#" onclick="pngFunction()" id="myLink">Graph PNG</a>
-                    <!--a href="cy.html?doc=helpDoc&browser=12" target="_blank">Help</a-->
-                    <!--a href="#" onclick="jsonFunction()" id="jsonLink">Graph JSON</a-->
-                <!--/div-->
            </div>
         </div>
 
