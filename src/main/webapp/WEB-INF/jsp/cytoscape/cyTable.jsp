@@ -53,6 +53,20 @@
                                     <button>Download</button>
                                 </form>
                             </td>
+                            <c:if test="${model.canOptInRender}">
+                                <td align="left" valign="center" style="padding-top:20px;">
+                                    <form action="cy.html?overrideNodeLimit=1" method="post"
+                                          onsubmit="this.querySelector('button').disabled=true;this.querySelector('button').innerText='Loading graph...';">
+                                        <input type="hidden" name="identifiers" value='${model.query}'>
+                                        <input type="hidden" name="species" value='${model.species}'>
+                                        <input type="hidden" name="browser" value="12">
+                                        <button style="background-color:#F7BB43; font-weight:bold;"
+                                                title="Render the full network. May take up to a minute to lay out.">
+                                            Show network visualization anyway (may be slow)
+                                        </button>
+                                    </form>
+                                </td>
+                            </c:if>
                         </tr>
                     </table>
                 </div>
