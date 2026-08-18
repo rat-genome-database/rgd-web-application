@@ -575,7 +575,8 @@
                 <th>Condition</th>
                 <th>Species</th>
                 <th>Study</th>
-                <th>GEO</th>
+                <th>GEO Series</th>
+                <th>GEO Sample</th>
               </tr>
             </thead>
             <tbody id="emTableBody"></tbody>
@@ -737,6 +738,12 @@
     return '<a class="em-link" target="_blank" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=' + esc(geo) + '">' + esc(geo) + '</a>';
   }
 
+  function geoSampleCell(rec) {
+    var gsm = rec.geoSampleAcc;
+    if (!gsm) return '';
+    return '<a class="em-link" target="_blank" href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=' + esc(gsm) + '">' + esc(gsm) + '</a>';
+  }
+
   // Records that are identical on every displayed field except condition are the "duplicate"
   // rows -- collapse them into one group whose conditions are collected into a list.
   function groupRecords(records) {
@@ -747,7 +754,7 @@
       var key = [
         r.geneRgdId, r.geneSymbol, r.traitOntId, r.tissueAcc, r.tissueTerm, r.strainAcc, r.strainTerm,
         r.expressionValue, r.expressionUnit, r.expressionLevel,
-        (r.sex || r.computedSex || ''), r.lifeStage, r.species, r.studyId, r.geoSeriesAcc
+        (r.sex || r.computedSex || ''), r.lifeStage, r.species, r.studyId, r.geoSeriesAcc, r.geoSampleAcc
       ].join('');
       var g = byKey[key];
       if (!g) { g = { rec: r, conditions: [], condSeen: {} }; byKey[key] = g; order.push(key); }
@@ -794,6 +801,7 @@
           '<td>' + esc(r.species) + '</td>' +
           '<td>' + studyCell(r) + '</td>' +
           '<td>' + geoCell(r) + '</td>' +
+          '<td>' + geoSampleCell(r) + '</td>' +
         '</tr>'
       );
     }
