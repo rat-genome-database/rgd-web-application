@@ -221,6 +221,10 @@ $(function() {
         var overlay = document.getElementById('cyLayoutOverlay');
         if (overlay) overlay.style.display = 'none';
     });
+
+    // Expose the Cytoscape instance so the fullscreen toggle in cy2.jsp can
+    // call cy.resize()/fit() when the container size changes.
+    window.cy = cy;
     cy.navigator({
         container: false // can be a HTML or jQuery element or jQuery selector
         , viewLiveFramerate: 0 // set false to update graph pan only on drag end; set 0 to do it instantly; set a number (frames per second) to update not more than N times per second
