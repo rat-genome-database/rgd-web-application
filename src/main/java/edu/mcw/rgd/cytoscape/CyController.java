@@ -106,33 +106,37 @@ public class CyController implements Controller {
                }
 
 
-               if(interactionCount>10000){
-                   String msg="Your query returns " + interactionCount + " interactions. Please reduce your query list to return less than 10000 interactions";
+               // Visualization gate (RGDD-3022): auto-render when edges <= 5000
+               // (with Cytoscape.js v3 + fcose that renders quickly). Between
+               // 5001 and 15000 edges we show the table with an opt-in button
+               // to render anyway. Above 15000 we reject entirely.
+               int edgeVizCap = 5000;
+               int edgeVizOptInCap = 15000;
+               boolean overrideNodeLimit = "1".equals(req.getParameter("overrideNodeLimit"));
+
+               if (edges.size() > edgeVizOptInCap) {
+                   String msg = "Your query returned " + edges.size() + " binary interactions and " + nodes.size() + " participants. Please narrow down your search to return " + edgeVizOptInCap + " or fewer interactions.";
                    return new ModelAndView("/WEB-INF/jsp/cytoscape/query.jsp", "msg", msg);
                }
 
-               if (nodes.size() <= 500 && browserVersion >= 11) {
-                 //if (nodes.size() <= 500 && browserVersion > 11) {
+               boolean canRender = edges.size() <= edgeVizCap || overrideNodeLimit;
+
+               if (canRender && browserVersion >= 11) {
+                   model.put("overrideNodeLimit", overrideNodeLimit);
                    System.out.println("End Time" + new Date());
                    return new ModelAndView("/WEB-INF/jsp/cytoscape/cy2.jsp", "model", model);
                } else {
-                   if (nodes.size() > 500 && edges.size()<10000) {
-                       String msg = "Your query returned " + nodes.size() + " participants (nodes) and " + edges.size() + " binary interactions (Edges).<br> Network visualization is limited to 500 nodes [participants] for better performance and interactivity. So you are provided only data and no visualization.";
+                   // edges between edgeVizCap+1 and edgeVizOptInCap: table + opt-in button
+                   String msg = "Your query returned " + nodes.size() + " participants (nodes) and " + edges.size() + " binary interactions (edges).<br>Network visualization auto-loads for up to " + edgeVizCap + " interactions. You can render this graph anyway using the button below (it may take longer to lay out).";
+                   model.put("msg", msg);
+                   model.put("canOptInRender", true);
+                   if (browserVersion < 11) {
+                       msg = "Your Browser Version is not supported for Data Visualization. So you are provided only data, no visualization";
                        model.put("msg", msg);
-                       System.out.println("End Time: " + new Date());
-                       return new ModelAndView("/WEB-INF/jsp/cytoscape/cyTable.jsp", "model", model);
-                   }else{
-                       if(edges.size()>=10000){
-                           String msg= "Your search returned " + edges.size() +" interactions and " + nodes.size() + " participants. Please narrow down your search to return less than 500 participants for data visualization";
-                           return new ModelAndView("/WEB-INF/jsp/cytoscape/query.jsp", "msg", msg);
-                       }
-
+                       model.put("canOptInRender", false);
                    }
-                    if (browserVersion < 11) {
-                       String msg = "Your Browser Version is not supported for Data Visualization. So you are provided only data, no visualization";
-                       model.put("msg", msg);
-                       return new ModelAndView("/WEB-INF/jsp/cytoscape/cyTable.jsp", "model", model);
-                   }
+                   System.out.println("End Time: " + new Date());
+                   return new ModelAndView("/WEB-INF/jsp/cytoscape/cyTable.jsp", "model", model);
                }
            } else {
                String sb = Utils.concatenate(symbolList, ", ");

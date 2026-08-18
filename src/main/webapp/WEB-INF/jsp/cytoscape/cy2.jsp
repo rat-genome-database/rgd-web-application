@@ -17,15 +17,19 @@
 
 
     <script src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
-    <script src="/rgdweb/common/cytoscape.min.js"></script>
-    <!--script src="/rgdweb/common/bootstrap/js/bootstrap.min.js"></script-->
+    <!-- RGDD-3022: upgraded to Cytoscape.js v3 for this page only (other pages still on 2.5.0).
+         Load order: layout-base -> cose-base -> fcose (fcose needs both), then panzoom v3. -->
+    <script src="/rgdweb/common/v3/cytoscape.min.js"></script>
+    <script src="/rgdweb/common/v3/layout-base.js"></script>
+    <script src="/rgdweb/common/v3/cose-base.js"></script>
+    <script src="/rgdweb/common/v3/cytoscape-fcose.js"></script>
     <link href="/rgdweb/common/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css">
     <script src="/rgdweb/common/jquery-ui/jquery-ui.js"></script>
     <link href="/rgdweb/common/qtip/jquery.qtip.min.css" rel="stylesheet" type="text/css">
-    <link href="/rgdweb/common/plugins/panZoom/jquery.cytoscape.js-panzoom.css" rel="stylesheet" type="text/css">
+    <link href="/rgdweb/common/v3/cytoscape-panzoom.css" rel="stylesheet" type="text/css">
     <link href= "/rgdweb/common/plugins/panZoom/font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet" type="text/css" >
     <link href= "/rgdweb/common/plugins/panZoom/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" >
-    <script src="/rgdweb/common/plugins/panZoom/jquery.cytoscape.js-panzoom.js"></script>
+    <script src="/rgdweb/common/v3/cytoscape-panzoom.js"></script>
     <link href="/rgdweb/css/cyStyle.css" rel="stylesheet" type="text/css">
     <!--script src="/rgdweb/common/plugins/cyNavigator/jquery.cytoscape.js-navigator.js"></script>
     <link href="/rgdweb/common/plugins/cyNavigator/jquery.cytoscape.js-navigator.css" rel="stylesheet" type="text/css"-->
@@ -92,7 +96,7 @@
     </c:forEach>
 </script>
 
-<script src="/rgdweb/js/code1.js"></script>
+<script src="/rgdweb/js/code1-v3.js"></script>
 <!--script src="/rgdweb/js/rgdJquery.js"></script-->
 <div id="container">
   <form action="cy.html"> <div id="search" style="float:right"><input type="hidden" value="12" name="browser"><label style="font-weight: bold">Enter Search Terms: </label><!--input type="hidden" value="4" name="species"--><input type="text" name="identifiers"><label style="font-weight: bold">Species:</label> <select name="species" id="species" >
@@ -131,6 +135,12 @@
         <div id="menu">
         </div>
         <div class="panel-body cy-panel-body">
+            <div id="cyLayoutOverlay" style="position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,0.85); z-index:1000; display:flex; align-items:center; justify-content:center; flex-direction:column; font-family:Helvetica,Arial,sans-serif; color:#24609C;">
+                <div style="border:6px solid #e6e6e6; border-top:6px solid #24609C; border-radius:50%; width:48px; height:48px; animation:cyspin 1s linear infinite;"></div>
+                <div style="margin-top:16px; font-size:16px; font-weight:bold;">Rendering graph, please wait...</div>
+                <div style="margin-top:4px; font-size:13px; color:#555;">Large or dense networks can take up to a minute or more to lay out.</div>
+                <style>@keyframes cyspin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+            </div>
             <div  id="cy"></div>
             <div id="sidebar">
                 <div class="panel-default cy-panel-default" style="height:95%">

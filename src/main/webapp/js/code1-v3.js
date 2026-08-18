@@ -1,4 +1,9 @@
 $(function() {
+    // Register the fcose layout with Cytoscape.js v3 (a much faster alternative
+    // to the built-in cose for dense graphs). See cy2.jsp for script load order.
+    if (typeof cytoscape !== 'undefined' && typeof cytoscapeFcose !== 'undefined') {
+        try { cytoscape.use(cytoscapeFcose); } catch (e) {}
+    }
     var cy = cytoscape({
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
@@ -195,12 +200,12 @@ $(function() {
             y: 100
         },
         layout: {
-            name: 'cose',
-            nodeSpacing: 5,
-         //   animate: true,
-            randomize:true,
-            overlap:false,
-         //   maxSimulationTime: 1500,
+            // fcose = fast Compound Spring Embedder (Cytoscape.js v3 extension).
+            // Falls back to built-in cose if fcose failed to register.
+            name: (typeof cytoscapeFcose !== 'undefined') ? 'fcose' : 'cose',
+            animate: false,
+            randomize: true,
+            nodeSeparation: 75,
             ready: function () {},
             stop: function () {
                 var overlay = document.getElementById('cyLayoutOverlay');
@@ -225,7 +230,8 @@ $(function() {
         , removeCustomContainer: true // destroy the container specified by user on plugin destroy
         , rerenderDelay: 100 // ms
     });
-    $("#cy").cytoscapePanzoom({
+    // v3 panzoom exposes cy.panzoom() rather than the v2 jQuery wrapper.
+    var panzoomOpts = {
         zoomFactor: 0.05, // zoom factor per zoom tick
         zoomDelay: 45, // how many ms between zoom ticks
         minZoom: 0.1, // min zoom level
@@ -243,7 +249,10 @@ $(function() {
         zoomInIcon: 'fa fa-plus',
         zoomOutIcon: 'fa fa-minus',
         resetIcon: 'fa fa-expand'
-    });
+    };
+    if (typeof cy.panzoom === 'function') {
+        cy.panzoom(panzoomOpts);
+    }
   /*  $("#cy").cytoscapeNavigator({
         container: false,
         viewLiveFramerate: 0,
@@ -793,12 +802,14 @@ $("input[name='intType']").click(function(){
 
     var $configl = $('.layout');
     var $ull = $('<ul id="radio"></ul>');
-    var $lil1= $('<li><input type="radio" name="layout" value="cose" checked="checked">' + "cose" + '</li>');
+    var $lil0= $('<li><input type="radio" name="layout" value="fcose" checked="checked">' + "fcose (fast)" + '</li>');
+    var $lil1= $('<li><input type="radio" name="layout" value="cose">' + "cose (slower)" + '</li>');
     var $lil2= $('<li><input type="radio" name="layout" value="circle">' + "circle" + '</li>');
     var $lil3= $('<li><input type="radio" name="layout" value="grid">' + "grid" + '</li>');
     var $lil4= $('<li><input type="radio" name="layout" value="cola" >' + "cola" + '</li>');
     var $lil5= $('<li><input type="radio" name="layout" value="breadthfirst" >' + "breadthfirst" + '</li>');
    // var $lil6= $('<li><input type="radio" name="layout" value="springy">' + "springy" + '</a></li>');
+    $ull.append($lil0);
     $ull.append($lil1);
     $ull.append($lil2);
     $ull.append($lil3);
