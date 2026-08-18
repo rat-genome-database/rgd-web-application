@@ -324,18 +324,25 @@
 				var hideCnt = 0;
 				for ( i = 0; i < l; i++ ){
 					if ( !rows[i].className.match(f) ) {
+						// RGDD-3069: apply the direct-evidence checkbox filter
+						// BEFORE the row-limit window. Rows hidden by this filter
+						// must not advance j, so the row limit applies to the
+						// filtered result set rather than the full table.
+						var hiddenByEvidenceFilter = $(cb).is(':checked') &&
+							rows[i].cells && rows[i].cells[4] &&
+							(rows[i].cells[4].innerText === "ISO" || rows[i].cells[4].innerText === "ISS" ||
+							 rows[i].cells[4].innerText === "IEA" || rows[i].cells[4].innerText === "IBA");
+
 						if (j === s && rows[i].className.match(c.cssChildRow)) {
 							// hide child rows @ start of pager (if already visible)
 							rows[i].style.display = 'none';
+						} else if (hiddenByEvidenceFilter) {
+							rows[i].style.display = 'none';
+							hideCnt++;
+							// do NOT advance j - this row is not part of the
+							// filtered set the row limit is applied to.
 						} else {
-							if ($(cb).is(':checked') && (rows[i].cells[4].innerText === "ISO" || rows[i].cells[4].innerText === "ISS" || rows[i].cells[4].innerText === "IEA" || rows[i].cells[4].innerText === "IBA") )
-							{
-								rows[i].style.display = 'none';
-								if (j >= s && j < e ) // updates hideCnt if i is between the size
-									hideCnt++;
-							}
-							else
-								rows[i].style.display = ( j >= s && j < e ) ? '' : 'none';
+							rows[i].style.display = ( j >= s && j < e ) ? '' : 'none';
 							// don't count child rows
 							j += rows[i].className.match(c.cssChildRow + '|' + c.selectorRemove.slice(1)) && !p.countChildRows ? 0 : 1;
 							if ( j === e && rows[i].style.display !== 'none' && rows[i].className.match(ts.css.cssHasChild) ) {
