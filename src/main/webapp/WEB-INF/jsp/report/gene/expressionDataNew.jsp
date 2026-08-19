@@ -333,6 +333,34 @@
                     return;
                 }
                 tableVue.isBusy = true;
+                // RGDD followup: call the server's enriched /rows endpoint that
+                // pre-joins strain/tissue names, assembly name, and study refs.
+                // Replaces the previous four-nested-AJAX explosion (~4 requests
+                // per record) that made large categories unusable.
+                var _rgdwsHost = "https://rest.rgd.mcw.edu";
+                if (window.location.host.indexOf('localhost') > -1) {
+                    // Local dev: point at a local rgd-web-services running at :8081/rgdws.
+                    // If you don't run it locally, this will 404 and you'll want to
+                    // temporarily flip _rgdwsHost back to the prod URL below.
+                    _rgdwsHost = window.location.protocol + "//localhost:8081";
+                }
+                $.ajax({
+                    type: "GET",
+                    url: _rgdwsHost + "/rgdws/expression/" + termAcc + "/" + rgdId + "/TPM/rows",
+                    dataType: "json",
+                    success: function (rows, status, xhr) {
+                        tableVue.expItems = rows || [];
+                        tableVue.isBusy = false;
+                        showTable(termAcc);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+                        tableVue.isBusy = false;
+                    }
+                });
+                return;
+
+                // Legacy path preserved below in case someone needs to revert.
                 var someItems = [];
                 $.ajax({
                     type: "GET",
