@@ -114,7 +114,25 @@ public class OntAnnotation  {
     }
 
     public void setPlainEvidence(String evidence){
-        this.evidence = evidence;
+        if( Utils.isStringEmpty(evidence) ) {
+            return;
+        }
+        if( this.evidence==null || this.evidence.isEmpty() ) {
+            this.evidence = evidence;
+        } else {
+            // multiple annotations for the same term+object are merged; collect
+            // their evidence codes into a ';'-delimited list, avoiding duplicates
+            boolean found = false;
+            for( String ev: this.evidence.split(";") ) {
+                if( ev.trim().equals(evidence) ) {
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                this.evidence += ";" + evidence;
+            }
+        }
     }
 
     public void setEvidenceWithInfo(String evidence, String withInfo, Term term) throws Exception {
