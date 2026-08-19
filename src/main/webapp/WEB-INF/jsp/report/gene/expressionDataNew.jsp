@@ -334,17 +334,24 @@
                     showErrorMessage();
                     return;
                 }
+                // Show the table container up front with an empty dataset so the
+                // b-table's busy spinner is visible while the fetch is in flight
+                // (previously the spinner never appeared because showTable was
+                // only called after the AJAX success, by which point isBusy was
+                // already false and there was nothing to show a spinner in).
+                tableVue.expItems = [];
                 tableVue.isBusy = true;
+                showTable(termAcc);
+
                 // RGDD followup: call the server's enriched /rows endpoint that
                 // pre-joins strain/tissue names, assembly name, and study refs.
                 // Replaces the previous four-nested-AJAX explosion (~4 requests
                 // per record) that made large categories unusable.
                 var _rgdwsHost = "https://rest.rgd.mcw.edu";
                 if (window.location.host.indexOf('localhost') > -1) {
-                    // Local dev: point at a local rgd-web-services running at :8081/rgdws.
-                    // If you don't run it locally, this will 404 and you'll want to
-                    // temporarily flip _rgdwsHost back to the prod URL below.
-                    _rgdwsHost = window.location.protocol + "//localhost:8081";
+                    // Local dev: hit the dev REST server (running rgd-web-services
+                    // standalone locally is a separate setup).
+                    _rgdwsHost = "https://dev.rgd.mcw.edu";
                 }
                 $.ajax({
                     type: "GET",
@@ -353,7 +360,6 @@
                     success: function (rows, status, xhr) {
                         tableVue.expItems = rows || [];
                         tableVue.isBusy = false;
-                        showTable(termAcc);
                     },
                     error: function (xhr, status, error) {
                         console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
