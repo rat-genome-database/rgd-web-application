@@ -27,6 +27,21 @@ public class AnnotationFormatter {
 
     OntologyXDAO odao = null;
 
+    // RGDD-3069 follow-up: per-render cache to eliminate the N+1 pattern in
+    // formatXdbUrl, which calls RGDManagementDAO.getObject(rgdId) once per
+    // "RGD:xxxx" reference (each call is 2 DB round-trips). Annotation
+    // tables commonly reference the same RGD IDs many times; caching within
+    // one render collapses hundreds of round-trips down to the unique-ID
+    // count. Populated at the top of createGridFormatAnnotationsTable and
+    // cleared in a finally block so there is no staleness across requests.
+    // A sentinel is used to cache "not found" outcomes as well.
+    private static final Object RGD_OBJECT_NULL = new Object();
+    private static final ThreadLocal<Map<Integer, Object>> RGD_OBJECT_CACHE = new ThreadLocal<>();
+    // Companion cache for Link.it(rgdId) results. On a gene report, most rows
+    // share the same annotated-object RGD ID (the current gene), so caching
+    // the URL string collapses 100+ getRgdId2 lookups down to 1.
+    private static final ThreadLocal<Map<Integer, String>> LINK_IT_CACHE = new ThreadLocal<>();
+
     public String buildTable(List<String> records, int columns) {
 
         int rowCount = (int) Math.ceil(records.size() / columns) + 1;
@@ -151,6 +166,32 @@ public class AnnotationFormatter {
 
     public String createGridFormatAnnotationsTable(List<Annotation> annotationList, String site,boolean excludeReferences) throws Exception {
 
+        // Per-render caches for RGD:xxxx lookups (see field comments).
+        RGD_OBJECT_CACHE.set(new HashMap<Integer, Object>());
+        LINK_IT_CACHE.set(new HashMap<Integer, String>());
+        try {
+            return doCreateGridFormatAnnotationsTable(annotationList, site, excludeReferences);
+        } finally {
+            RGD_OBJECT_CACHE.remove();
+            LINK_IT_CACHE.remove();
+        }
+    }
+
+    // Memoized wrapper for Link.it(int). Falls back to a direct call when the
+    // cache isn't initialized (i.e. caller outside createGridFormatAnnotationsTable).
+    private static String linkFor(int rgdId) throws Exception {
+        Map<Integer, String> cache = LINK_IT_CACHE.get();
+        if (cache != null) {
+            String cached = cache.get(rgdId);
+            if (cached != null) return cached;
+        }
+        String url = Link.it(rgdId);
+        if (cache != null) cache.put(rgdId, url);
+        return url;
+    }
+
+    private String doCreateGridFormatAnnotationsTable(List<Annotation> annotationList, String site,boolean excludeReferences) throws Exception {
+
         // by default, CHEBI annots link to new tabular report
         // other annots link to default list-like report
         String annotUrl = null;
@@ -215,7 +256,7 @@ public class AnnotationFormatter {
                 rec = new Record();
 
             if (a.getObjectSymbol() != null) {
-                rec.append("<a href="+Link.it(a.getAnnotatedObjectRgdId())+">"+a.getObjectSymbol()+"</a>");
+                rec.append("<a href="+linkFor(a.getAnnotatedObjectRgdId())+">"+a.getObjectSymbol()+"</a>");
             } else {
                 rec.append("&nbsp;");
             }
@@ -502,6 +543,25 @@ public class AnnotationFormatter {
         return infoField;
     }
 
+    // Returns the RGD object for the given RGD ID, using the per-render cache
+    // when present. Caches null results as well so repeated bad IDs don't
+    // re-query. When the cache isn't initialized (e.g. formatXdbUrl called
+    // outside createGridFormatAnnotationsTable), falls back to a direct DAO
+    // call so behavior is unchanged for other callers.
+    private static Speciated lookupRgdObject(int rgdId) throws Exception {
+        Map<Integer, Object> cache = RGD_OBJECT_CACHE.get();
+        if (cache != null) {
+            Object cached = cache.get(rgdId);
+            if (cached == RGD_OBJECT_NULL) return null;
+            if (cached != null) return (Speciated) cached;
+        }
+        Speciated obj = (Speciated) new RGDManagementDAO().getObject(rgdId);
+        if (cache != null) {
+            cache.put(rgdId, obj == null ? RGD_OBJECT_NULL : obj);
+        }
+        return obj;
+    }
+
     static String formatXdbUrl(String info, int objectKey) throws Exception {
 
         String uri = null;
@@ -527,10 +587,9 @@ public class AnnotationFormatter {
         switch(dbName) {
             case "RGD":
                 try {
-                    RGDManagementDAO managementDAO = new RGDManagementDAO();
                     int withRgdId = Integer.parseInt(info.substring(4));
                     String symbol = "";
-                    Speciated withObj = (Speciated) managementDAO.getObject(withRgdId);
+                    Speciated withObj = lookupRgdObject(withRgdId);
 
                     if( withObj==null ) {
                         uri = "/rgdweb/search/search.html?term="+withRgdId;
