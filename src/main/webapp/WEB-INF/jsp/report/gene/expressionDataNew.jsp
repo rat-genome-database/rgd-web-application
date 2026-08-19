@@ -127,7 +127,7 @@
         </table>
         <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;top: 5px;position: relative;" value="Hide Table">
         <div id="tooManyMsg" style="display: none;">
-            <label style="color: red; padding-top: 10px;">Too many to show, limit is 1000. Download them if you would like to view them all.</label>
+            <label style="color: red; padding-top: 10px;">Too many to show, limit is 5000. Download them if you would like to view them all.</label>
         </div>
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
             <div style="margin-bottom: 10px; padding: 5px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px;">
@@ -317,10 +317,10 @@
                 this.selectedLevels = [];
                 var download = document.getElementById("downloadTerm"+termAcc);
                 download.style.display = 'block';
-                // Limit display to 500 records; if the count for this system exceeds 500,
+                // Limit display to 5000 records; if the count for this system exceeds 5000,
                 // show the "too many" message and skip loading the table (user can still download)
                 var recordCount = parseInt(String(count).replace(/[^0-9]/g, ''), 10);
-                if (!isNaN(recordCount) && recordCount > 1000) {
+                if (!isNaN(recordCount) && recordCount > 5000) {
                     this.expItems = [];
                     tableVue.isBusy = false;
                     var coolTableDiv = document.getElementById("coolTable");
