@@ -8,8 +8,7 @@ java.util.Map,
 edu.mcw.rgd.dao.impl.GeneDAO,
 edu.mcw.rgd.dao.impl.StrainDAO,
 edu.mcw.rgd.dao.impl.VariantInfoDAO"
-%><%@ page import="edu.mcw.rgd.dao.impl.QTLDAO" %><%@ page import="edu.mcw.rgd.datamodel.QTL" %>
-<jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.ontology.OntAnnotBean" /><%
+%><%@ page import="edu.mcw.rgd.dao.impl.QTLDAO" %><%@ page import="edu.mcw.rgd.datamodel.QTL" %><jsp:useBean id="bean" scope="request" class="edu.mcw.rgd.ontology.OntAnnotBean" /><%
 
     response.setHeader("Content-Type", "text/tab");
     response.setHeader("Content-Disposition","attachment; filename=annotation.tab" );
