@@ -243,6 +243,8 @@
   if (selectedStrainIds == null) selectedStrainIds = new ArrayList<String>();
   List<String> selectedTissueIds = (List<String>) request.getAttribute("selectedTissueIds");
   if (selectedTissueIds == null) selectedTissueIds = new ArrayList<String>();
+  List<String> selectedConditionIds = (List<String>) request.getAttribute("selectedConditionIds");
+  if (selectedConditionIds == null) selectedConditionIds = new ArrayList<String>();
 
   String nextAction = (String) request.getAttribute("nextAction");
   if (nextAction == null) nextAction = "/rgdweb/expressMiner/config.html";
@@ -286,9 +288,9 @@
       <% if (studiesFirst) { %>
       <br/><strong><%=selectedStudyIds.size()%></strong> <%=selectedStudyIds.size() == 1 ? "study" : "studies"%> selected on the previous step will be carried forward.
       <% } %>
-      <% int stCount = selectedStrainIds.size() + selectedTissueIds.size();
+      <% int stCount = selectedStrainIds.size() + selectedTissueIds.size() + selectedConditionIds.size();
          if (stCount > 0) { %>
-      <br/><strong><%=stCount%></strong> strain/tissue selection<%=stCount == 1 ? "" : "s"%> from the previous step will be carried forward.
+      <br/><strong><%=stCount%></strong> strain/tissue/condition selection<%=stCount == 1 ? "" : "s"%> from the previous step will be carried forward.
       <% } %>
     </div>
 
@@ -305,6 +307,9 @@
       <% } %>
       <% for (String tissueId : selectedTissueIds) { %>
       <input type="hidden" name="tissueId" value="<%=tissueId%>"/>
+      <% } %>
+      <% for (String conditionId : selectedConditionIds) { %>
+      <input type="hidden" name="conditionId" value="<%=conditionId%>"/>
       <% } %>
       <div class="genelist-card">
         <div class="card-title">Gene Symbol List</div>

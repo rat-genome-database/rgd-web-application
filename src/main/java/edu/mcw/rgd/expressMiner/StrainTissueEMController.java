@@ -11,9 +11,10 @@ import java.util.List;
 /**
  * Renders the Expression Miner "Limit by Strain / Tissue" step.
  *
- * The page lets the user build two lists of ontology terms through the shared
- * ontology popup browser: strains (RS ontology) and tissues (UBERON ontology).
- * Either, both, or neither may be chosen. Any selections (plus an optional gene
+ * The page lets the user build lists of ontology terms through the shared
+ * ontology popup browser: strains (RS ontology), tissues (UBERON ontology), and
+ * optional conditions (XCO ontology). Either, both, or neither strain/tissue may
+ * be chosen; conditions are always optional. Any selections (plus an optional gene
  * list carried forward) are posted on to the next step.
  */
 public class StrainTissueEMController implements Controller {
@@ -32,11 +33,13 @@ public class StrainTissueEMController implements Controller {
 
             List<String> selectedStrainIds = collectParam(request, "strainId");
             List<String> selectedTissueIds = collectParam(request, "tissueId");
+            List<String> selectedConditionIds = collectParam(request, "conditionId");
 
             request.setAttribute("mapKey", mapKey);
             request.setAttribute("geneList", geneListParam);
             request.setAttribute("selectedStrainIds", selectedStrainIds);
             request.setAttribute("selectedTissueIds", selectedTissueIds);
+            request.setAttribute("selectedConditionIds", selectedConditionIds);
             request.setAttribute("nextAction", "/rgdweb/expressMiner/result.html");
 
             return new ModelAndView("/WEB-INF/jsp/expressMiner/strainTissue.jsp");

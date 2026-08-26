@@ -25,6 +25,7 @@ public class GeneListEMController implements Controller {
             // the gene list can be added on top of them and posted on to the results.
             List<String> selectedStrainIds = collectParam(request, "strainId");
             List<String> selectedTissueIds = collectParam(request, "tissueId");
+            List<String> selectedConditionIds = collectParam(request, "conditionId");
             boolean strainTissueFirst = !selectedStrainIds.isEmpty() || !selectedTissueIds.isEmpty();
 
             request.setAttribute("mapKey", mapKey);
@@ -32,6 +33,7 @@ public class GeneListEMController implements Controller {
             request.setAttribute("studiesFirst", studiesFirst);
             request.setAttribute("selectedStrainIds", selectedStrainIds);
             request.setAttribute("selectedTissueIds", selectedTissueIds);
+            request.setAttribute("selectedConditionIds", selectedConditionIds);
 
             // Pure "Limit by Genes" entry: the page offers a choice -- add strains/tissues, or
             // go straight to the (genes-only) results.

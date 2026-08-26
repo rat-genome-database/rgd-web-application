@@ -414,6 +414,8 @@
   if (tissueIds == null) tissueIds = new ArrayList<String>();
   List<String> strainAccIds = (List<String>) request.getAttribute("strainAccIds");
   if (strainAccIds == null) strainAccIds = new ArrayList<String>();
+  List<String> conditionIds = (List<String>) request.getAttribute("conditionIds");
+  if (conditionIds == null) conditionIds = new ArrayList<String>();
   String expressionLevel = (String) request.getAttribute("expressionLevel");
 
   List<Integer> rgdIds = (List<Integer>) request.getAttribute("rgdIds");
@@ -471,6 +473,10 @@
         &nbsp;&nbsp;<span>Strains:</span>
         <% if (strainAccIds.isEmpty()) { out.print("<em>none</em>"); }
            for (String s : strainAccIds) { %><span class="chip"><%=s%></span><% } %>
+        <% if (!conditionIds.isEmpty()) { %>
+        &nbsp;&nbsp;<span>Conditions:</span>
+        <% for (String c : conditionIds) { %><span class="chip"><%=c%></span><% } %>
+        <% } %>
         <% if (!rgdIds.isEmpty()) { %>
         &nbsp;&nbsp;<span>Genes:</span> <span class="chip"><%=rgdIds.size()%> gene<%=rgdIds.size()==1?"":"s"%></span>
         <% } %>
@@ -486,6 +492,7 @@
         <input type="hidden" name="mapKey" value="<%=mapKey%>"/>
         <% for (String t : tissueIds) { %><input type="hidden" name="tissueId" value="<%=t%>"/><% } %>
         <% for (String s : strainAccIds) { %><input type="hidden" name="strainId" value="<%=s%>"/><% } %>
+        <% for (String c : conditionIds) { %><input type="hidden" name="conditionId" value="<%=c%>"/><% } %>
         <% if (expressionLevel != null && !expressionLevel.isBlank()) { %>
         <input type="hidden" name="expressionLevel" value="<%=expressionLevel%>"/>
         <% } %>
@@ -541,12 +548,11 @@
           </label>
           <label>Color
             <select id="emHmColor" onchange="renderHeatmap()">
-              <option value="YlOrRd">Yellow-Orange-Red</option>
-              <option value="Viridis">Viridis (colorblind-safe)</option>
-              <option value="Cividis">Cividis (colorblind-safe)</option>
-              <option value="Plasma">Plasma (colorblind-safe)</option>
-              <option value="Blues">Blues</option>
-              <option value="Greys">Greyscale</option>
+              <option value="YlOrRd">Full color (Yellow-Orange-Red)</option>
+              <option value="Cividis">Protanopia &mdash; Cividis</option>
+              <option value="Viridis">Deuteranopia &mdash; Viridis</option>
+              <option value="Blues">Tritanopia &mdash; Blues</option>
+              <option value="Greys">Monochromacy &mdash; Greyscale</option>
             </select>
           </label>
         </div>
@@ -597,6 +603,9 @@
   // Selections handed in from the wizard steps.
   var TISSUE_IDS = [<% for (int i = 0; i < tissueIds.size(); i++) { if (i>0) out.print(","); out.print("'" + tissueIds.get(i).replace("'", "\\'") + "'"); } %>];
   var STRAIN_IDS = [<% for (int i = 0; i < strainAccIds.size(); i++) { if (i>0) out.print(","); out.print("'" + strainAccIds.get(i).replace("'", "\\'") + "'"); } %>];
+  // Optional condition (XCO) filter carried in from the wizard. Sent to the server as a fixed base
+  // filter; the Condition facet (computed client-side) refines within the loaded records.
+  var CONDITION_IDS = [<% for (int i = 0; i < conditionIds.size(); i++) { if (i>0) out.print(","); out.print("'" + conditionIds.get(i).replace("'", "\\'") + "'"); } %>];
   var MAP_KEY = <%=mapKey%>;
   var EXPRESSION_LEVEL = <%= (expressionLevel == null || expressionLevel.isBlank()) ? "null" : ("'" + expressionLevel.replace("'", "\\'") + "'") %>;
   var RGD_IDS = [<% for (int i = 0; i < rgdIds.size(); i++) { if (i>0) out.print(","); out.print(rgdIds.get(i)); } %>];
@@ -605,15 +614,7 @@
   var RENDER_CAP = 2000; // max rows drawn at once (the query still returns up to PAGE_SIZE)
   var FACET_SEARCH_THRESHOLD = 8; // groups longer than this get a search box
 
-  var HAS_GENES  = RGD_IDS.length > 0;
-  var HAS_TISSUE = TISSUE_IDS.length > 0;
-  var HAS_STRAIN = STRAIN_IDS.length > 0;
-
-  // The deployed /records/tissues/strains endpoint REQUIRES both a tissue and a strain (and an empty
-  // list matches nothing), so it can only serve a query that has both. Whenever there is a gene list
-  // but not both dimensions, we load through the gene-scoped endpoints instead and apply the assembly
-  // and base tissue/strain constraints on the client.
-  var USE_GENES_ENDPOINT = HAS_GENES && !(HAS_TISSUE && HAS_STRAIN);
+  var HAS_GENES = RGD_IDS.length > 0;
 
   var allRecords = [];      // the loaded records; all facet filtering runs against these
   var serverTotal = 0;      // total matching records reported by the server
@@ -908,6 +909,7 @@
     if (tissues.length) params.push('tissueIds=' + encodeURIComponent(tissues.join(',')));
     if (strains.length) params.push('strainAccIds=' + encodeURIComponent(strains.join(',')));
     if (genes.length) params.push('rgdIds=' + encodeURIComponent(genes.join(',')));
+    if (CONDITION_IDS.length) params.push('conditionIds=' + encodeURIComponent(CONDITION_IDS.join(',')));
     if (MAP_KEY) params.push('mapKey=' + MAP_KEY);
     var units = checkedValues('units');
     if (units.length) params.push('units=' + encodeURIComponent(units.join(',')));
@@ -1012,22 +1014,9 @@
   // apply them all)? Used both to drive the table and to count a client facet's own options without
   // that group filtering itself out.
   function recordMatches(r, exceptKey) {
-    // Records loaded via the gene-scoped endpoints are not constrained by assembly (those endpoints
-    // ignore mapKey) and, in the genes-only / gene+single-dimension cases, are not constrained by the
-    // missing dimension either. Enforce the wizard's assembly and base tissue/strain here so the table
-    // matches the selection. (In tissue+strain mode the server already applied all of these.)
-    if (USE_GENES_ENDPOINT) {
-      if (MAP_KEY && Number(r.mapKey) !== Number(MAP_KEY)) return false;
-      if (exceptKey !== 'tissues' && HAS_TISSUE) {
-        var effT = selectedFor('tissues', TISSUE_IDS);
-        if (effT.length && effT.indexOf(r.tissueAcc) === -1) return false;
-      }
-      if (exceptKey !== 'strains' && HAS_STRAIN) {
-        var effS = selectedFor('strains', STRAIN_IDS);
-        if (effS.length && effS.indexOf(r.strainAcc) === -1) return false;
-      }
-    }
-
+    // Every server-applicable filter (assembly, tissue, strain, gene, and a single expression level) is
+    // now enforced by /index/records/search, so the loaded set already respects the wizard selection.
+    // This pass only applies the facets that endpoint can't: unit, condition, and multi-value levels.
     for (var g = 0; g < FACET_GROUPS.length; g++) {
       var group = FACET_GROUPS[g];
       if (group.key === exceptKey) continue;
@@ -1253,32 +1242,31 @@
 
   // ---- Data loading ----------------------------------------------------------
 
-  // Records query with the checked facets folded in, so the server returns ALL matching records
-  // (up to PAGE_SIZE) -- e.g. selecting level=high fetches every high record, not just the ones
-  // already on screen. Facets the endpoint can't apply are handled by the client-side pass below.
-  // Only used for the tissue+strain endpoint, which is reached only when both a tissue and a strain
-  // are present (queries with a gene list but not both go through the gene-scoped endpoints instead).
+  // Build the single unified records query. Every wizard and facet selection maps onto one call to
+  // /index/records/search, which AND-combines the supplied filters (tissue, strain, gene, assembly,
+  // level) server-side and OR-combines the values within each. Filters this endpoint can't express --
+  // unit, condition, and multi-value level selections -- are enforced by the client-side pass below
+  // (recordPassesFilters). At least one filter is always present (mapKey), so the request is never
+  // rejected for being unfiltered.
   function serverRecordsUrl() {
     var params = [];
     var tissues = selectedFor('tissues', TISSUE_IDS);
     var strains = selectedFor('strains', STRAIN_IDS);
+    var genes = selectedFor('genes', RGD_IDS.map(String));
     if (tissues.length) params.push('tissueIds=' + encodeURIComponent(tissues.join(',')));
     if (strains.length) params.push('strainAccIds=' + encodeURIComponent(strains.join(',')));
-    var genes = selectedFor('genes', RGD_IDS.map(String));
     if (genes.length) params.push('rgdIds=' + encodeURIComponent(genes.join(',')));
+    // Optional XCO condition filter from the wizard; a fixed base narrowing (the Condition facet
+    // refines client-side within the loaded records, so it is not re-sent per checkbox).
+    if (CONDITION_IDS.length) params.push('conditionIds=' + encodeURIComponent(CONDITION_IDS.join(',')));
     if (MAP_KEY) params.push('mapKey=' + MAP_KEY);
-    var units = checkedValues('units');
-    if (units.length) params.push('units=' + encodeURIComponent(units.join(',')));
+    // The endpoint takes a single expressionLevel, so send it only when exactly one level is checked
+    // (it then narrows server-side); multiple checked levels are applied client-side instead.
     var levels = checkedValues('levels');
-    if (levels.length) {
-      params.push('expressionLevels=' + encodeURIComponent(levels.join(',')));
-      // The deployed endpoint filters level via the single `expressionLevel` param, so send it too
-      // when exactly one level is chosen -- this narrows server-side even before the multi param ships.
-      if (levels.length === 1) params.push('expressionLevel=' + encodeURIComponent(levels[0]));
-    }
+    if (levels.length === 1) params.push('expressionLevel=' + encodeURIComponent(levels[0]));
     params.push('page=0');
     params.push('size=' + PAGE_SIZE);
-    return apiUrl + '/rgdws/expression/index/records/tissues/strains?' + params.join('&');
+    return apiUrl + '/rgdws/expression/index/records/search?' + params.join('&');
   }
 
   function fetchRecordsJson(url) {
@@ -1288,68 +1276,12 @@
     });
   }
 
-  // Bounds on request fan-out. Beyond GENE_CALL_LIMIT gene x dimension pairs we fall back to a per-gene
-  // load; beyond GENES_FANOUT_LIMIT genes that per-gene load collapses to a single combined call.
-  var GENES_FANOUT_LIMIT = 60;
-  var GENE_CALL_LIMIT = 80;
-
-  // Fetch every url and concatenate the record pages; a failed page contributes nothing rather than
-  // failing the whole load.
-  function mergeRecordPages(urls) {
-    var calls = urls.map(function (u) {
-      return fetchRecordsJson(u).catch(function () { return { records: [], total: 0 }; });
-    });
-    return Promise.all(calls).then(function (results) {
-      var records = [], total = 0;
-      for (var i = 0; i < results.length; i++) {
-        if (results[i] && results[i].records) records = records.concat(results[i].records);
-        total += (results[i] && results[i].total) || 0;
-      }
-      return { records: records, total: total };
-    });
-  }
-
-  // Load records for a gene list that lacks a full tissue+strain pair (the tissue+strain endpoint
-  // requires both). Uses the most specific deployed endpoint available:
-  //   genes + strain(s)  -> /records/gene/{g}/strain/{s}   (server-scoped, small result per pair)
-  //   genes + tissue(s)  -> /records/gene/{g}/tissue/{t}
-  //   genes only         -> /records/genes per gene (spreads the 10k window across genes so all appear)
-  // None of these filter by assembly, so recordPassesFilters trims to the wizard's mapKey (and to the
-  // base tissue/strain in the genes-only fallback) afterwards.
-  function loadRecordsViaGenesEndpoint() {
-    var genes = selectedFor('genes', RGD_IDS.map(String));
-    var gLevels = checkedValues('levels');
-    var levelParam = gLevels.length === 1 ? '&expressionLevel=' + encodeURIComponent(gLevels[0]) : '';
-    var sizeParam = 'page=0&size=' + PAGE_SIZE;
-    var recBase = apiUrl + '/rgdws/expression/index/records/';
-
-    var urls = [];
-    if (HAS_STRAIN && !HAS_TISSUE) {
-      var strains = selectedFor('strains', STRAIN_IDS);
-      genes.forEach(function (g) {
-        strains.forEach(function (s) {
-          urls.push(recBase + 'gene/' + encodeURIComponent(g) + '/strain/' + encodeURIComponent(s) + '?' + sizeParam + levelParam);
-        });
-      });
-    } else if (HAS_TISSUE && !HAS_STRAIN) {
-      var tissues = selectedFor('tissues', TISSUE_IDS);
-      genes.forEach(function (g) {
-        tissues.forEach(function (t) {
-          urls.push(recBase + 'gene/' + encodeURIComponent(g) + '/tissue/' + encodeURIComponent(t) + '?' + sizeParam + levelParam);
-        });
-      });
+  // Empty-result message tailored to what the wizard actually queried.
+  function noRecordsMessage() {
+    if (HAS_GENES) {
+      return 'No expression records for the selected gene' + (RGD_IDS.length === 1 ? '' : 's') + ' on this assembly.';
     }
-
-    // Genes only, or too many gene x dimension pairs: fall back to a per-gene load through the plain
-    // genes endpoint (bounded by gene count; any base tissue/strain is applied client-side).
-    if (!urls.length || urls.length > GENE_CALL_LIMIT) {
-      var genesBase = recBase + 'genes?' + sizeParam + levelParam + '&rgdIds=';
-      urls = genes.length > GENES_FANOUT_LIMIT
-        ? [genesBase + encodeURIComponent(genes.join(','))]              // very long list: one call
-        : genes.map(function (g) { return genesBase + encodeURIComponent(g); });
-    }
-
-    return mergeRecordPages(urls);
+    return 'No expression records match the selected tissues and strains on this assembly.';
   }
 
   // Re-query the server for the current facet selection, then draw the table (with a client-side
@@ -1358,13 +1290,8 @@
     setStatus('loading', 'Loading expression records&hellip;');
     document.getElementById('emTableCard').style.display = 'none';
 
-    var source = USE_GENES_ENDPOINT
-      ? loadRecordsViaGenesEndpoint()
-      : fetchRecordsJson(serverRecordsUrl()).then(function (d) {
-          return { records: d.records || [], total: (d.total != null ? d.total : (d.records || []).length) };
-        });
-
-    source.then(function (data) {
+    fetchRecordsJson(serverRecordsUrl())
+      .then(function (data) {
         allRecords = data.records || [];
         serverTotal = (data.total != null) ? data.total : allRecords.length;
 
@@ -1373,9 +1300,7 @@
           filteredRecords = [];
           setStatus('empty', anyFacetSelected()
             ? 'No records match the selected filters. <a onclick="clearFacets()" style="cursor:pointer;text-decoration:underline;">Clear the filters</a>.'
-            : (USE_GENES_ENDPOINT
-                ? ('No expression records for the selected gene' + (RGD_IDS.length === 1 ? '' : 's') + '.')
-                : 'No expression records match the selected tissues and strains on this assembly.'));
+            : noRecordsMessage());
           syncHeatmap();
           return;
         }
@@ -1397,9 +1322,7 @@
       document.getElementById('emTableCard').style.display = 'none';
       setStatus('empty', anyFacetSelected()
         ? 'No records match the selected filters. <a onclick="clearFacets()" style="cursor:pointer;text-decoration:underline;">Clear the filters</a>.'
-        : (USE_GENES_ENDPOINT
-            ? 'No expression records for this selection on the chosen assembly.'
-            : 'No expression records to show.'));
+        : noRecordsMessage());
       syncHeatmap();
       return;
     }
