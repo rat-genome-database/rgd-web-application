@@ -6,6 +6,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.Sample" %>
 <%@ page import="edu.mcw.rgd.web.DisplayMapper" %>
 <%@ page import="edu.mcw.rgd.web.HttpRequestFacade" %>
+<%@ page import="static edu.mcw.rgd.web.RgdContext.getAPIHostname" %>
 <%@ page import="java.util.List" %>
 
 <%
@@ -217,6 +218,64 @@
     color: #6a7a8a;
     margin-top: 8px;
   }
+
+  /* Positional gene search */
+  .pos-search-card {
+    background: #eef4fb;
+    border: 1px solid #c0d0e0;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  }
+  .pos-search-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end;
+  }
+  .pos-field { display: flex; flex-direction: column; }
+  .pos-field label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #5a7a9a;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .pos-input {
+    padding: 8px 10px;
+    border: 1px solid #bccada;
+    border-radius: 4px;
+    background: #f8fafc;
+    color: #333;
+    font-size: 13px;
+  }
+  .pos-input:focus {
+    outline: none;
+    border-color: #3a7aba;
+    box-shadow: 0 0 0 3px rgba(58, 122, 186, 0.15);
+    background: #fff;
+  }
+  .pos-input.chr { width: 70px; }
+  .pos-input.pos { width: 140px; }
+  .pos-search-btn {
+    font-size: 13px;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #4a8ac9 0%, #3a7aba 100%);
+    color: white;
+    border: 1px solid #2f6699;
+    border-radius: 4px;
+    padding: 9px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .pos-search-btn:hover { background: linear-gradient(to bottom, #5a9ada 0%, #4a8ac9 100%); }
+  .pos-search-btn[disabled] { background: #aab8c5; border-color: #93a2b0; cursor: not-allowed; }
+  .pos-search-status { font-size: 12px; margin-top: 8px; min-height: 14px; }
+  .pos-search-status.err  { color: #b34747; }
+  .pos-search-status.ok   { color: #1e7e34; }
+  .pos-search-status.busy { color: #5a7a9a; }
 </style>
 
 <%
@@ -311,6 +370,34 @@
       <% for (String conditionId : selectedConditionIds) { %>
       <input type="hidden" name="conditionId" value="<%=conditionId%>"/>
       <% } %>
+
+      <!-- Positional gene search: look up gene symbols in a genomic region on the current assembly and
+           add them to the gene list below. Does not submit the form; it only populates the textarea. -->
+      <div class="pos-search-card">
+        <div class="card-title" style="border:none;padding:0;margin-bottom:10px;">Positional Gene Search<% if (assemblyName != null) { %>
+          <span style="font-weight:normal;font-size:12px;color:#5a7a9a;">&mdash; <%=assemblyName%></span><% } %>
+        </div>
+        <div class="pos-search-row">
+          <div class="pos-field">
+            <label for="posChr">Chr</label>
+            <input type="text" id="posChr" class="pos-input chr" placeholder="e.g. 1"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault(); positionalGeneSearch();}"/>
+          </div>
+          <div class="pos-field">
+            <label for="posStart">Start</label>
+            <input type="text" id="posStart" class="pos-input pos" inputmode="numeric" placeholder="e.g. 1000000"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault(); positionalGeneSearch();}"/>
+          </div>
+          <div class="pos-field">
+            <label for="posStop">Stop</label>
+            <input type="text" id="posStop" class="pos-input pos" inputmode="numeric" placeholder="e.g. 2000000"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault(); positionalGeneSearch();}"/>
+          </div>
+          <button type="button" id="posSearchBtn" class="pos-search-btn" onclick="positionalGeneSearch()">Find Genes</button>
+        </div>
+        <div id="posSearchStatus" class="pos-search-status"></div>
+      </div>
+
       <div class="genelist-card">
         <div class="card-title">Gene Symbol List</div>
         <textarea
@@ -348,6 +435,85 @@
 
   </div>
 </div>
+
+<script>
+  var POS_API_URL = "<%=getAPIHostname()%>";
+  var POS_MAP_KEY = <%=mapKey%>;
+
+  // Look up genes overlapping chr:start-stop on the current assembly and append their symbols to the
+  // gene-list textarea. Uses the same /rgdws gene REST endpoint the rest of the site uses; the results
+  // page still resolves symbols -> RGD ids server-side, so we only need the symbols here.
+  function positionalGeneSearch() {
+    var chrEl = document.getElementById('posChr');
+    var startEl = document.getElementById('posStart');
+    var stopEl = document.getElementById('posStop');
+    var statusEl = document.getElementById('posSearchStatus');
+    var btn = document.getElementById('posSearchBtn');
+
+    function setStatus(cls, msg) { statusEl.className = 'pos-search-status ' + cls; statusEl.innerHTML = msg; }
+
+    var chr = (chrEl.value || '').trim().replace(/^chr/i, '');   // accept "chr1" or "1"
+    var start = (startEl.value || '').replace(/[,\s]/g, '');     // tolerate 1,000,000
+    var stop = (stopEl.value || '').replace(/[,\s]/g, '');
+
+    if (!chr) { setStatus('err', 'Enter a chromosome.'); chrEl.focus(); return; }
+    if (!/^[0-9]+$/.test(start) || !/^[0-9]+$/.test(stop)) {
+      setStatus('err', 'Start and stop must be whole numbers (base positions).'); return;
+    }
+    var s = parseInt(start, 10), e = parseInt(stop, 10);
+    if (s > e) { setStatus('err', 'Start must be less than or equal to stop.'); return; }
+    if (!POS_MAP_KEY) { setStatus('err', 'No assembly selected for this search.'); return; }
+
+    var range = posEsc(chr) + ':' + s.toLocaleString() + '-' + e.toLocaleString();
+    setStatus('busy', 'Searching ' + range + '&hellip;');
+    btn.disabled = true;
+
+    var url = POS_API_URL + '/rgdws/genes/' + encodeURIComponent(chr) + '/' + s + '/' + e + '/' + POS_MAP_KEY;
+    fetch(url, { headers: { 'Accept': 'application/json' } })
+      .then(function (resp) {
+        if (!resp.ok) throw new Error('Server returned ' + resp.status + ' ' + resp.statusText);
+        return resp.json();
+      })
+      .then(function (genes) {
+        var symbols = [];
+        (genes || []).forEach(function (g) {
+          var sym = g && (g.symbol || g.geneSymbol);
+          if (sym) symbols.push(sym);
+        });
+        if (!symbols.length) {
+          setStatus('err', 'No genes found in ' + range + ' on this assembly.');
+          return;
+        }
+        var added = addSymbolsToList(symbols);
+        var dupes = symbols.length - added;
+        setStatus('ok', 'Added ' + added + ' gene' + (added === 1 ? '' : 's') +
+          (dupes > 0 ? ' (' + dupes + ' already in the list)' : '') + ' from ' + range + '.');
+      })
+      .catch(function (err) { setStatus('err', 'Positional search failed: ' + posEsc(err.message)); })
+      .then(function () { btn.disabled = false; }); // runs on success or failure
+  }
+
+  // Merge symbols into the gene-list textarea, de-duplicating case-insensitively against what is already
+  // there (whether typed by the user or added by a previous positional search). Returns the count added.
+  function addSymbolsToList(symbols) {
+    var ta = document.getElementById('geneList');
+    var existing = (ta.value || '').split(/[\s,]+/).filter(function (t) { return t; });
+    var seen = {};
+    existing.forEach(function (t) { seen[t.toLowerCase()] = true; });
+    var added = 0;
+    symbols.forEach(function (sym) {
+      var key = sym.toLowerCase();
+      if (!seen[key]) { seen[key] = true; existing.push(sym); added++; }
+    });
+    ta.value = existing.join('\n');
+    return added;
+  }
+
+  function posEsc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+</script>
 
 <%@ include file="/common/angularBottomBodyInclude.jsp" %>
 <%@ include file="/common/footerarea.jsp" %>
