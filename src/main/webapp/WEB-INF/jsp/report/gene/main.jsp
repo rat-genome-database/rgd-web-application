@@ -74,6 +74,9 @@
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
 
+<%-- modern presentation layer for this report; loaded last so it wins over report.css --%>
+<link href="/rgdweb/css/reportModern.css?v=3" rel="stylesheet" type="text/css" />
+
 <script type="application/ld+json">
 {
 "@context": "http://schema.org",
@@ -97,13 +100,14 @@
 <%
     String tutorialLink="/wg/home/rgd_rat_community_videos/rgd-s-gene-report-pages-tutorial";
     String pageHeader="Gene: " + obj.getSymbol() + "&nbsp;(" + obj.getName() + ")&nbsp;" + SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey());
+    String reportSkinClass = RgdContext.isChinchilla(request) ? "rgd-modern-report chinchilla" : "rgd-modern-report";
 %>
 
 <script>
     let reportTitle = "gene";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -115,26 +119,55 @@
 
 
     <div id="content-wrap">
-        <table width="95%" style="padding-top:10px;" border="0">
-            <tr>
-                <% if( RgdContext.isChinchilla(request) ) { %>
-                <td style="font-size:20px; color:#96151d; font-weight:700;"><%=pageHeader%></td>
-                <% } else { %>
-                <td style="font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></td>
-                <% } %>
-                <td align="center" valign="bottom"><div ng-click="rgd.addWatch(pageObject)"><img heght="30" width="30" src="/rgdweb/common/images/binoculars.png" border="0"/><br><a href="javascript:void(0)" >{{ watchLinkText }}</a></div></td>
-                <td align="center" valign="bottom"><img src="/rgdweb/common/images/tools-white-40.png" style="cursor:hand; border: 0px solid black;" border="0" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')"/><br><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')">Analyze</a></td>
 
+        <%-- report hero: identity of the gene up front, actions on the right --%>
+        <%
+            String heroSymbol = org.apache.commons.text.StringEscapeUtils.escapeHtml4(obj.getSymbol());
+            String heroName = org.apache.commons.text.StringEscapeUtils.escapeHtml4(Utils.NVL(obj.getName(), ""));
+            int analyzeMapKey = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey();
+        %>
+        <div class="report-hero" data-symbol="<%=heroSymbol%>">
+            <div class="report-hero-main">
+                <div class="report-hero-species">
+                    <img alt="<%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(SpeciesType.getCommonName(obj.getSpeciesTypeKey()))%>"
+                         src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
+                </div>
+                <div class="report-hero-text">
+                    <div class="report-hero-eyebrow">Gene Report</div>
+                    <h1 class="report-hero-title"><%=heroSymbol%></h1>
+                    <% if( !heroName.isEmpty() ) { %>
+                    <div class="report-hero-subtitle"><%=heroName%></div>
+                    <% } %>
+                    <div class="report-hero-chips">
+                        <span class="rgd-chip"><i class="fa fa-paw"></i><%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%></span>
+                        <span class="rgd-chip rgd-chip-neutral">RGD:<%=obj.getRgdId()%></span>
+                        <% if( !Utils.isStringEmpty(obj.getType()) ) { %>
+                        <span class="rgd-chip rgd-chip-neutral"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(obj.getType())%></span>
+                        <% } %>
+                        <% if( mapDataList.size()>0 && md.getChromosome()!=null ) { %>
+                        <span class="rgd-chip rgd-chip-neutral" title="<%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(refMap.getName())%>">
+                            <i class="fa fa-map-marker"></i>chr<%=md.getChromosome()%>:<%=md.getStartPos()%>-<%=md.getStopPos()%>
+                        </span>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-hero-actions">
+                <a href="javascript:void(0)" class="rgd-action" ng-click="rgd.addWatch(pageObject)">
+                    <img src="/rgdweb/common/images/binoculars.png" alt=""/>{{ watchLinkText }}
+                </a>
+                <a href="javascript:void(0)" class="rgd-action rgd-action-primary"
+                   ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=analyzeMapKey%>,1,'')">
+                    <i class="fa fa-cogs"></i>Analyze
+                </a>
                 <% if( tutorialLink!=null && !tutorialLink.isEmpty() && !RgdContext.isChinchilla(request) ) { %>
-                <td align="right">
-                    <a  href="<%=tutorialLink%>"><img src="http://rgd.mcw.edu/common/images/tutorial.png" border=0/></a>
-                </td>
+                <a class="rgd-action" href="<%=tutorialLink%>">
+                    <i class="fa fa-play-circle"></i>Tutorial
+                </a>
                 <% } %>
-            </tr>
-        </table>
-
-
-
+            </div>
+        </div>
 
         <%@ include file="menu.jsp"%>
 
@@ -261,6 +294,8 @@
 
 <script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<%-- must come last: it decorates the sidebar and the sections both scripts above build --%>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=2"> </script>
 
 
 

@@ -1,0 +1,856 @@
+/* ==========================================================================
+   RGD report pages - modern presentation layer
+   --------------------------------------------------------------------------
+   Scoped to #page-container.rgd-modern-report so report pages that do not opt
+   in keep their old look. Restyles the existing markup only - no JSP structure
+   change is required beyond the opt-in class.
+   ========================================================================== */
+
+.rgd-modern-report {
+    /* palette */
+    --rgd-blue:        #2865a3;
+    --rgd-blue-dark:   #1c4a79;
+    --rgd-blue-light:  #eaf2fb;
+    --rgd-accent:      #2865a3;
+    --rgd-accent-soft: #eaf2fb;
+
+    --rgd-text:        #1f2933;
+    --rgd-text-muted:  #5b6672;
+    --rgd-text-faint:  #8a95a1;
+
+    --rgd-bg:          #f4f6f9;
+    --rgd-surface:     #ffffff;
+    --rgd-surface-alt: #f8fafc;
+    --rgd-border:      #dfe4ea;
+    --rgd-border-soft: #edf0f4;
+
+    --rgd-radius:      10px;
+    --rgd-radius-sm:   6px;
+    --rgd-shadow-sm:   0 1px 2px rgba(16, 32, 51, .06), 0 1px 3px rgba(16, 32, 51, .05);
+    --rgd-shadow-md:   0 4px 14px rgba(16, 32, 51, .10);
+
+    --rgd-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                "Helvetica Neue", Arial, sans-serif;
+
+    --rgd-sidebar-w: 250px;
+    --rgd-stick-top: 8px;
+}
+
+/* Chinchilla (NGC) skin: same layout, different accent */
+.rgd-modern-report.chinchilla {
+    --rgd-blue:        #96151d;
+    --rgd-blue-dark:   #6f0f16;
+    --rgd-blue-light:  #fbecec;
+    --rgd-accent:      #96151d;
+    --rgd-accent-soft: #fbecec;
+}
+
+/* --------------------------------------------------------------------------
+   Page shell: a two column grid replaces the float + fixed-margin layout
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report {
+    display: grid;
+    grid-template-columns: var(--rgd-sidebar-w) minmax(0, 1fr);
+    gap: 26px;
+    align-items: start;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 18px 22px 56px;
+    background: var(--rgd-bg);
+    font-family: var(--rgd-font);
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--rgd-text);
+}
+
+.rgd-modern-report *,
+.rgd-modern-report *::before,
+.rgd-modern-report *::after { box-sizing: border-box; }
+
+.rgd-modern-report #left-side-wrap {
+    width: auto;
+    float: none;
+    min-width: 0;
+    position: sticky;
+    top: var(--rgd-stick-top);
+}
+
+.rgd-modern-report #content-wrap {
+    margin-left: 0;
+    max-width: none;
+    min-width: 0;
+    position: static;
+}
+
+/* the species image now lives in the report hero */
+.rgd-modern-report #species-image { display: none; }
+
+/* neutralise the legacy layout tables wrapping the report body */
+.rgd-modern-report #content-wrap > table {
+    width: 100%;
+    border: 0;
+    border-collapse: collapse;
+    background: none;
+}
+.rgd-modern-report #content-wrap > table > tbody > tr > td {
+    padding: 0;
+    border: 0;
+    background: none;
+    vertical-align: top;
+}
+/* the report body lives in the first cell; the trailing cell is a spacer */
+.rgd-modern-report #content-wrap > table > tbody > tr > td:first-child { width: 100%; }
+.rgd-modern-report #content-wrap > table > tbody > tr > td + td {
+    width: 0;
+    font-size: 0;
+}
+
+.rgd-modern-report a {
+    color: var(--rgd-blue-dark);
+    font-weight: 500;
+    text-decoration: none;
+}
+.rgd-modern-report a:hover { text-decoration: underline; }
+
+/* --------------------------------------------------------------------------
+   Report hero (symbol / name / species / actions)
+   -------------------------------------------------------------------------- */
+
+.report-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-top: 3px solid var(--rgd-accent);
+    border-radius: var(--rgd-radius);
+    box-shadow: var(--rgd-shadow-sm);
+}
+
+.report-hero-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    min-width: 0;
+    flex: 1 1 420px;
+}
+
+.report-hero-species {
+    flex: 0 0 auto;
+    width: 76px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border-soft);
+    border-radius: 50%;
+}
+.report-hero-species img {
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+}
+
+.report-hero-text { min-width: 0; }
+
+.report-hero-eyebrow {
+    margin-bottom: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--rgd-text-faint);
+}
+
+.report-hero-title {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: -.01em;
+    color: var(--rgd-accent);
+}
+
+.report-hero-subtitle {
+    margin-top: 3px;
+    font-size: 15px;
+    color: var(--rgd-text-muted);
+}
+
+.report-hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.rgd-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.6;
+    white-space: nowrap;
+    color: var(--rgd-blue-dark);
+    background: var(--rgd-accent-soft);
+    border: 1px solid transparent;
+    border-radius: 999px;
+}
+.rgd-chip.rgd-chip-neutral {
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    border-color: var(--rgd-border);
+}
+.rgd-chip i { opacity: .75; }
+
+.report-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+}
+
+.rgd-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--rgd-text) !important;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+    text-decoration: none !important;
+    transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.rgd-action:hover {
+    background: var(--rgd-accent-soft);
+    border-color: var(--rgd-accent);
+    box-shadow: var(--rgd-shadow-sm);
+}
+.rgd-action i { color: var(--rgd-accent); }
+.rgd-action img { height: 18px; width: auto; border: 0; }
+.rgd-action.rgd-action-primary {
+    color: #fff !important;
+    background: var(--rgd-accent);
+    border-color: var(--rgd-accent);
+}
+.rgd-action.rgd-action-primary i { color: #fff; }
+.rgd-action.rgd-action-primary:hover { background: var(--rgd-blue-dark); }
+
+/* --------------------------------------------------------------------------
+   Tab strip (General / Array IDs / ...)
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #searchResultHeader {
+    float: none;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--rgd-border) !important;
+}
+.rgd-modern-report #searchResultHeader ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+.rgd-modern-report #searchResultHeader li { display: block; margin: 0; }
+.rgd-modern-report #searchResultHeader a {
+    display: block;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    background: transparent;
+    border-bottom: 3px solid transparent;
+    border-radius: var(--rgd-radius-sm) var(--rgd-radius-sm) 0 0;
+}
+.rgd-modern-report #searchResultHeader a:hover {
+    color: var(--rgd-accent);
+    background: var(--rgd-accent-soft);
+    text-decoration: none;
+}
+.rgd-modern-report #searchResultHeader #selected a {
+    color: var(--rgd-accent);
+    background: transparent;
+    border-bottom-color: var(--rgd-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar table of contents
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #reportMainSidebar {
+    display: block;
+    width: 100%;
+    height: auto !important;
+    max-height: calc(100vh - 2 * var(--rgd-stick-top));
+    padding: 10px;
+    margin: 0;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    background: var(--rgd-surface) !important;
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius);
+    box-shadow: var(--rgd-shadow-sm);
+    scrollbar-width: thin;
+}
+.rgd-modern-report #reportMainSidebar::-webkit-scrollbar { width: 8px; }
+.rgd-modern-report #reportMainSidebar::-webkit-scrollbar-thumb {
+    background: #cfd6de;
+    border-radius: 4px;
+}
+
+.rgd-toc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 2px 6px 8px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--rgd-text-faint);
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-toc-toggle-all {
+    padding: 2px 4px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: none;
+    cursor: pointer;
+    color: var(--rgd-accent) !important;
+    background: none;
+    border: 0;
+}
+.rgd-toc-toggle-all:hover { text-decoration: underline; }
+
+.rgd-toc-filter {
+    width: 100%;
+    margin: 8px 0 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: inherit;
+    color: var(--rgd-text);
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-toc-filter:focus {
+    outline: none;
+    border-color: var(--rgd-accent);
+    box-shadow: 0 0 0 3px var(--rgd-accent-soft);
+}
+
+.rgd-modern-report #reportMainSidebar ul {
+    display: block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.rgd-modern-report #reportMainSidebar li { margin: 1px 0; padding: 0; }
+
+.rgd-modern-report #reportMainSidebar a {
+    display: block;
+    padding: 6px 10px 6px 12px;
+    font-family: var(--rgd-font);
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--rgd-text) !important;
+    border-left: 3px solid transparent;
+    border-radius: 0 var(--rgd-radius-sm) var(--rgd-radius-sm) 0;
+    text-decoration: none;
+    transition: background .12s ease, color .12s ease;
+}
+.rgd-modern-report #reportMainSidebar a:hover {
+    color: var(--rgd-accent) !important;
+    background: var(--rgd-surface-alt);
+    text-decoration: none;
+}
+.rgd-modern-report #reportMainSidebar a.active,
+.rgd-modern-report #reportMainSidebar a.rgd-toc-current {
+    font-weight: 700;
+    color: var(--rgd-accent) !important;
+    background: var(--rgd-accent-soft);
+    border-left-color: var(--rgd-accent);
+}
+.rgd-modern-report #reportMainSidebar .sub-nav-item > a {
+    margin: 0;
+    padding-left: 26px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--rgd-text-muted) !important;
+}
+.rgd-modern-report #reportMainSidebar li.rgd-toc-hidden { display: none; }
+
+/* --------------------------------------------------------------------------
+   Major sections (.subTitle) - collapsible
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .subTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 28px 0 14px;
+    padding: 0 0 8px;
+    font-family: var(--rgd-font);
+    font-size: 19px;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: -.01em;
+    color: var(--rgd-text);
+    border-bottom: 2px solid var(--rgd-border);
+    scroll-margin-top: 64px;
+}
+.rgd-modern-report .subTitle.rgd-collapsible { cursor: pointer; }
+.rgd-modern-report .subTitle.rgd-collapsible:hover { color: var(--rgd-accent); }
+
+/* The caret is appended last so that geneReport.js can keep reading the
+   heading label from childNodes[0]; flex order puts it back in front. */
+.rgd-caret {
+    order: -1;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rgd-text-faint);
+    transition: transform .18s ease;
+}
+.rgd-caret::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+}
+.rgd-collapsed > .rgd-caret { transform: rotate(-90deg); }
+
+.rgd-section-count {
+    margin-left: auto;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: 999px;
+}
+
+/* members of a collapsed major section */
+.rgd-modern-report .rgd-section-member.rgd-hidden { display: none !important; }
+
+/* --------------------------------------------------------------------------
+   Data cards
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .light-table-border,
+.rgd-modern-report #info-table {
+    max-width: none;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius);
+    box-shadow: var(--rgd-shadow-sm);
+}
+
+.rgd-modern-report .light-table-border {
+    display: block;
+    padding: 4px 18px 16px;
+    margin: 0 0 14px;
+    overflow-x: auto;
+    transition: box-shadow .18s ease, border-color .18s ease;
+}
+.rgd-modern-report .light-table-border:hover {
+    border-color: #cdd6e0;
+    box-shadow: var(--rgd-shadow-md);
+}
+
+.rgd-modern-report .sectionHeading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 -18px 12px;
+    padding: 12px 18px;
+    font-family: var(--rgd-font);
+    font-size: 14.5px;
+    font-weight: 700;
+    font-style: normal;
+    color: var(--rgd-text);
+    border-bottom: 1px solid var(--rgd-border-soft);
+    cursor: pointer;
+    user-select: none;
+    scroll-margin-top: 64px;
+}
+.rgd-modern-report .sectionHeading:hover { background: var(--rgd-surface-alt); }
+.rgd-modern-report .light-table-border.rgd-collapsed .sectionHeading {
+    margin-bottom: -4px;
+    border-bottom-color: transparent;
+}
+/* everything but the heading disappears when the card is collapsed */
+.rgd-modern-report .light-table-border.rgd-collapsed > *:not(.sectionHeading) {
+    display: none !important;
+}
+
+/* the "Annotation Detail View" link inside a heading must not read as the title */
+.rgd-modern-report .associationsToggle {
+    margin-left: auto;
+    padding: 4px 11px;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--rgd-accent) !important;
+    background: var(--rgd-accent-soft);
+    border: 1px solid transparent;
+    border-radius: 999px;
+}
+.rgd-modern-report .associationsToggle:hover {
+    border-color: var(--rgd-accent);
+    text-decoration: none;
+}
+/* when a heading carries both a toggle link and a count, keep them together
+   on the right instead of letting the two auto margins split the gap */
+.rgd-modern-report .associationsToggle ~ .rgd-section-count { margin-left: 8px; }
+
+/* --------------------------------------------------------------------------
+   Summary table at the top of the report
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #info-table {
+    width: 100%;
+    margin-bottom: 6px;
+    border-collapse: collapse;
+}
+.rgd-modern-report #info-table tr { border-bottom: 1px solid var(--rgd-border-soft); }
+.rgd-modern-report #info-table tr:last-child { border-bottom: 0; }
+.rgd-modern-report #info-table td {
+    padding: 9px 10px;
+    font-family: var(--rgd-font);
+    font-size: 13.5px;
+    line-height: 1.6;
+    vertical-align: top;
+    background: none;
+    border: 0;
+}
+/* the table sets border-collapse:collapse, which makes the browser drop padding
+   on the table box itself - the card's inset has to come from the edge cells */
+.rgd-modern-report #info-table td:first-child { padding-left: 18px; }
+.rgd-modern-report #info-table td:last-child { padding-right: 18px; }
+.rgd-modern-report #info-table tr:first-child td { padding-top: 15px; }
+.rgd-modern-report #info-table tr:last-child td { padding-bottom: 15px; }
+.rgd-modern-report #info-table td.label {
+    width: 190px;
+    min-width: 190px;
+    padding-right: 18px;
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    background: none;
+}
+
+/* value cells that hold nothing but a run of links are tagged .rgd-value-list
+   by reportModernUx.js, which also strips the ";" separators - each value then
+   gets its own chip so the entries are scannable instead of running together */
+.rgd-modern-report #info-table td.rgd-value-list {
+    padding-bottom: 4px;
+    line-height: 1.9;
+}
+.rgd-modern-report #info-table td.rgd-value-list > a.rgd-value-chip {
+    display: inline-block;
+    margin: 0 6px 5px 0;
+    padding: 2px 11px;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.7;
+    white-space: nowrap;
+    color: var(--rgd-accent) !important;
+    background: var(--rgd-accent-soft);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    transition: background .15s ease, border-color .15s ease;
+}
+.rgd-modern-report #info-table td.rgd-value-list > a.rgd-value-chip:hover,
+.rgd-modern-report #info-table td.rgd-value-list > a.rgd-value-chip:focus-visible {
+    background: var(--rgd-surface);
+    border-color: var(--rgd-accent);
+    text-decoration: none;
+}
+
+/* .label is a grey pill site-wide; keep it flat inside the report */
+.rgd-modern-report .label {
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    background: none;
+}
+
+/* --------------------------------------------------------------------------
+   Data tables
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report table {
+    border: 0;
+    border-collapse: collapse;
+    font-family: var(--rgd-font);
+}
+.rgd-modern-report td,
+.rgd-modern-report th {
+    padding: 8px 10px;
+    font-family: var(--rgd-font);
+    font-size: 12.5px;
+    line-height: 1.55;
+    vertical-align: top;
+}
+.rgd-modern-report th {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    background-image: none;
+    border-bottom: 1px solid var(--rgd-border);
+}
+.rgd-modern-report tbody tr { border-bottom: 1px solid var(--rgd-border-soft); }
+.rgd-modern-report tbody tr:last-child { border-bottom: 0; }
+.rgd-modern-report tbody tr:hover { background: var(--rgd-surface-alt); }
+
+/* tables nested inside a cell are layout helpers - no chrome, no hover */
+.rgd-modern-report td table,
+.rgd-modern-report td table tbody tr { border: 0; }
+.rgd-modern-report td table tbody tr:hover { background: none; }
+
+.rgd-modern-report .annotationTable { border: 0; padding: 0; }
+.rgd-modern-report .mapDataTable,
+.rgd-modern-report .mapDataTable td,
+.rgd-modern-report .mapDataTable th { border: 0; }
+.rgd-modern-report .mapDataTable td,
+.rgd-modern-report .mapDataTable th { font-size: 12.5px; }
+
+.rgd-modern-report .reportTableHeader { color: var(--rgd-accent); }
+
+/* --------------------------------------------------------------------------
+   Search box + pager above each table
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .search-and-pager {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+.rgd-modern-report .table-search {
+    width: 240px;
+    max-width: 100%;
+    margin: 0;
+    padding: 6px 11px;
+    font-family: inherit;
+    font-size: 12.5px;
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .table-search:focus {
+    outline: none;
+    border-color: var(--rgd-accent);
+    box-shadow: 0 0 0 3px var(--rgd-accent-soft);
+}
+.rgd-modern-report .pager {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .pager form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+.rgd-modern-report .pager img {
+    width: 16px;
+    height: 16px;
+    padding: 3px;
+    box-sizing: content-box;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .pager img:hover {
+    background: var(--rgd-accent-soft);
+    border-color: var(--rgd-accent);
+}
+.rgd-modern-report select,
+.rgd-modern-report input[type="text"],
+.rgd-modern-report input[type="search"] {
+    padding: 5px 8px;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--rgd-text);
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Sticky context bar - appears once the hero scrolls away
+   -------------------------------------------------------------------------- */
+
+.rgd-stickybar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 22px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    background: rgba(255, 255, 255, .96);
+    border-bottom: 1px solid #dfe4ea;
+    box-shadow: 0 2px 10px rgba(16, 32, 51, .07);
+    backdrop-filter: saturate(180%) blur(6px);
+    transform: translateY(-100%);
+    transition: transform .2s ease;
+}
+.rgd-stickybar.is-visible { transform: translateY(0); }
+.rgd-stickybar-symbol {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2865a3;
+}
+.rgd-stickybar.chinchilla .rgd-stickybar-symbol { color: #96151d; }
+.rgd-stickybar-sep { color: #c6ced8; }
+.rgd-stickybar-section {
+    font-weight: 600;
+    color: #5b6672;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.rgd-stickybar-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+.rgd-stickybar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #1f2933;
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 6px;
+}
+.rgd-stickybar-btn:hover { color: #2865a3; border-color: #2865a3; }
+
+/* back to top */
+.rgd-to-top {
+    position: fixed;
+    right: 22px;
+    bottom: 26px;
+    z-index: 1020;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: #fff;
+    background: #2865a3;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: 0 4px 14px rgba(16, 32, 51, .25);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+}
+.rgd-to-top.is-visible { opacity: 1; pointer-events: auto; }
+.rgd-to-top:hover { transform: translateY(-2px); }
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    .rgd-modern-report {
+        --rgd-sidebar-w: 210px;
+        gap: 18px;
+    }
+}
+
+@media (max-width: 860px) {
+    .rgd-modern-report {
+        display: block;
+        padding: 12px 12px 48px;
+    }
+    .rgd-modern-report #left-side-wrap {
+        position: static;
+        width: 100%;
+        margin-bottom: 14px;
+    }
+    .rgd-modern-report #reportMainSidebar { max-height: 320px; }
+    .report-hero { padding: 16px; }
+    .report-hero-title { font-size: 24px; }
+    .report-hero-actions { width: 100%; }
+    .rgd-modern-report .light-table-border { padding: 4px 12px 14px; }
+    .rgd-modern-report .sectionHeading {
+        margin-left: -12px;
+        margin-right: -12px;
+        padding: 10px 12px;
+    }
+    .rgd-modern-report #info-table td.label { width: 130px; min-width: 130px; }
+}
+
+/* --------------------------------------------------------------------------
+   Print: everything open, no chrome
+   -------------------------------------------------------------------------- */
+
+@media print {
+    .rgd-modern-report {
+        display: block;
+        padding: 0;
+        background: #fff;
+    }
+    .rgd-modern-report #left-side-wrap,
+    .rgd-stickybar,
+    .rgd-to-top,
+    .rgd-modern-report .search-and-pager,
+    .rgd-modern-report .associationsToggle,
+    .report-hero-actions { display: none !important; }
+
+    .rgd-modern-report .rgd-section-member.rgd-hidden,
+    .rgd-modern-report .light-table-border.rgd-collapsed > *:not(.sectionHeading) {
+        display: block !important;
+    }
+    .rgd-modern-report .light-table-border {
+        border: 1px solid #ccc;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+}

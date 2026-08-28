@@ -974,6 +974,12 @@ color: #ffffff;
         font-size: 11px;
     }
 
+    /* Position (strand) column - keep the coordinate range and strand on one line */
+    .mapDataTable td:nth-child(3),
+    .mapDataTable th:nth-child(3) {
+        white-space: nowrap;
+    }
+
     .annotationTable {
         border: 1px outset #7a5835;
         padding: 2px;

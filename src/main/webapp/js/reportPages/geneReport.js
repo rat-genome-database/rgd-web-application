@@ -78,13 +78,16 @@ function addEventsToSidebar() {
     checkForAnnotations();
     addItemsToSideBar();
 
-    sidebar.addEventListener("mouseover", (event) => {
-        sidebar.style.overflowY = "auto";
-    });
+    // the modern layout keeps the sidebar scrollable at all times
+    if(!isModernReportLayout()){
+        sidebar.addEventListener("mouseover", (event) => {
+            sidebar.style.overflowY = "auto";
+        });
 
-    sidebar.addEventListener("mouseout", (event) => {
-        sidebar.style.overflowY = "hidden";
-    });
+        sidebar.addEventListener("mouseout", (event) => {
+            sidebar.style.overflowY = "hidden";
+        });
+    }
 
     let toggles = Array.from(document.getElementsByClassName("associationsToggle"));
     toggles.forEach( toggle => {
@@ -327,7 +330,17 @@ function addIdToSearchBar(searchBar, searchBarNumber){
     return searchBar;
 }
 
+// reports on the modern layout pin the sidebar with CSS position:sticky, so the
+// inline positioning below would only fight it
+function isModernReportLayout(){
+    let container = document.getElementById('page-container');
+    return container !== null && container.classList.contains('rgd-modern-report');
+}
+
 function stickifySideBar(sidebar){
+    if(isModernReportLayout()){
+        return;
+    }
     let scrollPosition = window.pageYOffset;
     let percentScrolled = calculateScrollPercentage(scrollPosition);
     let footer = document.getElementById('footer');
