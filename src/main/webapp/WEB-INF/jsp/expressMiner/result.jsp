@@ -603,8 +603,8 @@
   // Selections handed in from the wizard steps.
   var TISSUE_IDS = [<% for (int i = 0; i < tissueIds.size(); i++) { if (i>0) out.print(","); out.print("'" + tissueIds.get(i).replace("'", "\\'") + "'"); } %>];
   var STRAIN_IDS = [<% for (int i = 0; i < strainAccIds.size(); i++) { if (i>0) out.print(","); out.print("'" + strainAccIds.get(i).replace("'", "\\'") + "'"); } %>];
-  // Optional condition (XCO) filter carried in from the wizard. Sent to the server as a fixed base
-  // filter; the Condition facet (computed client-side) refines within the loaded records.
+  // Optional condition (XCO) filter carried in from the wizard. Acts as the base value for the Condition
+  // server facet: sent to /index/records/search and /index/facets when no condition box is checked.
   var CONDITION_IDS = [<% for (int i = 0; i < conditionIds.size(); i++) { if (i>0) out.print(","); out.print("'" + conditionIds.get(i).replace("'", "\\'") + "'"); } %>];
   var MAP_KEY = <%=mapKey%>;
   var EXPRESSION_LEVEL = <%= (expressionLevel == null || expressionLevel.isBlank()) ? "null" : ("'" + expressionLevel.replace("'", "\\'") + "'") %>;
@@ -624,8 +624,9 @@
   function capitalize(v) { return v ? String(v).charAt(0).toUpperCase() + String(v).slice(1) : ''; }
 
   // Facet groups shown in the panel. `accOf` maps a record to the value the facet keys on, used to
-  // filter the table client-side. Server groups get their options/counts from the /index/facets call;
-  // `client: true` groups (Sex, Life Stage, Condition) are not provided by that endpoint, so their
+  // filter the table client-side. Server groups (Level, Unit, Gene, Tissue, Strain, Condition) get their
+  // options/counts from the /index/facets call and, when checked, narrow the /index/records/search query
+  // server-side. `client: true` groups (Sex, Life Stage) are not provided by that endpoint, so their
   // options and counts are computed from the loaded records instead (see renderClientFacets). `labelOf`
   // formats a value for display; `recLabelOf` pulls a display label straight off a record (used when
   // the facet keys on an id/accession but should show a friendlier name).
@@ -635,16 +636,13 @@
     { key: 'genes',   title: 'Gene',             accOf: function (r) { return String(r.geneRgdId); } },
     { key: 'tissues', title: 'Tissue',           accOf: function (r) { return r.tissueAcc; } },
     { key: 'strains', title: 'Strain',           accOf: function (r) { return r.strainAcc; } },
+    // Condition (XCO ontology): a server-backed facet like Tissue/Strain. Options, resolved term names
+    // and counts come from /index/facets; checked accessions are sent to /index/records/search.
+    { key: 'conditions', title: 'Condition',     accOf: function (r) { return (r.condition || '').trim(); } },
     { key: 'sex',        title: 'Sex',        client: true, labelOf: capitalize,
       accOf: function (r) { return (r.sex || r.computedSex || '').trim().toLowerCase(); } },
     { key: 'lifeStages', title: 'Life Stage', client: true, labelOf: capitalize,
-      accOf: function (r) { return (r.lifeStage || '').trim().toLowerCase(); } },
-    // Condition (XCO ontology). Keyed on the accession so this can move to a server facet / API filter
-    // with no UI change; for now options and counts are computed client-side from the loaded records
-    // (same trick as Sex / Life Stage). recLabelOf supplies the human-readable term name to display.
-    { key: 'conditions', title: 'Condition', client: true,
-      accOf: function (r) { return (r.condition || '').trim(); },
-      recLabelOf: function (r) { return (r.conditionTerm || r.condition || '').trim(); } }
+      accOf: function (r) { return (r.lifeStage || '').trim().toLowerCase(); } }
   ];
   var selectedFacets = {}; // key -> { accValue: true }
 
@@ -906,10 +904,11 @@
     var tissues = selectedFor('tissues', TISSUE_IDS);
     var strains = selectedFor('strains', STRAIN_IDS);
     var genes = selectedFor('genes', RGD_IDS.map(String));
+    var conditions = selectedFor('conditions', CONDITION_IDS);
     if (tissues.length) params.push('tissueIds=' + encodeURIComponent(tissues.join(',')));
     if (strains.length) params.push('strainAccIds=' + encodeURIComponent(strains.join(',')));
     if (genes.length) params.push('rgdIds=' + encodeURIComponent(genes.join(',')));
-    if (CONDITION_IDS.length) params.push('conditionIds=' + encodeURIComponent(CONDITION_IDS.join(',')));
+    if (conditions.length) params.push('conditionIds=' + encodeURIComponent(conditions.join(',')));
     if (MAP_KEY) params.push('mapKey=' + MAP_KEY);
     var units = checkedValues('units');
     if (units.length) params.push('units=' + encodeURIComponent(units.join(',')));
@@ -1014,9 +1013,10 @@
   // apply them all)? Used both to drive the table and to count a client facet's own options without
   // that group filtering itself out.
   function recordMatches(r, exceptKey) {
-    // Every server-applicable filter (assembly, tissue, strain, gene, and a single expression level) is
-    // now enforced by /index/records/search, so the loaded set already respects the wizard selection.
-    // This pass only applies the facets that endpoint can't: unit, condition, and multi-value levels.
+    // Every server-applicable filter (assembly, tissue, strain, gene, condition, and a single expression
+    // level) is enforced by /index/records/search, so the loaded set already respects those selections;
+    // re-applying them here is a harmless no-op. This pass is what actually applies the facets the
+    // endpoint can't: unit and multi-value level selections.
     for (var g = 0; g < FACET_GROUPS.length; g++) {
       var group = FACET_GROUPS[g];
       if (group.key === exceptKey) continue;
@@ -1243,9 +1243,9 @@
   // ---- Data loading ----------------------------------------------------------
 
   // Build the single unified records query. Every wizard and facet selection maps onto one call to
-  // /index/records/search, which AND-combines the supplied filters (tissue, strain, gene, assembly,
-  // level) server-side and OR-combines the values within each. Filters this endpoint can't express --
-  // unit, condition, and multi-value level selections -- are enforced by the client-side pass below
+  // /index/records/search, which AND-combines the supplied filters (tissue, strain, gene, condition,
+  // assembly, level) server-side and OR-combines the values within each. Filters this endpoint can't
+  // express -- unit and multi-value level selections -- are enforced by the client-side pass below
   // (recordPassesFilters). At least one filter is always present (mapKey), so the request is never
   // rejected for being unfiltered.
   function serverRecordsUrl() {
@@ -1253,12 +1253,13 @@
     var tissues = selectedFor('tissues', TISSUE_IDS);
     var strains = selectedFor('strains', STRAIN_IDS);
     var genes = selectedFor('genes', RGD_IDS.map(String));
+    // Condition (XCO) is a server facet: checked conditions, or the wizard's base selection when none
+    // are checked. The endpoint filters by them, so checking a box re-queries rather than filtering locally.
+    var conditions = selectedFor('conditions', CONDITION_IDS);
     if (tissues.length) params.push('tissueIds=' + encodeURIComponent(tissues.join(',')));
     if (strains.length) params.push('strainAccIds=' + encodeURIComponent(strains.join(',')));
     if (genes.length) params.push('rgdIds=' + encodeURIComponent(genes.join(',')));
-    // Optional XCO condition filter from the wizard; a fixed base narrowing (the Condition facet
-    // refines client-side within the loaded records, so it is not re-sent per checkbox).
-    if (CONDITION_IDS.length) params.push('conditionIds=' + encodeURIComponent(CONDITION_IDS.join(',')));
+    if (conditions.length) params.push('conditionIds=' + encodeURIComponent(conditions.join(',')));
     if (MAP_KEY) params.push('mapKey=' + MAP_KEY);
     // The endpoint takes a single expressionLevel, so send it only when exactly one level is checked
     // (it then narrows server-side); multiple checked levels are applied client-side instead.
