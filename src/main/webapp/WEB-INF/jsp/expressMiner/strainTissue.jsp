@@ -5,7 +5,7 @@
 <%
   String pageTitle = "Expression Miner (Select Strains and Tissues)";
   String headContent = "";
-  String pageDescription = "Select strains (RS) and tissues (UBERON) through the ontology browser";
+  String pageDescription = "Select strains (RS), tissues (UBERON), and optional conditions (XCO) through the ontology browser";
 %>
 <%@ include file="/common/headerarea.jsp" %>
 
@@ -287,6 +287,8 @@
   if (selectedStrainIds == null) selectedStrainIds = new ArrayList<String>();
   List<String> selectedTissueIds = (List<String>) request.getAttribute("selectedTissueIds");
   if (selectedTissueIds == null) selectedTissueIds = new ArrayList<String>();
+  List<String> selectedConditionIds = (List<String>) request.getAttribute("selectedConditionIds");
+  if (selectedConditionIds == null) selectedConditionIds = new ArrayList<String>();
 
   String nextAction = (String) request.getAttribute("nextAction");
   if (nextAction == null) nextAction = "/rgdweb/expressMiner/config.html";
@@ -306,8 +308,10 @@
 
     <div class="st-instructions">
       Add one or more <strong>strains</strong> (RS) and/or <strong>tissues</strong> (UBERON). You may choose either,
-      both, or neither &mdash; selections are optional. Either click <em>Browse Ontology Tree</em> to find a term, or
-      type an accession id directly (e.g. <em>RS:0000681</em> or <em>UBERON:0002107</em>) and click <em>Add</em>.
+      both, or neither &mdash; those selections are optional. You may also narrow by one or more
+      <strong>conditions</strong> (XCO), which is entirely optional. Either click <em>Browse Ontology Tree</em> to find a
+      term, or type an accession id directly (e.g. <em>RS:0000681</em>, <em>UBERON:0002107</em>, or <em>XCO:0000105</em>)
+      and click <em>Add</em>.
     </div>
 
     <form action="<%=nextAction%>" name="optionForm" id="optionForm" method="post">
@@ -321,6 +325,8 @@
       <input type="hidden" id="strainStaging_term"/>
       <input type="hidden" id="tissueStaging"/>
       <input type="hidden" id="tissueStaging_term"/>
+      <input type="hidden" id="conditionStaging"/>
+      <input type="hidden" id="conditionStaging_term"/>
 
       <!-- Strains (RS) -->
       <div class="st-card">
@@ -366,6 +372,29 @@
         <div id="tissueEmpty" class="st-list-empty">No tissues selected yet.</div>
       </div>
 
+      <!-- Conditions (XCO) -- always optional; never required to continue -->
+      <div class="st-card">
+        <div class="st-card-title">
+          <span>Conditions (XCO) <span id="conditionCount" class="st-count">0</span>
+            <span style="font-weight:normal;font-size:12px;color:#6a7a8a;">&mdash; optional</span></span>
+          <button type="button" class="st-browse-btn"
+                  onclick="ontPopup('conditionStaging','xco','conditionStaging_term'); return false;">Browse Ontology Tree</button>
+        </div>
+        <div class="st-add">
+          <input type="text" id="conditionSearchInput" class="st-add-input" autocomplete="off"
+                 placeholder="Search conditions by name, e.g. controlled exercise"/>
+        </div>
+        <div class="st-add">
+          <input type="text" id="conditionManualInput" class="st-add-input"
+                 placeholder="...or enter an accession, e.g. XCO:0000105"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('conditionStaging');}"/>
+          <button type="button" class="st-add-btn" onclick="addManual('conditionStaging')">Add</button>
+        </div>
+        <div id="conditionAddError" class="st-add-error"></div>
+        <ul id="conditionList" class="st-list"></ul>
+        <div id="conditionEmpty" class="st-list-empty">No conditions selected yet.</div>
+      </div>
+
       <div class="form-actions">
         <a class="backLink" href="javascript:history.back()">&#8592; Back</a>
         <div class="action-buttons">
@@ -389,11 +418,14 @@
                      manualInputId: 'strainManualInput', errorId: 'strainAddError' },
     tissueStaging: { type: 'tissue', inputName: 'tissueId', listId: 'tissueList',
                      countId: 'tissueCount', emptyId: 'tissueEmpty', prefix: 'UBERON:',
-                     manualInputId: 'tissueManualInput', errorId: 'tissueAddError' }
+                     manualInputId: 'tissueManualInput', errorId: 'tissueAddError' },
+    conditionStaging: { type: 'condition', inputName: 'conditionId', listId: 'conditionList',
+                        countId: 'conditionCount', emptyId: 'conditionEmpty', prefix: 'XCO:',
+                        manualInputId: 'conditionManualInput', errorId: 'conditionAddError' }
   };
 
   // Track selected accession ids per type to avoid duplicates.
-  var selectedAcc = { strain: {}, tissue: {} };
+  var selectedAcc = { strain: {}, tissue: {}, condition: {} };
 
   // Resolve which list a selection belongs to. Prefer the staging field the
   // popup targeted; fall back to the accession id prefix.
@@ -402,6 +434,7 @@
     var up = (accId || '').toUpperCase();
     if (up.indexOf('UBERON:') === 0) return ST_LISTS.tissueStaging;
     if (up.indexOf('RS:') === 0) return ST_LISTS.strainStaging;
+    if (up.indexOf('XCO:') === 0) return ST_LISTS.conditionStaging;
     return null;
   }
 
@@ -531,6 +564,9 @@
     <% for (String accId : selectedTissueIds) { %>
     addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.tissueStaging);
     <% } %>
+    <% for (String accId : selectedConditionIds) { %>
+    addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.conditionStaging);
+    <% } %>
     updateProceedState();
   })();
 
@@ -549,6 +585,13 @@
       onSelect: function (term, accId) {
         addTerm(accId, term, ST_LISTS.tissueStaging);
         var el = document.getElementById('tissueSearchInput');
+        if (el) el.value = '';
+      }
+    });
+    setupOntologyAutocomplete('#conditionSearchInput', 'XCO', {
+      onSelect: function (term, accId) {
+        addTerm(accId, term, ST_LISTS.conditionStaging);
+        var el = document.getElementById('conditionSearchInput');
         if (el) el.value = '';
       }
     });

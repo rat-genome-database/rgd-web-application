@@ -14,8 +14,8 @@ import java.util.List;
 /**
  * Renders the Expression Miner result table.
  *
- * Collects the tissue / strain selections (plus an optional gene list and
- * expression-level filter) carried in from the earlier wizard steps and hands
+ * Collects the tissue / strain / condition selections (plus an optional gene list
+ * and expression-level filter) carried in from the earlier wizard steps and hands
  * them to result.jsp. The JSP fetches the matching expression records from the
  * /rgdws expression index REST endpoint and builds the table client-side, so this
  * controller only prepares the query parameters -- it does not proxy any data.
@@ -35,6 +35,7 @@ public class ExpressMinerResultController implements Controller {
 
         List<String> tissueIds = collectParam(request, "tissueId");
         List<String> strainAccIds = collectParam(request, "strainId");
+        List<String> conditionIds = collectParam(request, "conditionId");
         String expressionLevel = request.getParameter("expressionLevel");
         String geneListParam = request.getParameter("geneList");
 
@@ -57,6 +58,7 @@ public class ExpressMinerResultController implements Controller {
         request.setAttribute("mapKey", mapKey);
         request.setAttribute("tissueIds", tissueIds);
         request.setAttribute("strainAccIds", strainAccIds);
+        request.setAttribute("conditionIds", conditionIds);
         request.setAttribute("expressionLevel", expressionLevel);
         request.setAttribute("geneList", geneListParam);
         request.setAttribute("rgdIds", rgdIds);
