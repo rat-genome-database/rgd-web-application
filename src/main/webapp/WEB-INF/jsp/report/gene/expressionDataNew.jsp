@@ -7,6 +7,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.Gene" %>
 <%@ page import="edu.mcw.rgd.datamodel.RgdId" %>
 <%@ page import="edu.mcw.rgd.dao.impl.RGDManagementDAO" %>
+<%@ page import="edu.mcw.rgd.datamodel.pheno.GeneExpressionValueCount" %>
 <%@ page import="static edu.mcw.rgd.web.RgdContext.getAPIHostname" %>
 
 <script src="https://unpkg.com/bootstrap-vue@2.5.0/dist/bootstrap-vue.min.js"></script>
@@ -14,47 +15,138 @@
 <link href="https://unpkg.com/bootstrap-vue@2.5.0/dist/bootstrap-vue.css" rel="stylesheet" />
 <%--<link href="https://unpkg.com/bootstrap@4.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />--%>
 <style>
-    #exprData {
-        border-radius:2px;
-        border-spacing: 5px;
-        /*overflow-y: auto;*/
-    }
-    #exprData td{
-        border: 1px solid #dddddd;
-        text-align: center;
-        padding: 4px;
-        /*display: block;*/
-        /*height: 40px;*/
-        z-index: 29;
-        position: relative;
+    /* RNA-Seq expression ribbon
+       ------------------------------------------------------------------------
+       Modelled on the Alliance / Gene Ontology ribbon widget
+       (geneontology/wc-ribbon, wc-ribbon-strips/.../ribbon-strips.scss): an 18px
+       square per system in one row, shaded white -> blue by sample count, with
+       the system names as -45 degree labels above and the count in the tooltip.
+
+       The whole strip is ~500px wide instead of the 1300px the old table needed,
+       and the rotated labels sit inside the 12.4rem top margin the ribbon
+       reserves for them, so nothing escapes the card. */
+
+    #expresTable {
+        max-width: 100%;
+        overflow-x: auto;
+        padding-top: 5px;
     }
 
-    .outerDiv {
-        /*background: grey;*/
-        height: 180px;
-        width: 55px;
-        border: 1px solid black;
-        border-bottom: 0;
-        border-left: 0;
-        transform: skew(-22deg) translateX(68%);
-    }
+    .ribbon { display: table; width: 100%; }
+    .ribbon, .ribbon * { box-sizing: border-box; }
 
-    th:first-child .outerDiv {
-        border-left: 1px solid black;
-        position: relative;
+    /* the row of angled system names; the top margin is the room they rotate into */
+    .ribbonCategory {
+        display: block;
+        margin-top: 12.4rem;
+        margin-bottom: .5rem;
     }
-
-    .innerDiv {
-        position: absolute;
-        width: 225px;
-        height: 80px;
-        bottom: -34%;
-        left: 10px;
-        transform: skew(30deg) rotate(-60deg);
-        transform-origin: 0 0;
+    .ribbonCategoryLabel {
+        display: inline-block;
+        width: 18px;
+        margin-right: 4px;
+        font-size: 12px;
+        line-height: 1;
+        color: #1f2933;
+        white-space: nowrap;
         text-align: left;
-        z-index: 1;
+        vertical-align: bottom;
+        transform: translateY(-2px) rotate(-45deg);
     }
+    .ribbonCategoryLabel:hover { cursor: help; font-weight: bold; }
+    .ribbonCategoryLabel.is-selected { font-weight: bold; }
+
+    .ribbonRow {
+        display: block;
+        padding-bottom: 3px;
+        white-space: nowrap;
+    }
+    .ribbonRowLabel {
+        display: inline-block;
+        width: 108px;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #1f2933;
+        vertical-align: bottom;
+    }
+    .ribbonCell {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .26);
+        outline: 2px solid transparent;
+        outline-offset: 1px;
+        vertical-align: bottom;
+        cursor: pointer;
+    }
+    /* a system with no samples at this level - present, but not a target */
+    .ribbonCell--empty {
+        background: repeating-linear-gradient(45deg,
+                    #ffffff, rgba(0, 0, 0, .1) 1px, #ffffff 2px, #ffffff 12px);
+        cursor: not-allowed;
+    }
+    .ribbonCell:not(.ribbonCell--empty):hover { outline-color: rgba(31, 41, 51, .55); }
+    .ribbonCell:focus-visible,
+    .ribbonCell.is-selected  { outline-color: #1f2933; }
+
+    /* colour is the only magnitude channel, and the ramp is logarithmic, so the
+       key carries real tick values rather than just "low ... high" */
+    #exprLegend {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        margin: 16px 0 4px;
+        font-size: 11.5px;
+        color: #5b6672;
+    }
+    #exprLegend b { color: #1f2933; }
+    .exprLegendScale {
+        display: block;
+        position: relative;
+        width: 260px;
+        height: 12px;
+        border-radius: 2px;
+        background: linear-gradient(to right, rgb(255,255,255), rgb(24,73,180));
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .26);
+    }
+    .exprLegendTicks {
+        display: block;
+        position: relative;
+        width: 260px;
+        height: 14px;
+        margin-top: 2px;
+    }
+    .exprLegendTicks span {
+        position: absolute;
+        transform: translateX(-50%);
+        font-variant-numeric: tabular-nums;
+    }
+    #exprTableToggle { margin-left: auto; cursor: pointer; }
+
+    /* the table view - the same numbers, for reading and for screen readers */
+    #exprTableView { padding-top: 10px; }
+    #exprData {
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 780px;
+    }
+    #exprData th,
+    #exprData td {
+        padding: 5px 10px;
+        font-size: 12.5px;
+        text-align: left;
+        border-bottom: 1px solid #edf0f4;
+    }
+    #exprData th { font-weight: 700; }
+    #exprData td.exprNum {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+    #exprData tr[data-col] { cursor: pointer; }
+    #exprData tr[data-col]:hover { background: #f8fafc; }
+    #exprData tr.is-selected { background: #eaf2fb; }
 </style>
 <%@ include file="../sectionHeader.jsp"%>
 <%
@@ -64,15 +156,48 @@
     GeneExpressionDAO gedao = new GeneExpressionDAO();
     OntologyXDAO xdao = new OntologyXDAO();
     List<String> terms = xdao.getAllSlimTermsOrdered("UBERON","AGR");
+
+    // The ribbon carries one row per expression level. getValueCountsByGeneRgdIdTermAndUnit
+    // hands back every level for a system in a single query, so the four extra rows
+    // cost no more round trips than the single "all" row used to.
+    //
+    // Level keys are folded to lowercase with spaces and underscores stripped, because
+    // GENE_EXPRESSION_VALUE_COUNTS is not consistent about "below cutoff" vs
+    // "below_cutoff" - the Vue filter below hedges the same three ways.
+    final String[] RIBBON_LEVELS  = {"all", "high", "medium", "low", "belowcutoff"};
+    final String[] RIBBON_LABELS  = {"All", "High", "Medium", "Low", "Below cutoff"};
+    final String[] RIBBON_FILTERS = {"", "High", "Medium", "Low", "Below Cutoff"};
+    final String[] RIBBON_TITLES  = {"All samples",
+                                     "High: TPM > 1000",
+                                     "Medium: 10 < TPM <= 1000",
+                                     "Low: 0.5 <= TPM <= 10",
+                                     "Below cutoff: TPM < 0.5"};
+
     List<String> include = new ArrayList<>();
-    HashMap<String,String> termCnt = new HashMap<>();
+    HashMap<String,String> termCnt = new HashMap<>();                       // term -> "all" count, as before
+    HashMap<String,HashMap<String,Integer>> termLevelCnt = new HashMap<>(); // term -> level -> count
+
     for (String term : terms){
-        String sampleCnt = gedao.getGeneExprReValCountForGeneBySlim(obj.getRgdId(), "TPM", "all", term);
-//        System.out.println(sampleCnt);
-        if (sampleCnt!=null){
-            include.add(term);
-            termCnt.put(term,sampleCnt);
+        List<GeneExpressionValueCount> counts =
+                gedao.getValueCountsByGeneRgdIdTermAndUnit(obj.getRgdId(), term, "TPM");
+        if( counts==null || counts.isEmpty() ) {
+            continue;
         }
+
+        HashMap<String,Integer> byLevel = new HashMap<>();
+        for( GeneExpressionValueCount c: counts ) {
+            String lvl = c.getLevel()==null ? "" : c.getLevel().trim().toLowerCase().replaceAll("[ _]", "");
+            Integer running = byLevel.get(lvl);
+            byLevel.put(lvl, (running==null ? 0 : running) + c.getValueCnt());
+        }
+
+        // same admission test as before: a system is shown when it has an "all" count
+        if( !byLevel.containsKey("all") ) {
+            continue;
+        }
+        include.add(term);
+        termCnt.put(term, String.valueOf(byLevel.get("all")));
+        termLevelCnt.put(term, byLevel);
     }
 %>
 
@@ -80,7 +205,7 @@
     <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
     <label style="font-size: 16px">
-        <b>Click on a value in the shaded box below the category label to view a detailed expression data table for that system.</b>
+        <b>Rows are expression levels, columns are anatomical systems. Click a square for the detailed data table, filtered to that level. Darker means more samples; hover for the exact count.</b>
     </label>
     <br>
     <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
@@ -93,39 +218,117 @@
         </label>
         <% } %>
     </form>
-    <div id="expresTable" style="padding-top: 5px;">
-        <table id="exprData" name="exprData" >
-            <tr>
-                <%  int col = 0;
-                    for(String t:include) {
-                    Term term = xdao.getTermByAccId(t);
-                    if( term != null) {
+    <div id="expresTable">
+
+        <%
+            // Alliance / GO ribbon heat scale, verbatim from wc-ribbon's heatColor():
+            //     fraction = min(10 * ln(level + 1), maxHeatLevel) / maxHeatLevel
+            //     colour   = minColour + fraction * (maxColour - minColour)
+            // The log step is what stops the largest systems from flattening the rest.
+            // wc-ribbon defaults maxHeatLevel to 48 because it counts GO annotations
+            // (tens); these are sample counts (thousands), so the ceiling is raised to
+            // saturate near 8,000 instead of near 120. It stays a fixed ceiling, so a
+            // shade means the same count in every row and on every gene report.
+            final double MAX_HEAT = 90.0;
+            final int[] MIN_COLOR = {255, 255, 255};
+            final int[] MAX_COLOR = {24, 73, 180};
+
+            java.util.List<String> ribbonLabel = new ArrayList<>();
+            for( String t: include ) {
+                Term aTerm = xdao.getTermByAccId(t);
+                String label = (aTerm!=null && aTerm.getTerm()!=null) ? aTerm.getTerm() : t;
+                ribbonLabel.add(org.apache.commons.text.StringEscapeUtils.escapeHtml4(label));
+            }
+        %>
+
+        <div class="ribbon" id="exprRibbon">
+
+            <div class="ribbonCategory">
+                <span class="ribbonRowLabel">&nbsp;</span>
+                <% for( int i = 0; i < include.size(); i++ ) { %>
+                <span class="ribbonCategoryLabel" data-col="<%=i%>"
+                      title="<%=ribbonLabel.get(i)%>"><%=ribbonLabel.get(i)%></span>
+                <% } %>
+            </div>
+
+            <% for( int r = 0; r < RIBBON_LEVELS.length; r++ ) { %>
+            <div class="ribbonRow">
+                <span class="ribbonRowLabel" title="<%=RIBBON_TITLES[r]%>"><%=RIBBON_LABELS[r]%></span>
+                <%
+                    for( int i = 0; i < include.size(); i++ ) {
+                        String t = include.get(i);
+                        Integer boxed = termLevelCnt.get(t).get(RIBBON_LEVELS[r]);
+                        int cnt = boxed==null ? 0 : boxed;
+                        String cntShown = String.format("%,d", cnt);
+
+                        double fraction = Math.min(10.0 * Math.log(cnt + 1.0), MAX_HEAT) / MAX_HEAT;
+                        StringBuilder rgb = new StringBuilder("rgb(");
+                        for( int c = 0; c < 3; c++ ) {
+                            rgb.append(Math.round(MIN_COLOR[c] + fraction * (MAX_COLOR[c] - MIN_COLOR[c])));
+                            rgb.append(c < 2 ? "," : ")");
+                        }
+
+                        if( cnt == 0 ) {
                 %>
-                <th>
-                    <div class="outerDiv">
-                        <div class="innerDiv">
-                        <%=xdao.getTerm(t).getTerm()%>
-                        </div>
-                    </div>
-                </th>
-                <% } else{  %>
-                <th>
-                    <div class="outerDiv">
-                        <div class="innerDiv">
-                            <%=t%>
-                        </div>
-                    </div>
-                </th>
-                <% } } %>
-            </tr>
-            <tr>
-                <% for (String t : include){%>
-                <td v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>','<%=termCnt.get(t)%>')" style="cursor: pointer; background: lightcyan;" onclick="highlightCurrent('<%=col%>','<%=t%>')" title="">
-                    <%=termCnt.get(t)%>
-                </td>
-                <% col++;} %>
-            </tr>
-        </table>
+                <span class="ribbonCell ribbonCell--empty"
+                      title="<%=ribbonLabel.get(i)%> - no <%=RIBBON_LABELS[r].toLowerCase()%> samples"></span>
+                <%      } else { %>
+                <span class="ribbonCell"
+                      data-col="<%=i%>"
+                      tabindex="0"
+                      role="button"
+                      aria-label="<%=ribbonLabel.get(i)%>, <%=RIBBON_LABELS[r]%>, <%=cntShown%> samples"
+                      title="<%=ribbonLabel.get(i)%> - <%=cntShown%> <%=RIBBON_LABELS[r].toLowerCase()%> samples"
+                      style="background-color: <%=rgb%>;"
+                      v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>','<%=termCnt.get(t)%>')"
+                      onclick="highlightCurrent('<%=i%>','<%=t%>'); selectExprLevel('<%=RIBBON_FILTERS[r]%>');"
+                      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></span>
+                <%      }
+                    } %>
+            </div>
+            <% } %>
+        </div>
+
+        <div id="exprLegend">
+            <b>Samples</b>
+            <span style="display: inline-block;">
+                <span class="exprLegendScale"></span>
+                <span class="exprLegendTicks">
+                    <%
+                        int[] ticks = {1, 10, 100, 1000, 8000};
+                        for( int tick: ticks ) {
+                            double pct = 100.0 * Math.min(10.0 * Math.log(tick + 1.0), MAX_HEAT) / MAX_HEAT;
+                    %>
+                    <span style="left: <%=String.format("%.1f", pct)%>%;"><%=String.format("%,d", tick)%><%=tick==8000?"+":""%></span>
+                    <% } %>
+                </span>
+            </span>
+            <a href="javascript:void(0)" id="exprTableToggle" onclick="toggleExprTableView()">Show data table</a>
+        </div>
+
+        <div id="exprTableView" style="display: none;">
+            <table id="exprData" name="exprData">
+                <tr>
+                    <th scope="col">System</th>
+                    <% for( int r = 0; r < RIBBON_LABELS.length; r++ ) { %>
+                    <th scope="col" class="exprNum" title="<%=RIBBON_TITLES[r]%>"><%=RIBBON_LABELS[r]%></th>
+                    <% } %>
+                </tr>
+                <% for( int i = 0; i < include.size(); i++ ) {
+                       String t = include.get(i); %>
+                <tr data-col="<%=i%>"
+                    v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>','<%=termCnt.get(t)%>')"
+                    onclick="highlightCurrent('<%=i%>','<%=t%>'); selectExprLevel('');">
+                    <td><%=ribbonLabel.get(i)%></td>
+                    <% for( String lvl: RIBBON_LEVELS ) {
+                           Integer boxed = termLevelCnt.get(t).get(lvl); %>
+                    <td class="exprNum"><%=boxed==null ? "&ndash;" : String.format("%,d", boxed)%></td>
+                    <% } %>
+                </tr>
+                <% } %>
+            </table>
+        </div>
+
         <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;top: 5px;position: relative;" value="Hide Table">
         <div id="tooManyMsg" style="display: none;">
             <label style="color: red; padding-top: 10px;">Too many to show, limit is 6000. Download them if you would like to view them all.</label>
@@ -785,24 +988,31 @@
         div.style.display = 'none';
     }
 
-    function highlightCurrent(colNum,termAcc) {
-        var table = document.getElementById("exprData");
-        var ths = table.getElementsByClassName("outerDiv");
-        var cols = table.getElementsByTagName("td");
-        for (var i = 0; i < cols.length; i++) {
-            if (i == colNum) {
-                // highlight column
-                ths[i].style.background = 'yellow'
-                cols[i].style.background = 'yellow';
-            } else {
-                // clear style
-                ths[i].style.background = 'white';
-                cols[i].removeAttribute("style");
-                cols[i].style.background = 'lightcyan';
-            }
-            cols[i].style.cursor = 'pointer';
-
+    // marks the system whose detail table is open, in the heatmap and in the table
+    // view at once. hideTable() calls this with -1 to clear the selection.
+    function highlightCurrent(colNum, termAcc) {
+        var marks = document.querySelectorAll("#exprRibbon [data-col], #exprTableView tr[data-col]");
+        for (var i = 0; i < marks.length; i++) {
+            var selected = String(marks[i].getAttribute("data-col")) === String(colNum);
+            marks[i].classList.toggle("is-selected", selected);
         }
+    }
+
+    // clicking a level row also narrows the detail table to that level, so the
+    // High row and the Low row do not open the same thing. "" clears the filter.
+    function selectExprLevel(level) {
+        if (typeof tableVue === "undefined" || !tableVue) {
+            return;
+        }
+        tableVue.selectedLevels = level ? [level] : [];
+    }
+
+    function toggleExprTableView() {
+        var view = document.getElementById("exprTableView");
+        var toggle = document.getElementById("exprTableToggle");
+        var show = view.style.display === "none";
+        view.style.display = show ? "block" : "none";
+        toggle.textContent = show ? "Hide data table" : "Show data table";
     }
     tableVue;
 </script>

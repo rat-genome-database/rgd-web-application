@@ -974,10 +974,26 @@ color: #ffffff;
         font-size: 11px;
     }
 
+    /* group header rows in the position table, one per MAP_TYPE */
+    .mapDataTable tr.mapDataGroup td {
+        padding: 4px 6px;
+        font-size: 11px;
+        font-weight: bold;
+        color: #222c3c;
+        background-color: #e6ecf5;
+        border: 1px solid #c3ccdd;
+    }
+
     /* Position (strand) column - keep the coordinate range and strand on one line */
     .mapDataTable td:nth-child(3),
     .mapDataTable th:nth-child(3) {
         white-space: nowrap;
+    }
+
+    /* spanning header ("Genome Browsers") sits over its four columns, so centre
+       it - bootstrap's normalize left-aligns every th and beats the align attribute */
+    .mapDataTable th[colspan] {
+        text-align: center;
     }
 
     .annotationTable {

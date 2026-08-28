@@ -28,7 +28,7 @@
   <link rel="SHORTCUT ICON" href="/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/subModal.css" />
   <link rel="stylesheet" type="text/css" href="/rgdweb/common/modalDialog/style.css" />
-  <link href="/rgdweb/common/rgd_styles-3.css?v=2" rel="stylesheet" type="text/css" />
+  <link href="/rgdweb/common/rgd_styles-3.css?v=4" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="/rgdweb/OntoSolr/jquery.autocomplete.css" type="text/css" />
   <link rel="stylesheet" href="/rgdweb/css/webFeedback.css" type="text/css"/>
 

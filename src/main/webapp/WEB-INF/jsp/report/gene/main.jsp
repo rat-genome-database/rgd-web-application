@@ -75,7 +75,7 @@
 <%@ include file="../reportHeader.jsp"%>
 
 <%-- modern presentation layer for this report; loaded last so it wins over report.css --%>
-<link href="/rgdweb/css/reportModern.css?v=3" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/css/reportModern.css?v=5" rel="stylesheet" type="text/css" />
 
 <script type="application/ld+json">
 {

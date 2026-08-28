@@ -1,5 +1,8 @@
 <%@ page import="java.util.TreeMap" %>
 <%@ page import="edu.mcw.rgd.datamodel.HgncFamily" %>
+<%-- Strain/QTL used to come in with ../markerFor.jsp, which this page no longer includes --%>
+<%@ page import="edu.mcw.rgd.datamodel.Strain" %>
+<%@ page import="edu.mcw.rgd.datamodel.QTL" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
     RgdId id = null;
@@ -302,26 +305,58 @@
     </tr>
     <% } %>
 
+    <%-- RELATED STRAINS: the genetic models for this gene and the strains it is a
+         marker for are the same kind of thing, so they share one row. The QTLs it
+         is a marker for stay on their own row - they are not strains. This page
+         therefore builds both rows itself instead of including ../markerFor.jsp,
+         which is still used as-is by the marker, GE and SSLP-edit pages. --%>
     <%
         List<GeneticModel> modelList = geneticModelsDAO.getAllModelsByGeneRgdId(obj.getRgdId());
-        if (modelList.size() > 0) {
+        List<Strain> markerStrains = strainDAO.isMarkerFor(obj.getRgdId());
+        List<QTL> markerQtls = qtlDAO.isMarkerFor(obj.getRgdId());
+
+        // symbol -> rgd id, so a strain that is both a genetic model and a marker
+        // target is only listed once; sorted alphabetically like the other lists
+        TreeMap<String, Integer> relatedStrains = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+        for( GeneticModel m: modelList ) {
+            relatedStrains.put(m.getStrainSymbol(), m.getStrainRgdId());
+        }
+        for( Strain astrain: markerStrains ) {
+            relatedStrains.put(astrain.getSymbol(), astrain.getRgdId());
+        }
+
+        if( !relatedStrains.isEmpty() ) {
     %>
     <tr>
-        <td class="label" valign="top">Genetic Models:</td>
+        <td class="label" valign="top">Related Strains:</td>
         <td>
             <%
-                int count=0;
-                for (GeneticModel m : modelList) {
-                    ++count;
-                    boolean isLast = (count==modelList.size());
+                int strainCount = 0;
+                for( java.util.Map.Entry<String, Integer> entry: relatedStrains.entrySet() ) {
+                    ++strainCount;
+                    boolean isLast = (strainCount==relatedStrains.size());
             %>
-                <a href=<%=Link.strain(m.getStrainRgdId())%>> <%=m.getStrainSymbol()%></a><%=!isLast?" ; ":""%>
-            <%}%>
+                <a href="<%=Link.strain(entry.getValue())%>"><%=entry.getKey()%></a><%=!isLast?" ; ":""%>
+            <% } %>
         </td>
     </tr>
-    <% }%>
+    <% } %>
 
-    <%@ include file="../markerFor.jsp"%>
+    <% if( !markerQtls.isEmpty() ) { %>
+    <tr>
+        <td class="label" valign="top">Is Marker For:</td>
+        <td>
+            <%
+                int qtlCount = 0;
+                for( QTL aqtl: markerQtls ) {
+                    ++qtlCount;
+                    boolean isLast = (qtlCount==markerQtls.size());
+            %>
+                <a href="<%=Link.qtl(aqtl.getRgdId())%>"><%=aqtl.getSymbol()%></a><%=!isLast?" ; ":""%>
+            <% } %>
+        </td>
+    </tr>
+    <% } %>
     <%@ include file="candidateGenes.jsp"%>
     <tr>
         <td class="label" valign="top">Latest Assembly:</td>

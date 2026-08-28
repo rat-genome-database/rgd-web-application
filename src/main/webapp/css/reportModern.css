@@ -88,9 +88,18 @@
 /* the species image now lives in the report hero */
 .rgd-modern-report #species-image { display: none; }
 
-/* neutralise the legacy layout tables wrapping the report body */
+/* neutralise the legacy layout tables wrapping the report body.
+
+   table-layout:fixed is what keeps the page inside the viewport: with the
+   default auto layout this table sizes to its widest descendant, so one wide
+   section (the 22 column RNA-Seq grid, a tablesorter table, mapDataTable at
+   width=670) stretches the cell, the table and the whole page to the right.
+   Fixed layout pins the body column to the container instead, which is what
+   lets .light-table-border's overflow-x actually scroll. */
 .rgd-modern-report #content-wrap > table {
     width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
     border: 0;
     border-collapse: collapse;
     background: none;
@@ -102,7 +111,11 @@
     vertical-align: top;
 }
 /* the report body lives in the first cell; the trailing cell is a spacer */
-.rgd-modern-report #content-wrap > table > tbody > tr > td:first-child { width: 100%; }
+.rgd-modern-report #content-wrap > table > tbody > tr > td:first-child {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
 .rgd-modern-report #content-wrap > table > tbody > tr > td + td {
     width: 0;
     font-size: 0;
@@ -565,6 +578,22 @@
     color: var(--rgd-text-muted);
     background: none;
 }
+
+/* group header rows in the position table sit flush across every column and
+   read as a band, not as a data row */
+.rgd-modern-report .mapDataTable tr.mapDataGroup td {
+    padding: 7px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    border: 0;
+    border-top: 1px solid var(--rgd-border-soft);
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-modern-report .mapDataTable tr.mapDataGroup:first-child td { border-top: 0; }
 
 /* value cells that hold nothing but a run of links are tagged .rgd-value-list
    by reportModernUx.js, which also strips the ";" separators - each value then

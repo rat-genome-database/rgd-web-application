@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +25,57 @@ import java.util.stream.Collectors;
  * Date: Jun 9, 2011
  */
 public class  MapDataFormatter {
+
+    /* ----------------------------------------------------------------------
+       Grouping for the position table.
+
+       Which block a row belongs to comes straight from MAPS.MAP_TYPE
+       (Map.getMapType()), so nothing here has to recognise assembly names.
+       Groups are rendered in the order their first map turns up once the list
+       is rank-sorted, and MAP_TYPE is used verbatim as the header label.
+       Headers are only emitted when a table spans more than one group, so
+       single-assembly objects look unchanged.
+       ---------------------------------------------------------------------- */
+
+    /** header shown for maps whose MAP_TYPE is not set */
+    static final String GROUP_UNTYPED = "Other";
+
+    /** which block of the position table a map belongs to */
+    static String assemblyGroup(Map map) {
+        String mapType = map==null ? null : map.getMapType();
+        return Utils.isStringEmpty(mapType) ? GROUP_UNTYPED : mapType.trim();
+    }
+
+    /** number of columns the table renders for this object type - the colspan of a group header */
+    static int mapTableColumnCount(int objectKey) {
+        if( objectKey==RgdId.OBJECT_KEY_GENES ) {
+            return 8;
+        }
+        if( objectKey==RgdId.OBJECT_KEY_QTLS ||
+                objectKey==RgdId.OBJECT_KEY_SSLPS ||
+                objectKey==RgdId.OBJECT_KEY_STRAINS ) {
+            return 5;
+        }
+        return 4;
+    }
+
+    /** bucket already rank-sorted rows by MAP_TYPE, keeping both the group order and the sort within a group */
+    static <T> LinkedHashMap<String, List<T>> groupByAssembly(List<T> rows, ToIntFunction<T> mapKeyOf) throws Exception {
+
+        final MapManager mm = MapManager.getInstance();
+
+        LinkedHashMap<String, List<T>> groups = new LinkedHashMap<>();
+        for( T row: rows ) {
+            String group = assemblyGroup(mm.getMap(mapKeyOf.applyAsInt(row)));
+            groups.computeIfAbsent(group, k -> new ArrayList<T>()).add(row);
+        }
+        return groups;
+    }
+
+    static void appendGroupHeaderRow(StringBuilder ret, String label, int colCount) {
+        ret.append("<tr class=\"mapDataGroup\"><td colspan=\"").append(colCount).append("\">")
+                .append(label).append("</td></tr>");
+    }
 
     public static String buildTable(int rgdId, int speciesTypeKey) throws Exception{
         return buildTable(rgdId, speciesTypeKey, 0);
@@ -153,104 +206,115 @@ public class  MapDataFormatter {
             }
         }
 
-        for (MapData mdObj: mapData) {
-            Map map = mm.getMap(mdObj.getMapKey());
-            //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
-            if( map==null ) {
-                // map not known
-                ret.append("<td>&nbsp;</td>");
-            }
-            else
-            if (map.getKey() == activeMapKey) {
+        LinkedHashMap<String, List<MapData>> groups = groupByAssembly(mapData, MapData::getMapKey);
+        int colCount = mapTableColumnCount(objectKey);
+        boolean showGroupHeaders = groups.size() > 1;
 
-                //System.out.println(" activeMap hit: "+activeMapKey);
-                ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
-                        .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
-                        .append("'>").append(map.getName())
-                        .append("</a></td>");
+        for (java.util.Map.Entry<String, List<MapData>> group: groups.entrySet()) {
 
-            }else {
-                //System.out.println(" map hit: "+mdObj.getMapKey());
-                ret.append("<td>").append(map.getName()).append("</td>");
+            if( showGroupHeaders ) {
+                appendGroupHeaderRow(ret, group.getKey(), colCount);
             }
 
-            if(activeMapChr.size()>1){
-                //System.out.println("active map " + activeMapChr.toString());
-                ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
-            }else{
-                if(activeMapChr.size()==1) {
-                    for (String chr : activeMapChr) {
-                        //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
-                        if (mdObj.getChromosome().equals(chr))
-                            ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
-                        else
-                            ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
-                    }
+            for (MapData mdObj: group.getValue()) {
+                ret.append("<tr>");
+                Map map = mm.getMap(mdObj.getMapKey());
+                //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
+                if( map==null ) {
+                    // map not known
+                    ret.append("<td>&nbsp;</td>");
+                }
+                else
+                if (map.getKey() == activeMapKey) {
+
+                    //System.out.println(" activeMap hit: "+activeMapKey);
+                    ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
+                            .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
+                            .append("'>").append(map.getName())
+                            .append("</a></td>");
+
                 }else {
-                    ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                    //System.out.println(" map hit: "+mdObj.getMapKey());
+                    ret.append("<td>").append(map.getName()).append("</td>");
                 }
-            }
 
-            if (map!=null && map.getUnit().equals("bp")) {
-                ret.append("<td>")
-                        .append(FormUtility.formatThousands(mdObj.getStartPos()))
-                        .append("&nbsp;-&nbsp;")
-                        .append(FormUtility.formatThousands(mdObj.getStopPos()));
-                if( mdObj.getStrand()!=null ) {
-                    ret.append(" (").append(mdObj.getStrand()).append(")");
+                if(activeMapChr.size()>1){
+                    //System.out.println("active map " + activeMapChr.toString());
+                    ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+                }else{
+                    if(activeMapChr.size()==1) {
+                        for (String chr : activeMapChr) {
+                            //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
+                            if (mdObj.getChromosome().equals(chr))
+                                ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                            else
+                                ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+                        }
+                    }else {
+                        ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                    }
                 }
-                ret.append("</td>");
-            } else if (mdObj.getAbsPosition() != null){
-                ret.append("<td>").append(mdObj.getAbsPosition()).append("</td>");
 
-            } else if (mdObj.getFishBand() != null) {
-                ret.append("<td>").append(mdObj.getFishBand()).append("</td>");
-            } else {
-                ret.append("<td>&nbsp;</td>");
-            }
+                if (map!=null && map.getUnit().equals("bp")) {
+                    ret.append("<td>")
+                            .append(FormUtility.formatThousands(mdObj.getStartPos()))
+                            .append("&nbsp;-&nbsp;")
+                            .append(FormUtility.formatThousands(mdObj.getStopPos()));
+                    if( mdObj.getStrand()!=null ) {
+                        ret.append(" (").append(mdObj.getStrand()).append(")");
+                    }
+                    ret.append("</td>");
+                } else if (mdObj.getAbsPosition() != null){
+                    ret.append("<td>").append(mdObj.getAbsPosition()).append("</td>");
 
-            String src = "RGD";
-            if (mdObj.getSrcPipeline() != null) {
-                src=mdObj.getSrcPipeline();
-            }
-            ret.append("<td>").append(src).append("</td>");
-
-            // JBrowse links - removed genes, qtls for jbrowse2
-            if(objectKey==RgdId.OBJECT_KEY_SSLPS) {
-                ret.append("<td>");
-                generateJBrowseLink(ret, objectKey, mdObj);
-                ret.append("</td>");
-            }
-            if(objectKey==RgdId.OBJECT_KEY_QTLS || objectKey==RgdId.OBJECT_KEY_STRAINS){
-                ret.append("<td>");
-                generateJBrowse2Link(ret, objectKey, mdObj);
-                ret.append("</td>");
-            }
-            if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                //Jbrowse2 link for genes
-                ret.append("<td>");
-                generateJBrowse2Link(ret, objectKey, mdObj);
-                ret.append("</td>");
-                // NCBI links
-                ret.append("<td>");
-                if( map!=null ) {
-                    generateNcbiGDVLink(ret, objectSymbol, map.getRefSeqAssemblyAcc(), map.getName());
+                } else if (mdObj.getFishBand() != null) {
+                    ret.append("<td>").append(mdObj.getFishBand()).append("</td>");
+                } else {
+                    ret.append("<td>&nbsp;</td>");
                 }
-                ret.append("</td>");
 
-                // UCSC links
-                ret.append("<td>");
-                generateUcscLink(ret, objectKey, mdObj);
-                ret.append("</td>");
+                String src = "RGD";
+                if (mdObj.getSrcPipeline() != null) {
+                    src=mdObj.getSrcPipeline();
+                }
+                ret.append("<td>").append(src).append("</td>");
 
-                // Ensembl links
-                ret.append("<td>");
-                generateEnsemblLink(ret, objectKey, mdObj);
-                ret.append("</td>");
+                // JBrowse links - removed genes, qtls for jbrowse2
+                if(objectKey==RgdId.OBJECT_KEY_SSLPS) {
+                    ret.append("<td>");
+                    generateJBrowseLink(ret, objectKey, mdObj);
+                    ret.append("</td>");
+                }
+                if(objectKey==RgdId.OBJECT_KEY_QTLS || objectKey==RgdId.OBJECT_KEY_STRAINS){
+                    ret.append("<td>");
+                    generateJBrowse2Link(ret, objectKey, mdObj);
+                    ret.append("</td>");
+                }
+                if(objectKey==RgdId.OBJECT_KEY_GENES) {
+                    //Jbrowse2 link for genes
+                    ret.append("<td>");
+                    generateJBrowse2Link(ret, objectKey, mdObj);
+                    ret.append("</td>");
+                    // NCBI links
+                    ret.append("<td>");
+                    if( map!=null ) {
+                        generateNcbiGDVLink(ret, objectSymbol, map.getRefSeqAssemblyAcc(), map.getName());
+                    }
+                    ret.append("</td>");
+
+                    // UCSC links
+                    ret.append("<td>");
+                    generateUcscLink(ret, objectKey, mdObj);
+                    ret.append("</td>");
+
+                    // Ensembl links
+                    ret.append("<td>");
+                    generateEnsemblLink(ret, objectKey, mdObj);
+                    ret.append("</td>");
+                }
+
+                ret.append("</tr>");
             }
-
-            ret.append("</tr>");
-
         }
         ret.append("</table>");
 
@@ -321,61 +385,72 @@ public class  MapDataFormatter {
             }
         }
 
-        for (VariantMapData mdObj: mapData) {
-            Map map = mm.getMap(mdObj.getMapKey());
-            //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
-            if( map==null ) {
-                // map not known
-                ret.append("<td>&nbsp;</td>");
-            }
-            else
-            if (map.getKey() == activeMapKey) {
+        LinkedHashMap<String, List<VariantMapData>> groups = groupByAssembly(mapData, VariantMapData::getMapKey);
+        int colCount = mapTableColumnCount(objectKey);
+        boolean showGroupHeaders = groups.size() > 1;
 
-                //System.out.println(" activeMap hit: "+activeMapKey);
-                ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
-                        .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
-                        .append("'>").append(map.getName())
-                        .append("</a></td>");
+        for (java.util.Map.Entry<String, List<VariantMapData>> group: groups.entrySet()) {
 
-            }else {
-                //System.out.println(" map hit: "+mdObj.getMapKey());
-                ret.append("<td>").append(map.getName()).append("</td>");
+            if( showGroupHeaders ) {
+                appendGroupHeaderRow(ret, group.getKey(), colCount);
             }
 
-            if(activeMapChr.size()>1){
-                //System.out.println("active map " + activeMapChr.toString());
-                ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
-            }else{
-                if(activeMapChr.size()==1) {
-                    for (String chr : activeMapChr) {
-                        //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
-                        if (mdObj.getChromosome().equals(chr))
-                            ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
-                        else
-                            ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
-                    }
-                }else {
-                    ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+            for (VariantMapData mdObj: group.getValue()) {
+                ret.append("<tr>");
+                Map map = mm.getMap(mdObj.getMapKey());
+                //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
+                if( map==null ) {
+                    // map not known
+                    ret.append("<td>&nbsp;</td>");
                 }
+                else
+                if (map.getKey() == activeMapKey) {
+
+                    //System.out.println(" activeMap hit: "+activeMapKey);
+                    ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
+                            .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
+                            .append("'>").append(map.getName())
+                            .append("</a></td>");
+
+                }else {
+                    //System.out.println(" map hit: "+mdObj.getMapKey());
+                    ret.append("<td>").append(map.getName()).append("</td>");
+                }
+
+                if(activeMapChr.size()>1){
+                    //System.out.println("active map " + activeMapChr.toString());
+                    ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+                }else{
+                    if(activeMapChr.size()==1) {
+                        for (String chr : activeMapChr) {
+                            //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
+                            if (mdObj.getChromosome().equals(chr))
+                                ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                            else
+                                ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+                        }
+                    }else {
+                        ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                    }
+                }
+
+                if (map!=null && map.getUnit().equals("bp")) {
+                    ret.append("<td>")
+                            .append(FormUtility.formatThousands(mdObj.getStartPos()))
+                            .append("&nbsp;-&nbsp;")
+                            .append(FormUtility.formatThousands(mdObj.getEndPos()));
+
+                    ret.append("</td>");
+                }  else {
+                    ret.append("<td>&nbsp;</td>");
+                }
+
+                String src = "RGD";
+
+                ret.append("<td>").append(src).append("</td>");
+
+                ret.append("</tr>");
             }
-
-            if (map!=null && map.getUnit().equals("bp")) {
-                ret.append("<td>")
-                        .append(FormUtility.formatThousands(mdObj.getStartPos()))
-                        .append("&nbsp;-&nbsp;")
-                        .append(FormUtility.formatThousands(mdObj.getEndPos()));
-
-                ret.append("</td>");
-            }  else {
-                ret.append("<td>&nbsp;</td>");
-            }
-
-            String src = "RGD";
-
-            ret.append("<td>").append(src).append("</td>");
-
-            ret.append("</tr>");
-
         }
         ret.append("</table>");
 
