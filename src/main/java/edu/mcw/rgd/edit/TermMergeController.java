@@ -220,10 +220,19 @@ public class TermMergeController implements Controller {
         }
 
         // when a custom RDO term (acc id DOID:9xxxxxx) is merged into a non-custom RDO term,
-        // carry over the created_by field from the from-term to the to-term
+        // carry over the created_by field from the from-term to the to-term,
+        // and set the to-term creation date to the earliest of both terms' creation dates
         if( isCustomRdoTerm(bean.getTermFrom().getAccId())
             && !isCustomRdoTerm(bean.getTermTo().getAccId()) ) {
             bean.getTermTo().setCreatedBy(bean.getTermFrom().getCreatedBy());
+
+            Date creationDateFrom = bean.getTermFrom().getCreationDate();
+            Date creationDateTo = bean.getTermTo().getCreationDate();
+            if( creationDateFrom!=null
+                && (creationDateTo==null || creationDateFrom.before(creationDateTo)) ) {
+                bean.getTermTo().setCreationDate(creationDateFrom);
+            }
+
             bean.getTermTo().setModificationDate(new Date());
             ontologyXDAO.updateTerm(bean.getTermTo());
         }
