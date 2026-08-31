@@ -350,13 +350,92 @@
             return;
         }
         var needle = filterInput.value.trim().toLowerCase();
+        // while a filter is on, a hit inside a collapsed group still has to be reachable,
+        // so the accordion stands down until the box is cleared
+        navList.classList.toggle("rgd-toc-filtering", needle !== "");
         Array.prototype.forEach.call(navList.children, function (li) {
             var text = (li.textContent || "").toLowerCase();
             li.classList.toggle("rgd-toc-hidden", needle !== "" && text.indexOf(needle) === -1);
         });
     }
 
+    /* -------------------------------------------------- sidebar accordion */
+    /* geneReport.js builds the table of contents flat: one li per .subTitle
+       (Annotation, Genomics, Expression, Sequence, Additional Information),
+       then one li.sub-nav-item per section underneath it. The hierarchy is
+       already in the classes, so grouping is only a matter of tagging each run
+       of sub items with the heading above it - no re-parenting, which would
+       break the filter and scroll-spy loops that walk navList.children.
+
+       A group's state lives in the same map as the section/card state, under a
+       "toc:" prefix so it cannot collide with an element id. */
+
+    function tocGroupKey(head, index) {
+        return "toc:" + (head.id || (head.textContent || "").trim() || index);
+    }
+
+    function setTocGroup(group, collapse) {
+        group.head.classList.toggle("is-collapsed", collapse);
+        group.items.forEach(function (li) {
+            li.classList.toggle("rgd-toc-collapsed", collapse);
+        });
+        if (group.caret) {
+            group.caret.setAttribute("aria-expanded", collapse ? "false" : "true");
+        }
+        collapsed[group.key] = collapse;
+        saveCollapsed();
+    }
+
+    function buildSidebarAccordion() {
+        if (!navList) {
+            return;
+        }
+
+        var groups = [];
+        var current = null;
+
+        Array.prototype.forEach.call(navList.children, function (li) {
+            li.classList.remove("rgd-toc-group", "rgd-toc-collapsed", "is-collapsed");
+            if (li.classList.contains("sub-nav-item")) {
+                if (current) {
+                    current.items.push(li);
+                }
+                return;
+            }
+            current = { head: li, items: [], caret: null };
+            groups.push(current);
+        });
+
+        groups.forEach(function (group, index) {
+            // "Summary", and any major section whose cards all turned out empty,
+            // has nothing to fold away - it stays an ordinary link
+            if (group.items.length === 0) {
+                return;
+            }
+
+            group.key = tocGroupKey(group.head, index);
+            group.head.classList.add("rgd-toc-group");
+
+            var caret = document.createElement("button");
+            caret.type = "button";
+            caret.className = "rgd-toc-caret";
+            caret.setAttribute("aria-label",
+                "Show or hide sections under " + (group.head.textContent || "").trim());
+            caret.addEventListener("click", function (event) {
+                // the heading is also a link to its section; the caret only folds
+                event.preventDefault();
+                event.stopPropagation();
+                setTocGroup(group, !group.head.classList.contains("is-collapsed"));
+            });
+            group.head.appendChild(caret);
+            group.caret = caret;
+
+            setTocGroup(group, collapsed[group.key] === true);
+        });
+    }
+
     buildSidebarToolbar();
+    buildSidebarAccordion();
 
     /* sidebar links must open whatever they point at */
     if (navList) {
@@ -379,6 +458,7 @@
         // geneReport.js rebuilds the list when the annotation view is toggled
         if (window.MutationObserver) {
             new MutationObserver(function () {
+                buildSidebarAccordion();
                 applyFilter();
                 collectSpyTargets();
                 updateSpy();

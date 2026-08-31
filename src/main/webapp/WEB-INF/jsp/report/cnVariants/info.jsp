@@ -336,7 +336,11 @@
 <div id="sequenceViewer">
     <div class="container">
         <div id="range" style="text-align: center"></div>
-        <svg className="viewer" id="viewerActnFly"/>
+        <%-- class, not className: className is the JSX property name and this block was
+             copied from the React demo template (js/sequenceViewer/demo/index.ejs). In plain
+             HTML the browser just stores an attribute literally called "className", so the
+             element ends up with no class and no .viewer rule could ever match it. --%>
+        <svg class="viewer" id="viewerActnFly"/>
     </div>
 </div>
 <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>

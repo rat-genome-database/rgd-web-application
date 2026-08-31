@@ -413,6 +413,51 @@
     font-weight: 500;
     color: var(--rgd-text-muted) !important;
 }
+/* table of contents accordion: a major section folds away the sections under it.
+   These rules sit above the .rgd-toc-hidden rule on purpose - an entry that the
+   filter has ruled out must stay hidden even while the accordion is standing down,
+   and the two selectors have the same specificity, so source order decides. */
+.rgd-modern-report #reportMainSidebar li.rgd-toc-group { position: relative; }
+.rgd-modern-report #reportMainSidebar li.rgd-toc-group > a { padding-right: 30px; }
+
+.rgd-toc-caret {
+    position: absolute;
+    top: 3px;
+    right: 2px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    color: var(--rgd-text-faint);
+    background: none;
+    border: 0;
+    border-radius: var(--rgd-radius-sm);
+    cursor: pointer;
+}
+.rgd-toc-caret:hover { color: var(--rgd-accent); background: var(--rgd-surface-alt); }
+.rgd-toc-caret:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--rgd-accent-soft);
+}
+/* a chevron drawn from two borders - down when open, right when folded */
+.rgd-toc-caret::before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 6px;
+    margin: -3px auto 0;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .15s ease;
+}
+.rgd-modern-report #reportMainSidebar li.rgd-toc-group.is-collapsed > .rgd-toc-caret::before {
+    margin: 0 auto;
+    transform: rotate(-45deg);
+}
+
+.rgd-modern-report #reportMainSidebar li.rgd-toc-collapsed { display: none; }
+.rgd-modern-report #navbarUlId.rgd-toc-filtering li.rgd-toc-collapsed { display: block; }
+
 .rgd-modern-report #reportMainSidebar li.rgd-toc-hidden { display: none; }
 
 /* --------------------------------------------------------------------------

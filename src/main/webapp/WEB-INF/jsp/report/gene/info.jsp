@@ -388,10 +388,17 @@
 <br>
 <%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
 <br>
-<div id="sequenceViewer" onclick="goToJBrowse()">
+<%-- the viewer is the one block on the report body that was not inside a
+     .light-table-border, which is the single rule that paints every other block white -
+     an <svg> has no background of its own, so the page ground showed through it --%>
+<div id="sequenceViewer" class="light-table-border" onclick="goToJBrowse()">
     <div class="container">
         <div id="range" style="text-align: center"></div>
-        <svg className="viewer" id="viewerActnFly"/>
+        <%-- class, not className: className is the JSX property name and this block was
+             copied from the React demo template (js/sequenceViewer/demo/index.ejs). In plain
+             HTML the browser just stores an attribute literally called "className", so the
+             element ends up with no class and no .viewer rule could ever match it. --%>
+        <svg class="viewer" id="viewerActnFly"/>
     </div>
 </div>
 <%}%>
