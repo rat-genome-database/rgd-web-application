@@ -176,12 +176,14 @@
 .report-hero-text { min-width: 0; }
 
 .report-hero-eyebrow {
-    margin-bottom: 2px;
-    font-size: 11px;
+    margin-bottom: 3px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: .09em;
+    /* the tracking was tuned for 11px; at 13px the same .09em reads as gappy */
+    letter-spacing: .07em;
     text-transform: uppercase;
-    color: var(--rgd-text-faint);
+    /* faint was legible at 11px, but a larger label that stays washed out looks unfinished */
+    color: var(--rgd-text-muted);
 }
 
 .report-hero-title {

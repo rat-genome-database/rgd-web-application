@@ -75,7 +75,7 @@
 <%@ include file="../reportHeader.jsp"%>
 
 <%-- modern presentation layer for this report; loaded last so it wins over report.css --%>
-<link href="/rgdweb/css/reportModern.css?v=5" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/css/reportModern.css?v=6" rel="stylesheet" type="text/css" />
 
 <script type="application/ld+json">
 {
@@ -292,7 +292,7 @@
 <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>
 <%-- must come last: it decorates the sidebar and the sections both scripts above build --%>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=2"> </script>

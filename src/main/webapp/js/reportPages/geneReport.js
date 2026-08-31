@@ -55,15 +55,40 @@ function rebuildAnnotationTables() {
 function rebuildReferenceSequenceTables() {
     let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
     addClassAndId(nucleotideRefTable, 'tablesorter', 'nucleotideReferenceSequencesTable');
-    appendTableToDiv(nucleotideRefTable, 'nucleotideReferenceSequencesTableDiv');
+    insertTableBetweenPagers(nucleotideRefTable, 'nucleotideReferenceSequencesTableDiv');
 
     removeBreaks('nucleotideReferenceSequencesTableDiv');
 
 
     let proteinRefTable = buildProteinReferenceSequencesTable();
     addClassAndId(proteinRefTable, 'tablesorter', 'proteinReferenceSequencesTable');
-    appendTableToDiv(proteinRefTable, 'proteinReferenceSequencesTableDiv');
+    insertTableBetweenPagers(proteinRefTable, 'proteinReferenceSequencesTableDiv');
     removeBreaks('proteinReferenceSequencesTableDiv');
+}
+
+// These sections are written as: top pager, the source tables, bottom pager. Building the
+// paged table MOVES those source tables out from between the pagers (buildRowArrayFromTableArray
+// appends each one into a cell of the new table), so the table has to be put back where they
+// were. Appending it to the div instead dropped it after the closing pager, which left the two
+// pagers rendering back to back - the same "1 to 10 of 13 rows" twice - with the table below both.
+function insertTableBetweenPagers(table, divId){
+    let div = document.getElementById(divId);
+    if(div == null){
+        return;
+    }
+
+    let pagers = [];
+    for(let i = 0; i < div.children.length; i++){
+        if(div.children[i].classList.contains('modelsViewContent')){
+            pagers.push(div.children[i]);
+        }
+    }
+
+    if(pagers.length > 1){
+        div.insertBefore(table, pagers[pagers.length - 1]);
+    } else {
+        div.append(table);
+    }
 }
 
 function addEventsToSidebar() {
@@ -548,10 +573,13 @@ function removeAGRLink(){
     let link;
     if(externalDbTable !== null){
         let rows = externalDbTable.rows;
-        for(let i = 0; i < rows.length; i++){
-            let row = rows[i];
-            let cells = row.cells;
-            if(cells[0].innerText === "AGR Gene"){
+        // Backwards: deleteRow shifts every later row up, so a forward loop skips the
+        // row after each one it removes. That did not show while the table blanked out
+        // repeated database names and only one row could ever say "AGR Gene"; now every
+        // AGR row carries the name, so more than one can match.
+        for(let i = rows.length - 1; i >= 0; i--){
+            let cells = rows[i].cells;
+            if(cells.length > 1 && cells[0].innerText.trim() === "AGR Gene"){
                 link = cells[1].getElementsByTagName('a')[0];
                 externalDbTable.deleteRow(i);
             }

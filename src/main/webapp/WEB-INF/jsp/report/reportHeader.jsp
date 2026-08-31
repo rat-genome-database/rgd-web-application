@@ -15,7 +15,7 @@
 <link href="/rgdweb/common/search.css" rel="stylesheet" type="text/css" />
 <% } %>
 
-<link href="/rgdweb/css/report.css?v=2" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/css/report.css?v=3" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="/rgdweb/js/report.js?v=6">
 </script>

@@ -49,8 +49,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="5">5</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -159,8 +159,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="5">5</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
