@@ -209,7 +209,7 @@
         <!-- Assembly Selector -->
         <div class="assembly-card">
             <span class="assembly-label">Select Assembly</span>
-            <select class="assembly-select" id="mapKey" name="mapKey" onChange='location.href="?mapKey=" + this.options[this.selectedIndex].value'>
+            <select class="assembly-select" id="mapKey" name="mapKey">
                 <option value='380' <% if (mapKey==380) out.print("selected");%>>Rat Genome Assembly GRCr8</option>
                 <option value='372' <% if (mapKey==372) out.print("selected");%>>mRatBN7.2 Assembly</option>
                 <option value='360' <% if (mapKey==360) out.print("selected");%>>RGSC Genome Assembly v6.0</option>
@@ -241,14 +241,14 @@
 
 
             <!-- Limit by Genes -->
-            <div class="option-card" onclick="location.href='geneList.html?mapKey=<%=mapKey%>'">
+            <div class="option-card" onclick="location.href='geneList.html?mapKey=' + document.getElementById('mapKey').value">
                 <div class="option-icon">&#128271;</div>
                 <div class="option-title">Limit by Genes</div>
                 <div class="option-description">Start with a gene list, then choose strains and tissues to see their expression</div>
             </div>
 
             <!-- Limit by Strain / Tissue -->
-            <div class="option-card" onclick="location.href='strainTissue.html?mapKey=<%=mapKey%>'">
+            <div class="option-card" onclick="location.href='strainTissue.html?mapKey=' + document.getElementById('mapKey').value">
                 <div class="option-icon">&#129516;</div>
                 <div class="option-title">Limit by Strain / Tissue</div>
                 <div class="option-description">Browse the ontology tree to select one or more strains (RS) and/or tissues (UBERON)</div>
