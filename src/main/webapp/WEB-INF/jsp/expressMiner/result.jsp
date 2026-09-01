@@ -549,10 +549,10 @@
           <label>Color
             <select id="emHmColor" onchange="renderHeatmap()">
               <option value="YlOrRd">Full color (Yellow-Orange-Red)</option>
-              <option value="Cividis">Protanopia &mdash; Cividis</option>
-              <option value="Viridis">Deuteranopia &mdash; Viridis</option>
-              <option value="Blues">Tritanopia &mdash; Blues</option>
-              <option value="Greys">Monochromacy &mdash; Greyscale</option>
+              <option value="Cividis">Protanopia - Cividis</option>
+              <option value="Viridis">Deuteranopia - Viridis</option>
+              <option value="Blues">Tritanopia - Blues</option>
+              <option value="Greys">Monochromacy - Greyscale</option>
             </select>
           </label>
         </div>
@@ -857,6 +857,12 @@
       html.push('<div class="em-facet-group-title" onclick="toggleGroup(this)">' +
                 '<span>' + esc(group.title) + '</span><span class="em-facet-caret">&#9662;</span></div>');
       html.push('<div class="em-facet-group-body">');
+      // Without a gene list to constrain the query, the Gene facet only reflects the genes
+      // present in the matching records -- not every gene. Flag that so it isn't read as complete.
+      if (group.key === 'genes' && !HAS_GENES) {
+        html.push('<div style="padding:6px 14px;font-size:11px;color:#7a8a9a;font-style:italic;">' +
+                  'Note: without a gene list, this will not include all genes.</div>');
+      }
       // Long lists (e.g. the full gene list) get a search box to find a value to check.
       if (values.length > FACET_SEARCH_THRESHOLD) {
         html.push('<input type="text" class="em-facet-search" oninput="filterFacetItems(this)" ' +
@@ -1048,17 +1054,9 @@
   }
 
   function updateCount(rows, loaded, total) {
-    // rows = matching display rows after grouping; loaded = records behind them; total = server total.
-    // Only RENDER_CAP rows are actually drawn, so lead with what's shown vs matched to stay honest.
+    // Show only the number of rows actually drawn in the table (capped at RENDER_CAP).
     var displayed = Math.min(rows, RENDER_CAP);
-    var meta = displayed < rows
-      ? 'Showing <strong>' + displayed + '</strong> of <strong>' + rows + '</strong> rows'
-      : '<strong>' + rows + '</strong> row' + (rows === 1 ? '' : 's');
-    var recPart = '';
-    if (total != null && total > loaded) recPart = loaded + ' of ' + total + ' records';
-    else if (loaded !== rows) recPart = loaded + ' records';
-    if (recPart) meta += ' <span style="color:#7a8a9a;">(' + recPart + ')</span>';
-    if (anyFacetSelected()) meta += ' <span style="color:#7a8a9a;">(filtered)</span>';
+    var meta = '<strong>' + displayed + '</strong> row' + (displayed === 1 ? '' : 's');
     document.getElementById('emCount').innerHTML = meta;
   }
 
@@ -1108,7 +1106,7 @@
     }
     var units = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
     sel.innerHTML = units.map(function (u) {
-      return '<option value="' + esc(u) + '">' + esc((u || '(no unit)') + ' (' + counts[u] + ')') + '</option>';
+      return '<option value="' + esc(u) + '">' + esc(u || '(no unit)') + '</option>';
     }).join('');
     if (units.indexOf(prev) !== -1) sel.value = prev; // keep the user's unit across redraws when still present
     sel.disabled = units.length < 2;
