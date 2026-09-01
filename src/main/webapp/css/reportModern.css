@@ -899,6 +899,86 @@
 .rgd-to-top:hover { transform: translateY(-2px); }
 
 /* --------------------------------------------------------------------------
+   Legacy inline styles
+
+   Parts of the report body still paint themselves: a 10px span after every
+   annotation evidence code, 11px bold position links, flat #e2e2e2 / #f1f1f1
+   greys on label and zebra cells, hard black hairlines. An inline style beats a
+   stylesheet, so this is the one place in this file where !important is the
+   right tool - the alternative is chasing the same values through half a dozen
+   JSPs and AnnotationFormatter, where they would drift apart again.
+
+   Each rule maps a hard-coded legacy value onto the token that already covers
+   the same job elsewhere, so the page reads as one design rather than a dozen.
+   -------------------------------------------------------------------------- */
+
+/* 10px is three steps below the body text. It marks the evidence code after an
+   annotation term, which is secondary information, not fine print. */
+.rgd-modern-report #content-wrap [style*="font-size:10px"],
+.rgd-modern-report #content-wrap [style*="font-size: 10px"] {
+    font-size: 11.5px !important;
+    color: var(--rgd-text-muted) !important;
+}
+
+/* 11px bold: the JBrowse and position links inside the map tables */
+.rgd-modern-report #content-wrap [style*="font-size:11px"],
+.rgd-modern-report #content-wrap [style*="font-size: 11px"] {
+    font-size: 12px !important;
+}
+
+/* Label and band cells - a flat mid-grey that predates the cards. Nothing else
+   on a modern report page is that dark. */
+.rgd-modern-report #content-wrap [style*="#e2e2e2"],
+.rgd-modern-report #content-wrap [style*="#E2E2E2"] {
+    background-color: var(--rgd-surface-alt) !important;
+    color: var(--rgd-text) !important;
+}
+
+/* The other half of nucleotide.jsp's zebra. Painting it white rather than a
+   second grey is what makes the pair read as banding. */
+.rgd-modern-report #content-wrap [style*="#f1f1f1"],
+.rgd-modern-report #content-wrap [style*="#F1F1F1"] {
+    background-color: var(--rgd-surface) !important;
+}
+
+/* The darkest of the legacy greys, on a couple of table headers */
+.rgd-modern-report #content-wrap [style*="#b6baba"],
+.rgd-modern-report #content-wrap [style*="#B6BABA"] {
+    background-color: var(--rgd-surface-alt) !important;
+    color: var(--rgd-text-muted) !important;
+}
+
+/* Hard black hairlines around the expandable detail boxes and the tool icons */
+.rgd-modern-report #content-wrap [style*="solid black"] {
+    border-color: var(--rgd-border) !important;
+    border-radius: var(--rgd-radius-sm);
+}
+
+/* The "only show direct experimental evidence" control above the annotation
+   tables: its own Arial, its own blue and a 15px radius, all set in a <style>
+   block inside associationsCurator.jsp */
+.rgd-modern-report .only-show-annot-background {
+    padding: 6px 12px !important;
+    font-family: var(--rgd-font) !important;
+    background-color: var(--rgd-surface-alt) !important;
+    border: 1px solid var(--rgd-border-soft);
+    border-radius: var(--rgd-radius-sm) !important;
+}
+.rgd-modern-report .only-show-annot-background label.hideEviText {
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: var(--rgd-text-muted) !important;
+}
+
+/* Bold black on a light row is heavier than anything else in the tables */
+.rgd-modern-report #content-wrap .highlight {
+    font-weight: 600;
+    color: var(--rgd-text);
+}
+
+.rgd-modern-report #content-wrap .detailReportLink { font-size: 12.5px; }
+
+/* --------------------------------------------------------------------------
    Responsive
    -------------------------------------------------------------------------- */
 

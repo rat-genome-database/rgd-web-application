@@ -108,9 +108,13 @@
             %>
 
             <br>
-            <br><div  id='annotation' style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation</div><br>
+            <br><div class="subTitle" id="annotation">Annotation</div><br>
 
             <%@ include file="../associations.jsp"%>
+
+            <%-- references used to sit under the Annotation heading, which is the only
+                 report where they had no heading of their own --%>
+            <br><div class="subTitle" id="references">References</div><br>
             <%@ include file="../references.jsp"%>
 
 
