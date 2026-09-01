@@ -24,7 +24,7 @@
      report page includes this file, and almost every rule in it is scoped under
      .rgd-modern-report - so a page that does not carry that class on #page-container is
      unaffected by loading it. --%>
-<link href="/rgdweb/css/reportModern.css?v=8" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/css/reportModern.css?v=9" rel="stylesheet" type="text/css" />
 
 <%
     // The class that turns the skin on, computed once. Static includes share a translation

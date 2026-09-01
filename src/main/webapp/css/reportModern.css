@@ -70,6 +70,18 @@
 .rgd-modern-report *::before,
 .rgd-modern-report *::after { box-sizing: border-box; }
 
+/* Scroll anchors are markers, not layout. One of these sitting between the sidebar and the
+   body - marker/main.jsp had a stray duplicate #top there - becomes a grid item, takes the
+   column the report body wants and pushes #content-wrap onto its own row underneath the
+   sidebar. Pinning it into the sidebar's cell keeps it addressable by href="#top" and keeps it
+   out of auto-placement; it is empty and zero height, so it covers nothing. */
+.rgd-modern-report > div#top {
+    grid-row: 1;
+    grid-column: 1;
+    height: 0;
+    overflow: hidden;
+}
+
 .rgd-modern-report #left-side-wrap {
     width: auto;
     float: none;
