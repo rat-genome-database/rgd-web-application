@@ -29,13 +29,26 @@
 <div id="top" ></div>
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
     <div id="left-side-wrap">
         <%@ include file="../reportSidebar.jsp"%>
     </div>
 
     <div id="content-wrap">
-        <h1 style="width: 95%;font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></h1>
+
+        <%
+            heroEyebrow = "HGNC Gene Family";
+            heroTitle = Utils.NVL(obj.getName(), "");
+            heroTitleClass = "report-hero-title--long";
+            heroShortName = Utils.NVL(obj.getAbbreviation(), obj.getName());
+            heroIcon = "fa-sitemap";
+            heroWatch = false;
+            if( familyGenes!=null && !familyGenes.isEmpty() ) {
+                heroChips.add("fa-list|" + familyGenes.size() + " genes");
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
         <table style="width:95%;border: none">
             <tr>
                 <td>
@@ -51,6 +64,7 @@
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
 </body>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>
 </html>

@@ -75,7 +75,6 @@
 <%@ include file="../reportHeader.jsp"%>
 
 <%-- modern presentation layer for this report; loaded last so it wins over report.css --%>
-<link href="/rgdweb/css/reportModern.css?v=7" rel="stylesheet" type="text/css" />
 
 <script type="application/ld+json">
 {
@@ -100,7 +99,6 @@
 <%
     String tutorialLink="/wg/home/rgd_rat_community_videos/rgd-s-gene-report-pages-tutorial";
     String pageHeader="Gene: " + obj.getSymbol() + "&nbsp;(" + obj.getName() + ")&nbsp;" + SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey());
-    String reportSkinClass = RgdContext.isChinchilla(request) ? "rgd-modern-report chinchilla" : "rgd-modern-report";
 %>
 
 <script>
@@ -120,54 +118,27 @@
 
     <div id="content-wrap">
 
-        <%-- report hero: identity of the gene up front, actions on the right --%>
+        <%-- report hero: identity of the gene up front, actions on the right. The panel itself
+             lives in ../reportHero.jsp so that every report page presents the same header;
+             this block only says what the gene puts in it. --%>
         <%
-            String heroSymbol = org.apache.commons.text.StringEscapeUtils.escapeHtml4(obj.getSymbol());
-            String heroName = org.apache.commons.text.StringEscapeUtils.escapeHtml4(Utils.NVL(obj.getName(), ""));
-            int analyzeMapKey = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey();
+            heroEyebrow = "Gene Report";
+            heroTitle = obj.getSymbol();
+            heroSubtitle = Utils.NVL(obj.getName(), "");
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( !Utils.isStringEmpty(obj.getType()) ) {
+                heroChips.add("|" + obj.getType());
+            }
+            if( mapDataList.size()>0 && md.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
+                        + "|" + refMap.getName());
+            }
+            heroAnalyze = "rgd.showTools('geneList'," + obj.getSpeciesTypeKey() + ","
+                    + MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey() + ",1,'')";
+            heroTutorialLink = tutorialLink;
         %>
-        <div class="report-hero" data-symbol="<%=heroSymbol%>">
-            <div class="report-hero-main">
-                <div class="report-hero-species">
-                    <img alt="<%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(SpeciesType.getCommonName(obj.getSpeciesTypeKey()))%>"
-                         src="/rgdweb/common/images/species/<%=SpeciesType.getImageUrl(obj.getSpeciesTypeKey())%>"/>
-                </div>
-                <div class="report-hero-text">
-                    <div class="report-hero-eyebrow">Gene Report</div>
-                    <h1 class="report-hero-title"><%=heroSymbol%></h1>
-                    <% if( !heroName.isEmpty() ) { %>
-                    <div class="report-hero-subtitle"><%=heroName%></div>
-                    <% } %>
-                    <div class="report-hero-chips">
-                        <span class="rgd-chip"><i class="fa fa-paw"></i><%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%></span>
-                        <span class="rgd-chip rgd-chip-neutral">RGD:<%=obj.getRgdId()%></span>
-                        <% if( !Utils.isStringEmpty(obj.getType()) ) { %>
-                        <span class="rgd-chip rgd-chip-neutral"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(obj.getType())%></span>
-                        <% } %>
-                        <% if( mapDataList.size()>0 && md.getChromosome()!=null ) { %>
-                        <span class="rgd-chip rgd-chip-neutral" title="<%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(refMap.getName())%>">
-                            <i class="fa fa-map-marker"></i>chr<%=md.getChromosome()%>:<%=md.getStartPos()%>-<%=md.getStopPos()%>
-                        </span>
-                        <% } %>
-                    </div>
-                </div>
-            </div>
-
-            <div class="report-hero-actions">
-                <a href="javascript:void(0)" class="rgd-action" ng-click="rgd.addWatch(pageObject)">
-                    <img src="/rgdweb/common/images/binoculars.png" alt=""/>{{ watchLinkText }}
-                </a>
-                <a href="javascript:void(0)" class="rgd-action rgd-action-primary"
-                   ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=analyzeMapKey%>,1,'')">
-                    <i class="fa fa-cogs"></i>Analyze
-                </a>
-                <% if( tutorialLink!=null && !tutorialLink.isEmpty() && !RgdContext.isChinchilla(request) ) { %>
-                <a class="rgd-action" href="<%=tutorialLink%>">
-                    <i class="fa fa-play-circle"></i>Tutorial
-                </a>
-                <% } %>
-            </div>
-        </div>
+        <%@ include file="../reportHero.jsp"%>
 
         <%@ include file="menu.jsp"%>
 
@@ -292,10 +263,10 @@
 <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>
 <%-- must come last: it decorates the sidebar and the sections both scripts above build --%>
-<script src="/rgdweb/js/reportPages/reportModernUx.js?v=3"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 
 
 

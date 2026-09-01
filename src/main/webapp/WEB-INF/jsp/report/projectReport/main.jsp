@@ -62,13 +62,27 @@
     List<XdbId> ei1 = xdbDAO.getXdbIds(xi1, obj.getSpeciesTypeKey());
 %>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <%@ include file="reportSidebar.jsp"%>
     </div>
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Project Report";
+            heroTitle = Utils.NVL(obj.getName(), "");
+            heroTitleClass = "report-hero-title--long";
+            heroShortName = "RGD:" + obj.getRgdId();
+            heroRgdId = obj.getRgdId();
+            heroIcon = "fa-flask";
+            if( !Utils.isStringEmpty(obj.getPiName()) ) {
+                heroChips.add("fa-user|" + obj.getPiName());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 
         <%@ include file="menu.jsp"%>
 
@@ -78,7 +92,7 @@
 
 
 
-        <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+        <table width="100%" border="0">
 
             <table width="95%" border="0">
             <tr>
@@ -140,6 +154,7 @@
 <script type="text/javascript">
     openAll();
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>
 

@@ -173,6 +173,15 @@
     border: 0;
 }
 
+/* A report with no species behind it - a reference, a project, a gene family - still wants
+   something in the circle, so it puts a font-awesome glyph there instead of a portrait. */
+.report-hero-species--icon {
+    font-size: 30px;
+    color: var(--rgd-accent);
+    background: var(--rgd-accent-soft);
+    border-color: transparent;
+}
+
 .report-hero-text { min-width: 0; }
 
 .report-hero-eyebrow {
@@ -194,6 +203,14 @@
     font-style: normal;
     letter-spacing: -.01em;
     color: var(--rgd-accent);
+}
+
+/* A title that is a sentence rather than a symbol - a paper title, a study name. 30px was
+   picked for "Brca1"; the same size on a full title wraps to three lines and swamps the page. */
+.report-hero-title--long {
+    font-size: 19px;
+    line-height: 1.35;
+    letter-spacing: 0;
 }
 
 .report-hero-subtitle {

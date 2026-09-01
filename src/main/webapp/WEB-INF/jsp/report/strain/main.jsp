@@ -50,7 +50,7 @@
 <script>
     let reportTitle = "strain";
 </script>
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -64,9 +64,27 @@
 
     <div id="content-wrap">
 
+        <%
+            heroEyebrow = "Strain Report";
+            heroTitle = obj.getSymbol();
+            heroSubtitle = Utils.NVL(obj.getName(), "");
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( !Utils.isStringEmpty(obj.getStrainTypeName()) ) {
+                heroChips.add("|" + obj.getStrainTypeName());
+            }
+            if( !Utils.isStringEmpty(obj.getOrigin()) ) {
+                heroChips.add("fa-flag|" + obj.getOrigin());
+            }
+            // the registration call to action used to float on its own line above the tab strip
+            heroExtraActions = "<a class=\"rgd-action\" href=\"/rgdweb/models/strainSubmissionForm.html?new=true\">"
+                    + "<i class=\"fa fa-plus-circle\"></i>Strain Registration</a>";
+        %>
+        <%@ include file="../reportHero.jsp"%>
 
 
-        <div class="registrationLink"><a href="/rgdweb/models/strainSubmissionForm.html?new=true">Strain Registration</a></div>
+
+
         <%@ include file="menu.jsp"%>
 
 
@@ -180,5 +198,6 @@
 
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

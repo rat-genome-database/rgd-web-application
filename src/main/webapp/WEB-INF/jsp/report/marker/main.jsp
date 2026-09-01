@@ -51,7 +51,7 @@
     let reportTitle = "marker";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -65,6 +65,22 @@
     <div id="top" ></div>
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Marker Report";
+            heroTitle = obj.getName();
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( !Utils.isStringEmpty(obj.getSslpType()) ) {
+                heroChips.add("|" + obj.getSslpType());
+            }
+            if( md!=null && md.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
+                        + "|" + refMap.getName());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 <%@ include file="menu.jsp"%>
 
 
@@ -131,5 +147,6 @@
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

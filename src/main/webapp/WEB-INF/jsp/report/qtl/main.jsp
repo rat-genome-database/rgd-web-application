@@ -68,7 +68,7 @@
     let reportTitle = "qtl";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -80,7 +80,29 @@
 
 
     <div id="content-wrap">
-        <div class="registrationLink"><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></div>
+
+        <%
+            heroEyebrow = "QTL Report";
+            heroTitle = obj.getSymbol();
+            heroSubtitle = Utils.NVL(obj.getName(), "");
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( md!=null && md.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
+                        + "|" + refMap.getName());
+            }
+            if( obj.getLod()!=null ) {
+                heroChips.add("|LOD " + obj.getLod());
+            }
+            if( !Utils.isStringEmpty(obj.getPeakRsId()) ) {
+                heroChips.add("|peak " + obj.getPeakRsId());
+            }
+            // the registration call to action used to float on its own line above the tab strip
+            heroExtraActions = "<a class=\"rgd-action\" href=\"/tools/qtls/qtlRegistrationIndex.cgi\">"
+                    + "<i class=\"fa fa-plus-circle\"></i>QTL Registration</a>";
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 <%@ include file="menu.jsp"%>
 <%  RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
     if (view.equals("3")) { %>
@@ -160,5 +182,6 @@
 <% } %>
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

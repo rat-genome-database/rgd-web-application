@@ -88,7 +88,7 @@
 
 
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <%@ include file="../reportSidebar.jsp"%>
@@ -97,6 +97,21 @@
 
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Reference Report";
+            heroTitle = Utils.NVL(obj.getTitle(), Utils.NVL(obj.getCitation(), ""));
+            heroTitleClass = "report-hero-title--long";
+            heroSubtitle = Utils.NVL(obj.getCitation(), "");
+            heroShortName = "RGD:" + obj.getRgdId();
+            heroRgdId = obj.getRgdId();
+            heroIcon = "fa-book";
+            if( !Utils.isStringEmpty(obj.getReferenceType()) ) {
+                heroChips.add("|" + obj.getReferenceType());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 
 <%@ include file="menu.jsp"%>
 
@@ -345,6 +360,7 @@
     openAll();
     //alert("done expanding");
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>
 

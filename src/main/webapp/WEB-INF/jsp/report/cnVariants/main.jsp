@@ -155,7 +155,7 @@
     let reportTitle = "rgdvariant";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -166,6 +166,20 @@
     </div>
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Variant Report";
+            heroTitle = displayName;
+            heroSubtitle = Utils.NVL(var.getVariantType(), "");
+            heroSpeciesKey = speciesType;
+            heroRgdId = obj.getRgdId();
+            if( var.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + var.getChromosome() + ":" + var.getStartPos() + "-" + var.getEndPos()
+                        + "|" + refMap.getName());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
         <table width="95%" border="0">
             <tr>
                 <td>
@@ -237,5 +251,6 @@
         });
     });
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=17"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

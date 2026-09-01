@@ -60,10 +60,9 @@
 %>
 
 <style>
-    #strain-info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
+    #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
 </style>
-<table id="strain-info-table" width="100%" border="0" style="background-color: rgb(249, 249, 249)">
-    <tr><td colspan="2"><h3>Strain: <%=obj.getSymbol()%></h3></td></tr>
+<table id="info-table" width="100%" border="0">
 
     <tr>
         <td class="label">Symbol:</td>

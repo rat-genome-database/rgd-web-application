@@ -107,9 +107,7 @@
 <style>
     #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
 </style>
-<table id="info-table" width="100%" border="0" style="background-color: rgb(249, 249, 249)">
-    <tr><td colspan="2"><h3>Variant: <%=displayName%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(speciesType)%>
-    </h3></td></tr>
+<table id="info-table" width="100%" border="0">
 
 <%--    <tr>--%>
 <%--        <td class="label" valign="top">Name:</td>--%>

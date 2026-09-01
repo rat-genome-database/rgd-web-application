@@ -500,30 +500,54 @@ function addItemsToSideBar(){
     });
 }
 
+// Every report's main.jsp writes the Annotation heading unconditionally, so it has to be taken
+// down when the includes underneath it turned out to produce nothing. Hiding the heading also
+// drops it from the sidebar, because addItemsToSideBar skips display:none items.
+//
+// This used to count .annotationTable across the whole document, but that class is not unique to
+// annotations: on strain reports the Substrains, Congenics and Mutants tables carry it too, and
+// they sit ABOVE the heading, up in the summary. A strain with substrains and no annotations
+// (RGD:68038, say) therefore kept an empty Annotation bar. Count only what is really inside the
+// section - the run of siblings between the heading and the next .subTitle.
 function checkForAnnotations(){
-    //get all the tables with annotationTable class
-    let annotationTables = Array.from(document.getElementsByClassName('annotationTable'));
-    let phenotypeValues = document.getElementById('phenominerAssociationTableDiv');
+    let annotationDiv = document.getElementById('annotation');
 
-    //if list == 0,
-    if(annotationTables.length === 0 && !phenotypeValues){
-        //make Annotations div display == none
-        let annotationDiv = document.getElementById('annotation');
-        if(annotationDiv){
-            annotationDiv.style.display = 'none';
+    if(annotationDiv && !sectionHasContent(annotationDiv)){
+        annotationDiv.style.display = 'none';
+    }
+}
+
+// The report body is a flat list: a .subTitle, then the cards that belong to it, then the next
+// .subTitle. A section counts as having something to show if any of those siblings holds a table
+// or a card - including one in a hidden branch, since the annotation detail view is display:none
+// until the reader asks for it, and its heading still has to be there to be toggled.
+//
+// Empty sections come through as nothing but <br>, <script> and <style>: the includes run either
+// way, they just emit no markup when the object has no data.
+function sectionHasContent(heading){
+    let node = heading.nextElementSibling;
+
+    while(node && !node.classList.contains('subTitle')){
+        if(node.tagName === 'TABLE' || node.classList.contains('light-table-border') ||
+           node.querySelector('table, .light-table-border')){
+            return true;
         }
+        node = node.nextElementSibling;
     }
 
+    return false;
 }
 //to remove headers if there are no table displaying
 function checkForRegionTables(){
     let regionDiv = document.getElementById('region');
     if(regionDiv){
         let element = regionDiv.nextElementSibling;
-        while(element.tagName === "BR"){
+        // Region is the last thing on the page for some reports; without the null check the
+        // loop walked off the end and threw, which aborted the rest of run()
+        while(element && element.tagName === "BR"){
             element = element.nextElementSibling;
         }
-        if(element.id === "additionalInformation"){
+        if(!element || element.id === "additionalInformation"){
             regionDiv.style.display = 'none';
         }
     }

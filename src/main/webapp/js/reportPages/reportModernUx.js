@@ -77,6 +77,12 @@
         var titles = root.querySelectorAll("#content-wrap .subTitle");
 
         Array.prototype.forEach.call(titles, function (title, index) {
+            // geneReport.js takes down the heading of a section whose includes produced nothing;
+            // there is no point giving that one a caret, a role or a collapse state
+            if (title.style.display === "none") {
+                return;
+            }
+
             var key = keyFor(title, "section" + index);
             var members = [];
             var node = title.nextElementSibling;
