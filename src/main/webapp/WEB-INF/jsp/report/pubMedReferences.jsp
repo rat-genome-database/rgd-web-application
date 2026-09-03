@@ -61,19 +61,19 @@
 <%--Beggining of row--%>
         <tr>
             <td class="report-page-grey">
-                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span>
             </td>
 
     <% }else if(i % 12 == 11){ %>
 <%--            End of Row--%>
             <td class="report-page-grey">
-                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span>
             </td>
         </tr>
   <% }else{%>
 <%--middle item--%>
             <td class="report-page-grey">
-                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span>
             </td>
     <% }
     }%>

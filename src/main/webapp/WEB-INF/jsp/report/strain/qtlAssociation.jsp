@@ -47,9 +47,9 @@
     <table cellpadding="3" cellspacing="3" id="strainQtlAssociationTable" >
     <thead>
         <tr>
-            <td><b>Symbol</b></td>
-            <td><b>Name</b></td>
-            <td><b>Trait</b></td>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Trait</th>
         </tr>
     </thead>
     <tbody>

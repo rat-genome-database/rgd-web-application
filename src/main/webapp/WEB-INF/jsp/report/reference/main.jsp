@@ -307,8 +307,7 @@
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-            <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
-            <br>
+            <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
 
             <div id="associationsCurator" style="display:block;">
                 <%@ include file="../associationsCurator.jsp"%>
@@ -321,7 +320,7 @@
 
                 <%@ include file="../objectsAnnotated.jsp"%>
 
-                <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
+                <div  class="subTitle" id="additionalInformation">Additional Information</div>
 
                 <%@ include file="xdbs.jsp"%>
                 <%@ include file="../nomen.jsp"%>
@@ -360,7 +359,7 @@
     openAll();
     //alert("done expanding");
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>
 

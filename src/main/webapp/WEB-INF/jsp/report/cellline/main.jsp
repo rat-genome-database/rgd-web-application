@@ -57,7 +57,7 @@
         <%@ include file="../pubMedReferences.jsp"%>
 
 
-            <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
+            <div  class="subTitle" id = "additionalInformation">Additional Information</div>
 
         <%@ include file="../xdbs.jsp"%>
         <%@ include file="../curatorNotes.jsp"%>
@@ -76,6 +76,6 @@
     <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

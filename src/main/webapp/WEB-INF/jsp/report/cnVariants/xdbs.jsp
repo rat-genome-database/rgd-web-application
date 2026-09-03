@@ -33,10 +33,12 @@
     </div>
     <table border="0" id="externalDatabaseLinksTable" class="tablesorter">
         <thead>
+        <%-- <th> carries the weight and the ground now; these cells used to paint
+             themselves #a2a2a2 and bold their own text --%>
         <tr>
-            <td style="background-color:#a2a2a2;"><b>Database</b></td>
-            <td style="background-color:#a2a2a2;"><b>Acc Id</b></td>
-            <td style="background-color:#a2a2a2;"><b>Source(s)</b></td>
+            <th>Database</th>
+            <th>Acc Id</th>
+            <th>Source(s)</th>
         </tr>
         </thead>
         <tbody>

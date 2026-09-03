@@ -63,7 +63,7 @@
     <tr>
         <td>
         <%@ include file="info.jsp"%>
-            <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
+            <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
 
         <div id="associationsCurator" style="display:none;">
             <%@ include file="../associationsCurator.jsp"%>
@@ -74,8 +74,7 @@
         <%@ include file="../references.jsp"%>
         <%@ include file="../pubMedReferences.jsp"%>
 
-    <br><div  class="subTitle">Additional Information</div>
-    <br>
+    <div  class="subTitle">Additional Information</div>
     <%@ include file="../xdbs.jsp"%>
     </td>
     <td>&nbsp;</td>
@@ -89,6 +88,6 @@
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

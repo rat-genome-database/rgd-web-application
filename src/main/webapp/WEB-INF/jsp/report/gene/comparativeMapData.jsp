@@ -33,25 +33,28 @@
     MapData currentMapData = null;
 %>
 
-<table border="0" id="comparativeMapDataTable">
-    <thead></thead>
+<%-- the <thead> was empty; nothing reads it and an empty row group only confuses the
+     table rules --%>
+<table id="comparativeMapDataTable">
     <tbody>
 <%
 
 for (Object thisObject: compareHomologs) {
     Gene g = (Gene) thisObject;
 %>
-    <tr >
-        <td class="report-page-grey" ><b><%=g.getSymbol()%><br>(<%=SpeciesType.getTaxonomicName(g.getSpeciesTypeKey())%> - <%=SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey())%>)</b></td>
-        <td><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol())%></td>
+    <tr>
+        <td class="cmapSpecies">
+            <span class="cmapSymbol"><%=g.getSymbol()%></span>
+            <span class="cmapTaxon"><%=SpeciesType.getTaxonomicName(g.getSpeciesTypeKey())%></span>
+            <span class="cmapCommon"><%=SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey())%></span>
+        </td>
+        <td class="cmapMap"><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol())%></td>
     </tr>
 
 <% } %>
     </tbody>
 </table>
-</br>
 <%//ui.dynClose("mapAssociation")%>
-
-<% } %>
 </div>
+<% } %>
 <%@ include file="../sectionFooter.jsp"%>

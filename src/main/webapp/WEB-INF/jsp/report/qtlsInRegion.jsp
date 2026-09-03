@@ -44,20 +44,18 @@
     </div>
     <input class="search table-search" id='qtlAssociationSearch' type="search" data-column="all" placeholder="Search table">
 </div>
-    <table>
-
-    <tbody>
-    <tr>
-        <td>The following <b>QTLs</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>">Full Report</a></span></td>
-
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=2">CSV</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=3">TAB</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=4">Printer</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=5">Gviewer</a></span></td>
-</tr>
-    </tbody>
-</table>
+<% String qtlSearchUrl = "/rgdweb/search/qtls.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey(); %>
+    <%-- one sentence and five links to the same search, which used to be an eleven column
+         table with a green bullet image between every pair of cells --%>
+    <div class="rgdLinkRow">
+        <span class="rgdLinkRowLead">The following <b>QTLs</b> overlap with this region.</span>
+        <a class="rgdChipLink" href="<%=qtlSearchUrl%>">Full report</a>
+        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=2">CSV</a>
+        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=3">TAB</a>
+        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=4">Printer</a>
+        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=5">GViewer</a>
+    </div>
 
 
                 <%

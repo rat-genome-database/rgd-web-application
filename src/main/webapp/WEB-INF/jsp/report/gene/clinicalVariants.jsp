@@ -52,12 +52,13 @@
 </script>
 <table border="1" cellpadding="1" cellspacing="1" class="sortable" id="clinicalVariantsTable">
     <thead>
+        <%-- the class stays: the inline script above binds the row re-striping to it --%>
         <tr class="headerRow">
-            <td title="click to sort by name">Name</td>
-            <td title="click to sort by type">Type</td>
-            <td title="click to sort by condition">Condition(s)</td>
-            <td title="click to sort by position">Position(s)</td>
-            <td title="click to sort by clinical significance">Clinical significance</td>
+            <th title="click to sort by name">Name</th>
+            <th title="click to sort by type">Type</th>
+            <th title="click to sort by condition">Condition(s)</th>
+            <th title="click to sort by position">Position(s)</th>
+            <th title="click to sort by clinical significance">Clinical significance</th>
         </tr>
     </thead>
 <%

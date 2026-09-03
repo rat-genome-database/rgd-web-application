@@ -171,7 +171,7 @@
                     <%@ include file="info.jsp"%>
 
                     <a name="annotation"></a>
-                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
+                    <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
 
                     <div id="associationsCurator" style="display:none;">
                         <%@ include file="../associationsCurator.jsp"%>
@@ -187,9 +187,7 @@
                     <!--above genomics table--->
 
                     <a name="genomics"></a>
-                    <br>
                     <div class="subTitle" id="genomics">Genomics</div>
-                    <br>
 
                     <%
                         SearchBean sb = new SearchBean();
@@ -213,18 +211,14 @@
                     <%@ include file="../geneticModels.jsp"%>
                     <!---Above expression table-->
                     <a name="expression"></a>
-                    <br>
                     <div class="subTitle" id="expression">Expression</div>
-                    <br>
                     <%try {%>
                     <jsp:include page="expressionDataNew.jsp"/>
                     <%} catch (Exception e){e.printStackTrace();}%>
 
                     <!--above sequence table--->
                     <a name="sequence"></a>
-                    <br>
                     <div class="subTitle" id="sequence">Sequence</div>
-                    <br>
                     <%@ include file="../nucleotide.jsp"%>
                     <%@ include file="../proteins.jsp"%>
                     <%@ include file="proteinStructures.jsp"%>
@@ -235,7 +229,7 @@
                     
                     <!--above additional information--->
                     <a name="additional"></a>
-                    <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
+                    <div  class="subTitle" id = "additionalInformation">Additional Information</div>
 
                     <%@ include file="../xdbs.jsp"%>
                     <%@ include file="../nomen.jsp"%>
@@ -263,7 +257,7 @@
 <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>
 <%-- must come last: it decorates the sidebar and the sections both scripts above build --%>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>

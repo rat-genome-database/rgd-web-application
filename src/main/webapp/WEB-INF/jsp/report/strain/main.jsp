@@ -139,9 +139,7 @@
                             is.close();
                             outputStream.close();
                     %>
-                    <br>
                     <div class="subTitle">Highlights</div>
-                    <br>
                     <img src="data:image/jpg;base64,<%=base64Image%>" class="img-responsive"/>
                     <br><br>
                     <% } %>
@@ -149,9 +147,7 @@
                     <%@ include file="congenics.jsp"%>
                     <%@ include file="mutants.jsp"%>
 
-                    <br>
-                    <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
-                    <br>
+                    <div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div>
                     <%@ include file="diseaseModels.jsp"%>
                     <div id="associationsCurator" style="display:none;">
                         <%@ include file="../associationsCurator.jsp"%>
@@ -166,18 +162,14 @@
                     <%@ include file="../references.jsp"%>
                     <%@ include file="../pubMedReferences.jsp"%>
 
-                    <br>
                     <div class="subTitle" id="region">Region</div>
-                    <br>
                     <%@ include file="../cellLines.jsp"%>
                     <%@ include file="markers.jsp"%>
                     <%@ include file="../sequence.jsp"%>
                     <%@ include file="qtlAssociation.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
                     <%@ include file="../rgdVariants.jsp"%>
-                    <br>
                     <div class="subTitle" id="additionalInformation">Additional Information</div>
-                    <br>
 
                     <%@ include file="../curatorNotes.jsp"%>
                     <%@ include file="../nomen.jsp"%>
@@ -198,6 +190,6 @@
 
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

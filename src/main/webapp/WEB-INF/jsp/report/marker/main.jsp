@@ -107,28 +107,27 @@
             sb.setSpeciesType(obj.getSpeciesTypeKey());
             %>
 
-            <br>
-            <br><div class="subTitle" id="annotation">Annotation</div><br>
+            <div class="subTitle" id="annotation">Annotation</div>
 
             <%@ include file="../associations.jsp"%>
 
             <%-- references used to sit under the Annotation heading, which is the only
                  report where they had no heading of their own --%>
-            <br><div class="subTitle" id="references">References</div><br>
+            <div class="subTitle" id="references">References</div>
             <%@ include file="../references.jsp"%>
 
 
-            <br><div  class="subTitle" id="strainsAndSequences">Strains and Sequence</div><br>
+            <div  class="subTitle" id="strainsAndSequences">Strains and Sequence</div>
             <%@ include file="sequence.jsp"%>
             <%@ include file="strainVariation.jsp"%>
 
-            <br><div  class="subTitle" id="region">Region</div><br>
+            <div  class="subTitle" id="region">Region</div>
             <%@ include file="../genesInRegion.jsp"%>
             <%@ include file="../nucleotide.jsp"%>
             <%@ include file="../proteins.jsp"%>
             <%@ include file="../qtlsInRegion.jsp"%>
 
-            <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
+            <div  class="subTitle" id="additionalInformation">Additional Information</div>
 
             <%@ include file="../curatorNotes.jsp"%>
             <%@ include file="../xdbs.jsp"%>
@@ -150,6 +149,6 @@
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

@@ -20,11 +20,20 @@
 
 <link href="/rgdweb/css/report.css?v=3" rel="stylesheet" type="text/css" />
 
+<%-- tablesorter's own themes. They sit above the report skin on purpose: theme.blue.css
+     styles .tablesorter-blue th at the same specificity as the skin's own th rule, so
+     whichever sheet comes second wins - and the skin has to be the one that does.
+     (jquery.tablesorter.pager.css carries no rel="stylesheet", so it has never loaded at all;
+     left as found rather than switching pager styling on as a side effect of this.) --%>
+<link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
+<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
+<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+
 <%-- The modern report skin. It lives here rather than in each report's main.jsp because every
      report page includes this file, and almost every rule in it is scoped under
      .rgd-modern-report - so a page that does not carry that class on #page-container is
      unaffected by loading it. --%>
-<link href="/rgdweb/css/reportModern.css?v=10" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/css/reportModern.css?v=26" rel="stylesheet" type="text/css" />
 
 <%
     // The class that turns the skin on, computed once. Static includes share a translation
@@ -63,10 +72,7 @@
 
 
 <script src="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.js"></script>
-<link href="/rgdweb/common/tablesorter-2.18.4/addons/pager/jquery.tablesorter.pager.css"/>
 
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
-<link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
 
 
 

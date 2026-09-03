@@ -127,7 +127,7 @@
 
             <%@ include file="info.jsp"%>
 
-            <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
+            <div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div>
 
             <%@ include file="candidateGenes.jsp"%>
 
@@ -145,7 +145,7 @@
             <%@ include file="relatedQtls.jsp"%>
 
 
-            <br><div class="subTitle" id="region">Region</div><br>
+            <div class="subTitle" id="region">Region</div>
 
 <%
     SearchBean sb = new SearchBean();
@@ -162,7 +162,7 @@
             <%@ include file="../relatedStrains.jsp"%>
 
 
-            <br><div class="subTitle" id="additionalInformation" >Additional Information</div><br>
+            <div class="subTitle" id="additionalInformation" >Additional Information</div>
             <%@ include file="gwasQtlInfo.jsp"%>
             <%@ include file="../xdbs.jsp"%>
             <%@ include file="../nomen.jsp"%>
@@ -182,6 +182,6 @@
 <% } %>
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

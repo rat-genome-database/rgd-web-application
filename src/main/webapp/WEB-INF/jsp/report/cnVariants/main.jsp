@@ -185,7 +185,7 @@
                 <td>
 
                     <%@ include file="info.jsp"%>
-                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
+                    <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
                     <div id="clinVar">
                         <%@ include file="clinVar.jsp"%>
                     </div>
@@ -200,7 +200,7 @@
                         <%@ include file="gwasData.jsp"%>
                     </div>
                         <% } %>
-                    <br><div class="subTitle" id="variantDetails">Variant Details</div>
+                    <div class="subTitle" id="variantDetails">Variant Details</div>
                     <div id="transcripts">
                         <%@ include file="transcripts.jsp"%>
                     </div>
@@ -211,14 +211,13 @@
                         <%@ include file="samples.jsp"%>
                         <% } %>
                     </div>
-<%--                    <br><div class="subTitle" id="references">References</div>--%>
+<%--                    <div class="subTitle" id="references">References</div>--%>
                     <div id="pubRef">
 <%--                        <%@ include file="../references.jsp"%>--%>
                         <%@ include file="../pubMedReferences.jsp"%>
                     </div>
                     <%if (!ei1.isEmpty()) {%>
-                    <br><div  class="subTitle" id="addInfo">Additional Information</div>
-                    <br>
+                    <div  class="subTitle" id="addInfo">Additional Information</div>
                         <%@ include file="xdbs.jsp"%>
                     <% } %>
 
@@ -251,6 +250,6 @@
         });
     });
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>

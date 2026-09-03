@@ -190,7 +190,7 @@
     <div id="biologicalProcessAnnotationsTableWrapper">
 
 
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
+        <div class="annotGroup">Biological Process</div>
 
         <div class="search-and-pager">
 
@@ -251,7 +251,7 @@
     <% if (ccList.size() > 0) { %>
 
     <div id="cellularComponentAnnotationsTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="cellularComponentSummary"><u>Cellular Component</u></span><br></span>
+        <div class="annotGroup" id="cellularComponentSummary">Cellular Component</div>
 
         <div class="search-and-pager">
 
@@ -307,7 +307,7 @@
     <% if (mfList.size() > 0) { %>
 
     <div id="molecularFunctionAnnotationsTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="molecularFunctionSummary"><u>Molecular Function</u></span><br></span>
+        <div class="annotGroup" id="molecularFunctionSummary">Molecular Function</div>
 
 
         <div class="search-and-pager">
@@ -452,7 +452,7 @@
     </div>
     <% if (mpList.size() > 0) { %>
     <div id="mammalianPhenotypeAnnotationsTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mammalian Phenotype</u></span><br></span>
+        <div class="annotGroup">Mammalian Phenotype</div>
 
         <div class="search-and-pager">
             <div class="modelsViewContent" >
@@ -508,7 +508,7 @@
 
     <% if (hpList.size() > 0) { %>
     <div id="humanPhenotypeAnnotationsTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Human Phenotype</u></span><br></span>
+        <div class="annotGroup">Human Phenotype</div>
 
 
         <div class="search-and-pager">
@@ -611,7 +611,7 @@
 <%--    <div class="reportTable" id="cellOntologyAnnotationsTableWrapper">--%>
 
 
-<%--        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>--%>
+<%--        <div class="annotGroup">Cell Ontology</div>--%>
 
 <%--        <div id="cellOntologyAnnotationsTable">--%>
 <%--            <%=af.createGridFormatAnnotations(clList, obj.getRgdId(),2)%>--%>
@@ -620,7 +620,7 @@
 <%--    <% } %>--%>
 <%--    <% if (cmoList.size() > 0) { %>--%>
 <%--    <div class="reportTable" id="clinicalMeasurementAnnotationsTableWrapper">--%>
-<%--        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>--%>
+<%--        <div class="annotGroup">Clinical Measurement</div>--%>
 
 <%--        <div id="clinicalMeasurementAnnotationsTable">--%>
 <%--            <%=af.createGridFormatAnnotations(cmoList, obj.getRgdId(),2)%>--%>
@@ -631,7 +631,7 @@
 <%--    <% if (xcoList.size() > 0) {  %>--%>
 
 <%--    <div class="reportTable " id="experimentalConditionAnnotationsTableWrapper">--%>
-<%--        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>--%>
+<%--        <div class="annotGroup">Experimental Condition</div>--%>
 
 <%--        <div id="experimentalConditionAnnotationsTable">--%>
 <%--            <%=af.createGridFormatAnnotations(xcoList, obj.getRgdId(),2)%>--%>
@@ -641,7 +641,7 @@
 <%--    <% } %>--%>
 <%--    <% if (mmoList.size() > 0) { %>--%>
 <%--    <div class="reportTable" id="measurementMethodAnnotationsTableWrapper">--%>
-<%--        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>--%>
+<%--        <div class="annotGroup">Measurement Method</div>--%>
 <%--        <div id="measurementMethodAnnotationsTable">--%>
 <%--            <%=af.createGridFormatAnnotations(mmoList, obj.getRgdId(),2)%>--%>
 <%--        </div>--%>
@@ -650,7 +650,7 @@
 <%--    <% } %>--%>
 <%--    <% if (vtList.size() > 0) { %>--%>
 <%--    <div class="reportTable" id="vertebrateTraitAnnotationsTableWrapper">--%>
-<%--        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>--%>
+<%--        <div class="annotGroup">Vertebrate Trait</div>--%>
 
 <%--        <div id="vertebrateTraitAnnotationsTable">--%>
 <%--            <%=af.createGridFormatAnnotations(vtList, obj.getRgdId(),2)%>--%>
@@ -660,7 +660,7 @@
 
 <%--    <% if (rsList.size() > 0) { %>--%>
 <%--    <div class="reportTable" id="ratStrainAnnotationsTableWrapper">--%>
-<%--        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>--%>
+<%--        <div class="annotGroup">Rat Strain</div>--%>
 
 <%--        <div class="search-and-pager">--%>
 <%--            <div class="modelsViewContent" >--%>
@@ -712,7 +712,7 @@
 <%--    <%}%>--%>
 <%--</div><%}%>--%>
 <%--&lt;%&ndash; if (maList.size() + rsList.size() > 0) { %>--%>
-<%--   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>GEO Annotations</u></span><br></span>--%>
+<%--   <div class="annotGroup">GEO Annotations</div>--%>
 <%--       <% HeatMap hm = af.createGeoAnnotationsGrid(maList, rsList);%>--%>
 <%--<%@ include file="/common/heatmap.jsp"%>--%>
 <%--       <%=af.createGeoAnnotationsTable(maList, rsList)%>--%>

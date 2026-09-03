@@ -24,6 +24,16 @@
     --rgd-border:      #dfe4ea;
     --rgd-border-soft: #edf0f4;
 
+    /* Table headers. A blue band, in the same hue the reports have always used but a long way
+       lighter than the #99BFE6 it came from, with the label in the skin's dark blue instead of
+       black. --rgd-thead-active is the sorted / hovered column, one step deeper again.
+       Every header path reads these, so they are the one place the header look is set. */
+    --rgd-thead:        #dbe8f6;
+    --rgd-thead-active: #bcd5ef;
+    --rgd-thead-line:   #a9c6e6;
+    --rgd-thead-text:   #1c4a79;
+    --rgd-row-hover:    #eaf2fb;
+
     --rgd-radius:      10px;
     --rgd-radius-sm:   6px;
     --rgd-shadow-sm:   0 1px 2px rgba(16, 32, 51, .06), 0 1px 3px rgba(16, 32, 51, .05);
@@ -442,6 +452,36 @@
     font-weight: 500;
     color: var(--rgd-text-muted) !important;
 }
+/* The same footnote next to a table of contents entry. The link is display:block and fills
+   the row, so the marker is positioned over it rather than placed after it. Only section
+   entries carry one, and only major sections get the accordion caret, so the two never land
+   on the same row. */
+.rgd-modern-report #reportMainSidebar li.has-toc-info { position: relative; }
+.rgd-modern-report #reportMainSidebar li.has-toc-info > a { padding-right: 28px; }
+
+.rgd-toc-info {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    border-radius: 50%;
+    cursor: help;
+    user-select: none;
+}
+.rgd-toc-info:hover { color: var(--rgd-accent); background: var(--rgd-accent-soft); }
+
 /* table of contents accordion: a major section folds away the sections under it.
    These rules sit above the .rgd-toc-hidden rule on purpose - an entry that the
    filter has ruled out must stay hidden even while the accordion is standing down,
@@ -716,27 +756,158 @@
     font-family: var(--rgd-font);
 }
 .rgd-modern-report td,
-.rgd-modern-report th {
+.rgd-modern-report th,
+.rgd-modern-report thead td {
     padding: 8px 10px;
     font-family: var(--rgd-font);
     font-size: 12.5px;
     line-height: 1.55;
     vertical-align: top;
 }
-.rgd-modern-report th {
+/* `thead td` is here because several tables write their header cells as <td>, and because
+   addHeadAndIdToTable() builds a <thead> at runtime out of the table's first row - which is a
+   row of <td>. What makes a cell a header here is the row group it is in, not its tag. */
+.rgd-modern-report th,
+.rgd-modern-report thead td {
     font-size: 11px;
     font-weight: 700;
     line-height: 1.4;
     letter-spacing: .04em;
     text-transform: uppercase;
-    color: var(--rgd-text-muted);
-    background: var(--rgd-surface-alt);
+    color: var(--rgd-thead-text);
+    background: var(--rgd-thead);
     background-image: none;
-    border-bottom: 1px solid var(--rgd-border);
+    text-shadow: none;
+    /* 2px, so the band still separates from the first row when a table is scrolled */
+    border-bottom: 2px solid var(--rgd-thead-line);
 }
+/* theme.blue.css, neutralised.
+
+   tablesorter is initialised with theme: 'blue', and its core appends .tablesorter-blue to any
+   table whose class does not already contain "tablesorter-". Every one of these tables therefore
+   picks up the blue theme. Its table-wide rules weigh the same as this sheet's and are settled by
+   load order (see reportHeader.jsp), but everything it hangs off a second class outranks the skin
+   whatever the order, so those are answered by name and by weight. */
+.rgd-modern-report .tablesorter-blue,
+.rgd-modern-report .tablesorter-blue th,
+.rgd-modern-report .tablesorter-blue thead td,
+.rgd-modern-report .tablesorter-blue td { border: 0; }
+.rgd-modern-report .tablesorter-blue { margin: 0; }
+
+/* the header: its ground, its 4px 18px padding and its arrow image */
+.rgd-modern-report .tablesorter-blue th,
+.rgd-modern-report .tablesorter-blue thead td,
+.rgd-modern-report .tablesorter-blue .tablesorter-header {
+    padding: 8px 10px;
+    /* the theme sets `font: bold 12px/18px Arial` as a shorthand. Load order settles that
+       today, but the whole header look is restated here so it cannot come back if these
+       sheets are ever reordered again. */
+    font-family: var(--rgd-font);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-thead-text);
+    background-color: var(--rgd-thead);
+    background-image: none;
+    text-shadow: none;
+    border-bottom: 2px solid var(--rgd-thead-line);
+}
+/* the theme paints a sorted column #9fbfdf or #8cb3d9, two further blues of its own. It is the
+   deeper ground of this palette instead - the selector is (0,3,0), so it has to be pointed at
+   the active token by name or it would flatten the sorted column back to the plain header. */
+.rgd-modern-report .tablesorter-blue .tablesorter-headerAsc,
+.rgd-modern-report .tablesorter-blue .tablesorter-headerDesc {
+    background-color: var(--rgd-thead-active);
+    background-image: none;
+}
+
+/* data cells: the theme sets 4px, which made a sorted table denser than everything around it */
+.rgd-modern-report .tablesorter-blue tbody td {
+    padding: 8px 10px;
+    color: var(--rgd-text);
+    background-color: transparent;
+    vertical-align: top;
+}
+.rgd-modern-report .tablesorter-blue tbody > tr:hover > td { background-color: var(--rgd-row-hover); }
+
+/* the zebra widget's classes, which the theme paints #ebf2fa / #fff. Banding belongs on the
+   row, at the same value the report-strategy tables use, so the two kinds of table band alike. */
+.rgd-modern-report .tablesorter-blue tbody > tr.odd > td,
+.rgd-modern-report .tablesorter-blue tbody > tr.even > td { background-color: transparent; }
+.rgd-modern-report .tablesorter-blue tbody > tr.odd { background-color: var(--rgd-surface-alt); }
+
+/* Sortable headers. addClassAndId() tags these tables "tablesorter", never "tablesorter-blue",
+   so the bundled theme's own arrow sprite never reaches them and a sortable column looked exactly
+   like a fixed one. tablesorter sets these three classes itself, with no theme.
+
+   The signal is the arrow and a deeper ground, not a colour: on a blue band the accent is lighter
+   than the label, so recolouring a sorted column would read as de-emphasis. */
+.rgd-modern-report .tablesorter-header { cursor: pointer; }
+.rgd-modern-report .tablesorter-header:hover { background-color: var(--rgd-thead-active); }
+.rgd-modern-report .tablesorter-headerAsc,
+.rgd-modern-report .tablesorter-headerDesc { background-color: var(--rgd-thead-active); }
+/* The marker sits at the right edge of the cell with room reserved for it, the way theme.blue's
+   21x9 GIF did on the old pages - a fixed place of its own rather than a glyph competing with the
+   label for the same line. Drawn out of borders, so it stays crisp at any zoom, takes the header
+   colour through currentColor, and cannot come out as a missing-glyph box.
+
+   .tablesorter-header-inner carries the positioning: tablesorter's headerTemplate defaults to
+   '{content}', and a non-empty template makes it replace each header cell's contents with
+   <div class="tablesorter-header-inner">label</div>. Positioning that block rather than the <th>
+   also keeps clear of quirks mode - these pages have no DOCTYPE, and a positioned table-cell is
+   the kind of thing it handles unevenly. */
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner {
+    display: block;
+    position: relative;
+    padding-right: 16px;
+}
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner::before,
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    opacity: .45;
+}
+/* unsorted: the pair, one above the other */
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner::before {
+    margin-top: -7px;
+    border-bottom: 5px solid currentColor;
+}
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner::after {
+    margin-top: 2px;
+    border-top: 5px solid currentColor;
+}
+/* sorted: one triangle, centred and at full strength, and the other one gone */
+.rgd-modern-report .tablesorter-headerAsc .tablesorter-header-inner::before {
+    margin-top: -3px;
+    opacity: 1;
+}
+.rgd-modern-report .tablesorter-headerAsc .tablesorter-header-inner::after { display: none; }
+.rgd-modern-report .tablesorter-headerDesc .tablesorter-header-inner::after {
+    margin-top: -2px;
+    opacity: 1;
+}
+.rgd-modern-report .tablesorter-headerDesc .tablesorter-header-inner::before { display: none; }
+/* a column switched off with sorter-false is not clickable, so it should not look it */
+.rgd-modern-report .tablesorter .sorter-false { cursor: default; }
+.rgd-modern-report .tablesorter .sorter-false .tablesorter-header-inner { padding-right: 0; }
+.rgd-modern-report .tablesorter .sorter-false .tablesorter-header-inner::before,
+.rgd-modern-report .tablesorter .sorter-false .tablesorter-header-inner::after { display: none; }
+.rgd-modern-report .tablesorter .sorter-false:hover { background-color: var(--rgd-thead); }
+
+.rgd-modern-report thead tr { border-bottom: 0; }
 .rgd-modern-report tbody tr { border-bottom: 1px solid var(--rgd-border-soft); }
 .rgd-modern-report tbody tr:last-child { border-bottom: 0; }
-.rgd-modern-report tbody tr:hover { background: var(--rgd-surface-alt); }
+.rgd-modern-report tbody tr:hover { background: var(--rgd-row-hover); }
+/* the report-strategy tables put their header in the body, so it has to opt out of the hover */
+.rgd-modern-report tbody tr.headerRow:hover { background: var(--rgd-thead); }
 
 /* tables nested inside a cell are layout helpers - no chrome, no hover */
 .rgd-modern-report td table,
@@ -749,6 +920,19 @@
 .rgd-modern-report .mapDataTable th { border: 0; }
 .rgd-modern-report .mapDataTable td,
 .rgd-modern-report .mapDataTable th { font-size: 12.5px; }
+
+/* The PubMed link cloud. pubMedReferences.jsp lays twelve PMIDs per row out as a twelve column
+   table, so every cell holds one short link rather than a paragraph of citation. The table cell
+   padding is sized for the latter, which left each link floating in its own box; here the gap
+   between one PMID and the next is all that is needed, so it is carried by padding-right and the
+   vertical padding comes almost off. The rows are one list, not banded data - no rule, no hover. */
+.rgd-modern-report #pubMedReferencesTable td {
+    padding: 2px 16px 2px 0;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+.rgd-modern-report #pubMedReferencesTable tbody tr { border-bottom: 0; }
+.rgd-modern-report #pubMedReferencesTable tbody tr:hover { background: none; }
 
 .rgd-modern-report .reportTableHeader { color: var(--rgd-accent); }
 
@@ -941,11 +1125,13 @@
     background-color: var(--rgd-surface) !important;
 }
 
-/* The darkest of the legacy greys, on a couple of table headers */
+/* The darkest of the legacy greys. It is only ever on a <th>, so it lands on the header
+   ground rather than the zebra - otherwise these four headers would end up lighter than
+   every other header on the page. */
 .rgd-modern-report #content-wrap [style*="#b6baba"],
 .rgd-modern-report #content-wrap [style*="#B6BABA"] {
-    background-color: var(--rgd-surface-alt) !important;
-    color: var(--rgd-text-muted) !important;
+    background-color: var(--rgd-thead) !important;
+    color: var(--rgd-thead-text) !important;
 }
 
 /* Hard black hairlines around the expandable detail boxes and the tool icons */
@@ -977,6 +1163,129 @@
 }
 
 .rgd-modern-report #content-wrap .detailReportLink { font-size: 12.5px; }
+
+/* --------------------------------------------------------------------------
+   HTMLTableReportStrategy tables
+
+   The strategy emits its own <link> to treport.css mid-body, which paints these
+   tables in a #99BFE6 header with white bold Arial and a #F1F1F1 zebra - the
+   look the rest of the report has moved away from. Those rules are plain
+   element selectors, so naming the skin here outranks them whatever order the
+   sheets happen to load in. The strategy marks the header row with a class
+   rather than using <th>, so the header styling has to be restated by hand.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report tr.headerRow td {
+    font-family: var(--rgd-font);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-thead-text);
+    background-color: var(--rgd-thead);
+    border-bottom: 2px solid var(--rgd-thead-line);
+}
+.rgd-modern-report tr.evenRow td,
+.rgd-modern-report tr.evenRow td a,
+.rgd-modern-report tr.oddRow td,
+.rgd-modern-report tr.oddRow td a {
+    font-family: var(--rgd-font);
+    font-size: 12.5px;
+    color: var(--rgd-text);
+}
+.rgd-modern-report tr.evenRow td a,
+.rgd-modern-report tr.oddRow td a { color: var(--rgd-blue-dark); }
+/* banding comes from the row, not from every cell painting its own background */
+.rgd-modern-report tr.evenRow td,
+.rgd-modern-report tr.oddRow td { background-color: transparent; }
+.rgd-modern-report tr.oddRow { background-color: var(--rgd-surface-alt); }
+
+/* --------------------------------------------------------------------------
+   Comparative Map Data
+
+   One row per species: the gene on the left, its assemblies on the right. The
+   right hand cell holds the same .mapDataTable the Position section uses, which
+   brings its own header row and a width="670" attribute - so the job here is to
+   let the species column set a fixed width, let the map table take the rest,
+   and separate the species with a hairline instead of a grey block.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #comparativeMapDataTable {
+    width: 100%;
+    table-layout: fixed;
+}
+.rgd-modern-report #comparativeMapDataTable > tbody > tr {
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-modern-report #comparativeMapDataTable > tbody > tr:last-child { border-bottom: 0; }
+/* the row is a whole species block, not a data row - hovering it should not light it up */
+.rgd-modern-report #comparativeMapDataTable > tbody > tr:hover { background: none; }
+.rgd-modern-report #comparativeMapDataTable > tbody > tr > td {
+    padding: 14px 0;
+    background: none;
+    vertical-align: top;
+}
+
+.rgd-modern-report #comparativeMapDataTable td.cmapSpecies {
+    width: 180px;
+    padding-right: 18px;
+}
+.rgd-modern-report .cmapSymbol {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rgd-text);
+}
+.rgd-modern-report .cmapTaxon {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .cmapCommon {
+    display: block;
+    font-size: 11.5px;
+    color: var(--rgd-text-faint);
+}
+
+/* width="670" is a presentational hint, so any rule here outranks it; the map
+   table fills the column instead of setting the column's width */
+.rgd-modern-report #comparativeMapDataTable td.cmapMap > .mapDataTable {
+    width: 100%;
+    min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   <br> used as spacing
+
+   The report body predates the stylesheet, so the blank line between a heading
+   and a card, or between two cards, is a <br> rather than a margin - 439 of
+   them across seven sampled pages, 249 sitting between two block elements and
+   34 of those doubled up. That is what makes the spacing drift from section to
+   section: the gap depends on how many <br> a given include happens to carry.
+
+   The two biggest sources are fixed in the markup (the annotation group
+   headings and the .subTitle wrappers). The rest live in some forty includes,
+   and are handled here instead: a <br> next to a block element is hidden, so
+   the section and card margins set the rhythm. A <br> in running text - a
+   formatted sequence, a wrapped note, a label above a table - separates two
+   pieces of text and is left alone.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #content-wrap br + br,
+.rgd-modern-report #content-wrap div + br,
+.rgd-modern-report #content-wrap table + br,
+.rgd-modern-report #content-wrap p + br,
+.rgd-modern-report #content-wrap .light-table-border > br:first-child,
+.rgd-modern-report #content-wrap .light-table-border > br:last-child { display: none; }
+
+/* The other half of the pair - a <br> that comes BEFORE a block. Kept in its
+   own rule: an unknown selector invalidates the whole rule it appears in, so
+   grouping :has() with the selectors above would lose them on a browser that
+   does not support it. */
+.rgd-modern-report #content-wrap br:has(+ div),
+.rgd-modern-report #content-wrap br:has(+ table) { display: none; }
 
 /* --------------------------------------------------------------------------
    Responsive

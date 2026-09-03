@@ -1034,6 +1034,94 @@ color: #ffffff;
     .rgdCompactTable .rgdCellMuted { font-size: 11.5px; color: #5b6672; }
     .rgdCompactTable th.rgdColRight,
     .rgdCompactTable td.rgdColRight { text-align: right; white-space: nowrap; }
+    /* Provenance under a table - where the data came from, what to cite. Secondary to
+       everything above it, so it is set quieter and separated by a rule rather than by a
+       blank line. */
+    .rgdSourceNote {
+        margin: 14px 0 2px;
+        padding-top: 10px;
+        font-size: 11.5px;
+        line-height: 1.65;
+        color: #5b6672;
+        border-top: 1px solid #e3e8ef;
+    }
+
+    /* A footnote about a section that is not part of its name - which assembly a region was
+       computed against, or that a data set is no longer maintained. It used to be bracketed
+       into the heading text, where it also travelled into the sidebar entry and got cut off.
+       Lives here rather than in reportModern.css so a heading looks right on the report pages
+       that carry no skin. */
+    .rgdInfoDot {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 15px;
+        height: 15px;
+        margin-left: 7px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 11px;
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1;
+        color: #5b6672;
+        background: #eceff3;
+        border-radius: 50%;
+        cursor: help;
+        vertical-align: middle;
+        user-select: none;
+    }
+    .rgdInfoDot:hover { color: #2865a3; background: #dbe6f3; }
+
+    /* Group headings inside the annotation cards - "Biological Process", "Rat Strain",
+       "Clinical Measurement". These used to be an inline .highlight span, underlined with <u>
+       and spaced with a <br> on either side: the underline read as a link, and the gap above
+       and below depended on blank lines rather than on the heading itself. This lives here
+       rather than in reportModern.css so the includes look right wherever they are used. */
+    .annotGroup {
+        margin: 16px 0 8px;
+        font-size: 13.5px;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #1f2933;
+    }
+    .annotGroup:first-child { margin-top: 4px; }
+
+    /* The Sequence card on marker, strain and clone reports: a short label column and the
+       sequence itself. The sequence is the content, so it keeps a monospace face - but at the
+       report's own size, and in a block that can scroll on its own rather than widening the
+       card. */
+    table.rgdSeqTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table.rgdSeqTable td {
+        padding: 7px 10px;
+        font-size: 12.5px;
+        vertical-align: top;
+    }
+    table.rgdSeqTable td.label {
+        width: 150px;
+        min-width: 150px;
+        white-space: nowrap;
+    }
+
+    .rgdSeqInline,
+    .rgdSeqBlock {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 12px;
+        letter-spacing: .02em;
+        color: #1f2933;
+    }
+    .rgdSeqBlock {
+        margin: 0;
+        padding: 8px 11px;
+        line-height: 1.75;
+        background: #f7f9fc;
+        border: 1px solid #e3e8ef;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
     /* A link that reads as an action rather than prose - "FASTA", "eQTL". Not scoped to the
        compact table: sections that are nothing but a labelled run of links use it too. */
     .rgdChipLink {

@@ -101,8 +101,7 @@
 <%--                    <% if(!projRef.isEmpty()){%>--%>
                     <% if(!allRecords2.isEmpty()){%>
                     <hr>
-                    <div  class="subTitle" id="annotation"><h2>Annotation</h2>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
-                    <br>
+                    <div  class="subTitle" id="annotation"><h2>Annotation</h2>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div>
                     <div id="associationsCurator" style="display:none;">
 
                         <%@ include file="phenominerDetails.jsp"%>
@@ -122,7 +121,7 @@
                     <% if(phenotypeFiles1.size()>0||genotypeFiles1.size()>0){%>
 
                     <hr>
-                    <div class="subTitle" id="subFiles"><h2>Project File Archive</h2>&nbsp;<span style="font-size:12px; font-color:black;">(received from submitter)</span></div><br>
+                    <div class="subTitle" id="subFiles"><h2>Project File Archive</h2>&nbsp;<span style="font-size:12px; font-color:black;">(received from submitter)</span></div>
                     <%@ include file="projectFiles.jsp"%>
                     <br>
                     <%}%>
@@ -136,7 +135,7 @@
                     <% if(ei1.size()>0){%>
 
                     <hr>
-                    <br><div class="subTitle" id="Ext"><h2>External Resources</h2></div><br>
+                    <div class="subTitle" id="Ext"><h2>External Resources</h2></div>
                     <%@ include file="../xdbs.jsp"%>
                     <%}%>
                 </td>
@@ -154,7 +153,7 @@
 <script type="text/javascript">
     openAll();
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=18"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=3"> </script>
 

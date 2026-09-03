@@ -331,7 +331,12 @@
 </table>
 <%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
 <br>
-<div id="sequenceViewer">
+<%-- the viewer is the one block on the report body that is not inside a
+     .light-table-border, which is the single rule that paints every other block white -
+     an <svg> has no background of its own, so the page ground showed through it.
+     goToJBrowse() was defined below but never wired to anything; the gene report calls
+     it from here, so the two viewers now behave the same --%>
+<div id="sequenceViewer" class="light-table-border" onclick="goToJBrowse()">
     <div class="container">
         <div id="range" style="text-align: center"></div>
         <%-- class, not className: className is the JSX property name and this block was

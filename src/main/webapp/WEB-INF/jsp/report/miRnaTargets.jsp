@@ -47,7 +47,9 @@
 <%@ include file="sectionHeader.jsp"%>
 <%//ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
 <div class="light-table-border">
-<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status (No longer updated)</div>
+<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status<%--
+     the qualifier is a footnote about the data, not part of the section name; as bracketed
+     text it also pushed the sidebar entry past its length cap and got cut mid-bracket --%><span class="rgdInfoDot" title="No longer updated" aria-label="miRNA Target Status is no longer updated" role="img">i</span></div>
     <% if( confirmedCount>0 ) {
 
         String pubmedUrl = xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
@@ -80,8 +82,8 @@
             }
             report.append(rec);
         }
-    %><p>
-    <div style="font-weight:bold"><%= isMirnaGene?"Confirmed Targets":"Confirmed Target Of"%></div>
+    %>
+    <div class="annotGroup"><%= isMirnaGene?"Confirmed Targets":"Confirmed Target Of"%></div>
     <%=report.format(new HTMLTableReportStrategy())%>
     <% if( isMirnaGene ) { // initial iframe %>
 <div id="cyChart">
@@ -143,23 +145,34 @@
     rec.append("Result types:");
     rec.append(miRnaPredictedStats.get("Result types"));
     report.append(rec);
-%><p>
-    <div style="font-weight:bold"><%= isMirnaGene?"Predicted Targets":"Predicted Target Of"%></div>
-    <%=report.format(new HTMLTableReportStrategy())%><p>
-    <table>
-    <tr><td>The detailed report is available here:</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/genes/mirnaTargets.html?id=<%=obj.getRgdId()%>&fmt=full">Full Report</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/genes/mirnaTargets.html?id=<%=obj.getRgdId()%>&fmt=csv">CSV</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/genes/mirnaTargets.html?id=<%=obj.getRgdId()%>&fmt=tab">TAB</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/genes/mirnaTargets.html?id=<%=obj.getRgdId()%>&fmt=print">Printer</a></span></td>
-    </tr>
-    <tr><td colspan="9"><br>miRNA Target Status data imported from miRGate (<a href="http://mirgate.bioinfo.cnio.es/">http://mirgate.bioinfo.cnio.es/</a>).<br>
-        For more information about miRGate, see <a href="https://www.ncbi.nlm.nih.gov/pubmed/25858286">PMID:25858286</a>
-        or access the full paper <a href="http://database.oxfordjournals.org/content/2015/bav035.full.pdf+html">here</a>.</td>
-    </tr>
-    </table>
-</div>
+    String miRnaReportUrl = "/rgdweb/genes/mirnaTargets.html?id=" + obj.getRgdId() + "&fmt=";
+%>
+    <div class="annotGroup"><%= isMirnaGene?"Predicted Targets":"Predicted Target Of"%></div>
+    <%=report.format(new HTMLTableReportStrategy())%>
+
+    <%-- four links to one report in four formats. This was a nine column table: a lead-in
+         cell, then a green bullet image and a link, four times over. The bullets carried no
+         meaning the links did not already carry. --%>
+    <div class="rgdLinkRow">
+        <span class="rgdLinkRowLead">Detailed report:</span>
+        <a class="rgdChipLink" href="<%=miRnaReportUrl%>full">Full report</a>
+        <a class="rgdChipLink" href="<%=miRnaReportUrl%>csv">CSV</a>
+        <a class="rgdChipLink" href="<%=miRnaReportUrl%>tab">TAB</a>
+        <a class="rgdChipLink" href="<%=miRnaReportUrl%>print">Printer</a>
+    </div>
+
+    <%-- the attribution used to live in a colspan="9" cell of that same table, behind a <br> --%>
+    <p class="rgdSourceNote">
+        miRNA Target Status data imported from miRGate
+        (<a href="http://mirgate.bioinfo.cnio.es/">mirgate.bioinfo.cnio.es</a>).
+        For more information about miRGate see <a href="https://www.ncbi.nlm.nih.gov/pubmed/25858286">PMID:25858286</a>,
+        or read the full paper <a href="http://database.oxfordjournals.org/content/2015/bav035.full.pdf+html">here</a>.
+    </p>
 <% } %>
+<%-- the card is opened before the confirmed-targets branch, so it has to be closed after both
+     branches: closing it inside `if (predictedCount > 0)` left a gene that has confirmed
+     targets but no prediction stats with an open card that swallowed the rest of the page --%>
+</div>
 <%//ui.dynClose("miRnaTargets")%>
 <%@ include file="sectionFooter.jsp"%>
 <%}%>

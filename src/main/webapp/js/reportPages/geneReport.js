@@ -5,10 +5,11 @@ run();
 
 function run() {
     rebuildAnnotationTables();
-//in region tables
-    addHeadAndIdToTable("qtlAssociationTableDiv", 1);
-    addHeadAndIdToTable("geneAssociationTableDiv", 1);
-    addHeadAndIdToTable("mark2AssociationTableDiv", 1);
+//in region tables - index 0 now: the link strip above each of these used to be a <table>,
+//  which made the data table the second one in the div
+    addHeadAndIdToTable("qtlAssociationTableDiv", 0);
+    addHeadAndIdToTable("geneAssociationTableDiv", 0);
+    addHeadAndIdToTable("mark2AssociationTableDiv", 0);
 
 //annotation detail view tables
 
@@ -149,11 +150,17 @@ function appendTableToDiv(table, divId){
 
 
 
+// Picks the table by position, so it is sensitive to anything else in the div being a
+// <table>. Without the guard a missing one throws on table.firstChild, and because run() calls
+// this before everything else, the whole report's JS stops there - no sidebar, no pagers.
 function addHeadAndIdToTable(tableDivId, tableNumber){
     let div = document.getElementById(tableDivId);
     if(div !== null){
         let tables = div.getElementsByTagName('table');
         let table = tables[tableNumber];
+        if(table === undefined || table.rows.length === 0){
+            return;
+        }
         let tHead = document.createElement('thead');
         let tBody = table.firstChild;
         let headerRow = table.rows[0];
@@ -461,22 +468,18 @@ function addItemsToSideBar(){
                 text = "PubMed References";
             }
 
-
-            if(text === "QTLs in Region (Rnor_6.0)" || text === "QTLs in Region (GRCm38)"){
-                text = "QTLs in Region";
-            }
-
-            if(text === "Strain Sequence Variants (Rnor 6.0)"){
-                text = "Strain Sequence Variants";
-            }
-
             if(text === "Phenotype Values via PhenoMiner"){
                 text = "Phenotype Values";
             }
 
             if(text.includes("Annotations")){
-                text = text.replace('Annotations', '');
+                text = text.replace('Annotations', '').trim();
             }
+
+            // the qualifier goes on an info marker rather than into the link text
+            let note = headingNote(value, text);
+            text = note.label;
+
             if(text.length > 27){
                 let lastWhiteSpace = text.lastIndexOf(" ");
                 text = text.substring(0, lastWhiteSpace);
@@ -493,11 +496,51 @@ function addItemsToSideBar(){
             a.innerText = text;
             li.appendChild(a);
 
+            if(note.note){
+                li.classList.add('has-toc-info');
+                li.appendChild(buildInfoDot(note.note, 'rgd-toc-info'));
+            }
+
             sidebar.append(li);
         }
 
 
     });
+}
+
+// A section heading can carry a qualifier the sidebar has no room for - the assembly a
+// region was computed against, or a note that a data set is no longer maintained. The sidebar
+// caps a label at 27 characters and cuts at the last space, so "miRNA Target Status (No longer
+// updated)" used to render as "miRNA Target Status (No longer": truncated mid-bracket.
+//
+// The qualifier comes either from an explicit marker in the heading (miRnaTargets.jsp) or from
+// a trailing "(...)" in its text. Doing the second generically retires the special cases that
+// used to be listed here one assembly at a time - "(Rnor_6.0)", "(GRCm38)", "(Rnor 6.0)" -
+// which is exactly why "(GRCr8)" leaked into the sidebar when the reference assembly changed.
+function headingNote(heading, text){
+    let marker = heading.querySelector('.rgdInfoDot');
+    if(marker){
+        return { label: text.trim(), note: marker.getAttribute('title') || '' };
+    }
+
+    let match = text.match(/^(.*[^\s(])\s*\(([^()]+)\)$/);
+    if(match){
+        return { label: match[1].trim(), note: match[2].trim() };
+    }
+
+    return { label: text.trim(), note: '' };
+}
+
+// A small "i" that shows its text on hover. Kept as a <span> with a title rather than a button:
+// it carries no action, and inside the sidebar the whole row is already a link.
+function buildInfoDot(note, className){
+    let dot = document.createElement('span');
+    dot.className = className;
+    dot.setAttribute('title', note);
+    dot.setAttribute('aria-label', note);
+    dot.setAttribute('role', 'img');
+    dot.textContent = 'i';
+    return dot;
 }
 
 // Every report's main.jsp writes the Annotation heading unconditionally, so it has to be taken
