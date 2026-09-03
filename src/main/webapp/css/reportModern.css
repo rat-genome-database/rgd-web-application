@@ -937,6 +937,100 @@
 .rgd-modern-report .reportTableHeader { color: var(--rgd-accent); }
 
 /* --------------------------------------------------------------------------
+   Variant Transcripts (cnVariants/transcripts.jsp)
+
+   One card per transcript: the accession and gene symbol lead it, the predictions sit in the
+   report's own label/value table, and the amino acid sequence keeps a monospace block of its own.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .rgdTranscriptCard {
+    margin: 0 0 14px;
+    padding: 14px 16px;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .rgdTranscriptCard:last-child { margin-bottom: 0; }
+
+.rgd-modern-report .rgdTranscriptHead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 11px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-modern-report .rgdTranscriptSymbol {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rgd-blue-dark);
+}
+.rgd-modern-report .rgdTranscriptAcc {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+    color: var(--rgd-text-muted);
+}
+/* inside a card the label column can sit closer than it does in a standalone Sequence table */
+.rgd-modern-report .rgdTranscriptCard table.rgdSeqTable td { padding: 4px 12px 4px 0; }
+.rgd-modern-report .rgdTranscriptCard table.rgdSeqTable td.label {
+    width: 170px;
+    min-width: 170px;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .rgdTranscriptCard table.rgdSeqTable tbody tr { border-bottom: 0; }
+.rgd-modern-report .rgdTranscriptCard table.rgdSeqTable tbody tr:hover { background: none; }
+
+/* "TRANSCRIPT MAY BE FAULTY..." was centred, bold, pure red and preceded by a <br> */
+.rgd-modern-report .rgdTranscriptWarn {
+    margin: 12px 0 0;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #8c1d18;
+    background: #fdf0ee;
+    border-left: 3px solid #b3261e;
+    border-radius: 0 4px 4px 0;
+}
+
+/* "Polyphen Predictions" and "Amino Acid Sequence" were 16px blue bold cells inside the data
+   table; they are headings of the card, so they read as headings */
+.rgd-modern-report .rgdSubHeading {
+    margin: 16px 0 7px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .rgdSubNote {
+    margin-left: 8px;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--rgd-text-faint);
+}
+
+/* twelve columns of PolyPhen data. It was a 640px fixed-width table with border=1 and its header
+   cells written as <td>; now it scrolls inside the card rather than widening the page, and the
+   header row is a real <thead> so it picks up the report's header band. */
+.rgd-modern-report .rgdTableScroll { overflow-x: auto; }
+.rgd-modern-report table.rgdSubTable { width: 100%; border-collapse: collapse; }
+.rgd-modern-report table.rgdSubTable td { white-space: nowrap; }
+
+/* the substituted amino acid inside the sequence block. This was inline red 24px bold, which
+   broke the line rhythm of a 12px monospace block wherever it landed. */
+.rgdSeqMark {
+    padding: 0 2px;
+    font-weight: 700;
+    color: #b3261e;
+    background: #fdecea;
+    border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
    Search box + pager above each table
    -------------------------------------------------------------------------- */
 

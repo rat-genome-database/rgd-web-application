@@ -28,15 +28,10 @@ function tableSorterReport() {
         //     size: 100
         // });
 
-        $('#variantTranscriptsTable')
-            .tablesorter({
-                theme: 'blue',
-                widget: ['zebra']
-            })
-            .tablesorterPager({
-                container: $('.variantTranscriptsPager'),
-                size: REPORT_PAGE_SIZE
-            });
+        // #variantTranscriptsTable was the 650px layout table that wrapped the Variant
+        // Transcripts section, not a data table - sorting it sorted its one row, and the pager
+        // container named here, .variantTranscriptsPager, is not in any JSP. The section is a
+        // list of cards now, so both are gone.
 
         $('#sampleDetailsTable').tablesorter({
             theme: 'blue',
