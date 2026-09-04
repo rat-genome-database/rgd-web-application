@@ -41,7 +41,23 @@
 
         <div class="report-hero-text">
             <div class="report-hero-eyebrow"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroEyebrow)%></div>
+            <%
+                RGDManagementDAO rdao=new RGDManagementDAO();
+                RgdId objectRgdId= null;
+                try {
+                    objectRgdId = rdao.getRgdId2(heroRgdId);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                if(objectRgdId.getObjectKey()!=5){
+            %>
             <h1 class="report-hero-title <%=heroTitleClass%>"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroTitle)%></h1>
+            <%}else{
+                    %>
+            <h1 class="report-hero-title <%=heroTitleClass%>"><%=heroTitle%></h1>
+            <%
+                }
+            %>
             <% if( heroSubtitle != null && !heroSubtitle.isEmpty() ) { %>
             <div class="report-hero-subtitle"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroSubtitle)%></div>
             <% } %>

@@ -73,9 +73,6 @@
             if( !Utils.isStringEmpty(obj.getStrainTypeName()) ) {
                 heroChips.add("|" + obj.getStrainTypeName());
             }
-            if( !Utils.isStringEmpty(obj.getOrigin()) ) {
-                heroChips.add("fa-flag|" + obj.getOrigin());
-            }
             // the registration call to action used to float on its own line above the tab strip
             heroExtraActions = "<a class=\"rgd-action\" href=\"/rgdweb/models/strainSubmissionForm.html?new=true\">"
                     + "<i class=\"fa fa-plus-circle\"></i>Strain Registration</a>";
