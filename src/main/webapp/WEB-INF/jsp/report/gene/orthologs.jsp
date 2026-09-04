@@ -96,27 +96,26 @@
                     <% } %>
             </td>
             </tr>
-            <%
-         if( homologs.isEmpty() ) {
-            buttonCaption = "homologs&nbsp;...";
-     %>
-        No known orthologs.
-     <% } else {
-            buttonCaption = "more&nbsp;info&nbsp;...";
-        }
-     %>
+            <% buttonCaption = homologs.isEmpty() ? "homologs" : "more info"; %>
 
-            <tr style="height: 40px;">
+            <tr>
                 <td class="label">More Info</td>
-                <TD style="vertical-align: middle;">
-                    <A HREF="javascript:showAllOrthos();" class="orthoExtInfo"
-                            title="click to see extended ortholog information from HGNC HCOP"><%=buttonCaption%></A>
-                </TD>
+                <td>
+                    <%-- "No known orthologs." used to be printed here as bare text inside the
+                         row group, outside any cell, which the HTML parser lifts out of the
+                         table entirely - it rendered above the summary table, not in this row --%>
+                    <% if( homologs.isEmpty() ) { %>
+                    <span class="orthoNoneNote">No known orthologs.</span>
+                    <% } %>
+                    <a href="javascript:showAllOrthos();" class="orthoExtInfo" role="button"
+                       aria-expanded="false" aria-controls="orthoExtended"
+                       title="click to see extended ortholog information from HGNC HCOP"><%=buttonCaption%></a>
+                </td>
             </tr>
      </tbody>
 
 
-         <tbody class="ortho_long" style="display: none;">
+         <tbody class="ortho_long" id="orthoExtended" style="display: none;">
              <tr>
                 <td class="label">More Info</td>
                 <td>
@@ -127,8 +126,8 @@
                      <TH style="background-color: #b6baba;">Data Source</TH>
                      <TH style="background-color: #b6baba;">Assertion derived from</TH>
                      <TH rowspan="2" style="padding-left:20px;">
-                         <A HREF="javascript:hideAllOrthos();" class="orthoExtInfo"
-                                 title="click to see simple ortholog information">less&nbsp;info&nbsp;...</A>
+                         <a href="javascript:hideAllOrthos();" class="orthoExtInfo orthoExtInfo--less"
+                            role="button" title="click to see simple ortholog information">less info</a>
                      </TH>
                  </TR>
              <%
@@ -198,6 +197,7 @@ function showAllOrthos() {
   if( $ ) {
     $(".ortho_short").hide(400);
     $(".ortho_long").show(900);
+    $(".ortho_short .orthoExtInfo").attr("aria-expanded", "true");
   }
 }
 
@@ -205,6 +205,7 @@ function hideAllOrthos() {
   if( $ ) {
     $(".ortho_long").hide(400);
     $(".ortho_short").show(900);
+    $(".ortho_short .orthoExtInfo").attr("aria-expanded", "false");
   }
 }
 </script>

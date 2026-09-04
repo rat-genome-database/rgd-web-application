@@ -31,8 +31,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
+                    <option  value="10" selected="selected">10</option>
+                    <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>
@@ -43,17 +43,22 @@
     </div>
     <input class="search table-search" id='geneAssociationSearch' type="search" data-column="all" placeholder="Search table">
 </div>
-<table>
-    <tr>
-        <td>The following <b>Genes</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>">Full Report</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=2">CSV</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=3">TAB</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=4">Printer</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 1px solid black;" border="0" ng-click="rgd.showTools('geneList',3,360)"/></td>
-        <td><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>)">Analysis Tools</a></td>
-    </tr>
-</table>
+<% String geneSearchUrl = "/rgdweb/search/genes.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey(); %>
+    <%-- one sentence and five links to the same search, which used to be an eleven column
+         table with a green bullet image between every pair of cells --%>
+    <div class="rgdLinkRow">
+        <span class="rgdLinkRowLead">The following <b>Genes</b> overlap with this region.</span>
+        <a class="rgdChipLink" href="<%=geneSearchUrl%>">Full report</a>
+        <a class="rgdChipLink" href="<%=geneSearchUrl%>&fmt=2">CSV</a>
+        <a class="rgdChipLink" href="<%=geneSearchUrl%>&fmt=3">TAB</a>
+        <a class="rgdChipLink" href="<%=geneSearchUrl%>&fmt=4">Printer</a>
+        <%-- the tools icon next to this link ran showTools('geneList',3,360) - rat, and an
+             assembly key from years ago - regardless of the species being reported on. The
+             link beside it always passed the right species and assembly, so only it is kept --%>
+        <a class="rgdChipLink" href="javascript:void(0)"
+           ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>)">Analysis tools</a>
+    </div>
 
     <%
         r.removeColumn(11);
@@ -86,8 +91,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
+                    <option  value="10" selected="selected">10</option>
+                    <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>

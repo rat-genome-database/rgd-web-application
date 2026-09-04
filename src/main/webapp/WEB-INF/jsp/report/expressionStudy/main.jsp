@@ -56,13 +56,23 @@
 <div id="top" ></div>
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
     <div id="left-side-wrap">
         <%@ include file="../reportSidebar.jsp"%>
     </div>
 
     <div id="content-wrap">
-        <h1 style="width: 95%;font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></h1>
+
+        <%
+            heroEyebrow = "Expression Study Report";
+            heroTitle = Utils.NVL(obj.getName(), "");
+            heroTitleClass = "report-hero-title--long";
+            heroShortName = "Study " + obj.getId();
+            heroIcon = "fa-bar-chart";
+            heroWatch = false;
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
         <table style="width:95%;border: none">
             <tr>
                 <td>
@@ -91,6 +101,7 @@
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
 </body>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>
 </html>

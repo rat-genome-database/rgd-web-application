@@ -23,8 +23,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
+                    <option  value="10" selected="selected">10</option>
+                    <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>
@@ -35,16 +35,18 @@
     </div>
     <input class="search table-search" id='mark2AssociationSearch' type="search" data-column="all" placeholder="Search table">
 </div>
-<table>
-    <tr>
-        <td>The following <b>Markers</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>">Full Report</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=2">CSV</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=3">TAB</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=4">Printer</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=5">Gviewer</a></span></td>
-    </tr>
-</table>
+<% String markerSearchUrl = "/rgdweb/search/markers.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey(); %>
+    <%-- one sentence and five links to the same search, which used to be an eleven column
+         table with a green bullet image between every pair of cells --%>
+    <div class="rgdLinkRow">
+        <span class="rgdLinkRowLead">The following <b>Markers</b> overlap with this region.</span>
+        <a class="rgdChipLink" href="<%=markerSearchUrl%>">Full report</a>
+        <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=2">CSV</a>
+        <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=3">TAB</a>
+        <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=4">Printer</a>
+        <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=5">GViewer</a>
+    </div>
 
 
                 <%
@@ -85,8 +87,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
+                    <option  value="10" selected="selected">10</option>
+                    <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>

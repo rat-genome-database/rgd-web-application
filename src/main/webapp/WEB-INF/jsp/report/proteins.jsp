@@ -20,7 +20,7 @@
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                     <select class="pagesize">
-                        <option selected="selected" value="10">10</option>
+                        <option value="10" selected="selected">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
                         <option  value="40">40</option>
@@ -34,17 +34,17 @@
     </div>
 
 
-    <table border="0" id="proteinSequencesTable" class = 'tablesorter'>
+    <table border="0" id="proteinSequencesTable" class="tablesorter rgdCompactTable">
         <thead>
         <tr>
-            <th></th>
-            <th></th>
+            <th>Source</th>
+            <th>Accession</th>
+            <th class="rgdColRight sorter-false">Links</th>
         </tr>
         </thead>
+        <tbody>
         <%
-            int row = 0;
-            int prevRefSeqCode = -1;
-            String prevAccId = null, preName="";
+            String prevAccId = null;
 
             for (XdbId pxid: pei) {
                 if( Utils.stringsAreEqual(prevAccId, pxid.getAccId()) ) {
@@ -52,32 +52,32 @@
                     continue;
                 }
                 prevAccId = pxid.getAccId();
-                String bkColor = (++row%2==0) ? "#f1f1f1" : "#e2e2e2"; // alternating lighter or brighter grey
+
                 Xdb xdb = XDBIndex.getInstance().getXDB(pxid.getXdbKey());
+                String lastLinkP = xdb.getUrl(obj.getSpeciesTypeKey());
+                String accId = pxid.getAccId();
+
+                // an accession like NP_036728 is a RefSeq; anything else is named by its xdb.
+                // The label used to be printed only when it changed from the row above, which a
+                // sortable table cannot honour, so every row carries it now.
+                boolean isRefSeq = accId!=null && accId.length()>3 && accId.charAt(2)=='_';
+                String sourceName = isRefSeq ? "Protein RefSeqs" : xdb.getName();
+
+                boolean isEnsembl = xdb.getName().contains("Ensembl");
         %>
         <tr>
-            <%
-                String lastLinkP = xdb.getUrl(obj.getSpeciesTypeKey());
-                // 1: is ref seq, 0 - is not
-                int refSeqCode = (pxid.getAccId()!=null && pxid.getAccId().length()>3 && pxid.getAccId().charAt(2)=='_') ? 1 : 0;
-                if( refSeqCode != prevRefSeqCode ) {
-                    prevRefSeqCode = refSeqCode;
-                    preName = xdb.getName();
-            %>
-            <td style="background-color:<%=bkColor%>;"><b><%=refSeqCode>0 ? "Protein RefSeqs" : xdb.getName()%></b></td>
-            <% } else if ( !preName.equals(xdb.getName()) ) {
-                preName = xdb.getName(); %>
-            <td style="background-color:<%=bkColor%>;"><b><%=xdb.getName()%></b></td>
-            <% } else { %>
-            <td style="background-color:<%=bkColor%>;">&nbsp;</td>
-            <% } %>
-            <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getAccId()%>"><%=Utils.NVL(pxid.getLinkText(),pxid.getAccId())%></a></td>
-            <% if (!xdb.getName().contains("Ensembl") ) {%>
-            <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkP%><%=pxid.getAccId()%>?report=fasta">(Get FASTA)</a></td>
-            <td style="background-color:<%=bkColor%>;"> &nbsp; <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=pxid.getAccId()%>">NCBI Sequence Viewer</a> &nbsp;</td>
-            <% } else {out.print("<td style=\"background-color:"+bkColor+";\"></td><td style=\"background-color:"+bkColor+";\"></td>");}%>
+            <td class="rgdCellNowrap"><span class="rgdCellTag"><%=sourceName%></span></td>
+            <td class="rgdCellStrong"><a href="<%=lastLinkP%><%=accId%>"><%=Utils.NVL(pxid.getLinkText(),accId)%></a></td>
+            <td class="rgdColRight">
+                <% if( !isEnsembl ) { %>
+                <a class="rgdChipLink" href="<%=lastLinkP%><%=accId%>?report=fasta">FASTA</a>
+                <a class="rgdChipLink" href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=accId%>"
+                   title="NCBI Sequence Viewer">Sequence Viewer</a>
+                <% } %>
+            </td>
         </tr>
         <% } %>
+        </tbody>
     </table>
 
 
@@ -90,7 +90,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -120,9 +120,9 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
+                    <option value="3">3</option>
                     <option value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>
@@ -159,29 +159,26 @@
                     }
                 }
             }
-    %>
-    <table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="proteinReferenceSequencesInnerTable">
-        <tr>
-            <%
-                String protSource = "RefSeq";
-                if (t.getProteinAccId().startsWith("EN")) {
-                    protSource = "Ensembl";
-                }
-            %>
 
-            <td class="label" valign="top" width="110"><%=protSource%> Acc Id:</td>
-            <td style="font-weight: bold; color: #2865A3"><%=t.getProteinAccId()%> &nbsp; &xlArr; &nbsp; <%=t.getAccId()%></td>
+            String protSource = t.getProteinAccId().startsWith("EN") ? "Ensembl" : "RefSeq";
+    %>
+    <table width="100%" border="0" class="proteinReferenceSequencesInnerTable refSeqCard">
+        <tbody>
+        <tr class="refSeqCardHead">
+            <td colspan="2">
+                <span class="refSeqAcc" title="<%=protSource%> protein accession"><%=t.getProteinAccId()%></span>
+                <span class="refSeqArrow" aria-hidden="true">&xlArr;</span>
+                <span class="refSeqAcc refSeqAcc--paired" title="transcript it is translated from"><%=t.getAccId()%></span>
+                <span class="refSeqTag"><%=protSource%></span>
+                <% if( t.getPeptideLabel()!=null ) { %>
+                <span class="refSeqTag refSeqTag--status" title="peptide label"><%=t.getPeptideLabel()%></span>
+                <% } %>
+            </td>
         </tr>
-        <% if( t.getPeptideLabel()!=null ) { %>
-        <tr>
-            <td class="label" valign="top" style="background-color: #f1f1f1"> - Peptide Label:</td>
-            <td><%=t.getPeptideLabel()%></td>
-        </tr>
-        <% } %>
         <% if( uniProtAccIds!=null ) { %>
         <tr>
-            <td class="label" valign="top" style="background-color: #f1f1f1"> - UniProtKB:</td>
-            <td><%=uniProtAccIds%></td>
+            <td class="refSeqLabel">UniProtKB</td>
+            <td class="refSeqValue"><%=uniProtAccIds%></td>
         </tr>
         <% } %>
 
@@ -193,20 +190,21 @@
                 String seqFormatted = FormUtility.formatFasta(seq.getSeqData());
         %>
         <tr>
-            <td class="label" valign="top" style="background-color: #f1f1f1"> - Sequence:</td>
-            <td>
+            <td class="refSeqLabel">Sequence</td>
+            <td class="refSeqValue">
                 <div id="s_<%=t.getProteinAccId()%>">
-                    <A HREF="javascript:toggleDivs('s_<%=t.getProteinAccId()%>','l_<%=t.getProteinAccId()%>');" class="seqExtInfo"
-                       title="click to see full sequence">show sequence</A>
+                    <a href="javascript:toggleDivs('s_<%=t.getProteinAccId()%>','l_<%=t.getProteinAccId()%>');" class="seqExtInfo"
+                       title="click to see full sequence">show sequence</a>
                 </div>
                 <div id="l_<%=t.getProteinAccId()%>" style="display:none">
                     <pre><%=seqFormatted%></pre>
-                    <A HREF="javascript:toggleDivs('l_<%=t.getProteinAccId()%>','s_<%=t.getProteinAccId()%>');" class="seqExtInfo"
-                       title="click to hide sequence">hide sequence</A>
+                    <a href="javascript:toggleDivs('l_<%=t.getProteinAccId()%>','s_<%=t.getProteinAccId()%>');" class="seqExtInfo"
+                       title="click to hide sequence">hide sequence</a>
                 </div>
             </td>
         </tr>
         <% } %>
+        </tbody>
     </table>
 
     <% } %>
@@ -220,9 +218,9 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
+                    <option value="3">3</option>
                     <option value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>

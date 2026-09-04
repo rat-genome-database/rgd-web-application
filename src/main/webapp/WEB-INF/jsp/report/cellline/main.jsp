@@ -20,7 +20,7 @@
 <script>
     let reportTitle = "cell line";
 </script>
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -30,6 +30,19 @@
         <%@ include file="../reportSidebar.jsp"%>
     </div>
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Cell Line Report";
+            heroTitle = obj.getSymbol();
+            heroSubtitle = Utils.NVL(obj.getName(), "");
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( !Utils.isStringEmpty(obj.getSoAccId()) ) {
+                heroChips.add("|" + obj.getSoAccId());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 
 
 <%@ include file="menu.jsp"%>
@@ -44,7 +57,7 @@
         <%@ include file="../pubMedReferences.jsp"%>
 
 
-            <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
+            <div  class="subTitle" id = "additionalInformation">Additional Information</div>
 
         <%@ include file="../xdbs.jsp"%>
         <%@ include file="../curatorNotes.jsp"%>
@@ -63,5 +76,6 @@
     <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>

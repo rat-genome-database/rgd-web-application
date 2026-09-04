@@ -18,9 +18,9 @@
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                     <select class="pagesize">
-                        <option selected="selected" value="3">3</option>
+                        <option value="3">3</option>
                         <option value="5">5</option>
-                        <option value="10">10</option>
+                        <option value="10" selected="selected">10</option>
                         <option value="20">20</option>
                         <option value="40">40</option>
                         <option   value="100">100</option>
@@ -33,10 +33,12 @@
     </div>
     <table border="0" id="externalDatabaseLinksTable" class="tablesorter">
         <thead>
+        <%-- <th> carries the weight and the ground now; these cells used to paint
+             themselves #a2a2a2 and bold their own text --%>
         <tr>
-            <td style="background-color:#a2a2a2;"><b>Database</b></td>
-            <td style="background-color:#a2a2a2;"><b>Acc Id</b></td>
-            <td style="background-color:#a2a2a2;"><b>Source(s)</b></td>
+            <th>Database</th>
+            <th>Acc Id</th>
+            <th>Source(s)</th>
         </tr>
         </thead>
         <tbody>
@@ -92,9 +94,9 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
+                    <option value="3">3</option>
                     <option value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="40">40</option>
                     <option   value="100">100</option>

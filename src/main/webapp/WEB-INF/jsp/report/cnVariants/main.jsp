@@ -155,7 +155,7 @@
     let reportTitle = "rgdvariant";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -166,12 +166,26 @@
     </div>
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Variant Report";
+            heroTitle = displayName;
+            heroSubtitle = Utils.NVL(var.getVariantType(), "");
+            heroSpeciesKey = speciesType;
+            heroRgdId = obj.getRgdId();
+            if( var.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + var.getChromosome() + ":" + var.getStartPos() + "-" + var.getEndPos()
+                        + "|" + refMap.getName());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
         <table width="95%" border="0">
             <tr>
                 <td>
 
                     <%@ include file="info.jsp"%>
-                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
+                    <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
                     <div id="clinVar">
                         <%@ include file="clinVar.jsp"%>
                     </div>
@@ -186,7 +200,7 @@
                         <%@ include file="gwasData.jsp"%>
                     </div>
                         <% } %>
-                    <br><div class="subTitle" id="variantDetails">Variant Details</div>
+                    <div class="subTitle" id="variantDetails">Variant Details</div>
                     <div id="transcripts">
                         <%@ include file="transcripts.jsp"%>
                     </div>
@@ -197,14 +211,13 @@
                         <%@ include file="samples.jsp"%>
                         <% } %>
                     </div>
-<%--                    <br><div class="subTitle" id="references">References</div>--%>
+<%--                    <div class="subTitle" id="references">References</div>--%>
                     <div id="pubRef">
 <%--                        <%@ include file="../references.jsp"%>--%>
                         <%@ include file="../pubMedReferences.jsp"%>
                     </div>
                     <%if (!ei1.isEmpty()) {%>
-                    <br><div  class="subTitle" id="addInfo">Additional Information</div>
-                    <br>
+                    <div  class="subTitle" id="addInfo">Additional Information</div>
                         <%@ include file="xdbs.jsp"%>
                     <% } %>
 
@@ -237,5 +250,6 @@
         });
     });
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>

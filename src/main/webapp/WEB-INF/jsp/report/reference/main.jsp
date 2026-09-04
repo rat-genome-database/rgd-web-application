@@ -88,7 +88,7 @@
 
 
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <%@ include file="../reportSidebar.jsp"%>
@@ -97,6 +97,21 @@
 
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Reference Report";
+            heroTitle = Utils.NVL(obj.getTitle(), Utils.NVL(obj.getCitation(), ""));
+            heroTitleClass = "report-hero-title--long";
+            heroSubtitle = Utils.NVL(obj.getCitation(), "");
+            heroShortName = "RGD:" + obj.getRgdId();
+            heroRgdId = obj.getRgdId();
+            heroIcon = "fa-book";
+            if( !Utils.isStringEmpty(obj.getReferenceType()) ) {
+                heroChips.add("|" + obj.getReferenceType());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 
 <%@ include file="menu.jsp"%>
 
@@ -292,8 +307,7 @@
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-            <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
-            <br>
+            <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
 
             <div id="associationsCurator" style="display:block;">
                 <%@ include file="../associationsCurator.jsp"%>
@@ -306,7 +320,7 @@
 
                 <%@ include file="../objectsAnnotated.jsp"%>
 
-                <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
+                <div  class="subTitle" id="additionalInformation">Additional Information</div>
 
                 <%@ include file="xdbs.jsp"%>
                 <%@ include file="../nomen.jsp"%>
@@ -345,6 +359,7 @@
     openAll();
     //alert("done expanding");
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>
 

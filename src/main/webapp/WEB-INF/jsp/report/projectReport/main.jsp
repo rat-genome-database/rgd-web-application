@@ -62,13 +62,27 @@
     List<XdbId> ei1 = xdbDAO.getXdbIds(xi1, obj.getSpeciesTypeKey());
 %>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <%@ include file="reportSidebar.jsp"%>
     </div>
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Project Report";
+            heroTitle = Utils.NVL(obj.getName(), "");
+            heroTitleClass = "report-hero-title--long";
+            heroShortName = "RGD:" + obj.getRgdId();
+            heroRgdId = obj.getRgdId();
+            heroIcon = "fa-flask";
+            if( !Utils.isStringEmpty(obj.getPiName()) ) {
+                heroChips.add("fa-user|" + obj.getPiName());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 
         <%@ include file="menu.jsp"%>
 
@@ -78,7 +92,7 @@
 
 
 
-        <table width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+        <table width="100%" border="0">
 
             <table width="95%" border="0">
             <tr>
@@ -87,8 +101,7 @@
 <%--                    <% if(!projRef.isEmpty()){%>--%>
                     <% if(!allRecords2.isEmpty()){%>
                     <hr>
-                    <div  class="subTitle" id="annotation"><h2>Annotation</h2>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
-                    <br>
+                    <div  class="subTitle" id="annotation"><h2>Annotation</h2>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div>
                     <div id="associationsCurator" style="display:none;">
 
                         <%@ include file="phenominerDetails.jsp"%>
@@ -108,7 +121,7 @@
                     <% if(phenotypeFiles1.size()>0||genotypeFiles1.size()>0){%>
 
                     <hr>
-                    <div class="subTitle" id="subFiles"><h2>Project File Archive</h2>&nbsp;<span style="font-size:12px; font-color:black;">(received from submitter)</span></div><br>
+                    <div class="subTitle" id="subFiles"><h2>Project File Archive</h2>&nbsp;<span style="font-size:12px; font-color:black;">(received from submitter)</span></div>
                     <%@ include file="projectFiles.jsp"%>
                     <br>
                     <%}%>
@@ -122,7 +135,7 @@
                     <% if(ei1.size()>0){%>
 
                     <hr>
-                    <br><div class="subTitle" id="Ext"><h2>External Resources</h2></div><br>
+                    <div class="subTitle" id="Ext"><h2>External Resources</h2></div>
                     <%@ include file="../xdbs.jsp"%>
                     <%}%>
                 </td>
@@ -140,6 +153,7 @@
 <script type="text/javascript">
     openAll();
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>
 

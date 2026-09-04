@@ -50,7 +50,7 @@
 <script>
     let reportTitle = "strain";
 </script>
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -64,9 +64,27 @@
 
     <div id="content-wrap">
 
+        <%
+            heroEyebrow = "Strain Report";
+            heroTitle = obj.getSymbol();
+            heroSubtitle = Utils.NVL(obj.getName(), "");
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( !Utils.isStringEmpty(obj.getStrainTypeName()) ) {
+                heroChips.add("|" + obj.getStrainTypeName());
+            }
+            if( !Utils.isStringEmpty(obj.getOrigin()) ) {
+                heroChips.add("fa-flag|" + obj.getOrigin());
+            }
+            // the registration call to action used to float on its own line above the tab strip
+            heroExtraActions = "<a class=\"rgd-action\" href=\"/rgdweb/models/strainSubmissionForm.html?new=true\">"
+                    + "<i class=\"fa fa-plus-circle\"></i>Strain Registration</a>";
+        %>
+        <%@ include file="../reportHero.jsp"%>
 
 
-        <div class="registrationLink"><a href="/rgdweb/models/strainSubmissionForm.html?new=true">Strain Registration</a></div>
+
+
         <%@ include file="menu.jsp"%>
 
 
@@ -121,9 +139,7 @@
                             is.close();
                             outputStream.close();
                     %>
-                    <br>
                     <div class="subTitle">Highlights</div>
-                    <br>
                     <img src="data:image/jpg;base64,<%=base64Image%>" class="img-responsive"/>
                     <br><br>
                     <% } %>
@@ -131,9 +147,7 @@
                     <%@ include file="congenics.jsp"%>
                     <%@ include file="mutants.jsp"%>
 
-                    <br>
-                    <br><div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div><br>
-                    <br>
+                    <div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div>
                     <%@ include file="diseaseModels.jsp"%>
                     <div id="associationsCurator" style="display:none;">
                         <%@ include file="../associationsCurator.jsp"%>
@@ -148,18 +162,14 @@
                     <%@ include file="../references.jsp"%>
                     <%@ include file="../pubMedReferences.jsp"%>
 
-                    <br>
                     <div class="subTitle" id="region">Region</div>
-                    <br>
                     <%@ include file="../cellLines.jsp"%>
                     <%@ include file="markers.jsp"%>
                     <%@ include file="../sequence.jsp"%>
                     <%@ include file="qtlAssociation.jsp"%>
                     <%@ include file="damagingVariants.jsp"%>
                     <%@ include file="../rgdVariants.jsp"%>
-                    <br>
                     <div class="subTitle" id="additionalInformation">Additional Information</div>
-                    <br>
 
                     <%@ include file="../curatorNotes.jsp"%>
                     <%@ include file="../nomen.jsp"%>
@@ -180,5 +190,6 @@
 
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>

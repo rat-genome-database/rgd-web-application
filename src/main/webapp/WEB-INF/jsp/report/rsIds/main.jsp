@@ -45,7 +45,7 @@
     let reportTitle = "rgdvariant";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -56,6 +56,19 @@
     </div>
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Variant Report";
+            heroTitle = displayName;
+            heroSpeciesKey = speciesType;
+            heroIcon = "fa-dot-circle-o";
+            heroWatch = false;
+            if( vars!=null && !vars.isEmpty() ) {
+                heroChips.add("fa-list|" + vars.size() + (vars.size()==1 ? " variant" : " variants"));
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
         <table width="95%" border="0">
             <tr>
                 <td>
@@ -68,5 +81,6 @@
 </div>
 <%--<%@ include file="../reportFooter.jsp"%>--%>
 <%@ include file="/common/footerarea.jsp"%>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>

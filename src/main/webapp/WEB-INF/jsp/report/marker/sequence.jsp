@@ -10,29 +10,27 @@
 <%--<%=ui.dynOpen("sequenceAssociation", "Sequence")%>--%>
 <div id="sequenceAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="sequenceAssociation">Sequence</div>
-<table border="0">
-    <tr><td>&nbsp;</td></tr>
-
+<table class="rgdSeqTable">
     <% if (!forward.isEmpty()) { %>
     <tr>
-        <td><b>Forward Primer</b></td>
-        <td><%=forward%></td>
+        <td class="label">Forward primer</td>
+        <td><span class="rgdSeqInline"><%=forward%></span></td>
     </tr>
     <% } %>
     <% if (!reverse.isEmpty()) { %>
     <tr>
-        <td><b>Reverse Primer</b></td>
-        <td><%=reverse%></td>
+        <td class="label">Reverse primer</td>
+        <td><span class="rgdSeqInline"><%=reverse%></span></td>
     </tr>
-    <tr><td>&nbsp;</td></tr>
     <% } %>
     <% if (!templateSeqFormatted.isEmpty()) { %>
     <tr>
-        <td><b>Template</b></td>
-        <td><pre><%=templateSeqFormatted%></pre></td>
+        <td class="label">Template</td>
+        <%-- formatFasta already breaks the sequence every 64 bases with <br>, so this needs a
+             monospace face and nothing else - <pre> was only ever here for the font --%>
+        <td><div class="rgdSeqBlock"><%=templateSeqFormatted%></div></td>
     </tr>
     <% } %>
-
 </table>
 </div>
 <%--<%=ui.dynClose("sequenceAssociation")%>--%>

@@ -30,9 +30,9 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
+                    <option value="3">3</option>
                     <option value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>
@@ -52,12 +52,13 @@
 </script>
 <table border="1" cellpadding="1" cellspacing="1" class="sortable" id="clinicalVariantsTable">
     <thead>
+        <%-- the class stays: the inline script above binds the row re-striping to it --%>
         <tr class="headerRow">
-            <td title="click to sort by name">Name</td>
-            <td title="click to sort by type">Type</td>
-            <td title="click to sort by condition">Condition(s)</td>
-            <td title="click to sort by position">Position(s)</td>
-            <td title="click to sort by clinical significance">Clinical significance</td>
+            <th title="click to sort by name">Name</th>
+            <th title="click to sort by type">Type</th>
+            <th title="click to sort by condition">Condition(s)</th>
+            <th title="click to sort by position">Position(s)</th>
+            <th title="click to sort by clinical significance">Clinical significance</th>
         </tr>
     </thead>
 <%
@@ -112,9 +113,9 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
+                    <option value="3">3</option>
                     <option value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>

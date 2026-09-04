@@ -51,7 +51,7 @@
     let reportTitle = "marker";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -62,9 +62,24 @@
     </div>
 
 
-    <div id="top" ></div>
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Marker Report";
+            heroTitle = obj.getName();
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( !Utils.isStringEmpty(obj.getSslpType()) ) {
+                heroChips.add("|" + obj.getSslpType());
+            }
+            if( md!=null && md.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
+                        + "|" + refMap.getName());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 <%@ include file="menu.jsp"%>
 
 
@@ -92,24 +107,27 @@
             sb.setSpeciesType(obj.getSpeciesTypeKey());
             %>
 
-            <br>
-            <br><div  id='annotation' style="color:#2865a3; font-size: 16px; font-weight: 700; font-style: italic; ">Annotation</div><br>
+            <div class="subTitle" id="annotation">Annotation</div>
 
             <%@ include file="../associations.jsp"%>
+
+            <%-- references used to sit under the Annotation heading, which is the only
+                 report where they had no heading of their own --%>
+            <div class="subTitle" id="references">References</div>
             <%@ include file="../references.jsp"%>
 
 
-            <br><div  class="subTitle" id="strainsAndSequences">Strains and Sequence</div><br>
+            <div  class="subTitle" id="strainsAndSequences">Strains and Sequence</div>
             <%@ include file="sequence.jsp"%>
             <%@ include file="strainVariation.jsp"%>
 
-            <br><div  class="subTitle" id="region">Region</div><br>
+            <div  class="subTitle" id="region">Region</div>
             <%@ include file="../genesInRegion.jsp"%>
             <%@ include file="../nucleotide.jsp"%>
             <%@ include file="../proteins.jsp"%>
             <%@ include file="../qtlsInRegion.jsp"%>
 
-            <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
+            <div  class="subTitle" id="additionalInformation">Additional Information</div>
 
             <%@ include file="../curatorNotes.jsp"%>
             <%@ include file="../xdbs.jsp"%>
@@ -131,5 +149,6 @@
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>

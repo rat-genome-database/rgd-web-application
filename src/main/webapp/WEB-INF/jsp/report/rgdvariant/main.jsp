@@ -33,7 +33,7 @@
     let reportTitle = "rgdvariant";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -45,6 +45,26 @@
 
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Variant Report";
+            heroTitle = obj.getName();
+            heroSubtitle = Utils.NVL(obj.getType(), "");
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( md!=null && md.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
+                        + "|" + refMap.getName());
+            }
+            // this used to be a yellow span inside the summary table's title row, which the
+            // hero has replaced; the control itself still has to be reachable
+            if( RgdContext.isCurator() || RgdContext.isTest() ) {
+                heroExtraActions = "<a class=\"rgd-action\" href=\"/rgdweb/curation/edit/editVariant.html?rgdId="
+                        + obj.getRgdId() + "\" title=\"go to Object Edit\"><i class=\"fa fa-pencil\"></i>Edit</a>";
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 
         <%if (isStatusNotActive) {
             RgdVariantDAO rvdao = new RgdVariantDAO();
@@ -69,7 +89,7 @@
 
                 <%@ include file="info.jsp"%>
 
-            <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
+            <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
 
         <div id="associationsCurator" style="display:none;">
             <%@ include file="../associationsCurator.jsp"%>
@@ -81,8 +101,7 @@
         <%@ include file="../references.jsp"%>
         <%@ include file="../pubMedReferences.jsp"%>
 
-    <br><div  class="subTitle">Additional Information</div>
-    <br>
+    <div  class="subTitle">Additional Information</div>
     <%@ include file="../xdbs.jsp"%>
     </td>
     <td>&nbsp;</td>
@@ -97,5 +116,6 @@
 <%@ include file="../reportFooter.jsp"%>
 <%@ include file="/common/footerarea.jsp"%>
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>

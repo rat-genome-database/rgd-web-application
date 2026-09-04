@@ -74,6 +74,8 @@
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
 
+<%-- modern presentation layer for this report; loaded last so it wins over report.css --%>
+
 <script type="application/ld+json">
 {
 "@context": "http://schema.org",
@@ -103,7 +105,7 @@
     let reportTitle = "gene";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -115,26 +117,28 @@
 
 
     <div id="content-wrap">
-        <table width="95%" style="padding-top:10px;" border="0">
-            <tr>
-                <% if( RgdContext.isChinchilla(request) ) { %>
-                <td style="font-size:20px; color:#96151d; font-weight:700;"><%=pageHeader%></td>
-                <% } else { %>
-                <td style="font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></td>
-                <% } %>
-                <td align="center" valign="bottom"><div ng-click="rgd.addWatch(pageObject)"><img heght="30" width="30" src="/rgdweb/common/images/binoculars.png" border="0"/><br><a href="javascript:void(0)" >{{ watchLinkText }}</a></div></td>
-                <td align="center" valign="bottom"><img src="/rgdweb/common/images/tools-white-40.png" style="cursor:hand; border: 0px solid black;" border="0" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')"/><br><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')">Analyze</a></td>
 
-                <% if( tutorialLink!=null && !tutorialLink.isEmpty() && !RgdContext.isChinchilla(request) ) { %>
-                <td align="right">
-                    <a  href="<%=tutorialLink%>"><img src="http://rgd.mcw.edu/common/images/tutorial.png" border=0/></a>
-                </td>
-                <% } %>
-            </tr>
-        </table>
-
-
-
+        <%-- report hero: identity of the gene up front, actions on the right. The panel itself
+             lives in ../reportHero.jsp so that every report page presents the same header;
+             this block only says what the gene puts in it. --%>
+        <%
+            heroEyebrow = "Gene Report";
+            heroTitle = obj.getSymbol();
+            heroSubtitle = Utils.NVL(obj.getName(), "");
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            if( !Utils.isStringEmpty(obj.getType()) ) {
+                heroChips.add("|" + obj.getType());
+            }
+            if( mapDataList.size()>0 && md.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
+                        + "|" + refMap.getName());
+            }
+            heroAnalyze = "rgd.showTools('geneList'," + obj.getSpeciesTypeKey() + ","
+                    + MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey() + ",1,'')";
+            heroTutorialLink = tutorialLink;
+        %>
+        <%@ include file="../reportHero.jsp"%>
 
         <%@ include file="menu.jsp"%>
 
@@ -167,7 +171,7 @@
                     <%@ include file="info.jsp"%>
 
                     <a name="annotation"></a>
-                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
+                    <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
 
                     <div id="associationsCurator" style="display:none;">
                         <%@ include file="../associationsCurator.jsp"%>
@@ -183,9 +187,7 @@
                     <!--above genomics table--->
 
                     <a name="genomics"></a>
-                    <br>
                     <div class="subTitle" id="genomics">Genomics</div>
-                    <br>
 
                     <%
                         SearchBean sb = new SearchBean();
@@ -209,18 +211,14 @@
                     <%@ include file="../geneticModels.jsp"%>
                     <!---Above expression table-->
                     <a name="expression"></a>
-                    <br>
                     <div class="subTitle" id="expression">Expression</div>
-                    <br>
                     <%try {%>
                     <jsp:include page="expressionDataNew.jsp"/>
                     <%} catch (Exception e){e.printStackTrace();}%>
 
                     <!--above sequence table--->
                     <a name="sequence"></a>
-                    <br>
                     <div class="subTitle" id="sequence">Sequence</div>
-                    <br>
                     <%@ include file="../nucleotide.jsp"%>
                     <%@ include file="../proteins.jsp"%>
                     <%@ include file="proteinStructures.jsp"%>
@@ -231,7 +229,7 @@
                     
                     <!--above additional information--->
                     <a name="additional"></a>
-                    <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
+                    <div  class="subTitle" id = "additionalInformation">Additional Information</div>
 
                     <%@ include file="../xdbs.jsp"%>
                     <%@ include file="../nomen.jsp"%>
@@ -259,8 +257,10 @@
 <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=20"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=4"> </script>
+<%-- must come last: it decorates the sidebar and the sections both scripts above build --%>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=4"> </script>
 
 
 

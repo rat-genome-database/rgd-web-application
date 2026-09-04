@@ -974,6 +974,319 @@ color: #ffffff;
         font-size: 11px;
     }
 
+
+    /* ------------------------------------------------------------------
+       Compact report data table.
+
+       The report's list-shaped sections - External Database Links, Protein
+       Sequences - used to paint every cell with an inline background colour and
+       head the table with grey <td>s. This is that look replaced once: a real
+       header row, quiet rules between rows, and the row shading taken from
+       tablesorter's zebra widget.
+
+       Zebra rather than :nth-child on purpose. The pager hides rows with
+       display:none and the widget only counts the visible ones, so the stripes
+       stay alternating as you page; nth-child would not.
+       ------------------------------------------------------------------ */
+    table.rgdCompactTable {
+        width: 100%;
+        font-size: 12.5px;
+        border-collapse: collapse;
+    }
+    table.rgdCompactTable > thead > tr > th,
+    table.rgdCompactTable > thead > tr > td {
+        padding: 6px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        text-align: left;
+        white-space: nowrap;
+        color: #5b6672;
+        background: #f8fafc;
+        border-bottom: 1px solid #e3e8ef;
+    }
+    table.rgdCompactTable > thead > tr > th:not(.sorter-false) { cursor: pointer; }
+    table.rgdCompactTable > tbody > tr > td {
+        padding: 5px 10px;
+        vertical-align: middle;
+        border-bottom: 1px solid #f0f2f5;
+    }
+    table.rgdCompactTable > tbody > tr.even > td { background: #ffffff; }
+    table.rgdCompactTable > tbody > tr.odd  > td { background: #fafbfc; }
+    table.rgdCompactTable > tbody > tr:hover > td { background: #eaf2fb; }
+
+    /* a short repeated value - the database a link came from, where an accession
+       is catalogued - carried on every row so sorting cannot orphan it */
+    .rgdCompactTable td.rgdCellNowrap { width: 1%; white-space: nowrap; }
+    .rgdCompactTable .rgdCellTag {
+        display: inline-block;
+        padding: 1px 8px;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: #5b6672;
+        background: #eef1f5;
+        border-radius: 999px;
+    }
+    .rgdCompactTable td.rgdCellStrong a { font-weight: 700; color: #2865a3; }
+    .rgdCompactTable .rgdCellMuted { font-size: 11.5px; color: #5b6672; }
+    .rgdCompactTable th.rgdColRight,
+    .rgdCompactTable td.rgdColRight { text-align: right; white-space: nowrap; }
+    /* Provenance under a table - where the data came from, what to cite. Secondary to
+       everything above it, so it is set quieter and separated by a rule rather than by a
+       blank line. */
+    .rgdSourceNote {
+        margin: 14px 0 2px;
+        padding-top: 10px;
+        font-size: 11.5px;
+        line-height: 1.65;
+        color: #5b6672;
+        border-top: 1px solid #e3e8ef;
+    }
+
+    /* A footnote about a section that is not part of its name - which assembly a region was
+       computed against, or that a data set is no longer maintained. It used to be bracketed
+       into the heading text, where it also travelled into the sidebar entry and got cut off.
+       Lives here rather than in reportModern.css so a heading looks right on the report pages
+       that carry no skin. */
+    .rgdInfoDot {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 15px;
+        height: 15px;
+        margin-left: 7px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 11px;
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1;
+        color: #5b6672;
+        background: #eceff3;
+        border-radius: 50%;
+        cursor: help;
+        vertical-align: middle;
+        user-select: none;
+    }
+    .rgdInfoDot:hover { color: #2865a3; background: #dbe6f3; }
+
+    /* Group headings inside the annotation cards - "Biological Process", "Rat Strain",
+       "Clinical Measurement". These used to be an inline .highlight span, underlined with <u>
+       and spaced with a <br> on either side: the underline read as a link, and the gap above
+       and below depended on blank lines rather than on the heading itself. This lives here
+       rather than in reportModern.css so the includes look right wherever they are used. */
+    .annotGroup {
+        margin: 16px 0 8px;
+        font-size: 13.5px;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #1f2933;
+    }
+    .annotGroup:first-child { margin-top: 4px; }
+
+    /* The Sequence card on marker, strain and clone reports: a short label column and the
+       sequence itself. The sequence is the content, so it keeps a monospace face - but at the
+       report's own size, and in a block that can scroll on its own rather than widening the
+       card. */
+    table.rgdSeqTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table.rgdSeqTable td {
+        padding: 7px 10px;
+        font-size: 12.5px;
+        vertical-align: top;
+    }
+    table.rgdSeqTable td.label {
+        width: 150px;
+        min-width: 150px;
+        white-space: nowrap;
+    }
+
+    .rgdSeqInline,
+    .rgdSeqBlock {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 12px;
+        letter-spacing: .02em;
+        color: #1f2933;
+    }
+    .rgdSeqBlock {
+        margin: 0;
+        padding: 8px 11px;
+        line-height: 1.75;
+        background: #f7f9fc;
+        border: 1px solid #e3e8ef;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+    /* A link that reads as an action rather than prose - "FASTA", "eQTL". Not scoped to the
+       compact table: sections that are nothing but a labelled run of links use it too. */
+    .rgdChipLink {
+        display: inline-block;
+        margin-left: 6px;
+        padding: 1px 8px;
+        font-size: 11px;
+        color: #2865a3;
+        background: #eaf2fb;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+    .rgdChipLink:hover { background: #d8e7f8; text-decoration: none; }
+
+    /* A section whose whole content is a set of links to one external resource. The lead-in
+       carries the words every link would otherwise repeat, so the links only have to say
+       which one they are. */
+    .rgdLinkRow {
+        margin: 4px 0 2px;
+        font-size: 12.5px;
+        color: #1f2933;
+    }
+    .rgdLinkRow .rgdLinkRowLead { color: #5b6672; }
+    .rgdLinkRow .rgdChipLink { font-size: 11.5px; }
+
+    /* a compact table with only a few narrow columns should not stretch to the container -
+       width:100% would spread four columns across the whole report body */
+    table.rgdCompactTable--fit { width: auto; max-width: 100%; }
+
+    /* Promoters.
+
+       The section is one row per promoter. The fields every promoter of the gene shares -
+       type, SO accession, source, experiment methods, description - sit on one line under
+       the heading instead of repeating down every row, and the fields only some promoters
+       carry hang under their own row. */
+    .promoterMeta {
+        margin-bottom: 8px;
+        font-size: 12px;
+        color: #5b6672;
+    }
+    .promoterMeta .promoterMetaSep,
+    .promoterDetailSep { color: #c3cad3; }
+
+    .rgdCompactTable > tbody > tr.promoterDetail > td {
+        padding-top: 0;
+        padding-left: 22px;
+        font-size: 11.5px;
+        color: #5b6672;
+    }
+    .promoterDetailLabel {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: #8a95a1;
+    }
+
+    /* ------------------------------------------------------------------
+       Reference sequence cards.
+
+       Used by the report's two reference-sequence sections - Reference Sequences
+       (gene/transcripts.jsp, one card per transcript) and Reference Protein Sequences
+       (proteins.jsp, one card per protein). They are siblings on the page, so the style
+       lives here once rather than in a <style> block in each JSP.
+
+       Each card stays a table element: the position block MapDataFormatter emits is a
+       table and the .mapDataTable rules above style it. What the card changes is the
+       shape - the short label/value rows (accession, source, coding, status, peptide
+       label) fold into one header line of chips, leaving only the long fields as rows.
+       ------------------------------------------------------------------ */
+    .refSeqCard {
+        width: 100%;
+        margin: 0 0 8px;
+        font-size: 12.5px;
+        background: #fff;
+        border: 1px solid #e3e8ef;
+        border-radius: 6px;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    /* header line: the accession, what it pairs with, then the short fields as chips */
+    .refSeqCardHead > td {
+        padding: 7px 10px;
+        line-height: 1.9;
+        background: #f8fafc;
+        border-bottom: 1px solid #edf0f4;
+        border-radius: 6px 6px 0 0;
+    }
+    .refSeqAcc {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #2865a3;
+    }
+    .refSeqAcc--paired { color: #1f2933; }
+    .refSeqArrow { margin: 0 5px; color: #9aa5b1; }
+    .refSeqTag {
+        display: inline-block;
+        margin-left: 6px;
+        padding: 1px 8px;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: #5b6672;
+        background: #eef1f5;
+        border-radius: 999px;
+        vertical-align: 2px;
+    }
+    .refSeqTag--coding    { color: #1c5d3a; background: #e4f4ea; }
+    .refSeqTag--noncoding { color: #7a4a12; background: #fdf0dd; }
+    .refSeqTag--status    { color: #2865a3; background: #eaf2fb; }
+
+    .refSeqCard td.refSeqLabel {
+        width: 88px;
+        padding: 6px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: #5b6672;
+        vertical-align: top;
+    }
+    .refSeqCard td.refSeqValue {
+        padding: 6px 10px 6px 0;
+        vertical-align: top;
+    }
+    .refSeqCard td.refSeqValue .mapDataTable { margin: 0; }
+
+    /* the sequence is long - keep it inside the card instead of pushing the page down */
+    .refSeqCard pre {
+        max-height: 260px;
+        margin: 6px 0;
+        padding: 8px 10px;
+        overflow: auto;
+        font-size: 11.5px;
+        line-height: 1.5;
+        background: #f8fafc;
+        border: 1px solid #edf0f4;
+        border-radius: 4px;
+    }
+
+    /* group header rows in the position table, one per MAP_TYPE */
+    .mapDataTable tr.mapDataGroup td {
+        padding: 4px 6px;
+        font-size: 11px;
+        font-weight: bold;
+        color: #222c3c;
+        background-color: #e6ecf5;
+        border: 1px solid #c3ccdd;
+    }
+
+    /* Position (strand) column - keep the coordinate range and strand on one line */
+    .mapDataTable td:nth-child(3),
+    .mapDataTable th:nth-child(3) {
+        white-space: nowrap;
+    }
+
+    /* spanning header ("Genome Browsers") sits over its four columns, so centre
+       it - bootstrap's normalize left-aligns every th and beats the align attribute */
+    .mapDataTable th[colspan] {
+        text-align: center;
+    }
+
     .annotationTable {
         border: 1px outset #7a5835;
         padding: 2px;
