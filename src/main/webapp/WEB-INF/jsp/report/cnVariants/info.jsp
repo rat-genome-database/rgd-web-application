@@ -79,8 +79,8 @@
     if (geneList.size()>0)
         genicStatus = "GENIC";
 
-    RGDManagementDAO rdao = new RGDManagementDAO();
-    RgdId rid = rdao.getRgdId2(obj.getRgdId());
+    RGDManagementDAO mgmtDao = new RGDManagementDAO();
+    RgdId rid = mgmtDao.getRgdId2(obj.getRgdId());
     if (!rid.getObjectStatus().equals("ACTIVE")) {
     %>
         <div style="border:5px solid red; padding:20px;margin-bottom:10px;">
