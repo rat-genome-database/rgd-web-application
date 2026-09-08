@@ -66,6 +66,7 @@
     LocalDateTime now = LocalDateTime.now();
 
 %>
+
 <div id="fileCitation" style="display:none;">downloaded on: <%=dtf.format(now)%></div>
 <table id="mytable" class="tablesorter">
     <thead>

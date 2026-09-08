@@ -67,6 +67,10 @@ public class PivotTableController implements Controller {
             }
             request.setAttribute("aggregations", aggregations);
 
+            List<String> excludedConditions = PhenominerService.getExcludedConditions(req);
+            request.setAttribute("excludedConditions", excludedConditions);
+            request.setAttribute("conditionOptions", getConditionOptions(aggregations, excludedConditions));
+
 
             List<String> labels = new ArrayList<>();
             List<String> backgroundColors = new ArrayList<>();
@@ -107,6 +111,26 @@ public class PivotTableController implements Controller {
 
         }
     }
+    /**
+     * Options for the "Exclude Conditions" checkbox group shown above the results table:
+     * every condition in the current result set, plus the ones already excluded. The
+     * excluded ones are gone from the aggregation because the query drops them, but their
+     * checkboxes have to stay on the page so the user can put the condition back.
+     */
+    public List<String> getConditionOptions(Map<String, List<EsBucket>> aggregations, List<String> excludedConditions){
+        Set<String> options = new TreeSet<>();
+        List<EsBucket> xcoTermBkts = aggregations.get("xcoTermBkts");
+        if (xcoTermBkts != null) {
+            for (EsBucket bkt : xcoTermBkts) {
+                if (bkt.getKey() != null && !bkt.getKey().trim().isEmpty()) {
+                    options.add(bkt.getKey().trim());
+                }
+            }
+        }
+        options.addAll(excludedConditions);
+        return new ArrayList<>(options);
+    }
+
     public Map<String, String> getTableColumns(SearchResponse<Map> sr){
         Map<String, String> columnMap=new HashMap<>();
         for(Hit<Map> hit:sr.hits().hits()){

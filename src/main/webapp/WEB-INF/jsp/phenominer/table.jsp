@@ -127,6 +127,22 @@
 </span>
         </c:if>
 
+        <c:if test="${fn:length(conditionOptions)>0}">
+            <div id="excludeConditions">
+                <strong style="color:black">Exclude Conditions:</strong>
+                <div class="excludeConditionsBlock">
+                    <c:forEach items="${conditionOptions}" var="condition">
+                        <label class="excludeConditionLabel">
+                            <input type="checkbox" class="excludeConditionInput" form="phenominerReportForm"
+                                   name="excludeXcoTerm" value="${condition}"
+                                   <c:if test="${excludedConditions.contains(condition)}">checked</c:if>>&nbsp;${condition}
+                        </label>
+                    </c:forEach>
+                </div>
+            </div>
+            <hr>
+        </c:if>
+
         <c:choose>
         <c:when test="${hitsListSize>0}">
         <c:choose>
@@ -164,7 +180,29 @@
 </div>
 </div>
 
+<style>
+    .excludeConditionsBlock {
+        max-height: 120px;
+        overflow-y: auto;
+        border: 1px solid #d3d3d3;
+        padding: 5px;
+        margin-top: 5px;
+    }
+    .excludeConditionLabel {
+        display: inline-block;
+        font-weight: normal;
+        color: black;
+        margin: 0 12px 4px 0;
+        white-space: nowrap;
+    }
+</style>
 <script>
+    // Ticking a condition re-runs the search with that condition dropped from the hits
+    // (the sidebar form carries the checkboxes through its form="phenominerReportForm").
+    $(".excludeConditionInput").on("change", function () {
+        $('#phenominerReportForm').submit();
+    })
+
     $("#colorBy").on("change",function () {
       $('input[name="colorBy"]').val($(this).val());
     //    alert($(this).val());
