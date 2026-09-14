@@ -211,6 +211,13 @@ public class DaoUtils {
                         // hyperlinked MESH content
                         buildHyperlink(buf, 47, xrefAcc, formattedXrefValue);
                     }
+                    else if( xrefType.equals("LPT") ) {
+                        // Livestock Product Trait Ontology: link to the term report in NCBO BioPortal
+                        buf.append("<a href=\"https://bioportal.bioontology.org/ontologies/LPT?p=classes&amp;conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FLPT_")
+                            .append(xrefAcc).append("\">")
+                            .append(formattedXrefValue)
+                            .append("</a>");
+                    }
                     else if( xrefType.equals("HTTP") || xrefType.equals("HTTPS") ) {
                         // just a hyperlink
                         buf.append("<a href=\"").append(xref.getXrefValue()).append("\">")
@@ -220,10 +227,6 @@ public class DaoUtils {
                     else { // non-hyperlinked content
                         buf.append(formattedXrefValue);
                     }
-                }
-
-                if( !Utils.isStringEmpty(xref.getXrefDescription()) ) {
-                    buf.append(" \"").append(xref.getXrefDescription()).append("\"");
                 }
 
                 if( !Utils.isStringEmpty(xref.getXrefDescription()) ) {
