@@ -944,13 +944,40 @@
   }
 
   // Show only facet items matching the typed text (matches label or accession id).
-  function filterFacetItems(input) {
-    var q = input.value.trim().toLowerCase();
-    var items = input.parentNode.querySelectorAll('.em-facet-item');
-    for (var i = 0; i < items.length; i++) {
-      var hay = items[i].getAttribute('data-search') || '';
-      items[i].style.display = (!q || hay.indexOf(q) !== -1) ? '' : 'none';
+  // Decide every facet checkbox's visibility in one pass. Two rules combine: the group's text search
+  // (typed in its search box) and "hide zero-count values while any filter is active" -- once a filter
+  // is on, a value that can no longer match is just noise. A CHECKED value always stays visible, even
+  // at 0, so it can still be unchecked. A group whose values are all hidden is hidden as a whole.
+  function applyFacetVisibility() {
+    var hideZero = anyFacetSelected();
+    var bodies = document.querySelectorAll('#emFacetGroups .em-facet-group-body, #emClientFacetGroups .em-facet-group-body');
+    for (var g = 0; g < bodies.length; g++) {
+      var body = bodies[g];
+      var search = body.querySelector('.em-facet-search');
+      var q = search ? search.value.trim().toLowerCase() : '';
+      var items = body.querySelectorAll('.em-facet-item');
+      var anyVisible = false;
+      for (var i = 0; i < items.length; i++) {
+        var it = items[i];
+        var hay = it.getAttribute('data-search') || '';
+        var matchesSearch = !q || hay.indexOf(q) !== -1;
+        var box = it.querySelector('input[type=checkbox]');
+        var cnt = it.querySelector('.em-facet-count');
+        var count = cnt ? (parseInt(cnt.innerText, 10) || 0) : 0;
+        var checked = !!(box && box.checked);
+        var show = matchesSearch && (!hideZero || count > 0 || checked);
+        it.style.display = show ? '' : 'none';
+        if (show) anyVisible = true;
+      }
+      var group = body.parentNode;
+      if (group && group.classList.contains('em-facet-group')) group.style.display = anyVisible ? '' : 'none';
     }
+  }
+
+  // Search-box handler (inline oninput in the markup). The query is read back from the DOM, so it
+  // just re-runs the shared visibility pass.
+  function filterFacetItems(input) {
+    applyFacetVisibility();
   }
 
   function toggleGroup(el) {
@@ -998,6 +1025,7 @@
     }
     document.getElementById('emFacetGroups').innerHTML =
       html.length ? html.join('') : '<div style="padding:12px 14px;font-size:12px;color:#7a8a9a;">No filters available.</div>';
+    applyFacetVisibility();
   }
 
   // Fetch facets for the current selection from the server (accurate counts + resolved names).
@@ -1064,6 +1092,7 @@
         if (box && cnt) cnt.innerText = (map[box.value] != null ? map[box.value] : 0);
       }
     }
+    applyFacetVisibility(); // counts changed, so re-apply the hide-zero rule
   }
 
   // Build the client-computed facet groups (Sex, Life Stage) from the loaded records. Each value's
@@ -1128,6 +1157,7 @@
       html.push('</div></div>');
     }
     container.innerHTML = html.join('');
+    applyFacetVisibility(); // rebuilt from scratch, so re-apply search + hide-zero visibility
   }
 
   function isClientFacet(groupKey) {
