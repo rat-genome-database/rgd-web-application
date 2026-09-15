@@ -1,3 +1,4 @@
+<%@ page import="static edu.mcw.rgd.web.RgdContext.getAPIHostname" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
@@ -410,6 +411,9 @@
 </div>
 
 <script>
+  // Base URL for the /rgdws REST API (used to resolve a typed accession to its term name).
+  var ONT_API_URL = "<%=getAPIHostname()%>";
+
   // Configuration for the two list builders, keyed by the staging input id the
   // ontology popup was pointed at.
   var ST_LISTS = {
@@ -476,8 +480,25 @@
       err.innerText = accId + ' is already in the list.';
       return;
     }
-    addTerm(accId, accId, cfg);
-    input.value = '';
+
+    // Look the accession up in the ontology: confirm it exists and grab the term name, so the list
+    // shows "name (ACC)" instead of echoing the accession as its own label.
+    var ont = cfg.prefix.replace(':', '');
+    err.innerText = 'Looking up ' + accId + '...';
+    fetch(ONT_API_URL + '/rgdws/ontology/term/' + encodeURIComponent(accId), { headers: { 'Accept': 'application/json' } })
+      .then(function (resp) { return resp.ok ? resp.text() : ''; })
+      .then(function (text) {
+        var term = null;
+        try { term = text ? JSON.parse(text) : null; } catch (e) { term = null; }
+        if (!term || !term.accId) {
+          err.innerText = 'No ' + ont + ' term found for ' + accId + '.';
+          return;
+        }
+        err.innerText = '';
+        addTerm(term.accId, term.term || term.accId, cfg);
+        input.value = '';
+      })
+      .catch(function () { err.innerText = 'Could not look up ' + accId + '. Please try again.'; });
   }
 
   // Require at least one strain or tissue before either action is allowed.

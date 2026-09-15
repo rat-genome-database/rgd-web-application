@@ -462,6 +462,12 @@
     }
     var s = parseInt(start, 10), e = parseInt(stop, 10);
     if (s > e) { setStatus('err', 'Start must be less than or equal to stop.'); return; }
+    // Cap the searched span to keep the query (and result gene list) manageable.
+    var MAX_SPAN_BP = 30000000; // 30 megabases
+    if (e - s > MAX_SPAN_BP) {
+      setStatus('err', 'The positional search range can be at most 30 megabases.');
+      return;
+    }
     if (!POS_MAP_KEY) { setStatus('err', 'No assembly selected for this search.'); return; }
 
     var range = posEsc(chr) + ':' + s.toLocaleString() + '-' + e.toLocaleString();

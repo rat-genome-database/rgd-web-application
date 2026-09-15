@@ -85,12 +85,18 @@
     border-bottom: 1px solid #dde5ef;
   }
   .em-facet-clear a {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #eef4fb;
+    border: 1px solid #cddcec;
+    border-radius: 4px;
     color: #3a7aba;
     font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
     text-decoration: none;
   }
-  .em-facet-clear a:hover { text-decoration: underline; }
+  .em-facet-clear a:hover { background: #dce8f4; border-color: #3a7aba; }
 
   .em-facet-group { border-bottom: 1px solid #dde5ef; }
 
@@ -188,6 +194,85 @@
   }
   .em-facet-toggle:hover { background: #dce8f4; border-color: #3a7aba; }
 
+  /* ---- Edit / Add-to-selection modal --------------------------------------------------------- */
+  .em-edit-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(20,40,60,0.45);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 40px 16px; overflow-y: auto;
+  }
+  .em-edit-overlay.collapsed { display: none; }
+  .em-edit-modal {
+    background: #f4f8fc; border-radius: 8px; width: 100%; max-width: 720px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  }
+  .em-edit-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px; background: #1a3a5a; color: #fff; border-radius: 8px 8px 0 0;
+  }
+  .em-edit-title { font-size: 16px; font-weight: bold; }
+  .em-edit-close { background: none; border: none; color: #cfe0f0; font-size: 22px; cursor: pointer; line-height: 1; }
+  .em-edit-close:hover { color: #fff; }
+  .em-edit-body { padding: 18px; max-height: 65vh; overflow-y: auto; }
+  .em-edit-footer {
+    display: flex; justify-content: flex-end; gap: 10px;
+    padding: 14px 18px; border-top: 1px solid #cddcec;
+  }
+  .em-edit-textarea {
+    width: 100%; box-sizing: border-box; min-height: 64px; resize: vertical;
+    padding: 8px 12px; border: 1px solid #bccada; border-radius: 4px;
+    background: #fff; color: #333; font-size: 13px; font-family: inherit;
+  }
+  .em-edit-textarea:focus { outline: none; border-color: #3a7aba; box-shadow: 0 0 0 3px rgba(58,122,186,0.15); }
+  .em-update-btn {
+    font-size: 14px; font-weight: bold;
+    background: linear-gradient(to bottom, #28a745 0%, #1e7e34 100%);
+    color: #fff; border: 1px solid #1e7e34; border-radius: 4px; padding: 9px 20px; cursor: pointer;
+  }
+  .em-update-btn:hover { background: linear-gradient(to bottom, #34ce57 0%, #28a745 100%); }
+  .em-cancel-btn {
+    font-size: 14px; font-weight: bold; background: #eef4fb; color: #2f6699;
+    border: 1px solid #bccada; border-radius: 4px; padding: 9px 18px; cursor: pointer;
+  }
+  .em-cancel-btn:hover { background: #dce8f4; border-color: #3a7aba; }
+
+  /* Ontology picker cards (shared look with strainTissue.jsp) */
+  .st-card { background: #e8f0f8; border: 1px solid #c0d0e0; border-radius: 6px; padding: 16px; margin-bottom: 16px; }
+  .st-card-title {
+    font-size: 15px; font-weight: bold; color: #1a3a5a; margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 1px solid #dde5ef;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .st-count { font-size: 12px; color: white; background: #3a7aba; padding: 2px 9px; border-radius: 10px; }
+  .st-browse-btn {
+    font-size: 13px; font-weight: bold;
+    background: linear-gradient(to bottom, #4a8ac9 0%, #3a7aba 100%);
+    color: white; border: 1px solid #2f6699; border-radius: 4px; padding: 8px 18px; cursor: pointer;
+  }
+  .st-browse-btn:hover { background: linear-gradient(to bottom, #5a9ada 0%, #4a8ac9 100%); }
+  .st-add { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+  .st-add-input {
+    flex: 1; padding: 8px 12px; border: 1px solid #bccada; border-radius: 4px;
+    background: #f8fafc; color: #333; font-size: 13px;
+  }
+  .st-add-input:focus { outline: none; border-color: #3a7aba; box-shadow: 0 0 0 3px rgba(58,122,186,0.15); background: #fff; }
+  .st-add-btn {
+    font-size: 13px; font-weight: bold; background: #eef4fb; color: #2f6699;
+    border: 1px solid #bccada; border-radius: 4px; padding: 8px 16px; cursor: pointer; white-space: nowrap;
+  }
+  .st-add-btn:hover { background: #dce8f4; border-color: #3a7aba; }
+  .st-add-error { color: #b34747; font-size: 12px; margin-top: 6px; min-height: 14px; }
+  .st-list { list-style: none; margin: 14px 0 0 0; padding: 0; }
+  .st-list-empty { color: #6a7a8a; font-size: 13px; font-style: italic; margin-top: 12px; }
+  .st-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; background: #f8fafc; border: 1px solid #dde5ef; border-radius: 4px; margin-bottom: 6px;
+  }
+  .st-row-label { font-size: 13px; color: #1a3a5a; }
+  .st-row-acc { font-size: 12px; color: #5a7a9a; margin-left: 6px; }
+  .st-remove { background: none; border: none; color: #b34747; font-size: 16px; font-weight: bold; cursor: pointer; line-height: 1; padding: 0 4px; }
+  .st-remove:hover { color: #e05050; }
+
   .em-result-header {
     display: flex;
     justify-content: space-between;
@@ -220,53 +305,6 @@
     font-size: 12px;
     margin: 2px 3px;
   }
-
-  .em-addgenes {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: -8px 0 20px 0;
-    padding: 10px 15px;
-    background: #f3f8fc;
-    border-left: 4px solid #7aa9d0;
-    border-radius: 0 4px 4px 0;
-    font-size: 13px;
-    color: #2a4a6a;
-  }
-
-  .em-addgenes label { font-weight: 600; }
-
-  .em-addgenes input[type="text"] {
-    flex: 1;
-    min-width: 200px;
-    padding: 7px 10px;
-    border: 1px solid #bccada;
-    border-radius: 4px;
-    background: #fff;
-    color: #333;
-    font-size: 13px;
-  }
-
-  .em-addgenes input[type="text"]:focus {
-    outline: none;
-    border-color: #3a7aba;
-    box-shadow: 0 0 0 3px rgba(58, 122, 186, 0.15);
-  }
-
-  .em-addgenes button {
-    font-size: 13px;
-    font-weight: bold;
-    background: #eef4fb;
-    color: #2f6699;
-    border: 1px solid #bccada;
-    border-radius: 4px;
-    padding: 7px 16px;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-
-  .em-addgenes button:hover { background: #dce8f4; border-color: #3a7aba; }
 
   .em-status {
     padding: 14px 15px;
@@ -368,39 +406,50 @@
   .backLink { color: #0052a1; text-decoration: none; font-size: 13px; }
   .backLink:hover { color: #bd80ff; text-decoration: underline; }
 
-  /* Heatmap panel */
-  .em-heatmap-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    align-items: flex-end;
-    padding: 12px 18px;
-    border-bottom: 1px solid #dde5ef;
-    font-size: 12px;
+  /* Table pager */
+  .em-pager {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px;
+    border-top: 1px solid #dde5ef;
+    font-size: 13px;
     color: #1a3a5a;
   }
-  .em-heatmap-controls label {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  .em-pager button {
+    font-size: 13px;
+    font-weight: bold;
+    background: #eef4fb;
+    color: #2f6699;
+    border: 1px solid #bccada;
+    border-radius: 4px;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .em-pager button:hover:not([disabled]) { background: #dce8f4; border-color: #3a7aba; }
+  .em-pager button[disabled] { opacity: 0.5; cursor: not-allowed; }
+  .em-pager-jump {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-weight: 600;
   }
-  .em-heatmap-controls select {
+  .em-pager-jump select {
+    font-size: 13px;
     padding: 5px 8px;
     border: 1px solid #bccada;
     border-radius: 4px;
     background: #f8fafc;
-    font-size: 12px;
-    min-width: 130px;
+    color: #1a3a5a;
     cursor: pointer;
   }
-  .em-heatmap-controls select:focus {
+  .em-pager-jump select:focus {
     outline: none;
     border-color: #3a7aba;
     box-shadow: 0 0 0 2px rgba(58, 122, 186, 0.15);
     background: #fff;
   }
-  #emHeatmap { width: 100%; min-height: 320px; padding: 6px; }
 </style>
 
 <%
@@ -428,6 +477,9 @@
   String geneListParam = (String) request.getAttribute("geneList");
   if (geneListParam == null) geneListParam = "";
 %>
+
+<script type="text/javascript" src="/rgdweb/js/ontPopUp/ontPopupBrowser.js"></script>
+<script type="text/javascript" src="/rgdweb/common/ontologyAutocomplete.js"></script>
 
 <div class="typerMat">
   <div class="em-layout">
@@ -463,6 +515,7 @@
       <!-- Filters toggle stays pinned so the panel can be shown/hidden anywhere on the page. -->
       <div class="em-toolbar">
         <button type="button" id="emFacetToggle" class="em-facet-toggle" onclick="toggleFacets()">&#9776; Filters</button>
+        <button type="button" id="emEditToggle" class="em-facet-toggle" onclick="toggleEditPanel()">&#9998; Edit selection</button>
       </div>
 
       <div class="em-filters">
@@ -485,24 +538,111 @@
         <% } %>
       </div>
 
-      <!-- Inline "add genes" control. Re-posts to this same result page with the current
-           tissue/strain/assembly selection plus the combined gene list; the controller resolves
+      <!-- Edit / Add-to-selection modal (opened from the toolbar). Re-posts to this same result page
+           with the revised gene list and strain/tissue/condition selection; the controller resolves
            the symbols to RGD ids server-side and re-renders, so the user never leaves this page. -->
-      <form id="emAddGeneForm" class="em-addgenes" method="post" action="/rgdweb/expressMiner/result.html">
-        <input type="hidden" name="mapKey" value="<%=mapKey%>"/>
-        <% for (String t : tissueIds) { %><input type="hidden" name="tissueId" value="<%=t%>"/><% } %>
-        <% for (String s : strainAccIds) { %><input type="hidden" name="strainId" value="<%=s%>"/><% } %>
-        <% for (String c : conditionIds) { %><input type="hidden" name="conditionId" value="<%=c%>"/><% } %>
-        <% if (expressionLevel != null && !expressionLevel.isBlank()) { %>
-        <input type="hidden" name="expressionLevel" value="<%=expressionLevel%>"/>
-        <% } %>
-        <input type="hidden" name="geneList" id="emExistingGeneList" value="<%= geneListParam.replace("\"","&quot;") %>"/>
-        <label for="emAddGeneInput"><%= rgdIds.isEmpty() ? "Add a gene list:" : "Add more genes:" %></label>
-        <input type="text" id="emAddGeneInput" autocomplete="off"
-               placeholder="Enter gene symbols, e.g. Tp53, Brca1 Lepr"
-               onkeydown="if(event.key==='Enter'){event.preventDefault(); submitAddGenes();}"/>
-        <button type="button" onclick="submitAddGenes()">Add Genes</button>
-      </form>
+      <div id="emEditOverlay" class="em-edit-overlay collapsed">
+        <div class="em-edit-modal" role="dialog" aria-modal="true" aria-label="Edit selection">
+          <div class="em-edit-header">
+            <span class="em-edit-title">Edit / Add to Selection</span>
+            <button type="button" class="em-edit-close" title="Close" onclick="toggleEditPanel()">&times;</button>
+          </div>
+          <form id="emEditForm" method="post" action="/rgdweb/expressMiner/result.html">
+            <div class="em-edit-body">
+              <input type="hidden" name="mapKey" value="<%=mapKey%>"/>
+              <% if (expressionLevel != null && !expressionLevel.isBlank()) { %>
+              <input type="hidden" name="expressionLevel" value="<%=expressionLevel%>"/>
+              <% } %>
+
+              <!-- Staging inputs the ontology popup writes to before our hook fires -->
+              <input type="hidden" id="strainStaging"/>
+              <input type="hidden" id="strainStaging_term"/>
+              <input type="hidden" id="tissueStaging"/>
+              <input type="hidden" id="tissueStaging_term"/>
+              <input type="hidden" id="conditionStaging"/>
+              <input type="hidden" id="conditionStaging_term"/>
+
+              <!-- Genes -->
+              <div class="st-card">
+                <div class="st-card-title"><span>Genes</span></div>
+                <textarea id="emEditGeneList" name="geneList" class="em-edit-textarea" autocomplete="off"
+                          placeholder="Enter gene symbols, e.g. Tp53, Brca1 Lepr"><%= geneListParam.replace("&","&amp;").replace("<","&lt;") %></textarea>
+              </div>
+
+              <!-- Strains (RS) -->
+              <div class="st-card">
+                <div class="st-card-title">
+                  <span>Strains (RS) <span id="strainCount" class="st-count">0</span></span>
+                  <button type="button" class="st-browse-btn"
+                          onclick="ontPopup('strainStaging','rs','strainStaging_term'); return false;">Browse Ontology Tree</button>
+                </div>
+                <div class="st-add">
+                  <input type="text" id="strainSearchInput" class="st-add-input" autocomplete="off"
+                         placeholder="Search strains by name, e.g. SS/JrHsd"/>
+                </div>
+                <div class="st-add">
+                  <input type="text" id="strainManualInput" class="st-add-input"
+                         placeholder="...or enter an accession, e.g. RS:0000681"
+                         onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('strainStaging');}"/>
+                  <button type="button" class="st-add-btn" onclick="addManual('strainStaging')">Add</button>
+                </div>
+                <div id="strainAddError" class="st-add-error"></div>
+                <ul id="strainList" class="st-list"></ul>
+                <div id="strainEmpty" class="st-list-empty">No strains selected yet.</div>
+              </div>
+
+              <!-- Tissues (UBERON) -->
+              <div class="st-card">
+                <div class="st-card-title">
+                  <span>Tissues (UBERON) <span id="tissueCount" class="st-count">0</span></span>
+                  <button type="button" class="st-browse-btn"
+                          onclick="ontPopup('tissueStaging','uberon','tissueStaging_term'); return false;">Browse Ontology Tree</button>
+                </div>
+                <div class="st-add">
+                  <input type="text" id="tissueSearchInput" class="st-add-input" autocomplete="off"
+                         placeholder="Search tissues by name, e.g. liver"/>
+                </div>
+                <div class="st-add">
+                  <input type="text" id="tissueManualInput" class="st-add-input"
+                         placeholder="...or enter an accession, e.g. UBERON:0002107"
+                         onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('tissueStaging');}"/>
+                  <button type="button" class="st-add-btn" onclick="addManual('tissueStaging')">Add</button>
+                </div>
+                <div id="tissueAddError" class="st-add-error"></div>
+                <ul id="tissueList" class="st-list"></ul>
+                <div id="tissueEmpty" class="st-list-empty">No tissues selected yet.</div>
+              </div>
+
+              <!-- Conditions (XCO), optional -->
+              <div class="st-card">
+                <div class="st-card-title">
+                  <span>Conditions (XCO) <span id="conditionCount" class="st-count">0</span>
+                    <span style="font-weight:normal;font-size:12px;color:#6a7a8a;">&mdash; optional</span></span>
+                  <button type="button" class="st-browse-btn"
+                          onclick="ontPopup('conditionStaging','xco','conditionStaging_term'); return false;">Browse Ontology Tree</button>
+                </div>
+                <div class="st-add">
+                  <input type="text" id="conditionSearchInput" class="st-add-input" autocomplete="off"
+                         placeholder="Search conditions by name, e.g. controlled exercise"/>
+                </div>
+                <div class="st-add">
+                  <input type="text" id="conditionManualInput" class="st-add-input"
+                         placeholder="...or enter an accession, e.g. XCO:0000105"
+                         onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('conditionStaging');}"/>
+                  <button type="button" class="st-add-btn" onclick="addManual('conditionStaging')">Add</button>
+                </div>
+                <div id="conditionAddError" class="st-add-error"></div>
+                <ul id="conditionList" class="st-list"></ul>
+                <div id="conditionEmpty" class="st-list-empty">No conditions selected yet.</div>
+              </div>
+            </div>
+            <div class="em-edit-footer">
+              <button type="button" class="em-cancel-btn" onclick="toggleEditPanel()">Cancel</button>
+              <button type="button" class="em-update-btn" onclick="submitEditForm()">Update Results</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
       <% if (!unresolvedSymbols.isEmpty()) { %>
       <div class="em-status warn">
@@ -515,49 +655,8 @@
       <!-- Status region: loading / warning / empty / error -->
       <div id="emStatus" class="em-status loading">Loading expression records&hellip;</div>
 
-      <!-- Heatmap (toggled from the toolbar; driven by the same filtered records as the table) -->
-      <div id="emHeatmapCard" class="em-table-card" style="display:none; margin-bottom:20px;">
-        <div class="em-table-meta">
-          <span style="font-weight:600;">Expression Heatmap</span>
-          <span id="emHeatmapNote" style="color:#7a8a9a; font-weight:normal;"></span>
-        </div>
-        <div class="em-heatmap-controls">
-          <label>Rows
-            <select id="emHmY" onchange="renderHeatmap()">
-              <option value="gene">Gene</option>
-              <option value="tissue">Tissue</option>
-              <option value="strain">Strain</option>
-            </select>
-          </label>
-          <label>Columns
-            <select id="emHmX" onchange="renderHeatmap()">
-              <option value="gene">Gene</option>
-              <option value="tissue">Tissue</option>
-              <option value="strain">Strain</option>
-            </select>
-          </label>
-          <label>Unit
-            <select id="emHmUnit" onchange="renderHeatmap()"></select>
-          </label>
-          <label>Value
-            <select id="emHmAgg" onchange="renderHeatmap()">
-              <option value="mean">Mean</option>
-              <option value="max">Max</option>
-              <option value="median">Median</option>
-            </select>
-          </label>
-          <label>Color
-            <select id="emHmColor" onchange="renderHeatmap()">
-              <option value="YlOrRd">Full color (Yellow-Orange-Red)</option>
-              <option value="Cividis">Protanopia - Cividis</option>
-              <option value="Viridis">Deuteranopia - Viridis</option>
-              <option value="Blues">Tritanopia - Blues</option>
-              <option value="Greys">Monochromacy - Greyscale</option>
-            </select>
-          </label>
-        </div>
-        <div id="emHeatmap"></div>
-      </div>
+      <%-- Heatmap panel (markup + styles + JS). Toggled by the #emHeatmapToggle button above. --%>
+      <%@ include file="heatmap.jsp" %>
 
       <!-- Table (hidden until we have rows) -->
       <div id="emTableCard" class="em-table-card" style="display:none;">
@@ -588,6 +687,14 @@
             <tbody id="emTableBody"></tbody>
           </table>
         </div>
+        <div id="emPager" class="em-pager">
+          <button type="button" id="emPagerPrev" onclick="prevPage()">&#8592; Prev</button>
+          <label class="em-pager-jump">Page
+            <select id="emPageSelect" onchange="goToPage(parseInt(this.value, 10))" title="Jump to page"></select>
+          </label>
+          <span id="emPageInfo"></span>
+          <button type="button" id="emPagerNext" onclick="nextPage()">Next &#8594;</button>
+        </div>
       </div>
 
       <div class="form-actions">
@@ -610,8 +717,9 @@
   var EXPRESSION_LEVEL = <%= (expressionLevel == null || expressionLevel.isBlank()) ? "null" : ("'" + expressionLevel.replace("'", "\\'") + "'") %>;
   var RGD_IDS = [<% for (int i = 0; i < rgdIds.size(); i++) { if (i>0) out.print(","); out.print(rgdIds.get(i)); } %>];
 
-  var PAGE_SIZE = 10000; // page size requested per query (endpoint caps from+size at 10000)
-  var RENDER_CAP = 2000; // max rows drawn at once (the query still returns up to PAGE_SIZE)
+  var PAGE_SIZE = 2000;  // records fetched per page from the search endpoint (server-side paging)
+  var RENDER_CAP = 5000; // safety cap on rows drawn at once (a single page is normally well under this)
+  var currentPage = 0;   // 0-based page index into the server result set (see serverRecordsUrl / renderPager)
   var FACET_SEARCH_THRESHOLD = 8; // groups longer than this get a search box
 
   var HAS_GENES = RGD_IDS.length > 0;
@@ -619,9 +727,24 @@
   var allRecords = [];      // the loaded records; all facet filtering runs against these
   var serverTotal = 0;      // total matching records reported by the server
   var filteredRecords = []; // records surviving the current facet selection (feeds table + heatmap)
-  var heatmapInited = false; // whether the row/column selects have been auto-picked yet
+  var reloadSeq = 0;        // increments per reloadRecords() call; guards against out-of-order responses
+  var facetsSeq = 0;        // same guard for loadFacets() count refreshes
 
   function capitalize(v) { return v ? String(v).charAt(0).toUpperCase() + String(v).slice(1) : ''; }
+
+  // A record's condition (accession and term) can come back from the index as a single value or an
+  // array, since a record may carry several conditions. Normalize to an array of non-empty trimmed
+  // strings so callers never assume a scalar (and never call .trim() on an array).
+  function asList(v) {
+    if (v == null) return [];
+    var arr = Array.isArray(v) ? v : [v];
+    var out = [];
+    for (var i = 0; i < arr.length; i++) {
+      var s = (arr[i] == null ? '' : String(arr[i])).trim();
+      if (s) out.push(s);
+    }
+    return out;
+  }
 
   // Facet groups shown in the panel. `accOf` maps a record to the value the facet keys on, used to
   // filter the table client-side. Server groups (Level, Unit, Gene, Tissue, Strain, Condition) get their
@@ -638,7 +761,7 @@
     { key: 'strains', title: 'Strain',           accOf: function (r) { return r.strainAcc; } },
     // Condition (XCO ontology): a server-backed facet like Tissue/Strain. Options, resolved term names
     // and counts come from /index/facets; checked accessions are sent to /index/records/search.
-    { key: 'conditions', title: 'Condition',     accOf: function (r) { return (r.condition || '').trim(); } },
+    { key: 'conditions', title: 'Condition',     accOf: function (r) { return asList(r.condition); } },
     { key: 'sex',        title: 'Sex',        client: true, labelOf: capitalize,
       accOf: function (r) { return (r.sex || r.computedSex || '').trim().toLowerCase(); } },
     { key: 'lifeStages', title: 'Life Stage', client: true, labelOf: capitalize,
@@ -653,19 +776,6 @@
     el.style.display = 'block';
   }
   function hideStatus() { document.getElementById('emStatus').style.display = 'none'; }
-
-  // Merge the newly typed gene symbols into the existing gene list and re-post to this same result
-  // page. The controller resolves symbols -> RGD ids server-side, so we stay on the results page and
-  // the new genes are simply folded into the query (unresolved symbols are reported as usual).
-  function submitAddGenes() {
-    var input = document.getElementById('emAddGeneInput');
-    var added = (input.value || '').trim();
-    if (!added) { input.focus(); return; }
-    var hidden = document.getElementById('emExistingGeneList');
-    var existing = (hidden.value || '').trim();
-    hidden.value = existing ? (existing + ' ' + added) : added;
-    document.getElementById('emAddGeneForm').submit();
-  }
 
   function esc(s) {
     if (s === null || s === undefined) return '';
@@ -757,11 +867,15 @@
       ].join('');
       var g = byKey[key];
       if (!g) { g = { rec: r, conditions: [], condSeen: {} }; byKey[key] = g; order.push(key); }
-      // Condition is an ontology term (accession in r.condition, label in r.conditionTerm).
-      // Collect distinct terms across the merged rows, keyed by accession (label as fallback).
-      var cAcc = r.condition || '', cTerm = r.conditionTerm || '';
-      var cKey = cAcc || cTerm;
-      if (cKey && !g.condSeen[cKey]) { g.condSeen[cKey] = 1; g.conditions.push({ acc: cAcc, term: cTerm }); }
+      // Condition is an ontology term; the index may return one value or several (accessions in
+      // r.condition, matching labels in r.conditionTerm). Collect distinct terms across the merged
+      // rows, keyed by accession (label as fallback).
+      var cAccs = asList(r.condition), cTerms = asList(r.conditionTerm);
+      for (var ci = 0; ci < cAccs.length; ci++) {
+        var cAcc = cAccs[ci], cTerm = cTerms[ci] || '';
+        var cKey = cAcc || cTerm;
+        if (cKey && !g.condSeen[cKey]) { g.condSeen[cKey] = 1; g.conditions.push({ acc: cAcc, term: cTerm }); }
+      }
     }
     return order.map(function (k) { return byKey[k]; });
   }
@@ -889,9 +1003,17 @@
   // Fetch facets for the current selection from the server (accurate counts + resolved names).
   // First call builds the panel; later calls refresh the counts in place so numbers track filters.
   function loadFacets(initial) {
+    // Count refreshes race the same way record reloads do; only apply the latest so the panel counts
+    // don't flicker back to a superseded selection. The initial panel build is never superseded.
+    var seq = initial ? 0 : ++facetsSeq;
     fetch(apiUrl + '/rgdws/expression/index/facets?' + facetsQueryString(), { headers: { 'Accept': 'application/json' } })
       .then(function (resp) { return resp.ok ? resp.json() : null; })
-      .then(function (facets) { if (!facets) return; if (initial) renderFacets(facets); else updateFacetCounts(facets); })
+      .then(function (facets) {
+        if (!facets) return;
+        if (initial) { renderFacets(facets); return; }
+        if (seq !== facetsSeq) return; // a newer count refresh is in flight; drop this stale one
+        updateFacetCounts(facets);
+      })
       .catch(function () { /* facets are optional; a failure just leaves the panel/counts unchanged */ });
   }
 
@@ -1030,7 +1152,15 @@
       if (!sel) continue;
       var chosen = Object.keys(sel);
       if (chosen.length === 0) continue;
-      if (!sel[group.accOf(r)]) return false;
+      var val = group.accOf(r);
+      if (Array.isArray(val)) {
+        // Multi-valued field (e.g. condition): the record matches if any of its values is checked.
+        var hit = false;
+        for (var v = 0; v < val.length; v++) { if (sel[val[v]]) { hit = true; break; } }
+        if (!hit) return false;
+      } else if (!sel[val]) {
+        return false;
+      }
     }
     return true;
   }
@@ -1060,184 +1190,6 @@
     document.getElementById('emCount').innerHTML = meta;
   }
 
-  // ---- Heatmap ---------------------------------------------------------------
-  // Plotly is loaded globally by headerarea.jsp (cdn.plot.ly). The heatmap plots one chosen
-  // dimension (gene/tissue/strain) on each axis, colored by an aggregate of the expression value.
-  // It reads `filteredRecords`, so it always matches whatever the table currently shows.
-
-  var HEATMAP_DIMS = {
-    gene:   { title: 'Gene',   keyOf: function (r) { return r.geneRgdId != null ? String(r.geneRgdId) : ''; },
-                                labelOf: function (r) { return r.geneSymbol || r.geneSymbolWithRgdId || (r.geneRgdId != null ? String(r.geneRgdId) : ''); } },
-    tissue: { title: 'Tissue', keyOf: function (r) { return r.tissueAcc || ''; },
-                                labelOf: function (r) { return r.tissueTerm || r.tissueAcc || ''; } },
-    strain: { title: 'Strain', keyOf: function (r) { return r.strainAcc || ''; },
-                                labelOf: function (r) { return r.strainTerm || r.strainAcc || ''; } }
-  };
-
-  function isNumericValue(r) {
-    return !(r.expressionValue === null || r.expressionValue === undefined || r.expressionValue === '' || isNaN(r.expressionValue));
-  }
-
-  function distinctDimCount(records, dim) {
-    var seen = {};
-    for (var i = 0; i < records.length; i++) {
-      var k = HEATMAP_DIMS[dim].keyOf(records[i]);
-      if (k) seen[k] = true;
-    }
-    return Object.keys(seen).length;
-  }
-
-  // Default the axes to the two dimensions with the most distinct values (a fuller grid).
-  function autoPickDims(records) {
-    var dims = ['gene', 'tissue', 'strain'];
-    dims.sort(function (a, b) { return distinctDimCount(records, b) - distinctDimCount(records, a); });
-    return { y: dims[0], x: dims[1] };
-  }
-
-  // Units can't be mixed in one aggregate (TPM vs counts), so the heatmap plots one unit at a time.
-  function refreshUnitOptions(records) {
-    var sel = document.getElementById('emHmUnit');
-    var prev = sel.value;
-    var counts = {};
-    for (var i = 0; i < records.length; i++) {
-      if (!isNumericValue(records[i])) continue;
-      var u = records[i].expressionUnit || '';
-      counts[u] = (counts[u] || 0) + 1;
-    }
-    var units = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
-    sel.innerHTML = units.map(function (u) {
-      return '<option value="' + esc(u) + '">' + esc(u || '(no unit)') + '</option>';
-    }).join('');
-    if (units.indexOf(prev) !== -1) sel.value = prev; // keep the user's unit across redraws when still present
-    sel.disabled = units.length < 2;
-    return units;
-  }
-
-  function aggregate(values, mode) {
-    if (mode === 'max') return Math.max.apply(null, values);
-    if (mode === 'median') {
-      var s = values.slice().sort(function (a, b) { return a - b; });
-      var m = Math.floor(s.length / 2);
-      return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
-    }
-    var sum = 0;
-    for (var i = 0; i < values.length; i++) sum += values[i];
-    return sum / values.length;
-  }
-
-  // Build the z-matrix: rows = yDim values, columns = xDim values, cell = aggregate of the
-  // expression values for that (row, column) pair (only records matching the chosen unit).
-  function buildHeatmap(records, yDim, xDim, unit, agg) {
-    var Y = HEATMAP_DIMS[yDim], X = HEATMAP_DIMS[xDim];
-    var yLabels = {}, xLabels = {}, cells = {};
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
-      if ((r.expressionUnit || '') !== (unit || '')) continue;
-      if (!isNumericValue(r)) continue;
-      var yk = Y.keyOf(r), xk = X.keyOf(r);
-      if (!yk || !xk) continue;
-      yLabels[yk] = Y.labelOf(r);
-      xLabels[xk] = X.labelOf(r);
-      var ck = yk + '' + xk;
-      (cells[ck] || (cells[ck] = [])).push(Number(r.expressionValue));
-    }
-    var yKeys = Object.keys(yLabels).sort(function (a, b) { return String(yLabels[a]).localeCompare(String(yLabels[b])); });
-    var xKeys = Object.keys(xLabels).sort(function (a, b) { return String(xLabels[a]).localeCompare(String(xLabels[b])); });
-    var z = [], counts = [];
-    for (var yi = 0; yi < yKeys.length; yi++) {
-      var zRow = [], cRow = [];
-      for (var xi = 0; xi < xKeys.length; xi++) {
-        var arr = cells[yKeys[yi] + '' + xKeys[xi]];
-        if (!arr || !arr.length) { zRow.push(null); cRow.push(0); }
-        else { zRow.push(aggregate(arr, agg)); cRow.push(arr.length); }
-      }
-      z.push(zRow); counts.push(cRow);
-    }
-    return {
-      x: xKeys.map(function (k) { return xLabels[k]; }),
-      y: yKeys.map(function (k) { return yLabels[k]; }),
-      z: z, counts: counts
-    };
-  }
-
-  function toggleHeatmap() {
-    var card = document.getElementById('emHeatmapCard');
-    if (card.style.display !== 'none') { card.style.display = 'none'; return; }
-    card.style.display = 'block';
-    if (!heatmapInited) {
-      var picks = autoPickDims(filteredRecords.length ? filteredRecords : allRecords);
-      document.getElementById('emHmY').value = picks.y;
-      document.getElementById('emHmX').value = picks.x;
-      heatmapInited = true;
-    }
-    renderHeatmap();
-  }
-
-  // Redraw the heatmap only when its panel is open (keeps applyClientFilters cheap otherwise).
-  function syncHeatmap() {
-    if (document.getElementById('emHeatmapCard').style.display !== 'none') renderHeatmap();
-  }
-
-  function renderHeatmap() {
-    var card = document.getElementById('emHeatmapCard');
-    if (card.style.display === 'none') return;
-    var note = document.getElementById('emHeatmapNote');
-
-    if (typeof Plotly === 'undefined') { note.innerText = 'Charting library not available.'; return; }
-
-    var records = filteredRecords || [];
-    refreshUnitOptions(records);
-
-    var yDim = document.getElementById('emHmY').value;
-    var xDim = document.getElementById('emHmX').value;
-    var unit = document.getElementById('emHmUnit').value;
-    var agg  = document.getElementById('emHmAgg').value;
-    var colorEl = document.getElementById('emHmColor');
-    var colorscale = colorEl ? colorEl.value : 'YlOrRd';
-
-    if (yDim === xDim) {
-      note.innerText = 'Pick two different dimensions for rows and columns.';
-      Plotly.purge('emHeatmap');
-      return;
-    }
-
-    var d = buildHeatmap(records, yDim, xDim, unit, agg);
-    if (!d.y.length || !d.x.length) {
-      note.innerText = 'No numeric values to plot for this selection.';
-      Plotly.purge('emHeatmap');
-      return;
-    }
-
-    var aggLabel = agg.charAt(0).toUpperCase() + agg.slice(1);
-    note.innerText = d.y.length + ' x ' + d.x.length + ' cells - ' + aggLabel + (unit ? ' ' + unit : '');
-
-    var data = [{
-      type: 'heatmap',
-      z: d.z, x: d.x, y: d.y, customdata: d.counts,
-      colorscale: colorscale,
-      hoverongaps: false,
-      xgap: 1, ygap: 1,
-      colorbar: { title: { text: aggLabel + (unit ? ' ' + unit : ''), side: 'right' }, thickness: 14 },
-      hovertemplate:
-        HEATMAP_DIMS[yDim].title + ': %{y}<br>' +
-        HEATMAP_DIMS[xDim].title + ': %{x}<br>' +
-        aggLabel + ': %{z}<br>n = %{customdata}<extra></extra>'
-    }];
-
-    var height = Math.max(320, Math.min(28 * d.y.length + 160, 900));
-    var layout = {
-      margin: { l: 170, r: 20, t: 10, b: 130 },
-      height: height,
-      xaxis: { title: HEATMAP_DIMS[xDim].title, type: 'category', tickangle: -40, automargin: true },
-      yaxis: { title: HEATMAP_DIMS[yDim].title, type: 'category', automargin: true },
-      paper_bgcolor: 'rgba(0,0,0,0)',
-      plot_bgcolor: '#f3f7fb'
-    };
-
-    Plotly.react('emHeatmap', data, layout,
-      { responsive: true, displaylogo: false, modeBarButtonsToRemove: ['lasso2d', 'select2d'] });
-  }
-
   // ---- Data loading ----------------------------------------------------------
 
   // Build the single unified records query. Every wizard and facet selection maps onto one call to
@@ -1263,7 +1215,7 @@
     // (it then narrows server-side); multiple checked levels are applied client-side instead.
     var levels = checkedValues('levels');
     if (levels.length === 1) params.push('expressionLevel=' + encodeURIComponent(levels[0]));
-    params.push('page=0');
+    params.push('page=' + currentPage);
     params.push('size=' + PAGE_SIZE);
     return apiUrl + '/rgdws/expression/index/records/search?' + params.join('&');
   }
@@ -1285,12 +1237,20 @@
 
   // Re-query the server for the current facet selection, then draw the table (with a client-side
   // pass that enforces any facets the endpoint couldn't apply).
-  function reloadRecords() {
+  // Re-query and redraw. A changed query (facet toggle, clear, initial load) starts back at page 0;
+  // the pager passes keepPage=true so Prev/Next fetch the chosen page without snapping to the first.
+  function reloadRecords(keepPage) {
+    if (!keepPage) currentPage = 0;
+    // Rapid facet clicks fire overlapping fetches that can resolve out of order. Stamp each request
+    // and ignore any response that a newer reload has already superseded -- otherwise a stale record
+    // set gets re-filtered against the current (newer) selection and every row fails, emptying the table.
+    var seq = ++reloadSeq;
     setStatus('loading', 'Loading expression records&hellip;');
     document.getElementById('emTableCard').style.display = 'none';
 
     fetchRecordsJson(serverRecordsUrl())
       .then(function (data) {
+        if (seq !== reloadSeq) return; // a newer reload is in flight; drop this stale response
         allRecords = data.records || [];
         serverTotal = (data.total != null) ? data.total : allRecords.length;
 
@@ -1306,6 +1266,7 @@
         applyClientFilters();
       })
       .catch(function (err) {
+        if (seq !== reloadSeq) return; // superseded; the newer reload owns the status line
         setStatus('error', 'Could not load expression records: ' + esc(err.message));
       });
   }
@@ -1330,18 +1291,61 @@
     var rowCount = renderRows(filtered);
     updateCount(rowCount, filtered.length, serverTotal);
     syncHeatmap();
+    renderPager();
 
-    // Guidance only -- the exact counts live in emCount, so this just says how to see more.
-    var note = '';
-    if (rowCount > RENDER_CAP) {
-      note = 'Refine filters to narrow the results.';
-    } else if (serverTotal > allRecords.length) {
-      note = 'Not all matching records are loaded -- refine filters for the full set.';
-    }
-    document.getElementById('emTruncated').innerText = note;
+    // With server-side paging the whole result set is reachable page by page, so the only thing left to
+    // flag is when a client-side Sex / Life Stage (or unit / multi-level) filter is hiding rows on THIS
+    // page -- those facets can't be pushed to the endpoint, so they narrow the loaded page only.
+    document.getElementById('emTruncated').innerText =
+      (filtered.length < allRecords.length) ? 'Sex / Life Stage filters applied to this page.' : '';
 
     document.getElementById('emTableCard').style.display = 'block';
   }
+
+  // The endpoint uses offset paging capped by Elasticsearch's result window: from + size cannot exceed
+  // MAX_RESULT_WINDOW, so only the first MAX_RESULT_WINDOW records are reachable however many match.
+  var MAX_RESULT_WINDOW = 10000; // must mirror ExpressionWebService.MAX_RESULT_WINDOW
+
+  // Pages the endpoint can actually serve for the current result: the smaller of "enough to cover every
+  // matching record" and "as deep as the result window allows".
+  function pageCount() {
+    var byTotal = Math.ceil(serverTotal / PAGE_SIZE);
+    var byWindow = Math.floor(MAX_RESULT_WINDOW / PAGE_SIZE);
+    return Math.max(1, Math.min(byTotal, byWindow));
+  }
+
+  // Draw the Prev / page-of / Next controls under the table. Hidden when everything fits on one page.
+  function renderPager() {
+    var pager = document.getElementById('emPager');
+    var pages = pageCount();
+    var reachable = pages * PAGE_SIZE;
+    var beyond = serverTotal > reachable; // matches exist past the result window we can page into
+    if (pages <= 1 && !beyond) { pager.style.display = 'none'; return; }
+    pager.style.display = 'flex';
+
+    // Rebuild the jump-to-page dropdown (1..pages) and select the current page.
+    var sel = document.getElementById('emPageSelect');
+    var opts = '';
+    for (var i = 0; i < pages; i++) opts += '<option value="' + i + '">' + (i + 1) + '</option>';
+    sel.innerHTML = opts;
+    sel.value = String(currentPage);
+
+    var info = 'of <strong>' + pages + '</strong>';
+    document.getElementById('emPageInfo').innerHTML = info;
+    document.getElementById('emPagerPrev').disabled = currentPage <= 0;
+    document.getElementById('emPagerNext').disabled = currentPage >= pages - 1;
+  }
+
+  function goToPage(p) {
+    var pages = pageCount();
+    p = Math.max(0, Math.min(p, pages - 1));
+    if (p === currentPage) return;
+    currentPage = p;
+    reloadRecords(true);              // keepPage: fetch the chosen page, don't reset to 0
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) {}
+  }
+  function prevPage() { goToPage(currentPage - 1); }
+  function nextPage() { goToPage(currentPage + 1); }
 
   function loadResults() {
     // Valid queries:
@@ -1361,6 +1365,186 @@
   }
 
   document.addEventListener('DOMContentLoaded', loadResults);
+</script>
+
+<script>
+  // ---- Edit / Add-to-selection modal --------------------------------------------------------------
+  // Mirrors the strain/tissue/condition picker from strainTissue.jsp, pre-filled with the current
+  // query, and re-posts to the results page to re-run. Globals (not an IIFE) so the inline onclick
+  // handlers in the card markup can reach addManual()/addTerm().
+  var ST_LISTS = {
+    strainStaging: { type: 'strain', inputName: 'strainId', listId: 'strainList',
+                     countId: 'strainCount', emptyId: 'strainEmpty', prefix: 'RS:',
+                     manualInputId: 'strainManualInput', errorId: 'strainAddError' },
+    tissueStaging: { type: 'tissue', inputName: 'tissueId', listId: 'tissueList',
+                     countId: 'tissueCount', emptyId: 'tissueEmpty', prefix: 'UBERON:',
+                     manualInputId: 'tissueManualInput', errorId: 'tissueAddError' },
+    conditionStaging: { type: 'condition', inputName: 'conditionId', listId: 'conditionList',
+                        countId: 'conditionCount', emptyId: 'conditionEmpty', prefix: 'XCO:',
+                        manualInputId: 'conditionManualInput', errorId: 'conditionAddError' }
+  };
+  var selectedAcc = { strain: {}, tissue: {}, condition: {} };
+
+  function toggleEditPanel() {
+    document.getElementById('emEditOverlay').classList.toggle('collapsed');
+  }
+
+  // Post the revised selection back to the results page (symbols resolved server-side).
+  function submitEditForm() {
+    document.getElementById('emEditForm').submit();
+  }
+
+  // Resolve which list a selection belongs to: prefer the staging field the popup targeted, else the
+  // accession prefix.
+  function resolveCfg(accId, selAccId) {
+    if (selAccId && ST_LISTS[selAccId]) return ST_LISTS[selAccId];
+    var up = (accId || '').toUpperCase();
+    if (up.indexOf('UBERON:') === 0) return ST_LISTS.tissueStaging;
+    if (up.indexOf('RS:') === 0) return ST_LISTS.strainStaging;
+    if (up.indexOf('XCO:') === 0) return ST_LISTS.conditionStaging;
+    return null;
+  }
+
+  function updateMeta(cfg) {
+    var count = Object.keys(selectedAcc[cfg.type]).length;
+    document.getElementById(cfg.countId).innerText = count;
+    document.getElementById(cfg.emptyId).style.display = count === 0 ? 'block' : 'none';
+  }
+
+  // Normalize a typed accession to PREFIX + digits (e.g. "681" or "rs:681" -> "RS:681").
+  function normalizeAcc(raw, prefix) {
+    var v = (raw || '').toUpperCase().replace(/\s+/g, '');
+    if (/^[0-9]+$/.test(v)) v = prefix + v;
+    if (v.indexOf(prefix) !== 0) return null;
+    var rest = v.substring(prefix.length);
+    if (!/^[0-9]+$/.test(rest)) return null;
+    return v;
+  }
+
+  function addManual(stagingId) {
+    var cfg = ST_LISTS[stagingId];
+    var input = document.getElementById(cfg.manualInputId);
+    var err = document.getElementById(cfg.errorId);
+    err.innerText = '';
+
+    var raw = (input.value || '').trim();
+    if (!raw) return;
+
+    var accId = normalizeAcc(raw, cfg.prefix);
+    if (!accId) {
+      err.innerText = 'Enter a valid ' + cfg.prefix + ' accession (e.g. ' + cfg.prefix + '0000123).';
+      return;
+    }
+    if (selectedAcc[cfg.type][accId]) {
+      err.innerText = accId + ' is already in the list.';
+      return;
+    }
+
+    // Look the accession up in the ontology: confirm it exists and grab the term name, so the list
+    // shows "name (ACC)" instead of echoing the accession as its own label.
+    var ont = cfg.prefix.replace(':', '');
+    err.innerText = 'Looking up ' + accId + '...';
+    fetch(apiUrl + '/rgdws/ontology/term/' + encodeURIComponent(accId), { headers: { 'Accept': 'application/json' } })
+      .then(function (resp) { return resp.ok ? resp.text() : ''; })
+      .then(function (text) {
+        var term = null;
+        try { term = text ? JSON.parse(text) : null; } catch (e) { term = null; }
+        if (!term || !term.accId) {
+          err.innerText = 'No ' + ont + ' term found for ' + accId + '.';
+          return;
+        }
+        err.innerText = '';
+        addTerm(term.accId, term.term || term.accId, cfg);
+        input.value = '';
+      })
+      .catch(function () { err.innerText = 'Could not look up ' + accId + '. Please try again.'; });
+  }
+
+  function addTerm(accId, term, cfg) {
+    if (!accId || !cfg) return;
+    if (selectedAcc[cfg.type][accId]) return; // already added
+
+    selectedAcc[cfg.type][accId] = true;
+
+    var li = document.createElement('li');
+    li.className = 'st-row';
+    li.setAttribute('data-acc', accId);
+
+    var labelSpan = document.createElement('span');
+    var name = document.createElement('span');
+    name.className = 'st-row-label';
+    name.innerText = term || accId;
+    var acc = document.createElement('span');
+    acc.className = 'st-row-acc';
+    acc.innerText = '(' + accId + ')';
+    labelSpan.appendChild(name);
+    labelSpan.appendChild(acc);
+
+    var hidden = document.createElement('input');
+    hidden.type = 'hidden';
+    hidden.name = cfg.inputName;
+    hidden.value = accId;
+
+    var remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'st-remove';
+    remove.innerHTML = '&times;';
+    remove.title = 'Remove';
+    remove.onclick = function () {
+      delete selectedAcc[cfg.type][accId];
+      li.parentNode.removeChild(li);
+      updateMeta(cfg);
+    };
+
+    li.appendChild(labelSpan);
+    li.appendChild(hidden);
+    li.appendChild(remove);
+    document.getElementById(cfg.listId).appendChild(li);
+
+    updateMeta(cfg);
+  }
+
+  // Global hook invoked by the shared ontology popup after a term is chosen.
+  window.onOntTermSelected = function (accId, term, selAccId) {
+    var cfg = resolveCfg(accId, selAccId);
+    addTerm(accId, term, cfg);
+    if (selAccId) {
+      var s = document.getElementById(selAccId);
+      if (s) s.value = '';
+      var st = document.getElementById(selAccId + '_term');
+      if (st) st.value = '';
+    }
+  };
+
+  // Pre-populate the picker from the current query. Term names aren't resolved in the web app (no SQL
+  // here), so the accession is shown as the label until the user browses for a friendlier name.
+  (function preloadEdit() {
+    for (var i = 0; i < STRAIN_IDS.length; i++) addTerm(STRAIN_IDS[i], STRAIN_IDS[i], ST_LISTS.strainStaging);
+    for (var j = 0; j < TISSUE_IDS.length; j++) addTerm(TISSUE_IDS[j], TISSUE_IDS[j], ST_LISTS.tissueStaging);
+    for (var k = 0; k < CONDITION_IDS.length; k++) addTerm(CONDITION_IDS[k], CONDITION_IDS[k], ST_LISTS.conditionStaging);
+  })();
+
+  // Term-name search for each ontology (shared component). Selecting adds the term with its real name.
+  if (typeof setupOntologyAutocomplete === 'function') {
+    setupOntologyAutocomplete('#strainSearchInput', 'RS', {
+      onSelect: function (term, accId) {
+        addTerm(accId, term, ST_LISTS.strainStaging);
+        var el = document.getElementById('strainSearchInput'); if (el) el.value = '';
+      }
+    });
+    setupOntologyAutocomplete('#tissueSearchInput', 'UBERON', {
+      onSelect: function (term, accId) {
+        addTerm(accId, term, ST_LISTS.tissueStaging);
+        var el = document.getElementById('tissueSearchInput'); if (el) el.value = '';
+      }
+    });
+    setupOntologyAutocomplete('#conditionSearchInput', 'XCO', {
+      onSelect: function (term, accId) {
+        addTerm(accId, term, ST_LISTS.conditionStaging);
+        var el = document.getElementById('conditionSearchInput'); if (el) el.value = '';
+      }
+    });
+  }
 </script>
 
 <%@ include file="/common/footerarea.jsp" %>
