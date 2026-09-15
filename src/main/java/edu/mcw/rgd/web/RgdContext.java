@@ -72,7 +72,7 @@ public class RgdContext {
             isCurator = isPipelines || isDev;
             isTest = hostname.contains("rgd-27p8tr1") || hostname.contains("rgd-c6vhv52");
 
-            System.out.println("RgdContext: HOSTNAME="+hostname);
+            //System.out.println("RgdContext: HOSTNAME="+hostname);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -212,6 +212,8 @@ public class RgdContext {
             }
 
         } catch( UnknownHostException e ) {
+            System.out.println("UNKNOWN HOST EXCEPTION:====");
+            e.printStackTrace();
             return "https://rest.rgd.mcw.edu";
         }
         return "https://dev.rgd.mcw.edu";

@@ -436,16 +436,16 @@
 <%@ include file="../sectionFooter.jsp"%>
 
 <script>
-    var apiUrl = "<%=getAPIHostname()%>";
+    const apiUrl = "<%=getAPIHostname()%>";
 
     // The gene report reports TPM, and the display cap the "too many to show" message quotes.
-    var EXPR_UNIT = "TPM";
-    var EXPR_ROW_LIMIT = 6000;
+    const EXPR_UNIT = "TPM";
+    const EXPR_ROW_LIMIT = 6000;
 
     // An ontology accession as a link. Strain accessions get the strain report, everything
     // else the ontology browser - the same split the web service uses for its own rows.
     function ontTermLink(acc, label) {
-        var text = label || acc;
+        let text = label || acc;
         if (!acc) {
             return text || "";
         }
@@ -633,7 +633,7 @@
                 // gene, system, unit and level the ribbon square was drawn from, so the number of
                 // rows is the number in the square's tooltip. Descendant systems are rolled up by
                 // the index. Levels are indexed lower case, and expressionLevel is an exact match.
-                var _rgdwsHost = apiUrl;
+                // var _rgdwsHost = apiUrl;
                 // if (window.location.host.indexOf('localhost') > -1) {
                 //     // Local dev: hit the dev REST server (running rgd-web-services
                 //     // standalone locally is a separate setup).
@@ -643,7 +643,7 @@
                 var pageSize = Math.max(1, Math.min(isNaN(recordCount) ? EXPR_ROW_LIMIT : recordCount, EXPR_ROW_LIMIT));
                 $.ajax({
                     type: "GET",
-                    url: _rgdwsHost + "/rgdws/expression/index/records/search"
+                    url: apiUrl + "/rgdws/expression/index/records/search"
                         + "?rgdIds=" + encodeURIComponent(rgdId)
                         + "&tissueIds=" + encodeURIComponent(termAcc)
                         + "&units=" + encodeURIComponent(EXPR_UNIT)
