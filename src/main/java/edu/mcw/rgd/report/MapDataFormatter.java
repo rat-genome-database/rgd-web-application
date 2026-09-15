@@ -241,16 +241,19 @@ public class  MapDataFormatter {
 
         StringBuilder ret = new StringBuilder("<table border=\"0\" class=\"mapDataTable\" width=\"670\">");
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
-            ret.append("<tr><th align=\"left\" rowspan=\"2\"><b>").append(mapColumnTitle).append("</b></th>");
+            // One header row. The second row used to repeat JBrowse / NCBI / UCSC / Ensembl under
+            // "Genome Browsers", but every one of those cells renders the browser's own name as its
+            // link text, so the labels said nothing the row below them did not - and the rowspans
+            // they forced on the other columns went with them.
+            ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
             if( showStrain ) {
-                ret.append("<th align=\"left\" rowspan=\"2\">Strain</th>");
+                ret.append("<th align=\"left\">Strain</th>");
             }
-            ret.append("<th align=\"left\" rowspan=\"2\">Chr</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\" class=\"mapDataPos\">Position (strand)</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Source</th>");
+            ret.append("<th align=\"left\">Chr</th>");
+            ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
+            ret.append("<th align=\"left\">Source</th>");
             ret.append("<th colspan=\"4\">Genome Browsers</th>");
             ret.append("</tr>");
-            ret.append("<tr><th>JBrowse</th><th>NCBI</th><th>UCSC</th><th>Ensembl</th></tr>");
         } else {
             ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
             if( showStrain ) {
@@ -440,13 +443,13 @@ public class  MapDataFormatter {
 
         StringBuilder ret = new StringBuilder("<table border=\"0\" class=\"mapDataTable\" width=\"670\">");
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
-            ret.append("<tr><th align=\"left\" rowspan=\"2\"><b>").append(mapColumnTitle).append("</b></th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Chr</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\" class=\"mapDataPos\">Position (strand)</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Source</th>");
+            // one header row, for the reason given in buildTable() above
+            ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
+            ret.append("<th align=\"left\">Chr</th>");
+            ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
+            ret.append("<th align=\"left\">Source</th>");
             ret.append("<th colspan=\"4\">Genome Browsers</th>");
             ret.append("</tr>");
-            ret.append("<tr><th>JBrowse</th><th>NCBI</th><th>UCSC</th><th>Ensembl</th></tr>");
         } else {
             ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
             ret.append("<th align=\"left\">Chr</th>");
