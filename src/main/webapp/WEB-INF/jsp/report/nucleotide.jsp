@@ -30,18 +30,18 @@
 </div>
 
 
-<table border="0" id="nucleotideSequencesTable" class="tablesorter">
+<table border="0" id="nucleotideSequencesTable" class="tablesorter rgdCompactTable">
     <thead>
         <tr>
-            <th></th>
-            <th></th>
+            <th>Source</th>
+            <th>Accession</th>
+            <th class="rgdColRight sorter-false">Links</th>
         </tr>
     </thead>
+    <tbody>
 <%
     List<XdbId> nei = DaoUtils.getInstance().getNucleotideSequences(obj.getRgdId(), obj.getSpeciesTypeKey());
 
-    int row = 0;
-    int prevRefSeqCode = -1;
     XDBIndex xdbi = XDBIndex.getInstance();
     String geoUrl = xdbi.getXDB(59).getUrl();
     String lastLinkN = xdbi.getXDB(XdbId.XDB_KEY_GENEBANKNU).getUrl(obj.getSpeciesTypeKey());
@@ -52,28 +52,29 @@
             continue;
         }
         prevAccId = nxid.getAccId();
-        String bkColor = (++row%2==0) ? "#f1f1f1" : "#e2e2e2"; // alternating lighter or brighter grey
+
+        // an accession like NM_012345 is a RefSeq; anything else is named by its xdb.
+        // The label used to be printed only when it changed from the row above, which a
+        // sortable, paged table cannot honour, so every row carries it now.
+        String accId = nxid.getAccId();
+        boolean isRefSeq = accId!=null && accId.length()>3 && accId.charAt(2)=='_';
+        String sourceName = isRefSeq ? "RefSeq Transcripts" : xdbi.getXDB(nxid.getXdbKey()).getName();
 %>
     <tr>
-       <%  // 1: is ref seq, 0 - is not
-           int refSeqCode = (nxid.getAccId()!=null && nxid.getAccId().length()>3 && nxid.getAccId().charAt(2)=='_') ? 1 : 0;
-           if( refSeqCode != prevRefSeqCode ) {
-               prevRefSeqCode = refSeqCode;
-        %>
-
-           <td style="background-color:<%=bkColor%>;"><b><%=refSeqCode>0 ? "RefSeq Transcripts" : xdbi.getXDB(nxid.getXdbKey()).getName()%></b></td>
-       <% } else {%>
-           <td style="background-color:<%=bkColor%>;">&nbsp;</td>
-       <% } %>
-
-        <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkN%><%=nxid.getAccId()%>"><%=Utils.NVL(nxid.getLinkText(), nxid.getAccId())%></a></td>
-        <td style="background-color:<%=bkColor%>;"><a href="<%=lastLinkN%><%=nxid.getAccId()%>?report=fasta">(Get FASTA)</a> </td>
-        <td style="background-color:<%=bkColor%>;"> &nbsp; <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=nxid.getAccId()%>">NCBI Sequence Viewer</a> &nbsp;</td>
-        <td style="background-color:<%=bkColor%>;"><a href="<%=geoUrl%><%=nxid.getAccId()%>">Search GEO for Microarray Profiles</a></td>
+        <td class="rgdCellNowrap"><span class="rgdCellTag"><%=sourceName%></span></td>
+        <td class="rgdCellStrong"><a href="<%=lastLinkN%><%=accId%>"><%=Utils.NVL(nxid.getLinkText(), accId)%></a></td>
+        <td class="rgdColRight">
+            <a class="rgdChipLink" href="<%=lastLinkN%><%=accId%>?report=fasta">FASTA</a>
+            <a class="rgdChipLink" href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=accId%>"
+               title="NCBI Sequence Viewer">Sequence Viewer</a>
+            <a class="rgdChipLink" href="<%=geoUrl%><%=accId%>"
+               title="Search GEO for Microarray Profiles">GEO Profiles</a>
+        </td>
     </tr>
 <%
     }
 %>
+    </tbody>
     </table>
 
     <div class="modelsViewContent" >

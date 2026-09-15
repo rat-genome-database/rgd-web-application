@@ -48,7 +48,9 @@ for (Object thisObject: compareHomologs) {
             <span class="cmapTaxon"><%=SpeciesType.getTaxonomicName(g.getSpeciesTypeKey())%></span>
             <span class="cmapCommon"><%=SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey())%></span>
         </td>
-        <td class="cmapMap"><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol())%></td>
+        <%-- no Strain column here: this table is repeated once per homolog inside a cell, and the
+             strain an assembly was built from belongs with the assembly, not with the comparison --%>
+        <td class="cmapMap"><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol(), false)%></td>
     </tr>
 
 <% } %>

@@ -1276,8 +1276,8 @@ color: #ffffff;
     }
 
     /* Position (strand) column - keep the coordinate range and strand on one line */
-    .mapDataTable td:nth-child(3),
-    .mapDataTable th:nth-child(3) {
+    .mapDataTable td.mapDataPos,
+    .mapDataTable th.mapDataPos {
         white-space: nowrap;
     }
 

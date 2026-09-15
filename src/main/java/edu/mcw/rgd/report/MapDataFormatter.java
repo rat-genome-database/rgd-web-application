@@ -4,6 +4,8 @@ import edu.mcw.rgd.dao.impl.Jbrowse2UrlConfigDAO;
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.dao.impl.StrainDAO;
+import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
@@ -16,6 +18,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
@@ -46,7 +49,8 @@ public class  MapDataFormatter {
         return Utils.isStringEmpty(mapType) ? GROUP_UNTYPED : mapType.trim();
     }
 
-    /** number of columns the table renders for this object type - the colspan of a group header */
+    /** number of columns both position tables render for this object type - the colspan of a group header;
+     *  the Strain column is not one of these, so a caller that renders it adds one */
     static int mapTableColumnCount(int objectKey) {
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
             return 8;
@@ -75,6 +79,53 @@ public class  MapDataFormatter {
     static void appendGroupHeaderRow(StringBuilder ret, String label, int colCount) {
         ret.append("<tr class=\"mapDataGroup\"><td colspan=\"").append(colCount).append("\">")
                 .append(label).append("</td></tr>");
+    }
+
+    /* ----------------------------------------------------------------------
+       Strain column of the position table.
+
+       An assembly is built from one strain (MAPS.STRAIN_RGD_ID), so the symbol
+       is a property of the map, not of the object being reported on. Symbols
+       are cached for the life of the app, the same way MapManager caches the
+       maps themselves, so a report page costs at most one extra query.
+       ---------------------------------------------------------------------- */
+
+    /** strain symbol by strain rgd id; "" for a strain rgd id that could not be resolved */
+    private static final java.util.Map<Integer, String> strainSymbols = new ConcurrentHashMap<>();
+
+    /** load the symbols of the strains these maps were built from - one query for everything not cached yet */
+    static void cacheStrainSymbols(List<Map> maps) throws Exception {
+
+        List<Integer> missing = new ArrayList<>();
+        for( Map map: maps ) {
+            int strainRgdId = map==null ? 0 : map.getStrainRgdId();
+            if( strainRgdId>0 && !strainSymbols.containsKey(strainRgdId) && !missing.contains(strainRgdId) ) {
+                missing.add(strainRgdId);
+            }
+        }
+        if( missing.isEmpty() ) {
+            return;
+        }
+
+        for( Strain strain: new StrainDAO().getStrains(missing) ) {
+            strainSymbols.put(strain.getRgdId(), Utils.defaultString(strain.getSymbol()));
+        }
+        // strains that are not there are cached as blank, so they are not looked up again on every page
+        for( Integer strainRgdId: missing ) {
+            strainSymbols.putIfAbsent(strainRgdId, "");
+        }
+    }
+
+    /** the strain the assembly was built from, linked to its report page; blank cell when the map has no strain */
+    static void appendStrainCell(StringBuilder ret, Map map) {
+
+        int strainRgdId = map==null ? 0 : map.getStrainRgdId();
+        String symbol = strainRgdId>0 ? strainSymbols.get(strainRgdId) : null;
+        if( Utils.isStringEmpty(symbol) ) {
+            ret.append("<td>&nbsp;</td>");
+            return;
+        }
+        ret.append("<td><a href=\"").append(Link.strain(strainRgdId)).append("\">").append(symbol).append("</a></td>");
     }
 
     public static String buildTable(int rgdId, int speciesTypeKey) throws Exception{
@@ -136,13 +187,30 @@ public class  MapDataFormatter {
     }
 
     public static String buildTable(int rgdId, int speciesTypeKey, int objectKey, String objectSymbol) throws Exception {
+        return buildTable(rgdId, speciesTypeKey, objectKey, objectSymbol, true);
+    }
+
+    /** @param showStrain see {@link #buildTable(int, List, int, String, boolean)} */
+    public static String buildTable(int rgdId, int speciesTypeKey, int objectKey, String objectSymbol,
+                                    boolean showStrain) throws Exception {
 
         MapDAO mdao = new MapDAO();
         List<MapData> mapData = mdao.getMapData(rgdId);
-        return buildTable(speciesTypeKey, mapData, objectKey, objectSymbol);
+        return buildTable(speciesTypeKey, mapData, objectKey, objectSymbol, showStrain);
     }
 
     public static String buildTable(int speciesTypeKey, List<MapData> mapData, int objectKey, String objectSymbol) throws Exception{
+        return buildTable(speciesTypeKey, mapData, objectKey, objectSymbol, true);
+    }
+
+    /**
+     * @param showStrain whether to render the Strain column. The comparative map data section of the
+     *   gene report repeats this whole table once per homolog, inside a cell, so it drops the column:
+     *   the strain an assembly was built from is a property of the assembly named in the first column,
+     *   not something that varies across the species being compared there.
+     */
+    public static String buildTable(int speciesTypeKey, List<MapData> mapData, int objectKey, String objectSymbol,
+                                    boolean showStrain) throws Exception{
 
         if( mapData.isEmpty() ) {
             return "No map positions available.";
@@ -174,16 +242,22 @@ public class  MapDataFormatter {
         StringBuilder ret = new StringBuilder("<table border=\"0\" class=\"mapDataTable\" width=\"670\">");
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
             ret.append("<tr><th align=\"left\" rowspan=\"2\"><b>").append(mapColumnTitle).append("</b></th>");
+            if( showStrain ) {
+                ret.append("<th align=\"left\" rowspan=\"2\">Strain</th>");
+            }
             ret.append("<th align=\"left\" rowspan=\"2\">Chr</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Position (strand)</th>");
+            ret.append("<th align=\"left\" rowspan=\"2\" class=\"mapDataPos\">Position (strand)</th>");
             ret.append("<th align=\"left\" rowspan=\"2\">Source</th>");
             ret.append("<th colspan=\"4\">Genome Browsers</th>");
             ret.append("</tr>");
             ret.append("<tr><th>JBrowse</th><th>NCBI</th><th>UCSC</th><th>Ensembl</th></tr>");
         } else {
             ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
+            if( showStrain ) {
+                ret.append("<th align=\"left\">Strain</th>");
+            }
             ret.append("<th align=\"left\">Chr</th>");
-            ret.append("<th align=\"left\">Position (strand)</th>");
+            ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
             ret.append("<th align=\"left\">Source</th>");
             if( objectKey==RgdId.OBJECT_KEY_QTLS ||
                     objectKey==RgdId.OBJECT_KEY_SSLPS ||
@@ -191,6 +265,16 @@ public class  MapDataFormatter {
                 ret.append("<th align=\"left\">JBrowse</th>");
             }
             ret.append("</tr>");
+        }
+
+        // the Strain column needs a symbol for every assembly listed below; without the column
+        // there is nothing to look up, so the query is skipped too
+        if( showStrain ) {
+            List<Map> tableMaps = new ArrayList<>();
+            for( MapData mdObj: mapData ) {
+                tableMaps.add(mm.getMap(mdObj.getMapKey()));
+            }
+            cacheStrainSymbols(tableMaps);
         }
 
         List<String> activeMapChr=new ArrayList<>();
@@ -207,7 +291,7 @@ public class  MapDataFormatter {
         }
 
         LinkedHashMap<String, List<MapData>> groups = groupByAssembly(mapData, MapData::getMapKey);
-        int colCount = mapTableColumnCount(objectKey);
+        int colCount = mapTableColumnCount(objectKey) + (showStrain ? 1 : 0);
         boolean showGroupHeaders = groups.size() > 1;
 
         for (java.util.Map.Entry<String, List<MapData>> group: groups.entrySet()) {
@@ -238,6 +322,10 @@ public class  MapDataFormatter {
                     ret.append("<td>").append(map.getName()).append("</td>");
                 }
 
+                if( showStrain ) {
+                    appendStrainCell(ret, map);
+                }
+
                 if(activeMapChr.size()>1){
                     //System.out.println("active map " + activeMapChr.toString());
                     ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
@@ -256,7 +344,7 @@ public class  MapDataFormatter {
                 }
 
                 if (map!=null && map.getUnit().equals("bp")) {
-                    ret.append("<td>")
+                    ret.append("<td class=\"mapDataPos\">")
                             .append(FormUtility.formatThousands(mdObj.getStartPos()))
                             .append("&nbsp;-&nbsp;")
                             .append(FormUtility.formatThousands(mdObj.getStopPos()));
@@ -265,12 +353,12 @@ public class  MapDataFormatter {
                     }
                     ret.append("</td>");
                 } else if (mdObj.getAbsPosition() != null){
-                    ret.append("<td>").append(mdObj.getAbsPosition()).append("</td>");
+                    ret.append("<td class=\"mapDataPos\">").append(mdObj.getAbsPosition()).append("</td>");
 
                 } else if (mdObj.getFishBand() != null) {
-                    ret.append("<td>").append(mdObj.getFishBand()).append("</td>");
+                    ret.append("<td class=\"mapDataPos\">").append(mdObj.getFishBand()).append("</td>");
                 } else {
-                    ret.append("<td>&nbsp;</td>");
+                    ret.append("<td class=\"mapDataPos\">&nbsp;</td>");
                 }
 
                 String src = "RGD";
@@ -354,7 +442,7 @@ public class  MapDataFormatter {
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
             ret.append("<tr><th align=\"left\" rowspan=\"2\"><b>").append(mapColumnTitle).append("</b></th>");
             ret.append("<th align=\"left\" rowspan=\"2\">Chr</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Position (strand)</th>");
+            ret.append("<th align=\"left\" rowspan=\"2\" class=\"mapDataPos\">Position (strand)</th>");
             ret.append("<th align=\"left\" rowspan=\"2\">Source</th>");
             ret.append("<th colspan=\"4\">Genome Browsers</th>");
             ret.append("</tr>");
@@ -362,7 +450,7 @@ public class  MapDataFormatter {
         } else {
             ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
             ret.append("<th align=\"left\">Chr</th>");
-            ret.append("<th align=\"left\">Position (strand)</th>");
+            ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
             ret.append("<th align=\"left\">Source</th>");
             if( objectKey==RgdId.OBJECT_KEY_QTLS ||
                     objectKey==RgdId.OBJECT_KEY_SSLPS ||
@@ -435,14 +523,14 @@ public class  MapDataFormatter {
                 }
 
                 if (map!=null && map.getUnit().equals("bp")) {
-                    ret.append("<td>")
+                    ret.append("<td class=\"mapDataPos\">")
                             .append(FormUtility.formatThousands(mdObj.getStartPos()))
                             .append("&nbsp;-&nbsp;")
                             .append(FormUtility.formatThousands(mdObj.getEndPos()));
 
                     ret.append("</td>");
                 }  else {
-                    ret.append("<td>&nbsp;</td>");
+                    ret.append("<td class=\"mapDataPos\">&nbsp;</td>");
                 }
 
                 String src = "RGD";
@@ -612,13 +700,12 @@ public class  MapDataFormatter {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse/index.html?data=")
                     .append(db).append("&tracks=").append(track).append("&highlight=&loc=")
                     .append(FormUtility.getJBrowseLoc(md))
-                    .append("\">").append(link).append("</a>");
+                    .append("\">").append("JBrowse").append("</a>");
         }
     }
     static void generateJBrowse2Link(StringBuilder buf, int objectKey, MapData md) throws Exception {
         String url=generateJbrowse2URL(objectKey,md);
         if(url!=null) {
-            String linkName= MapManager.getInstance().getMap(md.getMapKey()).getName();
 //                buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse2/?loc=")
 //                        .append(FormUtility.getJBrowse2Loc(md, chrPrefix))
 //                        .append("&assembly=").append(assembly)
@@ -626,7 +713,7 @@ public class  MapDataFormatter {
 //                        .append("&tracks=").append(tracks)
 //                        .append("\">").append(link).append("</a>");
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
-                    .append(url).append("\">").append(linkName).append("</a>");
+                    .append(url).append("\">").append("JBrowse").append("</a>");
 
         }
     }
@@ -738,7 +825,7 @@ public class  MapDataFormatter {
                     .append(refSeqAccId)
                     .append("&q=").append(objectSymbol)
                     .append("&context=genome")
-                    .append("\">").append(mapName).append("</a>");
+                    .append("\">").append("NCBI").append("</a>");
         }
     }
 
@@ -822,7 +909,7 @@ public class  MapDataFormatter {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://genome.ucsc.edu/cgi-bin/hgTracks?db=")
                     .append(db).append("&position=chr")
                     .append(md.getChromosome()).append("%3A").append(md.getStartPos()).append("-").append(md.getStopPos())
-                    .append("\">").append(db).append("</a>");
+                    .append("\">").append("UCSC").append("</a>");
         }
     }
 
@@ -937,7 +1024,7 @@ public class  MapDataFormatter {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
                     .append(db)
                     .append(md.getChromosome()).append("%3A").append(md.getStartPos()).append("-").append(md.getStopPos())
-                    .append("\">").append(link).append("</a>");
+                    .append("\">").append("Ensembl").append("</a>");
         }
     }
 
