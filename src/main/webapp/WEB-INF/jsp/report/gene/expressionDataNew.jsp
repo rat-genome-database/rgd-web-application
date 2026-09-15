@@ -633,12 +633,12 @@
                 // gene, system, unit and level the ribbon square was drawn from, so the number of
                 // rows is the number in the square's tooltip. Descendant systems are rolled up by
                 // the index. Levels are indexed lower case, and expressionLevel is an exact match.
-                var _rgdwsHost = "https://rest.rgd.mcw.edu";
-                if (window.location.host.indexOf('localhost') > -1) {
-                    // Local dev: hit the dev REST server (running rgd-web-services
-                    // standalone locally is a separate setup).
-                    _rgdwsHost = "https://dev.rgd.mcw.edu";
-                }
+                var _rgdwsHost = apiUrl;
+                // if (window.location.host.indexOf('localhost') > -1) {
+                //     // Local dev: hit the dev REST server (running rgd-web-services
+                //     // standalone locally is a separate setup).
+                //     _rgdwsHost = "https://dev.rgd.mcw.edu";
+                // }
                 // ask for exactly what the ribbon says is there, capped at the display limit
                 var pageSize = Math.max(1, Math.min(isNaN(recordCount) ? EXPR_ROW_LIMIT : recordCount, EXPR_ROW_LIMIT));
                 $.ajax({
