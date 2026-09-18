@@ -690,6 +690,28 @@
     max-width: 100%;
     overflow-x: auto;
 }
+
+/* RGD Orthologs: a wrapping row of species cards. They were a one row inner table - one cell
+   per species - and a table row cannot wrap, so a gene with orthologs in a dozen species ran
+   the row out of the cell. The card is the positioning context for .speciesCardOverlay, which
+   is position:absolute and otherwise resolves against whatever ancestor happens to be
+   positioned rather than against its own icon. */
+.rgd-modern-report .orthoSpeciesList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+}
+.rgd-modern-report .orthoSpeciesCard {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+}
+/* the overlay is sized in the shared header CSS to match the icon; keep it on the card */
+.rgd-modern-report .orthoSpeciesCard .speciesCardOverlay { top: 0; left: 0; }
+
+/* the Alliance row's logos are inline and already wrap, but they need the same breathing room */
+.rgd-modern-report #info-table td > a > img[src*="alliance_logo"] { margin: 0 6px 6px 0; }
 .rgd-modern-report #info-table tr { border-bottom: 1px solid var(--rgd-border-soft); }
 .rgd-modern-report #info-table tr:last-child { border-bottom: 0; }
 .rgd-modern-report #info-table td {

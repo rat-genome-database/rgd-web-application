@@ -29,8 +29,11 @@
         <tr>
             <td class="label"> RGD Orthologs</td>
             <td>
-                <table>
-                    <tr>
+                <%-- The species cards used to be a one row inner table, one <td> per species. A
+                     table row cannot wrap, so a gene with orthologs in a dozen species ran the row
+                     straight out of the summary card. They are a wrapping list now - the same
+                     cards, onto as many lines as the column needs. --%>
+                <div class="orthoSpeciesList">
         <% for (Gene gene : homologs) {
             if (!rgdIds.contains(gene.getRgdId())){
                 rgdIds.add(gene.getRgdId());
@@ -38,16 +41,18 @@
                 String orthTitle = "Species: &nbsp; "+SpeciesType.getCommonName(gene.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(gene.getSpeciesTypeKey())+")"
                         +"\nGene Symbol: &nbsp; "+gene.getSymbol();
         %>
-                <td>
-                    <a class="speciesCardOverlay" href="/rgdweb/report/gene/main.html?id=<%=gene.getRgdId()%>" title="<%=orthTitle%>">
-                    <div style="margin:5px; font-weight:700;" >
-                        <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
-                    </a>
-                    <img border="0" src=<%=imageSource%> class="speciesIcon">
-                </td>
+                    <%-- each card is its own positioning context, so the absolutely positioned
+                         overlay covers this species' icon rather than some ancestor --%>
+                    <span class="orthoSpeciesCard">
+                        <a class="speciesCardOverlay" href="/rgdweb/report/gene/main.html?id=<%=gene.getRgdId()%>" title="<%=orthTitle%>">
+                        <div style="margin:5px; font-weight:700;" >
+                            <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
+                        </a>
+                        <img border="0" src="<%=imageSource%>" class="speciesIcon"
+                             alt="<%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%>">
+                    </span>
         <%} }%>
-        </tr>
-        </table>
+                </div>
             </td>
         </tr>
 
