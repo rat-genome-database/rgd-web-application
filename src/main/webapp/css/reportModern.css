@@ -729,14 +729,25 @@
 .rgd-modern-report #info-table td:last-child { padding-right: 14px; }
 .rgd-modern-report #info-table tr:first-child td { padding-top: 9px; }
 .rgd-modern-report #info-table tr:last-child td { padding-bottom: 9px; }
+/* The label column is tinted and ruled off, so the eye has a column to run down and every value
+   has an obvious owner. On a summary of twenty-odd rows - several of them long wrapped prose -
+   a muted label on the same white ground as its value left the two reading as one block. The
+   label sits on --rgd-text now rather than the muted grey: on the tint, muted was the weaker
+   half of a pair that is supposed to be the anchor. */
 .rgd-modern-report #info-table td.label {
     width: 190px;
     min-width: 190px;
     padding-right: 14px;
     font-weight: 600;
-    color: var(--rgd-text-muted);
-    background: none;
+    color: var(--rgd-text);
+    background: var(--rgd-surface-alt);
+    border-right: 1px solid var(--rgd-border-soft);
 }
+/* the column runs to the card's edge, so its top and bottom follow the card's corners. A page
+   whose first row is a full-width heading (ge/info.jsp) simply has no label cell in that row,
+   and the column starts below the corner where no radius is wanted. */
+.rgd-modern-report #info-table tr:first-child td.label { border-top-left-radius: var(--rgd-radius); }
+.rgd-modern-report #info-table tr:last-child td.label { border-bottom-left-radius: var(--rgd-radius); }
 
 /* group header rows in the position table sit flush across every column and
    read as a band, not as a data row */
