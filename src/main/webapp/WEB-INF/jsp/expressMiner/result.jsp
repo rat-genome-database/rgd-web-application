@@ -746,6 +746,33 @@
     return out;
   }
 
+  // A record's conditions come back from the expression index as an array of ontology objects:
+  // [{ accId, term, obsolete }]. Older index builds exposed flat `condition` / `conditionTerm` strings
+  // (sometimes arrays), so accept either shape and normalize to [{ acc, term }].
+  function condList(r) {
+    var out = [];
+    if (r.conditions != null) {
+      var arr = Array.isArray(r.conditions) ? r.conditions : [r.conditions];
+      for (var i = 0; i < arr.length; i++) {
+        var c = arr[i];
+        if (c == null) continue;
+        if (typeof c !== 'object') {                       // plain accession string
+          var s = String(c).trim();
+          if (s) out.push({ acc: s, term: '' });
+          continue;
+        }
+        var acc = String(c.accId || c.acc || '').trim();
+        var term = String(c.term || '').trim();
+        if (acc || term) out.push({ acc: acc, term: term });
+      }
+      return out;
+    }
+    // Legacy flat fields, paired by position.
+    var accs = asList(r.condition), terms = asList(r.conditionTerm);
+    for (var j = 0; j < accs.length; j++) out.push({ acc: accs[j], term: terms[j] || '' });
+    return out;
+  }
+
   // Facet groups shown in the panel. `accOf` maps a record to the value the facet keys on, used to
   // filter the table client-side. Server groups (Level, Unit, Gene, Tissue, Strain, Condition) get their
   // options/counts from the /index/facets call and, when checked, narrow the /index/records/search query
@@ -761,7 +788,7 @@
     { key: 'strains', title: 'Strain',           accOf: function (r) { return r.strainAcc; } },
     // Condition (XCO ontology): a server-backed facet like Tissue/Strain. Options, resolved term names
     // and counts come from /index/facets; checked accessions are sent to /index/records/search.
-    { key: 'conditions', title: 'Condition',     accOf: function (r) { return asList(r.condition); } },
+    { key: 'conditions', title: 'Condition',     accOf: function (r) { return condList(r).map(function (c) { return c.acc; }); } },
     { key: 'sex',        title: 'Sex',        client: true, labelOf: capitalize,
       accOf: function (r) { return (r.sex || r.computedSex || '').trim().toLowerCase(); } },
     { key: 'lifeStages', title: 'Life Stage', client: true, labelOf: capitalize,
@@ -867,12 +894,11 @@
       ].join('');
       var g = byKey[key];
       if (!g) { g = { rec: r, conditions: [], condSeen: {} }; byKey[key] = g; order.push(key); }
-      // Condition is an ontology term; the index may return one value or several (accessions in
-      // r.condition, matching labels in r.conditionTerm). Collect distinct terms across the merged
-      // rows, keyed by accession (label as fallback).
-      var cAccs = asList(r.condition), cTerms = asList(r.conditionTerm);
-      for (var ci = 0; ci < cAccs.length; ci++) {
-        var cAcc = cAccs[ci], cTerm = cTerms[ci] || '';
+      // A record can carry several conditions (ontology objects from the index). Collect the distinct
+      // terms across the merged rows, keyed by accession (label as fallback).
+      var conds = condList(r);
+      for (var ci = 0; ci < conds.length; ci++) {
+        var cAcc = conds[ci].acc, cTerm = conds[ci].term;
         var cKey = cAcc || cTerm;
         if (cKey && !g.condSeen[cKey]) { g.condSeen[cKey] = 1; g.conditions.push({ acc: cAcc, term: cTerm }); }
       }
@@ -1241,6 +1267,10 @@
     if (genes.length) params.push('rgdIds=' + encodeURIComponent(genes.join(',')));
     if (conditions.length) params.push('conditionIds=' + encodeURIComponent(conditions.join(',')));
     if (MAP_KEY) params.push('mapKey=' + MAP_KEY);
+    // Unit is a real server filter on this endpoint (verified against dev: units=FPKM returns 0 on an
+    // all-TPM assembly), so push it down rather than only narrowing the loaded page client-side.
+    var units = checkedValues('units');
+    if (units.length) params.push('units=' + encodeURIComponent(units.join(',')));
     // The endpoint takes a single expressionLevel, so send it only when exactly one level is checked
     // (it then narrows server-side); multiple checked levels are applied client-side instead.
     var levels = checkedValues('levels');

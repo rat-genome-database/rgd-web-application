@@ -284,7 +284,29 @@
       plot_bgcolor: '#f3f7fb'
     };
 
-    Plotly.react('emHeatmap', data, layout,
-      { responsive: true, displaylogo: false, modeBarButtonsToRemove: ['lasso2d', 'select2d'] });
+    // The stock camera button renders the PNG using the layout's paper background, which is transparent
+    // here -- so a downloaded image comes out see-through (and reads as black in many viewers). Plotly's
+    // toImageButtonOptions only forwards format/filename/width/height/scale, NOT the background, so swap
+    // in our own button and call downloadImage directly with setBackground.
+    var downloadBtn = {
+      name: 'Download PNG',
+      title: 'Download as PNG (white background)',
+      icon: Plotly.Icons.camera,
+      click: function (g) {
+        Plotly.downloadImage(g, {
+          format: 'png',
+          filename: 'expression-heatmap-' + yDim + '-by-' + xDim,
+          scale: 2,                 // 2x pixel density so the axis labels stay crisp
+          setBackground: '#ffffff'  // opaque white instead of the transparent paper
+        });
+      }
+    };
+
+    Plotly.react('emHeatmap', data, layout, {
+      responsive: true,
+      displaylogo: false,
+      modeBarButtonsToRemove: ['lasso2d', 'select2d', 'toImage'],
+      modeBarButtonsToAdd: [downloadBtn]
+    });
   }
 </script>
