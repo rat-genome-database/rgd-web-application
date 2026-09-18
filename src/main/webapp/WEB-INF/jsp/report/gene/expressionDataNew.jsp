@@ -150,6 +150,48 @@
         color: #5b6672;
     }
 
+    /* a note under the caption when the result runs past the index's reachable window,
+       or when the page could not be loaded at all */
+    .exprTableNote {
+        margin-bottom: 10px;
+        padding: 7px 10px;
+        font-size: 12px;
+        border-radius: 4px;
+    }
+    .exprTableNote--info {
+        color: #5b4708;
+        background: #fdf6e3;
+        border: 1px solid #f2e2b4;
+    }
+    .exprTableNote--error {
+        color: #8a1c1c;
+        background: #fdf0f0;
+        border: 1px solid #f2c9c9;
+    }
+
+    /* pager under the detail table: rows-per-page on the left, the page buttons in the
+       middle, the range being shown on the right */
+    #exprPager {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px 16px;
+        padding-top: 10px;
+        font-size: 12.5px;
+        color: #1f2933;
+    }
+    #exprPager .exprPageSize select {
+        margin-left: 4px;
+        padding: 1px 4px;
+        font-size: 12.5px;
+    }
+    #exprPager .pagination { margin-bottom: 0; }
+    #exprPager .exprPageInfo {
+        margin-left: auto;
+        font-variant-numeric: tabular-nums;
+        color: #5b6672;
+    }
+
     /* the table view - the same numbers, for reading and for screen readers */
     #exprTableView { padding-top: 10px; }
     #exprData {
@@ -378,9 +420,6 @@
         </div>
 
         <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;top: 5px;position: relative;" value="Hide Table">
-        <div id="tooManyMsg" style="display: none;">
-            <label style="color: red; padding-top: 10px;">Too many to show, limit is 6000. Download them if you would like to view them all.</label>
-        </div>
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
             <%-- The ribbon square is the filter: its system and its level go into the request,
                  so the table holds exactly what the square's tooltip counted. This used to be a
@@ -389,11 +428,19 @@
             <div id="exprTableCaption">
                 <b>{{ activeSystem }}</b>
                 <span>&mdash; {{ activeLevel ? activeLevelDescription : 'all expression levels' }}</span>
-                <span class="exprCaptionCount">{{ expItems.length.toLocaleString() }} records</span>
-                <span class="exprCaptionHint">Click another square in the ribbon to change the system or the level.</span>
+                <span class="exprCaptionCount">{{ rangeLabel }}</span>
+                <span class="exprCaptionHint">Click another square in the ribbon to change the system or the level. Sorting a column orders the page shown.</span>
             </div>
+            <%-- A system can hold more records than the index will page into; say so rather than
+                 refusing to show anything, and point at the download that has no such limit. --%>
+            <div class="exprTableNote exprTableNote--info" v-if="beyondWindow">
+                Showing the first <b>{{ pagedRows.toLocaleString() }}</b> of
+                <b>{{ totalRows.toLocaleString() }}</b> records &mdash; the search index pages no
+                deeper than that. Use <b>Download Selected Expressed Objects</b> above to get them all.
+            </div>
+            <div class="exprTableNote exprTableNote--error" v-if="loadError">{{ loadError }}</div>
             <template>
-                <b-table :items="expItems" :fields="fields" :busy.sync="isBusy" responsive="sm" sticky-header="475px">
+                <b-table id="exprRecords" :items="expItems" :fields="fields" :busy.sync="isBusy" responsive="sm" sticky-header="475px">
                     <template v-slot:table-busy>
                         <div class="text-center text-primary my-2">
                             <b-spinner class="align-middle"></b-spinner>
@@ -417,6 +464,26 @@
                     </template>
                 </b-table>
             </template>
+            <%-- Paging is server side: each page is its own /index/records/search call with page
+                 and size, so a system with tens of thousands of records costs the same one page
+                 of rows as a small one. --%>
+            <div id="exprPager" v-if="pageCount > 1">
+                <label class="exprPageSize">Rows per page
+                    <select v-model.number="perPage" v-on:change="changePerPage" :disabled="isBusy">
+                        <option v-for="n in pageSizes" :key="n" :value="n">{{ n }}</option>
+                    </select>
+                </label>
+                <b-pagination
+                        v-model="currentPage"
+                        :total-rows="pagedRows"
+                        :per-page="perPage"
+                        :disabled="isBusy"
+                        :limit="7"
+                        v-on:change="onPageChange"
+                        size="sm"
+                        aria-controls="exprRecords"></b-pagination>
+                <span class="exprPageInfo">Page {{ currentPage.toLocaleString() }} of {{ pageCount.toLocaleString() }}</span>
+            </div>
         </div>
     </div>
 <%--    <input type="button" id="hideBtn2" onclick="hideTable()" style="display: none;" value="Hide Table">--%>
@@ -438,9 +505,41 @@
 <script>
     const apiUrl = "<%=getAPIHostname()%>";
 
-    // The gene report reports TPM, and the display cap the "too many to show" message quotes.
+    // The gene report reports TPM.
     const EXPR_UNIT = "TPM";
-    const EXPR_ROW_LIMIT = 6000;
+
+    // The detail table is paged by the search endpoint rather than pulled in one request: a
+    // square covering tens of thousands of records used to ask for all of them at once (and,
+    // past 6,000, refused to show anything), which is one huge response the browser then has
+    // to render. Now each page is its own request for EXPR_PAGE_SIZE rows.
+    const EXPR_PAGE_SIZES = [25, 50, 100, 250];
+    const EXPR_PAGE_SIZE = 100;
+
+    // The endpoint pages by offset, capped by Elasticsearch's result window: from + size cannot
+    // exceed this, so only the first EXPR_MAX_RESULT_WINDOW records of a result are reachable
+    // however many match (page 100 of size 100 is a 500 from the server). Every value in
+    // EXPR_PAGE_SIZES divides it evenly, so the last page is always a full one.
+    // Must mirror ExpressionWebService.MAX_RESULT_WINDOW.
+    const EXPR_MAX_RESULT_WINDOW = 10000;
+
+    // An ontology field that carries one value comes back as an accession and a label in their own
+    // fields (strainAcc / strainTerm). Normalize either to an array of non-empty trimmed strings so
+    // a caller never builds one link out of a whole array.
+    // (Same helper, same reason, as expressMiner/result.jsp.)
+    function asList(v) {
+        if (v == null) {
+            return [];
+        }
+        var arr = Array.isArray(v) ? v : [v];
+        var out = [];
+        for (var i = 0; i < arr.length; i++) {
+            var s = (arr[i] == null ? '' : String(arr[i])).trim();
+            if (s) {
+                out.push(s);
+            }
+        }
+        return out;
+    }
 
     // An ontology accession as a link. Strain accessions get the strain report, everything
     // else the ontology browser - the same split the web service uses for its own rows.
@@ -449,22 +548,65 @@
         if (!acc) {
             return text || "";
         }
-        var href = acc.indexOf("RS:") === 0
+        var href = String(acc).indexOf("RS:") === 0
             ? "/rgdweb/report/strainOnt/main.html?acc=" + encodeURIComponent(acc)
             : "/rgdweb/ontology/view.html?acc_id=" + encodeURIComponent(acc);
         return '<a href="' + href + '">' + text + '</a>';
     }
 
-    // One record from /expression/index/records/search as a row of the detail table. The index
-    // stores a record once per experimental condition, so a measurement made under several
-    // conditions arrives as several records - each is shown, distinguished by its Condition.
+    // One ontology field as links: each accession linked under its own label, paired by position
+    // and separated by commas. A single-valued field goes down the same path as a list of one, so
+    // the caller does not have to know which fields the index can return several values for.
+    function ontTermLinks(accs, labels) {
+        var accList = asList(accs);
+        var labelList = asList(labels);
+        if (accList.length === 0) {
+            return labelList.join(", ");   // labelled but not accessioned: plain text
+        }
+        var out = [];
+        for (var i = 0; i < accList.length; i++) {
+            out.push(ontTermLink(accList[i], labelList[i] || accList[i]));
+        }
+        return out.join(", ");
+    }
+
+    // A field that can carry several ontology terms is indexed as a list of objects, each holding
+    // its own accession and label: conditions is [{accId, term, obsolete}, ...]. This replaced the
+    // parallel condition / conditionTerm arrays, which only lined up by position - a record with
+    // two conditions had to have its two labels matched to its two accessions by index, and
+    // anything that treated the field as a scalar built one link out of the whole array.
+    // An entry with neither accession nor label is dropped: the index does emit bare {obsolete:0}.
+    function ontObjectLinks(objs) {
+        if (objs == null) {
+            return "";
+        }
+        var arr = Array.isArray(objs) ? objs : [objs];
+        var out = [];
+        for (var i = 0; i < arr.length; i++) {
+            var o = arr[i];
+            if (o == null) {
+                continue;
+            }
+            var acc = o.accId == null ? "" : String(o.accId).trim();
+            var label = o.term == null ? "" : String(o.term).trim();
+            if (!acc && !label) {
+                continue;
+            }
+            out.push(ontTermLink(acc, label || acc));
+        }
+        return out.join(", ");
+    }
+
+    // One record from /expression/index/records/search as a row of the detail table. A record
+    // made under several experimental conditions carries them all, so its Condition cell lists
+    // every one of them rather than the record appearing once per condition.
     function expressionIndexRow(rec) {
         return {
-            strain: ontTermLink(rec.strainAcc, rec.strainTerm),
+            strain: ontTermLinks(rec.strainAcc, rec.strainTerm),
             sex: rec.sex,
             lifeStage: rec.lifeStage,
-            tissue: ontTermLink(rec.tissueAcc, rec.tissueTerm),
-            condition: ontTermLink(rec.condition, rec.conditionTerm),
+            tissue: ontTermLinks(rec.tissueAcc, rec.tissueTerm),
+            condition: ontObjectLinks(rec.conditions),
             GeoSampleId: rec.geoSampleAcc,
             tpmValue: rec.expressionValue,
             unit: rec.expressionUnit,
@@ -481,6 +623,19 @@
                 // what the open detail table is showing, for the caption; "" level = every level
                 activeSystem: '',
                 activeLevel: '',
+                // the query the open table stands for, kept so a page change can re-issue it
+                activeTerm: '',
+                activeRgdId: '',
+                // server side paging state. currentPage is 1-based, b-pagination's convention;
+                // the request wants a 0-based page, so loadPage subtracts.
+                currentPage: 1,
+                perPage: EXPR_PAGE_SIZE,
+                pageSizes: EXPR_PAGE_SIZES,
+                totalRows: 0,     // matching records the index reports for the whole query
+                loadError: '',
+                // increments per load; a response whose stamp is stale (an older page, or the
+                // system the user just clicked away from) is dropped instead of drawn
+                loadSeq: 0,
                 fields: [
                     // One column per field the expression index actually returns, so the table is
                     // just the search response rendered. computedSex, age and the reference RGD ids
@@ -588,6 +743,34 @@
                     'Low':          'Low expression (0.5 \u2264 TPM \u2264 10)',
                     'Below Cutoff': 'Below cutoff (TPM < 0.5)'
                 }[this.activeLevel] || this.activeLevel;
+            },
+            // How many of the matching records the pager can actually walk to: everything the
+            // result window reaches, rounded down to a whole page so the last page is full and
+            // no page asks the endpoint for an offset it answers with a 500.
+            pagedRows() {
+                var reachable = Math.floor(EXPR_MAX_RESULT_WINDOW / this.perPage) * this.perPage;
+                return Math.min(this.totalRows, reachable);
+            },
+            pageCount() {
+                return Math.max(1, Math.ceil(this.pagedRows / this.perPage));
+            },
+            // true when the query matched more than the pager can reach - the download is then
+            // the only way to see the rest, and the note over the table says so
+            beyondWindow() {
+                return this.totalRows > this.pagedRows;
+            },
+            // "1-100 of 11,927 records", the range this page covers within the whole result
+            rangeLabel() {
+                if (this.totalRows === 0) {
+                    return this.isBusy ? '' : '0 records';
+                }
+                var first = (this.currentPage - 1) * this.perPage + 1;
+                var last = Math.min(first + this.expItems.length - 1, this.totalRows);
+                if (this.totalRows <= this.perPage) {
+                    return this.totalRows.toLocaleString() + ' records';
+                }
+                return first.toLocaleString() + '-' + last.toLocaleString()
+                    + ' of ' + this.totalRows.toLocaleString() + ' records';
             }
         },
         methods: {
@@ -603,63 +786,20 @@
                 // termAcc = termAcc.replace(':','%3A')
                 this.activeSystem = SYSTEM_LABELS[termAcc] || termAcc;
                 this.activeLevel = level || '';
+                this.activeTerm = termAcc;
+                this.activeRgdId = rgdId;
                 var download = document.getElementById("downloadTerm"+termAcc);
                 download.style.display = 'block';
-                // Limit display to EXPR_ROW_LIMIT records; if the count for this system exceeds it,
-                // show the "too many" message and skip loading the table (user can still download)
-                var recordCount = parseInt(String(count).replace(/[^0-9]/g, ''), 10);
-                if (!isNaN(recordCount) && recordCount > EXPR_ROW_LIMIT) {
-                    this.expItems = [];
-                    tableVue.isBusy = false;
-                    var coolTableDiv = document.getElementById("coolTable");
-                    if (coolTableDiv)
-                        coolTableDiv.style.display = 'none';
-                    var hideBtn = document.getElementById("hideBtn1");
-                    if (hideBtn)
-                        hideBtn.style.display = 'block';
-                    showErrorMessage();
-                    return;
-                }
-                // Show the table container up front with an empty dataset so the
-                // b-table's busy spinner is visible while the fetch is in flight
-                // (previously the spinner never appeared because showTable was
-                // only called after the AJAX success, by which point isBusy was
-                // already false and there was nothing to show a spinner in).
-                tableVue.expItems = [];
-                tableVue.isBusy = true;
-                showTable(termAcc);
 
-                // The table is the expression index search response, rendered: the same index,
-                // gene, system, unit and level the ribbon square was drawn from, so the number of
-                // rows is the number in the square's tooltip. Descendant systems are rolled up by
-                // the index. Levels are indexed lower case, and expressionLevel is an exact match.
-                // var _rgdwsHost = apiUrl;
-                // if (window.location.host.indexOf('localhost') > -1) {
-                //     // Local dev: hit the dev REST server (running rgd-web-services
-                //     // standalone locally is a separate setup).
-                //     _rgdwsHost = "https://dev.rgd.mcw.edu";
-                // }
-                // ask for exactly what the ribbon says is there, capped at the display limit
-                var pageSize = Math.max(1, Math.min(isNaN(recordCount) ? EXPR_ROW_LIMIT : recordCount, EXPR_ROW_LIMIT));
-                $.ajax({
-                    type: "GET",
-                    url: apiUrl + "/rgdws/expression/index/records/search"
-                        + "?rgdIds=" + encodeURIComponent(rgdId)
-                        + "&tissueIds=" + encodeURIComponent(termAcc)
-                        + "&units=" + encodeURIComponent(EXPR_UNIT)
-                        + (level ? "&expressionLevel=" + encodeURIComponent(level.toLowerCase()) : "")
-                        + "&size=" + pageSize,
-                    dataType: "json",
-                    success: function (page, status, xhr) {
-                        var records = (page && page.records) ? page.records : [];
-                        tableVue.expItems = records.map(expressionIndexRow);
-                        tableVue.isBusy = false;
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
-                        tableVue.isBusy = false;
-                    }
-                });
+                // A new square is a new query: back to the first page. The ribbon already knows
+                // how many records the square stands for, so seed the total from it and the pager
+                // is drawn right away rather than after the first response; the response's own
+                // total then replaces it (they agree - both are this index, this filter).
+                var recordCount = parseInt(String(count).replace(/[^0-9]/g, ''), 10);
+                this.totalRows = isNaN(recordCount) ? 0 : recordCount;
+                this.currentPage = 1;
+                showTable(termAcc);
+                this.loadPage();
                 return;
 
                 // Legacy path preserved below in case someone needs to revert.
@@ -885,6 +1025,95 @@
                 showTable(termAcc);
                 // return someItems;
             },
+            // One page of the open query, from the expression index: the same index, gene, system,
+            // unit and level the ribbon square was drawn from, so the totals agree with the
+            // square's tooltip. Descendant systems are rolled up by the index. Levels are indexed
+            // lower case, and expressionLevel is an exact match.
+            //
+            // Only the page being looked at is fetched. The whole result used to come down in one
+            // request - which meant a system with more than 6,000 records was refused outright
+            // rather than shown - so the cost of opening a square no longer grows with how much
+            // the gene is expressed.
+            loadPage(){
+                var vm = this;
+                if (!this.activeTerm) {
+                    return;
+                }
+                // clamp to what the pager can serve, so a stale currentPage can never ask the
+                // endpoint for an offset past the result window (it answers those with a 500)
+                var page = Math.min(Math.max(1, this.currentPage), this.pageCount);
+                if (page !== this.currentPage) {
+                    this.currentPage = page;
+                }
+
+                // Rapid clicks (another square, another page) overlap; stamp each request and
+                // draw only the newest response, so a slow early one cannot land on top of it.
+                var seq = ++this.loadSeq;
+                this.loadError = '';
+                // Empty the rows up front so the b-table's busy spinner has something to show
+                // while the fetch is in flight, instead of the previous page sitting there.
+                this.expItems = [];
+                this.isBusy = true;
+
+                $.ajax({
+                    type: "GET",
+                    url: apiUrl + "/rgdws/expression/index/records/search"
+                        + "?rgdIds=" + encodeURIComponent(this.activeRgdId)
+                        + "&tissueIds=" + encodeURIComponent(this.activeTerm)
+                        + "&units=" + encodeURIComponent(EXPR_UNIT)
+                        + (this.activeLevel ? "&expressionLevel=" + encodeURIComponent(this.activeLevel.toLowerCase()) : "")
+                        + "&page=" + (page - 1)   // the endpoint pages from 0, the pager from 1
+                        + "&size=" + this.perPage,
+                    dataType: "json",
+                    success: function (resp, status, xhr) {
+                        if (seq !== vm.loadSeq) return;  // superseded by a newer square or page
+                        var records = (resp && resp.records) ? resp.records : [];
+                        if (resp && resp.total != null) {
+                            vm.totalRows = resp.total;
+                        }
+                        vm.expItems = records.map(expressionIndexRow);
+                        vm.isBusy = false;
+                    },
+                    error: function (xhr, status, error) {
+                        if (seq !== vm.loadSeq) return;
+                        console.log("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText);
+                        vm.loadError = "Could not load these expression records. Please try again, "
+                            + "or use the download link above to get the data.";
+                        vm.isBusy = false;
+                    }
+                });
+            },
+            // b-pagination has already moved its own model by the time change fires; take the page
+            // it hands over so the fetch cannot read a half-updated currentPage.
+            onPageChange(page){
+                this.currentPage = page;
+                this.loadPage();
+                // The table body is its own 475px scroller; without this the new page opens
+                // wherever the last one was left scrolled to, which reads as a missing first row.
+                this.$nextTick(function () {
+                    var body = document.querySelector("#coolTable .b-table-sticky-header, #coolTable .table-responsive");
+                    if (body) body.scrollTop = 0;
+                });
+            },
+            // A different page size renumbers the pages, so go back to the first one rather than
+            // landing on whatever row the old page number now points at.
+            changePerPage(){
+                this.currentPage = 1;
+                this.loadPage();
+            },
+            // Back to no open query, for when the table is hidden.
+            resetTable(){
+                this.loadSeq++;          // drop any response still in flight
+                this.activeTerm = '';
+                this.activeRgdId = '';
+                this.activeSystem = '';
+                this.activeLevel = '';
+                this.expItems = [];
+                this.totalRows = 0;
+                this.currentPage = 1;
+                this.loadError = '';
+                this.isBusy = false;
+            },
             createLinks(data){
                 // console.log(data);
                 var valLen = data.length;
@@ -1033,7 +1262,7 @@
     });
 
     function hideTable(){
-        // hideErrorMessage();
+        tableVue.resetTable();
         var div = document.getElementById("coolTable");
         var button1 = document.getElementById("hideBtn1");
         // var button2 = document.getElementById("hideBtn2");
@@ -1051,7 +1280,6 @@
     }
 
     function showTable(termAcc) {
-        hideErrorMessage();
         var div = document.getElementById("coolTable");
         var button1 = document.getElementById("hideBtn1");
         // var button2 = document.getElementById("hideBtn2");
@@ -1067,16 +1295,6 @@
             else
                 elms[i].style.display = 'none';
         }
-    }
-
-    function showErrorMessage(){
-        var div = document.getElementById("tooManyMsg");
-        div.style.display = 'block';
-    }
-
-    function hideErrorMessage(){
-        var div = document.getElementById("tooManyMsg");
-        div.style.display = 'none';
     }
 
     // marks the system whose detail table is open, in the heatmap and in the table

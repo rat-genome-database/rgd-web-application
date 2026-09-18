@@ -127,9 +127,13 @@
 
             <%@ include file="info.jsp"%>
 
-            <div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div>
-
+            <%-- Candidate Gene Status stands on its own: it is the genes this QTL implicates, not
+                 an annotation of it. It used to be included after the Annotation heading, which
+                 put its section - and its sidebar entry, since the sidebar is built in DOM order -
+                 inside Annotation. --%>
             <%@ include file="candidateGenes.jsp"%>
+
+            <div  class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation')">Click to see Annotation Detail View</a></div>
 
             <div id="associationsCurator" style="display:none;">
                 <%@ include file="../associationsCurator.jsp"%>

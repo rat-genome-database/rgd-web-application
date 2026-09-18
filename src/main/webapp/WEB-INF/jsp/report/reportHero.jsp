@@ -42,22 +42,29 @@
         <div class="report-hero-text">
             <div class="report-hero-eyebrow"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroEyebrow)%></div>
             <%
-                RGDManagementDAO rdao=new RGDManagementDAO();
-                RgdId objectRgdId= null;
-                try {
-                    objectRgdId = rdao.getRgdId2(heroRgdId);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                // The title is escaped for every report but the strain one, whose names carry the
+                // markup that spells out a substrain - superscripts and italics - and so has to
+                // reach the browser as markup rather than as visible tags.
+                //
+                // That object key is read off the RGD id, so a report page that has no RGD id of
+                // its own has nothing to look up: the expression study, gene family and rsId
+                // reports are keyed by an accession and leave heroRgdId at its default 0, and
+                // getRgdId2(0) came back null here, so every one of the three died on
+                // objectRgdId.getObjectKey(). An id that does not resolve is treated the same way.
+                boolean heroTitleIsStrain = false;
+                if( heroRgdId > 0 ) {
+                    try {
+                        RgdId heroObjectRgdId = new RGDManagementDAO().getRgdId2(heroRgdId);
+                        heroTitleIsStrain = heroObjectRgdId != null
+                                && heroObjectRgdId.getObjectKey() == RgdId.OBJECT_KEY_STRAINS;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                if(objectRgdId.getObjectKey()!=5){
             %>
-            <h1 class="report-hero-title <%=heroTitleClass%>"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroTitle)%></h1>
-            <%}else{
-                    %>
-            <h1 class="report-hero-title <%=heroTitleClass%>"><%=heroTitle%></h1>
-            <%
-                }
-            %>
+            <h1 class="report-hero-title <%=heroTitleClass%>"><%=heroTitleIsStrain
+                    ? heroTitle
+                    : org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroTitle)%></h1>
             <% if( heroSubtitle != null && !heroSubtitle.isEmpty() ) { %>
             <div class="report-hero-subtitle"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroSubtitle)%></div>
             <% } %>
