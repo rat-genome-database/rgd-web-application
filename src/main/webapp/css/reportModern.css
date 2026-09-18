@@ -664,10 +664,31 @@
    Summary table at the top of the report
    -------------------------------------------------------------------------- */
 
+/* table-layout:fixed for the same reason #content-wrap > table has it, and it matters more
+   here: #info-table carries the card styling itself, so unlike .light-table-border there is no
+   block box around it whose overflow-x could scroll. With the default auto layout the table
+   sized to its widest descendant - the position table is emitted at width=670, next to a 190px
+   label column - so once the body column narrowed past ~970px the card stopped shrinking and
+   the whole summary ran off the right of the page (321px past the viewport at 600px wide).
+   Fixed layout pins it to the column and the wide things inside it scroll or wrap instead. */
 .rgd-modern-report #info-table {
     width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
     margin-bottom: 6px;
     border-collapse: collapse;
+}
+.rgd-modern-report #info-table td { overflow-wrap: break-word; }
+
+/* The position table is the one descendant carrying a hard pixel width. As a block it scrolls
+   inside its own cell at its natural width rather than setting the width of the card - the
+   columns keep their sizes instead of being squeezed. Scoped to #info-table: in the Position
+   section proper the same table sits in a .light-table-border, which already scrolls. */
+.rgd-modern-report #info-table td .mapDataTable {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
 }
 .rgd-modern-report #info-table tr { border-bottom: 1px solid var(--rgd-border-soft); }
 .rgd-modern-report #info-table tr:last-child { border-bottom: 0; }
