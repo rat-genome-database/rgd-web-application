@@ -1448,6 +1448,276 @@
 .rgd-modern-report #content-wrap .rgdSeqBlock br { display: inline; }
 
 /* --------------------------------------------------------------------------
+   Variant list report - report/rsId/main.html
+   -------------------------------------------------------------------------- */
+
+/* The summary strip: the count and the assembly on the left, the actions on the right,
+   wrapping onto a second row when the body column is narrow. This replaced a layout table -
+   table cells cannot wrap, so on a narrow column the actions used to push the card wider
+   instead of moving below the count. */
+.rgd-modern-report .variantSummary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 18px;
+    padding: 4px 0 2px;
+}
+.rgd-modern-report .variantSummaryLead {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    /* without this a long symbol or assembly name sets the flex item's floor and widens the
+       card rather than wrapping inside it */
+    min-width: 0;
+}
+.rgd-modern-report .variantSummaryHeadline {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.rgd-modern-report .variantSummaryFigure {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--rgd-blue-dark);
+    font-variant-numeric: tabular-nums;
+}
+.rgd-modern-report .variantSummaryLabel {
+    font-size: 13.5px;
+    color: var(--rgd-text-muted);
+    overflow-wrap: anywhere;
+}
+.rgd-modern-report .variantSummaryLabel strong {
+    font-weight: 700;
+    color: var(--rgd-text);
+}
+.rgd-modern-report .variantSummarySpecies {
+    font-style: italic;
+    color: var(--rgd-text-faint);
+}
+.rgd-modern-report .variantSummarySpecies::before {
+    content: "\00b7";
+    margin: 0 5px 0 3px;
+    font-style: normal;
+    color: var(--rgd-border);
+}
+
+.rgd-modern-report .variantSummaryChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+/* .rgd-chip is normally a static badge; as a link it still must not underline, and it
+   already carries a transparent border for the hover to colour in */
+.rgd-modern-report a.variantSummaryChip,
+.rgd-modern-report a.variantSummaryChip:hover {
+    text-decoration: none;
+}
+.rgd-modern-report a.variantSummaryChip:hover { border-color: var(--rgd-accent); }
+
+.rgd-modern-report .variantSummaryActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+.rgd-modern-report .variantSummaryDownload { margin: 0; }
+
+/* Filter left, pager right, one row that wraps to two on a narrow body column. Both used to
+   be stacked blocks, the pager built out of a layout table. */
+.rgd-modern-report .variantToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin: 0 0 11px;
+}
+.rgd-modern-report .variantLocFilter {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+}
+.rgd-modern-report .variantToolbarLabel {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--rgd-text-muted);
+}
+
+/* Segmented control. The radio is moved out of sight rather than display:none'd so it keeps
+   its place in the accessibility tree and can still take focus - the label is only the
+   visible half of a control that is still a real radio. */
+.rgd-modern-report .variantSegmented {
+    display: inline-flex;
+    padding: 2px;
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .variantSegmented input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+.rgd-modern-report .variantSegmented label {
+    padding: 4px 13px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .15s ease, color .15s ease;
+}
+.rgd-modern-report .variantSegmented label:hover { color: var(--rgd-text); }
+.rgd-modern-report .variantSegmented input:checked + label {
+    color: #fff;
+    background: var(--rgd-accent);
+}
+.rgd-modern-report .variantSegmented input:focus-visible + label {
+    outline: 2px solid var(--rgd-accent);
+    outline-offset: 1px;
+}
+
+.rgd-modern-report .variantPager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+.rgd-modern-report .variantPagerStatus {
+    font-size: 12.5px;
+    white-space: nowrap;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .variantPagerStatus strong {
+    font-weight: 700;
+    color: var(--rgd-text);
+}
+.rgd-modern-report .variantPager button,
+.rgd-modern-report .variantPager select {
+    font-family: inherit;
+    font-size: 12.5px;
+    padding: 4px 11px;
+    color: var(--rgd-text);
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+    cursor: pointer;
+}
+.rgd-modern-report .variantPager button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    transition: background .15s ease, border-color .15s ease;
+}
+.rgd-modern-report .variantPager button:hover {
+    background: var(--rgd-accent-soft);
+    border-color: var(--rgd-accent);
+}
+.rgd-modern-report .variantPager button i {
+    font-size: 10px;
+    color: var(--rgd-accent);
+}
+
+/* The grid is its own scroll container, not the card. Scrolling #mapDataTableDiv rather
+   than .light-table-border keeps the section heading and the toolbar still while only the
+   columns move, which is what you want when a 12 column grid is wider than the body column.
+
+   There is deliberately no min-width. An earlier revision pinned this table at 980px, which
+   forced a horizontal scrollbar on window widths where the content would have fitted on its
+   own - the production page has no such floor and fits. width:100% lets it fill the column
+   when there is room and fall back to its own min-content width when there is not.
+
+   Nothing here restates the header ground, cell padding, zebra or hover - those come from
+   the .tablesorter-blue block above. An #id selector outranks that block, so anything added
+   here would silently undo it. Only per-column behaviour belongs in this rule set. */
+.rgd-modern-report #mapDataTableDiv {
+    max-width: 100%;
+    overflow-x: auto;
+}
+.rgd-modern-report #mapDataTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Column headers are labels, not prose. "Reference Nucleotide" and "Variant Nucleotide"
+   broke over two lines, which doubled the height of the whole header band and left the
+   one-word headers next to them floating against a band twice their size.
+
+   white-space is inherited, so setting it on the th also reaches .tablesorter-header-inner -
+   the div tablesorter swaps in for each header cell's contents once it initialises - and the
+   rule therefore holds whether or not the plugin has run. It is safe to hang this off an #id
+   even though that outranks the .tablesorter-blue header block above, because white-space is
+   the one property that block does not set. */
+.rgd-modern-report #mapDataTable th { white-space: nowrap; }
+
+/* Position is one value, not two. The markup already glues the range with &nbsp; either side
+   of the dash, which holds "start - stop" together but still lets the cell wrap when the
+   column is squeezed; nowrap makes the column itself hold the line. */
+.rgd-modern-report #mapDataTable .variantPos { white-space: nowrap; }
+
+/* the other short columns that should never break */
+.rgd-modern-report #mapDataTable .variantChr { white-space: nowrap; }
+.rgd-modern-report #mapDataTable .variantIdx { width: 1%; white-space: nowrap; }
+.rgd-modern-report #mapDataTable td.variantIdx {
+    text-align: right;
+    color: var(--rgd-text-faint);
+}
+
+/* The nucleotide columns hold the long runs, so they are the ones that absorb the wrapping
+   the columns above refuse. A run of bases has no spaces to break at, hence anywhere.
+
+   td only, deliberately: these selectors carry an #id and would outrank the .tablesorter-blue
+   header rules, so putting the monospace face on the bare class would take the two nucleotide
+   headers out of the uppercase header face the other ten keep. */
+.rgd-modern-report #mapDataTable td.variantNuc {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 11.5px;
+    overflow-wrap: anywhere;
+}
+.rgd-modern-report #mapDataTable .moreLink {
+    font-family: var(--rgd-font);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* The row pager, one copy above the grid and one below. .pager already supplies the flex
+   row, the icon buttons and the select; this only places it and settles the row-count
+   readout, which would otherwise shift the arrows sideways every time the width of the
+   number changed. */
+.rgd-modern-report .mapDataPager {
+    justify-content: flex-end;
+    margin: 0 0 8px;
+}
+.rgd-modern-report .mapDataPagerBottom { margin: 10px 0 0; }
+.rgd-modern-report .mapDataPager .pagedisplay {
+    min-width: 104px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    color: var(--rgd-text-muted);
+}
+/* the addon puts .disabled on first/prev at the start of the table and on next/last at the
+   end; without a rule for it a dead arrow looks identical to a live one */
+.rgd-modern-report .mapDataPager img.disabled {
+    opacity: .3;
+    cursor: default;
+    background: var(--rgd-surface-alt);
+    border-color: var(--rgd-border-soft);
+}
+
+/* --------------------------------------------------------------------------
    Responsive
    -------------------------------------------------------------------------- */
 

@@ -27,112 +27,197 @@
 %>
 
 
-<table>
-    <tr>
-        <td colspan="2" style="font-size:20px; color:#2865A3; font-weight:700;">
-            <%=symbol%> has <%=totalSize%> RGD Records -&nbsp;<%=SpeciesType.getTaxonomicName(speciesType)%></td>
-        <td width="63%"></td>
-        <% if (isGene){%>
-        <td align="center">
-            <form id="downloadVue">
-                <input type="hidden" id="start" value=""/>
-                <input type="hidden" id="stopPos" value=""/>
-                <input type="hidden" id="chr" value=""/>
-                <input type="hidden" id="mapKey" value=""/>
-                <input type="hidden" id="symbol" value=""/>
-                <input type="image" style="cursor:pointer;" height=40 width=42 v-on:click="downloadVars" src="/rgdweb/common/images/excel.png"/> <!--  onclick="downloadVariants()" -->
-                <br><label style="cursor: pointer;" v-on:click="downloadVars"><u>Download all</u></label>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td>Assembly:&nbsp;<a href='<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey())%>'><%=map.getName()%></a></td>
-    </tr>
-    <% } %>
-    <% if (isGene){
-        if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
-    <tr>
-        <td><b>
-            <a style="font-size: 14px;" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">View all Variants in Variant Visualizer</a>
-        </b></td>
-    </tr>
-    <% } } %>
-</table>
-<br>
-<% if (isGene){%>
-<div>
-    <form id="locationChange">
-        <% if (locType.equals("exon")){%>
-        <input type="radio" id="exon" name="locationType" value="exon" checked>
-        <%} else {%>
-        <input type="radio" id="exon" name="locationType" value="exon">
-        <% } %>
-        <label for="exon">Exon</label>&nbsp;|&nbsp;
-        <% if (locType.equals("intron")){%>
-        <input type="radio" id="intron" name="locationType" value="intron" checked>
-        <%} else {%>
-        <input type="radio" id="intron" name="locationType" value="intron">
-        <% } %>
-        <label for="intron">Intron</label>&nbsp;|&nbsp;
-        <% if (locType.equals("all")){%>
-        <input type="radio" id="all" name="locationType" value="all" checked>
-        <%} else {%>
-        <input type="radio" id="all" name="locationType" value="all">
-        <% } %>
-        <label for="all">All</label>
-    </form>
-</div>
-<% } %>
-<div>
-    <table>
-        <tr>
-            <% if (curPage > 1) {%>
-            <td><button style="font-size: 25px; outline: none;" title="go to previous page" onclick="goBack()">Prev</button>&nbsp;&nbsp;</td>
+<%-- Every section of a report page has to sit in a .reportTable .light-table-border. That
+     class is what carries the card background, and because it is display:block with
+     overflow-x:auto it is also the scroll container that keeps a wide table inside the page.
+     Markup placed bare under #content-wrap gets neither: reportModern.css deliberately makes
+     the legacy 95%-width layout table wrapper transparent (background:none) and
+     table-layout:fixed, so an unwrapped section renders straight onto the page background
+     and its widest descendant spills past the right edge instead of scrolling. --%>
+<div class="reportTable light-table-border">
+    <div class="sectionHeading" id="variantSummary">Variant Summary</div>
+
+    <%-- This was a layout table. The count, the assembly and the two actions are three
+         independent blocks rather than a grid - nothing lines up column-wise - so they sit
+         in a flex row that wraps the actions underneath on a narrow body column instead of
+         forcing a horizontal scroll the way table cells did. --%>
+    <div class="variantSummary">
+
+        <div class="variantSummaryLead">
+            <div class="variantSummaryHeadline">
+                <span class="variantSummaryFigure"><%=NumberFormat.getNumberInstance(Locale.US).format(totalSize)%></span>
+                <span class="variantSummaryLabel">
+                    RGD variant record<%=totalSize==1 ? "" : "s"%> for <strong><%=symbol%></strong>
+                    <span class="variantSummarySpecies"><%=SpeciesType.getTaxonomicName(speciesType)%></span>
+                </span>
+            </div>
+
+            <% if (isGene){%>
+            <div class="variantSummaryChips">
+                <a class="rgd-chip variantSummaryChip" title="the assembly these positions are on"
+                   href='<%=SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey())%>'>
+                    <i class="fa fa-map-o"></i><%=map.getName()%>
+                </a>
+            </div>
             <% } %>
-            <td><label style="font-size: 25px;">Page <%=curPage%> of <%=maxPage%></label>&nbsp;&nbsp;</td>
-            <% if (curPage<maxPage) {%>
-            <td><button style="font-size: 25px;outline: none;" title="go to next page" onclick="goForward()">Next</button>&nbsp;&nbsp;</td>
-            <%}%>
+        </div>
+
+        <% if (isGene){%>
+        <div class="variantSummaryActions">
+            <% if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
+            <a class="rgd-action" title="open every variant of this gene in Variant Visualizer"
+               href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=symbol%>&mapKey=<%=mapKey%>">
+                <i class="fa fa-bar-chart"></i>Variant Visualizer
+            </a>
+            <% } %>
+            <%-- The five hidden inputs that used to be here were dead: downloadVariants.jsp
+                 reads start/stopPos/chr/mapKey/symbol off the axios POST body, and the Vue
+                 instance takes its data from the JSP values below, never from the DOM.
+                 type="image" also submitted the form on click - a plain button does not. --%>
+            <form id="downloadVue" class="variantSummaryDownload">
+                <button type="button" class="rgd-action" v-on:click="downloadVars"
+                        title="download every variant in this report as CSV">
+                    <img src="/rgdweb/common/images/excel.png" alt=""/>Download all
+                </button>
+            </form>
+        </div>
+        <% } %>
+    </div>
+</div>
+
+<%-- The filter, the pager and the variant table share one card, and that card is what
+     scrolls. #mapDataTable has 12 columns and no width of its own, so with nothing around it
+     carrying overflow-x it sized to its content, stretched the cell of the #content-wrap
+     layout table and ran off the right of the page. table-layout:fixed on that wrapper pins
+     the body column to the container, which is what lets this card's overflow-x:auto
+     actually scroll rather than just grow. --%>
+<div class="reportTable light-table-border">
+    <div class="sectionHeading" id="variantList">Variants</div>
+
+<%-- One toolbar: the location filter on the left, the pager on the right, wrapping onto two
+     rows when the body column is narrow. The pager was a layout table and the controls each
+     carried an inline font-size:25px - larger than the report hero's own title, which is
+     most of why this section read as unstyled. Both are gone; sizing comes from the CSS.
+
+     The form element keeps id="locationChange" and the radios stay direct form controls:
+     the handler at the foot of this file walks it as an HTMLFormControlsCollection
+     (rad.length / rad[i]), so moving the radios out of the form would break it. --%>
+<div class="variantToolbar">
+
+    <% if (isGene){%>
+    <form id="locationChange" class="variantLocFilter">
+        <span class="variantToolbarLabel">Location</span>
+        <span class="variantSegmented">
+            <input type="radio" id="exon" name="locationType" value="exon" <%=locType.equals("exon") ? "checked" : ""%>>
+            <label for="exon">Exon</label>
+            <input type="radio" id="intron" name="locationType" value="intron" <%=locType.equals("intron") ? "checked" : ""%>>
+            <label for="intron">Intron</label>
+            <input type="radio" id="all" name="locationType" value="all" <%=locType.equals("all") ? "checked" : ""%>>
+            <label for="all">All</label>
+        </span>
+    </form>
+    <% } %>
+
+    <%-- Two different things page this report and they must not read as one control.
+
+         This one moves between SERVER batches: the controller fetches 1000 records per
+         request, so each button here is a page load. It is hidden entirely when everything
+         fits in one batch - which is the common case - leaving the row pager below as the
+         only pagination on screen. The row pager is the one that pages what is already
+         loaded. --%>
+    <% if (maxPage>1){
+        int batchTo = Math.min(offset + vars.size() - 1, totalSize);
+    %>
+    <div class="variantPager">
+        <span class="variantPagerStatus">
+            Records <strong><%=NumberFormat.getNumberInstance(Locale.US).format(offset)%>&#8211;<%=NumberFormat.getNumberInstance(Locale.US).format(batchTo)%></strong>
+            of <%=NumberFormat.getNumberInstance(Locale.US).format(totalSize)%>
+        </span>
+        <% if (curPage > 1) {%>
+        <button type="button" title="load the previous 1000 records" onclick="goBack()">
+            <i class="fa fa-chevron-left"></i>Prev
+        </button>
+        <% } %>
+        <% if (curPage<maxPage) {%>
+        <button type="button" title="load the next 1000 records" onclick="goForward()">
+            Next<i class="fa fa-chevron-right"></i>
+        </button>
+        <% } %>
+        <label class="variantToolbarLabel" for="pageChanger">Batch</label>
+        <select id="pageChanger" onchange="pageChange()">
             <%
-            if (maxPage>1){%>
-             <td><select style="font-size: 25px" id="pageChanger" onchange="pageChange()">
-                <%
                 for (int i = 1 ; i <= maxPage;i++){
                     if (i==curPage)
                         out.print("<option value="+i+" selected>"+i+"</option>");
                     else
                         out.print("<option value="+i+">"+i+"</option>");
                 }
-                %>
-             </select>
-             </td>
-           <% } %>
-        </tr>
-    </table>
-
+            %>
+        </select>
+    </div>
+    <% } %>
 </div>
 <%     if (totalSize != 0){ %>
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
+
+<%-- Row pagination for the grid itself, so a batch of up to 1000 records is no longer one
+     long scroll. tablesorterPager takes a jQuery set rather than a single node, so naming
+     .mapDataPager wires this copy and the one below the grid from the single call in
+     tablesorterReportCode.js and keeps them in step.
+
+     The pager needs thead and tbody to slice rows out of - it has no way to tell a header
+     row from a data row otherwise - which is why this could not have worked before the
+     thead was added below.
+
+     Note class="mapDataPager pager", one attribute. Most report pages write this as two
+     separate class attributes; the HTML parser keeps the first and drops the second, so
+     .pager never reaches them and they lose the skin's pager styling. --%>
+<div class="mapDataPager pager">
+    <form>
+        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first" title="first page" alt="first"/>
+        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev" title="previous page" alt="previous"/>
+        <span class="pagedisplay" id="mapDataTable_pager_info"></span>
+        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next" title="next page" alt="next"/>
+        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last" title="last page" alt="last"/>
+        <select class="pagesize" title="rows per page">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="9999">All Rows</option>
+        </select>
+    </form>
+</div>
+
 <div id="mapDataTableDiv" class="annotation-detail" >
 
-    <table border="0" id="mapDataTable" class="tablesorter" border='0' cellpadding='2' cellspacing='2' aria-describedby="mapDataTable_pager_info">
+    <%-- thead/tbody are required, not cosmetic: tablesorterReportCode.js calls .tablesorter()
+         on #mapDataTable, and tablesorter bails out on a table with no thead. A browser
+         auto-inserts tbody but never thead, so every row here landed in tbody, the plugin
+         failed to initialise and never added its .tablesorter-blue class - which is what
+         carries the header background, the zebra striping and the row hover. That is why the
+         grid rendered as bare unstyled rows. --%>
+    <table id="mapDataTable" class="tablesorter" border="0" cellpadding='2' cellspacing='2' aria-describedby="mapDataTable_pager_info">
+        <thead>
         <tr>
-            <th></th>
+<%--            <th class="variantIdx"></th>--%>
             <th align="left">Variant Page</th>
             <% if (isGene) { %>
             <th align="left">rs ID</th> <% } %>
             <th align="left">Assembly</th>
-            <th align="left">Chr</th>
-            <th align="left">Position</th>
+            <th align="left" class="variantChr">Chr</th>
+            <th align="left" class="variantPos">Position</th>
             <th align="left">Type</th>
-            <th align="left">Reference Nucleotide</th>
-            <th align="left">Variant Nucleotide</th>
+            <th align="left" class="variantNuc">Reference Nucleotide</th>
+            <th align="left" class="variantNuc">Variant Nucleotide</th>
             <th align="left">Location Name</th>
             <th align="left">Is Damaging?</th>
             <% if (speciesType != SpeciesType.CHINCHILLA && speciesType != SpeciesType.BONOBO && speciesType != SpeciesType.NAKED_MOLE_RAT ){ %>
             <th align="left">Visualize</th>
             <%}%>
         </tr>
+        </thead>
+        <tbody>
         <% for (VariantMapData v : vars) {
             Map m = mapDAO.getMap(v.getMapKey());
 //            VariantMapData v = vars.get(i);
@@ -173,7 +258,7 @@
             }
         %>
         <tr>
-            <td><%=offset%>.</td>
+<%--            <td class="variantIdx"><%=offset%>.</td>--%>
             <td><a style='color:blue;font-weight:700;font-size:11px;' href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>" title="see more information in the variant page">View more</a></td>
             <% if (isGene) {
                 if (speciesType!=SpeciesType.HUMAN){
@@ -183,10 +268,10 @@
                 <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?v.getRsId():"-"%></td>
              <% } } %>
             <td><%=m.getName()%></td>
-            <td><%=v.getChromosome()%></td>
-            <td><%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%></td>
+            <td class="variantChr"><%=v.getChromosome()%></td>
+            <td class="variantPos"><%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%></td>
             <td><%=v.getVariantType()%></td>
-            <td>
+            <td class="variantNuc">
                 <% String ref = Utils.NVL(v.getReferenceNucleotide(), "-");
                     String refLess = ref;
                     String refMore = "";
@@ -197,7 +282,7 @@
                 %>
                 <%=refLess%><% if (ref.length()>16) {%><span class="more" style="display: none;"><%=refMore%></span><a href="" class="moreLink" title="Click to see more">...</a><% } %>
             </td>
-            <td>
+            <td class="variantNuc">
                 <% String varNuc = Utils.NVL(v.getVariantNucleotide(),"-");
                     String varLess = varNuc;
                     String varMore = "";
@@ -217,14 +302,34 @@
             <% } %>
         </tr>
         <% offset++;} %>
+        </tbody>
     </table>
 
 
 </div>
 
+<%-- the same container class again: one tablesorterPager call drives both --%>
+<div class="mapDataPager pager mapDataPagerBottom">
+    <form>
+        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/first.png" class="first" title="first page" alt="first"/>
+        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/prev.png" class="prev" title="previous page" alt="previous"/>
+        <span class="pagedisplay"></span>
+        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next" title="next page" alt="next"/>
+        <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last" title="last page" alt="last"/>
+        <select class="pagesize" title="rows per page">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="9999">All Rows</option>
+        </select>
+    </form>
+</div>
+
 <% } else {%>
 <h1 style="color: red;">No variants for given selection!</h1>
 <% } %>
+</div><%-- /.reportTable.light-table-border (Variants) --%>
 
 
 <script>

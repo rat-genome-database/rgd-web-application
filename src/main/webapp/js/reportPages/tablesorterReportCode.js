@@ -18,15 +18,23 @@ function tableSorterReport() {
                 container: $('.variantSamplesPager'),
                 size: REPORT_PAGE_SIZE
             });
+        // The variant grid on report/rsId/main.html. The server sends up to 1000 records per
+        // request, so without a pager the whole batch rendered as one scroll. .mapDataPager
+        // matches the container above the grid and the one below it; the addon takes the set
+        // and keeps both in step.
+        //
+        // This was commented out before because it could not have worked: the table had no
+        // thead, so tablesorter itself bailed out and there was no initialised table for a
+        // pager to attach to. The thead is in place now.
         $('#mapDataTable')
             .tablesorter({
                 theme: 'blue',
                 widget: ['zebra']
+            })
+            .tablesorterPager({
+                container: $('.mapDataPager'),
+                size: REPORT_PAGE_SIZE
             });
-        //     .tablesorterPager({
-        //     container: $('.mapDataPager'),
-        //     size: 100
-        // });
 
         // #variantTranscriptsTable was the 650px layout table that wrapped the Variant
         // Transcripts section, not a data table - sorting it sorted its one row, and the pager
