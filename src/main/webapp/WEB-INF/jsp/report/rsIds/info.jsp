@@ -201,9 +201,12 @@
         <thead>
         <tr>
 <%--            <th class="variantIdx"></th>--%>
-            <th align="left">Variant Page</th>
-            <% if (isGene) { %>
-            <th align="left">rs ID</th> <% } %>
+            <%-- "Variant Page" and its "View more" link are gone, replaced by the Links
+                 column below. Neither column is conditional on isGene any more: Links is the
+                 only route to the variant report now, and an rsId-scoped request (?id=rs...)
+                 needs that route just as much as a gene-scoped one does. --%>
+            <th align="left" class="variantRsId">rs ID</th>
+            <th align="left" class="variantLinks">Links</th>
             <th align="left">Assembly</th>
             <th align="left" class="variantChr">Chr</th>
             <th align="left" class="variantPos">Position</th>
@@ -259,14 +262,24 @@
         %>
         <tr>
 <%--            <td class="variantIdx"><%=offset%>.</td>--%>
-            <td><a style='color:blue;font-weight:700;font-size:11px;' href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>" title="see more information in the variant page">View more</a></td>
-            <% if (isGene) {
-                if (speciesType!=SpeciesType.HUMAN){
-                String rsId = "<a href=\"https://www.ebi.ac.uk/eva/?variant&accessionID="+v.getRsId()+"\">"+v.getRsId()+"</a>";%>
-            <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?rsId:"-"%></td> <%}
-                else {%>
-                <td align="left"><%=(v.getRsId()!=null && !v.getRsId().equals("."))?v.getRsId():"-"%></td>
-             <% } } %>
+            <%
+                // "." is this dataset's null for an rs id, so it is not a value to link to.
+                String rsIdVal = (v.getRsId()!=null && !v.getRsId().equals(".")) ? v.getRsId() : null;
+            %>
+            <td align="left" class="variantRsId"><%=rsIdVal!=null ? rsIdVal : "-"%></td>
+            <td align="left" class="variantLinks">
+                <%-- RGD is keyed off the variant's own id, not the rs id, so it is always
+                     valid - including on the rows that have no rs id at all. --%>
+                <a class="rgdChipLink" href="/rgdweb/report/variants/main.html?id=<%=v.getId()%>"
+                   title="variant report in RGD">RGD</a>
+                <%-- EVA is skipped for human, as it was before this column was rewritten:
+                     the old code linked rs ids to EVA for every species except human and
+                     rendered human ids as bare text. --%>
+                <% if (rsIdVal!=null && speciesType!=SpeciesType.HUMAN) { %>
+                <a class="rgdChipLink" href="https://www.ebi.ac.uk/eva/?variant&accessionID=<%=rsIdVal%>"
+                   title="this variant in the European Variation Archive">EVA</a>
+                <% } %>
+            </td>
             <td><%=m.getName()%></td>
             <td class="variantChr"><%=v.getChromosome()%></td>
             <td class="variantPos"><%=NumberFormat.getNumberInstance(Locale.US).format(v.getStartPos())%>&nbsp;-&nbsp;<%=NumberFormat.getNumberInstance(Locale.US).format(v.getEndPos())%></td>

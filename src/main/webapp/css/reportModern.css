@@ -1693,6 +1693,26 @@
     white-space: nowrap;
 }
 
+/* rs ID: the identifier on its own, bold so the column scans cleanly down the page. */
+.rgd-modern-report #mapDataTable td.variantRsId {
+    white-space: nowrap;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Links: the per-variant destinations, in their own column rather than trailing the rs id.
+   RGD is on every row (it is keyed off the variant id); EVA only where there is an rs id
+   and the species is not human.
+
+   .rgdChipLink carries a left margin of its own for use mid-sentence, which would indent
+   the first chip away from the cell edge - reset it and space the pair off the adjacent
+   sibling instead. The hover reset is needed because .rgd-modern-report a:hover is one type
+   selector heavier than .rgdChipLink:hover and would otherwise underline the chips. */
+.rgd-modern-report #mapDataTable td.variantLinks { white-space: nowrap; }
+.rgd-modern-report td.variantLinks .rgdChipLink { margin-left: 0; }
+.rgd-modern-report td.variantLinks .rgdChipLink + .rgdChipLink { margin-left: 4px; }
+.rgd-modern-report td.variantLinks .rgdChipLink:hover { text-decoration: none; }
+
 /* The row pager, one copy above the grid and one below. .pager already supplies the flex
    row, the icon buttons and the select; this only places it and settles the row-count
    readout, which would otherwise shift the arrows sideways every time the width of the
