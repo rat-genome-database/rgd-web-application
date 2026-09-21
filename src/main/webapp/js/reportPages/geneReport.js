@@ -130,7 +130,15 @@ function addEventsToSidebar() {
 function removeBreaks(divId){
     let div = document.getElementById(divId);
     if(div != null){
-        let breaks = div.getElementsByTagName('br');
+        // Only the <br> used as blank-line spacing goes. A <br> inside a sequence block is
+        // content: FormUtility.formatFasta() breaks a FASTA string every 64 bases with one, and
+        // removing those ran a 4,614 base transcript onto a single line about 29,000px wide,
+        // which turned the card into a horizontal scroller.
+        //
+        // getElementsByTagName returns a live collection, so removing while indexing forward
+        // skipped every second <br>; taking a static copy first is also what lets it be filtered.
+        let breaks = Array.from(div.getElementsByTagName('br'))
+            .filter(br => !br.closest('pre, .rgdSeqBlock'));
         for (let i = 0; i < breaks.length; i++) {
             breaks[i].parentNode.removeChild(breaks[i]);
         }

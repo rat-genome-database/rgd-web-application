@@ -1435,6 +1435,18 @@
 .rgd-modern-report #content-wrap br:has(+ div),
 .rgd-modern-report #content-wrap br:has(+ table) { display: none; }
 
+/* A <br> inside a sequence block is content, not spacing. FormUtility.formatFasta() breaks a
+   FASTA string every 64 bases with a <br>, and "br + br" above matches every one of them after
+   the first: the adjacent sibling combinator skips the text node between two <br>, so a run of
+   "64 bases <br> 64 bases <br> ..." is a run of adjacent <br> siblings as far as CSS is
+   concerned. A 4,614 base transcript collapsed onto a single line about 29,000px wide, which
+   turned its card into a horizontal scroller.
+
+   This has to stay after the rules above: it is the same specificity, so source order settles
+   it. */
+.rgd-modern-report #content-wrap pre br,
+.rgd-modern-report #content-wrap .rgdSeqBlock br { display: inline; }
+
 /* --------------------------------------------------------------------------
    Responsive
    -------------------------------------------------------------------------- */

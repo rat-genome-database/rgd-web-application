@@ -1252,8 +1252,16 @@ color: #ffffff;
     }
     .refSeqCard td.refSeqValue .mapDataTable { margin: 0; }
 
-    /* the sequence is long - keep it inside the card instead of pushing the page down */
+    /* The sequence is long - keep it inside the card instead of pushing the page down, and inside
+       the card's width too. max-height alone only contained it vertically: a <pre> has no width
+       of its own, so a sequence that ends up on one line (the <br> that formatFasta puts every 64
+       bases can be lost to a br-suppression rule or a stray removeBreaks) sized the cell and the
+       card to the length of the sequence. pre-wrap keeps the line breaks it does have and wraps
+       what is left over; anywhere lets a run of bases break, since it has no spaces to break at. */
     .refSeqCard pre {
+        max-width: 100%;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
         max-height: 260px;
         margin: 6px 0;
         padding: 8px 10px;
