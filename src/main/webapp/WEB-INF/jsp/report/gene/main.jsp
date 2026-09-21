@@ -127,6 +127,12 @@
             heroSubtitle = Utils.NVL(obj.getName(), "");
             heroSpeciesKey = obj.getSpeciesTypeKey();
             heroRgdId = obj.getRgdId();
+            // An allele's symbol is markup - the superscript that names the allele is part of
+            // how it is written - so the hero prints it rather than escaping it, the same way
+            // it prints a strain name. Every other gene type has a plain symbol and stays
+            // escaped; the object key cannot tell these apart, since an allele is a gene, so
+            // the flag is set here where the Gene itself is in hand.
+            heroTitleIsMarkup = "allele".equalsIgnoreCase(Utils.NVL(obj.getType(), ""));
             if( !Utils.isStringEmpty(obj.getType()) ) {
                 heroChips.add("|" + obj.getType());
             }

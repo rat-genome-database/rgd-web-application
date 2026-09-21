@@ -9,6 +9,8 @@
         heroEyebrow        the small label above the title, e.g. "QTL Report"
         heroTitle          the name the reader came here for - symbol, name, citation title
         heroTitleClass     "report-hero-title--long" when the title is a sentence, not a symbol
+        heroTitleIsMarkup  true when heroTitle is markup to render, not text to escape (the
+                           strain report is detected here instead, off its object key)
         heroSubtitle       optional second line, e.g. the full name behind a symbol
         heroSpeciesKey     > 0 draws the species portrait and a species chip
         heroIcon           font-awesome class for the portrait circle when there is no species
@@ -42,9 +44,16 @@
         <div class="report-hero-text">
             <div class="report-hero-eyebrow"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroEyebrow)%></div>
             <%
-                // The title is escaped for every report but the strain one, whose names carry the
-                // markup that spells out a substrain - superscripts and italics - and so has to
-                // reach the browser as markup rather than as visible tags.
+                // The title is escaped for every report but the ones whose names carry the markup
+                // that spells out a substrain or an allele - superscripts and italics - and so
+                // have to reach the browser as markup rather than as visible tags.
+                //
+                // Two ways in, because the two cases know different things. A strain is
+                // recognised here from its object key, since every strain report wants this and
+                // none of them has to ask. An allele is a gene, so its object key says nothing:
+                // only the page holds the Gene whose getType() is "allele", so gene/main.jsp
+                // sets heroTitleIsMarkup and this file just honours it. Any other page with a
+                // marked-up title can set the same flag.
                 //
                 // That object key is read off the RGD id, so a report page that has no RGD id of
                 // its own has nothing to look up: the expression study, gene family and rsId
@@ -62,7 +71,7 @@
                     }
                 }
             %>
-            <h1 class="report-hero-title <%=heroTitleClass%>"><%=heroTitleIsStrain
+            <h1 class="report-hero-title <%=heroTitleClass%>"><%=heroTitleIsStrain || heroTitleIsMarkup
                     ? heroTitle
                     : org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroTitle)%></h1>
             <% if( heroSubtitle != null && !heroSubtitle.isEmpty() ) { %>

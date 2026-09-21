@@ -56,6 +56,11 @@
     String heroTutorialLink = null;
     String heroExtraActions = "";
     boolean heroWatch = true;
+    // Set by a page whose heroTitle is markup rather than plain text, so the hero prints it
+    // instead of escaping it. The strain report is detected in reportHero.jsp off its object
+    // key; this is for the cases only the page itself can know about - an allele gene, whose
+    // symbol carries <sup> and friends while every other gene's symbol is plain.
+    boolean heroTitleIsMarkup = false;
 %>
 
 <script type="text/javascript" src="/rgdweb/js/report.js?v=6">
