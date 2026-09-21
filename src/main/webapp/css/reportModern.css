@@ -1693,10 +1693,9 @@
     white-space: nowrap;
 }
 
-/* rs ID: the identifier on its own, bold so the column scans cleanly down the page. */
+/* rs ID: the identifier on its own. tabular-nums lines the digits up down the column. */
 .rgd-modern-report #mapDataTable td.variantRsId {
     white-space: nowrap;
-    font-weight: 700;
     font-variant-numeric: tabular-nums;
 }
 
