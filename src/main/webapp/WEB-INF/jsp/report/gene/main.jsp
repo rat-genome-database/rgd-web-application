@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.process.search.SearchBean" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
 <%--
   Created by IntelliJ IDEA.

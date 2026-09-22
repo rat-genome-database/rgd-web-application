@@ -125,7 +125,7 @@ public class  MapDataFormatter {
             ret.append("<td>&nbsp;</td>");
             return;
         }
-        ret.append("<td><a href=\"").append(Link.strain(strainRgdId)).append("\">").append(symbol).append("</a></td>");
+        ret.append("<td><a href=\"").append(Link.strain(strainRgdId)).append("\" title='Reference Strain'>").append(symbol).append("</a></td>");
     }
 
     public static String buildTable(int rgdId, int speciesTypeKey) throws Exception{
