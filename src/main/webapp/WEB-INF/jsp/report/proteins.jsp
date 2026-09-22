@@ -242,8 +242,14 @@
     <% if(z>0 ) { out.print(" &nbsp; "); } %>
     <a href="/rgdweb/report/proteinDomain/main.html?id=<%=el.getRgdId()%>" title="see protein domain report page"><%=el.getSymbol()%></a>
     <% } %>
-    <% } %><p>
+    <%-- the Protein Domains card opens inside "if (pdomains.size() > 0)", so it closes inside
+         it as well. The brace that ends that if used to come before this </div>, so a protein
+         with no domains emitted an unmatched </div> that closed #content-wrap and took every
+         section below it out of reach of the accordion. The <p> spacer moved in with the
+         card for the same reason - it belongs to the domains list, not to the page. --%>
+    <p>
 </div>
+<% } %>
 <% } %>
 
 <%@ include file="sectionFooter.jsp"%>

@@ -40,7 +40,11 @@
         </tr>
     </table>
 </div>
-</div>
+<%-- there used to be a second </div> here. Nothing in this file opens it - #cnVariantsWrapper
+     is closed by the tag above, and sectionHeader/sectionFooter only wrap the include in a
+     try/catch - so on any gene with variants it closed #content-wrap instead. Every section
+     after this include then sat outside #content-wrap, and reportModernUx.js, which looks for
+     "#content-wrap .light-table-border", stopped finding them: no accordion from here down. --%>
 <% } %>
 <style>
     .headerCardTitle {

@@ -24,7 +24,11 @@
 
 <%//ui.dynClose("markerAssociation")%>
 
-<% } %>
-
+<%-- #positionMarkersTableDiv is opened inside the "if (sslps.size() > 0)" above, so it has to
+     be closed inside it too. This </div> used to sit after the closing brace, so a gene with
+     no position markers emitted a </div> with nothing to match it, which closed #content-wrap
+     and left every later section outside the selector reportModernUx.js collapses on. --%>
 </div>
+
+<% } %>
 <%@ include file="../sectionFooter.jsp"%>

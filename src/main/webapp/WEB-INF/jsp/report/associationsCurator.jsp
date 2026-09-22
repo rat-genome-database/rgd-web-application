@@ -600,6 +600,15 @@
 %>
 
 <%//ui.dynOpen("goAsscociationC", "Gene Ontology Annotations")%>
+<%-- This heading had no card around it, which is why it had no accordion: buildCards() in
+     reportModernUx.js collapses a .light-table-border that has a .sectionHeading as a direct
+     child, and a bare heading matches nothing. Disease Annotations and Phenotype Annotations
+     in this same file are wrapped this way already; Gene Ontology and Molecular Pathway were
+     the two that were not, so their sub-cards sat as siblings of a loose heading.
+
+     Opened inside the "(bpList + ccList + mfList) > 0" guard and closed inside it as well -
+     see the Phenotype card lower down for what happens when those two do not match. --%>
+<div class="reportTable light-table-border">
 <div class="sectionHeading" id="geneOntologyAnnotationsCurator">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
 </div>
 <% if (bpList.size() > 0) { %>
@@ -774,6 +783,7 @@
 
 <br>
 <%//ui.dynClose("goAsscociationC")%>
+</div><%-- /.reportTable.light-table-border (Gene Ontology Annotations) --%>
 <% } %>
 
 <%
@@ -804,6 +814,9 @@
         }
 %>
 <%//ui.dynOpen("pathwayAssociationC", "Molecular Pathway Annotations")%>
+<%-- as above: the heading needs a .light-table-border around it to become collapsible.
+     Opened and closed inside the same pathway guard. --%>
+<div class="reportTable light-table-border">
 <div class="sectionHeading" id="molecularPathwayAnnotationsDetail">Molecular Pathway Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('molecularPathwayAnnotationsDetail', 'molecularPathwayAnnotationsTableWrapper');">Click to see Annotation Detail View</a>
 </div>
 
@@ -1071,6 +1084,7 @@
     <% } %>
 <%//ui.dynClose("pathwayAssociationC")%>
 <%@ include file="gene/bioCycPathway.jsp"%>
+</div><%-- /.reportTable.light-table-border (Molecular Pathway Annotations) --%>
 <% } %>
 
 <%
@@ -1296,8 +1310,16 @@
     </div>
 
     <% } %>
-<% } %>
+<%-- This closes the Phenotype Annotations card opened above the "if (mpList.size()+hpList.size()
+     > 0)" guard, so it has to sit inside that guard too. It used to sit after the guard's
+     closing brace: on a gene with no phenotype annotations the opening <div> was skipped while
+     this tag was still emitted, leaving a stray </div> that closed #associationsCurator early
+     and then took #content-wrap with it. Everything after this include - Disease, Gene Ontology,
+     Molecular Pathway, Phenotype, References and the rest - was reparented outside #content-wrap,
+     so "#content-wrap .light-table-border" in reportModernUx.js stopped matching any of it and
+     those sections lost their accordion. --%>
 </div>
+<% } %>
 
 
 <%

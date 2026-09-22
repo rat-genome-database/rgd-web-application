@@ -29,6 +29,10 @@
     <% } %>
 </table>
 <%--<%=ui.dynClose("markerAssociation")%>--%>
-<% } %>
+<%-- same pairing as gene/markers.jsp: #markerAssociationTableDiv opens inside
+     "if(!strainAssocs.isEmpty())", so it has to close inside it. Closing it after the brace
+     meant a strain with no marker associations emitted an unmatched </div>, which closed
+     #content-wrap and dropped every section below it out of the accordion's selector. --%>
 </div>
+<% } %>
 <%@ include file="../sectionFooter.jsp"%>
