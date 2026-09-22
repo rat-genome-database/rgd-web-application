@@ -613,7 +613,7 @@
 </div>
 <% if (bpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
-   <div class="annotGroup">Biological Process</div>
+   <div class="annotGroup sectionHeading" id="biologicalProcessDetail">Biological Process</div>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -667,7 +667,7 @@
 <% } %>
 <% if (ccList.size() > 0) { %>
 <div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
-   <div class="annotGroup" id="cellularComponentDetail">Cellular Component</div>
+   <div class="annotGroup sectionHeading" id="cellularComponentDetail">Cellular Component</div>
 
 <div class="search-and-pager">
 
@@ -726,7 +726,7 @@
 <% } %>
 <% if (mfList.size() > 0) { %>
 <div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
-   <div class="annotGroup" id="molecularFunctionDetail">Molecular Function</div>
+   <div class="annotGroup sectionHeading" id="molecularFunctionDetail">Molecular Function</div>
 
 <div class="search-and-pager">
 

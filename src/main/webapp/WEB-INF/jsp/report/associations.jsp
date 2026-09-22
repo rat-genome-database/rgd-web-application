@@ -205,10 +205,16 @@
 <% if (bpList.size() > 0) { %>
 
 
-<div id="biologicalProcessAnnotationsTableWrapper">
+<%-- The three GO sub-sections become cards of their own so each can collapse. buildCards() in
+     reportModernUx.js wires a .light-table-border that has a .sectionHeading as a DIRECT
+     child; these wrappers had neither class, which is why only the Gene Ontology card above
+     them had an accordion. The heading keeps .annotGroup for what it is and gains
+     .sectionHeading for what it now does. The curator view's copies of these three are
+     already .light-table-border, so over there only the heading class is added. --%>
+<div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
 
 
-    <div class="annotGroup">Biological Process</div>
+    <div class="annotGroup sectionHeading" id="biologicalProcessSummary">Biological Process</div>
 
     <div class="search-and-pager">
 
@@ -268,8 +274,8 @@
 
 <% if (ccList.size() > 0) { %>
 
-<div id="cellularComponentAnnotationsTableWrapper">
-    <div class="annotGroup" id="cellularComponentSummary">Cellular Component</div>
+<div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
+    <div class="annotGroup sectionHeading" id="cellularComponentSummary">Cellular Component</div>
 
 <div class="search-and-pager">
 
@@ -324,8 +330,8 @@
 <% } %>
 <% if (mfList.size() > 0) { %>
 
-<div id="molecularFunctionAnnotationsTableWrapper">
-    <div class="annotGroup" id="molecularFunctionSummary">Molecular Function</div>
+<div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
+    <div class="annotGroup sectionHeading" id="molecularFunctionSummary">Molecular Function</div>
 
 
 <div class="search-and-pager">

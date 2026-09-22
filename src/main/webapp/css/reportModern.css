@@ -635,6 +635,22 @@
     margin-bottom: -2px;
     border-bottom-color: transparent;
 }
+
+/* A sub-section heading - Biological Process, Cellular Component, Molecular Function inside
+   Gene Ontology Annotations - is both things at once: .annotGroup for what it is, and
+   .sectionHeading so the card it heads can collapse. It should not read with the same weight
+   as the section heading directly above it, so it steps down a size and takes the muted ink;
+   the caret and the click target are unchanged.
+
+   The margin is restated rather than inherited because .annotGroup carries its own
+   (16px 0 8px, and 4px on :first-child) at the same specificity as the .sectionHeading rule
+   that sets the -14px bleed to the card edges - which of the two wins would otherwise depend
+   on the order the two stylesheets happen to load in. */
+.rgd-modern-report .sectionHeading.annotGroup {
+    margin: 0 -14px 8px;
+    font-size: 13px;
+    color: var(--rgd-text-muted);
+}
 /* everything but the heading disappears when the card is collapsed */
 .rgd-modern-report .light-table-border.rgd-collapsed > *:not(.sectionHeading) {
     display: none !important;
