@@ -23,8 +23,9 @@ function run() {
     addHeadAndIdToTable("phenominerAssociationTableDiv", 0);
 
     rebuildReferenceSequenceTables();
-    checkForRegionTables();
-    checkForAdditionalInfoTables();
+    // empty sections and cards are taken down inside addEventsToSidebar(), late enough to see
+    // the tables the rebuilds above produce and early enough for addItemsToSideBar() to skip
+    // what has been hidden
     addEventsToSidebar();
 
 
@@ -101,7 +102,9 @@ function addEventsToSidebar() {
         let top = domRect.top + document.body.scrollTop;
     });
 
-    checkForAnnotations();
+    // cards first: a section whose only cards are empty shells then reads as empty too
+    hideEmptyCards();
+    hideEmptySections();
     addItemsToSideBar();
 
     // the modern layout keeps the sidebar scrollable at all times
@@ -560,12 +563,69 @@ function buildInfoDot(note, className){
 // they sit ABOVE the heading, up in the summary. A strain with substrains and no annotations
 // (RGD:68038, say) therefore kept an empty Annotation bar. Count only what is really inside the
 // section - the run of siblings between the heading and the next .subTitle.
-function checkForAnnotations(){
-    let annotationDiv = document.getElementById('annotation');
+// Applied to every .subTitle on the page, not just the three headings that used to be named
+// here one at a time. Annotation went through sectionHasContent(); Region and Additional
+// Information each had their own weaker test - "is the next non-<br> sibling the heading after
+// me" - and every other heading (Genomics, Expression, Sequence, References, and whatever the
+// non-gene reports carry) was never checked at all, so those rendered as a bare bar whenever
+// their includes produced nothing.
+//
+// Runs late enough to see the tables rebuildAnnotationTables() and friends produce, and before
+// addItemsToSideBar(), which skips display:none headings - so a hidden section also loses its
+// sidebar entry rather than becoming a link that scrolls nowhere.
+function hideEmptySections(){
+    document.querySelectorAll('#content-wrap .subTitle').forEach(function(heading){
+        if(!sectionHasContent(heading)){
+            heading.style.display = 'none';
+        }
+    });
+}
 
-    if(annotationDiv && !sectionHasContent(annotationDiv)){
-        annotationDiv.style.display = 'none';
+// A card whose include ran, found nothing and emitted the shell anyway: a .light-table-border
+// holding its own heading and nothing else. Taken down for the same reason, and in reverse
+// document order so that a card made up only of sub-cards is judged after they are.
+function hideEmptyCards(){
+    let cards = document.querySelectorAll('#content-wrap .light-table-border');
+    for(let i = cards.length - 1; i >= 0; i--){
+        if(cardIsEmpty(cards[i])){
+            // the class, not just the display, is what sectionHasContent() reads: it counts
+            // content that is display:none on purpose - the annotation detail view - so it
+            // needs a way to tell that apart from a shell that was hidden for being empty
+            cards[i].classList.add('rgd-empty');
+            cards[i].style.display = 'none';
+        }
     }
+}
+
+// Deliberately strict about what counts as empty: everything but the card's own heading, its
+// scripts and its styles has to be gone. A card is left alone the moment it holds any table,
+// image or form control, or any text at all - including text inside a branch that is
+// display:none for now, like the "show sequence" toggles, which are content the reader can ask
+// for rather than an empty card.
+function cardIsEmpty(card){
+    let clone = card.cloneNode(true);
+    // The card's own heading, and the chrome the include emits whether or not it found data:
+    // the pager strip is written out either way - #nucleotideSequencesTable on a promoter
+    // report ships a full pager, icons and a page-size select above an empty table - so
+    // counting its <img> and <select> as content would keep every paged card alive forever.
+    clone.querySelectorAll(':scope > .sectionHeading, script, style,' +
+        ' .search-and-pager, .modelsViewContent, .pager, .table-search').forEach(function(el){
+        el.remove();
+    });
+
+    // A table with headers and an empty <tbody> is a shell too. Removing it here rather than
+    // just not counting it also takes its header labels out of the text test below; otherwise
+    // "Source Accession Links" reads as content.
+    clone.querySelectorAll('table').forEach(function(table){
+        if(!tableHasRows(table)){
+            table.remove();
+        }
+    });
+
+    if(clone.querySelector('table, img, input, select, textarea')){
+        return false;
+    }
+    return clone.textContent.replace(/ /g, ' ').trim().length === 0;
 }
 
 // The report body is a flat list: a .subTitle, then the cards that belong to it, then the next
@@ -579,8 +639,7 @@ function sectionHasContent(heading){
     let node = heading.nextElementSibling;
 
     while(node && !node.classList.contains('subTitle')){
-        if(node.tagName === 'TABLE' || node.classList.contains('light-table-border') ||
-           node.querySelector('table, .light-table-border')){
+        if(siblingHasContent(node)){
             return true;
         }
         node = node.nextElementSibling;
@@ -588,39 +647,50 @@ function sectionHasContent(heading){
 
     return false;
 }
-//to remove headers if there are no table displaying
-function checkForRegionTables(){
-    let regionDiv = document.getElementById('region');
-    if(regionDiv){
-        let element = regionDiv.nextElementSibling;
-        // Region is the last thing on the page for some reports; without the null check the
-        // loop walked off the end and threw, which aborted the rest of run()
-        while(element && element.tagName === "BR"){
-            element = element.nextElementSibling;
+
+// One sibling of a heading. It counts when it is, or contains, a table or a card - except for
+// the shells hideEmptyCards() has just marked .rgd-empty, which are exactly the cards that
+// looked like content while holding none. Without that exclusion a section whose every card
+// came through empty would keep its heading: the cards are still in the DOM, merely hidden.
+function siblingHasContent(node){
+    if(node.classList.contains('rgd-empty')){
+        return false;
+    }
+    if(node.tagName === 'TABLE'){
+        return tableHasRows(node);
+    }
+    if(node.classList.contains('light-table-border')){
+        return true;
+    }
+    let found = node.querySelectorAll('table, .light-table-border');
+    for(let i = 0; i < found.length; i++){
+        if(found[i].closest('.rgd-empty')){
+            continue;
         }
-        if(!element || element.id === "additionalInformation"){
-            regionDiv.style.display = 'none';
+        if(found[i].tagName !== 'TABLE' || tableHasRows(found[i])){
+            return true;
         }
     }
-
+    return false;
 }
-//to remove headers if there are no table displaying
-function checkForAdditionalInfoTables(){
-    let additionalInfoDiv = document.getElementById('additionalInformation');
 
-    if(additionalInfoDiv){
-        let element = additionalInfoDiv.nextElementSibling;
-
-        while(element && element.tagName === "BR"){
-            element = element.nextElementSibling;
-        }
-
-        if(!element){
-            additionalInfoDiv.style.display = 'none';
+// Whether a table carries data rather than just a header. Counting rows will not do: a table
+// written without a <thead> keeps its header row in the <tbody> like any other row. A data row
+// is one with at least one <td>; a header row is all <th>.
+function tableHasRows(table){
+    let rows = table.rows;
+    for(let i = 0; i < rows.length; i++){
+        if(rows[i].querySelector('td')){
+            return true;
         }
     }
-
+    return false;
 }
+// checkForRegionTables() and checkForAdditionalInfoTables() lived here. Both asked "is the next
+// non-<br> sibling the heading after me", which only ever worked for the one heading each was
+// written for, and neither could tell an empty section from one whose content is a card rather
+// than a bare table. hideEmptySections() above does that job for every heading on every report,
+// through the same sectionHasContent() the Annotation heading already used.
 
 function removeAllChildNodes(parent) {
     while (parent.lastElementChild){

@@ -166,9 +166,17 @@ public class PromoterEvidenceFormatter {
         if( !sameMethods )     buf.append("<th>Experiment methods</th>");
         if( !sameDescription ) buf.append("<th>Description</th>");
         buf.append("<th>RGD ID</th>");
+        // A trailing spacer column, so that every column carrying data settles at its content
+        // width. Promoter ID, Name, Position and RGD ID are all rgdCellNowrap, i.e. width:1%,
+        // which leaves whichever column has no width of its own to absorb whatever slack the
+        // table has. That used to be Name: it sat against Promoter ID on the left while
+        // Position and RGD ID were pushed to the far right of the section. The spacer is that
+        // column now, and it has nothing in it.
+        buf.append("<th class=\"rgdColSpacer\"></th>");
         buf.append("</tr>\n</thead>\n<tbody>\n");
 
-        int columnCount = 4
+        // 4 data columns + the spacer, plus whichever of the optional columns are shown
+        int columnCount = 5
                 + (sameType ? 0 : 1) + (sameSo ? 0 : 1) + (sameSource ? 0 : 1)
                 + (sameMethods ? 0 : 1) + (sameDescription ? 0 : 1);
 
@@ -178,7 +186,9 @@ public class PromoterEvidenceFormatter {
             buf.append("<tr>");
             buf.append("<td class=\"rgdCellStrong rgdCellNowrap\"><a href=\"").append(reportLink).append("\">")
                     .append(Utils.defaultString(row.promoter.getSymbol())).append("</a></td>");
-            buf.append("<td>").append(Utils.defaultString(row.promoter.getName())).append("</td>");
+            // a promoter name is a short identifier like "Stk38l_1", so it sizes to its
+            // content alongside the other three rather than soaking up the row
+            buf.append("<td class=\"rgdCellNowrap\">").append(Utils.defaultString(row.promoter.getName())).append("</td>");
             buf.append("<td class=\"rgdCellNowrap\">").append(
                     sameAssembly ? row.position : prefixAssembly(row)).append("</td>");
             if( !sameType )        buf.append("<td>").append(field(row, "type")).append("</td>");
@@ -188,6 +198,7 @@ public class PromoterEvidenceFormatter {
             if( !sameDescription ) buf.append("<td>").append(field(row, "description")).append("</td>");
             buf.append("<td class=\"rgdCellMuted rgdCellNowrap\"><a href=\"").append(reportLink).append("\">")
                     .append(row.promoter.getRgdId()).append("</a></td>");
+            buf.append("<td class=\"rgdColSpacer\"></td>");
             buf.append("</tr>\n");
 
             appendDetailRow(buf, row, columnCount);
