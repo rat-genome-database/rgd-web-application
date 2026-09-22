@@ -1205,11 +1205,21 @@
 }
 .rgd-stickybar-btn:hover { color: #2865a3; border-color: #2865a3; }
 
-/* back to top */
+/* back to top
+
+   The site-wide feedback widget (common/helpFeedbackChat.jsp, styled by css/webFeedback.css)
+   is fixed into this same corner on every page of the site, and at z-index 5000000 it sits on
+   top of anything declared here. Collapsed - which is how the page always loads, since
+   #divButtons carries an inline display:none and the hideMe cookie is only ever written,
+   never read - it is a 50px chat icon at right:35 bottom:25. This button was at right:22
+   bottom:26, so the two overlapped and the feedback icon covered it.
+
+   Stacked above the widget instead, on the same right edge so the two read as one column
+   rather than two things that happen to be near each other. */
 .rgd-to-top {
     position: fixed;
-    right: 22px;
-    bottom: 26px;
+    right: 35px;
+    bottom: 88px;
     z-index: 1020;
     width: 42px;
     height: 42px;
@@ -1229,6 +1239,17 @@
 }
 .rgd-to-top.is-visible { opacity: 1; pointer-events: auto; }
 .rgd-to-top:hover { transform: translateY(-2px); }
+
+/* Clicking the chat icon swaps it for the expanded panel, which is 115px tall at bottom:15
+   and so reaches 130px up the viewport - far enough to swallow the button at its resting
+   place. hideButtons() toggles the two by inline display, and only ever one of them is on
+   screen, so the open panel is the one case that needs the extra lift.
+
+   Kept in a rule of its own: an unsupported :has() invalidates the whole rule it appears in,
+   and grouping it above would take the button's position down with it. On a browser without
+   :has() the base rule still stands and the collapsed state - the one the page loads in -
+   is clear either way. */
+body:has(#divButtons:not([style*="none"])) .rgd-to-top { bottom: 145px; }
 
 /* --------------------------------------------------------------------------
    Legacy inline styles
