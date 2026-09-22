@@ -71,9 +71,28 @@
                     }
                 }
             %>
-            <h1 class="report-hero-title <%=heroTitleClass%>"><%=heroTitleIsStrain || heroTitleIsMarkup
-                    ? heroTitle
-                    : org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroTitle)%></h1>
+            <%
+                // Everything that is not already known to be markup goes out sanitized rather
+                // than flatly escaped: escape the whole title, then bring back just the handful
+                // of formatting tags RGD nomenclature is written with. A symbol like
+                // P3h3<sup>Tn(sb-T2/Bart3)2.310Mcwi</sup> then renders as a superscript even
+                // when nothing told this file that the page is about an allele, while anything
+                // else the title happens to contain - a stray <script>, an attribute, a tag
+                // outside this list - stays escaped and inert.
+                //
+                // This is what the two booleans above used to be the only route to, and it is
+                // why the two of them are now a fast path rather than the thing correctness
+                // depends on: a report that forgets to set heroTitleIsMarkup, or a page whose
+                // JSP has not recompiled since the flag was added, still renders its symbol.
+                String heroTitleHtml;
+                if( heroTitleIsStrain || heroTitleIsMarkup ) {
+                    heroTitleHtml = heroTitle;
+                } else {
+                    heroTitleHtml = org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroTitle)
+                            .replaceAll("&lt;(/?)(sup|sub|i|em|b|strong)&gt;", "<$1$2>");
+                }
+            %>
+            <h1 class="report-hero-title <%=heroTitleClass%>"><%=heroTitleHtml%></h1>
             <% if( heroSubtitle != null && !heroSubtitle.isEmpty() ) { %>
             <div class="report-hero-subtitle"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(heroSubtitle)%></div>
             <% } %>
