@@ -162,8 +162,9 @@
 
         <% if (true) return; %>
 
-        <% } else if (view.equals("4")) { %><table width="95%"><tr><td valign="top">
-        <%@ include file="../arrayIds.jsp"%>
+        <%-- the "view=4" branch that rendered Array IDs as its own tab is gone; the section
+             now lives in the report body under External Database Links. An existing
+             ?view=4 link falls through to the full report rather than to a blank page. --%>
             <% } else if (view.equals("5")) { %><table width="95%"><tr><td valign="top">
         <%@ include file="../referencesTab.jsp"%>
             <% } else { %>
@@ -239,6 +240,11 @@
                     <div  class="subTitle" id = "additionalInformation">Additional Information</div>
 
                     <%@ include file="../xdbs.jsp"%>
+                    <%-- Array IDs sits directly under External Database Links: it is the same
+                         kind of thing, a list of this gene's identifiers somewhere else. It
+                         used to be the "view=4" tab instead, which is gone from menu.jsp and
+                         from the branch above. --%>
+                    <%@ include file="../arrayIds.jsp"%>
                     <%@ include file="../nomen.jsp"%>
                     <%@ include file="../curatorNotes.jsp"%>
 <%--                    <%@ include file="../rgdVariants.jsp"%>--%>

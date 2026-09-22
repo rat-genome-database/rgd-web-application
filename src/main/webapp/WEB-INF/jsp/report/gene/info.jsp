@@ -368,40 +368,49 @@
         <td><%=obj.getNcbiAnnotStatus()%></td>
     </tr>
     <% } %>
-    <tr>
-        <td class="label" valign="top">Position:</td>
-        <td><%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%></td>
-    </tr>
-    <%
-        String jbrowse2Url = MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData);
-        if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){
-    %>
-   <tr>
-        <td  class="label">JBrowse:</td>
-        <td align="left">
-            <div style="padding:10px;"><a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a></div>
-        </td>
-    </tr>
-    <%}%>
     </tbody>
 </table>
-<br>
-<%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
-<br>
-<%-- the viewer is the one block on the report body that was not inside a
-     .light-table-border, which is the single rule that paints every other block white -
-     an <svg> has no background of its own, so the page ground showed through it --%>
-<div id="sequenceViewer" class="light-table-border" onclick="goToJBrowse()">
-    <div class="container">
-        <div id="range" style="text-align: center"></div>
-        <%-- class, not className: className is the JSX property name and this block was
-             copied from the React demo template (js/sequenceViewer/demo/index.ejs). In plain
-             HTML the browser just stores an attribute literally called "className", so the
-             element ends up with no class and no .viewer rule could ever match it. --%>
-        <svg class="viewer" id="viewerActnFly"/>
+
+<%-- Position was two rows of the summary table - the position table itself and the JBrowse
+     link - with the sequence viewer left loose underneath, the one block on the report body
+     that belonged to no section. They are all one subject, so they are one section now.
+
+     The card is a .reportTable .light-table-border with a .sectionHeading as its DIRECT
+     child, which is what buildCards() in reportModernUx.js looks for; that is what gives it
+     the accordion, and addItemsToSideBar() picks the heading up as a nav entry from the same
+     class. The card opens and closes outside the jbrowse2Url condition below, so a gene
+     without a JBrowse URL still gets a well-formed card rather than a stray </div>.
+
+     jbrowse2Url moved up here with the markup it guards: it is read three times below and
+     nothing above this point uses it. --%>
+<%
+    String jbrowse2Url = MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData);
+%>
+<div class="reportTable light-table-border" id="positionTableWrapper">
+    <div class="sectionHeading" id="position">Position</div>
+
+    <%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%>
+
+    <% if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){ %>
+    <div style="padding:10px;"><a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a></div>
+
+    <%-- the viewer no longer carries .light-table-border of its own: it used to need it
+         because an <svg> has no background and the page ground showed through, and that
+         class was the only thing painting a block white. Inside this card the white comes
+         from the card, and a second bordered box around just the svg would read as a card
+         inside a card. --%>
+    <div id="sequenceViewer" onclick="goToJBrowse()">
+        <div class="container">
+            <div id="range" style="text-align: center"></div>
+            <%-- class, not className: className is the JSX property name and this block was
+                 copied from the React demo template (js/sequenceViewer/demo/index.ejs). In plain
+                 HTML the browser just stores an attribute literally called "className", so the
+                 element ends up with no class and no .viewer rule could ever match it. --%>
+            <svg class="viewer" id="viewerActnFly"/>
+        </div>
     </div>
+    <% } %>
 </div>
-<%}%>
 <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 
