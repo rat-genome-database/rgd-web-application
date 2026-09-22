@@ -108,22 +108,6 @@
         .col-duration { display: none; }
         .col-application-method { display: none; }
         .col-notes { display: none; }
-
-        /* Notes is a pipe-joined run of experimental conditions with no spaces anywhere in
-           it, so the browser has nothing to break on and a single long value stretches the
-           column - and with it the table - as far as the text goes.
-
-           The cell marks every "|" as a break opportunity with <wbr>, so the line breaks at
-           the boundaries between conditions rather than through the middle of a term. The
-           max-width is what makes those breaks get taken; it sits on an inline-block inside
-           the cell rather than on the <td>, because this table is table-layout:auto and
-           max-width on a cell is not honoured there. overflow-wrap is the backstop for one
-           condition that is itself longer than the column. */
-        .col-notes .notes-cell {
-            display: inline-block;
-            max-width: 340px;
-            overflow-wrap: anywhere;
-        }
     </style>
 
 <%
@@ -368,12 +352,7 @@
 <%--            </td>--%>
 
             <td class="col-application-method"><%=data.getExpCondApplicationMethod()!=null?data.getExpCondApplicationMethod():""%></td>
-            <%-- <wbr> after each pipe gives the browser somewhere to break this otherwise
-                 unbroken string. It is an element, not a character, so it adds nothing to the
-                 cell's text: tablesorter still sorts on the original value, it does not show
-                 up when the cell is copied, and the Download Metadata file is built server
-                 side from the same getter and is untouched by it. --%>
-            <td class="col-notes"><span class="notes-cell"><%=data.getExpCondNotes()!=null?data.getExpCondNotes().replace("|","|<wbr>"):""%></span></td>
+            <td class="col-notes"><%=data.getExpCondNotes()!=null?data.getExpCondNotes():""%></td>
         </tr>
         <%}%>
     </table>
