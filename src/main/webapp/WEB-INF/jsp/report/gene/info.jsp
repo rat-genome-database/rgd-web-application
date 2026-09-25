@@ -3,6 +3,9 @@
 <%-- Strain/QTL used to come in with ../markerFor.jsp, which this page no longer includes --%>
 <%@ page import="edu.mcw.rgd.datamodel.Strain" %>
 <%@ page import="edu.mcw.rgd.datamodel.QTL" %>
+<%-- GeneticModel likewise reached the Related Strains row only because ../geneticModels.jsp,
+     included further down the same page, happened to import it. That include is gone now. --%>
+<%@ page import="edu.mcw.rgd.datamodel.models.GeneticModel" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
     RgdId id = null;
@@ -313,15 +316,24 @@
     <%
         List<GeneticModel> modelList = geneticModelsDAO.getAllModelsByGeneRgdId(obj.getRgdId());
         List<Strain> markerStrains = strainDAO.isMarkerFor(obj.getRgdId());
+        // The strains annotated to this gene. This is a different question from isMarkerFor()
+        // above - a strain can be annotated to the gene without the gene being one of its
+        // markers - and it is the list the old "Related Rat Strains" card was built from. That
+        // card is gone, so if this row did not ask the question too, those strains would be
+        // named nowhere on the report.
+        List<Strain> annotatedStrains = strainDAO.getAssociatedStrains(obj.getRgdId());
         List<QTL> markerQtls = qtlDAO.isMarkerFor(obj.getRgdId());
 
-        // symbol -> rgd id, so a strain that is both a genetic model and a marker
-        // target is only listed once; sorted alphabetically like the other lists
+        // symbol -> rgd id, so a strain that reaches this row by more than one of the three
+        // routes is only listed once; sorted alphabetically like the other lists
         TreeMap<String, Integer> relatedStrains = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
         for( GeneticModel m: modelList ) {
             relatedStrains.put(m.getStrainSymbol(), m.getStrainRgdId());
         }
         for( Strain astrain: markerStrains ) {
+            relatedStrains.put(astrain.getSymbol(), astrain.getRgdId());
+        }
+        for( Strain astrain: annotatedStrains ) {
             relatedStrains.put(astrain.getSymbol(), astrain.getRgdId());
         }
 

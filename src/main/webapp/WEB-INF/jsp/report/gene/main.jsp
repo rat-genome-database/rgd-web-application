@@ -123,7 +123,11 @@
              lives in ../reportHero.jsp so that every report page presents the same header;
              this block only says what the gene puts in it. --%>
         <%
-            heroEyebrow = "Gene Report";
+            // An allele is stored as a gene and so is rendered by this page, but the reader is
+            // looking at an allele - the eyebrow says so, and the type chip below repeats it.
+            // The object key cannot tell the two apart; only the Gene in hand can.
+            boolean isAllele = "allele".equalsIgnoreCase(Utils.NVL(obj.getType(), ""));
+            heroEyebrow = isAllele ? "Allele Report" : "Gene Report";
             heroTitle = obj.getSymbol();
             heroSubtitle = Utils.NVL(obj.getName(), "");
             heroSpeciesKey = obj.getSpeciesTypeKey();
@@ -131,9 +135,8 @@
             // An allele's symbol is markup - the superscript that names the allele is part of
             // how it is written - so the hero prints it rather than escaping it, the same way
             // it prints a strain name. Every other gene type has a plain symbol and stays
-            // escaped; the object key cannot tell these apart, since an allele is a gene, so
-            // the flag is set here where the Gene itself is in hand.
-            heroTitleIsMarkup = "allele".equalsIgnoreCase(Utils.NVL(obj.getType(), ""));
+            // escaped.
+            heroTitleIsMarkup = isAllele;
             if( !Utils.isStringEmpty(obj.getType()) ) {
                 heroChips.add("|" + obj.getType());
             }
@@ -215,8 +218,14 @@
                     <%@ include file="../qtlsInRegion.jsp"%>
                     <%@ include file="markers.jsp"%>
                     <%@ include file="../cellLines.jsp"%>
-                    <%@ include file="../relatedStrains.jsp"%>
-                    <%@ include file="../geneticModels.jsp"%>
+                    <%-- "Related Rat Strains" (../relatedStrains.jsp) and "Genetic Models"
+                         (../geneticModels.jsp) used to be included here, each a card holding a
+                         single run of strain links. The summary table already carries both in one
+                         "Related Strains" row (see the RELATED STRAINS block in info.jsp, which
+                         merges the genetic models with the strains this gene is a marker for), so
+                         the two cards repeated it a screen further down. Both includes are gone;
+                         the files stay, since relatedStrains.jsp is still included as-is by the
+                         cell line, QTL and variant reports, which have no such summary row. --%>
                     <!---Above expression table-->
                     <a name="expression"></a>
                     <div class="subTitle" id="expression">Expression</div>

@@ -74,6 +74,20 @@
             if( vars!=null && !vars.isEmpty() ) {
                 heroChips.add("fa-list|" + vars.size() + (vars.size()==1 ? " variant" : " variants"));
             }
+            // The stretch of genome these variants were pulled from, written the way the gene
+            // report writes it so the two pages read alike - position in the chip, assembly in
+            // its tooltip. Only the gene-scoped request has a single span to name: the geneId
+            // branch of the controller is the one that sets chr/start/stop, and it resolves
+            // them against one reference assembly. A lookup by rs id has no such span - the
+            // rows it returns can sit on more than one assembly.
+            Object varChr   = request.getAttribute("chr");
+            Object varStart = request.getAttribute("start");
+            Object varStop  = request.getAttribute("stop");
+            if( isGene && varChr!=null && varStart!=null && varStop!=null ) {
+                Map varMap = mapDAO.getMap(mapKey);
+                heroChips.add("fa-map-marker|chr" + varChr + ":" + varStart + "-" + varStop
+                        + (varMap!=null ? "|" + varMap.getName() : ""));
+            }
         %>
         <%@ include file="../reportHero.jsp"%>
 

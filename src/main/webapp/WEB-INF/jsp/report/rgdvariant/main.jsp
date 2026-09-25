@@ -49,9 +49,13 @@
         <%
             heroEyebrow = "Variant Report";
             heroTitle = obj.getName();
-            heroSubtitle = Utils.NVL(obj.getType(), "");
             heroSpeciesKey = obj.getSpeciesTypeKey();
             heroRgdId = obj.getRgdId();
+            // A classification belongs in a chip, not under the title - the other variant report
+            // this URL can land on (cnVariants/main.jsp) and the gene report both read this way.
+            if( !Utils.isStringEmpty(obj.getType()) ) {
+                heroChips.add("|" + obj.getType());
+            }
             if( md!=null && md.getChromosome()!=null ) {
                 heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
                         + "|" + refMap.getName());
