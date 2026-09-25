@@ -309,7 +309,6 @@
 
     var sidebar = document.getElementById("reportMainSidebar");
     var navList = document.getElementById("navbarUlId");
-    var toggleAllBtn = null;
     var filterInput = null;
 
     function buildSidebarToolbar() {
@@ -324,14 +323,6 @@
         label.textContent = "On this page";
         head.appendChild(label);
 
-        toggleAllBtn = document.createElement("button");
-        toggleAllBtn.type = "button";
-        toggleAllBtn.className = "rgd-toc-toggle-all";
-        toggleAllBtn.addEventListener("click", function () {
-            setAll(!everythingCollapsed());
-        });
-        head.appendChild(toggleAllBtn);
-
         filterInput = document.createElement("input");
         filterInput.type = "search";
         filterInput.className = "rgd-toc-filter";
@@ -341,14 +332,57 @@
 
         sidebar.insertBefore(head, sidebar.firstChild);
         head.parentNode.insertBefore(filterInput, head.nextSibling);
+    }
 
-        updateToggleAllLabel();
+    /* --------------------------------------------------- collapse all / expand all */
+    /* The control appears twice: at the top right of the content column while the page is
+       at rest, and in the sticky bar once the hero has scrolled away. Both are built by the
+       factory below and registered here, so they carry one label and pressing either leaves
+       both reading the same thing - they used to be two buttons with two independent labels,
+       and collapsing from one left the other still saying "Collapse all".
+
+       It sat in the sidebar head before this, which put it on the left of the page while the
+       sticky bar put its copy on the right: scrolling appeared to move the button across the
+       page. Both sit on the same edge now. */
+
+    var toggleAllButtons = [];
+
+    function makeToggleAllButton(className, afterToggle) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = className;
+        btn.addEventListener("click", function () {
+            setAll(!everythingCollapsed());
+            if (afterToggle) {
+                afterToggle();
+            }
+        });
+        toggleAllButtons.push(btn);
+        return btn;
     }
 
     function updateToggleAllLabel() {
-        if (toggleAllBtn) {
-            toggleAllBtn.textContent = everythingCollapsed() ? "Expand all" : "Collapse all";
+        var label = everythingCollapsed() ? "Expand all" : "Collapse all";
+        toggleAllButtons.forEach(function (btn) {
+            btn.textContent = label;
+        });
+    }
+
+    function buildContentActions() {
+        var contentWrap = root.querySelector("#content-wrap");
+        if (!contentWrap) {
+            return;
         }
+
+        var bar = document.createElement("div");
+        bar.className = "rgd-content-actions";
+        bar.appendChild(makeToggleAllButton("rgd-content-toggle-all"));
+
+        // under the hero and the tab strip, so it heads the report body rather than
+        // interrupting the block that states what the page is about
+        var anchor = contentWrap.querySelector(":scope > #searchResultHeader") ||
+                     contentWrap.querySelector(":scope > .report-hero");
+        contentWrap.insertBefore(bar, anchor ? anchor.nextSibling : contentWrap.firstChild);
     }
 
     function applyFilter() {
@@ -441,6 +475,7 @@
     }
 
     buildSidebarToolbar();
+    buildContentActions();
     buildSidebarAccordion();
 
     /* sidebar links must open whatever they point at */
@@ -505,17 +540,12 @@
         var actions = document.createElement("div");
         actions.className = "rgd-stickybar-actions";
 
-        var collapseBtn = document.createElement("button");
-        collapseBtn.type = "button";
-        collapseBtn.className = "rgd-stickybar-btn";
-        collapseBtn.textContent = "Collapse all";
-        collapseBtn.addEventListener("click", function () {
-            var next = !everythingCollapsed();
-            setAll(next);
-            collapseBtn.textContent = next ? "Expand all" : "Collapse all";
+        // Collapsing from here would leave the reader somewhere past the end of a much
+        // shorter page, so this copy returns to the top afterwards. The copy at the head of
+        // the content column is already up there and does not need to.
+        actions.appendChild(makeToggleAllButton("rgd-stickybar-btn", function () {
             window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-        actions.appendChild(collapseBtn);
+        }));
         stickyBar.appendChild(actions);
 
         document.body.appendChild(stickyBar);
@@ -533,6 +563,9 @@
     }
 
     buildChrome();
+
+    // both copies exist by now; give them the label the page actually loaded in
+    updateToggleAllLabel();
 
     /* ------------------------------------------------------------ scroll spy */
 

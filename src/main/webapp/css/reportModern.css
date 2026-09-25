@@ -382,19 +382,6 @@
     color: var(--rgd-text-faint);
     border-bottom: 1px solid var(--rgd-border-soft);
 }
-.rgd-toc-toggle-all {
-    padding: 2px 4px;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: .04em;
-    text-transform: none;
-    cursor: pointer;
-    color: var(--rgd-accent) !important;
-    background: none;
-    border: 0;
-}
-.rgd-toc-toggle-all:hover { text-decoration: underline; }
-
 .rgd-toc-filter {
     width: 100%;
     margin: 8px 0 6px;
@@ -1234,6 +1221,44 @@
     background: var(--rgd-surface);
     border: 1px solid var(--rgd-border);
     border-radius: var(--rgd-radius-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Collapse all / expand all, at the head of the content column
+
+   The same control appears in the sticky bar below, on the same edge of the page, so that
+   scrolling swaps one for the other in place instead of appearing to move the button from
+   one side of the report to the other - which is what happened while it lived in the sidebar
+   head on the left.
+
+   The declarations deliberately match .rgd-stickybar-btn value for value, by way of the
+   tokens: the sticky bar is appended to <body>, outside #page-container, so it cannot read
+   them and spells the same colours out literally. Going through the tokens here is what lets
+   the chinchilla skin tint this copy on hover.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .rgd-content-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: -2px 0 10px;
+}
+.rgd-modern-report .rgd-content-toggle-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--rgd-font);
+    cursor: pointer;
+    color: var(--rgd-text);
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .rgd-content-toggle-all:hover {
+    color: var(--rgd-accent);
+    border-color: var(--rgd-accent);
 }
 
 /* --------------------------------------------------------------------------
