@@ -266,7 +266,16 @@
                 // "." is this dataset's null for an rs id, so it is not a value to link to.
                 String rsIdVal = (v.getRsId()!=null && !v.getRsId().equals(".")) ? v.getRsId() : null;
             %>
-            <td align="left" class="variantRsId"><%=rsIdVal!=null ? rsIdVal : "-"%></td>
+            <%-- The rs id links to its own listing: every variant RGD holds under that id, across
+                 assemblies. That is this same page scoped by ?id=rs... instead of ?geneId=, so the
+                 reader can go from one variant of a gene to everywhere else that id turns up.
+                 A row with no rs id shows a dash and stays plain text - there is nothing to link. --%>
+            <td align="left" class="variantRsId">
+                <% if (rsIdVal!=null) { %>
+                <a href="/rgdweb/report/rsId/main.html?id=<%=rsIdVal%>"
+                   title="all variants RGD holds under this rs id"><%=rsIdVal%></a>
+                <% } else { %>-<% } %>
+            </td>
             <td align="left" class="variantLinks">
                 <%-- RGD is keyed off the variant's own id, not the rs id, so it is always
                      valid - including on the rows that have no rs id at all. --%>

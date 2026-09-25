@@ -58,7 +58,15 @@
     <div id="content-wrap">
 
         <%
-            heroEyebrow = "Variant Report";
+            // The object whose variants these are, in front of the noun - "Gene Variants" - so
+            // the eyebrow says whose list this is and still matches the Variants section that
+            // links here. Not "Variant Report": the single-variant reports that share this
+            // controller (cnVariants/main.jsp) keep that label.
+            //
+            // isGene is set above off the "symbol" request attribute, which only the geneId
+            // branch of CNVariantsRsIdController sets. The other branch that reaches this page
+            // is a lookup by rs ID, where there is no owning object to name.
+            heroEyebrow = isGene ? "Gene Variants" : "Variants";
             heroTitle = displayName;
             heroSpeciesKey = speciesType;
             heroIcon = "fa-dot-circle-o";
