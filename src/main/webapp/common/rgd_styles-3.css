@@ -1016,8 +1016,9 @@ color: #ffffff;
     table.rgdCompactTable > tbody > tr.odd  > td { background: #fafbfc; }
     table.rgdCompactTable > tbody > tr:hover > td { background: #eaf2fb; }
 
-    /* a short repeated value - the database a link came from, where an accession
-       is catalogued - carried on every row so sorting cannot orphan it */
+    /* A cell that should be exactly as wide as what is in it and never wrap: a short repeated
+       value - the database a link came from, where an accession is catalogued - carried on
+       every row so sorting cannot orphan it, or a run of chip links that reads as one strip. */
     .rgdCompactTable td.rgdCellNowrap { width: 1%; white-space: nowrap; }
     .rgdCompactTable .rgdCellTag {
         display: inline-block;

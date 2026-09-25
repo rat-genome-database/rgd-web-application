@@ -30,12 +30,12 @@
 </div>
 
 
-<table border="0" id="nucleotideSequencesTable" class="tablesorter rgdCompactTable">
+<table border="0" id="nucleotideSequencesTable" class="tablesorter rgdCompactTable rgdCompactTable--fit">
     <thead>
         <tr>
             <th>Source</th>
             <th>Accession</th>
-            <th class="rgdColRight sorter-false">Links</th>
+            <th class="sorter-false">Links</th>
         </tr>
     </thead>
     <tbody>
@@ -62,8 +62,8 @@
 %>
     <tr>
         <td class="rgdCellNowrap"><span class="rgdCellTag"><%=sourceName%></span></td>
-        <td class="rgdCellStrong"><a href="<%=lastLinkN%><%=accId%>"><%=Utils.NVL(nxid.getLinkText(), accId)%></a></td>
-        <td class="rgdColRight">
+        <td class="rgdCellStrong rgdCellNowrap"><a href="<%=lastLinkN%><%=accId%>"><%=Utils.NVL(nxid.getLinkText(), accId)%></a></td>
+        <td class="rgdCellNowrap">
             <a class="rgdChipLink" href="<%=lastLinkN%><%=accId%>?report=fasta">FASTA</a>
             <a class="rgdChipLink" href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=<%=accId%>"
                title="NCBI Sequence Viewer">Sequence Viewer</a>
