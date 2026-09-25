@@ -459,6 +459,14 @@ function addItemsToSideBar(){
     let sidebar = document.getElementById('navbarUlId');
     removeAllChildNodes(sidebar);
     $('.sidebar-item').each(function(index, value){
+        // A heading with no id has nothing for a link to point at, and the entry would come out
+        // as href="#undefined". The Summary card's heading - the one reportModernUx.js wraps
+        // around #info-table - is deliberately one of those: the list already opens with a
+        // static "Summary" item pointing at #top, and a second one would only repeat it.
+        if(!value.id){
+            return;
+        }
+
         let parent;
         let curator = document.getElementById('associationsCurator');
         let standard = document.getElementById('associationsStandard');

@@ -147,10 +147,18 @@
             heroAnalyze = "rgd.showTools('geneList'," + obj.getSpeciesTypeKey() + ","
                     + MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey() + ",1,'')";
             heroTutorialLink = tutorialLink;
+            // "Edit Me!" was the second item in the tab strip that used to sit here (menu.jsp).
+            // The strip held one real tab, "General", pointing at the view the page was already
+            // showing - the Array IDs and References tabs had both become sections of the report
+            // body - so it was a row of chrome that selected nothing. It is gone; the curator
+            // link belongs with the other page-level actions, which is where the variant report
+            // has kept its own Edit action all along.
+            if( RgdContext.isCurator() ) {
+                heroExtraActions = "<a class=\"rgd-action\" href=\"/rgdweb/curation/edit/editGene.html?edit=new&amp;objectType=editGene.html&amp;rgdId="
+                        + obj.getRgdId() + "\" title=\"go to Object Edit\"><i class=\"fa fa-pencil\"></i>Edit Me!</a>";
+            }
         %>
         <%@ include file="../reportHero.jsp"%>
-
-        <%@ include file="menu.jsp"%>
 
         <% if (view.equals("2")) { %>
 
@@ -279,10 +287,10 @@
 <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=21"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>
 <%-- must come last: it decorates the sidebar and the sections both scripts above build --%>
-<script src="/rgdweb/js/reportPages/reportModernUx.js?v=6"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=9"> </script>
 
 
 

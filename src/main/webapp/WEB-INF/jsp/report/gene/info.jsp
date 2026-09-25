@@ -60,6 +60,24 @@
 <style>
     #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
 </style>
+
+<%-- Summary is a major section of the report, the same kind of thing as Annotation or Sequence
+     further down, and the sidebar has always listed it at top level. The body says so too now,
+     so the two read alike, and the cards below it - General and Position - are its subsections.
+
+     The heading carries no id on purpose. addItemsToSideBar() in geneReport.js lists every
+     .subTitle it can link to, and reportSidebar.jsp already opens the list with a static
+     "Summary" pointing at #top; an id here would put a second one straight underneath it. --%>
+<div class="subTitle">Summary</div>
+
+<%-- General: the summary table itself, which until now was a bare <table> with no heading and
+     no way to fold it, sitting directly above a Position card that had both. Same card shape as
+     Position below - .light-table-border with a .sectionHeading as its DIRECT child - so
+     buildCards() gives it the same accordion and addItemsToSideBar() lists it as a sub entry
+     beside Position. --%>
+<div class="reportTable light-table-border" id="generalTableWrapper">
+    <div class="sectionHeading" id="general">General</div>
+
 <table width="100%" border="0" id="info-table">
     <tbody>
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
@@ -382,6 +400,7 @@
     <% } %>
     </tbody>
 </table>
+</div><%-- /#generalTableWrapper --%>
 
 <%-- Position was two rows of the summary table - the position table itself and the JBrowse
      link - with the sequence viewer left loose underneath, the one block on the report body

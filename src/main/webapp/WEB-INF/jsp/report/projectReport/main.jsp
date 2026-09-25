@@ -153,7 +153,7 @@
 <script type="text/javascript">
     openAll();
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=21"> </script>
-<script src="/rgdweb/js/reportPages/reportModernUx.js?v=6"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=9"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>
 

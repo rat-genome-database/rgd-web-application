@@ -136,7 +136,28 @@
             });
         });
 
+        // A heading that opens the report body is already set apart by the hero above it, so
+        // the margin that separates one section from the next only reads as a gap there. This
+        // is not simply "the first heading": on a report whose summary card sits above the
+        // first heading, that margin is what keeps the two apart and has to stay.
+        if (sections.length && nothingVisibleBefore(sections[0].title)) {
+            sections[0].title.classList.add("rgd-section-first");
+        }
+
         return sections;
+    }
+
+    /* A <style> block, an empty include, a hidden branch - none of them take up room, so none
+       of them counts as something the heading has to be held away from. */
+    function nothingVisibleBefore(el) {
+        var prev = el.previousElementSibling;
+        while (prev) {
+            if (prev.offsetHeight > 0 || prev.offsetWidth > 0) {
+                return false;
+            }
+            prev = prev.previousElementSibling;
+        }
+        return true;
     }
 
     function isCollapsed(el) {
@@ -205,6 +226,45 @@
             saveCollapsed();
         }
     }
+
+    /* ------------------------------------------------------- summary card */
+    /* The summary at the top of the report was the one block with neither a label nor a way
+       to fold it away: every other block on the page is a .light-table-border headed by a
+       .sectionHeading, while #info-table was a bare <table> carrying the card styling itself.
+       Giving it the same structure is all that is needed - buildCards() below then hands it
+       the caret, the click target and the remembered open/closed state, with no special case
+       anywhere else.
+
+       The heading carries no id, deliberately. collectSpyTargets() only follows headings that
+       have one, so the sticky bar and the sidebar go on treating the top of the page as
+       "Summary" - the sidebar's own first entry, which is static and points at #top - and
+       addItemsToSideBar() in geneReport.js skips it rather than listing a second "Summary".
+       The id lives on the card instead, which is where keyFor() reads the storage key from. */
+
+    function buildSummaryCard() {
+        var infoTable = root.querySelector("#content-wrap #info-table");
+        // A report that already heads its own summary is left alone: the gene report writes a
+        // "Summary" .subTitle with General and Position cards under it, in info.jsp, because
+        // those have to exist before geneReport.js builds the sidebar - and this file runs
+        // after it. Anything still bare at this point gets the generic card below.
+        if (!infoTable || infoTable.closest(".light-table-border")) {
+            return;
+        }
+
+        var card = document.createElement("div");
+        card.className = "light-table-border rgd-summary-card";
+        card.id = "reportSummaryCard";
+
+        var heading = document.createElement("div");
+        heading.className = "sectionHeading";
+        heading.textContent = "Summary";
+        card.appendChild(heading);
+
+        infoTable.parentNode.insertBefore(card, infoTable);
+        card.appendChild(infoTable);
+    }
+
+    buildSummaryCard();
 
     var sections = buildSections();
     var cards = buildCards();

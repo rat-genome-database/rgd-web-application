@@ -535,6 +535,12 @@
     border-bottom: 2px solid var(--rgd-border);
     scroll-margin-top: 64px;
 }
+/* The heading that opens the report body. 18px above it is the gap between two sections, and
+   there is no section above this one - only the hero and the collapse-all row, which already
+   separate it. reportModernUx.js sets the class, and only when nothing visible precedes the
+   heading, so a report whose summary card sits above its first heading keeps the margin. */
+.rgd-modern-report .subTitle.rgd-section-first { margin-top: 0; }
+
 .rgd-modern-report .subTitle.rgd-collapsible { cursor: pointer; }
 .rgd-modern-report .subTitle.rgd-collapsible:hover { color: var(--rgd-accent); }
 
@@ -682,6 +688,19 @@
     border-collapse: collapse;
 }
 .rgd-modern-report #info-table td { overflow-wrap: break-word; }
+
+/* Once #info-table is inside a card the surround is the card's job. It drew the border, the
+   rounding and the shadow itself back when nothing enclosed it; left on, they would sit a
+   second frame inside the first. Two things put it in a card: the gene report writes the
+   General card around it in its own info.jsp, and every other report gets the Summary card
+   reportModernUx.js wraps at load. The selector covers both. */
+.rgd-modern-report .light-table-border > #info-table {
+    margin-bottom: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
 
 /* The position table is the one descendant carrying a hard pixel width. As a block it scrolls
    inside its own cell at its natural width rather than setting the width of the card - the
@@ -1240,7 +1259,7 @@
 .rgd-modern-report .rgd-content-actions {
     display: flex;
     justify-content: flex-end;
-    margin: -2px 0 10px;
+    margin: -2px 0 6px;
 }
 .rgd-modern-report .rgd-content-toggle-all {
     display: inline-flex;
