@@ -170,9 +170,14 @@
         <%
             heroEyebrow = "Variant Report";
             heroTitle = displayName;
-            heroSubtitle = Utils.NVL(var.getVariantType(), "");
             heroSpeciesKey = speciesType;
             heroRgdId = obj.getRgdId();
+            // The variant type - snv, insertion, delins - is a classification, not a second line
+            // of the title, so it reads as a chip beside the species and the RGD id rather than
+            // as a subtitle. This is the same call the gene report makes for "protein-coding".
+            if( !Utils.isStringEmpty(var.getVariantType()) ) {
+                heroChips.add("|" + var.getVariantType());
+            }
             if( var.getChromosome()!=null ) {
                 heroChips.add("fa-map-marker|chr" + var.getChromosome() + ":" + var.getStartPos() + "-" + var.getEndPos()
                         + "|" + refMap.getName());
