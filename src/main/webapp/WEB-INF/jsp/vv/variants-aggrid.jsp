@@ -164,7 +164,7 @@
                 geneData.put("rgdId", g.getRgdId());
                 geneData.put("colspan", colspan);
                 // Skip positions covered by this gene
-                for (int skip = 1; skip < colspan && (i + skip) < positionList.size(); skip++) {
+                for (int skip = 1; skip < colspan && (i + 1) < positionList.size(); skip++) {
                     i++;
                 }
             } else {
@@ -174,10 +174,17 @@
             plusGeneData.add(geneData);
         }
 
-        // Plus overflow data (if conflict exists)
+        // Plus overflow data (if conflict exists).
+        //
+        // One entry per gene span, exactly like the main track above - not one per position.
+        // The two lists feed the same renderer, so they have to be the same shape: the main
+        // loop skips the positions a gene covers, and this one has to as well. In the original
+        // view (variants.jsp) both tracks get this for free, because trackHelper.jsp advances
+        // the shared position iterator by the gene's span whichever track it is drawing.
         if (snplotyper.hasPlusStrandConflict()) {
             heightOfOptionalGeneTracks += 25;
-            for (Long pos : positionList) {
+            for (int i = 0; i < positionList.size(); i++) {
+                long pos = positionList.get(i);
                 Map<String, Object> overflowData = new LinkedHashMap<>();
                 overflowData.put("position", pos);
                 MappedGene mg = plusOverflow.get(pos);
@@ -187,6 +194,9 @@
                     overflowData.put("symbol", g.getSymbol());
                     overflowData.put("rgdId", g.getRgdId());
                     overflowData.put("colspan", colspan);
+                    for (int skip = 1; skip < colspan && (i + 1) < positionList.size(); skip++) {
+                        i++;
+                    }
                 } else {
                     overflowData.put("symbol", null);
                     overflowData.put("colspan", 1);
@@ -230,7 +240,7 @@
                 geneData.put("rgdId", g.getRgdId());
                 geneData.put("colspan", colspan);
                 // Skip positions covered by this gene
-                for (int skip = 1; skip < colspan && (i + skip) < positionList.size(); skip++) {
+                for (int skip = 1; skip < colspan && (i + 1) < positionList.size(); skip++) {
                     i++;
                 }
             } else {
@@ -240,10 +250,11 @@
             minusGeneData.add(geneData);
         }
 
-        // Minus overflow data (if conflict exists)
+        // Minus overflow data (if conflict exists) - same shape as the main track, see above.
         if (snplotyper.hasMinusStrandConflict()) {
             heightOfOptionalGeneTracks += 25;
-            for (Long pos : positionList) {
+            for (int i = 0; i < positionList.size(); i++) {
+                long pos = positionList.get(i);
                 Map<String, Object> overflowData = new LinkedHashMap<>();
                 overflowData.put("position", pos);
                 MappedGene mg = minusOverflow.get(pos);
@@ -253,6 +264,9 @@
                     overflowData.put("symbol", g.getSymbol());
                     overflowData.put("rgdId", g.getRgdId());
                     overflowData.put("colspan", colspan);
+                    for (int skip = 1; skip < colspan && (i + 1) < positionList.size(); skip++) {
+                        i++;
+                    }
                 } else {
                     overflowData.put("symbol", null);
                     overflowData.put("colspan", 1);
@@ -561,6 +575,10 @@
         box-sizing: border-box;
     }
 
+    /* The symbol sits at the left of the span, not in the middle of it: .track-cell centres its
+       content, which is right for a one-column cell and wrong for a gene running across fifty
+       of them - the name ended up floating in the middle of a long dark bar, nowhere near the
+       start of the gene. The original view left-aligns it at 5px (trackHelper.jsp). */
     .gene-cell {
         background-color: #42433E;
         color: white;
@@ -568,13 +586,21 @@
         font-size: 12px;
         cursor: pointer;
         overflow: hidden;
-        text-overflow: ellipsis;
+        justify-content: flex-start;
+    }
+
+    .gene-cell .gene-label {
+        position: sticky;
+        left: 5px;
+        padding-right: 5px;
+        white-space: nowrap;
     }
 
     .gene-cell.empty {
         background-color: #E8E4D5;
         color: black;
         cursor: default;
+        justify-content: center;
     }
 
     .ref-nuc-cell {
@@ -1116,41 +1142,54 @@
         });
     }
 
+    /* One cell per entry. The data is built a gene span at a time, not a position at a time -
+       the loops that assemble it above already skip the positions a gene covers - so "colspan"
+       here says how wide to draw this one cell, never how many entries to step over. Stepping
+       over colspan entries dropped whichever genes happened to follow a wide one and pushed
+       everything after it out of line with the variant columns underneath. */
     function renderGeneTrack(container, data) {
         if (!container) return;
         container.innerHTML = '';
 
-        let i = 0;
-        while (i < data.length) {
-            const item = data[i];
+        data.forEach(item => {
+            const cell = document.createElement('div');
 
             if (item.symbol) {
+                // One position is cellWidth px wide here, border included - .track-cell,
+                // .position-cell and the AG Grid columns are all width:cellWidth with
+                // box-sizing:border-box. The original view's pitch is cellWidth + 1 (see
+                // horizontalWidth above, and trackHelper.jsp), and this formula came across
+                // with it: every gene cell was drawn colspan-1 px too wide, so each one shoved
+                // the rest of its track further out of step with the variants underneath.
                 const colspan = item.colspan || 1;
-                const width = (cellWidth * colspan) + (colspan - 1);
+                const width = cellWidth * colspan;
 
-                const cell = document.createElement('div');
                 cell.className = 'track-cell gene-cell';
                 cell.style.width = width + 'px';
                 cell.style.minWidth = width + 'px';
-                cell.textContent = item.symbol;
                 cell.title = item.symbol;
                 cell.dataset.rgdId = item.rgdId;
                 cell.dataset.symbol = item.symbol;
                 cell.onclick = function() {
                     navigateToGene(this.dataset.symbol);
                 };
-                container.appendChild(cell);
 
-                // Skip the covered positions in the data
-                i += colspan;
+                // The label rides along as the track scrolls, so a gene that is wider than the
+                // viewport stays named the whole way across. The original view gets the same
+                // effect by chopping a long span into ten-column blocks and repeating the
+                // symbol in each one (trackHelper.jsp); one sticky label reads better and keeps
+                // the cell a single click target.
+                const label = document.createElement('span');
+                label.className = 'gene-label';
+                label.textContent = item.symbol;
+                cell.appendChild(label);
             } else {
-                const cell = document.createElement('div');
                 cell.className = 'track-cell gene-cell empty';
                 cell.textContent = '--';
-                container.appendChild(cell);
-                i++;
             }
-        }
+
+            container.appendChild(cell);
+        });
     }
 
     function renderRefNucTrack(container, data) {
