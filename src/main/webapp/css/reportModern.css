@@ -1406,6 +1406,21 @@ body:has(#divButtons:not([style*="none"])) .rgd-to-top { bottom: 145px; }
     color: var(--rgd-text-muted) !important;
 }
 
+/* The evidence code in the Annotation tables (AnnotationFormatter). It reads as body text with
+   a dotted rule under it and a help cursor - the standing convention for "there is an
+   explanation behind this" - rather than as a link, which is how it used to present while
+   being unclickable. The expansion is in its title attribute.
+
+   A dotted underline is the browser default for abbr[title] in most engines but not all, and
+   report.css underlines things broadly, so it is stated here rather than inherited. */
+.rgd-modern-report #content-wrap abbr.rgdEvidenceCode {
+    color: var(--rgd-text);
+    cursor: help;
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--rgd-text-faint);
+}
+
 /* 11px bold: the JBrowse and position links inside the map tables */
 .rgd-modern-report #content-wrap [style*="font-size:11px"],
 .rgd-modern-report #content-wrap [style*="font-size: 11px"] {
