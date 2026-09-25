@@ -27,18 +27,26 @@
 <link rel='stylesheet' type='text/css' href='/rgdweb/css/treport.css'>
 <div class="reportTable light-table-border" id="cnVariantsWrapper">
     <div class="sectionHeading" id="cnVariants">Variants</div>
-    <br>
-    <table>
-        <tr>
-            <td><div class="headerCard" style="width: 200px;text-align: center;">
-                <div class="headerCardOverlay" onclick="location.href='/rgdweb/report/rsId/main.html?geneId=<%=rgdId.getRgdId()%>'">.</div>
-                <div class="headerCardTitle">Variants in <%=obj.getSymbol()%><br><span class="headerSubTitle"><%=totalVars%> total Variants</span></div>
-                <span style="text-align: center"><img class="headerCardImage" src="/rgdweb/common/images/variantPage.png" height="175" width="270" border="0" /></span>
-            </div></td>
-            <%--        <td><b><a style="font-size: 20px;" href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>">View <%=totalVars%> variants for <%=obj.getSymbol()%></a></b></td>--%>
-            <%--        <td><a  href="/rgdweb/report/rsIds/main.html?geneId=<%=rgdId.getRgdId()%>" ><input type="image" style="cursor: pointer;"  src="/rgdweb/common/images/variantPage.png"></a></td> &lt;%&ndash; title="View variants in Variant Visualizer" href="/rgdweb/front/select.html?start=&stop=&chr=&geneStart=&geneStop=&geneList=<%=obj.getSymbol()%>&mapKey=<%=activeMap.getKey()%>" &ndash;%&gt;--%>
-        </tr>
-    </table>
+
+    <%-- The section is one call to action: how many variants this gene has, and the way
+         through to them. It used to be a copy of the homepage's "popular tools" tile - a
+         layout table holding a 295px card with a hard black border, an absolutely positioned
+         title block, and an invisible .headerCardOverlay div (its text content was ".")
+         sitting on top to catch the click. Three things follow from that being a link now:
+         it is keyboard reachable, it middle-clicks, and it takes its look from the report
+         skin rather than from the copy of the homepage's stylesheet that used to sit at the
+         foot of this file. The count leads, because that is what a reader comes here for. --%>
+    <a class="rgd-variant-cta" href="/rgdweb/report/rsId/main.html?geneId=<%=rgdId.getRgdId()%>">
+        <img class="rgd-variant-cta-thumb" src="/rgdweb/common/images/variantPage.png"
+             alt="" aria-hidden="true"/>
+        <span class="rgd-variant-cta-text">
+            <span class="rgd-variant-cta-count"><%=java.text.NumberFormat.getIntegerInstance().format(totalVars)%></span>
+            <span class="rgd-variant-cta-label">variants in <%=obj.getSymbol()%></span>
+        </span>
+        <span class="rgd-action rgd-action-primary rgd-variant-cta-go">
+            <i class="fa fa-table" aria-hidden="true"></i> View variant list
+        </span>
+    </a>
 </div>
 <%-- there used to be a second </div> here. Nothing in this file opens it - #cnVariantsWrapper
      is closed by the tag above, and sectionHeader/sectionFooter only wrap the include in a
@@ -46,52 +54,6 @@
      after this include then sat outside #content-wrap, and reportModernUx.js, which looks for
      "#content-wrap .light-table-border", stopped finding them: no accordion from here down. --%>
 <% } %>
-<style>
-    .headerCardTitle {
-        text-align:left;
-        position:absolute;
-        top:0; left:0;
-        margin:0px;
-        padding:5px;
-        order-radius:10px;
-        opacity:1;
-        font-weight: bold;
-        background-color:#eff3fc;
-        color: #24609c;
-        font-size: 16px;
-        order-right:1px solid black;
-        order:1px solid black;
-        z-index:20;
-    }
-    .headerSubTitle {
-        font-size:12px;
-    }
-    .headerCardOverlay {
-        position:absolute;
-        background-color:#2865a3;
-        minWidth:263px;
-        width:293px;
-        height:195px;
-        z-index:30;
-        opacity:0;
-    }
-    .headerCardOverlay:hover {
-        opacity:.5;
-        cursor:pointer;
-    }
-    .headerCardImage {
-        margin:10px;
-        border:1px solid black;
-        z-index:15;
-    }
-    .headerCard {
-        position:relative;
-        width:295px;
-        min-width:295px;
-        border: 1px solid black;
-        border: 1px solid rgba(0,0,0,.125);
-        margin:5px;
-    }
-</style>
+
 
 <%@ include file="sectionFooter.jsp"%>

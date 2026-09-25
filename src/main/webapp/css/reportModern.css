@@ -1007,6 +1007,79 @@
 .rgd-modern-report .reportTableHeader { color: var(--rgd-accent); }
 
 /* --------------------------------------------------------------------------
+   Variants section on the gene report (cnVariants.jsp)
+
+   The section holds one thing: how many variants the gene has, and the way through to them.
+   It arrived as a copy of the homepage's "popular tools" tile - a layout table holding a
+   295px card with a hard black border, an absolutely positioned title block painted #eff3fc,
+   and an invisible overlay div on top to catch the click - so it read as a cut-out from
+   another site wherever it landed among the report's cards.
+
+   The count leads here, because that is the number a reader came for; the screenshot is
+   demoted to a thumbnail whose job is to say where the link goes. The button is a span, not
+   a second link: the whole card is the anchor.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .rgd-variant-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 14px;
+    margin: 2px 0 4px;
+    color: inherit !important;
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+    text-decoration: none !important;
+    transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.rgd-modern-report .rgd-variant-cta:hover {
+    background: var(--rgd-accent-soft);
+    border-color: var(--rgd-accent);
+    box-shadow: var(--rgd-shadow-sm);
+}
+
+.rgd-modern-report .rgd-variant-cta-thumb {
+    flex: 0 0 auto;
+    width: 104px;
+    height: 68px;
+    /* the source is a 270x175 screenshot; cropping from the top left keeps the part of it
+       that reads as a table rather than scaling the whole thing down to a grey smudge */
+    object-fit: cover;
+    object-position: left top;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+
+.rgd-modern-report .rgd-variant-cta-text {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+.rgd-modern-report .rgd-variant-cta-count {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    color: var(--rgd-accent);
+}
+.rgd-modern-report .rgd-variant-cta-label {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--rgd-text-muted);
+}
+
+/* A button in looks only - the anchor around it is what is clickable. Without
+   pointer-events:none it would take .rgd-action:hover on its own and light up
+   out of step with the card it sits in. */
+.rgd-modern-report .rgd-variant-cta-go {
+    flex: 0 0 auto;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
    Variant Transcripts (cnVariants/transcripts.jsp)
 
    One card per transcript: the accession and gene symbol lead it, the predictions sit in the
@@ -1805,6 +1878,9 @@ body:has(#divButtons:not([style*="none"])) .rgd-to-top { bottom: 145px; }
         padding: 8px 12px;
     }
     .rgd-modern-report #info-table td.label { width: 130px; min-width: 130px; }
+    /* the count and the way through matter; the screenshot is the part that can go */
+    .rgd-modern-report .rgd-variant-cta { flex-wrap: wrap; gap: 12px; }
+    .rgd-modern-report .rgd-variant-cta-thumb { display: none; }
 }
 
 /* --------------------------------------------------------------------------
