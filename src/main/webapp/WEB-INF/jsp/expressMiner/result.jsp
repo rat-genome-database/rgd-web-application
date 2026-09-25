@@ -157,6 +157,7 @@
 
   .em-facet-label { flex: 1; }
   .em-facet-count { color: #7a8a9a; white-space: nowrap; }
+  .em-level-range { color: #7a8a9a; font-size: 11px; white-space: nowrap; }
 
   /* Heatmap toggle: stays at the top of the page (scrolls away normally). */
   .em-heatmap-bar {
@@ -577,13 +578,9 @@
                           onclick="ontPopup('strainStaging','rs','strainStaging_term'); return false;">Browse Ontology Tree</button>
                 </div>
                 <div class="st-add">
-                  <input type="text" id="strainSearchInput" class="st-add-input" autocomplete="off"
-                         placeholder="Search strains by name, e.g. SS/JrHsd"/>
-                </div>
-                <div class="st-add">
-                  <input type="text" id="strainManualInput" class="st-add-input"
-                         placeholder="...or enter an accession, e.g. RS:0000681"
-                         onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('strainStaging');}"/>
+                  <input type="text" id="strainInput" class="st-add-input" autocomplete="off"
+                         placeholder="Search by name (e.g. SS/JrHsd) or enter an accession (e.g. RS:0000681)"
+                         onkeydown="onPickerKey(event, 'strainStaging')"/>
                   <button type="button" class="st-add-btn" onclick="addManual('strainStaging')">Add</button>
                 </div>
                 <div id="strainAddError" class="st-add-error"></div>
@@ -599,13 +596,9 @@
                           onclick="ontPopup('tissueStaging','uberon','tissueStaging_term'); return false;">Browse Ontology Tree</button>
                 </div>
                 <div class="st-add">
-                  <input type="text" id="tissueSearchInput" class="st-add-input" autocomplete="off"
-                         placeholder="Search tissues by name, e.g. liver"/>
-                </div>
-                <div class="st-add">
-                  <input type="text" id="tissueManualInput" class="st-add-input"
-                         placeholder="...or enter an accession, e.g. UBERON:0002107"
-                         onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('tissueStaging');}"/>
+                  <input type="text" id="tissueInput" class="st-add-input" autocomplete="off"
+                         placeholder="Search by name (e.g. liver) or enter an accession (e.g. UBERON:0002107)"
+                         onkeydown="onPickerKey(event, 'tissueStaging')"/>
                   <button type="button" class="st-add-btn" onclick="addManual('tissueStaging')">Add</button>
                 </div>
                 <div id="tissueAddError" class="st-add-error"></div>
@@ -622,13 +615,9 @@
                           onclick="ontPopup('conditionStaging','xco','conditionStaging_term'); return false;">Browse Ontology Tree</button>
                 </div>
                 <div class="st-add">
-                  <input type="text" id="conditionSearchInput" class="st-add-input" autocomplete="off"
-                         placeholder="Search conditions by name, e.g. controlled exercise"/>
-                </div>
-                <div class="st-add">
-                  <input type="text" id="conditionManualInput" class="st-add-input"
-                         placeholder="...or enter an accession, e.g. XCO:0000105"
-                         onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('conditionStaging');}"/>
+                  <input type="text" id="conditionInput" class="st-add-input" autocomplete="off"
+                         placeholder="Search by name (e.g. controlled exercise) or enter an accession (e.g. XCO:0000105)"
+                         onkeydown="onPickerKey(event, 'conditionStaging')"/>
                   <button type="button" class="st-add-btn" onclick="addManual('conditionStaging')">Add</button>
                 </div>
                 <div id="conditionAddError" class="st-add-error"></div>
@@ -728,7 +717,6 @@
   var serverTotal = 0;      // total matching records reported by the server
   var filteredRecords = []; // records surviving the current facet selection (feeds table + heatmap)
   var reloadSeq = 0;        // increments per reloadRecords() call; guards against out-of-order responses
-  var facetsSeq = 0;        // same guard for loadFacets() count refreshes
 
   function capitalize(v) { return v ? String(v).charAt(0).toUpperCase() + String(v).slice(1) : ''; }
 
@@ -966,49 +954,29 @@
     var boxes = document.querySelectorAll('#emFacetPanel input[type=checkbox]');
     for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
     reloadRecords();     // also re-renders the client facets (Sex / Life Stage) via applyClientFilters
-    loadFacets(false);
   }
 
   // Show only facet items matching the typed text (matches label or accession id).
-  // Decide every facet checkbox's visibility in one pass. Two rules combine: the group's text search
-  // (typed in its search box) and "hide zero-count values while any filter is active" -- once a filter
-  // is on, a value that can no longer match is just noise. A CHECKED value always stays visible, even
-  // at 0, so it can still be unchecked. A group whose values are all hidden is hidden as a whole.
-  function applyFacetVisibility() {
-    var hideZero = anyFacetSelected();
-    var bodies = document.querySelectorAll('#emFacetGroups .em-facet-group-body, #emClientFacetGroups .em-facet-group-body');
-    for (var g = 0; g < bodies.length; g++) {
-      var body = bodies[g];
-      var search = body.querySelector('.em-facet-search');
-      var q = search ? search.value.trim().toLowerCase() : '';
-      var items = body.querySelectorAll('.em-facet-item');
-      var anyVisible = false;
-      for (var i = 0; i < items.length; i++) {
-        var it = items[i];
-        var hay = it.getAttribute('data-search') || '';
-        var matchesSearch = !q || hay.indexOf(q) !== -1;
-        var box = it.querySelector('input[type=checkbox]');
-        var cnt = it.querySelector('.em-facet-count');
-        var count = cnt ? (parseInt(cnt.innerText, 10) || 0) : 0;
-        var checked = !!(box && box.checked);
-        var show = matchesSearch && (!hideZero || count > 0 || checked);
-        it.style.display = show ? '' : 'none';
-        if (show) anyVisible = true;
-      }
-      var group = body.parentNode;
-      if (group && group.classList.contains('em-facet-group')) group.style.display = anyVisible ? '' : 'none';
-    }
-  }
-
-  // Search-box handler (inline oninput in the markup). The query is read back from the DOM, so it
-  // just re-runs the shared visibility pass.
   function filterFacetItems(input) {
-    applyFacetVisibility();
+    var q = input.value.trim().toLowerCase();
+    var items = input.parentNode.querySelectorAll('.em-facet-item');
+    for (var i = 0; i < items.length; i++) {
+      var hay = items[i].getAttribute('data-search') || '';
+      items[i].style.display = (!q || hay.indexOf(q) !== -1) ? '' : 'none';
+    }
   }
 
   function toggleGroup(el) {
     el.parentNode.classList.toggle('collapsed');
   }
+
+  // TPM bands behind each expression level, shown beside the level name in the filter list so the
+  // cutoffs are visible without leaving the panel. Keyed by the level value the index reports.
+  var LEVEL_RANGES = {
+    high:   'TPM > 1000',
+    medium: '10 < TPM <= 1000',
+    low:    '0.5 <= TPM <= 10'
+  };
 
   // Build the checkbox groups from the /index/facets payload. Groups with a single
   // value are skipped (filtering to the only value would be a no-op).
@@ -1038,11 +1006,15 @@
       for (var i = 0; i < values.length; i++) {
         var v = values[i];
         var label = v.label && v.label !== v.acc ? v.label : v.acc;
+        // Expression levels get their TPM band shown next to the name (see LEVEL_RANGES).
+        var range = (group.key === 'levels') ? LEVEL_RANGES[String(v.acc).toLowerCase()] : '';
         var hay = esc((label + ' ' + v.acc).toLowerCase());
         html.push(
           '<label class="em-facet-item" data-group="' + esc(group.key) + '" data-search="' + hay + '">' +
             '<input type="checkbox" onchange="onFacetChange(\'' + esc(group.key) + '\', this)" value="' + esc(v.acc) + '"/>' +
-            '<span class="em-facet-label">' + esc(label) + '</span>' +
+            '<span class="em-facet-label">' + esc(label) +
+              (range ? ' <span class="em-level-range">' + esc(range) + '</span>' : '') +
+            '</span>' +
             '<span class="em-facet-count">' + v.count + '</span>' +
           '</label>'
         );
@@ -1051,24 +1023,17 @@
     }
     document.getElementById('emFacetGroups').innerHTML =
       html.length ? html.join('') : '<div style="padding:12px 14px;font-size:12px;color:#7a8a9a;">No filters available.</div>';
-    applyFacetVisibility();
   }
 
-  // Fetch facets for the current selection from the server (accurate counts + resolved names).
-  // First call builds the panel; later calls refresh the counts in place so numbers track filters.
-  function loadFacets(initial) {
-    // Count refreshes race the same way record reloads do; only apply the latest so the panel counts
-    // don't flicker back to a superseded selection. The initial panel build is never superseded.
-    var seq = initial ? 0 : ++facetsSeq;
+  // Fetch the facet panel once, for the query the user entered the tool with. The options and counts
+  // are then left alone for the life of the page: re-querying /index/facets with the current selection
+  // would zero out every other value in the group the user just picked from, making it impossible to
+  // select a second option. Counts therefore describe the ORIGINAL query, not the narrowed one.
+  function loadFacets() {
     fetch(apiUrl + '/rgdws/expression/index/facets?' + facetsQueryString(), { headers: { 'Accept': 'application/json' } })
       .then(function (resp) { return resp.ok ? resp.json() : null; })
-      .then(function (facets) {
-        if (!facets) return;
-        if (initial) { renderFacets(facets); return; }
-        if (seq !== facetsSeq) return; // a newer count refresh is in flight; drop this stale one
-        updateFacetCounts(facets);
-      })
-      .catch(function () { /* facets are optional; a failure just leaves the panel/counts unchanged */ });
+      .then(function (facets) { if (facets) renderFacets(facets); })
+      .catch(function () { /* facets are optional; a failure just leaves the panel unchanged */ });
   }
 
   function checkedValues(groupKey) {
@@ -1100,25 +1065,6 @@
       if (levels.length === 1) params.push('expressionLevel=' + encodeURIComponent(levels[0]));
     }
     return params.join('&');
-  }
-
-  // Update the count next to each rendered facet value from a fresh /index/facets response,
-  // without rebuilding the panel (checked state, scroll and search text survive). Missing -> 0.
-  function updateFacetCounts(facets) {
-    for (var g = 0; g < FACET_GROUPS.length; g++) {
-      if (FACET_GROUPS[g].client) continue; // client groups are refreshed by renderClientFacets
-      var key = FACET_GROUPS[g].key;
-      var vals = facets[key] || [];
-      var map = {};
-      for (var i = 0; i < vals.length; i++) map[vals[i].acc] = vals[i].count;
-      var items = document.querySelectorAll('#emFacetGroups .em-facet-item[data-group="' + key + '"]');
-      for (var j = 0; j < items.length; j++) {
-        var box = items[j].querySelector('input[type=checkbox]');
-        var cnt = items[j].querySelector('.em-facet-count');
-        if (box && cnt) cnt.innerText = (map[box.value] != null ? map[box.value] : 0);
-      }
-    }
-    applyFacetVisibility(); // counts changed, so re-apply the hide-zero rule
   }
 
   // Build the client-computed facet groups (Sex, Life Stage) from the loaded records. Each value's
@@ -1183,7 +1129,6 @@
       html.push('</div></div>');
     }
     container.innerHTML = html.join('');
-    applyFacetVisibility(); // rebuilt from scratch, so re-apply search + hide-zero visibility
   }
 
   function isClientFacet(groupKey) {
@@ -1230,12 +1175,14 @@
     else delete selectedFacets[groupKey][box.value];
 
     // Sex / Life Stage are derived from records already loaded, so just re-filter -- no server round
-    // trip. Server-backed facets narrow the query, so re-fetch records and refresh their counts.
+    // trip. Server-backed facets narrow the query, so re-fetch the records.
+    // The facet panel itself is deliberately NOT refreshed: its options and counts stay fixed at the
+    // original query so every value remains selectable (re-querying /index/facets with the current
+    // selection zeroes out every other value in the group, making multi-select impossible).
     if (isClientFacet(groupKey)) {
       applyClientFilters();
     } else {
       reloadRecords();
-      loadFacets(false);
     }
   }
 
@@ -1420,7 +1367,7 @@
       return;
     }
 
-    loadFacets(true);  // build the facet panel from the server (accurate counts + names)
+    loadFacets();      // build the facet panel once, from the original query
     reloadRecords();   // fetch the records for the current selection
   }
 
@@ -1435,13 +1382,13 @@
   var ST_LISTS = {
     strainStaging: { type: 'strain', inputName: 'strainId', listId: 'strainList',
                      countId: 'strainCount', emptyId: 'strainEmpty', prefix: 'RS:',
-                     manualInputId: 'strainManualInput', errorId: 'strainAddError' },
+                     inputId: 'strainInput', errorId: 'strainAddError' },
     tissueStaging: { type: 'tissue', inputName: 'tissueId', listId: 'tissueList',
                      countId: 'tissueCount', emptyId: 'tissueEmpty', prefix: 'UBERON:',
-                     manualInputId: 'tissueManualInput', errorId: 'tissueAddError' },
+                     inputId: 'tissueInput', errorId: 'tissueAddError' },
     conditionStaging: { type: 'condition', inputName: 'conditionId', listId: 'conditionList',
                         countId: 'conditionCount', emptyId: 'conditionEmpty', prefix: 'XCO:',
-                        manualInputId: 'conditionManualInput', errorId: 'conditionAddError' }
+                        inputId: 'conditionInput', errorId: 'conditionAddError' }
   };
   var selectedAcc = { strain: {}, tissue: {}, condition: {} };
 
@@ -1481,9 +1428,23 @@
     return v;
   }
 
+  // One box per ontology handles both ways of picking a term: type a name and choose from the
+  // autocomplete suggestions, or type an accession and press Enter / Add. On Enter we only take
+  // over when the text actually looks like an accession -- otherwise Enter belongs to the
+  // suggestion dropdown, which uses it to accept the highlighted term.
+  function onPickerKey(ev, stagingId) {
+    if (ev.key !== 'Enter') return;
+    var cfg = ST_LISTS[stagingId];
+    var el = document.getElementById(cfg.inputId);
+    if (normalizeAcc((el.value || '').trim(), cfg.prefix)) {
+      ev.preventDefault();
+      addManual(stagingId);
+    }
+  }
+
   function addManual(stagingId) {
     var cfg = ST_LISTS[stagingId];
-    var input = document.getElementById(cfg.manualInputId);
+    var input = document.getElementById(cfg.inputId);
     var err = document.getElementById(cfg.errorId);
     err.innerText = '';
 
@@ -1492,7 +1453,7 @@
 
     var accId = normalizeAcc(raw, cfg.prefix);
     if (!accId) {
-      err.innerText = 'Enter a valid ' + cfg.prefix + ' accession (e.g. ' + cfg.prefix + '0000123).';
+      err.innerText = 'Pick a term from the suggestions, or enter an accession (e.g. ' + cfg.prefix + '0000123).';
       return;
     }
     if (selectedAcc[cfg.type][accId]) {
@@ -1503,6 +1464,7 @@
     // Look the accession up in the ontology: confirm it exists and grab the term name, so the list
     // shows "name (ACC)" instead of echoing the accession as its own label.
     var ont = cfg.prefix.replace(':', '');
+    input.value = '';   // clear now so the autocomplete blur handler sees an empty box
     err.innerText = 'Looking up ' + accId + '...';
     fetch(apiUrl + '/rgdws/ontology/term/' + encodeURIComponent(accId), { headers: { 'Accept': 'application/json' } })
       .then(function (resp) { return resp.ok ? resp.text() : ''; })
@@ -1511,13 +1473,13 @@
         try { term = text ? JSON.parse(text) : null; } catch (e) { term = null; }
         if (!term || !term.accId) {
           err.innerText = 'No ' + ont + ' term found for ' + accId + '.';
+          input.value = raw;   // put the text back so it can be corrected
           return;
         }
         err.innerText = '';
         addTerm(term.accId, term.term || term.accId, cfg);
-        input.value = '';
       })
-      .catch(function () { err.innerText = 'Could not look up ' + accId + '. Please try again.'; });
+      .catch(function () { input.value = raw; err.innerText = 'Could not look up ' + accId + '. Please try again.'; });
   }
 
   function addTerm(accId, term, cfg) {
@@ -1576,32 +1538,56 @@
     }
   };
 
-  // Pre-populate the picker from the current query. Term names aren't resolved in the web app (no SQL
-  // here), so the accession is shown as the label until the user browses for a friendlier name.
+  // A preloaded selection arrives as a bare accession (the wizard carries ids, not names), which would
+  // render as "RS:0000681 (RS:0000681)". Resolve each one against the ontology in the background and
+  // relabel the row in place so it reads "SD (RS:0000681)", matching what manual entry now produces.
+  function relabelFromOntology(accId, cfg) {
+    fetch(apiUrl + '/rgdws/ontology/term/' + encodeURIComponent(accId), { headers: { 'Accept': 'application/json' } })
+      .then(function (resp) { return resp.ok ? resp.text() : ''; })
+      .then(function (text) {
+        var t = null;
+        try { t = text ? JSON.parse(text) : null; } catch (e) { t = null; }
+        if (!t || !t.term) return;
+        var el = document.querySelector('#' + cfg.listId + ' li[data-acc="' + accId + '"] .st-row-label');
+        if (el) el.innerText = t.term;
+      })
+      .catch(function () { /* leave the accession as the label */ });
+  }
+
+  // Pre-populate the picker from the current query, then resolve the names asynchronously.
   (function preloadEdit() {
-    for (var i = 0; i < STRAIN_IDS.length; i++) addTerm(STRAIN_IDS[i], STRAIN_IDS[i], ST_LISTS.strainStaging);
-    for (var j = 0; j < TISSUE_IDS.length; j++) addTerm(TISSUE_IDS[j], TISSUE_IDS[j], ST_LISTS.tissueStaging);
-    for (var k = 0; k < CONDITION_IDS.length; k++) addTerm(CONDITION_IDS[k], CONDITION_IDS[k], ST_LISTS.conditionStaging);
+    var seed = [
+      [STRAIN_IDS, ST_LISTS.strainStaging],
+      [TISSUE_IDS, ST_LISTS.tissueStaging],
+      [CONDITION_IDS, ST_LISTS.conditionStaging]
+    ];
+    for (var s = 0; s < seed.length; s++) {
+      var ids = seed[s][0], cfg = seed[s][1];
+      for (var i = 0; i < ids.length; i++) {
+        addTerm(ids[i], ids[i], cfg);
+        relabelFromOntology(ids[i], cfg);
+      }
+    }
   })();
 
   // Term-name search for each ontology (shared component). Selecting adds the term with its real name.
   if (typeof setupOntologyAutocomplete === 'function') {
-    setupOntologyAutocomplete('#strainSearchInput', 'RS', {
+    setupOntologyAutocomplete('#strainInput', 'RS', {
       onSelect: function (term, accId) {
         addTerm(accId, term, ST_LISTS.strainStaging);
-        var el = document.getElementById('strainSearchInput'); if (el) el.value = '';
+        var el = document.getElementById('strainInput'); if (el) el.value = '';
       }
     });
-    setupOntologyAutocomplete('#tissueSearchInput', 'UBERON', {
+    setupOntologyAutocomplete('#tissueInput', 'UBERON', {
       onSelect: function (term, accId) {
         addTerm(accId, term, ST_LISTS.tissueStaging);
-        var el = document.getElementById('tissueSearchInput'); if (el) el.value = '';
+        var el = document.getElementById('tissueInput'); if (el) el.value = '';
       }
     });
-    setupOntologyAutocomplete('#conditionSearchInput', 'XCO', {
+    setupOntologyAutocomplete('#conditionInput', 'XCO', {
       onSelect: function (term, accId) {
         addTerm(accId, term, ST_LISTS.conditionStaging);
-        var el = document.getElementById('conditionSearchInput'); if (el) el.value = '';
+        var el = document.getElementById('conditionInput'); if (el) el.value = '';
       }
     });
   }

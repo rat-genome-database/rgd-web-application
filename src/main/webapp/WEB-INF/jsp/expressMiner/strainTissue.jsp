@@ -269,6 +269,26 @@
     color: #bd80ff;
     text-decoration: underline;
   }
+
+  /* Make an addition obvious: flash the new row green, then settle to the normal row styling. */
+  @keyframes stRowAdded {
+    0%   { background: #d8f0dc; border-color: #28a745; }
+    60%  { background: #eafaee; border-color: #7fc98f; }
+    100% { background: #f8fafc; border-color: #dde5ef; }
+  }
+  .st-row.st-row-new { animation: stRowAdded 1.4s ease-out 1; }
+
+  /* Briefly pop the count badge so the eye is drawn to the new total. */
+  @keyframes stCountPulse {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.35); background: #28a745; }
+    100% { transform: scale(1); }
+  }
+  .st-count.st-count-pulse { display: inline-block; animation: stCountPulse 0.5s ease-out 1; }
+
+  /* The status line under each box doubles as a confirmation (green) and a busy note (grey). */
+  .st-add-error.ok   { color: #1e7e34; }
+  .st-add-error.busy { color: #5a7a9a; }
 </style>
 
 <%
@@ -310,9 +330,10 @@
     <div class="st-instructions">
       Add one or more <strong>strains</strong> (RS) and/or <strong>tissues</strong> (UBERON). You may choose either,
       both, or neither &mdash; those selections are optional. You may also narrow by one or more
-      <strong>conditions</strong> (XCO), which is entirely optional. Either click <em>Browse Ontology Tree</em> to find a
-      term, or type an accession id directly (e.g. <em>RS:0000681</em>, <em>UBERON:0002107</em>, or <em>XCO:0000105</em>)
-      and click <em>Add</em>.
+      <strong>conditions</strong> (XCO), which is entirely optional. In each box you can either search by
+      term name and pick from the suggestions, or type an accession id directly (e.g. <em>RS:0000681</em>,
+      <em>UBERON:0002107</em>, or <em>XCO:0000105</em>) and press Enter. <em>Browse Ontology Tree</em> opens
+      the full tree if you would rather navigate it.
     </div>
 
     <form action="<%=nextAction%>" name="optionForm" id="optionForm" method="post">
@@ -337,13 +358,9 @@
                   onclick="ontPopup('strainStaging','rs','strainStaging_term'); return false;">Browse Ontology Tree</button>
         </div>
         <div class="st-add">
-          <input type="text" id="strainSearchInput" class="st-add-input" autocomplete="off"
-                 placeholder="Search strains by name, e.g. SS/JrHsd"/>
-        </div>
-        <div class="st-add">
-          <input type="text" id="strainManualInput" class="st-add-input"
-                 placeholder="...or enter an accession, e.g. RS:0000681"
-                 onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('strainStaging');}"/>
+          <input type="text" id="strainInput" class="st-add-input" autocomplete="off"
+                 placeholder="Search by name (e.g. SS/JrHsd) or enter an accession (e.g. RS:0000681)"
+                 onkeydown="onPickerKey(event, 'strainStaging')"/>
           <button type="button" class="st-add-btn" onclick="addManual('strainStaging')">Add</button>
         </div>
         <div id="strainAddError" class="st-add-error"></div>
@@ -359,13 +376,9 @@
                   onclick="ontPopup('tissueStaging','uberon','tissueStaging_term'); return false;">Browse Ontology Tree</button>
         </div>
         <div class="st-add">
-          <input type="text" id="tissueSearchInput" class="st-add-input" autocomplete="off"
-                 placeholder="Search tissues by name, e.g. liver"/>
-        </div>
-        <div class="st-add">
-          <input type="text" id="tissueManualInput" class="st-add-input"
-                 placeholder="...or enter an accession, e.g. UBERON:0002107"
-                 onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('tissueStaging');}"/>
+          <input type="text" id="tissueInput" class="st-add-input" autocomplete="off"
+                 placeholder="Search by name (e.g. liver) or enter an accession (e.g. UBERON:0002107)"
+                 onkeydown="onPickerKey(event, 'tissueStaging')"/>
           <button type="button" class="st-add-btn" onclick="addManual('tissueStaging')">Add</button>
         </div>
         <div id="tissueAddError" class="st-add-error"></div>
@@ -382,13 +395,9 @@
                   onclick="ontPopup('conditionStaging','xco','conditionStaging_term'); return false;">Browse Ontology Tree</button>
         </div>
         <div class="st-add">
-          <input type="text" id="conditionSearchInput" class="st-add-input" autocomplete="off"
-                 placeholder="Search conditions by name, e.g. controlled exercise"/>
-        </div>
-        <div class="st-add">
-          <input type="text" id="conditionManualInput" class="st-add-input"
-                 placeholder="...or enter an accession, e.g. XCO:0000105"
-                 onkeydown="if(event.key==='Enter'){event.preventDefault(); addManual('conditionStaging');}"/>
+          <input type="text" id="conditionInput" class="st-add-input" autocomplete="off"
+                 placeholder="Search by name (e.g. controlled exercise) or enter an accession (e.g. XCO:0000105)"
+                 onkeydown="onPickerKey(event, 'conditionStaging')"/>
           <button type="button" class="st-add-btn" onclick="addManual('conditionStaging')">Add</button>
         </div>
         <div id="conditionAddError" class="st-add-error"></div>
@@ -419,13 +428,13 @@
   var ST_LISTS = {
     strainStaging: { type: 'strain', inputName: 'strainId', listId: 'strainList',
                      countId: 'strainCount', emptyId: 'strainEmpty', prefix: 'RS:',
-                     manualInputId: 'strainManualInput', errorId: 'strainAddError' },
+                     inputId: 'strainInput', errorId: 'strainAddError' },
     tissueStaging: { type: 'tissue', inputName: 'tissueId', listId: 'tissueList',
                      countId: 'tissueCount', emptyId: 'tissueEmpty', prefix: 'UBERON:',
-                     manualInputId: 'tissueManualInput', errorId: 'tissueAddError' },
+                     inputId: 'tissueInput', errorId: 'tissueAddError' },
     conditionStaging: { type: 'condition', inputName: 'conditionId', listId: 'conditionList',
                         countId: 'conditionCount', emptyId: 'conditionEmpty', prefix: 'XCO:',
-                        manualInputId: 'conditionManualInput', errorId: 'conditionAddError' }
+                        inputId: 'conditionInput', errorId: 'conditionAddError' }
   };
 
   // Track selected accession ids per type to avoid duplicates.
@@ -462,18 +471,33 @@
 
   // Add a term by typed accession, no ontology tree needed. The name is shown as the
   // accession here; the results page resolves the real term name server-side.
+  // One box per ontology handles both ways of picking a term: type a name and choose from the
+  // autocomplete suggestions, or type an accession and press Enter / Add. On Enter we only take
+  // over when the text actually looks like an accession -- otherwise Enter belongs to the
+  // suggestion dropdown, which uses it to accept the highlighted term.
+  function onPickerKey(ev, stagingId) {
+    if (ev.key !== 'Enter') return;
+    var cfg = ST_LISTS[stagingId];
+    var el = document.getElementById(cfg.inputId);
+    if (normalizeAcc((el.value || '').trim(), cfg.prefix)) {
+      ev.preventDefault();
+      addManual(stagingId);
+    }
+  }
+
   function addManual(stagingId) {
     var cfg = ST_LISTS[stagingId];
-    var input = document.getElementById(cfg.manualInputId);
+    var input = document.getElementById(cfg.inputId);
     var err = document.getElementById(cfg.errorId);
     err.innerText = '';
+    err.className = 'st-add-error';   // drop any leftover ok/busy styling
 
     var raw = (input.value || '').trim();
     if (!raw) return;
 
     var accId = normalizeAcc(raw, cfg.prefix);
     if (!accId) {
-      err.innerText = 'Enter a valid ' + cfg.prefix + ' accession (e.g. ' + cfg.prefix + '0000123).';
+      err.innerText = 'Pick a term from the suggestions, or enter an accession (e.g. ' + cfg.prefix + '0000123).';
       return;
     }
     if (selectedAcc[cfg.type][accId]) {
@@ -484,6 +508,8 @@
     // Look the accession up in the ontology: confirm it exists and grab the term name, so the list
     // shows "name (ACC)" instead of echoing the accession as its own label.
     var ont = cfg.prefix.replace(':', '');
+    input.value = '';   // clear now so the autocomplete blur handler sees an empty box
+    err.className = 'st-add-error busy';
     err.innerText = 'Looking up ' + accId + '...';
     fetch(ONT_API_URL + '/rgdws/ontology/term/' + encodeURIComponent(accId), { headers: { 'Accept': 'application/json' } })
       .then(function (resp) { return resp.ok ? resp.text() : ''; })
@@ -491,14 +517,19 @@
         var term = null;
         try { term = text ? JSON.parse(text) : null; } catch (e) { term = null; }
         if (!term || !term.accId) {
+          err.className = 'st-add-error';
           err.innerText = 'No ' + ont + ' term found for ' + accId + '.';
+          input.value = raw;   // put the text back so it can be corrected
           return;
         }
         err.innerText = '';
         addTerm(term.accId, term.term || term.accId, cfg);
-        input.value = '';
       })
-      .catch(function () { err.innerText = 'Could not look up ' + accId + '. Please try again.'; });
+      .catch(function () {
+        input.value = raw;
+        err.className = 'st-add-error';
+        err.innerText = 'Could not look up ' + accId + '. Please try again.';
+      });
   }
 
   // Require at least one strain or tissue before either action is allowed.
@@ -517,7 +548,30 @@
     form.submit();
   }
 
-  function addTerm(accId, term, cfg) {
+  // Confirm an addition three ways: flash the row that was just added, pop the count badge, and
+  // write a short green confirmation under the input. Preloaded rows pass quiet=true and skip this.
+  function announceAdded(li, cfg, name, accId) {
+    li.classList.add('st-row-new');
+    setTimeout(function () { li.classList.remove('st-row-new'); }, 1500);
+  
+    var badge = document.getElementById(cfg.countId);
+    if (badge) {
+      badge.classList.remove('st-count-pulse');
+      void badge.offsetWidth;   // reflow so the animation restarts on rapid adds
+      badge.classList.add('st-count-pulse');
+      setTimeout(function () { badge.classList.remove('st-count-pulse'); }, 600);
+    }
+  
+    var err = document.getElementById(cfg.errorId);
+    if (err) {
+      err.className = 'st-add-error ok';
+      err.innerText = 'Added ' + name + ' (' + accId + ')';
+      clearTimeout(err.msgTimer);
+      err.msgTimer = setTimeout(function () { err.innerText = ''; err.className = 'st-add-error'; }, 4000);
+    }
+  }
+
+  function addTerm(accId, term, cfg, quiet) {
     if (!accId || !cfg) return;
     if (selectedAcc[cfg.type][accId]) return; // already added
 
@@ -559,6 +613,8 @@
     document.getElementById(cfg.listId).appendChild(li);
 
     updateMeta(cfg);
+
+    if (!quiet) announceAdded(li, cfg, term || accId, accId);
   }
 
   // Global hook invoked by the shared ontology popup (tree_popup.jsp) after a
@@ -580,13 +636,13 @@
   // shown as the label until the user browses for a friendlier name.
   (function preload() {
     <% for (String accId : selectedStrainIds) { %>
-    addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.strainStaging);
+    addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.strainStaging, true);
     <% } %>
     <% for (String accId : selectedTissueIds) { %>
-    addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.tissueStaging);
+    addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.tissueStaging, true);
     <% } %>
     <% for (String accId : selectedConditionIds) { %>
-    addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.conditionStaging);
+    addTerm('<%= accId.replace("'", "\\'") %>', '<%= accId.replace("'", "\\'") %>', ST_LISTS.conditionStaging, true);
     <% } %>
     updateProceedState();
   })();
@@ -595,24 +651,24 @@
   // suggestions. Selecting adds the term (with its real name) to the list, same as the tree browse.
   // Reuses the shared component from /rgdweb/common/ontologyAutocomplete.js.
   if (typeof setupOntologyAutocomplete === 'function') {
-    setupOntologyAutocomplete('#strainSearchInput', 'RS', {
+    setupOntologyAutocomplete('#strainInput', 'RS', {
       onSelect: function (term, accId) {
         addTerm(accId, term, ST_LISTS.strainStaging);
-        var el = document.getElementById('strainSearchInput');
+        var el = document.getElementById('strainInput');
         if (el) el.value = '';
       }
     });
-    setupOntologyAutocomplete('#tissueSearchInput', 'UBERON', {
+    setupOntologyAutocomplete('#tissueInput', 'UBERON', {
       onSelect: function (term, accId) {
         addTerm(accId, term, ST_LISTS.tissueStaging);
-        var el = document.getElementById('tissueSearchInput');
+        var el = document.getElementById('tissueInput');
         if (el) el.value = '';
       }
     });
-    setupOntologyAutocomplete('#conditionSearchInput', 'XCO', {
+    setupOntologyAutocomplete('#conditionInput', 'XCO', {
       onSelect: function (term, accId) {
         addTerm(accId, term, ST_LISTS.conditionStaging);
-        var el = document.getElementById('conditionSearchInput');
+        var el = document.getElementById('conditionInput');
         if (el) el.value = '';
       }
     });
