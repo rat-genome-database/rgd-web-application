@@ -299,7 +299,7 @@
                 jbrowse2Url="https://pipelines.rgd.mcw.edu"+jbrowse2Url;
             }%>
 <%--            <a href="<%=baseURL%>jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(var)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>--%>
-                <a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a>
+                <a target="_blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a>
         </td>
     </tr>
     <%}%>

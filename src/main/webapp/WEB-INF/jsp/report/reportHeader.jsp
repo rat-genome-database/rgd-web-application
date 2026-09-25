@@ -66,6 +66,12 @@
 <script type="text/javascript" src="/rgdweb/js/report.js?v=6">
 </script>
 
+<%-- Sends every link that points off RGD to a new tab. It lives here, rather than beside
+     geneReport.js in each main.jsp, because it has to reach the annotation and protein-domain
+     reports too - this file is what all of them have in common. It waits for DOMContentLoaded,
+     so loading it up here rather than at the foot of the page costs nothing. --%>
+<script src="/rgdweb/js/reportPages/externalLinks.js?v=1"></script>
+
 <script src="/rgdweb/common/jquery-ui/jquery-ui.js">
 
 </script>

@@ -392,7 +392,7 @@
     <%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%>
 
     <% if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){ %>
-    <div style="padding:10px;"><a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a></div>
+    <div style="padding:10px;"><a target="_blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a></div>
 
     <%-- the viewer no longer carries .light-table-border of its own: it used to need it
          because an <svg> has no background and the page ground showed through, and that
