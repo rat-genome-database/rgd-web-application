@@ -117,6 +117,11 @@
   .em-facet-group.collapsed .em-facet-caret { transform: rotate(-90deg); }
   .em-facet-group.collapsed .em-facet-group-body { display: none; }
 
+  /* While a group is collapsed, show how many options it holds so it does not read as empty.
+     Hidden once expanded, where the values speak for themselves. */
+  .em-facet-group-count { display: none; color: #7a8a9a; font-weight: normal; font-size: 11px; }
+  .em-facet-group.collapsed .em-facet-group-count { display: inline; }
+
   .em-facet-group-body {
     max-height: 220px;
     overflow-y: auto;
@@ -988,9 +993,15 @@
       var values = facets[group.key] || [];
       if (values.length < 2) continue;
 
-      html.push('<div class="em-facet-group">');
+      // A long group (one big enough to warrant a search box) starts collapsed. With every group
+      // expanded the panel runs past the bottom of the window on load, pushing the last groups
+      // (Sex, Life Stage) out of view. Short groups stay open.
+      var startCollapsed = values.length > FACET_SEARCH_THRESHOLD;
+      html.push('<div class="em-facet-group' + (startCollapsed ? ' collapsed' : '') + '">');
       html.push('<div class="em-facet-group-title" onclick="toggleGroup(this)">' +
-                '<span>' + esc(group.title) + '</span><span class="em-facet-caret">&#9662;</span></div>');
+                '<span>' + esc(group.title) +
+                  ' <span class="em-facet-group-count">(' + values.length + ')</span></span>' +
+                '<span class="em-facet-caret">&#9662;</span></div>');
       html.push('<div class="em-facet-group-body">');
       // Without a gene list to constrain the query, the Gene facet only reflects the genes
       // present in the matching records -- not every gene. Flag that so it isn't read as complete.
@@ -1100,9 +1111,14 @@
       for (var s in sel) { if (values.indexOf(s) === -1) values.push(s); }
       if (values.length < 2) continue; // nothing meaningful to filter on
 
-      html.push('<div class="em-facet-group">');
+      // Same rule as the server groups: only a long list starts collapsed. Sex and Life Stage are
+      // short, so they stay expanded and visible without scrolling the panel.
+      var startCollapsed = values.length > FACET_SEARCH_THRESHOLD;
+      html.push('<div class="em-facet-group' + (startCollapsed ? ' collapsed' : '') + '">');
       html.push('<div class="em-facet-group-title" onclick="toggleGroup(this)">' +
-                '<span>' + esc(group.title) + '</span><span class="em-facet-caret">&#9662;</span></div>');
+                '<span>' + esc(group.title) +
+                  ' <span class="em-facet-group-count">(' + values.length + ')</span></span>' +
+                '<span class="em-facet-caret">&#9662;</span></div>');
       html.push('<div class="em-facet-group-body">');
       if (values.length > FACET_SEARCH_THRESHOLD) {
         html.push('<input type="text" class="em-facet-search" oninput="filterFacetItems(this)" ' +
