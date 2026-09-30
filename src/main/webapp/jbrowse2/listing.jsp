@@ -101,6 +101,7 @@
                     <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=F344_StmMcwi&tracklist=true&tracks=Rat F344_StmMcwi Genes and Transcripts-F344_StmMcwi">F344_StmMcwi</a></li>
                     <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Lyon_Hypertensive&tracklist=true&tracks=Rat Lyon_Hypertensive Genes and Transcripts-Lyon_Hypertensive">Lyon_Hypertensive</a></li>
                     <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Lyon_Normot_Rat_Genome&tracklist=true&tracks=Rat Lyon_Normot_Rat_Genome Genes and Transcripts-Lyon_Normot_Rat_Genome">Lyon_Normotensive</a></li>
+                    <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=SHRSP_T2T&tracklist=true&tracks=Rat SHRSP_T2T Genes and Transcripts-SHRSP_T2T">SHRSP_T2T</a></li>
                 </ul>
                     <li>Black Rat (Rattus rattus)</li>
 		    <ul>
