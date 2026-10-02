@@ -3,7 +3,6 @@ package edu.mcw.rgd.search.elasticsearch1.controller;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.DisMaxQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -53,19 +52,51 @@ public class OntologyAutocompleteController implements Controller {
             } catch (NumberFormatException ignored) {}
         }
 
-        // Build DisMax query across ontology term fields
-        List<Query> dmqQueries = new ArrayList<>();
-        dmqQueries.add(Query.of(q -> q.match(m -> m.field("term.symbol").query(t).operator(Operator.And).boost(15f))));
-        dmqQueries.add(Query.of(q -> q.match(m -> m.field("term").query(t).boost(10f))));
-        dmqQueries.add(Query.of(q -> q.match(m -> m.field("name.symbol").query(t).operator(Operator.And).boost(5f))));
-        dmqQueries.add(Query.of(q -> q.match(m -> m.field("synonyms.symbol").query(t).operator(Operator.And).boost(3f))));
-        dmqQueries.add(Query.of(q -> q.match(m -> m.field("synonyms").query(t).boost(2f))));
-        dmqQueries.add(Query.of(q -> q.prefix(p -> p.field("term.symbol").value(t).boost(8f))));
-        Query disMax = Query.of(q -> q.disMax(DisMaxQuery.of(d -> d.queries(dmqQueries).tieBreaker(0.3))));
+        // Match clauses in descending order of specificity, OR'ed together so recall is
+        // their union while the boosts decide what reaches the top of the dropdown.
+        //
+        // A single OR'ed match on `term` is not enough on its own, for two reasons:
+        //
+        //   1. Ranking. `term` is edge-n-grammed, so an OR match over it hits thousands
+        //      of terms and the 20 we can show get filled with near-misses. Searching
+        //      "exposure to lipopolysaccharide" used to surface "X-ray exposure" and
+        //      "air-jet exposure" above the terms that contain the whole phrase. The
+        //      AND and phrase-prefix clauses below are what pull exact and in-order
+        //      matches to the top; the bare OR clauses are kept at a low boost purely
+        //      as a tail fallback.
+        //
+        //   2. Index skew. `term` is indexed with `autocomplete_analyzer`, whose edge
+        //      n-grams stop at 15 characters, so a typed word of 16+ characters can
+        //      analyze to a token that was never indexed. The search side now truncates
+        //      to match (see autocomplete_search_analyzer in the elastic-search-indexer
+        //      pipeline), but that only takes effect for indexes built after that change
+        //      -- and only `term` is n-grammed, not `term.term`. Querying `term.term`
+        //      (english_analyzer, no n-grams) and `term.symbol` (keyword tokenizer)
+        //      keeps long words matching regardless of when the index was built.
+        List<Query> shouldQueries = new ArrayList<>();
+        // the whole term name, typed exactly
+        shouldQueries.add(Query.of(q -> q.match(m -> m.field("term.symbol").query(t).operator(Operator.And).boost(100f))));
+        // term name begins with what was typed
+        shouldQueries.add(Query.of(q -> q.prefix(p -> p.field("term.symbol").value(t).boost(60f))));
+        // typed words in order with a partial last word -- the main as-you-type clause
+        shouldQueries.add(Query.of(q -> q.matchPhrasePrefix(m -> m.field("term.term").query(t).maxExpansions(50).boost(40f))));
+        // every typed word present in the name, any order, any length
+        shouldQueries.add(Query.of(q -> q.match(m -> m.field("term.term").query(t).operator(Operator.And).boost(30f))));
+        // every typed word present as an n-gram prefix (partial words up to 15 chars)
+        shouldQueries.add(Query.of(q -> q.match(m -> m.field("term").query(t).operator(Operator.And).boost(20f))));
+        shouldQueries.add(Query.of(q -> q.match(m -> m.field("name.symbol").query(t).operator(Operator.And).boost(15f))));
+        shouldQueries.add(Query.of(q -> q.match(m -> m.field("synonyms.symbol").query(t).operator(Operator.And).boost(12f))));
+        shouldQueries.add(Query.of(q -> q.matchPhrasePrefix(m -> m.field("synonyms").query(t).maxExpansions(50).boost(8f))));
+        shouldQueries.add(Query.of(q -> q.match(m -> m.field("synonyms").query(t).operator(Operator.And).boost(6f))));
+        // Last-resort fallbacks: any one typed word matches. Kept at a low boost so they
+        // only fill the tail of the dropdown rather than crowding out the clauses above.
+        shouldQueries.add(Query.of(q -> q.match(m -> m.field("term").query(t).boost(2f))));
+        shouldQueries.add(Query.of(q -> q.match(m -> m.field("synonyms").query(t).boost(1f))));
+        Query termMatch = Query.of(q -> q.bool(b -> b.should(shouldQueries).minimumShouldMatch("1")));
 
         // Build bool query with category + subcat filters
         BoolQuery.Builder boolQuery = new BoolQuery.Builder();
-        boolQuery.must(disMax);
+        boolQuery.must(termMatch);
         boolQuery.filter(Query.of(q -> q.term(tq -> tq.field("category.keyword").value(FieldValue.of("Ontology")))));
 
         // Apply ontology filter — supports single prefix, comma-separated, or ALL/null for no filter
