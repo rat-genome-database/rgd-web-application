@@ -925,7 +925,7 @@ public class  MapDataFormatter {
             switch(md.getMapKey()) {
                 case 380:
                 case 381:
-                    db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+                    db = "http://ensembl.org/Rattus_norvegicus/Location/View?r=";
                     link="GRCr8";
                     break;
 
