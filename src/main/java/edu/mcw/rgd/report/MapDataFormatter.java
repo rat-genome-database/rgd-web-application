@@ -918,13 +918,81 @@ public class  MapDataFormatter {
                     break;
             }
         }
-        if( db!=null ) {
+        String chr = ucscChromosome(db, md.getChromosome());
+        // No link unless there is a sequence and a span to point at. The position used to be
+        // built straight from the RGD chromosome, which produced chrMT / chrUn / chrPNS010000024.1
+        // - none of them UCSC names - and "position=chr1%3Anull-null" for a gene placed only by
+        // fish band or absolute position.
+        if( db!=null && chr!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://genome.ucsc.edu/cgi-bin/hgTracks?db=")
-                    .append(db).append("&position=chr")
-                    .append(md.getChromosome()).append("%3A").append(md.getStartPos()).append("-").append(md.getStopPos())
+                    .append(db).append("&position=").append(chr)
+                    .append("%3A").append(md.getStartPos()).append("-").append(md.getStopPos())
                     .append("\">").append("UCSC").append("</a>");
         }
     }
+
+    /** The UCSC spelling of an RGD chromosome for a given assembly, or null when that assembly
+     *  has no sequence this link could address.
+     *
+     *  RGD stores nuclear chromosomes as bare numbers or X/Y, the mitochondrion as "MT", a
+     *  feature known to the assembly but unplaced as "Un", and a feature still on a scaffold
+     *  under the scaffold's own accession ("PNS010000024.1" - 320 rat gene positions are MT, 213
+     *  are Un, and a long tail sits on scaffolds). UCSC prefixes the nuclear ones with chr and
+     *  calls the mitochondrion chrM, and has no name at all for the last two.
+     *
+     *  Checked against UCSC's chromosome lists for every assembly named in the switch above:
+     *  all of them carry chrM, and chrUn exists in rn4 alone. The exception is rn8 - GRCr8's
+     *  GenArk hub (GCF_036323735.1) has no mitochondrial sequence, so MT gets no link there. */
+    static String ucscChromosome(String db, String chromosome) {
+        if( chromosome==null ) {
+            return null;
+        }
+        String chr = chromosome.trim();
+        if( chr.isEmpty() ) {
+            return null;
+        }
+
+        String ucscName;
+        if( chr.equalsIgnoreCase("MT") || chr.equalsIgnoreCase("M") ) {
+            ucscName = "chrM";
+        } else if( chr.equalsIgnoreCase("Un") ) {
+            // chrUn is a real catch-all contig in rn4; the other assemblies have no such name,
+            // and UCSC_MISSING_CHROMOSOMES cannot express "every assembly but one", so it is
+            // filtered here instead
+            if( !"rn4".equals(db) ) {
+                return null;
+            }
+            ucscName = "chrUn";
+        } else if( chr.matches("[0-9]+[A-Za-z]?|[XYZWxyzw]") ) {
+            // the optional letter is for the great ape chromosome 2 split: RGD stores bonobo
+            // positions as 2A / 2B, which is exactly how panPan2 and panPan3 name them
+            ucscName = "chr" + chr.toUpperCase();
+        } else {
+            return null;   // scaffold accession, or anything else with no UCSC name
+        }
+
+        Set<String> missing = UCSC_MISSING_CHROMOSOMES.get(db);
+        if( missing!=null && missing.contains(ucscName) ) {
+            return null;
+        }
+        return ucscName;
+    }
+
+    /** Chromosomes an assembly listed in generateUcscLink has no sequence for, so that a position
+     *  on one of them produces no link rather than a link to nowhere. Read off UCSC's own
+     *  chromosome list for each assembly (api.genome.ucsc.edu/list/chromosomes), and for rn8 off
+     *  the chromAlias of its GenArk hub.
+     *
+     *  Only the rat assemblies are listed, because those are the ones checked against the
+     *  chromosome values RGD actually holds. The same kind of gap exists for three of the other
+     *  species - canFam3 and panPan3 have no chrY, panPan3 splits chromosome 2 into chr2A/chr2B,
+     *  and hetGla2 is scaffold-only so none of the naked mole rat chromosome numbers exist there
+     *  at all - but filling those in needs the same check run per species first. */
+    private static final java.util.Map<String, Set<String>> UCSC_MISSING_CHROMOSOMES = java.util.Map.of(
+            "rn4", Set.of("chrY"),   // RGSC 3.4 has no Y
+            "rn5", Set.of("chrY"),   // RGSC 5.0 has no Y
+            "rn8", Set.of("chrM")    // GRCr8's GenArk hub carries no mitochondrion
+    );
 
     static void generateEnsemblLink(StringBuilder buf, int objectKey, MapData md) {
 
