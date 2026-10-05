@@ -92,7 +92,10 @@
             <% } %>
             <tr>
                 <td class="label">Symbol:</td>
-                <td><input name="symbol" type="text" size="45" value="<%=dm.out("symbol", symbol)%>"/>&nbsp;<a href="javascript:lookup_render('', 3, 'QTLS')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a></td>
+                <td><input id="qtlSymbol" name="symbol" type="text" size="45" value="<%=dm.out("symbol", symbol)%>"
+                           autocomplete="off" onblur="qtlCheckSymbol()" onkeyup="qtlCheckSymbolLater()"/>&nbsp;<a href="javascript:lookup_render('', 3, 'QTLS')"><img src="/rgdweb/common/images/glass.jpg" border="0"/></a>
+                    <div id="qtlSymbolHint" class="qtlSymbolHint"></div>
+                </td>
             </tr>
             <tr>
                 <td class="label">Name:</td>
@@ -189,6 +192,82 @@
         </td>
     </tr>
 </table>
+
+<style>
+    /* the numbering hint under the Symbol box - amber for a free symbol, red when it is taken */
+    .qtlSymbolHint {
+        margin-top: 3px;
+        font-size: 11px;
+        line-height: 1.35;
+        max-width: 420px;
+        color: #7a5c00;
+    }
+    .qtlSymbolHint.qtlSymbolHint--clash {
+        color: #a3231e;
+        font-weight: 700;
+    }
+</style>
+<script type="text/javascript">
+    // Shows where the typed symbol sits in its numbered series - the highest number already in
+    // use and the next free one - so a duplicate like a second Cm132 is visible before the QTL
+    // is submitted. The same check runs server side in QTLEditObjectController.update(), which
+    // is what actually refuses the save; this is only the early warning.
+    var qtlSymbolTimer = null;
+    var qtlSymbolLast = null;
+
+    function qtlCheckSymbolLater() {
+        if (qtlSymbolTimer) {
+            clearTimeout(qtlSymbolTimer);
+        }
+        qtlSymbolTimer = setTimeout(qtlCheckSymbol, 400);
+    }
+
+    function qtlCheckSymbol() {
+        if (qtlSymbolTimer) {
+            clearTimeout(qtlSymbolTimer);
+            qtlSymbolTimer = null;
+        }
+        var box = document.getElementById('qtlSymbol');
+        var hint = document.getElementById('qtlSymbolHint');
+        if (!box || !hint) {
+            return;
+        }
+        var sym = box.value.replace(/^\s+|\s+$/g, '');
+        if (sym === qtlSymbolLast) {
+            return;      // nothing new typed since the last answer
+        }
+        qtlSymbolLast = sym;
+        if (sym === '') {
+            hint.innerHTML = '';
+            return;
+        }
+        var form = box.form;
+        var url = 'editQTL.html?act=qtlSymbolInfo'
+                + '&symbol=' + encodeURIComponent(sym)
+                + '&speciesType=' + encodeURIComponent(form.speciesType.value)
+                + '&rgdId=' + encodeURIComponent(form.rgdId.value);
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4) {
+                return;
+            }
+            if (xhr.status !== 200) {
+                hint.innerHTML = '';     // advisory only; stay quiet if it could not be fetched
+                return;
+            }
+            var txt = xhr.responseText || '';
+            // the server says "<symbol> is already used by ..." when the symbol is taken
+            var clash = txt.indexOf('already used by') >= 0;
+            hint.className = clash ? 'qtlSymbolHint qtlSymbolHint--clash' : 'qtlSymbolHint';
+            hint.textContent = txt;   // textContent, so a symbol can never inject markup here
+        };
+        xhr.send(null);
+    }
+
+    // fill the hint in on load, so an existing QTL shows its series straight away
+    qtlCheckSymbol();
+</script>
 
 <%  String notesObjectType = "qtls"; %>
 
