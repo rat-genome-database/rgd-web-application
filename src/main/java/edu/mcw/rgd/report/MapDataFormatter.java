@@ -918,12 +918,15 @@ public class  MapDataFormatter {
                     break;
             }
         }
-        String chr = ucscChromosome(db, md.getChromosome());
+        if( db==null ) {
+            return;   // assembly has no UCSC browser; nothing to link to
+        }
         // No link unless there is a sequence and a span to point at. The position used to be
         // built straight from the RGD chromosome, which produced chrMT / chrUn / chrPNS010000024.1
         // - none of them UCSC names - and "position=chr1%3Anull-null" for a gene placed only by
         // fish band or absolute position.
-        if( db!=null && chr!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
+        String chr = ucscChromosome(db, md.getChromosome());
+        if( chr!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://genome.ucsc.edu/cgi-bin/hgTracks?db=")
                     .append(db).append("&position=").append(chr)
                     .append("%3A").append(md.getStartPos()).append("-").append(md.getStopPos())
@@ -944,7 +947,10 @@ public class  MapDataFormatter {
      *  all of them carry chrM, and chrUn exists in rn4 alone. The exception is rn8 - GRCr8's
      *  GenArk hub (GCF_036323735.1) has no mitochondrial sequence, so MT gets no link there. */
     static String ucscChromosome(String db, String chromosome) {
-        if( chromosome==null ) {
+        // db is null for every assembly the switch above does not name, which is most of them -
+        // there is no UCSC browser to send those to, and UCSC_MISSING_CHROMOSOMES is a Map.of,
+        // whose get() throws on a null key rather than returning null the way HashMap does.
+        if( db==null || chromosome==null ) {
             return null;
         }
         String chr = chromosome.trim();

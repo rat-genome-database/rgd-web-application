@@ -255,6 +255,11 @@
             return;
         }
 
+        // How many chips start below the clamp, counted here while the list is still open: once
+        // it is clamped the hidden chips have no box to measure. Recomputed on every pass, so a
+        // resize that fits more chips on a line updates the number.
+        list.setAttribute('data-hidden-count', String(countBelow(list, max)));
+
         if (!hasWrap) {
             wrap = document.createElement('div');
             wrap.className = 'dvStrainsToggleWrap';
@@ -272,8 +277,23 @@
         setState(list, wrap.firstChild, expanded);
     }
 
+    // chips whose top edge falls on a line below the clamp. Measured against the list's own top
+    // rather than offsetTop, which is relative to whichever ancestor happens to be positioned.
+    function countBelow(list, max) {
+        var chips = list.querySelectorAll('.rgdChipLink');
+        var top = list.getBoundingClientRect().top;
+        var n = 0;
+        for (var i = 0; i < chips.length; i++) {
+            if (chips[i].getBoundingClientRect().top - top >= max - 1) {
+                n++;
+            }
+        }
+        return n;
+    }
+
     function setState(list, btn, open) {
         var total = list.getAttribute('data-strain-count') || '';
+        var hiddenCount = parseInt(list.getAttribute('data-hidden-count'), 10);
         if (open) {
             list.classList.remove('is-clamped');
             list.style.maxHeight = '';
@@ -282,7 +302,9 @@
         } else {
             list.style.maxHeight = (lineHeightOf(list) * LINES_SHOWN) + 'px';
             list.classList.add('is-clamped');
-            btn.textContent = 'more';
+            // "+90 more" says how much is being held back; fall back to a bare "more" if the
+            // count could not be measured, rather than showing "+NaN more"
+            btn.textContent = (hiddenCount > 0) ? '+' + hiddenCount + ' more' : 'more';
             btn.title = total ? 'Show all ' + total + ' strains' : 'Show all strains';
         }
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
