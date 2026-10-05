@@ -299,6 +299,24 @@
             }
         }
     }
+
+    // Nothing to draw at all. ExpressionIndexCounts.byTissue returns only the systems that
+    // actually have records, so an empty map means this gene has no RNA-SEQ expression - every
+    // gene of a species the expression index does not carry lands here, which is why a naked
+    // mole rat or bonobo report used to show the heading, the instructions and a blank ribbon.
+    //
+    // Returning rather than wrapping the rest in a conditional: the ribbon, the Vue detail table
+    // and the script that feeds them run past the try block sectionFooter.jsp closes, where the
+    // scriptlet variables are already out of scope, so one guard here is the only place that can
+    // take down all three. The outer "Expression" heading in main.jsp goes with it - geneReport.js
+    // hideEmptySections() drops a .subTitle whose siblings hold no table or card.
+    //
+    // Note this cannot tell "no data" from "the index did not answer": byTissue logs and omits a
+    // system whose fetch fails, so an index outage reads as an empty gene and hides the section
+    // rather than showing an empty ribbon.
+    if( include.isEmpty() ) {
+        return;
+    }
 %>
 
 <div class="light-table-border">
