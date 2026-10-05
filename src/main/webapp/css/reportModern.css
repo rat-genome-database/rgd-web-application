@@ -729,8 +729,37 @@
     display: inline-block;
     line-height: 0;
 }
-/* the overlay is sized in the shared header CSS to match the icon; keep it on the card */
-.rgd-modern-report .orthoSpeciesCard .speciesCardOverlay { top: 0; left: 0; }
+/* The overlay is sized in the shared header CSS to match the icon (63x63); keep it on the card
+   and make the species name fit inside it. Two separate things used to push the name out over
+   the neighbouring cards:
+     - .orthoSpeciesCard above sets line-height:0 to kill the inline-block gap under the icon,
+       and the overlay inherited it. With zero-height line boxes a two word name drew both of
+       its lines at the same vertical position, so "Green Monkey", "Naked Mole-Rat" and
+       "Black Rat" came out written on top of themselves.
+     - the name inherited the cell's 13.5px bold, at which a single unbreakable word is wider
+       than the box: "Chinchilla" measures ~64px against the 53px the old inline margin:5px
+       left, and "Green Monkey"'s longest word ~54px, with nothing to clip or wrap either.
+       Those two were the only names that overflowed, which is exactly what was reported.
+   So: a real line-height, a size the longest name fits at, and overflow/break-word as a
+   backstop so no name can ever paint onto the card next to it again. */
+.rgd-modern-report .orthoSpeciesCard .speciesCardOverlay {
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    overflow: hidden;
+    font-size: 10px;
+    line-height: 1.15;
+    text-align: center;
+}
+.rgd-modern-report .orthoSpeciesCard .speciesCardOverlay > div {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
 
 /* the Alliance row's logos are inline and already wrap, but they need the same breathing room */
 .rgd-modern-report #info-table td > a > img[src*="alliance_logo"] { margin: 0 6px 6px 0; }

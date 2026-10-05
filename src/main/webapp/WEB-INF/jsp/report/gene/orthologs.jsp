@@ -44,8 +44,11 @@
                     <%-- each card is its own positioning context, so the absolutely positioned
                          overlay covers this species' icon rather than some ancestor --%>
                     <span class="orthoSpeciesCard">
+                        <%-- the name is laid out by .speciesCardOverlay in reportModern.css; the
+                             inline margin:5px that used to be here left only 53px of the 63px
+                             box for it, which is what pushed a long name onto the next card --%>
                         <a class="speciesCardOverlay" href="/rgdweb/report/gene/main.html?id=<%=gene.getRgdId()%>" title="<%=orthTitle%>">
-                        <div style="margin:5px; font-weight:700;" >
+                        <div style="font-weight:700;" >
                             <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
                         </a>
                         <img border="0" src="<%=imageSource%>" class="speciesIcon"
