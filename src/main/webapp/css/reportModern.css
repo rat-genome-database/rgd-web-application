@@ -761,6 +761,105 @@
     word-break: break-word;
 }
 
+/* "less info" is the same pill as "more info" (report.css) but it lands somewhere far less
+   forgiving: the right hand end of the extended table's header row, where the four cells beside
+   it are solid #b6baba and the cell holding it sets no background of its own, so it sits on the
+   card's white.
+
+   The pale pill does not survive that. #eaf2fb on white is 1.13:1 and its #cfe0f4 border 1.34:1,
+   so both the surface and the outline are effectively invisible - all that showed was the small
+   caption, floating beside a heavy grey bar that pulls the eye away from it. Filling the pill
+   gives it 6.03:1 against the white and 3.08:1 against that grey, so it reads as a control in
+   both directions, and the white caption on it is 6.03:1, clear of WCAG AA.
+
+   It has to be here rather than next to the base pill in report.css: `.rgd-modern-report a`
+   above is (0,1,1) and this file loads last, so a bare `.orthoExtInfo--less` there would lose
+   the colour and leave dark text on the dark fill.
+
+   Only the collapse control is filled. "more info" keeps the subtle pill - it sits in the
+   summary card in a row captioned "More Info", so it has that label to be found by, where this
+   one is on its own. Colours come from the skin variables so the chinchilla palette recolours
+   it too (there it is 8.67:1 on white, 4.43:1 on the grey). */
+.rgd-modern-report .orthoExtInfo--less {
+    color: #ffffff;
+    background: var(--rgd-blue);
+    border-color: var(--rgd-blue);
+    box-shadow: 0 1px 2px rgba(16, 42, 70, .25);
+}
+/* hover has to be restated: the base rule repaints the background pale, which under white text
+   would blank the caption out at the moment the pointer reaches it */
+.rgd-modern-report .orthoExtInfo--less:hover,
+.rgd-modern-report .orthoExtInfo--less:focus-visible {
+    color: #ffffff;
+    background: var(--rgd-blue-dark);
+    border-color: var(--rgd-blue-dark);
+    text-decoration: none;
+}
+/* the base chevron tint is sized for the pale pill; on the filled one it must be light */
+.rgd-modern-report .orthoExtInfo--less::after { color: rgba(255, 255, 255, .85); }
+
+/* "less info" is a control over the extended table, not a column of it, so the JSP now puts it
+   in this strip above the table instead of a fifth rowspan="2" header cell. It lands at the same
+   left edge as the "more info" button in the collapsed row, so the button does not move when the
+   section is toggled. */
+.rgd-modern-report #info-table .orthoExtToolbar { margin: 0 0 6px; }
+
+/* The extended ortholog table itself. Two things made it bulky and grey:
+
+   - it painted its own fills inline, #b6baba across the four header cells and #e2e2e2 on every
+     data cell, so it read as a stack of grey slabs rather than as a table. Those inline fills
+     are gone from the JSP and the look now comes from the skin's shared table tokens, the same
+     ones the rest of the report's tables use.
+   - `#info-table td` and `#info-table tr` match the cells of any table nested inside the summary
+     table, so these rows were also carrying its 5px/13.5px/1.45 rhythm and a border under every
+     row. That is right for a two column summary and much too loose for a four column data grid.
+
+   That second point is why every rule here is scoped through #info-table as well: a class-only
+   selector is (0,2,1) and would silently lose to that (1,1,1) ID rule. */
+.rgd-modern-report #info-table .orthoExtTable {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    background: var(--rgd-surface);
+}
+/* the summary table's row rule would otherwise draw a line under every nested row as well */
+.rgd-modern-report #info-table .orthoExtTable tr { border-bottom: 0; }
+.rgd-modern-report #info-table .orthoExtTable th,
+.rgd-modern-report #info-table .orthoExtTable td {
+    padding: 3px 9px;
+    font-size: 12.5px;
+    line-height: 1.35;
+    text-align: left;
+    vertical-align: top;
+}
+/* column headers: the skin's shared header band, so this matches every other report table */
+.rgd-modern-report #info-table .orthoExtTable th:not(.orthoExtBar) {
+    background: var(--rgd-thead);
+    color: var(--rgd-thead-text);
+    font-size: 11.5px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--rgd-thead-line);
+}
+/* the Orthologs / Other homologs / Alliance orthologs dividers */
+.rgd-modern-report #info-table .orthoExtTable .orthoExtBar {
+    padding: 3px 9px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: var(--rgd-accent-soft);
+    color: var(--rgd-blue-dark);
+    border-top: 1px solid var(--rgd-border);
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+/* data cells: a hairline between rows instead of a fill on every cell, plus a row hover so a
+   wide row stays easy to read across */
+.rgd-modern-report #info-table .orthoExtTable td {
+    color: var(--rgd-text);
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-modern-report #info-table .orthoExtTable tr:hover > td { background: var(--rgd-row-hover); }
+.rgd-modern-report #info-table .orthoExtTable tr:last-child > td { border-bottom: 0; }
+
 /* the Alliance row's logos are inline and already wrap, but they need the same breathing room */
 .rgd-modern-report #info-table td > a > img[src*="alliance_logo"] { margin: 0 6px 6px 0; }
 .rgd-modern-report #info-table tr { border-bottom: 1px solid var(--rgd-border-soft); }

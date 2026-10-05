@@ -127,16 +127,23 @@
              <tr>
                 <td class="label">More Info</td>
                 <td>
-                    <table>
+                    <%-- "less info" used to be a fifth rowspan="2" header cell on the right of
+                         the table, where it had no column of its own to belong to and sat in a
+                         white notch in the header bar. It is a control over the table, not data
+                         in it, so it lives above the table now - in the same spot the "more
+                         info" button occupies in the collapsed row, so the button does not jump
+                         when it is toggled. --%>
+                    <div class="orthoExtToolbar">
+                        <a href="javascript:hideAllOrthos();" class="orthoExtInfo orthoExtInfo--less"
+                           role="button" aria-expanded="true" aria-controls="orthoExtended"
+                           title="click to see simple ortholog information">less info</a>
+                    </div>
+                    <table class="orthoExtTable">
                  <TR>
-                     <TH style="background-color: #b6baba;">Species</TH>
-                     <TH style="background-color: #b6baba;">Gene symbol and name</TH>
-                     <TH style="background-color: #b6baba;">Data Source</TH>
-                     <TH style="background-color: #b6baba;">Assertion derived from</TH>
-                     <TH rowspan="2" style="padding-left:20px;">
-                         <a href="javascript:hideAllOrthos();" class="orthoExtInfo orthoExtInfo--less"
-                            role="button" title="click to see simple ortholog information">less info</a>
-                     </TH>
+                     <TH>Species</TH>
+                     <TH>Gene symbol and name</TH>
+                     <TH>Data Source</TH>
+                     <TH>Assertion derived from</TH>
                  </TR>
              <%
                  if( !homologs.isEmpty() ) {
@@ -150,10 +157,10 @@
                      Ortholog o = orthologDAO.getOrthologs(obj.getRgdId(), gg.getRgdId()).get(0);
              %>
                  <TR>
-                     <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-                     <TD style="background-color:#e2e2e2"><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
-                     <TD style="background-color:#e2e2e2"><%=o.getXrefDataSrc()%></TD>
-                     <TD style="background-color:#e2e2e2"><%=o.getXrefDataSet()%></TD>
+                     <TD><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                     <TD><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
+                     <TD><%=o.getXrefDataSrc()%></TD>
+                     <TD><%=o.getXrefDataSet()%></TD>
                  </TR>
              <% }
                  if( !weakOrthos.isEmpty() ) {
@@ -166,10 +173,10 @@
                          Gene gg = geneDAO.getGene(ass.getDetailRgdId());
                  %>
                      <TR>
-                         <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-                         <TD style="background-color:#e2e2e2"><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
-                         <TD style="background-color:#e2e2e2"><%=Utils.defaultString(ass.getSrcPipeline()).equals("ortholog")?"NCBI ortholog":ass.getSrcPipeline()%></TD>
-                         <TD style="background-color:#e2e2e2"><%=ass.getAssocSubType()%></TD>
+                         <TD><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                         <TD><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
+                         <TD><%=Utils.defaultString(ass.getSrcPipeline()).equals("ortholog")?"NCBI ortholog":ass.getSrcPipeline()%></TD>
+                         <TD><%=ass.getAssocSubType()%></TD>
                      </TR>
                  <% }}
 
@@ -182,14 +189,14 @@
                      for (Gene gg: agrOrthos) {
                  %>
                  <TR>
-                     <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-                     <TD style="background-color:#e2e2e2">
+                     <TD><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                     <TD>
                         <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+gg.getDescription()%>" title="see this gene at the Alliance">
                           <%-- do not print null gene name or gene name same as gene symbol --%>
                           <%=gg.getSymbol()%><% if( !Utils.NVL(gg.getName(), gg.getSymbol()).equals(gg.getSymbol()) ) { out.print(" ("+gg.getName()+")"); } %></a>
                      </TD>
-                     <TD style="background-color:#e2e2e2">Alliance</TD>
-                     <TD style="background-color:#e2e2e2">DIOPT (<%=gg.getNotes()%>)</TD><%-- methods matched --%>
+                     <TD>Alliance</TD>
+                     <TD>DIOPT (<%=gg.getNotes()%>)</TD><%-- methods matched --%>
                  </TR>
                  <% }} %>
 

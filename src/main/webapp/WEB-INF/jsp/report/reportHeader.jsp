@@ -18,7 +18,7 @@
 <link href="/rgdweb/common/search.css" rel="stylesheet" type="text/css" />
 <% } %>
 
-<link href="/rgdweb/css/report.css?v=3" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/css/report.css?v=4" rel="stylesheet" type="text/css" />
 
 <%-- tablesorter's own themes. They sit above the report skin on purpose: theme.blue.css
      styles .tablesorter-blue th at the same specificity as the skin's own th rule, so
@@ -33,7 +33,7 @@
      report page includes this file, and almost every rule in it is scoped under
      .rgd-modern-report - so a page that does not carry that class on #page-container is
      unaffected by loading it. --%>
-<link href="/rgdweb/css/reportModern.css?v=35" rel="stylesheet" type="text/css" />
+<link href="/rgdweb/css/reportModern.css?v=36" rel="stylesheet" type="text/css" />
 
 <%
     // The class that turns the skin on, computed once. Static includes share a translation

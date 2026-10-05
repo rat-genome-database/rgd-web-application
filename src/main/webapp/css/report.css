@@ -62,6 +62,8 @@ a.imore, a:hover.imore, a:focus.imore, a:active.imore {
     font-weight: 400;
     color: #6b93c4;
 }
+/* the filled treatment for this one lives in reportModern.css: the skin's `.rgd-modern-report a`
+   is more specific than a lone class here and loads after, so it would win the colour */
 .orthoExtInfo--less::after { content: "\2039"; }
 
 /* shown next to the toggle when a gene has no orthologs; this used to be bare text sitting
