@@ -31,6 +31,11 @@
     VariantDAO dao = new VariantDAO();
     boolean isList = false;
 
+    // PATIENT_ID values of the EVA (European Variation Archive) patients, one per assembly:
+    // 14=rat Rnor_6.0, 15=rat Rnor_5.0, 16=mouse GRCm38, 17=pig 10.2, 18=pig 11.1, 19=dog CanFam3.1,
+    // 20=green monkey, 21=rat mRatBN7.2, 22=mouse GRCm39, 23=dog ROS_Cfam_1.0, 24=rat GRCr8
+    final Set<Integer> EVA_PATIENT_IDS = new HashSet<>(Arrays.asList(14,15,16,17,18,19,20,21,22,23,24));
+
 //    VariantMapData vmd = dao.getVariant(Integer.parseInt(vid));
     List<SearchResult> searchResults = (List<SearchResult>) request.getAttribute("searchResults");
     XdbIdDAO xDao = new XdbIdDAO();
@@ -69,6 +74,9 @@
             if (!varRgdIds.contains(result.getVariant().getId())){
             Sample sample = SampleManager.getInstance().getSampleName(result.getVariant().getSampleId());
             boolean isClinVar = sample.getMapKey()==17 || sample.getMapKey()==38;
+            // EVA samples carry no read level data, so read depth/variant read counts are meaningless for them.
+            // Every EVA sample belongs to one of the PATIENT rows whose IDENTIFIER is 'EVA' (one per assembly).
+            boolean isEva = EVA_PATIENT_IDS.contains(sample.getPatientId());
             VariantMapData vmd = dao.getVariant((int)result.getVariant().getId());
             varRgdIds.add(vmd.getId());
 //            System.out.println(vmd.getId());
@@ -199,7 +207,7 @@
                         <% } %>
                     </tr>
 
-                    <% if( !isClinVar ) { %>
+                    <% if( !isClinVar && !isEva ) { %>
                     <tr>
                         <td class="carpeLabel" style="color:#053867;">Total Depth:</td>
                         <td><%=result.getVariant().getDepth()>0 ? result.getVariant().getDepth() : "n/a"%></td>
@@ -225,7 +233,7 @@
                     <tr>
                         <td class="carpeLabel" style="color:#053867;">Total Variant Reads:</td><td><%=numAlleles%></td>
                     </tr>
-                    <% } else if(sample.getMapKey()!=17){
+                    <% } else if(isClinVar && sample.getMapKey()!=17){
                     if(result!=null && result.getClinvarInfo()!=null && result.getClinvarInfo().getClinicalSignificance()!=null){%>
                     <tr><td class="carpeLabel" style="color:#053867;">Clinical Significance:</td><td><%=result.getClinvarInfo().getClinicalSignificance()%></td>
                     </tr>
