@@ -435,27 +435,6 @@
   }
   .em-pager button:hover:not([disabled]) { background: #dce8f4; border-color: #3a7aba; }
   .em-pager button[disabled] { opacity: 0.5; cursor: not-allowed; }
-  .em-pager-jump {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 600;
-  }
-  .em-pager-jump select {
-    font-size: 13px;
-    padding: 5px 8px;
-    border: 1px solid #bccada;
-    border-radius: 4px;
-    background: #f8fafc;
-    color: #1a3a5a;
-    cursor: pointer;
-  }
-  .em-pager-jump select:focus {
-    outline: none;
-    border-color: #3a7aba;
-    box-shadow: 0 0 0 2px rgba(58, 122, 186, 0.15);
-    background: #fff;
-  }
 </style>
 
 <%
@@ -683,9 +662,6 @@
         </div>
         <div id="emPager" class="em-pager">
           <button type="button" id="emPagerPrev" onclick="prevPage()">&#8592; Prev</button>
-          <label class="em-pager-jump">Page
-            <select id="emPageSelect" onchange="goToPage(parseInt(this.value, 10))" title="Jump to page"></select>
-          </label>
           <span id="emPageInfo"></span>
           <button type="button" id="emPagerNext" onclick="nextPage()">Next &#8594;</button>
         </div>
@@ -708,12 +684,21 @@
   // server facet: sent to /index/records/search and /index/facets when no condition box is checked.
   var CONDITION_IDS = [<% for (int i = 0; i < conditionIds.size(); i++) { if (i>0) out.print(","); out.print("'" + conditionIds.get(i).replace("'", "\\'") + "'"); } %>];
   var MAP_KEY = <%=mapKey%>;
-  var EXPRESSION_LEVEL = <%= (expressionLevel == null || expressionLevel.isBlank()) ? "null" : ("'" + expressionLevel.replace("'", "\\'") + "'") %>;
+  // Expression level(s) carried in on the request. The endpoints accept a comma-separated list, so this
+  // is an array and acts as the base for the Level facet exactly like TISSUE_IDS does for Tissue: it
+  // filters the query until the user checks Level boxes of their own.
+  var EXPRESSION_LEVELS = <%= (expressionLevel == null || expressionLevel.isBlank()) ? "[]" :
+      ("['" + expressionLevel.trim().replace("'", "\\'").replaceAll("\\s*,\\s*", "','") + "']") %>;
   var RGD_IDS = [<% for (int i = 0; i < rgdIds.size(); i++) { if (i>0) out.print(","); out.print(rgdIds.get(i)); } %>];
 
   var PAGE_SIZE = 2000;  // records fetched per page from the search endpoint (server-side paging)
   var RENDER_CAP = 5000; // safety cap on rows drawn at once (a single page is normally well under this)
   var currentPage = 0;   // 0-based page index into the server result set (see serverRecordsUrl / renderPager)
+  // Cursor walk state: pageCursors[i] is the cursor that fetches page i. Page 0 always starts with no
+  // cursor; each response supplies the cursor for the page after it (null once the walk is exhausted).
+  // Keeping the whole list is what makes Prev -- and jumping back to an already-visited page -- possible,
+  // since search_after itself only walks forward.
+  var pageCursors = [null];
   var FACET_SEARCH_THRESHOLD = 8; // groups longer than this get a search box
 
   var HAS_GENES = RGD_IDS.length > 0;
@@ -1070,11 +1055,9 @@
     if (MAP_KEY) params.push('mapKey=' + MAP_KEY);
     var units = checkedValues('units');
     if (units.length) params.push('units=' + encodeURIComponent(units.join(',')));
-    var levels = checkedValues('levels');
-    if (levels.length) {
-      params.push('expressionLevels=' + encodeURIComponent(levels.join(',')));
-      if (levels.length === 1) params.push('expressionLevel=' + encodeURIComponent(levels[0]));
-    }
+    // expressionLevel takes a comma-separated list on every endpoint, so send them all in one param.
+    var levels = selectedFor('levels', EXPRESSION_LEVELS);
+    if (levels.length) params.push('expressionLevel=' + encodeURIComponent(levels.join(',')));
     return params.join('&');
   }
 
@@ -1158,10 +1141,10 @@
   // apply them all)? Used both to drive the table and to count a client facet's own options without
   // that group filtering itself out.
   function recordMatches(r, exceptKey) {
-    // Every server-applicable filter (assembly, tissue, strain, gene, condition, and a single expression
-    // level) is enforced by /index/records/search, so the loaded set already respects those selections;
-    // re-applying them here is a harmless no-op. This pass is what actually applies the facets the
-    // endpoint can't: unit and multi-value level selections.
+    // Every server-applicable filter (assembly, tissue, strain, gene, condition, unit and expression
+    // level -- all of which accept multiple values) is enforced by the records endpoint, so the loaded
+    // set already respects those selections and re-applying them here is a harmless no-op. This pass is
+    // what actually applies the only facets the endpoint can't: Sex and Life Stage.
     for (var g = 0; g < FACET_GROUPS.length; g++) {
       var group = FACET_GROUPS[g];
       if (group.key === exceptKey) continue;
@@ -1212,11 +1195,11 @@
   // ---- Data loading ----------------------------------------------------------
 
   // Build the single unified records query. Every wizard and facet selection maps onto one call to
-  // /index/records/search, which AND-combines the supplied filters (tissue, strain, gene, condition,
-  // assembly, level) server-side and OR-combines the values within each. Filters this endpoint can't
-  // express -- unit and multi-value level selections -- are enforced by the client-side pass below
-  // (recordPassesFilters). At least one filter is always present (mapKey), so the request is never
-  // rejected for being unfiltered.
+  // /index/records/search/cursor, which AND-combines the supplied filters (tissue, strain, gene,
+  // condition, assembly, unit, level) server-side and OR-combines the values within each. The only
+  // filters left to the client-side pass below (recordPassesFilters) are Sex and Life Stage, which the
+  // endpoint does not accept. Paging is a search_after walk rather than from/size, so the whole result
+  // is reachable instead of just the first 10000 records.
   function serverRecordsUrl() {
     var params = [];
     var tissues = selectedFor('tissues', TISSUE_IDS);
@@ -1234,13 +1217,17 @@
     // all-TPM assembly), so push it down rather than only narrowing the loaded page client-side.
     var units = checkedValues('units');
     if (units.length) params.push('units=' + encodeURIComponent(units.join(',')));
-    // The endpoint takes a single expressionLevel, so send it only when exactly one level is checked
-    // (it then narrows server-side); multiple checked levels are applied client-side instead.
-    var levels = checkedValues('levels');
-    if (levels.length === 1) params.push('expressionLevel=' + encodeURIComponent(levels[0]));
-    params.push('page=' + currentPage);
+    // expressionLevel takes a list now, so every checked level narrows server-side (it used to accept
+    // only one, which left multi-level selections to the client pass). Falls back to the level(s) the
+    // request arrived with when the user has not checked any.
+    var levels = selectedFor('levels', EXPRESSION_LEVELS);
+    if (levels.length) params.push('expressionLevel=' + encodeURIComponent(levels.join(',')));
     params.push('size=' + PAGE_SIZE);
-    return apiUrl + '/rgdws/expression/index/records/search?' + params.join('&');
+    // Paging is a search_after walk: page 0 starts with no cursor, and each later page replays the
+    // cursor the previous response handed back. Unlike offset paging this has no 10000-record ceiling.
+    var cursor = pageCursors[currentPage];
+    if (cursor) params.push('cursor=' + encodeURIComponent(cursor));
+    return apiUrl + '/rgdws/expression/index/records/search/cursor?' + params.join('&');
   }
 
   function fetchRecordsJson(url) {
@@ -1263,7 +1250,7 @@
   // Re-query and redraw. A changed query (facet toggle, clear, initial load) starts back at page 0;
   // the pager passes keepPage=true so Prev/Next fetch the chosen page without snapping to the first.
   function reloadRecords(keepPage) {
-    if (!keepPage) currentPage = 0;
+    if (!keepPage) { currentPage = 0; pageCursors = [null]; } // a changed query invalidates the walk
     // Rapid facet clicks fire overlapping fetches that can resolve out of order. Stamp each request
     // and ignore any response that a newer reload has already superseded -- otherwise a stale record
     // set gets re-filtered against the current (newer) selection and every row fails, emptying the table.
@@ -1276,6 +1263,8 @@
         if (seq !== reloadSeq) return; // a newer reload is in flight; drop this stale response
         allRecords = data.records || [];
         serverTotal = (data.total != null) ? data.total : allRecords.length;
+        // Remember how to reach the page after this one. A null cursor means this was the last page.
+        pageCursors[currentPage + 1] = data.cursor || null;
 
         if (allRecords.length === 0) {
           document.getElementById('emTableCard').style.display = 'none';
@@ -1290,6 +1279,15 @@
       })
       .catch(function (err) {
         if (seq !== reloadSeq) return; // superseded; the newer reload owns the status line
+        // The point in time behind a cursor expires after a while, so a cursor parked on an old page can
+        // stop working. Rather than dead-end the user, start the walk over from the first page.
+        if (currentPage > 0) {
+          setStatus('loading', 'This page expired; returning to the first page&hellip;');
+          currentPage = 0;
+          pageCursors = [null];
+          reloadRecords(true);
+          return;
+        }
         setStatus('error', 'Could not load expression records: ' + esc(err.message));
       });
   }
@@ -1317,7 +1315,7 @@
     renderPager();
 
     // With server-side paging the whole result set is reachable page by page, so the only thing left to
-    // flag is when a client-side Sex / Life Stage (or unit / multi-level) filter is hiding rows on THIS
+    // flag is when a client-side Sex / Life Stage filter is hiding rows on THIS
     // page -- those facets can't be pushed to the endpoint, so they narrow the loaded page only.
     document.getElementById('emTruncated').innerText =
       (filtered.length < allRecords.length) ? 'Sex / Life Stage filters applied to this page.' : '';
@@ -1325,44 +1323,35 @@
     document.getElementById('emTableCard').style.display = 'block';
   }
 
-  // The endpoint uses offset paging capped by Elasticsearch's result window: from + size cannot exceed
-  // MAX_RESULT_WINDOW, so only the first MAX_RESULT_WINDOW records are reachable however many match.
-  var MAX_RESULT_WINDOW = 10000; // must mirror ExpressionWebService.MAX_RESULT_WINDOW
-
-  // Pages the endpoint can actually serve for the current result: the smaller of "enough to cover every
-  // matching record" and "as deep as the result window allows".
+  // Total pages the result divides into. The cursor walk has no result-window ceiling, so this is simply
+  // how many pages the matching records make up -- for a broad query that can be thousands.
   function pageCount() {
-    var byTotal = Math.ceil(serverTotal / PAGE_SIZE);
-    var byWindow = Math.floor(MAX_RESULT_WINDOW / PAGE_SIZE);
-    return Math.max(1, Math.min(byTotal, byWindow));
+    return Math.max(1, Math.ceil(serverTotal / PAGE_SIZE));
   }
 
   // Draw the Prev / page-of / Next controls under the table. Hidden when everything fits on one page.
+  // There is no jump-to-page control: a search_after walk can only step forward one page at a time, so
+  // the position is plain text and movement is Prev / Next only.
   function renderPager() {
     var pager = document.getElementById('emPager');
     var pages = pageCount();
-    var reachable = pages * PAGE_SIZE;
-    var beyond = serverTotal > reachable; // matches exist past the result window we can page into
-    if (pages <= 1 && !beyond) { pager.style.display = 'none'; return; }
+    if (pages <= 1) { pager.style.display = 'none'; return; }
     pager.style.display = 'flex';
 
-    // Rebuild the jump-to-page dropdown (1..pages) and select the current page.
-    var sel = document.getElementById('emPageSelect');
-    var opts = '';
-    for (var i = 0; i < pages; i++) opts += '<option value="' + i + '">' + (i + 1) + '</option>';
-    sel.innerHTML = opts;
-    sel.value = String(currentPage);
-
-    var info = 'of <strong>' + pages + '</strong>';
-    document.getElementById('emPageInfo').innerHTML = info;
+    document.getElementById('emPageInfo').innerHTML =
+      'Page <strong>' + (currentPage + 1).toLocaleString() + '</strong>' +
+      ' of <strong>' + pages.toLocaleString() + '</strong>' +
+      ' <span style="color:#7a8a9a;">(' + serverTotal.toLocaleString() + ' records)</span>';
     document.getElementById('emPagerPrev').disabled = currentPage <= 0;
-    document.getElementById('emPagerNext').disabled = currentPage >= pages - 1;
+    // Next is available while the walk has handed back a cursor for the following page.
+    document.getElementById('emPagerNext').disabled = !pageCursors[currentPage + 1];
   }
 
+  // Step to an adjacent page. Page 0 needs no cursor; any other page is only reachable once the walk has
+  // handed back its cursor, which is why this is driven by Prev / Next rather than arbitrary jumps.
   function goToPage(p) {
-    var pages = pageCount();
-    p = Math.max(0, Math.min(p, pages - 1));
-    if (p === currentPage) return;
+    if (p < 0 || p === currentPage) return;
+    if (p !== 0 && !pageCursors[p]) return;   // no cursor for that page yet
     currentPage = p;
     reloadRecords(true);              // keepPage: fetch the chosen page, don't reset to 0
     try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) {}
