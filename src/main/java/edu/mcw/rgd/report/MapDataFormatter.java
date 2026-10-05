@@ -872,6 +872,16 @@ public class  MapDataFormatter {
                 case 361: // Rnor6.0
                     db = "rn6";
                     break;
+                case 372:
+                case 373: // mRatBN7.2 - UCSC "Nov. 2020 (mRatBN7.2/rn7)"
+                    db = "rn7";
+                    break;
+                case 380:
+                case 381: // GRCr8 - UCSC "Jan. 2024 (GRCr8/rn8)". rn8 is a GenArk assembly
+                    // (GCF_036323735.1) that UCSC serves under the short rn8 name; its
+                    // chromAlias carries the chr1..chr20/chrX/chrY spellings this link builds.
+                    db = "rn8";
+                    break;
 
                 case 510: // bonobo
                     db = "panPan1";
