@@ -169,6 +169,26 @@
         border: 1px solid #f2c9c9;
     }
 
+    /* Condition cell: one line per ordinality step, the step number hanging to the left so the
+       condition names stay aligned with each other and wrap under themselves. Only rendered for
+       records with more than one step. */
+    #exprRecords td .exprCondStep {
+        padding-left: 1.35em;
+        text-indent: -1.35em;
+    }
+    #exprRecords td .exprCondStep + .exprCondStep {
+        margin-top: 2px;
+    }
+    #exprRecords td .exprCondStepNum {
+        display: inline-block;
+        /* min-width, not width: curated ordinalities run 1-6 today, so a two-digit step would
+           just shift its own line rather than overrun the number into the condition name */
+        min-width: 1.35em;
+        text-indent: 0;
+        font-variant-numeric: tabular-nums;
+        color: #5b6672;
+    }
+
     /* pager under the detail table: rows-per-page on the left, the page buttons in the
        middle, the range being shown on the right */
     #exprPager {
@@ -571,17 +591,28 @@
     }
 
     // A field that can carry several ontology terms is indexed as a list of objects, each holding
-    // its own accession and label: conditions is [{accId, term, obsolete}, ...]. This replaced the
-    // parallel condition / conditionTerm arrays, which only lined up by position - a record with
-    // two conditions had to have its two labels matched to its two accessions by index, and
-    // anything that treated the field as a scalar built one link out of the whole array.
+    // its own accession and label: conditions is [{accId, term, obsolete, ordinality}, ...]. This
+    // replaced the parallel condition / conditionTerm arrays, which only lined up by position - a
+    // record with two conditions had to have its two labels matched to its two accessions by
+    // index, and anything that treated the field as a scalar built one link out of the whole array.
     // An entry with neither accession nor label is dropped: the index does emit bare {obsolete:0}.
-    function ontObjectLinks(objs) {
+    //
+    // Conditions are a protocol rather than a set: `ordinality` is the step a condition belongs
+    // to, and several conditions can share one step because they were applied together. The same
+    // condition can also come back at a later step - RGD:2004 carries ovalbumin at both step 1 and
+    // step 4 - which a flat comma list showed as an apparent duplicate. So the conditions are
+    // grouped by ordinality and the steps are numbered with the curated value, not a renumbered
+    // 1..n, so a gap in the ordinalities stays visible.
+    //
+    // A record whose conditions are all one step is left as a plain comma list: there is no
+    // sequence to report, and that is the great majority of records.
+    function conditionStepLinks(objs) {
         if (objs == null) {
             return "";
         }
         var arr = Array.isArray(objs) ? objs : [objs];
-        var out = [];
+        var groups = [];     // [{ord, links[]}] - one entry per distinct ordinality
+        var byOrd = {};
         for (var i = 0; i < arr.length; i++) {
             var o = arr[i];
             if (o == null) {
@@ -592,9 +623,36 @@
             if (!acc && !label) {
                 continue;
             }
-            out.push(ontTermLink(acc, label || acc));
+            // ordinality is curated as a positive integer. Anything else - absent, 0, junk - has
+            // no step to report, so those conditions group together and trail the numbered ones.
+            var n = Number(o.ordinality);
+            var ord = (isFinite(n) && n > 0) ? n : null;
+            var key = (ord === null) ? "none" : "o" + ord;
+            if (!byOrd[key]) {
+                byOrd[key] = { ord: ord, links: [] };
+                groups.push(byOrd[key]);
+            }
+            byOrd[key].links.push(ontTermLink(acc, label || acc));
         }
-        return out.join(", ");
+        if (groups.length === 0) {
+            return "";
+        }
+        groups.sort(function (a, b) {
+            if (a.ord === null) { return b.ord === null ? 0 : 1; }
+            if (b.ord === null) { return -1; }
+            return a.ord - b.ord;
+        });
+        if (groups.length === 1) {
+            return groups[0].links.join(", ");
+        }
+        var out = [];
+        for (var g = 0; g < groups.length; g++) {
+            var num = (groups[g].ord === null)
+                ? ''
+                : '<span class="exprCondStepNum">' + groups[g].ord + '.</span> ';
+            out.push('<div class="exprCondStep">' + num + groups[g].links.join(", ") + '</div>');
+        }
+        return out.join("");
     }
 
     // One record from /expression/index/records/search as a row of the detail table. A record
@@ -606,7 +664,7 @@
             sex: rec.sex,
             lifeStage: rec.lifeStage,
             tissue: ontTermLinks(rec.tissueAcc, rec.tissueTerm),
-            condition: ontObjectLinks(rec.conditions),
+            condition: conditionStepLinks(rec.conditions),
             GeoSampleId: rec.geoSampleAcc,
             tpmValue: rec.expressionValue,
             unit: rec.expressionUnit,
