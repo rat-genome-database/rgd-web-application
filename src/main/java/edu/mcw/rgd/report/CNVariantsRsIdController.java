@@ -179,6 +179,23 @@ public class CNVariantsRsIdController implements Controller {
             }
         }
 
+        // Newest assembly first, which is the order every other position table on the site is in:
+        // the gene report gets it from MapDataFormatter.buildTableVar, which sorts on the rank the
+        // database gives each assembly. The rsId page builds its own table in rsIds/info.jsp
+        // straight off this list, and getAllActiveVariantsByRsId returns whatever order the query
+        // happened to produce - rs105259040 came out mRatBN7.2, Rnor_6.0, GRCr8, newest last.
+        //
+        // Safe for the other branches above: both the gene- and qtl-scoped queries are for one
+        // activeMapKey, so every row there carries the same rank, and Collections.sort is stable -
+        // equal ranks keep the position order the query returned them in.
+        final MapManager mapManager = MapManager.getInstance();
+        Collections.sort(objectsNonDupe, new Comparator<VariantMapData>() {
+            @Override
+            public int compare(VariantMapData o1, VariantMapData o2) {
+                return assemblyRank(mapManager, o1) - assemblyRank(mapManager, o2);
+            }
+        });
+
         if (!fromGene || (objects != null ? objects.size() : 0) <1000)
             request.setAttribute("totalSize", objectsNonDupe.size());
         request.setAttribute("reportObjects", objectsNonDupe);
@@ -197,6 +214,15 @@ public class CNVariantsRsIdController implements Controller {
         } else{
             return new ModelAndView("/WEB-INF/jsp/report/rsIds/main.jsp");
         }
+    }
+
+    /** An assembly's display rank, 0 when the map key is not one MapManager knows - the same
+     *  fallback MapDataFormatter.buildTableVar uses, so an unknown assembly sorts the same way
+     *  in both tables. Map is fully qualified because this file imports both
+     *  edu.mcw.rgd.datamodel.* and java.util.*, which makes a bare "Map" ambiguous. */
+    private static int assemblyRank(MapManager mm, VariantMapData v) {
+        edu.mcw.rgd.datamodel.Map map = mm.getMap(v.getMapKey());
+        return map == null ? 0 : map.getRank();
     }
 
     public Gene getGene(int rgdId) throws Exception{
