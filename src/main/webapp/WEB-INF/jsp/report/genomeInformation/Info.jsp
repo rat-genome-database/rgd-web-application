@@ -137,12 +137,34 @@
         <div class="container" style="padding:0">
         <div style="overflow:hidden">
 
+        <%-- Publication describing the assembly currently being viewed, keyed by map_key. --%>
+        <c:choose>
+            <c:when test="${model.mapKey==380 || model.mapKey==381}">
+                <c:set var="assemblyRefId" value="640480057"/>
+                <c:set var="assemblyRefTitle" value="Construction and evaluation of a new rat reference genome assembly, GRCr8, from long reads and long-range scaffolding"/>
+                <c:set var="assemblyRefPmid" value="39516046"/>
+            </c:when>
+            <c:when test="${model.mapKey==372 || model.mapKey==373}">
+                <c:set var="assemblyRefId" value="640480056"/>
+                <c:set var="assemblyRefTitle" value="A revamped rat reference genome improves the discovery of genetic diversity in laboratory rats"/>
+                <c:set var="assemblyRefPmid" value="38537634"/>
+            </c:when>
+            <c:otherwise>
+                <c:remove var="assemblyRefId"/>
+                <c:remove var="assemblyRefTitle"/>
+                <c:remove var="assemblyRefPmid"/>
+            </c:otherwise>
+        </c:choose>
+
         <div style="float:left;width:40%">
             <h4>Summary</h4>
             <table class="table table-striped" style="border:1px solid gainsboro;">
 
 
                 <tr><td>Assembly</td><td>${model.assembly}<br><a href="${hit.sourceAsMap.ncbiLink}" target="_blank">${hit.sourceAsMap.refSeqAssemblyAccession} <i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></td></tr>
+                <c:if test="${not empty assemblyRefPmid}">
+                <tr><td>Publication</td><td><a href="/rgdweb/report/reference/main.html?id=${assemblyRefId}">${assemblyRefTitle}</a><br>PMID:${assemblyRefPmid}&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/${assemblyRefPmid}" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></td></tr>
+                </c:if>
                 <!--tr><td>Base Pairs</td><td>$-{hit.sourceAsMap.basePairs}</td></tr-->
                 <tr><td>Total Sequence Length (bp)</td><td>${hit.sourceAsMap.totalSeqLength}</td></tr>
                 <tr><td>Total Ungapped Length (bp)</td><td>${hit.sourceAsMap.totalUngappedLength}</td></tr>
@@ -454,8 +476,8 @@
                     <div style="overflow: scroll">
                         <c:if test="${model.species.equals('Rat') }">
                             <ul>
-                                <li><a href="/rgdweb/report/reference/main.html?id=640480056">A revamped rat reference genome improves the discovery of genetic diversity in laboratory rats. </a>PMID: 38537634&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/38537634" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
-                                <li><a href="/rgdweb/report/reference/main.html?id=640480057">Construction and evaluation of a new rat reference genome assembly, GRCr8, from long reads and long-range scaffolding </a>PMID: 39516046&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/39516046" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
+                                <li><a href="/rgdweb/report/reference/main.html?id=640480056">A revamped rat reference genome improves the discovery of genetic diversity in laboratory rats. </a><c:if test="${assemblyRefId=='640480056'}"><em>(${model.assembly} assembly publication)</em> </c:if>PMID: 38537634&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/38537634" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
+                                <li><a href="/rgdweb/report/reference/main.html?id=640480057">Construction and evaluation of a new rat reference genome assembly, GRCr8, from long reads and long-range scaffolding </a><c:if test="${assemblyRefId=='640480057'}"><em>(${model.assembly} assembly publication)</em> </c:if>PMID: 39516046&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/39516046" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
 
                                 <li><a href="/rgdweb/report/reference/main.html?id=1303377">Genome sequence of the Brown Norway rat yields insights into mammalian evolution. Nature. 2004 Apr 1;428(6982):493-521. </a>PMID: 15057822&nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/15057822" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
                                 <li>Integrated and sequence-ordered BAC- and YAC-based physical maps for the rat genome. PMID: 15060021 &nbsp;<a href="https://www.ncbi.nlm.nih.gov/pubmed/15060021" target="_blank"><i class="fa fa-external-link" aria-hidden="true" style="color:dodgerblue;font-weight: bold"></i></a></li>
