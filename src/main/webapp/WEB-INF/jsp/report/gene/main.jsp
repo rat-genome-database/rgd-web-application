@@ -248,9 +248,7 @@
                     <%@ include file="../proteins.jsp"%>
                     <%@ include file="proteinStructures.jsp"%>
 
-                    <%-- The Transcriptome card was three links into phenogen.org/gene.jsp, which
-                         now answers 404 for every gene - the whole card was dead links, so it and
-                         transcriptome.jsp are gone. Nothing else included that file. --%>
+                    <%@ include file="../transcriptome.jsp"%>
                     <%@ include file="../promoters.jsp"%>
 <%--                    <%@ include file="../variants.jsp"%>--%>
                     
