@@ -297,7 +297,7 @@ public class PhenotypeExpectedRangeDao extends OntologyXDAO {
        String sql= "SELECT * FROM EXPECTED_RANGE WHERE Strain_group_id=? ";
        try(Connection conn= DataSourceFactory.getInstance().getDataSource().getConnection()){
            PreparedStatement stmt = conn.prepareStatement(sql);
-           stmt.setString(1,strainGroupId);
+           stmt.setInt(1,Integer.parseInt(strainGroupId));
 
            ResultSet rs=    stmt.executeQuery();
            List<ExpectedRangeRecord> records= new ArrayList<>();
