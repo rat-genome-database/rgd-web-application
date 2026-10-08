@@ -81,19 +81,29 @@ public class GViewerBean {
         StringBuilder sql = new StringBuilder();
 
         for( int i=0; i<terms.length; i++ ) {
-            sql.append("SELECT annotated_object_rgd_id rgd_id,NVL(object_symbol,object_name) object_symbol,DECODE(rgd_object_key,1,'gene',6,'qtl','strain') object_type\n");
+            // Oracle evaluates INTERSECT/UNION/MINUS left to right with equal precedence;
+            // in PostgreSQL INTERSECT binds tighter, so group left-deep: ((t0 op t1) op t2) ...
+            if( i>0 )
+                sql.insert(0, "(");
+            sql.append("SELECT annotated_object_rgd_id rgd_id,COALESCE(object_symbol,object_name) object_symbol,CASE WHEN rgd_object_key=1 THEN 'gene' WHEN rgd_object_key=6 THEN 'qtl' ELSE 'strain' END object_type\n");
             sql.append("FROM full_annot a,ont_terms t\n");
             sql.append("WHERE rgd_object_key IN(1,5,6)\n");
             sql.append(" AND a.term_acc=t.term_acc AND t.is_obsolete=0 \n");
             sql.append(" AND EXISTS(SELECT 1 FROM ont_term_stats2 s WHERE s.term_acc=t.term_acc AND stat_name='annotated_object_count' AND with_children>0) \n");
-            sql.append(" AND a.term_acc in (\n");
-            sql.append("    SELECT child_term_acc FROM ont_dag \n");
-            sql.append("    START WITH child_term_acc IN(\n");
-            sql.append("      SELECT term_acc FROM ont_terms t\n");
-            sql.append("      WHERE (upper(t.term) like upper('%"+terms[i]+"%')\n");
-            sql.append("             and t.ont_id in ("+onts[i]+"))\n");
-            sql.append("    ) CONNECT BY PRIOR child_term_acc=parent_term_acc\n");
-            sql.append(")\n");
+            sql.append(" AND a.term_acc = ANY(ARRAY(\n");
+            sql.append("    WITH RECURSIVE d(child_term_acc) AS (\n");
+            sql.append("      SELECT child_term_acc FROM ont_dag \n");
+            sql.append("      WHERE child_term_acc IN(\n");
+            sql.append("        SELECT term_acc FROM ont_terms t\n");
+            sql.append("        WHERE (upper(t.term) like upper('%"+terms[i]+"%')\n");
+            sql.append("               and t.ont_id in ("+onts[i]+"))\n");
+            sql.append("      )\n");
+            sql.append("      UNION\n");
+            sql.append("      SELECT g.child_term_acc FROM ont_dag g JOIN d ON g.parent_term_acc=d.child_term_acc\n");
+            sql.append("    ) SELECT child_term_acc FROM d\n");
+            sql.append("))\n");
+            if( i>0 )
+                sql.append(")\n");
 
             if( ops!=null && i<ops.length ) {
                 if( ops[i].equals("AND") )
@@ -101,7 +111,7 @@ public class GViewerBean {
                 else if( ops[i].equals("OR") )
                     sql.append("UNION \n");
                 else if( ops[i].equals("AND NOT") )
-                    sql.append("MINUS \n");
+                    sql.append("EXCEPT \n");
             }
         }
 
@@ -154,14 +164,18 @@ public class GViewerBean {
         sql.append(" AND a.term_acc=t.term_acc AND t.is_obsolete=0 \n");
         //sql.append(" AND NVL(s.rat_annots_with_children,0)+NVL(s.mouse_annots_with_children,0)+NVL(s.human_annots_with_children,0)>0 \n");
         sql.append(" AND EXISTS(SELECT 1 FROM ont_term_stats2 s WHERE s.term_acc=t.term_acc AND stat_name='annotated_object_count' AND with_children>0) \n");
-        sql.append(" AND t.term_acc in (\n");
-        sql.append("    SELECT child_term_acc FROM ont_dag \n");
-        sql.append("    START WITH child_term_acc IN(\n");
-        sql.append("      SELECT term_acc FROM ont_terms t\n");
-        sql.append("      WHERE (upper(t.term) like upper('%"+terms[termIndex]+"%')\n");
-        sql.append("             and t.ont_id in ("+onts[termIndex]+"))\n");
-        sql.append("    ) CONNECT BY PRIOR child_term_acc=parent_term_acc\n");
-        sql.append(")\n");
+        sql.append(" AND t.term_acc = ANY(ARRAY(\n");
+        sql.append("    WITH RECURSIVE d(child_term_acc) AS (\n");
+        sql.append("      SELECT child_term_acc FROM ont_dag \n");
+        sql.append("      WHERE child_term_acc IN(\n");
+        sql.append("        SELECT term_acc FROM ont_terms t\n");
+        sql.append("        WHERE (upper(t.term) like upper('%"+terms[termIndex]+"%')\n");
+        sql.append("               and t.ont_id in ("+onts[termIndex]+"))\n");
+        sql.append("      )\n");
+        sql.append("      UNION\n");
+        sql.append("      SELECT g.child_term_acc FROM ont_dag g JOIN d ON g.parent_term_acc=d.child_term_acc\n");
+        sql.append("    ) SELECT child_term_acc FROM d\n");
+        sql.append("))\n");
         sql.append("ORDER BY a.annotated_object_rgd_id\n");
 
         return sql.toString();
@@ -181,14 +195,18 @@ public class GViewerBean {
         sql.append("WHERE t.is_obsolete=0 AND o.ont_id=t.ont_id\n");
         //sql.append(" AND NVL(s.rat_annots_with_children,0)+NVL(s.mouse_annots_with_children,0)+NVL(s.human_annots_with_children,0)>0 \n");
         sql.append(" AND EXISTS(SELECT 1 FROM ont_term_stats2 s WHERE s.term_acc=t.term_acc AND stat_name='annotated_object_count' AND with_children>0) \n");
-        sql.append(" AND t.term_acc IN (\n");
-        sql.append("    SELECT child_term_acc FROM ont_dag \n");
-        sql.append("    START WITH child_term_acc IN(\n");
-        sql.append("      SELECT term_acc FROM ont_terms t\n");
-        sql.append("      WHERE (upper(t.term) like upper('%"+terms[0]+"%')\n");
-        sql.append("             and t.ont_id in ("+onts[0]+"))\n");
-        sql.append("    ) CONNECT BY PRIOR child_term_acc=parent_term_acc\n");
-        sql.append(")\n");
+        sql.append(" AND t.term_acc = ANY(ARRAY(\n");
+        sql.append("    WITH RECURSIVE d(child_term_acc) AS (\n");
+        sql.append("      SELECT child_term_acc FROM ont_dag \n");
+        sql.append("      WHERE child_term_acc IN(\n");
+        sql.append("        SELECT term_acc FROM ont_terms t\n");
+        sql.append("        WHERE (upper(t.term) like upper('%"+terms[0]+"%')\n");
+        sql.append("               and t.ont_id in ("+onts[0]+"))\n");
+        sql.append("      )\n");
+        sql.append("      UNION\n");
+        sql.append("      SELECT g.child_term_acc FROM ont_dag g JOIN d ON g.parent_term_acc=d.child_term_acc\n");
+        sql.append("    ) SELECT child_term_acc FROM d\n");
+        sql.append("))\n");
         sql.append("ORDER BY o.ont_name,t.term\n");
 
         return sql.toString();
