@@ -121,7 +121,7 @@ public class OntGViewerDataController implements Controller {
                             sql += " union ";
                         }
 
-                        sql += "SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos, m.rgd_id, object_symbol,DECODE(rgd_object_key,1,'gene',6,'qtl','strain') object_type " +
+                        sql += "SELECT DISTINCT m.chromosome,m.start_pos,m.stop_pos, m.rgd_id, object_symbol,CASE WHEN rgd_object_key=1 THEN 'gene' WHEN rgd_object_key=6 THEN 'qtl' ELSE 'strain' END object_type " +
                                 "FROM maps_data m, full_annot fa where m.rgd_id in (" + lst + ") ";
                         sql += " and m.rgd_id=fa.annotated_object_rgd_id and m.map_key IN " + getMapKeysForGViewer();
 
