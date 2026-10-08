@@ -418,14 +418,14 @@ public class TermEditObjectController implements Controller {
 
     String getUnusedCustomDoTermAcc(OntologyXDAO dao) throws Exception {
         String sql = "SELECT * FROM (\n" +
-                "SELECT 'DOID:9'||lpad(-1+to_number(substr(term_acc,7)),6,'0') FROM ont_terms t1\n" +
+                "SELECT 'DOID:9'||lpad(CAST(-1+CAST(substr(term_acc,7) AS INTEGER) AS VARCHAR(20)),6,'0') FROM ont_terms t1\n" +
                 "WHERE ont_id='RDO' AND term_acc like 'DOID:9______' AND term_acc<>'DOID:9000000'\n" +
                 "AND NOT EXISTS\n" +
-                "(SELECT 1 FROM ont_terms t2 WHERE t2.term_acc='DOID:9'||lpad(-1+to_number(substr(t1.term_acc,7)),6,'0'))\n" +
+                "(SELECT 1 FROM ont_terms t2 WHERE t2.term_acc='DOID:9'||lpad(CAST(-1+CAST(substr(t1.term_acc,7) AS INTEGER) AS VARCHAR(20)),6,'0'))\n" +
                 "UNION ALL\n" +
-                "SELECT 'DOID:9'||lpad(1+to_number(substr(term_acc,7)),6,'0') FROM ont_terms t1\n" +
+                "SELECT 'DOID:9'||lpad(CAST(1+CAST(substr(term_acc,7) AS INTEGER) AS VARCHAR(20)),6,'0') FROM ont_terms t1\n" +
                 "WHERE term_acc=(SELECT MAX(term_acc) FROM ont_terms WHERE ont_id='RDO' AND term_acc like 'DOID:9______')\n" +
-                ") ORDER BY DBMS_RANDOM.RANDOM";
+                ") t ORDER BY random()";
 
         String acc1 = Utils.NVL(StringListQuery.execute(dao, sql).get(0), "DOID:9000000");
         String acc2 = Utils.NVL(StringListQuery.execute(dao, sql).get(0), "DOID:9000000");
@@ -434,31 +434,31 @@ public class TermEditObjectController implements Controller {
     }
 
     String getUnusedPwTermAcc(OntologyXDAO dao) throws Exception {
-        String sql = "SELECT MIN('PW:'||lpad(1+to_number(substr(term_acc,4)),7,'0')) FROM ont_terms t1\n" +
+        String sql = "SELECT MIN('PW:'||lpad(CAST(1+CAST(substr(term_acc,4) AS INTEGER) AS VARCHAR(20)),7,'0')) FROM ont_terms t1\n" +
                 "WHERE term_acc=(SELECT MAX(term_acc) FROM ont_terms WHERE term_acc LIKE 'PW:_______')";
         return Utils.NVL(StringListQuery.execute(dao, sql).get(0), "PW:0000000");
     }
 
     String getUnusedRsTermAcc(OntologyXDAO dao) throws Exception {
-        String sql = "SELECT MIN('RS:'||lpad(1+to_number(substr(term_acc,4)),7,'0')) FROM ont_terms t1\n" +
+        String sql = "SELECT MIN('RS:'||lpad(CAST(1+CAST(substr(term_acc,4) AS INTEGER) AS VARCHAR(20)),7,'0')) FROM ont_terms t1\n" +
                 "WHERE term_acc=(SELECT MAX(term_acc) FROM ont_terms WHERE term_acc LIKE 'RS:_______')";
         return Utils.NVL(StringListQuery.execute(dao, sql).get(0), "RS:0000000");
     }
 
     String getUnusedCmoTermAcc(OntologyXDAO dao) throws Exception {
-        String sql = "SELECT MIN('CMO:'||lpad(1+to_number(substr(term_acc,5)),7,'0')) FROM ont_terms t1\n" +
+        String sql = "SELECT MIN('CMO:'||lpad(CAST(1+CAST(substr(term_acc,5) AS INTEGER) AS VARCHAR(20)),7,'0')) FROM ont_terms t1\n" +
                 "WHERE term_acc=(SELECT MAX(term_acc) FROM ont_terms WHERE term_acc LIKE 'CMO:_______')";
         return Utils.NVL(StringListQuery.execute(dao, sql).get(0), "CMO:0000000");
     }
 
     String getUnusedMmoTermAcc(OntologyXDAO dao) throws Exception {
-        String sql = "SELECT MIN('MMO:'||lpad(1+to_number(substr(term_acc,5)),7,'0')) FROM ont_terms t1\n" +
+        String sql = "SELECT MIN('MMO:'||lpad(CAST(1+CAST(substr(term_acc,5) AS INTEGER) AS VARCHAR(20)),7,'0')) FROM ont_terms t1\n" +
                 "WHERE term_acc=(SELECT MAX(term_acc) FROM ont_terms WHERE term_acc LIKE 'MMO:_______')";
         return Utils.NVL(StringListQuery.execute(dao, sql).get(0), "MMO:0000000");
     }
 
     String getUnusedXcoTermAcc(OntologyXDAO dao) throws Exception {
-        String sql = "SELECT MIN('XCO:'||lpad(1+to_number(substr(term_acc,5)),7,'0')) FROM ont_terms t1\n" +
+        String sql = "SELECT MIN('XCO:'||lpad(CAST(1+CAST(substr(term_acc,5) AS INTEGER) AS VARCHAR(20)),7,'0')) FROM ont_terms t1\n" +
                 "WHERE term_acc=(SELECT MAX(term_acc) FROM ont_terms WHERE term_acc LIKE 'XCO:_______')";
         return Utils.NVL(StringListQuery.execute(dao, sql).get(0), "XCO:0000000");
     }
@@ -569,7 +569,7 @@ public class TermEditObjectController implements Controller {
         }
 
         // obsolete the term
-        String sql = "UPDATE ont_terms SET is_obsolete=4,modification_date=SYSDATE WHERE term_acc=?";
+        String sql = "UPDATE ont_terms SET is_obsolete=4,modification_date=LOCALTIMESTAMP(0) WHERE term_acc=?";
         dao.update(sql, termAcc);
 
         term.setObsolete(4);
