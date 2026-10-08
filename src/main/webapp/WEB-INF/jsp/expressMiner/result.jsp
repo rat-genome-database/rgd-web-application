@@ -435,6 +435,8 @@
   }
   .em-pager button:hover:not([disabled]) { background: #dce8f4; border-color: #3a7aba; }
   .em-pager button[disabled] { opacity: 0.5; cursor: not-allowed; }
+  /* The copy above the table divides itself from the rows below, not from the meta line above. */
+  .em-pager-top { border-top: none; border-bottom: 1px solid #dde5ef; }
 </style>
 
 <%
@@ -637,6 +639,11 @@
           <span id="emCount"></span>
           <span id="emTruncated" style="color:#8a6d1a;"></span>
         </div>
+        <div class="em-pager em-pager-top">
+          <button type="button" class="em-pager-prev" onclick="prevPage()">&#8592; Prev</button>
+          <span class="em-pager-info"></span>
+          <button type="button" class="em-pager-next" onclick="nextPage()">Next &#8594;</button>
+        </div>
         <div class="em-table-scroll">
           <table class="em-table">
             <thead>
@@ -660,10 +667,10 @@
             <tbody id="emTableBody"></tbody>
           </table>
         </div>
-        <div id="emPager" class="em-pager">
-          <button type="button" id="emPagerPrev" onclick="prevPage()">&#8592; Prev</button>
-          <span id="emPageInfo"></span>
-          <button type="button" id="emPagerNext" onclick="nextPage()">Next &#8594;</button>
+        <div class="em-pager">
+          <button type="button" class="em-pager-prev" onclick="prevPage()">&#8592; Prev</button>
+          <span class="em-pager-info"></span>
+          <button type="button" class="em-pager-next" onclick="nextPage()">Next &#8594;</button>
         </div>
       </div>
 
@@ -1178,7 +1185,10 @@
     // The facet panel itself is deliberately NOT refreshed: its options and counts stay fixed at the
     // original query so every value remains selectable (re-querying /index/facets with the current
     // selection zeroes out every other value in the group, making multi-select impossible).
-    if (isClientFacet(groupKey)) {
+    // Either way the result set changes, so go back to the first page rather than leaving the user
+    // stranded on a page number that no longer describes the same data. Sex / Life Stage filter the
+    // records already loaded, so when we are already on page 1 that costs no round trip at all.
+    if (isClientFacet(groupKey) && currentPage === 0) {
       applyClientFilters();
     } else {
       reloadRecords();
@@ -1332,19 +1342,23 @@
   // Draw the Prev / page-of / Next controls under the table. Hidden when everything fits on one page.
   // There is no jump-to-page control: a search_after walk can only step forward one page at a time, so
   // the position is plain text and movement is Prev / Next only.
+  // There is a pager above and below the table; both are driven from here so they always agree.
   function renderPager() {
-    var pager = document.getElementById('emPager');
+    var pagers = document.querySelectorAll('#emTableCard .em-pager');
     var pages = pageCount();
-    if (pages <= 1) { pager.style.display = 'none'; return; }
-    pager.style.display = 'flex';
-
-    document.getElementById('emPageInfo').innerHTML =
-      'Page <strong>' + (currentPage + 1).toLocaleString() + '</strong>' +
-      ' of <strong>' + pages.toLocaleString() + '</strong>' +
-      ' <span style="color:#7a8a9a;">(' + serverTotal.toLocaleString() + ' records)</span>';
-    document.getElementById('emPagerPrev').disabled = currentPage <= 0;
-    // Next is available while the walk has handed back a cursor for the following page.
-    document.getElementById('emPagerNext').disabled = !pageCursors[currentPage + 1];
+    var show = pages > 1;
+    var info = 'Page <strong>' + (currentPage + 1).toLocaleString() + '</strong>' +
+               ' of <strong>' + pages.toLocaleString() + '</strong>' +
+               ' <span style="color:#7a8a9a;">(' + serverTotal.toLocaleString() + ' records)</span>';
+    for (var i = 0; i < pagers.length; i++) {
+      var pager = pagers[i];
+      pager.style.display = show ? 'flex' : 'none';
+      if (!show) continue;
+      pager.querySelector('.em-pager-info').innerHTML = info;
+      pager.querySelector('.em-pager-prev').disabled = currentPage <= 0;
+      // Next is available while the walk has handed back a cursor for the following page.
+      pager.querySelector('.em-pager-next').disabled = !pageCursors[currentPage + 1];
+    }
   }
 
   // Step to an adjacent page. Page 0 needs no cursor; any other page is only reachable once the walk has
