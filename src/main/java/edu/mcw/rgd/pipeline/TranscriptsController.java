@@ -50,10 +50,10 @@ public class TranscriptsController implements Controller {
 
         String query =
         "select header,symbol,map_name,x.chromosome,start_pos,stop_pos,strand,x.transcript_rgd_id from ( "+
-        "select DECODE(t.is_non_coding_ind,'Y','NON CODING REGION','TRANSCRIPT') header,t.acc_id symbol,m.start_pos,m.stop_pos,m.strand,t.transcript_rgd_id,m.map_key,m.chromosome "+
+        "select CASE WHEN t.is_non_coding_ind='Y' THEN 'NON CODING REGION' ELSE 'TRANSCRIPT' END header,t.acc_id symbol,m.start_pos,m.stop_pos,m.strand,t.transcript_rgd_id,m.map_key,m.chromosome "+
         "from transcripts t,maps_data m where t.gene_rgd_id=? and m.rgd_id=t.transcript_rgd_id "+
         "union all "+
-        "select '' header,DECODE(r.object_key,15,'EXON',17,'5''UTR5',20,'3''UTR3','OTHER')||' RGD_ID:'||d.rgd_id symbol,d.start_pos,d.stop_pos,d.strand,t.transcript_rgd_id,d.map_key,d.chromosome "+
+        "select NULL header,CASE r.object_key WHEN 15 THEN 'EXON' WHEN 17 THEN '5''UTR5' WHEN 20 THEN '3''UTR3' ELSE 'OTHER' END||' RGD_ID:'||d.rgd_id symbol,d.start_pos,d.stop_pos,d.strand,t.transcript_rgd_id,d.map_key,d.chromosome "+
         "from transcripts t,maps_data m,transcript_features f,maps_data d,rgd_ids r "+
         "where t.gene_rgd_id=? and m.rgd_id=t.transcript_rgd_id and t.transcript_rgd_id=f.transcript_rgd_id "+
         " and f.feature_rgd_id=d.rgd_id and f.feature_rgd_id=r.rgd_id and m.map_key=d.map_key"+
