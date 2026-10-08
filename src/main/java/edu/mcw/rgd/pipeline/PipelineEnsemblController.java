@@ -125,7 +125,7 @@ public class PipelineEnsemblController implements Controller {
             " SELECT pipeline_log_record_no \n"+
             " FROM pipeline_log_flags pf, pipeline_flags f \n"+
             " WHERE pipeline_log_key=? AND f.pipeline_flag_id=pf.pipeline_flag_id AND pipeline_flag_symbol=? \n"+
-            "MINUS \n"+
+            "EXCEPT \n"+
             " SELECT pipeline_log_record_no \n"+
             " FROM pipeline_log_flags pf, pipeline_flags f \n"+
             " WHERE pipeline_log_key=? AND f.pipeline_flag_id=pf.pipeline_flag_id AND pipeline_flag_symbol=? \n"+
