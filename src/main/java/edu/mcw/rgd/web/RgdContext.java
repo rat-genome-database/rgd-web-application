@@ -1,9 +1,13 @@
 package edu.mcw.rgd.web;
 
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -199,14 +203,29 @@ public class RgdContext {
 
       //  return "http://127.0.0.1:8080";
     }
+    /**
+     * GitHub OAuth settings (CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, PAGE).
+     * A GitHub OAuth app has a single callback URL, so a host that shares a server with another
+     * (newdev.rgd.mcw.edu runs beside dev.rgd.mcw.edu) can have its own app in
+     * /data/properties/github-oauth-&lt;host&gt;.properties; otherwise github-oauth.properties is used.
+     */
     public static Properties getGitHubProperties(){
+        String fileName="/data/properties/github-oauth.properties";
+        String host=getRequestHost();
+        if( host!=null ) {
+            String hostFileName="/data/properties/github-oauth-"+host+".properties";
+            if( new File(hostFileName).isFile() ) {
+                fileName=hostFileName;
+            }
+        }
+
         Properties props= new Properties();
         FileInputStream fis=null;
 
 
         try{
 
-             fis=new FileInputStream("/data/properties/github-oauth.properties");
+             fis=new FileInputStream(fileName);
             props.load(fis);
 
         }catch (Exception e){
@@ -220,6 +239,32 @@ public class RgdContext {
             e.printStackTrace();
         }
         return props;
+    }
+
+    /**
+     * The host name the browser used for the current request (behind the Apache proxy, from X-Forwarded-Host),
+     * or null outside a Spring MVC request. Only plain host names are returned, since the value is used in a file name.
+     */
+    static String getRequestHost(){
+        RequestAttributes attrs=RequestContextHolder.getRequestAttributes();
+        if( !(attrs instanceof ServletRequestAttributes) ) {
+            return null;
+        }
+        HttpServletRequest request=((ServletRequestAttributes) attrs).getRequest();
+        String host=request.getHeader("X-Forwarded-Host");
+        if( host==null || host.isEmpty() ) {
+            host=request.getServerName();
+        } else {
+            host=host.split(",")[0].trim();
+        }
+        if( host==null ) {
+            return null;
+        }
+        int colon=host.indexOf(':');
+        if( colon>0 ) {
+            host=host.substring(0, colon);
+        }
+        return host.matches("[A-Za-z0-9.-]+") ? host.toLowerCase() : null;
     }
     public static String getSolrUrl(String collection){
         String url=new String();
