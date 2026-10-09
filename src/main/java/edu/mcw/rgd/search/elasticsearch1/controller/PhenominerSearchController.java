@@ -131,7 +131,7 @@ public class PhenominerSearchController implements Controller {
                 }
                 // Link.it handles this rgd_id with this object_key -- redirect to right report page
                 if (redirUrl != null && !redirUrl.equals(String.valueOf(rgdid))) {
-                    redirUrl = RgdContext.getHostname() + redirUrl;
+                    
                     return redirUrl;
                 }
             }else {
@@ -192,7 +192,7 @@ public class PhenominerSearchController implements Controller {
               redirUrl = Link.ontAnnot(docId);
       }
             if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
-              redirUrl = RgdContext.getHostname() + redirUrl;
+              
 
             }
         } catch (Exception e) {e.printStackTrace();}

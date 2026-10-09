@@ -311,7 +311,7 @@ public class ElasticSearchController extends RGDSearchController {
     }
 
     private String buildFullUrl(String path) {
-        return (path != null) ? RgdContext.getHostname() + path : null;
+        return path;
     }
     private String getUrlFromSearchHit(SearchResponse<java.util.Map> response, HttpServletRequest request, String term) {
         TotalHits totalHits = response.hits().total();

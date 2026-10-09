@@ -350,6 +350,8 @@
                     // Local dev: hit the dev REST server (running rgd-web-services
                     // standalone locally is a separate setup).
                     _rgdwsHost = "https://dev.rgd.mcw.edu";
+                } else if (window.location.host !== 'rgd.mcw.edu' && window.location.host !== 'www.rgd.mcw.edu') {
+                    _rgdwsHost = window.location.protocol + '//' + window.location.host;
                 }
                 $.ajax({
                     type: "GET",

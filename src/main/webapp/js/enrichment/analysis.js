@@ -10,7 +10,7 @@ function EnrichmentVue(divId, hostname) {
     if (window.location.host.indexOf('localhost') > -1) {
         host =  'https://dev.rgd.mcw.edu';
     } else if (window.location.host.indexOf('dev.rgd') > -1) {
-        host = window.location.protocol + '//dev.rgd.mcw.edu';
+        host = window.location.protocol + '//' + window.location.host;
     }else if (window.location.host.indexOf('test.rgd') > -1) {
         host = window.location.protocol + '//test.rgd.mcw.edu';
     }else if (window.location.host.indexOf('pipelines.rgd') > -1) {

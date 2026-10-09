@@ -264,7 +264,7 @@
 //                $scope.wsHost= window.location.protocol + '//localhost:8080';
 //                $scope.olgaHost = $scope.wsHost;
             } else if (window.location.host.indexOf('dev.rgd') > -1) {
-                $scope.wsHost= window.location.protocol + '//dev.rgd.mcw.edu';
+                $scope.wsHost = window.location.protocol + '//' + window.location.host;
                 $scope.olgaHost = $scope.wsHost;
             }else if (window.location.host.indexOf('test.rgd') > -1) {
                 $scope.wsHost= window.location.protocol + '//test.rgd.mcw.edu';

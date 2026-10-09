@@ -62,7 +62,7 @@ public class ImgController implements Controller {
             mv.addObject("img", showFile);
 
             // construct alternate uri
-            String imgUrl = RgdContext.getHostname();
+            String imgUrl = request.getScheme() + "://" + request.getServerName();
             if( request.getServerPort()!=80 )
                 imgUrl += ":"+request.getServerPort();
             imgUrl += "/common/images/phenodb/"+showFile;
