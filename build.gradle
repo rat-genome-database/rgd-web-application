@@ -138,6 +138,7 @@ dependencies {
     implementation 'com.mysql:mysql-connector-j:8.1.0'
     implementation 'io.netty:netty-all:4.1.97.Final'
     implementation 'com.oracle.database.jdbc:ojdbc11:23.2.0.0'
+    implementation 'org.postgresql:postgresql:42.7.7'
     implementation 'org.apache.poi:poi:5.2.3'
     implementation 'sax:sax:2.0.1'
     implementation 'org.slf4j:slf4j-api:2.0.9'
