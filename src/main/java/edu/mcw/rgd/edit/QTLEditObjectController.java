@@ -67,7 +67,7 @@ public class QTLEditObjectController extends EditObjectController {
      *  A suffixed symbol stays in its series - Eae18a counts as Eae number 18. */
     Integer getHighestNumberInSeries(String prefix, int speciesTypeKey) throws Exception {
         String lc = prefix.trim().toLowerCase();
-        String sql = "SELECT MAX(TO_NUMBER(REGEXP_SUBSTR(q.qtl_symbol_lc, '^[a-z]+([0-9]+)', 1, 1, NULL, 1))) "
+        String sql = "SELECT MAX(CAST(SUBSTRING(q.qtl_symbol_lc FROM '^[a-z]+([0-9]+)') AS NUMERIC)) "
                    + "FROM qtls q, rgd_ids r "
                    + "WHERE r.rgd_id=q.rgd_id AND r.species_type_key=? "
                    + "AND q.qtl_symbol_lc LIKE ? AND REGEXP_LIKE(q.qtl_symbol_lc, ?)";
@@ -76,7 +76,7 @@ public class QTLEditObjectController extends EditObjectController {
         if (Utils.isStringEmpty(max)) {
             return null;   // MAX over no rows comes back as a single null row
         }
-        // Oracle hands the aggregate back as a number string; take the integer part only, and
+        // the aggregate comes back as a number string; take the integer part only, and
         // treat anything unparseable as "series unknown" rather than failing the whole save.
         Matcher m = Pattern.compile("^([0-9]+)").matcher(max.trim());
         if (!m.find()) {

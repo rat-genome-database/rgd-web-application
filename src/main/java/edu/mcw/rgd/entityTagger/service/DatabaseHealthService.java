@@ -39,7 +39,7 @@ public class DatabaseHealthService {
     @Value("${db.healthcheck.enabled:true}")
     private boolean healthCheckEnabled;
 
-    @Value("${db.healthcheck.validationQuery:SELECT 1 FROM DUAL}")
+    @Value("${db.healthcheck.validationQuery:SELECT 1}")
     private String validationQuery;
 
     @Value("${db.healthcheck.timeout:5000}")
