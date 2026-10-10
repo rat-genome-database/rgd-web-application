@@ -92,6 +92,13 @@
     .tp .detail p { margin:0; max-width:75ch; }
     .tp .detail textarea { width:100%; min-height:70px; }
     .tp .hist { margin:4px 0 0; padding-left:18px; color:var(--muted); }
+    .tp .howto { border:1px solid var(--line); border-radius:8px; padding:4px 14px; margin:12px 0; }
+    .tp .howto summary { cursor:pointer; font-weight:bold; font-size:16px; padding:6px 0; }
+    .tp .howto h3 { font-size:15px; margin:14px 0 4px; }
+    .tp .howto p, .tp .howto li { max-width:80ch; line-height:1.45; }
+    .tp .howto table.sev { border-collapse:collapse; margin:6px 0; }
+    .tp .howto table.sev th, .tp .howto table.sev td { border:1px solid var(--line); padding:4px 8px; text-align:left; vertical-align:top; }
+    .tp .howto table.sev th { background:var(--soft); }
     @media (max-width:820px) { .tp .row { grid-template-columns:1fr 1fr; } .tp .row .name { grid-column:1/-1; } }
 </style>
 
@@ -106,6 +113,61 @@
         Test on this server; compare with <a href="https://rgd.mcw.edu" target="_blank">rgd.mcw.edu</a> (curation items: with the current Oracle curation tools).</p>
 
     <% if (msg != null) { %><div class="msg"><%=h(msg)%></div><% } %>
+
+    <details class="howto" id="howto">
+        <summary>How to test</summary>
+
+        <h3>Scope</h3>
+        <p>We test the PostgreSQL build on newdev.rgd.mcw.edu and compare every page with production at rgd.mcw.edu, which still runs on Oracle.</p>
+        <ul>
+            <li><b>Why:</b> every SQL statement in rgd-core-library, rgd-web-application, rgd-web-services and the PHP curation tool was rewritten for PostgreSQL. Automated checks compared query results, but only a person can confirm that pages, charts, downloads and tools still behave correctly.</li>
+            <li><b>In scope:</b> <%=items.size()%> items: every page and endpoint of the web application in its production and curation builds, the standalone pages (home page, disease portals, scoreboard, Alliance pages), the REST API and JBrowse 2, and the PHP curation tool (rgdCuration).</li>
+            <li><b>Out of scope:</b> the WordPress content pages, which don't use the database, and the data pipelines, which are migrated separately.</li>
+            <li><b>Data:</b> PostgreSQL holds a copy of Oracle taken on 2026-09-14. Records added to production since then aren't on newdev, so small count differences on growing data are expected and are not failures.</li>
+            <li><b>Curation tools:</b> use test records only, because newdev writes to the shared PostgreSQL development database. Curation items have no Production link; compare them with the current Oracle curation tools.</li>
+        </ul>
+
+        <h3>Workflow</h3>
+        <ol>
+            <li><b>Assign.</b> Signed-in curators assign items to testers with the assignee list, or take an unassigned item with <i>Take this one</i>.</li>
+            <li><b>Test.</b> The tester sets the item to In progress, opens the Test link beside the Production link, and works through the item's checks (click the item's name to see them).</li>
+            <li><b>Record the result.</b> Passed if everything matches. Failed or Blocked needs a note: the URL, the ID used, and what was wrong.</li>
+            <li><b>Fix and retest.</b> A developer fixes the failure and redeploys newdev, and the tester runs the item again from step 2.</li>
+            <li><b>Sign off.</b> Once an item has Passed, its tester presses <i>Sign off</i>. The page records who signed and when. Changing the result away from Passed removes the sign-off. Every change is kept in the item's history.</li>
+        </ol>
+
+        <h3>What to check on every page</h3>
+        <ul>
+            <li><b>Loads cleanly.</b> No error page, stack trace, blank section or endless spinner. Open the browser console (F12): no new red errors compared with production.</li>
+            <li><b>Data matches production.</b> Same records, counts, positions, annotations and references as rgd.mcw.edu. Only records added after 2026-09-14 may differ.</li>
+            <li><b>Order and formatting.</b> Tables sort the same way; dates, numbers and text look right, with no <code>null</code> and no missing times on dates.</li>
+            <li><b>Stays on newdev.</b> Links, redirects, searches and API calls stay on newdev.rgd.mcw.edu and never jump to dev.rgd.mcw.edu or production. Watch the address bar.</li>
+            <li><b>Downloads work.</b> Every download gives a file that opens, with the same rows as production.</li>
+            <li><b>Speed.</b> The page is usable within 10 seconds. Note anything slower than production, even when the item passes.</li>
+            <li><b>Forms and tools.</b> Inputs accept valid values and reject invalid ones with a message, and results match production for the same input.</li>
+        </ul>
+        <p>Use the example IDs in each item first, then try at least one ID of your own: a rat, a human and a mouse gene where the page supports species.</p>
+
+        <h3>Reporting a problem</h3>
+        <p>Set the item to Failed or Blocked, put the details in its notes, and tell the developers in #postgres-migration. A good note has the full newdev URL, the ID or input used, what newdev showed, what production showed, and the console error if there is one.</p>
+        <table class="sev">
+            <tr><th>Severity</th><th>Meaning</th><th>Example</th><th>Blocks the switch?</th></tr>
+            <tr><td>Critical</td><td>Page or tool fails, or shows wrong data</td><td>500 error, wrong gene on a report, annotation counts differ</td><td>Yes</td></tr>
+            <tr><td>Major</td><td>A section, download or option fails, with a workaround</td><td>Excel download empty, one tab of Gene Annotator broken</td><td>Yes</td></tr>
+            <tr><td>Minor</td><td>Cosmetic or ordering difference, data correct</td><td>Rows in a different order, date shown without time</td><td>No, fix after the switch</td></tr>
+            <tr><td>Performance</td><td>Correct but much slower than production</td><td>Report takes 40 seconds</td><td>Yes, if over 10 seconds</td></tr>
+        </table>
+        <p>Use Blocked when an item can't be tested yet, for example newdev is down or the page needs a login you don't have, and note what is blocking it.</p>
+
+        <h3>Done when</h3>
+        <ul>
+            <li>All <%=items.size()%> items are Passed and signed off by their tester.</li>
+            <li>No Critical, Major or Performance problems remain open. Minor problems are listed for after the switch.</li>
+            <li>Items that failed were retested on the final build, not only on the build where they were fixed.</li>
+            <li>newdev's REST API (rgdws) runs the migrated rgdcore jar.</li>
+            <li>Database sequences are reset after the final data sync, so new records don't collide with existing IDs.</li>
+        </ul>
+    </details>
 
     <div class="summary">
         <div class="bar">
@@ -244,6 +306,15 @@
 
 <script>
     function toggle(id) { document.getElementById('d-' + id).classList.toggle('open'); }
+
+    // "How to test" starts open; once someone collapses it, keep it collapsed for them
+    (function () {
+        var howto = document.getElementById('howto'), key = 'rgdTestPlanHowtoClosed';
+        try { howto.open = localStorage.getItem(key) !== '1'; } catch (e) { howto.open = true; }
+        howto.addEventListener('toggle', function () {
+            try { localStorage.setItem(key, howto.open ? '0' : '1'); } catch (e) {}
+        });
+    })();
 
     // Failed or Blocked needs a note; ask for it and send it with the status
     function needsNote(form) {
