@@ -26,6 +26,7 @@
             <props>
                 <!--<prop key="pathway/error.html">PathwayNewRecordController</prop>-->
                 <prop key="curation/home.html">CurationController</prop>
+                <prop key="curation/testPlan.html">TestPlanController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
 		<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
                 
@@ -428,6 +429,7 @@
     <bean id="SampleEditController" class="edu.mcw.rgd.expression.SampleEditController"/>
     <bean id="DownloadExpressionMetaDataController" class="edu.mcw.rgd.expression.DownloadMetaDataController"/>
     <bean id="CurationController" class="edu.mcw.rgd.edit.CurationController" />
+    <bean id="TestPlanController" class="edu.mcw.rgd.testplan.TestPlanController" />
     <bean id="CurationLoginController" class="edu.mcw.rgd.edit.CurationLoginController" />
     <bean id="AliasesEditObjectController" class="edu.mcw.rgd.edit.AliasesEditObjectController"/>
     <bean id="NotesEditObjectController" class="edu.mcw.rgd.edit.NotesEditObjectController"/>
