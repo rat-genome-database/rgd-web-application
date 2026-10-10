@@ -60,7 +60,7 @@ public class StrainEditObjectController extends EditObjectController {
         strain.setStrainTypeName(s.getStrainType());
         strain.setGeneticStatus(s.getGeneticStatus());
         strain.setModificationMethod(s.getMethod());
-//        strain.setOrigin(s.getOrigin());
+        strain.setOrigin(s.getOrigin());
         strain.setDescription(s.getOrigin());
         strain.setSource(s.getSource());
         strain.setResearchUse(s.getResearchUse());
@@ -160,7 +160,7 @@ public class StrainEditObjectController extends EditObjectController {
         st.setGenetics(req.getParameter("genetics"));
         st.setGeneticStatus(req.getParameter("geneticStatus"));
         st.setInbredGen(req.getParameter("inbredGen"));
-//        st.setOrigin(req.getParameter("origin"));
+        st.setOrigin(req.getParameter("description"));
         st.setDescription(req.getParameter("description"));
         st.setColor(req.getParameter("color"));
         st.setChrAltered(req.getParameter("chrAltered"));

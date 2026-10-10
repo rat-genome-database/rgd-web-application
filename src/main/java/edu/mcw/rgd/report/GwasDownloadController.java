@@ -21,7 +21,9 @@ public class GwasDownloadController implements Controller {
             JSONObject obj = new JSONObject(buffer.toString());
             reader.close();
             String rsId = obj.get("rsId").toString();
+            Integer species = Integer.parseInt(obj.get("species").toString());
             request.setAttribute("rsId", rsId);
+            request.setAttribute("species", species);
         }
         catch (Exception e){
             System.out.println(e);

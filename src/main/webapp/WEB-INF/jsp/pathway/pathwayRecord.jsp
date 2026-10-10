@@ -34,6 +34,7 @@
     "</script>\n"+
     "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/util.js\"></script>\n"+
     "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/gviewer.js\"></script>\n"+
+    "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/gviewer-renderer.js\"></script>\n"+
     "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/domain.js\"></script>\n"+
     "<script type=\"text/javascript\" src=\"/rgdweb/gviewer/script/contextMenu.js\">\n"+
     "/***********************************************\n"+

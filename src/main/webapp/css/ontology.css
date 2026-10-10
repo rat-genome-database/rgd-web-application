@@ -67,9 +67,11 @@ a.binoculars { background-image:url("/rgdweb/images/binoculars.png");background-
 .anntype_qtls { color:#3294d3; width:6px; height:9px; }
 .anntype_strains { color:#76ac1a; width:6px; height:9px; }
 
-.objtag_gene   {background-color:#7e131d; padding-left:3px; padding-right:3px; text-align:center;}
-.objtag_qtl    {background-color:#3294d3; padding-left:3px; padding-right:3px; text-align:center;}
-.objtag_strain {background-color:#76ac1a; padding-left:3px; padding-right:3px; text-align:center;}
+/* Okabe-Ito colorblind-safe palette; must match gviewer.js colorScheme
+   and AnnotationJSONController so the table tag matches the chromosome dot. */
+.objtag_gene   {background-color:#D55E00; padding-left:3px; padding-right:3px; text-align:center;}
+.objtag_qtl    {background-color:#0072B2; padding-left:3px; padding-right:3px; text-align:center;}
+.objtag_strain {background-color:#009E73; padding-left:3px; padding-right:3px; text-align:center;}
 .objtag_variant{background-color:#bb9c61; padding-left:3px; padding-right:3px; text-align:center;}
 
 #browser_graph /* term browser - window with graph at the page bottom */

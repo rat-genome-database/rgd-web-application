@@ -21,28 +21,85 @@ public class StrainFileUploadController implements Controller {
     String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        // Debug logging
+        System.out.println("StrainFileUploadController: Method=" + request.getMethod());
+        System.out.println("StrainFileUploadController: Content-Type=" + request.getContentType());
+        System.out.println("StrainFileUploadController: Request URI=" + request.getRequestURI());
+        
         ArrayList error = new ArrayList();
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();
         StrainDAO dao =new StrainDAO();
         int strainId = 0;
-        if(request.getCookies() != null && request.getCookies().length != 0)
-            if(request.getCookies()[0].getName().equalsIgnoreCase("accessToken")) {
-                String accessToken = request.getCookies()[0].getValue();
-                if(!checkToken(accessToken)) {
-                  //  response.sendRedirect("https://github.com/login/oauth/authorize?client_id=dc5513384190f8a788e5&scope=user&redirect_uri=https://pipelines.rgd.mcw.edu/rgdweb/curation/login.html");
-                   response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
-                    return null;
+        
+        // Authentication is handled by AuthenticationInterceptor
+        // For GET requests: interceptor checks auth before page loads
+        // For POST requests: interceptor skips check (user already authenticated)
+        
+        // Extract login from access token if present (for logging purposes)
+        if(request.getCookies() != null && request.getCookies().length != 0) {
+            for(jakarta.servlet.http.Cookie cookie : request.getCookies()) {
+                if(cookie.getName().equalsIgnoreCase("accessToken")) {
+                    String accessToken = cookie.getValue();
+                    try {
+                        extractLoginFromToken(accessToken);
+                    } catch(Exception e) {
+                        // Ignore token extraction errors
+                    }
+                    break;
                 }
             }
+        }
+        
         try{
-        if(request.getParameter("strainId") != null){
-            strainId = Integer.parseInt(request.getParameter("strainId"));
+        System.out.println("StrainFileUploadController: Checking for strainId parameter");
+        
+        // Debug: Check all parameters
+        System.out.println("StrainFileUploadController: All parameter names:");
+        java.util.Enumeration<String> paramNames = request.getParameterNames();
+        while(paramNames.hasMoreElements()) {
+            String paramName = paramNames.nextElement();
+            System.out.println("  Param: " + paramName + " = " + request.getParameter(paramName));
+        }
+        
+        // Try to get strainId from different sources
+        String strainIdParam = request.getParameter("strainId");
+        System.out.println("StrainFileUploadController: strainId from getParameter = " + strainIdParam);
+        
+        // Also try getting from query string if it's in the URL
+        String queryString = request.getQueryString();
+        System.out.println("StrainFileUploadController: Query string = " + queryString);
+        
+        // Try to get parts directly
+        try {
+            System.out.println("StrainFileUploadController: Trying to get parts collection");
+            java.util.Collection<Part> parts = request.getParts();
+            System.out.println("StrainFileUploadController: Found " + parts.size() + " parts");
+            for(Part part : parts) {
+                System.out.println("  Part name: " + part.getName() + ", size: " + part.getSize());
+                if("strainId".equals(part.getName())) {
+                    // Read the strainId from the part
+                    java.io.InputStream is = part.getInputStream();
+                    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+                    strainIdParam = s.hasNext() ? s.next() : "";
+                    System.out.println("StrainFileUploadController: Found strainId in parts: " + strainIdParam);
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("StrainFileUploadController: Error getting parts - " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        if(strainIdParam != null){
+            strainId = Integer.parseInt(strainIdParam);
+            System.out.println("StrainFileUploadController: Processing strainId=" + strainId);
             String[] types = {"Genotype","Highlights","Supplemental"};
                 for (String type : types) {
                     boolean isSet = false;
                     try {
+                        System.out.println("StrainFileUploadController: Attempting to get part for type=" + type);
                         Part file = request.getPart(type);
+                        System.out.println("StrainFileUploadController: Got part for type=" + type + ", part=" + file);
                         isSet = true;
                         if (isSet) {
                             String fileName = file.getHeader("content-disposition");
@@ -89,6 +146,8 @@ public class StrainFileUploadController implements Controller {
 
         }
         }catch(Exception e){
+            System.out.println("StrainFileUploadController: Exception caught - " + e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
             error.add(e.getMessage());
         }
 
@@ -100,10 +159,8 @@ public class StrainFileUploadController implements Controller {
 
         return new ModelAndView("/WEB-INF/jsp/curation/strainFileUpload.jsp");
     }
-    protected boolean checkToken(String token) throws Exception{
-        if(token == null || token.isEmpty()){
-            return false;
-        }else {
+    protected void extractLoginFromToken(String token) throws Exception {
+        if(token != null && !token.isEmpty()) {
             URL url = new URL("https://api.github.com/user");
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -113,18 +170,7 @@ public class StrainFileUploadController implements Controller {
                 String line = in.readLine();
                 JSONObject json = new JSONObject(line);
                 login = (String)json.get("login");
-                if(!login.equals("")){
-                    URL checkUrl = new URL("https://api.github.com/orgs/rat-genome-database/members/"+login);
-                    HttpURLConnection connection = (HttpURLConnection)checkUrl.openConnection();
-                    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-                    connection.setRequestProperty("Authorization", "Token "+token);
-                    if(connection.getResponseCode()== 204)
-                        return true;
-                }
             }
-
-
-            return false;
         }
     }
 }

@@ -16,7 +16,7 @@
     VariantDAO vdao = new VariantDAO();
     SampleDAO sdao = new SampleDAO();
     OntologyXDAO odao = new OntologyXDAO();
-    GWASCatalogDAO gwasDao = new GWASCatalogDAO();
+    GWASCatalogDAO gdao = new GWASCatalogDAO();
 
     RgdId obj = managementDAO.getRgdId2((int)var.getId());
     List<VariantMapData> vars = vdao.getAllVariantsByRgdId(obj.getRgdId());
@@ -75,7 +75,7 @@
 
     List<GWASCatalog> gwasList = new ArrayList<>();
     if (!Utils.isStringEmpty(var.getRsId()))
-        gwasList = gwasDao.getGWASListByRsId(var.getRsId());
+        gwasList = gdao.getGWASListByRsId(var.getRsId());
 
        if (gwasList.isEmpty())
            isGwas = false;

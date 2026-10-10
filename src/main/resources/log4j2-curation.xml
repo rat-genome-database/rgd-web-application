@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="logPath">${sys:catalina.base}/logs/rgd-curation</Property>
+        <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+    
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+        
+        <!-- Main Application Log -->
+        <RollingFile name="AppFile" fileName="${logPath}/curation.log"
+                     filePattern="${logPath}/curation-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+        
+        <!-- Error Log -->
+        <RollingFile name="ErrorFile" fileName="${logPath}/curation-error.log"
+                     filePattern="${logPath}/curation-error-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${pattern}"/>
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+        
+        <!-- API Call Log for Ollama -->
+        <RollingFile name="ApiFile" fileName="${logPath}/ollama-api.log"
+                     filePattern="${logPath}/ollama-api-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="15"/>
+        </RollingFile>
+        
+        <!-- Performance Log -->
+        <RollingFile name="PerfFile" fileName="${logPath}/performance.log"
+                     filePattern="${logPath}/performance-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="15"/>
+        </RollingFile>
+    </Appenders>
+    
+    <Loggers>
+        <!-- Entity Tagger Module Loggers -->
+        <Logger name="edu.mcw.rgd.entityTagger" level="INFO" additivity="false">
+            <AppenderRef ref="AppFile"/>
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="ErrorFile"/>
+        </Logger>
+        
+        <!-- Ollama API Logger -->
+        <Logger name="edu.mcw.rgd.entityTagger.service.ResilientOllamaService" level="DEBUG" additivity="false">
+            <AppenderRef ref="ApiFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+        
+        <!-- Performance Logger -->
+        <Logger name="edu.mcw.rgd.entityTagger.performance" level="INFO" additivity="false">
+            <AppenderRef ref="PerfFile"/>
+        </Logger>
+        
+        <!-- Spring Framework -->
+        <Logger name="org.springframework" level="WARN"/>
+        
+        <!-- Database/Hibernate -->
+        <Logger name="org.springframework.jdbc" level="WARN"/>
+        <Logger name="com.zaxxer.hikari" level="INFO"/>
+        
+        <!-- Apache HTTP Client -->
+        <Logger name="org.apache.http" level="WARN"/>
+        
+        <!-- PDF Processing -->
+        <Logger name="org.apache.pdfbox" level="WARN"/>
+        
+        <!-- Root Logger -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppFile"/>
+        </Root>
+    </Loggers>
+</Configuration>

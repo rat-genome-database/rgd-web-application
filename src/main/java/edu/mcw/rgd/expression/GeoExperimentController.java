@@ -2,6 +2,7 @@ package edu.mcw.rgd.expression;
 
 import edu.mcw.rgd.dao.impl.*;
 import edu.mcw.rgd.datamodel.*;
+import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.datamodel.pheno.*;
 import edu.mcw.rgd.datamodel.pheno.Sample;
 import edu.mcw.rgd.process.FileDownloader;
@@ -14,6 +15,7 @@ import edu.mcw.rgd.web.RgdContext;
 import edu.mcw.rgd.xml.XomAnalyzer;
 import nu.xom.Element;
 import nu.xom.Elements;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.math3.analysis.function.Exp;
 import org.jaxen.XPath;
 import org.jaxen.xom.XOMXPath;
@@ -37,6 +39,7 @@ public class GeoExperimentController implements Controller {
 //    PhenominerDAO geDAO = new PhenominerDAO();
     GeneExpressionDAO geDAO = new GeneExpressionDAO();
     ReferenceDAO refDAO = new ReferenceDAO();
+    OntologyXDAO xdao = new OntologyXDAO();
     public String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -52,56 +55,80 @@ public class GeoExperimentController implements Controller {
             response.sendRedirect(RgdContext.getGithubOauthRedirectUrl());
             return null;
         }
+        if (request.getParameter("curCount") != null && request.getParameter("count") == null){
+            request.setAttribute("tooManySamples","true");
+            request.setAttribute("curCount",request.getParameter("curCount"));
+            request.setAttribute("gse",request.getParameter("gse"));
+            request.setAttribute("species",request.getParameter("species"));
+            return new ModelAndView("/WEB-INF/jsp/curation/expression/createSample.jsp");
+        }
         if (request.getParameter("count") != null) {
             Report r = new Report();
             Report r2 = new Report();
             try {
                 int count = Integer.parseInt(request.getParameter("count"));
+                int curCount = Integer.parseInt(request.getParameter("curCount"));
+                int sampSize = Integer.parseInt(request.getParameter("sampSize"));
+                boolean batch = false;
+                if (curCount<sampSize) {
+                    count = 100;
+                    batch = true;
+                }
+                else {
+                    count = sampSize % 100;
+                }
                 String gse = request.getParameter("gse");
                 String title = request.getParameter("title");
                 String species = request.getParameter("species");
-                List<Experiment> eList = new ArrayList<>();
-                List<Experiment> newExp = new ArrayList<>();
-                Study study = new Study(); //geDAO.getStudyByGeoIdWithReferences(gse);
 
+                request.setAttribute("gse",gse);
+                request.setAttribute("title",title);
+                request.setAttribute("species",species);
+
+                List<Experiment> eList = new ArrayList<>();
+                HashMap<String, Experiment> newExpMap = new HashMap<>();
+                Study study = new Study(); //geDAO.getStudyByGeoIdWithReferences(gse);
+                species = species.replace("_"," ");
 //                    List<Study> studyList = new ArrayList<>();
                 List<Sample> sampleList = new ArrayList<>();
                 HashMap<Integer,List<Condition>> sampleConditions = new HashMap<>();
-                HashMap<Integer, Experiment> sampleExperiment = new HashMap<>();
+                HashMap<String, Experiment> sampleExperiment = new HashMap<>();
                 int speciesType = SpeciesType.RAT;
                 switch (species.toLowerCase()){
-                    case "mus":
+                    case "mus musculus":
                         speciesType = SpeciesType.MOUSE;
                         break;
-                    case "homo":
+                    case "homo sapiens":
                         speciesType = SpeciesType.HUMAN;
                         break;
-                    case "chinchilla":
+                    case "chinchilla lanigera":
                         speciesType = SpeciesType.CHINCHILLA;
                         break;
-                    case "pan":
+                    case "pan paniscus":
                         speciesType = SpeciesType.BONOBO;
                         break;
-                    case "canis":
+                    case "canis lupus familiaris":
                         speciesType = SpeciesType.DOG;
                         break;
-                    case "ictidomys":
+                    case "Ictidomys tridecemlineatus":
                         speciesType = SpeciesType.SQUIRREL;
                         break;
-                    case "sus":
+                    case "sus scrofa":
                         speciesType = SpeciesType.PIG;
                         break;
-                    case "glaber":
+                    case "heterocephalus glaber":
                         speciesType = SpeciesType.NAKED_MOLE_RAT;
                         break;
-                    case "sabaeus":
+                    case "chlorocebus sabaeus":
                         speciesType = SpeciesType.VERVET;
+                    case "rattus rattus":
+                        speciesType = 17;
                     default:
                         speciesType = SpeciesType.RAT;
                         break;
                 }
-
             for (int i = 0; i < count; i++) {
+              try {
                 Sample s = new Sample();
 
                 List<Condition> conditions = new ArrayList<>();
@@ -116,6 +143,7 @@ public class GeoExperimentController implements Controller {
                 s.setBioSampleId(request.getParameter("sampleId" + i));
                 String[] lifeStages = request.getParameterValues("lifeStage"+i);
                 String stage = "";
+                int geId = 0;
 //                System.out.println(s.getGeoSampleAcc());
                 if (lifeStages!=null) {
                     for (int j = 0; j < lifeStages.length; j++) {
@@ -138,9 +166,17 @@ public class GeoExperimentController implements Controller {
                     s.setAgeDaysFromLowBound(Double.parseDouble(request.getParameter("ageLow" + i)));
 
                 s.setNumberOfAnimals(1);
+
+                if (Utils.isStringEmpty(s.getStrainAccId()))
+                    s.setStrainAccId(s.getStrainAccId().trim());
+                if (Utils.isStringEmpty(s.getStrainAccId()))
+                    s.setTissueAccId(s.getTissueAccId().trim());
+                if (Utils.isStringEmpty(s.getCellTypeAccId()))
+                    s.setCellTypeAccId(s.getCellTypeAccId().trim());
+
                 int sampleId = 0;
                 Sample sample = geDAO.getSampleByGeoId(s.getBioSampleId());
-                boolean loadIt = curAction.equals("load") || curAction.equals("edit");
+                boolean loadIt = Utils.stringsAreEqual(curAction, "load") || Utils.stringsAreEqual(curAction, "edit");
                 if(sample == null && loadIt){//curAction.equals("load")) {
                     s.setCreatedBy(login);
                     sampleId = geDAO.insertSample(s);
@@ -153,7 +189,7 @@ public class GeoExperimentController implements Controller {
                     geDAO.updateSample(s);
                     sampleList.add(s);
                 }
-                if (curStatus.equals("pending") && curAction.equals("load"))
+                if (Utils.stringsAreEqual(curStatus,"pending") && Utils.stringsAreEqual(curAction,"load"))
                     geDAO.updateGeoSampleStatus(gse,s.getBioSampleId(),"loaded",species);
                 else {
                     switch (curStatus) {
@@ -171,7 +207,7 @@ public class GeoExperimentController implements Controller {
                             break;
                     }
                 }
-                if (curAction.equals("load") || curAction.equals("edit")) {
+                if (Utils.stringsAreEqual(curAction,"load") || Utils.stringsAreEqual(curAction,"edit")) {
                     // find/create study
                     GeneExpressionRecord gre = null;
                     study = geDAO.getStudyByGeoIdWithReferences(gse);
@@ -193,66 +229,60 @@ public class GeoExperimentController implements Controller {
 
                     eList = geDAO.getExperiments(study.getId());
                     Experiment exp = null;
-                    if (eList == null || eList.isEmpty()) {
+                    // create an experiment for each count and use a map, vId -> experiment
+                    Term vtTerm = xdao.getTerm(request.getParameter("vtId" + i));
+                    String vtId = request.getParameter("vtId" + i);
+                    if (eList == null)
                         eList = new ArrayList<>();
+
+                    // does this sample already have a record? (decides insert vs. update below)
+                    gre = geDAO.getGeneExpressionRecordBySampleId(sampleId);
+
+                    // Resolve the experiment for this VT. One experiment == one VT trait, so
+                    // reuse an existing one before creating another: first any experiment
+                    // created earlier in THIS request, then one already in the DB for this
+                    // study, then the sample record's own experiment if its VT matches.
+                    exp = newExpMap.get(vtId);
+                    if (exp == null)
+                        exp = findExperimentByVt(eList, vtId);
+                    if (exp == null && gre != null) {
+                        Experiment recExp = geDAO.getExperiment(gre.getExperimentId());
+                        if (recExp != null && Utils.stringsAreEqual(recExp.getTraitOntId(), vtId))
+                            exp = recExp;
+                    }
+                    if (exp == null) {
+                        // no experiment exists for this VT yet -> create it
+                        if (vtTerm == null) {
+                            error.add("Row " + i + " (sample " + Utils.NVL(s.getGeoSampleAcc(), "?")
+                                    + "): could not resolve vertebrate trait '" + vtId + "'; sample skipped.");
+                            continue;
+                        }
                         Experiment e = new Experiment();
                         e.setStudyId(studyId);
-                        e.setName(study.getName());
+                        e.setName(vtTerm.getTerm());
                         e.setCreatedBy(login);
-                        e.setTraitOntId(request.getParameter("vtId" + i));
+                        e.setTraitOntId(vtTerm.getAccId());
                         geDAO.insertExperiment(e);
                         exp = e;
                         eList.add(e);
-                        newExp.add(e);
+                        newExpMap.put(e.getTraitOntId(), e);
+                    } else {
+                        newExpMap.put(exp.getTraitOntId(), exp);
                     }
-                    else { // need to find correct experiment based on VT
-                        Experiment e = null;
-                        String vtId = request.getParameter("vtId" + i);
-                        gre = geDAO.getGeneExpressionRecordBySampleId(sampleId);
-                        if (gre==null) { // store experiment to make sure another is not made
-                            for (Experiment experiment : newExp){
-                                if (experiment.getTraitOntId().equals(vtId))
-                                    exp = experiment;
-                            }
-                            if (exp == null) {
-                                e = new Experiment();
-                                e.setStudyId(studyId);
-                                e.setName(study.getName());
-                                e.setCreatedBy(login);
-                                e.setTraitOntId(request.getParameter("vtId" + i));
-                                geDAO.insertExperiment(e);
-                                exp = e;
-                                eList.add(e);
-                                newExp.add(e);
-                            }
-                        }
-                        else {
-                            exp = geDAO.getExperiment(gre.getExperimentId());
-                            if (exp == null) {
-                                e = new Experiment();
-                                e.setStudyId(studyId);
-                                e.setName(study.getName());
-                                e.setCreatedBy(login);
-                                e.setTraitOntId(request.getParameter("vtId" + i));
-                                geDAO.insertExperiment(e);
-                                exp = e;
-                                eList.add(e);
-                                newExp.add(e);
-                            } else if (!Utils.isStringEmpty(vtId) && !Utils.stringsAreEqual(exp.getTraitOntId(), vtId)) {
-                                exp.setTraitOntId(vtId);
-                                newExp.add(exp);
-                                geDAO.updateExperiment(exp);
-                            }
-                        }
 
+                    // if the sample's existing record points at a different experiment than
+                    // the one selected for its VT, repoint it
+                    if (gre != null && exp.getId() != gre.getExperimentId()) {
+                        gre.setExperimentId(exp.getId());
+                        geDAO.updateGeneExpressionRecord(gre);
                     }
-                    sampleExperiment.put(sampleId, exp);
+                    sampleExperiment.put(s.getGeoSampleAcc(), exp);
 
                     // find/create gene_expression_exp_record by experiment
 //                        for (Experiment ex : eList) {
                         if (sampleId == 0)
                             continue;
-                        int geId = 0;
+//                        int geId = 0;
                         if (gre==null)
                             gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(exp.getId(), sampleId);
                         Integer oldCmoId;
@@ -262,6 +292,8 @@ public class GeoExperimentController implements Controller {
                         catch (Exception e){
                             oldCmoId = null;
                         }
+                        boolean oldStudyControl = (gre != null) && gre.getStudyControl();
+                        boolean isStudyControl = "true".equalsIgnoreCase(request.getParameter("isStudyControl" + i));
 
                         Integer cmoId = null;
 //                        GeneExpressionRecord copy = gre;
@@ -272,6 +304,7 @@ public class GeoExperimentController implements Controller {
                             gre.setCurationStatus(35);
                             gre.setSpeciesTypeKey(speciesType);
                             gre.setLastModifiedBy(login);
+                            gre.setStudyControl(isStudyControl);
                             ClinicalMeasurement cmo = null;
 //                            cmoId = cmo.getId();
                             String cmoAcc = Utils.NVL(request.getParameter("cmoId"+i),"");
@@ -310,7 +343,10 @@ public class GeoExperimentController implements Controller {
                                     geDAO.updateClinicalMeasurement(cmo);
                                 }
                             }
-                            if (cmoId != null && !cmoId.equals(oldCmoId)) {
+                            gre.setStudyControl(isStudyControl);
+                            boolean cmoChanged = cmoId != null && !cmoId.equals(oldCmoId);
+                            boolean studyControlChanged = oldStudyControl != isStudyControl;
+                            if (cmoChanged || studyControlChanged) {
                                 gre.setLastModifiedBy(login);
                                 geDAO.updateGeneExpressionRecord(gre);
                             }
@@ -358,29 +394,34 @@ public class GeoExperimentController implements Controller {
                             c.setOrdinality(ord);
                             c.setNotes(cNotes[k]);
                             c.setGeneExpressionRecordId(geId);
-
-                            if (Utils.isStringEmpty(cId[k])) {
-//                                    geDAO.insertCondition(c);
-                                c.setId(-1);
-                                conditions.add(c);
-
-//                                    insConds.add(c);
-                            }
-                            else {
-                                c.setId(Integer.parseInt(cId[k]));
-//                                    geDAO.updateCondition(c);
-                                conditions.add(c);
-//                                    updateConds.add(c);
-                            }
+                            c.setId(-1);
+                            conditions.add(c);
+//                            if (Utils.isStringEmpty(cId[k])) {
+////                                    geDAO.insertCondition(c);
+//
+//
+////                                    insConds.add(c);
+//                            }
+//                            else {
+//                                c.setId(Integer.parseInt(cId[k]));
+////                                    geDAO.updateCondition(c);
+//                                conditions.add(c);
+////                                    updateConds.add(c);
+//                            }
 
                         }
 
 //                        }
                 } // end condition addons
                 if (loadIt) {
-                    insertConditions(conditions);
+                    insertConditions(conditions, geId);
                     sampleConditions.put(sampleId, conditions);
                 }
+              } catch (Exception rowEx) {
+                  // isolate per-sample failures so the rest of the batch still loads
+                  error.add("Row " + i + " failed and was skipped: " + rowEx);
+                  rowEx.printStackTrace();
+              }
 
             } // end for
             int tissue = 0, strain = 0, cell = 0, culture = 0, cellLine = 0, age = 0, lifeStage = 0, notes = 0, cNotes = 0;
@@ -414,8 +455,12 @@ public class GeoExperimentController implements Controller {
                     cNotes++;
 
 //                    List<Experiment> expList = sampleExperiment.get(s.getId());
-                Experiment e = sampleExperiment.get(s.getId());
+                Experiment e = sampleExperiment.get(s.getGeoSampleAcc());
+                if (e == null)
+                    continue;
                 GeneExpressionRecord gre = geDAO.getGeneExpressionRecordByExperimentIdAndSampleId(e.getId(),s.getId());
+                if (gre == null)
+                    continue;
                 List<Condition> condList = sampleConditions.get(s.getId());
                 if (condList != null && condList.size() > maxCond)
                     maxCond = condList.size();
@@ -504,12 +549,11 @@ public class GeoExperimentController implements Controller {
 
                 }
                 r.append(header);
-
                 for (Sample s : sampleList){
                     Record rec = new Record();
                     rec.append(s.getId()+"");
                     rec.append(s.getGeoSampleAcc());
-                    Experiment e = sampleExperiment.get(s.getId());
+                    Experiment e = sampleExperiment.get(s.getGeoSampleAcc());
                     if (tissue != 0)
                         rec.append(s.getTissueAccId());
                     if (vtId != 0) {
@@ -585,6 +629,7 @@ public class GeoExperimentController implements Controller {
                     catch (Exception e){ }
 
                 }
+//                request.setAttribute("refPmId", refRgdIds);
                     // compare both integer lists and insert new, delete ones that no longer exist
                 List<Integer> existingRefs = study.getRefRgdIds();
                 if (existingRefs==null)
@@ -597,6 +642,14 @@ public class GeoExperimentController implements Controller {
 
                 for (Integer rgdId : existingRefs){
                     geDAO.deleteStudyReference(study.getId(), rgdId);
+                }
+
+                if (batch) {
+//                    String IJustNeedToSendDataIGNOREME = setUpSamples(request, response);
+                    request.setAttribute("tooManySamples","true");
+                    request.setAttribute("count",curCount);
+                    request.setAttribute("gse",gse);
+                    request.setAttribute("species",species);
                 }
 
         }catch (Exception e){
@@ -613,199 +666,21 @@ public class GeoExperimentController implements Controller {
             String gse = request.getParameter("geoId");
             String species = request.getParameter("species");
             String curationStatus = request.getParameter("status");
+            species = species.replace("_"," ");
             geDAO.updateGeoStudyStatus(gse, curationStatus,species);
             status.add("Status updated successfully for " + gse);
             request.setAttribute("status", status);
             return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "experiments.jsp");
         }
         if(request.getParameter("tcount") != null){
-            int tcount = Integer.parseInt(request.getParameter("tcount"));
-            int scount = Integer.parseInt(request.getParameter("scount"));
-            int ctcount = Integer.parseInt(request.getParameter("ctcount"));
-            int clcount = Integer.parseInt(request.getParameter("clcount"));
-            int ageCount = Integer.parseInt(request.getParameter("agecount"));
-            int gcount = Integer.parseInt(request.getParameter("gcount"));
-            int noteCnt = Integer.parseInt(request.getParameter("notescount"));
-            int condCnt = Integer.parseInt(request.getParameter("conditionCount"));
-            int sampleSize = Integer.parseInt(request.getParameter("samplesExist"));
-            String gse = request.getParameter("gse");
-            String species = request.getParameter("species");
-            HashMap<String,String> tissueMap = new HashMap();
-            HashMap<String,String> tissuneNameMap = new HashMap<>();
-            HashMap<String,String> vtMap = new HashMap<>();
-            HashMap<String,String> vtNameMap = new HashMap<>();
-            HashMap<String,String> cmoMap = new HashMap<>();
-            HashMap<String,String> cmoNameMap = new HashMap<>();
-            HashMap<String,String> strainMap = new HashMap();
-            HashMap<String,String> strainNameMap = new HashMap<>();
-            HashMap<String,String> clinMeasMap = new HashMap<>();
-            HashMap<String,String> clinMeasNameMap = new HashMap<>();
-            HashMap<String,String> cellType = new HashMap();
-            HashMap<String,String> cellNameMap = new HashMap<>();
-            HashMap<String,String> cellLine = new HashMap();
-            HashMap<String,String> ageLow = new HashMap<>();
-            HashMap<String,String> ageHigh = new HashMap<>();
-            HashMap<String,String> gender = new HashMap<>();
-            HashMap<String,String> lifeStage = new HashMap<>();
-            HashMap<String,String> notes = new HashMap<>();
-            HashMap<String,String> curNotes = new HashMap<>();
-            HashMap<String,String> xcoMap = new HashMap<>();
-            HashMap<String,String> culture = new HashMap<>();
-            HashMap<String,String> cultureUnit = new HashMap<>();
-            List<Condition> conditions = new ArrayList<Condition>();
-            List<String> pmIds = new ArrayList<>();
-            List<Integer> refRgdIds = new ArrayList<>();
-            for(int i = 0; i < tcount;i++){
-                if (request.getParameter("tissue" + i).contains("imported!")) {
-                    tissueMap.put(null, request.getParameter("tissueId" + i));
-                    tissuneNameMap.put(null,request.getParameter("uberon"+i+"_term"));
-                    vtMap.put(null,request.getParameter("vtId"+i));
-                    vtNameMap.put(null, request.getParameter("vt"+i+"_term"));
-                    clinMeasMap.put(null, request.getParameter("clinicalMeasurement"+i));
-                    clinMeasNameMap.put(null,request.getParameter("cmo"+i+"_term"));
-                }
-                else {
-                    tissueMap.put(request.getParameter("tissue" + i), request.getParameter("tissueId" + i));
-                    tissuneNameMap.put(request.getParameter("tissue" + i),request.getParameter("uberon"+i+"_term"));
-                    vtMap.put(request.getParameter("tissue" + i),request.getParameter("vtId"+i));
-                    vtNameMap.put(request.getParameter("tissue" + i), request.getParameter("vt"+i+"_term"));
-                    clinMeasMap.put(request.getParameter("tissue" + i), request.getParameter("clinicalMeasurement"+i));
-                    clinMeasNameMap.put(request.getParameter("tissue" + i),request.getParameter("cmo"+i+"_term"));
-                }
-            }
-            for(int i = 0; i < scount;i++){
-                if (request.getParameter("strain" + i).contains("imported!")) {
-                    strainMap.put(null, request.getParameter("strainId" + i));
-                    strainNameMap.put(null,request.getParameter("rs"+i+"_term"));
-                }
-                else {
-                    strainMap.put(request.getParameter("strain" + i), request.getParameter("strainId" + i));
-                    strainNameMap.put(request.getParameter("strain" + i),request.getParameter("rs"+i+"_term"));
-                }
-            }
-            for(int i = 0; i < ageCount;i++){
-                ageLow.put(request.getParameter("age" + i),request.getParameter("ageLow"+i));
-                ageHigh.put(request.getParameter("age" + i),request.getParameter("ageHigh"+i));
-                String[] lifeStages = request.getParameterValues("lifeStage"+i);
-                String stage = "";
-                if (lifeStages!=null) {
-                    for (int j = 0; j < lifeStages.length; j++) {
-                        stage += lifeStages[j];
-                        if (j != lifeStages.length - 1)
-                            stage += ";";
-                    }
-                }
-                lifeStage.put(request.getParameter("age"+i),stage);
-            }
-            for(int i = 0; i < ctcount;i++){
-                if (request.getParameter("cellType"+i).contains("imported!")) {
-                    cellType.put(null, request.getParameter("cellTypeId" + i));
-                    cellNameMap.put(null,request.getParameter("cl"+i+"_term"));
-                    culture.put(null, request.getParameter("cultureDur"+i));
-                    cultureUnit.put(null,request.getParameter("cultureUnits"+i));
-                }
-                else {
-                    cellType.put(request.getParameter("cellType" + i), request.getParameter("cellTypeId" + i));
-                    cellNameMap.put(request.getParameter("cellType" + i),request.getParameter("cl_term"+i));
-                    culture.put(request.getParameter("cellType" + i), request.getParameter("cultureDur"+i));
-                    cultureUnit.put(request.getParameter("cellType" + i),request.getParameter("cultureUnits"+i));
-                }
-            }
-            for(int i = 0; i < clcount;i++){
-                if (request.getParameter("cellLine" + i).contains("imported!"))
-                    cellLine.put(null,request.getParameter("cellLineId"+i));
-                else
-                    cellLine.put(request.getParameter("cellLine" + i),request.getParameter("cellLineId"+i));
-            }
-            for(int i = 0; i < gcount;i++){
-                gender.put(request.getParameter("gender" + i),request.getParameter("sex"+i));
-            }
-            for (int i = 0; i < noteCnt ; i++){
-                notes.put(null,request.getParameter("notesId"+i));
-                curNotes.put(null,request.getParameter("cNotesId"+i));
-            }
-
-            for (int i = 0; i < 3; i++){
-                Integer x;
-                try{
-                    String id = request.getParameter("refRgdId"+i);
-                    x = Integer.parseInt(id);
-                    pmIds.add(id);
-                }
-                catch (Exception ignore){}
-            }
-
-            refRgdIds = GenerateRGDIdsFromPmIds(pmIds);
-
-            HttpRequestFacade req = new HttpRequestFacade(request);
-            String[] cValueMin = req.getRequest().getParameterValues("cValueMin");
-            String[] cValueMax = req.getRequest().getParameterValues("cValueMax");
-            String[] cUnits = req.getRequest().getParameterValues("cUnits");
-            String[] cMinDuration = req.getRequest().getParameterValues("cMinDuration");
-            String[] cMinDurationUnits = req.getRequest().getParameterValues("cMinDurationUnits");
-            String[] cMaxDuration = req.getRequest().getParameterValues("cMaxDuration");
-            String[] cMaxDurationUnits = req.getRequest().getParameterValues("cMaxDurationUnits");
-            String[] cApplicationMethod = req.getRequest().getParameterValues("cApplicationMethod");
-            String[] cOrdinality = req.getRequest().getParameterValues("cOrdinality");
-            String[] cNotes = req.getRequest().getParameterValues("cNotes");
-            HashMap<String, List<Integer>> ordinality = new HashMap<>(condCnt);
-            for (int i = 0; i < condCnt; i++) {
-                String xcoId = request.getParameter("xcoId"+i);
-                if (!Utils.isStringEmpty(xcoId) && (!Utils.isStringEmpty(cOrdinality[i]) || cOrdinality[i].equals("0")) ) {
-                    String xcoTerm = request.getParameter("xco"+i+"_term");
-                    xcoMap.put(xcoId, xcoTerm);
-                    Condition c = new Condition();
-                    c.setOntologyId(xcoId);
-                    c.setValueMin(cValueMin[i]);
-                    c.setValueMax(cValueMax[i]);
-                    c.setUnits(cUnits[i]);
-                    if (!Utils.isStringEmpty(cMinDuration[i])) {
-                        c.setDurationLowerBound(convertToSeconds(Double.parseDouble(cMinDuration[i]),cMinDurationUnits[i]) );
-                    }
-                    if (!Utils.isStringEmpty(cMaxDuration[i])) {
-                        c.setDurationUpperBound(convertToSeconds(Double.parseDouble(cMaxDuration[i]),cMaxDurationUnits[i]) );
-                    }
-                    c.setApplicationMethod(cApplicationMethod[i]);
-
-                    c.setOrdinality(Integer.parseInt(cOrdinality[i]));
-                    c.setNotes(cNotes[i]);
-                    conditions.add(c);
-                }
-
-            }
-
-            request.setAttribute("tissueMap",tissueMap);
-            request.setAttribute("tissueNameMap", tissuneNameMap);
-            request.setAttribute("vtMap",vtMap);
-            request.setAttribute("vtNameMap",vtNameMap);
-            request.setAttribute("cmoMap",cmoMap);
-            request.setAttribute("cmoNameMap",cmoNameMap);
-            request.setAttribute("strainMap",strainMap);
-            request.setAttribute("strainNameMap",strainNameMap);
-            request.setAttribute("clinMeasMap",clinMeasMap);
-            request.setAttribute("clinMeasNameMap",clinMeasNameMap);
-            request.setAttribute("cellLine",cellLine);
-            request.setAttribute("cellType",cellType);
-            request.setAttribute("cellNameMap",cellNameMap);
-            request.setAttribute("gender",gender);
-            request.setAttribute("ageLow",ageLow);
-            request.setAttribute("ageHigh",ageHigh);
-            request.setAttribute("species",species);
-            request.setAttribute("gse",gse);
-            request.setAttribute("lifeStage",lifeStage);
-            request.setAttribute("notesMap",notes);
-            request.setAttribute("curNotesMap",curNotes);
-            request.setAttribute("samplesExist", sampleSize);
-            request.setAttribute("conditions", conditions);
-            request.setAttribute("xcoTerms", xcoMap);
-            request.setAttribute("cultureDur", culture);
-            request.setAttribute("cultureUnit", cultureUnit);
-            request.setAttribute("refRgdIds",refRgdIds);
-            return new ModelAndView("/WEB-INF/jsp/curation/expression/createSample.jsp");
+            String view = setUpSamples(request,response);
+            return new ModelAndView(view);
         }
         if (request.getParameter("gse") != null) {
             return new ModelAndView("/WEB-INF/jsp/curation/expression/editSample.jsp");
-        } else return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "experiments.jsp");
+        } else {
+            return new ModelAndView("/WEB-INF/jsp/curation/expression/" + "experiments.jsp");
+        }
 
         }
     protected boolean checkToken(String token) throws Exception{
@@ -854,8 +729,19 @@ public class GeoExperimentController implements Controller {
         return Condition.convertStringToDurationBound(units);
     }
 
-    private void insertConditions(List<Condition> conds) throws Exception{
-        List<String> ords = new ArrayList<>();
+    /** Find an experiment in the list whose vertebrate-trait id matches vtId, or null. */
+    private Experiment findExperimentByVt(List<Experiment> eList, String vtId) {
+        if (eList == null || Utils.isStringEmpty(vtId))
+            return null;
+        for (Experiment e : eList) {
+            if (Utils.stringsAreEqual(e.getTraitOntId(), vtId))
+                return e;
+        }
+        return null;
+    }
+
+    private void insertConditions(List<Condition> conds, int expRecId) throws Exception{
+//        List<String> ords = new ArrayList<>();
         for (int i = conds.size()-1; i >= 0 ; i--){
             // check ordinality
                 Condition c = conds.get(i);
@@ -865,14 +751,18 @@ public class GeoExperimentController implements Controller {
                     conds.get(conds.indexOf(c)).setOrdinality(1);
                 }
         }
-        for (Condition c : conds){
-            // insert/update
-            if (c.getId()==-1){
-                geDAO.insertCondition(c);
-            }
-            else {
-                geDAO.updateCondition(c);
-            }
+        // compare with DB and add/remove xco
+        List<Condition> dbConds = geDAO.getConditions(expRecId);
+        Collection<Condition> delete = CollectionUtils.subtract(dbConds, conds);
+        if ( !delete.isEmpty()){
+            geDAO.deleteConditionBatch(delete);
+        }
+
+//        Collection<Condition> update = CollectionUtils.intersection(conds, dbConds);
+        Collection<Condition> insert = CollectionUtils.subtract(conds, dbConds);
+//        insert.addAll(update);
+        for (Condition c : insert){
+            geDAO.insertCondition(c);
         }
     }
 
@@ -1253,5 +1143,188 @@ public class GeoExperimentController implements Controller {
         }
     }
 
+    public String setUpSamples(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        int tcount = Integer.parseInt(request.getParameter("tcount"));
+        int scount = Integer.parseInt(request.getParameter("scount"));
+        int ctcount = Integer.parseInt(request.getParameter("ctcount"));
+        int clcount = Integer.parseInt(request.getParameter("clcount"));
+        int ageCount = Integer.parseInt(request.getParameter("agecount"));
+        int gcount = Integer.parseInt(request.getParameter("gcount"));
+        int noteCnt = Integer.parseInt(request.getParameter("notescount"));
+        int condCnt = Integer.parseInt(request.getParameter("conditionCount"));
+        String gse = request.getParameter("gse");
+        String species = request.getParameter("species");
+        HashMap<String,String> tissueMap = new HashMap();
+        HashMap<String,String> tissuneNameMap = new HashMap<>();
+        HashMap<String,String> vtMap = new HashMap<>();
+        HashMap<String,String> vtNameMap = new HashMap<>();
+        HashMap<String,String> cmoMap = new HashMap<>();
+        HashMap<String,String> cmoNameMap = new HashMap<>();
+        HashMap<String,String> strainMap = new HashMap();
+        HashMap<String,String> strainNameMap = new HashMap<>();
+        HashMap<String,String> clinMeasMap = new HashMap<>();
+        HashMap<String,String> clinMeasNameMap = new HashMap<>();
+        HashMap<String,String> cellType = new HashMap();
+        HashMap<String,String> cellNameMap = new HashMap<>();
+        HashMap<String,String> cellLine = new HashMap();
+        HashMap<String,String> ageLow = new HashMap<>();
+        HashMap<String,String> ageHigh = new HashMap<>();
+        HashMap<String,String> gender = new HashMap<>();
+        HashMap<String,String> lifeStage = new HashMap<>();
+        HashMap<String,String> notes = new HashMap<>();
+        HashMap<String,String> curNotes = new HashMap<>();
+        HashMap<String,String> xcoMap = new HashMap<>();
+        HashMap<String,String> culture = new HashMap<>();
+        HashMap<String,String> cultureUnit = new HashMap<>();
+        List<Condition> conditions = new ArrayList<Condition>();
+        List<String> pmIds = new ArrayList<>();
+        List<Integer> refRgdIds = new ArrayList<>();
+        for(int i = 0; i < tcount;i++){
+            if (request.getParameter("tissue" + i).contains("imported!")) {
+                tissueMap.put(null, request.getParameter("tissueId" + i));
+                tissuneNameMap.put(null,request.getParameter("uberon"+i+"_term"));
+                vtMap.put(null,request.getParameter("vtId"+i));
+                vtNameMap.put(null, request.getParameter("vt"+i+"_term"));
+                clinMeasMap.put(null, request.getParameter("clinicalMeasurement"+i));
+                clinMeasNameMap.put(null,request.getParameter("cmo"+i+"_term"));
+            }
+            else {
+                tissueMap.put(request.getParameter("tissue" + i), request.getParameter("tissueId" + i));
+                tissuneNameMap.put(request.getParameter("tissue" + i),request.getParameter("uberon"+i+"_term"));
+                vtMap.put(request.getParameter("tissue" + i),request.getParameter("vtId"+i));
+                vtNameMap.put(request.getParameter("tissue" + i), request.getParameter("vt"+i+"_term"));
+                clinMeasMap.put(request.getParameter("tissue" + i), request.getParameter("clinicalMeasurement"+i));
+                clinMeasNameMap.put(request.getParameter("tissue" + i),request.getParameter("cmo"+i+"_term"));
+            }
+        }
+        for(int i = 0; i < scount;i++){
+            if (request.getParameter("strain" + i).contains("imported!")) {
+                strainMap.put(null, request.getParameter("strainId" + i));
+                strainNameMap.put(null,request.getParameter("rs"+i+"_term"));
+            }
+            else {
+                strainMap.put(request.getParameter("strain" + i), request.getParameter("strainId" + i));
+                strainNameMap.put(request.getParameter("strain" + i),request.getParameter("rs"+i+"_term"));
+            }
+        }
+        for(int i = 0; i < ageCount;i++){
+            ageLow.put(request.getParameter("age" + i),request.getParameter("ageLow"+i));
+            ageHigh.put(request.getParameter("age" + i),request.getParameter("ageHigh"+i));
+            String[] lifeStages = request.getParameterValues("lifeStage"+i);
+            String stage = "";
+            if (lifeStages!=null) {
+                for (int j = 0; j < lifeStages.length; j++) {
+                    stage += lifeStages[j];
+                    if (j != lifeStages.length - 1)
+                        stage += ";";
+                }
+            }
+            lifeStage.put(request.getParameter("age"+i),stage);
+        }
+        for(int i = 0; i < ctcount;i++){
+            if (request.getParameter("cellType"+i).contains("imported!")) {
+                cellType.put(null, request.getParameter("cellTypeId" + i));
+                cellNameMap.put(null,request.getParameter("cl"+i+"_term"));
+                culture.put(null, request.getParameter("cultureDur"+i));
+                cultureUnit.put(null,request.getParameter("cultureUnits"+i));
+            }
+            else {
+                cellType.put(request.getParameter("cellType" + i), request.getParameter("cellTypeId" + i));
+                cellNameMap.put(request.getParameter("cellType" + i),request.getParameter("cl_term"+i));
+                culture.put(request.getParameter("cellType" + i), request.getParameter("cultureDur"+i));
+                cultureUnit.put(request.getParameter("cellType" + i),request.getParameter("cultureUnits"+i));
+            }
+        }
+        for(int i = 0; i < clcount;i++){
+            if (request.getParameter("cellLine" + i).contains("imported!"))
+                cellLine.put(null,request.getParameter("cellLineId"+i));
+            else
+                cellLine.put(request.getParameter("cellLine" + i),request.getParameter("cellLineId"+i));
+        }
+        for(int i = 0; i < gcount;i++){
+            gender.put(request.getParameter("gender" + i),request.getParameter("sex"+i));
+        }
+        for (int i = 0; i < noteCnt ; i++){
+            notes.put(null,request.getParameter("notesId"+i));
+            curNotes.put(null,request.getParameter("cNotesId"+i));
+        }
+
+        for (int i = 0; i < 3; i++){
+            Integer x;
+            try{
+                String id = request.getParameter("refRgdId"+i);
+                x = Integer.parseInt(id);
+                pmIds.add(id);
+            }
+            catch (Exception ignore){}
+        }
+
+        refRgdIds = GenerateRGDIdsFromPmIds(pmIds);
+
+        HttpRequestFacade req = new HttpRequestFacade(request);
+        String[] cValueMin = req.getRequest().getParameterValues("cValueMin");
+        String[] cValueMax = req.getRequest().getParameterValues("cValueMax");
+        String[] cUnits = req.getRequest().getParameterValues("cUnits");
+        String[] cMinDuration = req.getRequest().getParameterValues("cMinDuration");
+        String[] cMinDurationUnits = req.getRequest().getParameterValues("cMinDurationUnits");
+        String[] cMaxDuration = req.getRequest().getParameterValues("cMaxDuration");
+        String[] cMaxDurationUnits = req.getRequest().getParameterValues("cMaxDurationUnits");
+        String[] cApplicationMethod = req.getRequest().getParameterValues("cApplicationMethod");
+        String[] cOrdinality = req.getRequest().getParameterValues("cOrdinality");
+        String[] cNotes = req.getRequest().getParameterValues("cNotes");
+        HashMap<String, List<Integer>> ordinality = new HashMap<>(condCnt);
+        for (int i = 0; i < condCnt; i++) {
+            String xcoId = request.getParameter("xcoId"+i);
+            if (!Utils.isStringEmpty(xcoId) && (!Utils.isStringEmpty(cOrdinality[i]) || cOrdinality[i].equals("0")) ) {
+                String xcoTerm = request.getParameter("xco"+i+"_term");
+                xcoMap.put(xcoId, xcoTerm);
+                Condition c = new Condition();
+                c.setOntologyId(xcoId);
+                c.setValueMin(cValueMin[i]);
+                c.setValueMax(cValueMax[i]);
+                c.setUnits(cUnits[i]);
+                if (!Utils.isStringEmpty(cMinDuration[i])) {
+                    c.setDurationLowerBound(convertToSeconds(Double.parseDouble(cMinDuration[i]),cMinDurationUnits[i]) );
+                }
+                if (!Utils.isStringEmpty(cMaxDuration[i])) {
+                    c.setDurationUpperBound(convertToSeconds(Double.parseDouble(cMaxDuration[i]),cMaxDurationUnits[i]) );
+                }
+                c.setApplicationMethod(cApplicationMethod[i]);
+
+                c.setOrdinality(Integer.parseInt(cOrdinality[i]));
+                c.setNotes(cNotes[i]);
+                conditions.add(c);
+            }
+
+        }
+
+        request.setAttribute("tissueMap",tissueMap);
+        request.setAttribute("tissueNameMap", tissuneNameMap);
+        request.setAttribute("vtMap",vtMap);
+        request.setAttribute("vtNameMap",vtNameMap);
+        request.setAttribute("cmoMap",cmoMap);
+        request.setAttribute("cmoNameMap",cmoNameMap);
+        request.setAttribute("strainMap",strainMap);
+        request.setAttribute("strainNameMap",strainNameMap);
+        request.setAttribute("clinMeasMap",clinMeasMap);
+        request.setAttribute("clinMeasNameMap",clinMeasNameMap);
+        request.setAttribute("cellLine",cellLine);
+        request.setAttribute("cellType",cellType);
+        request.setAttribute("cellNameMap",cellNameMap);
+        request.setAttribute("gender",gender);
+        request.setAttribute("ageLow",ageLow);
+        request.setAttribute("ageHigh",ageHigh);
+        request.setAttribute("species",species);
+        request.setAttribute("gse",gse);
+        request.setAttribute("lifeStage",lifeStage);
+        request.setAttribute("notesMap",notes);
+        request.setAttribute("curNotesMap",curNotes);
+        request.setAttribute("conditions", conditions);
+        request.setAttribute("xcoTerms", xcoMap);
+        request.setAttribute("cultureDur", culture);
+        request.setAttribute("cultureUnit", cultureUnit);
+        request.setAttribute("refRgdIds",refRgdIds);
+        return "/WEB-INF/jsp/curation/expression/createSample.jsp";
+    }
 }
 

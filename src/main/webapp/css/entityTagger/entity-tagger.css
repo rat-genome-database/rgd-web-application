@@ -1,0 +1,269 @@
+/* RGD Entity Tagger - Main Styles */
+
+.entity-tagger {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Entity highlighting styles */
+.entity-highlight {
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.entity-highlight:hover {
+    transform: scale(1.02);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Entity type specific colors */
+.entity-gene {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border: 1px solid #90caf9;
+}
+
+.entity-disease {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.entity-rat-strain {
+    background-color: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffcc80;
+}
+
+.entity-chemical {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+    border: 1px solid #ce93d8;
+}
+
+.entity-species {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.entity-phenotype {
+    background-color: #fce4ec;
+    color: #ad1457;
+    border: 1px solid #f8bbd9;
+}
+
+.entity-cellular-component {
+    background-color: #e0f2f1;
+    color: #00695c;
+    border: 1px solid #80cbc4;
+}
+
+/* Entity count badges */
+.entity-count-badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.375rem;
+    margin-left: 0.5rem;
+}
+
+/* Recognition results table */
+.recognition-results .table {
+    font-size: 0.95rem;
+}
+
+.recognition-results .entity-cell {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.confidence-bar {
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #e9ecef;
+}
+
+.confidence-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.confidence-high .confidence-fill { background-color: #28a745; }
+.confidence-medium .confidence-fill { background-color: #ffc107; }
+.confidence-low .confidence-fill { background-color: #dc3545; }
+
+/* Upload drop zone enhancements */
+.drop-zone {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.drop-zone.drag-over {
+    border-color: #007bff;
+    background: #e7f3ff;
+}
+
+.drop-zone-content i {
+    color: #6c757d;
+}
+
+/* Processing animation */
+.processing-animation {
+    display: inline-block;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Progress indicators */
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+}
+
+.step::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 60%;
+    width: 80%;
+    height: 2px;
+    background: #dee2e6;
+    z-index: 1;
+}
+
+.step:last-child::after {
+    display: none;
+}
+
+.step.completed::after {
+    background: #28a745;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #dee2e6;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 0.5rem;
+}
+
+.step.completed .step-circle {
+    background: #28a745;
+    color: white;
+}
+
+.step.current .step-circle {
+    background: #007bff;
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .drop-zone {
+        padding: 2rem 1rem;
+    }
+    
+    .step-indicator {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .step::after {
+        display: none;
+    }
+    
+    .entity-cell {
+        max-width: 150px;
+    }
+}
+
+/* Text content display styles for markdown-formatted content */
+#annotatedText {
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+}
+
+/* Handle markdown headers */
+#annotatedText {
+    /* Headers marked with # at start of line */
+    & > span:first-child {
+        font-size: 24px !important;
+        font-weight: bold !important;
+        display: block !important;
+        margin-bottom: 16px !important;
+    }
+}
+
+/* Style for lines that start with # (headers) */
+.text-content h1,
+.text-content h2,
+.text-content h3,
+#annotatedText h1,
+#annotatedText h2,
+#annotatedText h3 {
+    font-size: 24px !important;
+    font-weight: bold !important;
+    margin: 16px 0 !important;
+}
+
+/* Ensure proper paragraph spacing */
+.text-content p,
+#annotatedText p {
+    margin-bottom: 12px !important;
+    font-size: 16px !important;
+}
+
+/* Handle bold text marked with ** */
+.text-content strong,
+#annotatedText strong,
+.text-content b,
+#annotatedText b {
+    font-weight: bold !important;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .entity-gene { background-color: #1a237e; color: #bbdefb; }
+    .entity-disease { background-color: #b71c1c; color: #ffcdd2; }
+    .entity-rat-strain { background-color: #e65100; color: #ffe0b2; }
+    .entity-chemical { background-color: #4a148c; color: #e1bee7; }
+    .entity-species { background-color: #1b5e20; color: #c8e6c9; }
+    .entity-phenotype { background-color: #880e4f; color: #f8bbd9; }
+    .entity-cellular-component { background-color: #004d40; color: #b2dfdb; }
+}

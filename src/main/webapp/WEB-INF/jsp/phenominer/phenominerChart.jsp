@@ -66,6 +66,7 @@
     LocalDateTime now = LocalDateTime.now();
 
 %>
+
 <div id="fileCitation" style="display:none;">downloaded on: <%=dtf.format(now)%></div>
 <table id="mytable" class="tablesorter">
     <thead>
@@ -180,7 +181,29 @@
 
                 <td>${hit.sourceAsMap.xcoConditionDescription}</td>
                 <td>${hit.sourceAsMap.study}</td>
-                <td>${hit.sourceAsMap.experimentName}</td>
+                <%-- A record can carry up to three vertebrate traits. The curation record has
+                     trait/trait2/trait3 columns, the indexer copies them to vtTerm / vtTerm2 /
+                     vtTerm3, and PhenominerService already filters on all three - but only the
+                     first was ever printed, so a behavioural record annotated to both
+                     "tactile sensory behavior trait" and "mechanical nociception trait" showed
+                     just the one.
+
+                     All three slots are printed, not only the second: no record carries a third
+                     trait today, so vtTerm3 is not even a field in the live index yet, but the
+                     column exists in the database and the moment a curator fills it the display
+                     would have dropped it again - which is the bug being fixed here.
+
+                     The first value stays experimentName, which the indexer sets from vtTerm, so
+                     this column keeps its existing primary content.
+
+                     Separated with a semicolon, not a comma or a <br>: this table is exported by
+                     jquery.tabletoCSV.js, which takes each cell's .text() and joins the fields
+                     with unquoted commas - a comma here would shift every later column of that
+                     row, and a <br> would run the trait names together. No VT term name in the
+                     index contains either character. --%>
+                <td>${hit.sourceAsMap.experimentName}<%--
+                 --%><c:if test="${not empty hit.sourceAsMap.vtTerm2}">; ${hit.sourceAsMap.vtTerm2}</c:if><%--
+                 --%><c:if test="${not empty hit.sourceAsMap.vtTerm3}">; ${hit.sourceAsMap.vtTerm3}</c:if></td>
 
                 <td>${hit.sourceAsMap.sex}</td>
                 <td>

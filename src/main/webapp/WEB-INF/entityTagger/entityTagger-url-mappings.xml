@@ -1,0 +1,14 @@
+<!-- Add these mappings to the dispatcher-servlet.xml.curation file under the publicUrlMapping bean -->
+
+<!-- RGD Curation Tool URL Mappings -->
+<prop key="curation/entityTagger/main.html">PdfUploadController</prop>
+<prop key="curation/pdf/upload.html">PdfUploadController</prop>
+<prop key="curation/pdf/status.html">PdfUploadController</prop>
+<prop key="curation/entity/recognize.html">EntityRecognitionController</prop>
+<prop key="curation/entity/status.html">EntityRecognitionController</prop>
+<prop key="curation/annotation/view.html">AnnotationViewController</prop>
+<prop key="curation/annotation/export.html">AnnotationViewController</prop>
+<prop key="curation/interface/home.html">CurationInterfaceController</prop>
+<prop key="curation/interface/validate.html">CurationInterfaceController</prop>
+<prop key="curation/interface/batch.html">CurationInterfaceController</prop>
+<prop key="curation/interface/save.html">CurationInterfaceController</prop>

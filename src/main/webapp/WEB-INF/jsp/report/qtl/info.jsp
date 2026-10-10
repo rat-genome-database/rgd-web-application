@@ -189,40 +189,27 @@
         %>
     </tr>
 
-    <%-- show model JBrowse mini chart for genes having positions on current reference assembly --%>
     <% if(fu.mapPosIsValid(md)) {
         String jbrowse2Url = MapDataFormatter.generateJbrowse2URL(6, md);
         if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){
-    %>
+        %>
     <%-- show model JBrowse mini chart for genes having positions on current reference assembly --%>
-    <%--        commenting out this part of the code as it is not required now--%>
-    <%--       String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"--%>
-    <%--               : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm38"--%>
-    <%--               : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rn7_2"--%>
-    <%--               : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"--%>
-    <%--              : "";--%>
-    <%--//        String tracks = obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "GFF3_track" : "AQTLS";--%>
-    <%--      String jbUrl = "https://rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);--%>
+<%--        commenting out this part of the code as it is not required now--%>
+<%--       String dbJBrowse = obj.getSpeciesTypeKey()==SpeciesType.HUMAN ? "data_hg38"--%>
+<%--               : obj.getSpeciesTypeKey()==SpeciesType.MOUSE ? "data_mm38"--%>
+<%--               : obj.getSpeciesTypeKey()==SpeciesType.RAT ? "data_rn7_2"--%>
+<%--               : obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "data_cl1_0"--%>
+<%--              : "";--%>
+<%--//        String tracks = obj.getSpeciesTypeKey()==SpeciesType.CHINCHILLA ? "GFF3_track" : "AQTLS";--%>
+<%--      String jbUrl = "https://rgd.mcw.edu/jbrowse?data="+dbJBrowse+"&tracks="+tracks+"&highlight=&tracklist=0&nav=0&overview=0&loc="+FormUtility.getJBrowseLoc(md);--%>
     <tr>
         <td  class="label">JBrowse:</td>
         <td align="left">
-            <%--            <a href="https://rgd.mcw.edu/jbrowse?data=data_rn7_2&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">View Region in Genome Browser (JBrowse)</a>--%>
+<%--            <a href="https://rgd.mcw.edu/jbrowse?data=data_rn7_2&loc=<%=fu.getJBrowseLoc(md)%>&tracks=AQTLS">View Region in Genome Browser (JBrowse)</a>--%>
             <a href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a>
         </td>
     </tr>
     <% } %>
-<%--    disabling the jbrowse view on the qtl report pages--%>
-<%--    <tr>--%>
-<%--        <td class="label">Model</td>--%>
-<%--        <td><div style="width:750px; align:left;">--%>
-<%--            <iframe id="jbrowseMini" style="border: 1px solid black" width="660"></iframe>--%>
-<%--        </div></td>--%>
-<%--    </tr>--%>
-<%--    <script>--%>
-<%--        $(document).ready(function() {--%>
-<%--            document.getElementById('jbrowseMini').src = '<%=jbUrl%>';--%>
-<%--        });--%>
-<%--    </script>--%>
     <% } %>
 
 

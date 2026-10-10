@@ -1,11 +1,19 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
+    <!-- Import entity tagger module configuration -->
+    <import resource="entityTagger/entityTagger-context.xml"/>
+
 <!--    <bean id="RGDHandlerInterceptor" class="edu.mcw.rgd.web.RGDHandlerInterceptor">-->
 <!--    </bean>-->
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+    </bean>
+
+    <!-- Multipart resolver for file uploads using standard servlet API -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+        <!-- This resolver uses the servlet container's built-in multipart support -->
     </bean>
 
     <bean id="publicUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -19,12 +27,27 @@
                 <!--<prop key="pathway/error.html">PathwayNewRecordController</prop>-->
                 <prop key="curation/home.html">CurationController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
-				<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
+		<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
+                
+                <!-- RGD Entity Tagger URL Mappings -->
+                <prop key="curation/entityTagger/index.html">PdfUploadController</prop>
+                <prop key="curation/entityTagger/main.html">PdfUploadController</prop>
+                <prop key="curation/pdf/upload.html">PdfUploadController</prop>
+                <prop key="curation/pdf/status.html">PdfUploadController</prop>
+                <prop key="curation/pdf/cancel.html">PdfUploadController</prop>
+                <prop key="curation/pdf/session-info.html">PdfUploadController</prop>
+                <prop key="curation/terminate-session.html">PdfUploadController</prop>
+                <prop key="curation/recover-session.html">PdfUploadController</prop>
+                <prop key="curation/annotation/view.html">PdfUploadController</prop>
+                <prop key="curation/entity/recognize.html">PdfUploadController</prop>
+
+
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>
                 <prop key="curation/pathway/pathwayCreate.html">PathwayRecordController</prop>
 				<prop key="curation/expression/experiments.html">GeoExperimentController</prop>
                 <prop key="curation/expression/editSamples.html">SampleEditController</prop>
-
+                <prop key="curation/expression/downloadMetaData.html">DownloadExpressionMetaDataController</prop>
+                <prop key="report/expressionStudy/downloadMetadata.html">ExpressionStudyDownloadController</prop>
                 <prop key="curation/phenominer/reference.html">PhenominerReferenceController</prop>
                 <prop key="curation/phenominer/search.html">PhenominerSearchController</prop>
                 <prop key="curation/phenominer/home.html">PhenominerCurationController</prop>
@@ -75,6 +98,7 @@
                 <prop key="curation/edit/geneMerge.html">GeneMergeController</prop>
                 <prop key="curation/edit/termMerge.html">TermMergeController</prop>
                 <prop key="curation/edit/dropManualOrthologs.html">DropManualOrthologsController</prop>
+                <prop key="curation/edit/obsoleteGoTerms.html">ObsoleteGoTermsController</prop>
                 <prop key="curation/edit/editNews.html">NewsConferenceEditController</prop>
                 <prop key="curation/edit/updateNewsConf.html">EditNewsArticleController</prop>
 
@@ -185,6 +209,8 @@
                 <prop key="ga/window.html">GACrossCompareController</prop>
                 <prop key="ga/termDetail.html">GATermDetailController</prop>
 
+                <prop key="alleleStrain/report.html">AlleleStrainController</prop>
+
                 <prop key="enrichment/analysis.html">EnrichmentController</prop>
                 <prop key="enrichment/start.html">EnrichmentSelectController</prop>
 
@@ -222,8 +248,12 @@
                 <prop key="gviewer/welcome.html">GviewerWelcomeController</prop>
 
                 <prop key="gviewer/getAnnotationXml.html">GViewerGetAnnotationXmlController</prop>
+                <prop key="gviewer/getAnnotationJson.html">GViewerGetAnnotationJsonController</prop>
                 <prop key="gviewer/getAnnotationXmlByID.html">GViewerGetAnnotationIDXmlController</prop>
                 <prop key="gviewer/getXmlTool.html">GViewerGetXmlToolController</prop>
+                <prop key="gviewer/addObjects.html">GViewerAddObjectsController</prop>
+                <prop key="gviewer/termCounts.html">GViewerTermCountsController</prop>
+                <prop key="gviewer/ideogram.html">GViewerIdeogramController</prop>
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
@@ -288,7 +318,9 @@
                  <prop key="projects/project.html">ProjectController</prop>
                  <prop key="report/project/main.html">ProjectReportController</prop>
                  <prop key="/hrdp_panel.html">hrdpController</prop>
-
+                 <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
+                 <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
+                 <prop key="report/expressionStudy/main.html">ExpressionStudyReportController</prop>
             </props>
         </property>
     </bean>
@@ -354,6 +386,7 @@
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
     <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
     <bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
+    <bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>
     <bean id="PipelineRecListController" class="edu.mcw.rgd.pipeline.PipelineRecListController"/>
@@ -394,6 +427,7 @@
 
 	<bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
     <bean id="SampleEditController" class="edu.mcw.rgd.expression.SampleEditController"/>
+    <bean id="DownloadExpressionMetaDataController" class="edu.mcw.rgd.expression.DownloadMetaDataController"/>
     <bean id="CurationController" class="edu.mcw.rgd.edit.CurationController" />
     <bean id="CurationLoginController" class="edu.mcw.rgd.edit.CurationLoginController" />
     <bean id="AliasesEditObjectController" class="edu.mcw.rgd.edit.AliasesEditObjectController"/>
@@ -416,6 +450,7 @@
     <bean id="GeneMergeController" class="edu.mcw.rgd.edit.GeneMergeController"/>
     <bean id="DropManualOrthologsController" class="edu.mcw.rgd.edit.DropManualOrthologsController"/>
     <bean id="TermMergeController" class="edu.mcw.rgd.edit.TermMergeController"/>
+    <bean id="ObsoleteGoTermsController" class="edu.mcw.rgd.edit.ObsoleteGoTermsController"/>
 	<bean id="StrainFileUploadController" class="edu.mcw.rgd.edit.StrainFileUploadController" />
 	<bean id="NewsConferenceEditController" class="edu.mcw.rgd.edit.NewsConferenceEditController"/>
     <bean id="EditNewsArticleController" class="edu.mcw.rgd.edit.EditNewsArticleController"/>
@@ -453,6 +488,8 @@
     <bean id="GAGenomeController" class="edu.mcw.rgd.ga.GAGenomeController" />
     <bean id="GACrossCompareController" class="edu.mcw.rgd.ga.GACrossCompareController" />
     <bean id="GATermDetailController" class="edu.mcw.rgd.ga.GATermDetailController" />
+
+    <bean id="AlleleStrainController" class="edu.mcw.rgd.allelestrain.AlleleStrainController"/>
 
     <bean id="PATermCompareController" class="edu.mcw.rgd.ga.PATermCompareController" />
     <bean id="PACrossCompareController" class="edu.mcw.rgd.ga.PACrossCompareController" />
@@ -497,8 +534,12 @@
     <bean id="PmidImaController" class="edu.mcw.rgd.webservice.PmidImageController"/>
 
     <bean id="GViewerGetAnnotationXmlController" class="edu.mcw.rgd.gviewer.AnnotationXmlController"/>
+    <bean id="GViewerGetAnnotationJsonController" class="edu.mcw.rgd.gviewer.AnnotationJSONController"/>
     <bean id="GViewerGetAnnotationIDXmlController" class="edu.mcw.rgd.gviewer.AnnotationIDXmlController"/>
     <bean id="GViewerGetXmlToolController" class="edu.mcw.rgd.gviewer.XmlToolController"/>
+    <bean id="GViewerAddObjectsController" class="edu.mcw.rgd.gviewer.AddObjectsController"/>
+    <bean id="GViewerTermCountsController" class="edu.mcw.rgd.gviewer.TermCountsController"/>
+    <bean id="GViewerIdeogramController" class="edu.mcw.rgd.gviewer.IdeogramController"/>
 
 
     <bean id="PrimerController" class="edu.mcw.rgd.primerCreate.PrimerController" />
@@ -569,6 +610,9 @@
     <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
+    <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
+    <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
+    <bean id="ExpressionStudyReportController" class="edu.mcw.rgd.report.ExpressionStudyReportController"/>
+    <bean id="ExpressionStudyDownloadController" class="edu.mcw.rgd.report.ExpressionStudyDownloadController"/>
 
     </beans>
-
