@@ -110,7 +110,7 @@
     </div>
     <h1>PostgreSQL Site Test Plan</h1>
     <p class="sub">Every page and tool on the PostgreSQL build, checked by a person and signed off before production switches.
-        Test on this server; compare with <a href="https://rgd.mcw.edu" target="_blank">rgd.mcw.edu</a> (curation items: with the current Oracle curation tools).</p>
+        Test on this server; compare with <a href="https://pipelines.rgd.mcw.edu" target="_blank">pipelines.rgd.mcw.edu</a> (curation items: with the current Oracle curation tools).</p>
 
     <% if (msg != null) { %><div class="msg"><%=h(msg)%></div><% } %>
 
@@ -118,7 +118,7 @@
         <summary>How to test</summary>
 
         <h3>Scope</h3>
-        <p>We test the PostgreSQL build on newdev.rgd.mcw.edu and compare every page with production at rgd.mcw.edu, which still runs on Oracle.</p>
+        <p>We test the PostgreSQL build on newdev.rgd.mcw.edu and compare every page with the same page on pipelines.rgd.mcw.edu, which still runs on Oracle.</p>
         <ul>
             <li><b>Why:</b> every SQL statement in rgd-core-library, rgd-web-application, rgd-web-services and the PHP curation tool was rewritten for PostgreSQL. Automated checks compared query results, but only a person can confirm that pages, charts, downloads and tools still behave correctly.</li>
             <li><b>In scope:</b> <%=items.size()%> items: every page and endpoint of the web application in its production and curation builds, the standalone pages (home page, disease portals, scoreboard, Alliance pages), the REST API and JBrowse 2, and the PHP curation tool (rgdCuration).</li>
@@ -139,7 +139,7 @@
         <h3>What to check on every page</h3>
         <ul>
             <li><b>Loads cleanly.</b> No error page, stack trace, blank section or endless spinner. Open the browser console (F12): no new red errors compared with production.</li>
-            <li><b>Data matches production.</b> Same records, counts, positions, annotations and references as rgd.mcw.edu. Only records added after 2026-09-14 may differ.</li>
+            <li><b>Data matches production.</b> Same records, counts, positions, annotations and references as pipelines.rgd.mcw.edu. Only records added after 2026-09-14 may differ.</li>
             <li><b>Order and formatting.</b> Tables sort the same way; dates, numbers and text look right, with no <code>null</code> and no missing times on dates.</li>
             <li><b>Stays on newdev.</b> Links, redirects, searches and API calls stay on newdev.rgd.mcw.edu and never jump to dev.rgd.mcw.edu or production. Watch the address bar.</li>
             <li><b>Downloads work.</b> Every download gives a file that opens, with the same rows as production.</li>
@@ -224,7 +224,7 @@
             <div class="name">
                 <a class="toggle" onclick="toggle('<%=id%>')"><%=h(i.getName())%></a><% if (i.isCuration()) { %><span class="tag">curation</span><% } %>
                 <div class="path"><%=h(i.getPath())%></div>
-                <div class="links"><a href="<%=h(i.getPath())%>" target="_blank">Test &#8599;</a><% if (!i.isNoCompare()) { %><a href="https://rgd.mcw.edu<%=h(i.getPath())%>" target="_blank">Production &#8599;</a><% } %></div>
+                <div class="links"><a href="<%=h(i.getPath())%>" target="_blank">Test &#8599;</a><% if (!i.isNoCompare()) { %><a href="https://pipelines.rgd.mcw.edu<%=h(i.getPath())%>" target="_blank">Production &#8599;</a><% } %></div>
             </div>
 
             <div>
