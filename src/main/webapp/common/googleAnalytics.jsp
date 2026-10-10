@@ -1,4 +1,14 @@
-<% if (edu.mcw.rgd.web.RgdContext.getHostname().equals("localhost") || edu.mcw.rgd.web.RgdContext.getHostname().equals("pipelines.rgd.mcw.edu") || edu.mcw.rgd.web.RgdContext.getHostname().equals("dev.rgd.mcw.edu") ) { %>
+<%
+    // Google Analytics only on the public site. The host the browser used decides (behind the proxy, X-Forwarded-Host),
+    // so dev, newdev, pipelines and localhost are not counted and their links don't get analytics parameters (_gl=...).
+    String gaRequestHost = request.getHeader("X-Forwarded-Host");
+    if (gaRequestHost == null || gaRequestHost.isEmpty()) {
+        gaRequestHost = request.getServerName();
+    }
+    gaRequestHost = gaRequestHost.split(",")[0].trim().replaceFirst(":.*$", "");
+    boolean gaEnabled = gaRequestHost.equalsIgnoreCase("rgd.mcw.edu") || gaRequestHost.equalsIgnoreCase("www.rgd.mcw.edu");
+%>
+<% if (!gaEnabled) { %>
 
 <% } else { %>
 <script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
