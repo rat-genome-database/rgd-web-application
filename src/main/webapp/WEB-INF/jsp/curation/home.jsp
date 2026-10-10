@@ -47,10 +47,6 @@ Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbs
             </tr>
             <tr valign="top">
                 <td>
-                    <a href="/rgdweb/curation/testPlan.html">PostgreSQL Site Test Plan</a></td>
-            </tr>
-            <tr valign="top">
-                <td>
                     <a v-bind:href="'/rgdCuration/?module=curation&func=contents&token='+token">Curation Tool</a></td>
             </tr>
             <tr valign="top">
@@ -126,6 +122,10 @@ Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbs
             </tr>
             <tr>
                 <td></td>
+            </tr>
+            <tr valign="top">
+                <td>
+                    <a href="/rgdweb/curation/testPlan.html">PostgreSQL Site Test Plan</a></td>
             </tr>
             <tr valign="top">
                 <td>
