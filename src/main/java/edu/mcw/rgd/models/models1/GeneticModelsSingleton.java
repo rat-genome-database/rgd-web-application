@@ -43,7 +43,10 @@ public class GeneticModelsSingleton {
 
     private GeneticModelsSingleton() {}
 
-    private void init() {
+    /**
+     * @return true if the models were loaded
+     */
+    private boolean init() {
         try {
             List<GeneticModel> strains = modelDao.getAllModels();
             List<GeneticModel> strainsWithAliases = this.getStrainWithAliases(strains);
@@ -53,21 +56,31 @@ public class GeneticModelsSingleton {
                 .filter(this::isGerrcModel)
                 .collect(Collectors.toList());
             this.setGerrcModels(filteredGerrcModels);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
+    /**
+     * The instance is published only after it is fully loaded, so requests arriving during the load wait for it
+     * instead of getting empty lists; a failed load is not kept, so the next request tries again.
+     */
     public static GeneticModelsSingleton getInstance() {
-        if (instance == null) {
+        GeneticModelsSingleton result = instance;
+        if (result == null) {
             synchronized (GeneticModelsSingleton.class) {
-                if (instance == null) {
-                    instance = new GeneticModelsSingleton();
-                    instance.init();
+                result = instance;
+                if (result == null) {
+                    result = new GeneticModelsSingleton();
+                    if (result.init()) {
+                        instance = result;
+                    }
                 }
             }
         }
-        return instance;
+        return result;
     }
 
     public static void main(String[] args) {
