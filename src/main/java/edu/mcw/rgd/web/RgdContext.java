@@ -250,7 +250,23 @@ public class RgdContext {
         if( !(attrs instanceof ServletRequestAttributes) ) {
             return null;
         }
-        HttpServletRequest request=((ServletRequestAttributes) attrs).getRequest();
+        return getRequestHost(((ServletRequestAttributes) attrs).getRequest());
+    }
+
+    /**
+     * true when the request came in as the public site, rgd.mcw.edu or www.rgd.mcw.edu
+     * (used to load Google Analytics there only, not on dev, newdev, pipelines or localhost)
+     */
+    public static boolean isPublicSiteRequest(HttpServletRequest request){
+        String host=getRequestHost(request);
+        return "rgd.mcw.edu".equals(host) || "www.rgd.mcw.edu".equals(host);
+    }
+
+    /**
+     * The host name the browser used for this request (behind the Apache proxy, from X-Forwarded-Host),
+     * lower case; null if it is not a plain host name.
+     */
+    public static String getRequestHost(HttpServletRequest request){
         String host=request.getHeader("X-Forwarded-Host");
         if( host==null || host.isEmpty() ) {
             host=request.getServerName();
