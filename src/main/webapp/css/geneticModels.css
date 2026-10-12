@@ -113,3 +113,26 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+/* Genetic Models table: freeze the header row so column labels stay visible
+   while scrolling the long list of models. theme.blue paints the th
+   backgrounds, but the #id rule outranks it, so the sorted-column shades are
+   restated here to keep the sort highlight. */
+#modelTable thead th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #99bfe6;
+    background-clip: padding-box;
+    box-shadow: inset 0 -1px 0 #cdcdcd;
+}
+#modelTable thead th.tablesorter-headerAsc,
+#modelTable thead th.headerSortUp,
+#modelTable thead th.tablesorter-headerSortUp {
+    background-color: #9fbfdf;
+}
+#modelTable thead th.tablesorter-headerDesc,
+#modelTable thead th.headerSortDown,
+#modelTable thead th.tablesorter-headerSortDown {
+    background-color: #8cb3d9;
+}
