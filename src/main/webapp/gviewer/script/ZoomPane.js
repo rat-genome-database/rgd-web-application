@@ -54,12 +54,34 @@ function ZoomPane(divId, h, w, parentGviewer) {
     }
     this.init();
 
-    this.highlight = function(annot) {
-        this.getDiv(annot).label.style.color= "red";
+    // Label types whose text is drawn on top of a colored bar (white text
+    // via .annotation-label.<type> in gviewer.css). Only these get the gold
+    // highlight color; gene labels sit on the white pane background where
+    // gold text would be unreadable, so they are left alone.
+    this.highlightLabelTypes = { "qtl": true, "strain": true };
+
+    // Colors the annotation label in the zoom pane. Defaults to the same
+    // gold used by Gviewer.highlight so the chromosome dot and the zoom
+    // label change together. The original inline color (usually none, so
+    // the .annotation-label.<type> CSS rule applies) is saved for lowlight.
+    this.highlight = function(annot, color) {
+        var adiv = this.getDiv(annot);
+        if (!adiv || !adiv.label) return;
+        if (!this.highlightLabelTypes[annot.type]) return;
+        if (adiv.label._origColor === undefined) {
+            adiv.label._origColor = adiv.label.style.color || "";
+        }
+        adiv.label.style.color = color || "#FFD700";
     }
 
+    // Restores whatever inline color the label had before highlight. An
+    // empty string lets the stylesheet decide, so qtl/strain labels go back
+    // to white on their colored bar instead of being forced to black.
     this.lowlight = function(annot) {
-        this.getDiv(annot).label.style.color= "black";
+        var adiv = this.getDiv(annot);
+        if (!adiv || !adiv.label) return;
+        adiv.label.style.color = adiv.label._origColor || "";
+        adiv.label._origColor = undefined;
     }
 
     this.removeAnnotation = function(annot) {
