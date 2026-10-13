@@ -346,7 +346,7 @@ let apolloService = new ApolloService();
           let label_height=VARIANT_HEIGHT*numVariantTracks+LABEL_PADDING;
           let variant_label = variantContainer.append('text')
             .attr('class', 'variantLabel')
-            .attr('fill', consequenceColor)
+            .attr('fill', readableLabelColor(consequenceColor))
             .attr('opacity', 0)
             .attr('height', ISOFORM_TITLE_HEIGHT)
             .attr("transform", "translate("+label_offset+","+label_height+")")
@@ -430,7 +430,7 @@ let apolloService = new ApolloService();
                 text_string = feature.name;
                 text_label = isoform.append('text')
                   .attr('class', 'geneLabel')
-                  .attr('fill', selected ? 'sandybrown' : 'black')
+                  .attr('fill', selected ? LABEL_SELECTED_COLOR : LABEL_COLOR)
                   .attr('height', ISOFORM_TITLE_HEIGHT)
                   .attr("transform", "translate(" + x(featureChild.fmin) + `,-${GENE_LABEL_HEIGHT})`)
                   .text(text_string)
@@ -472,8 +472,8 @@ let apolloService = new ApolloService();
               text_string = featureChild.name ;
               text_label = isoform.append('text')
                 .attr('class', 'transcriptLabel')
-                .attr('fill', selected ? 'sandybrown' : 'gray')
-                .attr('opacity', selected ? 1 : 0.5)
+                .attr('fill', selected ? LABEL_SELECTED_COLOR : LABEL_COLOR)
+                .attr('font-weight', selected ? 700 : 400)
                 .attr('height', ISOFORM_TITLE_HEIGHT)
                 .attr("transform", "translate(" + x(featureChild.fmin) + ",0)")
                 .text(text_string)
@@ -629,8 +629,7 @@ let apolloService = new ApolloService();
       track.append('text')
         .attr('x', 30)
         .attr('y', ISOFORM_TITLE_HEIGHT + 10)
-        .attr('fill', 'orange')
-        .attr('opacity', 0.6)
+        .attr('fill', LABEL_WARNING_COLOR)
         .text('Overview of non-coding genome features unavailable at this time.');
     }
     // we return the appropriate height function
