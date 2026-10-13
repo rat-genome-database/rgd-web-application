@@ -44,8 +44,9 @@ public class ProjectController implements Controller {
             }
         }
 
-        // If rgdid parameter is not present or no project found, show the list of all projects
-        List<Project> proj = pdao.getAllProjects();
+        // If rgdid parameter is not present or no project found, show the list of active projects
+        // (projects whose RGD_IDS.OBJECT_STATUS is not 'ACTIVE' are hidden)
+        List<Project> proj = pdao.getActiveProjects();
         request.setAttribute("test", proj);
 
         return new ModelAndView("/WEB-INF/jsp/project/report.jsp");
