@@ -42,9 +42,8 @@ function covidExamples(){
 var range="";
 function currentExamples(){
 //    createIsoformExample(range, "human", "viewerActnFly", TRACK_TYPE.ISOFORM, false);
-    console.log("Map key in current examples"+mapKey)
+//     console.log("Map key in current examples"+mapKey)
     var url=  "https://rest.rgd.mcw.edu/rgdws/genes/mapped/"+chr+"/"+start+"/"+stop+"/" + mapKey;
-    console.log('url in currentExamples method '+url);
     getGenomeInfo(url, guide);
 
 //   createExample("X:2023822..2042311", "fly", "viewerActnFly", TRACK_TYPE.ISOFORM_AND_VARIANT, true,["FB:FBal0212726","FB:FBal0000277","FB:FBal0000276"],['FBtr0070344','FBtr0070346']);
@@ -87,8 +86,7 @@ function getGenomeInfo(url){
                     stop: viewEnd,
                     mapKey: mapKey
                 }];
-                console.log('Created dummy coordinates:', viewStart, 'to', viewEnd);
-
+                // console.log('Created dummy coordinates:', viewStart, 'to', viewEnd);
                 // BUGFIX: Fetch transcripts to get real coordinate range
                 // This handles the edge case where dummy coords overlap a gene but the variant
                 // falls outside the transcript range
@@ -100,7 +98,7 @@ function getGenomeInfo(url){
                     async: false, // Wait for this to complete before continuing
                     success: function(transcriptData) {
                         if (transcriptData && transcriptData.length > 0) {
-                            console.log('Fetched transcript data to calculate correct range');
+                            //console.log('Fetched transcript data to calculate correct range');
                             // Use existing findRange() function to calculate range from transcripts
                             // Use ['mRNA'] to match drawer.js default
                             const calculatedRange = findRange(transcriptData, ['mRNA']);
@@ -112,7 +110,7 @@ function getGenomeInfo(url){
 
                                 // Update geneInfo with calculated range
                                 geneInfo[0].start = viewStart;
-                                console.log('Updated range from transcripts:', viewStart, 'to', viewEnd);
+                                //console.log('Updated range from transcripts:', viewStart, 'to', viewEnd);
                             }
                         }
                     },
@@ -125,21 +123,21 @@ function getGenomeInfo(url){
             const mappedGeneChr=geneInfo[0].chromosome;
             const mappedGeneStart=geneInfo[0].start;
             const mappedGeneStop=geneInfo[0].stop;
-            console.log('Genes returned by service:', geneInfo);
-            console.log('MapKey used:', mapKey);
-            console.log('Query coordinates:', chr+"/"+start+"/"+stop+"/" + mapKey);
+            // console.log('Genes returned by service:', geneInfo);
+            // console.log('MapKey used:', mapKey);
+            // console.log('Query coordinates:', chr+"/"+start+"/"+stop+"/" + mapKey);
             range= mappedGeneChr+":"+mappedGeneStart+".."+mappedGeneStop;
-            console.log("mapkey in getGenomeInfo "+geneInfo[0].mapKey)
-            console.log('in get genome method');
-            console.log('hasVariantData check:', typeof hasVariantData !== 'undefined');
-            console.log('otherGuides available:', typeof otherGuides !== 'undefined');
+            // console.log("mapkey in getGenomeInfo "+geneInfo[0].mapKey)
+            // console.log('in get genome method');
+            // console.log('hasVariantData check:', typeof hasVariantData !== 'undefined');
+            // console.log('otherGuides available:', typeof otherGuides !== 'undefined');
 
             if (typeof hasVariantData !== 'undefined' && hasVariantData) {
-                console.log('About to call handle with variant data');
-                console.log('variantData before parse:', variantData);
+                // console.log('About to call handle with variant data');
+                // console.log('variantData before parse:', variantData);
                 try {
                     var parsedData = JSON.parse(variantData);
-                    console.log('Parsed data:', parsedData);
+                    // console.log('Parsed data:', parsedData);
                     handle(parsedData, range);
                 } catch (e) {
                     console.error('JSON parse error:', e);
@@ -147,7 +145,7 @@ function getGenomeInfo(url){
                 }
             }
             else{
-                console.log('Loading gene/guide data');
+                // console.log('Loading gene/guide data');
                 let mappedGeneChr=chr;
                 let mappedGeneStart=start;
                 let mappedGeneStop=stop;
