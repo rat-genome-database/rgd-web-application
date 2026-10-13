@@ -109,7 +109,11 @@
 
 <% } else if (!rgdId.getObjectStatus().equals("ACTIVE")) {
     int newRgdId = managementDAO.getActiveRgdIdFromHistory(rgdId.getRgdId());
-    QTL newQTL = qtlDAO.getQTL(newRgdId);
+    QTL newQTL = null;
+    try{
+        newQTL = qtlDAO.getQTL(newRgdId);
+    }
+    catch (Exception ignore){}
 %>
     <br><br>This object has been <%=rgdId.getObjectStatus()%> <br><br>
         <%if (newQTL != null){%>
