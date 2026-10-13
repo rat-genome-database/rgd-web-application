@@ -376,6 +376,11 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
 }
 
 function initTools(category, species, objectType,mapKey ,$sampleExists){
+    // "Expressed Gene" hits are genes, but the category spells out to "expressed genes",
+    // which no tool recognizes: excel/gviewer/moet all need the gene object type.
+    if(category=="Expressed Gene"){
+        objectType="genes";
+    }
 
  var   toolHeader="<p style='font-weight: bold'>RGD Tools</p><p style='font-size: x-small'>Analyze selected <strong style='color:blue'>"+category +"s"+"</strong> with RGD Tools.</p>";
  var   annotationDistribution="<p><div class=\"tooltips\"><a onclick=\"toolSubmit(this,\'"+species+"\',\'annotDistribution\', \'"+objectType+"\',$('#mapKey').val())\"   style=\"cursor: pointer\"><img class=\"boxedTools toolicon\" src=\"/rgdweb/common/images/gaTool_small.png\" alt=\"Annotation Distribution\" ></a>&nbsp;<span class=\"tooltiptext\" style=\"font-size: x-small\">Send list of genes to find out what percentage of the those genes are annotated to terms from any or all of the ontologies used at RGD. </span><a onclick=\"toolSubmit(this,\'"+species+"\',\'annotDistribution\', \'"+objectType+"\',$('#mapKey').val())\" target=\"_blank\" style=\"cursor: pointer;font-size: 11px\">Annotation Distribution</a></div></p>";
