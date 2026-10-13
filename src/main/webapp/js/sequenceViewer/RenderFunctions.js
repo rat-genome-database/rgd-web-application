@@ -158,3 +158,66 @@ function getTranslate(transform)
   }
 
 //export { countIsoforms, findRange, checkSpace, doResize, calculateNewTrackPosition, getTranslate  }
+
+/*
+  Label readability helpers.
+
+  Track colors are chosen for the shapes they annotate (variant glyphs, the
+  consequence legend) and several of them -- the pale blues, golds and oranges --
+  are close to invisible when reused as text on the viewer's white background.
+  Labels also used to be drawn at 0.5 opacity, which washed them out further.
+  Ordinary labels are now near-black, selected ones a darkened orange, and
+  consequence-colored labels keep their hue but are darkened until they pass
+  WCAG AA contrast (4.5:1) against white.
+*/
+var LABEL_COLOR = '#262626';
+var LABEL_SELECTED_COLOR = '#a35200';
+var LABEL_WARNING_COLOR = '#9a4a00';
+var LABEL_CONTRAST_TARGET = 4.5;
+
+//Normalizes any CSS color (named, shorthand hex, rgb()) to an [r,g,b] triple.
+function labelColorToRgb(color)
+{
+  if(!labelColorToRgb.ctx){
+    labelColorToRgb.ctx = document.createElement('canvas').getContext('2d');
+  }
+  var ctx = labelColorToRgb.ctx;
+  // an unparseable value leaves fillStyle untouched, so seed it with black first
+  ctx.fillStyle = '#000000';
+  ctx.fillStyle = color;
+  var normalized = ctx.fillStyle;
+  if(normalized.charAt(0) === '#'){
+    return [
+      parseInt(normalized.substr(1, 2), 16),
+      parseInt(normalized.substr(3, 2), 16),
+      parseInt(normalized.substr(5, 2), 16)
+    ];
+  }
+  var parts = normalized.match(/\d+(\.\d+)?/g) || [];
+  return [Number(parts[0]) || 0, Number(parts[1]) || 0, Number(parts[2]) || 0];
+}
+
+function labelContrastWithWhite(rgb)
+{
+  var linear = rgb.map(function(channel){
+    var c = channel / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  var luminance = 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+  return 1.05 / (luminance + 0.05);
+}
+
+//Darkens a color, keeping its hue, until label text in it is readable on white.
+function readableLabelColor(color)
+{
+  var key = color || LABEL_COLOR;
+  if(!readableLabelColor.cache) readableLabelColor.cache = {};
+  if(readableLabelColor.cache[key]) return readableLabelColor.cache[key];
+
+  var rgb = labelColorToRgb(key);
+  for(var i = 0; i < 20 && labelContrastWithWhite(rgb) < LABEL_CONTRAST_TARGET; i++){
+    rgb = rgb.map(function(channel){ return Math.round(channel * 0.9); });
+  }
+  readableLabelColor.cache[key] = 'rgb(' + rgb.join(',') + ')';
+  return readableLabelColor.cache[key];
+}

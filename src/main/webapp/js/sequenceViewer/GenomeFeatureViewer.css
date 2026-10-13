@@ -281,3 +281,17 @@ div.gfc-tooltip {
   top: 50%;
   left: 100%;
 }
+
+/* Labels are drawn on top of the exon/variant shapes as well as the white
+   background, so give them a white halo (painted under the glyphs) to keep
+   them readable wherever they land. Font weight is set per label in the
+   tracks -- selected labels are bold -- so it is deliberately not set here. */
+.geneLabel,
+.transcriptLabel,
+.variantLabel {
+  paint-order: stroke fill;
+  stroke: #ffffff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  stroke-opacity: 0.9;
+}

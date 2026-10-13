@@ -98,7 +98,7 @@ function getGenomeInfo(url){
                     async: false, // Wait for this to complete before continuing
                     success: function(transcriptData) {
                         if (transcriptData && transcriptData.length > 0) {
-                            console.log('Fetched transcript data to calculate correct range');
+                            //console.log('Fetched transcript data to calculate correct range');
                             // Use existing findRange() function to calculate range from transcripts
                             // Use ['mRNA'] to match drawer.js default
                             const calculatedRange = findRange(transcriptData, ['mRNA']);
@@ -110,7 +110,7 @@ function getGenomeInfo(url){
 
                                 // Update geneInfo with calculated range
                                 geneInfo[0].start = viewStart;
-                                console.log('Updated range from transcripts:', viewStart, 'to', viewEnd);
+                                //console.log('Updated range from transcripts:', viewStart, 'to', viewEnd);
                             }
                         }
                     },
