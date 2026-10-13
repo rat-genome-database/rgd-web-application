@@ -283,11 +283,31 @@ public class RgdContext {
         return host.matches("[A-Za-z0-9.-]+") ? host.toLowerCase() : null;
     }
     public static String getSolrUrl(String collection){
+        return getSolrUrl(collection, getRequestHost());
+    }
+
+    /**
+     * OntoMate on production and pipelines; elsewhere the OntoMate deployed next to this site, on the host
+     * the browser used (dev.rgd.mcw.edu, newdev.rgd.mcw.edu), with dev's OntoMate for local machines
+     */
+    public static String getSolrUrl(String collection, HttpServletRequest request){
+        return getSolrUrl(collection, getRequestHost(request));
+    }
+
+    static String getSolrUrl(String collection, String requestHost){
         String url=new String();
         switch (collection.toLowerCase()){
             case "solr":
-                if(isProduction || isPipelines){
+                boolean isProductionOrPipelines;
+                try {
+                    isProductionOrPipelines = isProduction() || isPipelines();
+                } catch( UnknownHostException e ) {
+                    isProductionOrPipelines = false;
+                }
+                if(isProductionOrPipelines){
                     url= "https://ontomate.rgd.mcw.edu/QueryBuilder";
+                }else if( requestHost!=null && requestHost.endsWith(".rgd.mcw.edu") ){
+                    url= "https://"+requestHost+"/QueryBuilder";
                 }else{
                     url= "https://dev.rgd.mcw.edu/QueryBuilder";
                 }

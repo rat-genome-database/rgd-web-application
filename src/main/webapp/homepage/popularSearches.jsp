@@ -22,7 +22,7 @@
             </td>
             <td><img src="/rgdweb/common/images/dnaSeperator.png" border="0" /></td>
             <td>
-                <div class="searchCard" onclick="location.href='https://ontomate.rgd.mcw.edu'">
+                <div class="searchCard" onclick="location.href='<%=edu.mcw.rgd.web.RgdContext.getSolrUrl("solr", request)%>'">
                     <p style="margin-top:15px;">Ontomate<br> (Literature)</p>
                 </div>
             </td>

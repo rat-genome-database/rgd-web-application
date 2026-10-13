@@ -268,7 +268,7 @@
                                         </button>
 
                                         <div class="rgd-dropdown-content">
-                                            <a href="<%=RgdContext.getSolrUrl("solr")%>" >OntoMate (Literature Search)</a>
+                                            <a href="<%=RgdContext.getSolrUrl("solr", request)%>" >OntoMate (Literature Search)</a>
                                             <a href="/rgdweb/jbrowse2/listing.jsp">JBrowse (Genome Browser)</a>
                                             <a href="/vcmap">Synteny Browser (VCMap)</a>
                                             <a href="/rgdweb/front/config.html">Variant Visualizer</a>
