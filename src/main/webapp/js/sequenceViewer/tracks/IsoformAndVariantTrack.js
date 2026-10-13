@@ -160,8 +160,8 @@ let apolloService = new ApolloService();
       let variantBins = generateVariantDataBinsAndDataSets(variantData,(viewEnd-viewStart)*binRatio);
       variantBins.forEach(variant => {
         let {type, fmax, fmin} = variant;
-        // console.log('Drawing variant at fmin:', fmin, 'fmax:', fmax);
-        // console.log('- viewStart:', viewStart, 'viewEnd:', viewEnd);
+        console.log('Drawing variant at fmin:', fmin, 'fmax:', fmax);
+        console.log('- viewStart:', viewStart, 'viewEnd:', viewEnd);
         let drawnVariant = true;
         let isPoints = false;
         let viewerWidth = this.width;
@@ -346,7 +346,7 @@ let apolloService = new ApolloService();
           let label_height=VARIANT_HEIGHT*numVariantTracks+LABEL_PADDING;
           let variant_label = variantContainer.append('text')
             .attr('class', 'variantLabel')
-            .attr('fill', consequenceColor)
+            .attr('fill', readableLabelColor(consequenceColor))
             .attr('opacity', 0)
             .attr('height', ISOFORM_TITLE_HEIGHT)
             .attr("transform", "translate("+label_offset+","+label_height+")")
@@ -430,7 +430,7 @@ let apolloService = new ApolloService();
                 text_string = feature.name;
                 text_label = isoform.append('text')
                   .attr('class', 'geneLabel')
-                  .attr('fill', selected ? 'sandybrown' : 'black')
+                  .attr('fill', selected ? LABEL_SELECTED_COLOR : LABEL_COLOR)
                   .attr('height', ISOFORM_TITLE_HEIGHT)
                   .attr("transform", "translate(" + x(featureChild.fmin) + `,-${GENE_LABEL_HEIGHT})`)
                   .text(text_string)
@@ -472,8 +472,8 @@ let apolloService = new ApolloService();
               text_string = featureChild.name ;
               text_label = isoform.append('text')
                 .attr('class', 'transcriptLabel')
-                .attr('fill', selected ? 'sandybrown' : 'gray')
-                .attr('opacity', selected ? 1 : 0.5)
+                .attr('fill', selected ? LABEL_SELECTED_COLOR : LABEL_COLOR)
+                .attr('font-weight', selected ? 700 : 400)
                 .attr('height', ISOFORM_TITLE_HEIGHT)
                 .attr("transform", "translate(" + x(featureChild.fmin) + ",0)")
                 .text(text_string)
@@ -629,8 +629,7 @@ let apolloService = new ApolloService();
       track.append('text')
         .attr('x', 30)
         .attr('y', ISOFORM_TITLE_HEIGHT + 10)
-        .attr('fill', 'orange')
-        .attr('opacity', 0.6)
+        .attr('fill', LABEL_WARNING_COLOR)
         .text('Overview of non-coding genome features unavailable at this time.');
     }
     // we return the appropriate height function
@@ -699,10 +698,10 @@ let apolloService = new ApolloService();
     const isoformUrl = track["isoform_url"];
     let dataUrl = isoformUrl[0] + encodeURI(track["genome"]) + isoformUrl[1] + encodeURI(externalLocationString) + isoformUrl[2];
     if (track["mapKey"]) {
-      // console.log('in track mapkey')
+      console.log('in track mapkey')
       dataUrl += (dataUrl.includes('?') ? '&' : '?') + 'mapKey=' + track["mapKey"];
     }
-    // console.log('Transcript service URL:', dataUrl);
+    console.log('Transcript service URL:', dataUrl);
     this.trackData= await apolloService.fetchDataFromUrl(dataUrl);
     //crated a dummy trackdata to display variant in correct position
     if(!(this.trackData.length>0)){
@@ -719,7 +718,7 @@ let apolloService = new ApolloService();
         type:"gene"
       }]
     }
-    // console.log('Transcript service returned:', this.trackData);
+    console.log('Transcript service returned:', this.trackData);
   }
 
   /* Method for isoformTrack service call */

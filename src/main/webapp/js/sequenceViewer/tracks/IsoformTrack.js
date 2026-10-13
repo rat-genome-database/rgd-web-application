@@ -206,8 +206,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                             let label_offset = x(featureChild.fmin) > 0 ? x(featureChild.fmin) : 0;
                             let text_label = isoform.append('text')
                                 .attr('class', 'transcriptLabel')
-                                .attr('fill', selected ? 'sandybrown' : 'darkorange')
-                                .attr('opacity', selected ? 1 : 0.5)
+                                .attr('fill', selected ? LABEL_SELECTED_COLOR : LABEL_COLOR)
+                                .attr('font-weight', selected ? 700 : 400)
                                 .attr('height', isoform_title_height)
                                 .attr("transform", "translate(" + label_offset+ ",0)")
                                 .text(text_string)
@@ -370,8 +370,7 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
             track.append('text')
                 .attr('x', 30)
                 .attr('y', isoform_title_height + 10)
-                .attr('fill', 'orange')
-                .attr('opacity', 0.6)
+                .attr('fill', LABEL_WARNING_COLOR)
                 .text('Overview of non-coding genome features unavailable at this time.');
         }
         // we return the appropriate height function
