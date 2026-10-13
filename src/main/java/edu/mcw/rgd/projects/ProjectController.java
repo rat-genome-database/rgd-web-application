@@ -36,7 +36,7 @@ public class ProjectController implements Controller {
             }
         }
 
-        List<Project> proj = pdao.getAllProjects();
+        List<Project> proj = pdao.getActiveProjects();
         request.setAttribute("test", proj);
 
         return new ModelAndView("/WEB-INF/jsp/project/report.jsp");
