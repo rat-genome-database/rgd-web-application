@@ -485,6 +485,13 @@ function Gviewer(viewerId, height, width) {
                         annot.div.parentNode.appendChild(annot.div);
                     }
                 }
+
+                // Mirror the highlight in the zoom pane label so the
+                // selected object is readable there too (lowlight already
+                // undoes this).
+                if (this.zoomPaneActive() && this.isActiveChr(chrNumber)) {
+                    this.zoomPane.highlight(annot, color);
+                }
                 return;
             }
         }
