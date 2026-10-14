@@ -4,7 +4,6 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.apache.commons.text.StringEscapeUtils" %>
-<%@ page import="java.net.URLEncoder" %>
 <%--
   Created by IntelliJ IDEA.
   User: jthota
@@ -52,14 +51,19 @@
         <ul><%
             if(aggregations.get(qtl)!=null){
             for(EsBucket bkt:aggregations.get(qtl)){
+                String qtlTrait=bkt.getKey().toString();
                 String qtlFacet="";
-                if(bkt.getKey().toString().length()>50){
-                    qtlFacet+=bkt.getKey().toString().substring(0,50);
+                if(qtlTrait.length()>50){
+                    qtlFacet+=qtlTrait.substring(0,50);
                     qtlFacet+="...";
                 }else{
-                    qtlFacet=bkt.getKey().toString();}
+                    qtlFacet=qtlTrait;}
+                // filterClick() runs encodeURIComponent() on the trait, so hand it the raw
+                // value (JS- then HTML-escaped for the attribute) - URLEncoder here would
+                // double-encode it and the trait filter would match nothing.
+                String qtlTraitJs=StringEscapeUtils.escapeHtml4(StringEscapeUtils.escapeEcmaScript(qtlTrait));
         %>
-            <li onclick="filterClick('QTL', '<%=species%>','', '<%=URLEncoder.encode(bkt.getKey().toString(),"UTF-8")%>','trait')" title="<%=bkt.getKey()%>"><%=qtlFacet%> (<%=bkt.getDocCount()%>)</li>
+            <li onclick="filterClick('QTL', '<%=species%>','', '<%=qtlTraitJs%>','trait')" title="<%=StringEscapeUtils.escapeHtml4(qtlTrait)%>"><%=qtlFacet%> (<%=bkt.getDocCount()%>)</li>
             <%}}%>
         </ul>
     </li>
