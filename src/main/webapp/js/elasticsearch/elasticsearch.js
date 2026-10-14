@@ -138,7 +138,7 @@ function prevFunction(e, id) {
             $url = "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize + "&page=true&sortBy=" + sortBy+"&assembly="+$assembly+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
         }
         if($objectSearch == "true") {
-            $url =  "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize + "&page=true&sortBy=" + sortBy+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
+            $url =  "elasticResults.html?category=" + category + "&term=" + term + "&species=" + species + "&currentPage=" + currentPage + "&size=" + pageSize + "&page=true&sortBy=" + sortBy+"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + encodeURIComponent($objectAssembly)+"&match_type="+matchType;
         }
         $.get($url, function (data, status) {
             $content.html(data);
@@ -167,7 +167,7 @@ function nextFunction(e, id) {
 
             $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" +currentPage +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&assembly="+$assembly +"&"+$filterType+"="+$type +"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
        if($objectSearch == "true") {
-           $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" +currentPage +"&size=" +pageSize +"&page=true&sortBy=" +sortBy +"&"+$filterType+"="+$type +"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
+           $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" +currentPage +"&size=" +pageSize +"&page=true&sortBy=" +sortBy +"&"+$filterType+"="+$type +"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + encodeURIComponent($objectAssembly)+"&match_type="+matchType;
        }
 
         $.get($url, function (data, status) {
@@ -199,7 +199,7 @@ function sortFunction(e, value) {
    $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy+"&assembly="+$assembly +"&"+$filterType+"="+ $type+"&subCat="+$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr +"&match_type="+matchType;
 
     if($objectSearch == "true") {
-        $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy +"&"+$filterType+"="+ $type+"&subCat="+$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
+        $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy +"&"+$filterType+"="+ $type+"&subCat="+$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + encodeURIComponent($objectAssembly)+"&match_type="+matchType;
     }
     $.get($url, function (data, status) {
 
@@ -227,7 +227,7 @@ function pagesizeFunction(e, id){
     currentPage=$currentPage.text();
     $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy +"&assembly="+$assembly +"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
     if($objectSearch == "true") {
-        $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy  +"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
+        $url ="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy  +"&"+$filterType+"="+$type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + encodeURIComponent($objectAssembly)+"&match_type="+matchType;
     }
     $.get($url, function (data, status) {
         $content.html(data);
@@ -270,7 +270,7 @@ function submitFunction(e) {
         $content.html('<div style="margin-left:50%"><i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></div>');
         $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&assembly="+$assembly+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
         if($objectSearch == "true") {
-            $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + $objectAssembly+"&match_type="+matchType;
+            $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + encodeURIComponent($objectAssembly)+"&match_type="+matchType;
         }
         $.get($url, function (data, status) {
             $content.html(data);
@@ -349,9 +349,9 @@ function filterClick(category, species,subCat, type, filter, objectAssembly) {
     var term=encodeURIComponent($('#searchTerm').val());
 
    if($objectSearch == "true"){
-      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +objectAssembly+"&match_type="+matchType ;
+      $url = "elasticResults.html?term=" + term + "&species=" + species + "&category=" + category+"&page=true&subCat=" + subCat + "&" + filterType + "=" + $type + "&start=" + $start + "&stop=" + $stop + "&chr=" + $chr + "&objectSearch=" + $objectSearch + "&assembly=" +encodeURIComponent(objectAssembly)+"&match_type="+matchType ;
     } if($objectSearch != "true"){
-        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +objectAssembly+"&match_type="+matchType ;
+        $url="elasticResults.html?term="+ term+"&species="+species+"&category="+category+"&page=true&subCat=" +subCat+"&"+filterType+"="+$type+ "&start="+$start+"&stop="+$stop+"&chr="+$chr + "&assembly=" +encodeURIComponent(objectAssembly)+"&match_type="+matchType ;
     }
 
     $('.subcategories').css('display', 'block');
