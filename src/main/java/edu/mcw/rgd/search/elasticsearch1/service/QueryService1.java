@@ -263,9 +263,15 @@ public class QueryService1 {
 
         if (hasAssembly) {
             rb.must(termFilter("mapDataList.map", assembly));
-            if (sb.getChr() != null) {
-                rb.must(Query.of(q -> q.range(r -> r.untyped(u -> u.field("mapDataList.chromosome").lte(JsonData.of(sb.getStop()))))));
-            }
+        }
+        // Pin the chromosome to the same mapDataList entry as the position range, so a
+        // region search cannot match coordinates from another chromosome or assembly.
+        // chromosome is a keyword field: a range against the stop coordinate compares it
+        // byte-wise, so "X" > "156040895" and "9" > "138394717" and whole-chromosome
+        // searches for chr 3-9, 13-15, X and Y silently returned nothing.
+        String chr = sb.getChr();
+        if (isNotBlank(chr) && !"all".equalsIgnoreCase(chr)) {
+            rb.must(termFilter("mapDataList.chromosome", chr));
         }
 
         BoolQuery rangeQuery = rb.build();
