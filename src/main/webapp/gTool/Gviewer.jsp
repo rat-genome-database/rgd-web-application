@@ -22,7 +22,7 @@
     ***********************************************/
     </script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/util.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js?v=9"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer.js?v=10"></script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/gviewer-renderer.js?v=7"></script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/domain.js?v=7"></script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/contextMenu.js">
@@ -33,7 +33,7 @@
     ***********************************************/
     </script>
     <script type="text/javascript" src="/rgdweb/gviewer/script/event.js"></script>
-    <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js?v=2"></script>
+    <script type="text/javascript" src="/rgdweb/gviewer/script/ZoomPane.js?v=3"></script>
     <link rel="stylesheet" type="text/css" href="/rgdweb/gviewer/css/gviewer.css?v=7" />
 
 <script src="/rgdweb/js/sorttable.js?v=2"></script>
