@@ -280,8 +280,6 @@
             </div>
 
             <div class="detail<%=open ? " open" : ""%>" id="d-<%=id%>">
-                <h3>What to check</h3><p><%=h(i.getCheckText())%></p>
-                <h3>Every page</h3><p>Loads without an error or blank section; data matches production (allow for records added since the 2026-09-14 data load); links and downloads stay on this server; nothing takes more than 10 seconds.</p>
                 <% if (i.getCovers() != null) { %><h3>Also covers</h3><p class="path"><%=h(i.getCovers())%></p><% } %>
                 <h3>Notes</h3>
                 <% if (mine) { %>
