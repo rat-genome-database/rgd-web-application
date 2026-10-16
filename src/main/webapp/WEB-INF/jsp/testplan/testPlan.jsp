@@ -13,6 +13,7 @@
     String historyFor = (String) request.getAttribute("historyFor");
     List<String[]> history = (List<String[]>) request.getAttribute("history");
     String msg = request.getParameter("msg");
+    String openItem = request.getParameter("open");
     SimpleDateFormat df = new SimpleDateFormat("MMM d, yyyy h:mm a");
 
     // summary counts
@@ -74,6 +75,7 @@
     .tp .row .name a.toggle { font-weight:bold; color:var(--ink); text-decoration:none; cursor:pointer; }
     .tp .path { font-family:Menlo,Consolas,monospace; font-size:12px; color:var(--muted); overflow-wrap:anywhere; }
     .tp .links a { font-size:12px; margin-right:10px; }
+    .tp .note { font-size:13px; margin-top:4px; max-width:75ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .tp .tag { font-size:10px; text-transform:uppercase; letter-spacing:.04em; background:var(--soft); color:var(--muted); border-radius:4px; padding:1px 5px; margin-left:6px; }
     .tp select.status { border-radius:12px; padding:3px 8px; font-weight:bold; border:1px solid transparent; width:100%; }
     .tp .s-none { background:var(--none-bg); color:var(--none); } .tp .s-prog { background:var(--prog-bg); color:var(--prog); }
@@ -216,7 +218,7 @@
             if (!i.getArea().equals(area)) continue;
             String id = h(i.getItemId());
             boolean mine = login != null && login.equals(i.getAssignee());
-            boolean open = i.getItemId().equals(historyFor);
+            boolean open = i.getItemId().equals(historyFor) || i.getItemId().equals(openItem);
         %>
         <div class="row" id="<%=id%>" data-area="<%=h(area)%>" data-status="<%=h(i.getStatus())%>" data-signed="<%=i.getSignedBy() != null ? "y" : "n"%>"
              data-who="<%=h(i.getAssignee() == null ? "-" : i.getAssignee())%>" data-cur="<%=i.isCuration() ? "y" : "n"%>"
@@ -225,6 +227,7 @@
                 <a class="toggle" onclick="toggle('<%=id%>')"><%=h(i.getName())%></a><% if (i.isCuration()) { %><span class="tag">curation</span><% } %>
                 <div class="path"><%=h(i.getPath())%></div>
                 <div class="links"><a href="<%=h(i.getPath())%>" target="_blank">Test &#8599;</a><% if (!i.isNoCompare()) { %><a href="https://pipelines.rgd.mcw.edu<%=h(i.getPath())%>" target="_blank">Production &#8599;</a><% } %></div>
+                <% if (i.getNotes() != null) { %><div class="note"><b>Note:</b> <%=h(i.getNotes())%></div><div class="links"><a href="#<%=id%>" onclick="toggle('<%=id%>'); return false;">View note</a></div><% } %>
             </div>
 
             <div>

@@ -37,10 +37,14 @@ public class TestPlanController implements Controller {
             String itemId = request.getParameter("itemId");
             String message = (login == null) ? "Sign in with GitHub to make changes." : applyChange(request, login, itemId);
             String back = request.getContextPath() + "/curation/testPlan.html";
+            boolean validId = itemId != null && itemId.matches("[a-z0-9-]+");
             if (message != null) {
                 back += "?msg=" + URLEncoder.encode(message, StandardCharsets.UTF_8);
+            } else if (validId && trimToNull(request.getParameter("notes")) != null) {
+                // a status with a note, or saved notes: reopen the item so the note shows
+                back += "?open=" + itemId;
             }
-            if (itemId != null && itemId.matches("[a-z0-9-]+")) {
+            if (validId) {
                 back += "#" + itemId;
             }
             response.sendRedirect(back);
