@@ -340,12 +340,24 @@ public class OntAnnotation  {
         this.notes = notes==null ? "" : notes;
     }
 
-    public void setEnsemblData(MapDAO dao, DecimalFormat _numFormat) throws Exception{
+    /**
+     * @param ensemblAssemblies Ensembl primary assembly by species type key, shared by all the rows of a page,
+     *   so the assembly is looked up once per species instead of once per row (null: the species has none)
+     */
+    public void setEnsemblData(MapDAO dao, java.util.Map<Integer, edu.mcw.rgd.datamodel.Map> ensemblAssemblies, DecimalFormat _numFormat) throws Exception{
         edu.mcw.rgd.datamodel.Map refAssembly;
-        try {
-            refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey, "Ensembl");
+        if( ensemblAssemblies.containsKey(speciesTypeKey) ) {
+            refAssembly = ensemblAssemblies.get(speciesTypeKey);
+        } else {
+            try {
+                refAssembly = dao.getPrimaryRefAssembly(speciesTypeKey, "Ensembl");
+            }
+            catch (Exception e){
+                refAssembly = null;
+            }
+            ensemblAssemblies.put(speciesTypeKey, refAssembly);
         }
-        catch (Exception e){
+        if( refAssembly==null ) {
             chrEns = null;
             startPosEns = null;
             stopPosEns = null;

@@ -243,6 +243,7 @@ public class OntAnnotController implements Controller {
 
         AnnotationDAO dao = new AnnotationDAO();
         MapDAO mdao = new MapDAO();
+        java.util.Map<Integer, edu.mcw.rgd.datamodel.Map> ensemblAssemblies = new HashMap<>();
         List<Annotation> annots;
         if( bean.getSpeciesTypeKey()==SpeciesType.ALL ) {
             annots = dao.getAnnotationsGroupedByGene(accId, withChildren, 0, maxAnnotCount+1, bean.getObjectKey());
@@ -326,7 +327,7 @@ public class OntAnnotController implements Controller {
 
                 a.setSpeciesTypeKey(annot.getSpeciesTypeKey());
                 a.setNotes(annot.getNotes());
-                a.setEnsemblData(mdao,_numFormat);
+                a.setEnsemblData(mdao, ensemblAssemblies, _numFormat);
                 annotList.add(a);
             } else {
                 // merge data from multiple annotations (for the same term and object)
