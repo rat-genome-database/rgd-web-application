@@ -113,7 +113,7 @@
 
 <table  width="96%" border="0"><tr>
     <td id="searchResultSummary">
-<b><%=title%></b> search result for <i><b><%=SpeciesType.getTaxonomicName(search.getSpeciesType())%></b></i> <a style="font-size:12px;" href="/rgdweb/search/search.html?term=<%=termUrl%>"/><br>(View Results for all Objects and Ontologies)</a><br><br>
+<b><%=title%></b> search result for <i><b><%=SpeciesType.getTaxonomicName(search.getSpeciesType())%></b></i> <a style="font-size:12px;" href="/rgdweb/elasticResults.html?term=<%=termUrl%>"/><br>(View Results for all Objects and Ontologies)</a><br><br>
         <%=displayText%>
     </td>
     <td align="right">

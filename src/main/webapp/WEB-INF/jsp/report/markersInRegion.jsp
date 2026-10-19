@@ -35,13 +35,27 @@
     </div>
     <input class="search table-search" id='mark2AssociationSearch' type="search" data-column="all" placeholder="Search table">
 </div>
-<% String markerSearchUrl = "/rgdweb/search/markers.html?term=" + displayName + "%5B" + objectType
-            + "%5D&speciesType=" + obj.getSpeciesTypeKey(); %>
+<%  String markerSearchUrl = "/rgdweb/search/markers.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey();
+
+    // the html result page of the legacy "symbol[objectType]" search was replaced by
+    // elasticsearch, which takes a region as chr/start/stop. The export formats below still
+    // come from the legacy report, so they keep the legacy url.
+    String markerRegionUrl = markerSearchUrl;
+    if( md!=null && md.getChromosome()!=null ) {
+        markerRegionUrl = "/rgdweb/elasticResults.html?category=SSLP&term=&objectSearch=true"
+            + "&speciesType=" + obj.getSpeciesTypeKey()
+            + "&chr=" + md.getChromosome()
+            + "&start=" + md.getStartPos()
+            + "&stop=" + md.getStopPos()
+            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
+    }
+%>
     <%-- one sentence and five links to the same search, which used to be an eleven column
          table with a green bullet image between every pair of cells --%>
     <div class="rgdLinkRow">
         <span class="rgdLinkRowLead">The following <b>Markers</b> overlap with this region.</span>
-        <a class="rgdChipLink" href="<%=markerSearchUrl%>">Full report</a>
+        <a class="rgdChipLink" href="<%=markerRegionUrl%>">Full report</a>
         <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=2">CSV</a>
         <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=3">TAB</a>
         <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=4">Printer</a>
