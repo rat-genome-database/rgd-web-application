@@ -49,8 +49,10 @@
 
 <style>
     .tp { --ink:#1b2a33; --muted:#5d6f7a; --line:#d9e1e6; --soft:#eef3f6; --accent:#0f6e7c;
-          --pass:#2f7d4a; --pass-bg:#e3f2e8; --fail:#b3362b; --fail-bg:#fbe7e4; --block:#9a6a00; --block-bg:#fbf0d5;
-          --prog:#2d5fa8; --prog-bg:#e3ecf9; --none:#7a8a94; --none-bg:#edf1f3; --signed:#5b3fa0; --signed-bg:#ece6f8; --ret:#4b545b; --ret-bg:#dfe3e6;
+          --pass:#1e7a3e; --pass-bg:#cdeed8; --pass-line:#7cc896; --fail:#b42318; --fail-bg:#fdd9d4; --fail-line:#ee8f84;
+          --block:#8a5300; --block-bg:#fde5b8; --block-line:#e8b04f; --prog:#1d4fc4; --prog-bg:#d6e4ff; --prog-line:#86a8ef;
+          --none:#5f6f79; --none-bg:#f1f4f6; --none-line:#c9d3d9; --signed:#5b3fa0; --signed-bg:#ece6f8;
+          --ret:#ffffff; --ret-bg:#59636b; --ret-line:#59636b;
           color:var(--ink); font-size:14px; max-width:1200px; margin:0 auto; padding:8px 16px 40px; }
     .tp h1 { margin:0 0 4px; font-size:24px; }
     .tp .sub { color:var(--muted); margin:0 0 12px; }
@@ -77,11 +79,19 @@
     .tp .links a { font-size:12px; margin-right:10px; }
     .tp .note { font-size:13px; margin-top:4px; max-width:75ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .tp .tag { font-size:10px; text-transform:uppercase; letter-spacing:.04em; background:var(--soft); color:var(--muted); border-radius:4px; padding:1px 5px; margin-left:6px; }
-    .tp select.status { border-radius:12px; padding:3px 8px; font-weight:bold; border:1px solid transparent; width:100%; }
-    .tp .s-none { background:var(--none-bg); color:var(--none); } .tp .s-prog { background:var(--prog-bg); color:var(--prog); }
-    .tp .s-pass { background:var(--pass-bg); color:var(--pass); } .tp .s-fail { background:var(--fail-bg); color:var(--fail); }
-    .tp .s-block { background:var(--block-bg); color:var(--block); } .tp .s-ret { background:var(--ret-bg); color:var(--ret); }
-    .tp .pill { display:inline-block; border-radius:12px; padding:3px 10px; font-weight:bold; font-size:13px; }
+    .tp select.status { border-radius:12px; padding:3px 26px 3px 10px; font-weight:bold; border:1px solid transparent; width:100%;
+                        -webkit-appearance:none; appearance:none; cursor:pointer;
+                        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23555'/%3E%3C/svg%3E");
+                        background-repeat:no-repeat; background-position:right 10px center; }
+    .tp select.status.s-ret { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23fff'/%3E%3C/svg%3E"); }
+    .tp select.status option { background:#fff; color:var(--ink); }
+    .tp .s-none { background-color:var(--none-bg); color:var(--none); border-color:var(--none-line); }
+    .tp .s-prog { background-color:var(--prog-bg); color:var(--prog); border-color:var(--prog-line); }
+    .tp .s-pass { background-color:var(--pass-bg); color:var(--pass); border-color:var(--pass-line); }
+    .tp .s-fail { background-color:var(--fail-bg); color:var(--fail); border-color:var(--fail-line); }
+    .tp .s-block { background-color:var(--block-bg); color:var(--block); border-color:var(--block-line); }
+    .tp .s-ret { background-color:var(--ret-bg); color:var(--ret); border-color:var(--ret-line); }
+    .tp .pill { display:inline-block; border-radius:12px; padding:3px 10px; font-weight:bold; font-size:13px; border:1px solid transparent; }
     .tp .signed { background:var(--signed-bg); color:var(--signed); border-radius:6px; padding:4px 8px; font-size:13px; }
     .tp .signed small { display:block; color:var(--muted); }
     .tp button.btn { border:1px solid var(--line); background:#fff; border-radius:6px; padding:3px 10px; cursor:pointer; }
@@ -174,7 +184,7 @@
 
     <div class="summary">
         <div class="bar">
-            <% String[] colors = {"var(--none)", "var(--prog)", "var(--pass)", "var(--fail)", "var(--block)", "var(--ret)"};
+            <% String[] colors = {"var(--none)", "var(--prog)", "var(--pass)", "var(--fail)", "var(--block)", "var(--ret-bg)"};
                int ci = 0;
                for (Map.Entry<String, Integer> e : byStatus.entrySet()) {
                    if (e.getValue() > 0) { %><span style="width:<%=100.0 * e.getValue() / items.size()%>%;background:<%=colors[ci]%>" title="<%=e.getKey()%>: <%=e.getValue()%>"></span><% }
