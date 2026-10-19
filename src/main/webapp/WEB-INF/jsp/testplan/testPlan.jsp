@@ -35,7 +35,7 @@
     }
     Map<String, String> statusClass = new HashMap<>();
     statusClass.put("Not started", "none"); statusClass.put("In progress", "prog"); statusClass.put("Passed", "pass");
-    statusClass.put("Failed", "fail"); statusClass.put("Blocked", "block");
+    statusClass.put("Failed", "fail"); statusClass.put("Blocked", "block"); statusClass.put("Retired", "ret");
 %>
 <%!
     String h(String s) { return s == null ? "" : StringEscapeUtils.escapeHtml4(s); }
@@ -50,7 +50,7 @@
 <style>
     .tp { --ink:#1b2a33; --muted:#5d6f7a; --line:#d9e1e6; --soft:#eef3f6; --accent:#0f6e7c;
           --pass:#2f7d4a; --pass-bg:#e3f2e8; --fail:#b3362b; --fail-bg:#fbe7e4; --block:#9a6a00; --block-bg:#fbf0d5;
-          --prog:#2d5fa8; --prog-bg:#e3ecf9; --none:#7a8a94; --none-bg:#edf1f3; --signed:#5b3fa0; --signed-bg:#ece6f8;
+          --prog:#2d5fa8; --prog-bg:#e3ecf9; --none:#7a8a94; --none-bg:#edf1f3; --signed:#5b3fa0; --signed-bg:#ece6f8; --ret:#4b545b; --ret-bg:#dfe3e6;
           color:var(--ink); font-size:14px; max-width:1200px; margin:0 auto; padding:8px 16px 40px; }
     .tp h1 { margin:0 0 4px; font-size:24px; }
     .tp .sub { color:var(--muted); margin:0 0 12px; }
@@ -80,7 +80,7 @@
     .tp select.status { border-radius:12px; padding:3px 8px; font-weight:bold; border:1px solid transparent; width:100%; }
     .tp .s-none { background:var(--none-bg); color:var(--none); } .tp .s-prog { background:var(--prog-bg); color:var(--prog); }
     .tp .s-pass { background:var(--pass-bg); color:var(--pass); } .tp .s-fail { background:var(--fail-bg); color:var(--fail); }
-    .tp .s-block { background:var(--block-bg); color:var(--block); }
+    .tp .s-block { background:var(--block-bg); color:var(--block); } .tp .s-ret { background:var(--ret-bg); color:var(--ret); }
     .tp .pill { display:inline-block; border-radius:12px; padding:3px 10px; font-weight:bold; font-size:13px; }
     .tp .signed { background:var(--signed-bg); color:var(--signed); border-radius:6px; padding:4px 8px; font-size:13px; }
     .tp .signed small { display:block; color:var(--muted); }
@@ -160,10 +160,11 @@
             <tr><td>Performance</td><td>Correct but much slower than production</td><td>Report takes 40 seconds</td><td>Yes, if over 10 seconds</td></tr>
         </table>
         <p>Use Blocked when an item can't be tested yet, for example newdev is down or the page needs a login you don't have, and note what is blocking it.</p>
+        <p>Use Retired when the page or tool has been retired and won't move to PostgreSQL. A Retired item isn't tested and doesn't need a sign-off.</p>
 
         <h3>Done when</h3>
         <ul>
-            <li>All <%=items.size()%> items are Passed and signed off by their tester.</li>
+            <li>Every item that isn't Retired is Passed and signed off by its tester.</li>
             <li>No Critical, Major or Performance problems remain open. Minor problems are listed for after the switch.</li>
             <li>Items that failed were retested on the final build, not only on the build where they were fixed.</li>
             <li>newdev's REST API (rgdws) runs the migrated rgdcore jar.</li>
@@ -173,7 +174,7 @@
 
     <div class="summary">
         <div class="bar">
-            <% String[] colors = {"var(--none)", "var(--prog)", "var(--pass)", "var(--fail)", "var(--block)"};
+            <% String[] colors = {"var(--none)", "var(--prog)", "var(--pass)", "var(--fail)", "var(--block)", "var(--ret)"};
                int ci = 0;
                for (Map.Entry<String, Integer> e : byStatus.entrySet()) {
                    if (e.getValue() > 0) { %><span style="width:<%=100.0 * e.getValue() / items.size()%>%;background:<%=colors[ci]%>" title="<%=e.getKey()%>: <%=e.getValue()%>"></span><% }
@@ -275,7 +276,7 @@
                     <button class="btn primary" type="submit">Sign off</button>
                 </form>
                 <% } else { %>
-                <span class="muted"><%="Passed".equals(i.getStatus()) ? "Waiting for the tester" : "Pass first, then sign off"%></span>
+                <span class="muted"><%="Retired".equals(i.getStatus()) ? "Retired, no sign-off needed" : "Passed".equals(i.getStatus()) ? "Waiting for the tester" : "Pass first, then sign off"%></span>
                 <% } %>
             </div>
 
