@@ -94,8 +94,8 @@ public class TestPlanController implements Controller {
                 }
                 String status = request.getParameter("status");
                 String notes = trimToNull(request.getParameter("notes"));
-                if (("Failed".equals(status) || "Blocked".equals(status)) && notes == null && item.getNotes() == null) {
-                    return status + " needs a note: the URL, the ID you used, and what went wrong.";
+                if (("Slow".equals(status) || "Failed".equals(status) || "Blocked".equals(status)) && notes == null && item.getNotes() == null) {
+                    return status + " needs a note: the URL, the ID you used, and what went wrong or how long the page took.";
                 }
                 dao.setStatus(itemId, status, notes, login);
                 return null;

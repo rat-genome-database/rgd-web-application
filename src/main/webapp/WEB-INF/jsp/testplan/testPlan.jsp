@@ -34,7 +34,7 @@
         if (!areas.contains(i.getArea())) areas.add(i.getArea());
     }
     Map<String, String> statusClass = new HashMap<>();
-    statusClass.put("Not started", "none"); statusClass.put("In progress", "prog"); statusClass.put("Passed", "pass");
+    statusClass.put("Not started", "none"); statusClass.put("In progress", "prog"); statusClass.put("Passed", "pass"); statusClass.put("Slow", "slow");
     statusClass.put("Failed", "fail"); statusClass.put("Blocked", "block"); statusClass.put("Retired", "ret");
 %>
 <%!
@@ -52,7 +52,7 @@
           --pass:#1e7a3e; --pass-bg:#cdeed8; --pass-line:#7cc896; --fail:#b42318; --fail-bg:#fdd9d4; --fail-line:#ee8f84;
           --block:#8a5300; --block-bg:#fde5b8; --block-line:#e8b04f; --prog:#1d4fc4; --prog-bg:#d6e4ff; --prog-line:#86a8ef;
           --none:#5f6f79; --none-bg:#f1f4f6; --none-line:#c9d3d9; --signed:#5b3fa0; --signed-bg:#ece6f8;
-          --ret:#ffffff; --ret-bg:#59636b; --ret-line:#59636b;
+          --slow:#9d1a8f; --slow-bg:#f7d6f3; --slow-line:#e08ad6; --ret:#ffffff; --ret-bg:#59636b; --ret-line:#59636b;
           color:var(--ink); font-size:14px; max-width:1200px; margin:0 auto; padding:8px 16px 40px; }
     .tp h1 { margin:0 0 4px; font-size:24px; }
     .tp .sub { color:var(--muted); margin:0 0 12px; }
@@ -88,6 +88,7 @@
     .tp .s-none { background-color:var(--none-bg); color:var(--none); border-color:var(--none-line); }
     .tp .s-prog { background-color:var(--prog-bg); color:var(--prog); border-color:var(--prog-line); }
     .tp .s-pass { background-color:var(--pass-bg); color:var(--pass); border-color:var(--pass-line); }
+    .tp .s-slow { background-color:var(--slow-bg); color:var(--slow); border-color:var(--slow-line); }
     .tp .s-fail { background-color:var(--fail-bg); color:var(--fail); border-color:var(--fail-line); }
     .tp .s-block { background-color:var(--block-bg); color:var(--block); border-color:var(--block-line); }
     .tp .s-ret { background-color:var(--ret-bg); color:var(--ret); border-color:var(--ret-line); }
@@ -143,7 +144,7 @@
         <ol>
             <li><b>Assign.</b> Signed-in curators assign items to testers with the assignee list, or take an unassigned item with <i>Take this one</i>.</li>
             <li><b>Test.</b> The tester sets the item to In progress, opens the Test link beside the Production link, and works through the item's checks (click the item's name to see them).</li>
-            <li><b>Record the result.</b> Passed if everything matches. Failed or Blocked needs a note: the URL, the ID used, and what was wrong.</li>
+            <li><b>Record the result.</b> Passed if everything matches. Slow if the page works but is much slower than production. Slow, Failed or Blocked needs a note: the URL, the ID used, and what was wrong or how long the page took.</li>
             <li><b>Fix and retest.</b> A developer fixes the failure and redeploys newdev, and the tester runs the item again from step 2.</li>
             <li><b>Sign off.</b> Once an item has Passed, its tester presses <i>Sign off</i>. The page records who signed and when. Changing the result away from Passed removes the sign-off. Every change is kept in the item's history.</li>
         </ol>
@@ -155,13 +156,13 @@
             <li><b>Order and formatting.</b> Tables sort the same way; dates, numbers and text look right, with no <code>null</code> and no missing times on dates.</li>
             <li><b>Stays on newdev.</b> Links, redirects, searches and API calls stay on newdev.rgd.mcw.edu and never jump to dev.rgd.mcw.edu or production. Watch the address bar.</li>
             <li><b>Downloads work.</b> Every download gives a file that opens, with the same rows as production.</li>
-            <li><b>Speed.</b> The page is usable within 10 seconds. Note anything slower than production, even when the item passes.</li>
+            <li><b>Speed.</b> The page is usable within 10 seconds. Set the item to Slow when it takes longer than that or is much slower than production, and note both times.</li>
             <li><b>Forms and tools.</b> Inputs accept valid values and reject invalid ones with a message, and results match production for the same input.</li>
         </ul>
         <p>Use the example IDs in each item first, then try at least one ID of your own: a rat, a human and a mouse gene where the page supports species.</p>
 
         <h3>Reporting a problem</h3>
-        <p>Set the item to Failed or Blocked, put the details in its notes, and tell the developers in #postgres-migration. A good note has the full newdev URL, the ID or input used, what newdev showed, what production showed, and the console error if there is one.</p>
+        <p>Set the item to Slow, Failed or Blocked, put the details in its notes, and tell the developers in #postgres-migration. A good note has the full newdev URL, the ID or input used, what newdev showed, what production showed, and the console error if there is one.</p>
         <table class="sev">
             <tr><th>Severity</th><th>Meaning</th><th>Example</th><th>Blocks the switch?</th></tr>
             <tr><td>Critical</td><td>Page or tool fails, or shows wrong data</td><td>500 error, wrong gene on a report, annotation counts differ</td><td>Yes</td></tr>
@@ -184,7 +185,7 @@
 
     <div class="summary">
         <div class="bar">
-            <% String[] colors = {"var(--none)", "var(--prog)", "var(--pass)", "var(--fail)", "var(--block)", "var(--ret-bg)"};
+            <% String[] colors = {"var(--none)", "var(--prog)", "var(--pass)", "var(--slow)", "var(--fail)", "var(--block)", "var(--ret-bg)"};
                int ci = 0;
                for (Map.Entry<String, Integer> e : byStatus.entrySet()) {
                    if (e.getValue() > 0) { %><span style="width:<%=100.0 * e.getValue() / items.size()%>%;background:<%=colors[ci]%>" title="<%=e.getKey()%>: <%=e.getValue()%>"></span><% }
@@ -328,12 +329,14 @@
         });
     })();
 
-    // Failed or Blocked needs a note; ask for it and send it with the status
+    // Slow, Failed or Blocked needs a note; ask for it and send it with the status
     function needsNote(form) {
         var s = form.status.value;
-        if (s !== 'Failed' && s !== 'Blocked') return true;
+        if (s !== 'Slow' && s !== 'Failed' && s !== 'Blocked') return true;
         var existing = document.getElementById('n-' + form.itemId.value);
-        var note = window.prompt(s + ': what went wrong? Include the URL and the ID you used.', existing ? existing.value : '');
+        var question = s === 'Slow' ? 'Slow: how long did the page take, and how long on production? Include the URL and the ID you used.'
+                                 : s + ': what went wrong? Include the URL and the ID you used.';
+        var note = window.prompt(question, existing ? existing.value : '');
         if (note === null || note.trim() === '') { location.reload(); return false; }
         form.notes.value = note;
         return true;
