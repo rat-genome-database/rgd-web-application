@@ -592,7 +592,7 @@ public class AnnotationFormatter {
                     Speciated withObj = lookupRgdObject(withRgdId);
 
                     if( withObj==null ) {
-                        uri = "/rgdweb/search/search.html?term="+withRgdId;
+                        uri = "/rgdweb/elasticResults.html?term="+withRgdId;
                     }else if (withObj instanceof Gene) {
                         Gene g = (Gene) withObj;
                         symbol = g.getSymbol();

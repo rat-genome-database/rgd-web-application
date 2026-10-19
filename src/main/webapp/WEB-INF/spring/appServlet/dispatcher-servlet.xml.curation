@@ -143,7 +143,6 @@
                 <prop key="pathway/chart.html">pathwayDiagramController</prop>
                 <prop key="pathway/pathwayRecord.html">PathwayNewRecordController</prop>
 
-                <prop key="search/search.html">searchController</prop>
                 <prop key="search/searchByPosition.html">searchByPosController</prop>
                 <prop key="search/variantCount.html">variantCountController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
@@ -460,7 +459,6 @@
     <bean id="pathwayNodeVisitor" class="edu.mcw.rgd.pathway.PathwayNodeVisitor" parent="wwwDir"/>
     <bean id="diagramGenerator" class="edu.mcw.rgd.pathway.DiagramGenerator" parent="wwwDir"/>
 
-    <bean id="searchController" class="edu.mcw.rgd.search.SearchController"/>
     <bean id="geneSearchController" class="edu.mcw.rgd.search.GeneSearchController"/>
     <bean id="qtlSearchController" class="edu.mcw.rgd.search.QTLSearchController"/>
     <bean id="strainSearchController" class="edu.mcw.rgd.search.StrainSearchController"/>
