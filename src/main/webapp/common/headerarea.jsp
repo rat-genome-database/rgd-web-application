@@ -173,7 +173,7 @@
                         <tr>
                             <td align="left" style="color:white;" rowspan="3" width="10">
 
-                                <div><a class="homeLink" href="/wg/home"><img style="border:3px solid rgba(255,255,255,0.2); border-radius:4px;" src="/rgdweb/common/images/rgd_logo.jpg" alt="Rat Genome Database"></a></div>
+                                <div><a class="homeLink" href="/rgdweb/homepage/"><img style="border:3px solid rgba(255,255,255,0.2); border-radius:4px;" src="/rgdweb/common/images/rgd_logo.jpg" alt="Rat Genome Database"></a></div>
 
                             </td>
 
