@@ -31,6 +31,11 @@ public class StrainSearchController extends RGDSearchController {
         return ReportFactory.getInstance().getStrainReport(search);
     }
 
+    @Override
+    public String getElasticCategory() {
+        return "Strain";
+    }
+
     /**
      * Returns a string representaion of the view url.  The string returned must be the path to a file
      * on the file system.  The defualt return is strains.jsp

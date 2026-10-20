@@ -169,8 +169,8 @@
 
           <tr>
 	    <td class="searchKeywordLabel">Keyword</td>
-            <td class="atitle" align="right"> <form method="post" action='/rgdweb/search/search.html' onSubmit="return verify(this);">
-                <input type="hidden" name="type" value="nav" />                <input type=text name=term size=12 value="" onFocus="JavaScript:document.forms[0].term.value=''" class="searchKeywordSmall">
+            <td class="atitle" align="right"> <form method="post" action='/rgdweb/elasticResults.html' onSubmit="return verify(this);">
+                <input type="hidden" name="category" value="General" />                <input type=text name=term size=12 value="" onFocus="JavaScript:document.forms[0].term.value=''" class="searchKeywordSmall">
             </form>
               </td>
             <td>

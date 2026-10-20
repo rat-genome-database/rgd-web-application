@@ -9,6 +9,22 @@
 
 <% String markAssotitle = "Markers in Region (" + refMap.getName() + ")";            %>
 
+<%
+    // the legacy "symbol[objectType]" result page was replaced by elasticsearch, which takes a
+    // region as chr/start/stop. The export links below still come from the legacy report.
+    String markerSearchUrl = "/rgdweb/search/markers.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey();
+    String markerRegionUrl = markerSearchUrl;
+    if( md!=null && md.getChromosome()!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
+        markerRegionUrl = "/rgdweb/elasticResults.html?category=SSLP&term=&objectSearch=true"
+            + "&speciesType=" + obj.getSpeciesTypeKey()
+            + "&chr=" + md.getChromosome()
+            + "&start=" + md.getStartPos()
+            + "&stop=" + md.getStopPos()
+            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
+    }
+%>
+
 <%--<%=ui.dynOpen("mark2Asscociation", markAssotitle)%>    <br>--%>
 <div id="mark2AssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="mark2Asscociation">Markers in Region</div>
@@ -38,11 +54,11 @@
 <table>
     <tr>
         <td>The following <b>Markers</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>">Full Report</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=2">CSV</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=3">TAB</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=4">Printer</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/markers.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=5">Gviewer</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=markerRegionUrl%>">Full Report</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=markerSearchUrl%>&fmt=2">CSV</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=markerSearchUrl%>&fmt=3">TAB</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=markerSearchUrl%>&fmt=4">Printer</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=markerSearchUrl%>&fmt=5">Gviewer</a></span></td>
     </tr>
 </table>
 
