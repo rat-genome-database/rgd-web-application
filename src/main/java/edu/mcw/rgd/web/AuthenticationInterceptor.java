@@ -93,6 +93,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");
             conn.setRequestProperty("Authorization", "Token " + token);
 
+            // GitHub answers 401 for an expired or revoked token: treat it as signed out, so the curator signs in again
+            if (conn.getResponseCode() != 200) {
+                return false;
+            }
+
             try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                 String line = in.readLine();
                 JSONObject json = new JSONObject(line);
