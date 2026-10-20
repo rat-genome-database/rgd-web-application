@@ -27,6 +27,11 @@ public class VariantSearchController extends RGDSearchController {
         return ReportFactory.getInstance().getVariantReport(search);
     }
 
+    @Override
+    public String getElasticCategory() {
+        return "Variant";
+    }
+
     /**
      * Returns a string representation of the view url.  The string returned must be the path to a file
      * on the file system.

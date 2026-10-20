@@ -17,6 +17,22 @@
 
 %>
 
+<%
+    // the legacy "symbol[objectType]" result page was replaced by elasticsearch, which takes a
+    // region as chr/start/stop. The export links below still come from the legacy report.
+    String qtlSearchUrl = "/rgdweb/search/qtls.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey();
+    String qtlRegionUrl = qtlSearchUrl;
+    if( md!=null && md.getChromosome()!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
+        qtlRegionUrl = "/rgdweb/elasticResults.html?category=QTL&term=&objectSearch=true"
+            + "&speciesType=" + obj.getSpeciesTypeKey()
+            + "&chr=" + md.getChromosome()
+            + "&start=" + md.getStartPos()
+            + "&stop=" + md.getStopPos()
+            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
+    }
+%>
+
 <br>
 
 <div id="qtlAssociationTableDiv" class="light-table-border">
@@ -49,12 +65,12 @@
     <tbody>
     <tr>
         <td>The following <b>QTLs</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>">Full Report</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlRegionUrl%>">Full Report</a></span></td>
 
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=2">CSV</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=3">TAB</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=4">Printer</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/qtls.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=5">Gviewer</a></span></td>
+<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlSearchUrl%>&fmt=2">CSV</a></span></td>
+<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlSearchUrl%>&fmt=3">TAB</a></span></td>
+<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlSearchUrl%>&fmt=4">Printer</a></span></td>
+<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlSearchUrl%>&fmt=5">Gviewer</a></span></td>
 </tr>
     </tbody>
 </table>

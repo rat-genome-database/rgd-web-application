@@ -16,6 +16,22 @@
 
 %>
 
+<%
+    // the legacy "symbol[objectType]" result page was replaced by elasticsearch, which takes a
+    // region as chr/start/stop. The export links below still come from the legacy report.
+    String geneSearchUrl = "/rgdweb/search/genes.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey();
+    String geneRegionUrl = geneSearchUrl;
+    if( md!=null && md.getChromosome()!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
+        geneRegionUrl = "/rgdweb/elasticResults.html?category=Gene&term=&objectSearch=true"
+            + "&speciesType=" + obj.getSpeciesTypeKey()
+            + "&chr=" + md.getChromosome()
+            + "&start=" + md.getStartPos()
+            + "&stop=" + md.getStopPos()
+            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
+    }
+%>
+
 <%--<%=ui.dynOpen("geneAsscociation", geneAssotitle)%>    <br>--%>
 <div id="geneAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="geneAssociation">Genes in Region</div>
@@ -46,10 +62,10 @@
 <table>
     <tr>
         <td>The following <b>Genes</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>">Full Report</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=2">CSV</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=3">TAB</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/search/genes.html?term=<%=displayName%>%5B<%=objectType%>%5D&speciesType=<%=obj.getSpeciesTypeKey()%>&fmt=4">Printer</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=geneRegionUrl%>">Full Report</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=geneSearchUrl%>&fmt=2">CSV</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=geneSearchUrl%>&fmt=3">TAB</a></span></td>
+        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=geneSearchUrl%>&fmt=4">Printer</a></span></td>
         <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 1px solid black;" border="0" ng-click="rgd.showTools('geneList',3,360)"/></td>
         <td><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>)">Analysis Tools</a></td>
     </tr>

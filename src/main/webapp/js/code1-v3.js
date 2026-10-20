@@ -329,7 +329,7 @@ $(function() {
         var geneSymbolCount= n.data('geneSymbolCount');
         var gUrl;
        if(geneSymbolCount>1) {
-           gUrl = "/rgdweb/search/genes.html?term=" + g + "&speciesType=" + speciesTypeKey;
+           gUrl = "/rgdweb/elasticResults.html?category=Gene&objectSearch=true&term=" + g + "&speciesType=" + speciesTypeKey;
 
        }else {
            gUrl=n.data('href0');

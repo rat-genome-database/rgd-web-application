@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.mvc.Controller;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +31,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ElasticSearchController extends RGDSearchController {
+public class ElasticSearchController implements Controller {
 
     private static final Logger logger = Logger.getLogger(ElasticSearchController.class.getName());
 
@@ -63,17 +64,17 @@ public class ElasticSearchController extends RGDSearchController {
         }
     }
 
-    @Override
+  //  @Override
     public Report getReport(edu.mcw.rgd.process.search.SearchBean search, HttpRequestFacade req) throws Exception {
         return null;
     }
 
-    @Override
+ //   @Override
     public String getViewUrl() throws Exception {
         return null;
     }
 
-    @Override
+ //   @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
 

@@ -264,7 +264,7 @@ public class DaoUtils {
             Speciated withObj = (Speciated) managementDAO.getObject(withRgdId);
 
             if( withObj==null ) {
-                link = "/rgdweb/search/search.html?term="+withRgdId;
+                link = "/rgdweb/elasticResults.html?term="+withRgdId;
             }else if (withObj instanceof Gene) {
                 Gene g = (Gene) withObj;
                 symbol = g.getSymbol();
