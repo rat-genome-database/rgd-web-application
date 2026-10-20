@@ -28,6 +28,11 @@ public class GenomicElementSearchController extends RGDSearchController {
         return ReportFactory.getInstance().getGenomicElementReport(search);
     }
 
+    @Override
+    public String getElasticCategory() {
+        return "Promoter";
+    }
+
     /**
      * Returns a string representaion of the view url.  The string returned must be the path to a file
      * on the file system.  The defualt return is genes.jsp

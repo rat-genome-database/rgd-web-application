@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import edu.mcw.rgd.web.HttpRequestFacade;
@@ -30,6 +32,90 @@ public abstract class RGDSearchController implements Controller {
     public abstract Report getReport(SearchBean search, HttpRequestFacade req) throws Exception;
 
     public abstract String getViewUrl() throws Exception;
+
+    /**
+     * Category this legacy search maps to in the elasticsearch index, used to forward old
+     * urls (and old bookmarks) to the new search. Returning null keeps the legacy page,
+     * which is what the cell line directory needs - it is a listing, not a search.
+     * @return elasticsearch category, or null to keep rendering the legacy page
+     */
+    public String getElasticCategory() {
+        return null;
+    }
+
+    // fmt values the legacy search still serves: 2=csv, 3=tab, 4=printer, 5+6=gviewer
+    private boolean isLegacyExportFormat(int fmt) {
+        return fmt>=2 && fmt<=6;
+    }
+
+    /**
+     * Translates the parameters of a legacy search into an url for the elasticsearch search.
+     * Old and new search happen to agree on most parameter names (term, speciesType, chr,
+     * start, stop), so only the category, the assembly and the legacy "[objectType]" term
+     * suffix need translating.
+     */
+    protected String buildElasticSearchUrl(SearchBean search) {
+
+        String category = getElasticCategory();
+
+        StringBuilder url = new StringBuilder("/rgdweb/elasticResults.html?category=");
+        url.append(encode(category));
+        url.append("&term=").append(encode(stripObjectTypeSuffix(search.getTerm())));
+
+        // the object searches came from the advanced search forms, which mark themselves as
+        // object searches so the new search drops the "view all categories" sidebar
+        if( !"general".equalsIgnoreCase(category) ) {
+            url.append("&objectSearch=true");
+        }
+
+        if( search.getSpeciesType()>0 ) {
+            url.append("&speciesType=").append(search.getSpeciesType());
+        }
+        if( !Utils.isStringEmpty(search.getChr()) ) {
+            url.append("&chr=").append(encode(search.getChr()));
+        }
+        if( search.getStart()>0 && search.getStop()>0 ) {
+            url.append("&start=").append(search.getStart());
+            url.append("&stop=").append(search.getStop());
+
+            // positions are only meaningful against the assembly they were searched on; the new
+            // search identifies an assembly by description, the legacy one by map key
+            String assembly = getAssemblyDescription(search.getMap());
+            if( assembly!=null ) {
+                url.append("&assembly=").append(encode(assembly));
+            }
+        }
+        return url.toString();
+    }
+
+    private String getAssemblyDescription(int mapKey) {
+        if( mapKey<=0 ) {
+            return null;
+        }
+        try {
+            edu.mcw.rgd.datamodel.Map map = MapManager.getInstance().getMap(mapKey);
+            return map==null ? null : map.getDescription();
+        } catch(Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * The legacy search read a term like "Mcs1[qtl]" as "everything overlapping the region of
+     * the qtl Mcs1". The new search expresses a region as chr/start/stop instead, so the suffix
+     * is dropped here - a caller that has the coordinates should pass them explicitly.
+     */
+    private String stripObjectTypeSuffix(String term) {
+        if( term==null ) {
+            return "";
+        }
+        int bracket = term.indexOf('[');
+        return bracket<0 ? term : term.substring(0, bracket).trim();
+    }
+
+    private String encode(String value) {
+        return URLEncoder.encode(value==null ? "" : value, StandardCharsets.UTF_8);
+    }
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -74,6 +160,14 @@ public abstract class RGDSearchController implements Controller {
             }
         }
 
+        // the html result pages of the legacy search were replaced by elasticsearch, so send the
+        // request on to the new search rather than render a report page that no longer exists.
+        // the export formats (csv, tab, printer, gviewer) are still produced from the legacy
+        // report below - the new search downloads those through its own controller.
+        if( getElasticCategory()!=null && !isLegacyExportFormat(search.getFmt()) ) {
+            response.sendRedirect(buildElasticSearchUrl(search));
+            return null;
+        }
 
         Report report = this.getReport(search, req);
 

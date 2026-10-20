@@ -51,7 +51,7 @@
   <table border="0"><tr><td><img src="/common/images/SearchByKeyword_icon.gif" /></td>
   <td>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
-          <form method="post" action="/rgdweb/search/search.html" onsubmit="return verify(this);" name="search2">
+          <form method="post" action="/rgdweb/elasticResults.html" onsubmit="return verify(this);" name="search2">
             <tbody>
             <tr>
   <td><div class="searchHeader">Search RGD By Keyword</div></td></tr>

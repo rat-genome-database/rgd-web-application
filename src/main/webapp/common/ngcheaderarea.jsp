@@ -92,8 +92,8 @@
 
 <div class="searchBorder">
 <table border=0 cellpadding=0 cellspacing=0 >
-<form method="post" action='/rgdweb/search/search.html' onSubmit="return verify(this);">
-<input type="hidden" name="type" value="nav" />
+<form method="post" action='/rgdweb/elasticResults.html' onSubmit="return verify(this);">
+<input type="hidden" name="category" value="General" />
 <tr>
      <td class="searchKeywordLabel">Keyword</td>
 <td class="atitle" align="right"> <input type=text name=term size=12 value="" onFocus="JavaScript:document.forms[0].term.value=''" class="searchKeywordSmall">

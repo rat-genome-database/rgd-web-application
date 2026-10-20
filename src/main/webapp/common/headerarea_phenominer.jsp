@@ -104,8 +104,8 @@
 
       <div class="searchBorder">
       <table border=0 cellpadding=0 cellspacing=0 >
-        <form method="post" action='/rgdweb/search/search.html' onSubmit="return verify(this);">
-          <input type="hidden" name="type" value="nav" />
+        <form method="post" action='/rgdweb/elasticResults.html' onSubmit="return verify(this);">
+          <input type="hidden" name="category" value="General" />
           <tr>
 	    <td class="searchKeywordLabel">Keyword</td>
 
