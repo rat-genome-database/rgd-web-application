@@ -467,28 +467,14 @@ To change this template use File | Settings | File Templates.
     <h3>References</h3>
     <ul>
         <%
-            // Reference data - different RGD IDs for dev vs pipelines/prod
-            String[][] hrdpRefs;
-            if (RgdContext.isDev() || request.getServerName().contains("localhost")) {
-                hrdpRefs = new String[][] {
-                    {"39907792", "640030560"},
-                    {"36186443", "401959584"},
-                    {"31228159", "640030561"}
-                };
-            } else {
-                hrdpRefs = new String[][] {
-                    {"39907792", "632517862"},
-                    {"36186443", "401959584"},
-                    {"31228159", "632517863"}
-                };
-            }
+            // HRDP papers by PubMed ID; the reference RGD ID differs between databases, so it is looked up
+            String[] hrdpPmIds = {"39907792", "36186443", "31228159"};
             ReferenceDAO refDAO = new ReferenceDAO();
-            for (String[] refData : hrdpRefs) {
-                String pmId = refData[0];
-                String rgdId = refData[1];
+            for (String pmId : hrdpPmIds) {
                 try {
-                    Reference ref = refDAO.getReferenceByRgdId(Integer.parseInt(rgdId));
+                    Reference ref = refDAO.getReferenceByPubmedId(pmId);
                     if (ref != null) {
+                        int rgdId = ref.getRgdId();
         %>
         <li>
             <b><%=ref.getTitle()%></b><br>
