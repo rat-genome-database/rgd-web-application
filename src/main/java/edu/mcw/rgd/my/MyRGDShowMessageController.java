@@ -28,12 +28,13 @@ public class MyRGDShowMessageController implements Controller {
         List statusList = new ArrayList();
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        String user = UserManager.getInstance().getMyUser(request).getUsername();
-
-
-        if (user.equals("anonymousUser")) {
-            return new ModelAndView("/WEB-INF/jsp/my/login.jsp");
+        // signed out: go to the home page, where the header has the Google sign-in
+        MyUser myUser = UserManager.getInstance().getMyUser(request);
+        if (myUser == null || "anonymousUser".equals(myUser.getUsername())) {
+            response.sendRedirect(request.getContextPath() + "/homepage/");
+            return null;
         }
+        String user = myUser.getUsername();
 
         Integer mid = Integer.parseInt(req.getParameter("mid"));
 

@@ -1,11 +1,6 @@
 package edu.mcw.rgd.my;
 
 import com.sun.mail.smtp.SMTPTransport;
-import edu.mcw.rgd.dao.impl.MyDAO;
-import edu.mcw.rgd.datamodel.myrgd.MyUser;
-import edu.mcw.rgd.web.HttpRequestFacade;
-import edu.mcw.rgd.web.VerifyRecaptcha;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -40,66 +35,15 @@ import jakarta.mail.internet.MimeMessage;
  */
 public class MyRGDLookupController implements Controller {
 
-    protected HttpServletRequest request = null;
-    protected HttpServletResponse response = null;
-
+    /**
+     * Password recovery was for the retired email/password accounts; sign-in is the Google button in the
+     * page header, so the old URL goes to the home page. send() is still used by the contact and submission forms.
+     */
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List errorList = new ArrayList();
-        List statusList = new ArrayList();
-        HttpRequestFacade req = new HttpRequestFacade(request);
-
-        try {
-
-            if (req.getParameter("submit").equals("Reset Password")) {
-
-                String capcha = req.getParameter("g-recaptcha-response");
-                if (!VerifyRecaptcha.verify(capcha)) {
-                   throw new Exception("ReCaptcha Validation Failed.  Please Try Again.");
-                }
-
-                String emailAddress = req.getParameter("j_username");
-
-                MyDAO mdao = new MyDAO();
-
-                MyUser mu = mdao.getMyUser(emailAddress);
-
-                String newPw = UUID.randomUUID().toString().replaceAll("-", "").substring(0,10);
-
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-                String encoded = passwordEncoder.encode(newPw);
-
-                mdao.updatePassword(mu.getUsername(),encoded);
-
-                String msg = "Your Password has been reset.\n\nNew Password: " + newPw + "\n\n";
-
-                //this.send("jdepons", "wyominG1y", emailAddress, "", "test message", "this is a test");
-                this.send(emailAddress, "Password Reset Request", msg );
-
-                statusList.add("Password has been reset. A new password has been sent to " + mu.getUsername());
-
-            }
-
-
-
-        } catch(Exception e) {
-            errorList.add(e.getMessage());
-
-        }
-
-        request.setAttribute("error",errorList);
-        request.setAttribute("status",statusList);
-
-        if (statusList.size() > 0) {
-            return new ModelAndView("/WEB-INF/jsp/my/login.jsp");
-
-        }else {
-            return new ModelAndView("/WEB-INF/jsp/my/lookup.jsp");
-
-        }
-
-
+        response.sendRedirect(request.getContextPath() + "/homepage/");
+        return null;
     }
+
     /**
      * Send email using GMail SMTP server.
      *
