@@ -26,13 +26,25 @@ import edu.mcw.rgd.web.RgdContext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class VVService {
-    private static String variantIndex;
+
+    // One page of the scroll. Kept at the ES default ceiling for index.max_result_window.
+    private static final int SCROLL_PAGE_SIZE = 10000;
+
+    // Hard ceiling on how many hits a single request will hold in memory. A region query is
+    // user-supplied and the variant indexes are the largest in the cluster, so without a cap one
+    // request can scroll millions of documents into heap and take the whole JVM down. Overridable
+    // with -Dvv.maxHits=... so this can be tuned on a server without a rebuild.
+    private static final int MAX_HITS = Integer.getInteger("vv.maxHits", 200000);
+
+    private final String variantIndex;
     private final VariantSearchBean vsb;
     private final HttpRequestFacade req;
 
@@ -40,7 +52,7 @@ public class VVService {
         this.vsb=vsb;
         this.req=req;
         String species = SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey())).replace(" ","");
-        variantIndex=RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
+        this.variantIndex=RgdContext.getESVariantIndexName("variants_"+species.toLowerCase()+vsb.getMapKey());
     }
 
     public List<EsHit> getVariants() throws VVException {
@@ -48,57 +60,70 @@ public class VVService {
         if (mainQuery == null) {
             return null;
         }
+        boolean showDifferences = "true".equals(req.getParameter("showDifferences"));
+        List<EsHit> searchHits = scrollAll(mainQuery);
+        return showDifferences ? this.excludeCommonVariants(searchHits) : searchHits;
+    }
+
+    /**
+     * Scrolls the whole result set for the given query into memory, refusing to go past
+     * {@link #MAX_HITS} rather than exhausting the heap, and always releasing the scroll context
+     * on the cluster when it is done with it.
+     */
+    private List<EsHit> scrollAll(Query mainQuery) throws VVException {
         List<EsHit> searchHits = new ArrayList<>();
+        String scrollId = null;
+        ElasticsearchClient client;
         try {
-            ElasticsearchClient client = ClientInit.getClient();
-            if (req.getParameter("showDifferences").equals("true")) {
-                SearchResponse<Map> sr = client.search(s -> s
-                                .index(variantIndex)
-                                .query(mainQuery)
-                                .size(10000)
+            client = ClientInit.getClient();
+            SearchResponse<Map> sr = client.search(s -> s
+                            .index(variantIndex)
+                            .query(mainQuery)
+                            .size(SCROLL_PAGE_SIZE)
+                            .scroll(Time.of(t -> t.time("1m"))),
+                    Map.class);
+            scrollId = sr.scrollId();
+            addHits(searchHits, sr.hits().hits());
+
+            int lastPageSize = sr.hits().hits().size();
+            while (lastPageSize > 0) {
+                if (searchHits.size() > MAX_HITS) {
+                    throw new VVException("This region matches more than " + MAX_HITS
+                            + " variants, which is too many to display. Please narrow the region,"
+                            + " or select fewer samples, and try again.");
+                }
+                final String sid = scrollId;
+                ScrollResponse<Map> scrollResp = client.scroll(sb -> sb
+                                .scrollId(sid)
                                 .scroll(Time.of(t -> t.time("1m"))),
                         Map.class);
-                String scrollId = sr.scrollId();
-                addHits(searchHits, sr.hits().hits());
-
-                int lastPageSize = sr.hits().hits().size();
-                while (lastPageSize > 0) {
-                    final String sid = scrollId;
-                    ScrollResponse<Map> scrollResp = client.scroll(sb -> sb
-                                    .scrollId(sid)
-                                    .scroll(Time.of(t -> t.time("60s"))),
-                            Map.class);
-                    scrollId = scrollResp.scrollId();
-                    addHits(searchHits, scrollResp.hits().hits());
-                    lastPageSize = scrollResp.hits().hits().size();
-                }
-                return this.excludeCommonVariants(searchHits);
-            } else {
-                SearchResponse<Map> sr = client.search(s -> s
-                                .index(variantIndex)
-                                .query(mainQuery)
-                                .size(10000)
-                                .scroll(Time.of(t -> t.time("1m"))),
-                        Map.class);
-                String scrollId = sr.scrollId();
-                addHits(searchHits, sr.hits().hits());
-
-                int lastPageSize = sr.hits().hits().size();
-                while (lastPageSize > 0) {
-                    final String sid = scrollId;
-                    ScrollResponse<Map> scrollResp = client.scroll(sb -> sb
-                                    .scrollId(sid)
-                                    .scroll(Time.of(t -> t.time("100s"))),
-                            Map.class);
-                    scrollId = scrollResp.scrollId();
-                    addHits(searchHits, scrollResp.hits().hits());
-                    lastPageSize = scrollResp.hits().hits().size();
-                }
-                return searchHits;
+                scrollId = scrollResp.scrollId();
+                addHits(searchHits, scrollResp.hits().hits());
+                lastPageSize = scrollResp.hits().hits().size();
             }
+            return searchHits;
+        } catch (VVException e) {
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
             throw new VVException(e.getMessage());
+        } finally {
+            clearScroll(scrollId);
+        }
+    }
+
+    /**
+     * Releases a scroll context instead of leaving it to expire. Each open scroll pins segments on
+     * the data nodes, so letting them lapse on their keep-alive is real memory held cluster-side.
+     */
+    private static void clearScroll(String scrollId) {
+        if (scrollId == null) {
+            return;
+        }
+        try {
+            ClientInit.getClient().clearScroll(c -> c.scrollId(scrollId));
+        } catch (Exception ignored) {
+            // the context expires on its own; nothing useful to do on a failed cleanup
         }
     }
 
@@ -115,7 +140,7 @@ public class VVService {
         if (mainQuery == null) {
             return null;
         }
-        String aggField = req.getParameter("showDifferences").equals("true") ? "regionName" : "sampleId";
+        String aggField = "true".equals(req.getParameter("showDifferences")) ? "regionName" : "sampleId";
         Aggregation agg = this.buildAggregation(aggField);
         try {
             ElasticsearchClient client = ClientInit.getClient();
@@ -131,31 +156,49 @@ public class VVService {
     }
 
     public List<EsHit> excludeCommonVariants(List<EsHit> searchHitList) {
+        // Group the hits by (chromosome, startPos, varNuc) in a single pass, then walk the list
+        // once. This used to be a nested loop over the full hit list, which is O(n*n) -- at a few
+        // hundred thousand hits it pinned the entire list live for minutes while it ran.
+        Map<String, List<EsHit>> hitsByVariant = new LinkedHashMap<>();
+        for (EsHit h : searchHitList) {
+            java.util.Map<String, Object> src = h.getSourceAsMap();
+            String chr = (String) src.get("chromosome");
+            String varNuc = (String) src.get("varNuc");
+            // the original match required both of these to be non-null on the candidate
+            if (chr == null || varNuc == null) {
+                continue;
+            }
+            String key = variantKey(chr, (int) src.get("startPos"), varNuc);
+            hitsByVariant.computeIfAbsent(key, k -> new ArrayList<>()).add(h);
+        }
+
         List<EsHit> nonSharedVariants = new ArrayList<>();
-        List<Integer> verifiedPositions = new ArrayList<>();
+        Set<Integer> verifiedPositions = new HashSet<>();
 
         for (EsHit hit : searchHitList) {
-            List<EsHit> tempList = new ArrayList<>();
-            String chr = (String) hit.getSourceAsMap().get("chromosome");
-            int startPos = (int) hit.getSourceAsMap().get("startPos");
-            String varNuc = (String) hit.getSourceAsMap().get("varNuc");
+            java.util.Map<String, Object> src = hit.getSourceAsMap();
+            int startPos = (int) src.get("startPos");
 
-            if (!verifiedPositions.contains(startPos)) {
-                verifiedPositions.add(startPos);
-                for (EsHit h : searchHitList) {
-                    String chr1 = (String) h.getSourceAsMap().get("chromosome");
-                    int startPos1 = (int) h.getSourceAsMap().get("startPos");
-                    String varNuc1 = (String) h.getSourceAsMap().get("varNuc");
-                    if (chr1 != null && chr1.equals(chr) && startPos1 == startPos && varNuc1 != null && varNuc1.equals(varNuc)) {
-                        tempList.add(h);
-                    }
-                }
-                if (tempList.size() > 0 && tempList.size() < vsb.sampleIds.size()) {
-                    nonSharedVariants.addAll(tempList);
-                }
+            // only the first hit seen at a given startPos is considered -- preserved from the
+            // original, which tracked verified positions by startPos alone
+            if (!verifiedPositions.add(startPos)) {
+                continue;
+            }
+            String chr = (String) src.get("chromosome");
+            String varNuc = (String) src.get("varNuc");
+            if (chr == null || varNuc == null) {
+                continue; // the original matched nothing in this case
+            }
+            List<EsHit> sharing = hitsByVariant.get(variantKey(chr, startPos, varNuc));
+            if (sharing != null && !sharing.isEmpty() && sharing.size() < vsb.sampleIds.size()) {
+                nonSharedVariants.addAll(sharing);
             }
         }
         return nonSharedVariants;
+    }
+
+    private static String variantKey(String chromosome, int startPos, String varNuc) {
+        return chromosome + '|' + startPos + '|' + varNuc;
     }
 
     public Aggregation buildAggregation(String fieldName) {

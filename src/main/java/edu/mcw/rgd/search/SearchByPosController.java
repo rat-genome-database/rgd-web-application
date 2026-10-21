@@ -28,7 +28,18 @@ import java.util.Map;
 
 public class SearchByPosController implements Controller {
 
+    // One page of the scroll.
+    private static final int SCROLL_PAGE_SIZE = 10000;
 
+    // Hard ceiling on rows in a single download. The whole report is buffered in memory before the
+    // JSP formats it, and the region is user-supplied, so an unbounded download of a large region
+    // is enough to exhaust the heap on its own. Overridable with -Dsearch.maxReportRows=...
+    private static final int MAX_REPORT_ROWS = Integer.getInteger("search.maxReportRows", 500000);
+
+    /** Thrown when a download would exceed {@link #MAX_REPORT_ROWS}; must not be swallowed. */
+    private static class ReportTooLargeException extends Exception {
+        ReportTooLargeException(String message) { super(message); }
+    }
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -144,7 +155,7 @@ public class SearchByPosController implements Controller {
                     ElasticsearchClient client = ClientInit.getClient();
                     SearchResponse<java.util.Map> sr = client.search(s -> s
                                     .index(indexName)
-                                    .size(10000)
+                                    .size(SCROLL_PAGE_SIZE)
                                     .scroll(Time.of(t -> t.time("1m")))
                                     .query(q -> q.bool(b -> b
                                             .must(m -> m.term(t -> t.field("chromosome.keyword").value(FieldValue.of(chrF))))
@@ -165,24 +176,46 @@ public class SearchByPosController implements Controller {
 
                     boolean variantOnly = objType.equalsIgnoreCase("variant");
                     int pageHits = sr.hits().hits().size();
-                    while (pageHits > 0) {
-                        final String scrollIdF = scrollId;
-                        ScrollResponse<java.util.Map> scrollResp = client.scroll(sb -> sb
-                                        .scrollId(scrollIdF)
-                                        .scroll(Time.of(t -> t.time("60s"))),
-                                java.util.Map.class);
-                        scrollId = scrollResp.scrollId();
-                        pageHits = scrollResp.hits().hits().size();
-                        for (Hit<java.util.Map> hit : scrollResp.hits().hits()) {
-                            @SuppressWarnings("unchecked")
-                            Map<String, Object> src = (Map<String, Object>) hit.source();
-                            if (variantOnly) {
-                                appendVariantRecord(report, src);
-                            } else {
-                                appendVariantRecordSimple(report, src);
+                    try {
+                        while (pageHits > 0) {
+                            if (report.records.size() > MAX_REPORT_ROWS) {
+                                throw new ReportTooLargeException("This region contains more than "
+                                        + MAX_REPORT_ROWS + " rows, which is too large to download in"
+                                        + " one request. Please download it in smaller regions.");
+                            }
+                            final String scrollIdF = scrollId;
+                            ScrollResponse<java.util.Map> scrollResp = client.scroll(sb -> sb
+                                            .scrollId(scrollIdF)
+                                            .scroll(Time.of(t -> t.time("1m"))),
+                                    java.util.Map.class);
+                            scrollId = scrollResp.scrollId();
+                            pageHits = scrollResp.hits().hits().size();
+                            for (Hit<java.util.Map> hit : scrollResp.hits().hits()) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, Object> src = (Map<String, Object>) hit.source();
+                                if (variantOnly) {
+                                    appendVariantRecord(report, src);
+                                } else {
+                                    appendVariantRecordSimple(report, src);
+                                }
+                            }
+                        }
+                    } finally {
+                        // release the scroll context rather than leaving it to expire; an open
+                        // scroll pins segments on the data nodes for its whole keep-alive
+                        if (scrollId != null) {
+                            try {
+                                final String sid = scrollId;
+                                client.clearScroll(c -> c.scrollId(sid));
+                            } catch (Exception ignored) {
+                                // expires on its own; nothing useful to do on a failed cleanup
                             }
                         }
                     }
+                } catch (ReportTooLargeException e) {
+                    // must not be swallowed -- serving a silently truncated download would
+                    // present a partial result as if it were the complete set
+                    throw e;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
