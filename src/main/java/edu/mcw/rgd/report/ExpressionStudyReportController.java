@@ -31,12 +31,12 @@ public class ExpressionStudyReportController implements Controller {
             if (!Utils.isStringEmpty(studyIdStr)){
                 int studyId = Integer.parseInt(studyIdStr);
                 obj = pdao.getStudy(studyId);
-            } else {
+            } else if (!Utils.isStringEmpty(geoAcc)) {
                 List<Study> studies = pdao.getStudiesByGeoId(geoAcc.toUpperCase());
                 if (studies.isEmpty()){
                     error.add("No studies with the given GEO Accession!");
                 }
-                if (studies.size()==1){
+                else if (studies.size()==1){
                     obj = studies.get(0);
                 }
                 else {
@@ -59,7 +59,7 @@ public class ExpressionStudyReportController implements Controller {
                     }
                 }
             }
-            if (obj == null){
+            if (obj == null && error.isEmpty()){
                 error.add("No study was found with the given ID!");
             }
         }
