@@ -3,12 +3,14 @@ package edu.mcw.rgd.genebinning;
 import edu.mcw.rgd.dao.impl.GeneBinAssigneeDAO;
 import edu.mcw.rgd.dao.impl.GeneBinDAO;
 import edu.mcw.rgd.datamodel.GeneBin.GeneBinAssignee;
+import edu.mcw.rgd.edit.CurationLoginController;
 import edu.mcw.rgd.security.User;
 import edu.mcw.rgd.security.UserManager;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -33,8 +35,29 @@ public class GeneBinningController implements Controller {
         String renameFrom = httpServletRequest.getParameter("renameFrom");
         String renameTo = httpServletRequest.getParameter("renameTo");
 
-        User u = UserManager.getInstance().getUser(accessToken);
-        String username = (u != null) ? u.getUsername() : null;
+        // the token comes with links from the curation home; otherwise use the curation sign-in's cookie
+        if ((accessToken == null || accessToken.isEmpty()) && httpServletRequest.getCookies() != null) {
+            for (Cookie c : httpServletRequest.getCookies()) {
+                if ("accessToken".equalsIgnoreCase(c.getName()) && !c.getValue().isEmpty()) {
+                    accessToken = c.getValue();
+                }
+            }
+        }
+        User u = null;
+        if (accessToken != null && !accessToken.isEmpty()) {
+            try {
+                u = UserManager.getInstance().getUser(accessToken);
+            } catch (Exception e) {
+                u = null; // GitHub rejected the token (expired or revoked)
+            }
+        }
+        if (u == null) {
+            // not signed in: sign in with GitHub, then come back to the gene binning home page
+            httpServletRequest.getSession().setAttribute(CurationLoginController.RETURN_TO, "/rgdweb/curation/geneBinning/index.html");
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/curation/login.html");
+            return null;
+        }
+        String username = u.getUsername();
 
         String message = null;
 
