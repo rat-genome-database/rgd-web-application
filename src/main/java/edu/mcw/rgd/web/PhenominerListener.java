@@ -1,6 +1,7 @@
 package edu.mcw.rgd.web;
 
 import edu.mcw.rgd.phenominer.frontend.OTrees;
+import edu.mcw.rgd.services.ClientInit;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -34,12 +35,22 @@ public class PhenominerListener implements ServletContextListener {
             }
         };
 
-        Thread t = new Thread(r);
+        Thread t = new Thread(r, "phenominer-ontology-preload");
+        t.setDaemon(true);
         t.start();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
 
+        // Shut the Elasticsearch client down with the context. Without this, a redeploy leaves the
+        // previous client's connection manager and reactor threads running; those threads hold a
+        // reference to this webapp's classloader, so every redeploy retains a whole extra copy of
+        // the application and the heap walks upward until the JVM dies.
+        try {
+            ClientInit.destroy();
+        } catch (Exception e) {
+            System.out.println("Elasticsearch client shutdown failed: " + e.getMessage());
+        }
     }
 }
