@@ -21,7 +21,7 @@
             <td width=100 align="center"><a href="https://www.nhlbi.nih.gov/"><img src="/rgdweb/common/images/nhlbilogo.gif" alt="NHLBI Logo" title="National Heart Lung and Blood Institute"></a><br><br></td>
             <td width=100 align="center"><a href="https://www.nih.gov/"><img src="/rgdweb/common/images/nih.png" alt="NIH Logo" title="National Institue of Health"></a><br><br></td>
             <td width=100 align="center"><a href="http://alliancegenome.org"><img src="/rgdweb/common/images/alliance_logo.png" height="80" width="133" border=0/></a></td>
-            <td width=100 align="center"><a href="https://globalbiodata.org/scientific-activities/global-core-biodata-resources"><img src="/rgdweb/common/images/gbc-main.svg" height="80" width="133" border=0/></a></td>
+            <td width=100 align="center"><a href="https://globalbiodata.org/what-we-do/global-core-biodata-resources/list-of-current-global-core-biodata-resources"><img src="/rgdweb/common/images/gbc-main.svg" height="80" width="133" border=0/></a></td>
         </tr>
     </table>
 
@@ -32,18 +32,9 @@
 
     </div>
 </footer>
-<script language="javascript" src="/common/js/killerZebraStripes.js" type="text/javascript"></script>
-<script>
-    var arr = document.getElementsByTagName("table");
-    for (i=0; i< arr.length; i++) {
-        if (arr[i].className == "striped-table") {
-            if (!arr[i].id) {
-                arr[i].id = "striped-table-" + i;
-            }
-            stripeTables(arr[i].id);
-        }
-    }
-</script>
+<style>
+    table.striped-table tr:nth-child(even) { background-color: #f2f2f2; }
+</style>
 
 
 
