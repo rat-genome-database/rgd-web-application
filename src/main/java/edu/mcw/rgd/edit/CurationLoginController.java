@@ -20,6 +20,9 @@ import static edu.mcw.rgd.web.RgdContext.getGitHubProperties;
 
 public class CurationLoginController implements Controller {
 
+    /** session attribute: a curation page (path under /rgdweb/curation/) to open after sign-in instead of the curation home */
+    public static final String RETURN_TO = "curationReturnTo";
+
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (request.getParameter("code") != null) {
             String accessToken = getAccessToken(request.getParameter("code"));
@@ -27,6 +30,12 @@ public class CurationLoginController implements Controller {
 
             if(checkAccess(accessToken)) {
 
+                String returnTo = (String) request.getSession().getAttribute(RETURN_TO);
+                request.getSession().removeAttribute(RETURN_TO);
+                if( returnTo != null && returnTo.matches("/rgdweb/curation/[A-Za-z0-9/_.-]+") ) {
+                    response.sendRedirect(returnTo + "?accessToken=" + accessToken);
+                    return null;
+                }
                 return new ModelAndView("redirect:home.html?accessToken=" + accessToken);
             }
             else {
