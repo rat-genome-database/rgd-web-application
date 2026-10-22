@@ -56,7 +56,7 @@
      the bare "miRNA Target Status" text node is all that travels there. Written straight into
      the heading text it would be one node with the name, and the sidebar's 27 character cap
      would cut it mid-sentence - which is the bug the .rgdInfoDot marker this replaces was
-     introduced to fix. --%><span class="sectionHeadingNote">(miRNA Target Status data imported from miRGate (mirgate.bioinfo.cnio.es) is no longer updated)</span></div>
+     introduced to fix. --%><span class="sectionHeadingNote">(Data imported from miRGate (mirgate.bioinfo.cnio.es) is no longer updated)</span></div>
     <% if( confirmedCount>0 ) {
 
         String pubmedUrl = xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
