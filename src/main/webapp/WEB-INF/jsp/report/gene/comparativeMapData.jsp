@@ -28,41 +28,21 @@
 
 <%
     compareHomologs.add(0,obj);
-    List<Map> primaryAssemblies = mapDAO.getPrimaryRefAssemblies();
-
-    MapData currentMapData = null;
 %>
 
-<%-- the <thead> was empty; nothing reads it and an empty row group only confuses the
-     table rules --%>
-<table id="comparativeMapDataTable">
-    <tbody>
-<%
+<%-- One table, one header row, species in the first column: the markup is all in
+     MapDataFormatter.buildComparativeTable(), which also hides every assembly past each
+     species' reference one behind the toggle wired up below.
 
-for (Object thisObject: compareHomologs) {
-    Gene g = (Gene) thisObject;
-%>
-    <tr>
-        <td class="cmapSpecies">
-            <span class="cmapSymbol"><%=g.getSymbol()%></span>
-            <span class="cmapTaxon"><%=SpeciesType.getTaxonomicName(g.getSpeciesTypeKey())%></span>
-            <span class="cmapCommon"><%=SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey())%></span>
-        </td>
-        <%-- no Strain column here: this table is repeated once per homolog inside a cell, and the
-             strain an assembly was built from belongs with the assembly, not with the comparison --%>
-        <%-- collapsed to the reference assembly: see the collapseExtraAssemblies param of
-             MapDataFormatter.buildTable(), and the toggle script below --%>
-        <td class="cmapMap"><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol(), false, true)%></td>
-    </tr>
-
-<% } %>
-    </tbody>
-</table>
+     This replaced a per-homolog nested buildTable() - see the comment on that method for
+     why. The page directive above still imports datamodel.Map because other fragments
+     statically included into main.jsp resolve Map against it. --%>
+<%=MapDataFormatter.buildComparativeTable(compareHomologs, rgdId.getObjectKey())%>
 <%//ui.dynClose("mapAssociation")%>
 
-<%-- One delegated handler for every species table in the section: each "show N more
-     assemblies" button reveals the .mapDataExtra rows of its own table only. The rows are
-     already in the page, so this never goes back to the server. --%>
+<%-- One delegated handler for the whole section. Rows and buttons carry data-cmap-species,
+     so a button reveals its own species' assemblies and leaves every other species alone.
+     The rows are already in the page, so this never goes back to the server. --%>
 <script>
 (function () {
     var section = document.getElementById("comparativeMapDataTableDiv");
@@ -74,12 +54,14 @@ for (Object thisObject: compareHomologs) {
         if (!btn) {
             return;
         }
+        var species = btn.getAttribute("data-cmap-species");
         var table = btn.closest("table");
-        if (!table) {
+        if (!species || !table) {
             return;
         }
         var expanded = btn.getAttribute("aria-expanded") === "true";
-        Array.prototype.forEach.call(table.querySelectorAll("tr.mapDataExtra"), function (tr) {
+        var rows = table.querySelectorAll('tr.mapDataExtra[data-cmap-species="' + species + '"]');
+        Array.prototype.forEach.call(rows, function (tr) {
             tr.hidden = expanded;
         });
         btn.setAttribute("aria-expanded", expanded ? "false" : "true");

@@ -1648,32 +1648,41 @@ body:has(#divButtons:not([style*="none"])) .rgd-to-top { bottom: 145px; }
 /* --------------------------------------------------------------------------
    Comparative Map Data
 
-   One row per species: the gene on the left, its assemblies on the right. The
-   right hand cell holds the same .mapDataTable the Position section uses, which
-   brings its own header row and a width="670" attribute - so the job here is to
-   let the species column set a fixed width, let the map table take the rest,
-   and separate the species with a hairline instead of a grey block.
+   One table, one header row, species in the first column - it is a .mapDataTable
+   like the Position section's, so the shared rules above already style the cells
+   and all that is left is the species column and the hairline that separates one
+   species block from the next.
+
+   A block is the rows of one species: its reference assembly, any assemblies
+   hidden behind the toggle, and the toggle row. Only its first row carries
+   .cmapBlockStart, so the hairline marks the species boundary and not every row.
    -------------------------------------------------------------------------- */
 
 .rgd-modern-report #comparativeMapDataTable {
     width: 100%;
-    table-layout: fixed;
 }
-.rgd-modern-report #comparativeMapDataTable > tbody > tr {
-    border-bottom: 1px solid var(--rgd-border-soft);
+.rgd-modern-report #comparativeMapDataTable > tbody > tr.cmapBlockStart > td {
+    border-top: 1px solid var(--rgd-border-soft);
 }
-.rgd-modern-report #comparativeMapDataTable > tbody > tr:last-child { border-bottom: 0; }
-/* the row is a whole species block, not a data row - hovering it should not light it up */
-.rgd-modern-report #comparativeMapDataTable > tbody > tr:hover { background: none; }
+.rgd-modern-report #comparativeMapDataTable > tbody > tr.cmapBlockStart:first-child > td {
+    border-top: 0;
+}
 .rgd-modern-report #comparativeMapDataTable > tbody > tr > td {
-    padding: 8px 0;
     background: none;
     vertical-align: top;
 }
 
 .rgd-modern-report #comparativeMapDataTable td.cmapSpecies {
-    width: 180px;
+    width: 170px;
     padding-right: 14px;
+}
+/* The species is named once per block; the blank cells below it must not reserve three
+   lines of height the way the named one does, and must stay out of the MAP_TYPE band -
+   the band starting at the Assembly column is what nests MAP_TYPE inside the species. */
+.rgd-modern-report #comparativeMapDataTable td.cmapSpecies:empty {
+    padding: 0;
+    background: none;
+    border: 0;
 }
 .rgd-modern-report .cmapSymbol {
     display: block;
@@ -1694,20 +1703,13 @@ body:has(#divButtons:not([style*="none"])) .rgd-to-top { bottom: 145px; }
     color: var(--rgd-text-faint);
 }
 
-/* width="670" is a presentational hint, so any rule here outranks it; the map
-   table fills the column instead of setting the column's width */
-.rgd-modern-report #comparativeMapDataTable td.cmapMap > .mapDataTable {
-    width: 100%;
-    min-width: 0;
-}
-
-/* Each species table opens showing its reference assembly only, with the rest in the
-   page but hidden behind a toggle - otherwise a row here is a dozen assemblies tall
-   and the species comparison the section exists for is lost in them. */
+/* Each species opens showing its reference assembly only, with the rest in the page
+   but hidden behind a toggle - otherwise a block is a dozen assemblies tall and the
+   species comparison the section exists for is lost in them. */
 .rgd-modern-report .mapDataTable tr.mapDataExtra[hidden] { display: none; }
 
 .rgd-modern-report .mapDataTable tr.mapDataMoreRow td {
-    padding: 4px 0 0;
+    padding: 2px 6px 6px;
     border: 0;
     background: none;
 }

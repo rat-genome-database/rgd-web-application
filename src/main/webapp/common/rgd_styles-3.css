@@ -1298,9 +1298,11 @@ color: #ffffff;
         border: 1px solid #c3ccdd;
     }
 
-    /* Assemblies past the reference one in a collapsed table (Comparative Map Data). The
-       rows are in the page from the start and the toggle flips the hidden attribute, so the
-       rule has to beat ".mapDataTable td { ... }" setting the row group back to visible. */
+    /* Comparative Map Data: assemblies past each species' reference one are in the page from
+       the start and the toggle flips the hidden attribute, so this has to beat the
+       ".mapDataTable td" rules above putting the row back on display. Report pages all carry
+       .rgd-modern-report and are styled by reportModern.css; these are the bare rules the
+       section needs to hold together without it. */
     .mapDataTable tr.mapDataExtra[hidden] {
         display: none;
     }
@@ -1310,6 +1312,21 @@ color: #ffffff;
         padding: 4px 6px;
         background: none;
     }
+
+    #comparativeMapDataTable td.cmapSpecies {
+        width: 170px;
+        vertical-align: top;
+    }
+    /* the species is named on the first row of its block only; the blank cells below it
+       also keep the MAP_TYPE band off the species column, which is what nests one in the other */
+    #comparativeMapDataTable td.cmapSpecies:empty {
+        border: 0;
+        padding: 0;
+        background: none;
+    }
+    #comparativeMapDataTable .cmapSymbol { display: block; font-weight: bold; }
+    #comparativeMapDataTable .cmapTaxon  { display: block; font-style: italic; }
+    #comparativeMapDataTable .cmapCommon { display: block; }
 
     .mapDataTable button.mapDataMoreBtn {
         padding: 2px 8px;
