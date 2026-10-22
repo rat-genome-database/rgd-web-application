@@ -61,13 +61,23 @@
         padding-bottom: 3px;
         white-space: nowrap;
     }
+    /* Wide enough for the longest level plus its TPM range on one line - "Medium
+       (10 < TPM <= 1000)". The angled system names above are spaced off a .ribbonRowLabel used
+       as a spacer, so widening this keeps the header and the rows in step by itself. */
     .ribbonRowLabel {
         display: inline-block;
-        width: 108px;
+        width: 162px;
         font-size: 12.5px;
         font-weight: 700;
         color: #1f2933;
         vertical-align: bottom;
+    }
+    /* the band is what the level means, not a second label - it sits back from the name */
+    .ribbonRowRange {
+        font-size: 11px;
+        font-weight: 400;
+        color: #5b6672;
+        white-space: nowrap;
     }
     .ribbonCell {
         display: inline-block;
@@ -260,11 +270,25 @@
     final String[] RIBBON_LEVELS  = {"all", "high", "medium", "low", "belowcutoff"};
     final String[] RIBBON_LABELS  = {"All", "High", "Medium", "Low", "Below cutoff"};
     final String[] RIBBON_FILTERS = {"", "High", "Medium", "Low", "Below Cutoff"};
-    final String[] RIBBON_TITLES  = {"All expression records",
-                                     "High: TPM > 1000",
-                                     "Medium: 10 < TPM <= 1000",
-                                     "Low: 0.5 <= TPM <= 10",
-                                     "Below cutoff: TPM < 0.5"};
+
+    // The TPM band each level stands for, shown next to the row label so the thresholds are on
+    // the plot rather than only in a tooltip. "All" spans every level, so it has no range.
+    // Written as entities, not as literal > and <= - this page carries no pageEncoding (see the
+    // note on activeLevelDescription() below), and entities also decode inside a title attribute,
+    // which lets the tooltips be built from these and the thresholds be written once.
+    final String[] RIBBON_RANGES  = {"",
+                                     "TPM &gt; 1000",
+                                     "10 &lt; TPM &le; 1000",
+                                     "0.5 &le; TPM &le; 10",
+                                     "TPM &lt; 0.5"};
+
+    // the same thing in prose, for the counts table's numeric column headers, which have no room
+    // for the range and still carry it as a tooltip
+    final String[] RIBBON_TITLES  = new String[RIBBON_RANGES.length];
+    RIBBON_TITLES[0] = "All expression records";
+    for( int r = 1; r < RIBBON_RANGES.length; r++ ) {
+        RIBBON_TITLES[r] = RIBBON_LABELS[r] + ": " + RIBBON_RANGES[r];
+    }
 
     java.util.LinkedHashMap<String, java.util.Map<String,Integer>> termLevelCnt =
             ExpressionIndexCounts.byTissue(obj.getRgdId(), terms, ExpressionIndexCounts.UNIT_TPM);
@@ -381,7 +405,13 @@
 
             <% for( int r: rows ) { %>
             <div class="ribbonRow">
-                <span class="ribbonRowLabel" title="<%=RIBBON_TITLES[r]%>"><%=RIBBON_LABELS[r]%></span>
+                <%-- no title here: the range used to live in a tooltip and now sits on the row,
+                     so repeating it would only be read out twice --%>
+                <span class="ribbonRowLabel"><%=RIBBON_LABELS[r]%><%
+                    if( !RIBBON_RANGES[r].isEmpty() ) {
+                %> <span class="ribbonRowRange">(<%=RIBBON_RANGES[r]%>)</span><%
+                    }
+                %></span>
                 <%
                     for( int i = 0; i < include.size(); i++ ) {
                         String t = include.get(i);
