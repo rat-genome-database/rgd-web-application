@@ -624,6 +624,12 @@
     scroll-margin-top: 64px;
 }
 .rgd-modern-report .sectionHeading:hover { background: var(--rgd-surface-alt); }
+/* .sectionHeading is a flex row, so a spelled-out footnote in it is a flex item: let it shrink
+   and wrap instead of pushing the section name off the edge of the card on a narrow viewport */
+.rgd-modern-report .sectionHeading .sectionHeadingNote {
+    min-width: 0;
+    line-height: 1.35;
+}
 .rgd-modern-report .light-table-border.rgd-collapsed .sectionHeading {
     margin-bottom: -2px;
     border-bottom-color: transparent;

@@ -48,8 +48,15 @@
 <%//ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
 <div class="light-table-border">
 <div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status<%--
-     the qualifier is a footnote about the data, not part of the section name; as bracketed
-     text it also pushed the sidebar entry past its length cap and got cut mid-bracket --%><span class="rgdInfoDot" title="No longer updated" aria-label="miRNA Target Status is no longer updated" role="img">i</span></div>
+     The provenance note, spelled out rather than folded into a hover: where the data came from
+     is something a reader has to see without going looking for it.
+
+     It stays in a span of its own, which is what keeps it out of the sidebar entry - the entry
+     is labelled from the heading's FIRST CHILD NODE (addItemsToSideBar() in geneReport.js), so
+     the bare "miRNA Target Status" text node is all that travels there. Written straight into
+     the heading text it would be one node with the name, and the sidebar's 27 character cap
+     would cut it mid-sentence - which is the bug the .rgdInfoDot marker this replaces was
+     introduced to fix. --%><span class="sectionHeadingNote">(miRNA Target Status data imported from miRGate (mirgate.bioinfo.cnio.es) is no longer updated)</span></div>
     <% if( confirmedCount>0 ) {
 
         String pubmedUrl = xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());

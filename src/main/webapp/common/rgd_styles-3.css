@@ -1087,6 +1087,20 @@ color: #ffffff;
     }
     .rgdInfoDot:hover { color: #2865a3; background: #dbe6f3; }
 
+    /* The same kind of footnote as .rgdInfoDot, spelled out instead of folded into a hover -
+       used where the note names a data source the reader should not have to hunt for. Normal
+       weight and muted so it reads as a note about the section rather than part of its name.
+       user-select is restored because .sectionHeading turns selection off for the whole row,
+       and this one carries a domain worth copying. */
+    .sectionHeadingNote {
+        font-size: 12px;
+        font-style: italic;
+        font-weight: 400;
+        color: #5b6672;
+        white-space: normal;
+        user-select: text;
+    }
+
     /* Group headings inside the annotation cards - "Biological Process", "Rat Strain",
        "Clinical Measurement". These used to be an inline .highlight span, underlined with <u>
        and spaced with a <br> on either side: the underline read as a link, and the gap above
