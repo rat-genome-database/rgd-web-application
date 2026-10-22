@@ -80,7 +80,7 @@
 
 
     <div id="content-wrap">
-        <div class="registrationLink"><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></div>
+        <div class="registrationLink"><a href="/rgdweb/contact/contactus.html">QTL Registration</a></div>
 <%@ include file="menu.jsp"%>
 <%  RgdId rgdId = managementDAO.getRgdId2(obj.getRgdId());
     if (view.equals("3")) { %>
