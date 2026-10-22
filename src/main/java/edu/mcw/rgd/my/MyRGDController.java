@@ -1,6 +1,5 @@
 package edu.mcw.rgd.my;
 
-import edu.mcw.rgd.web.HttpRequestFacade;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -16,16 +15,9 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public class MyRGDController implements Controller {
 
-    protected HttpServletRequest request = null;
-    protected HttpServletResponse response = null;
-
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HttpRequestFacade req = new HttpRequestFacade(request);
-
-        return new ModelAndView("/WEB-INF/jsp/my/myRgd.jsp");
-
-
+        // retired: MyRGD lists and watched objects are now in the header's MyRGD window on every page
+        response.sendRedirect(request.getContextPath() + "/homepage/");
+        return null;
     }
-
-  
 }
