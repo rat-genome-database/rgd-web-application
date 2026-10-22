@@ -1701,6 +1701,31 @@ body:has(#divButtons:not([style*="none"])) .rgd-to-top { bottom: 145px; }
     min-width: 0;
 }
 
+/* Each species table opens showing its reference assembly only, with the rest in the
+   page but hidden behind a toggle - otherwise a row here is a dozen assemblies tall
+   and the species comparison the section exists for is lost in them. */
+.rgd-modern-report .mapDataTable tr.mapDataExtra[hidden] { display: none; }
+
+.rgd-modern-report .mapDataTable tr.mapDataMoreRow td {
+    padding: 4px 0 0;
+    border: 0;
+    background: none;
+}
+.rgd-modern-report .mapDataTable button.mapDataMoreBtn {
+    padding: 2px 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--rgd-blue-dark);
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border-soft);
+    border-radius: 999px;
+    cursor: pointer;
+}
+.rgd-modern-report .mapDataTable button.mapDataMoreBtn:hover {
+    background: #e3ebf5;
+    border-color: var(--rgd-blue-dark);
+}
+
 /* --------------------------------------------------------------------------
    <br> used as spacing
 

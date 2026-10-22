@@ -190,17 +190,28 @@ public class  MapDataFormatter {
         return buildTable(rgdId, speciesTypeKey, objectKey, objectSymbol, true);
     }
 
-    /** @param showStrain see {@link #buildTable(int, List, int, String, boolean)} */
+    /** @param showStrain see {@link #buildTable(int, List, int, String, boolean, boolean)} */
     public static String buildTable(int rgdId, int speciesTypeKey, int objectKey, String objectSymbol,
                                     boolean showStrain) throws Exception {
+        return buildTable(rgdId, speciesTypeKey, objectKey, objectSymbol, showStrain, false);
+    }
+
+    /** @param collapseExtraAssemblies see {@link #buildTable(int, List, int, String, boolean, boolean)} */
+    public static String buildTable(int rgdId, int speciesTypeKey, int objectKey, String objectSymbol,
+                                    boolean showStrain, boolean collapseExtraAssemblies) throws Exception {
 
         MapDAO mdao = new MapDAO();
         List<MapData> mapData = mdao.getMapData(rgdId);
-        return buildTable(speciesTypeKey, mapData, objectKey, objectSymbol, showStrain);
+        return buildTable(speciesTypeKey, mapData, objectKey, objectSymbol, showStrain, collapseExtraAssemblies);
     }
 
     public static String buildTable(int speciesTypeKey, List<MapData> mapData, int objectKey, String objectSymbol) throws Exception{
         return buildTable(speciesTypeKey, mapData, objectKey, objectSymbol, true);
+    }
+
+    public static String buildTable(int speciesTypeKey, List<MapData> mapData, int objectKey, String objectSymbol,
+                                    boolean showStrain) throws Exception{
+        return buildTable(speciesTypeKey, mapData, objectKey, objectSymbol, showStrain, false);
     }
 
     /**
@@ -208,9 +219,14 @@ public class  MapDataFormatter {
      *   gene report repeats this whole table once per homolog, inside a cell, so it drops the column:
      *   the strain an assembly was built from is a property of the assembly named in the first column,
      *   not something that varies across the species being compared there.
+     * @param collapseExtraAssemblies whether to open with only the reference assembly showing. Same
+     *   reason as above: one table per homolog, each listing every assembly that species has, buries
+     *   the one comparison the section is about. The other rows are still rendered - marked
+     *   .mapDataExtra and hidden - and a "show N more assemblies" button is appended for the script
+     *   in comparativeMapData.jsp to toggle, so nothing is lost and no second request is needed.
      */
     public static String buildTable(int speciesTypeKey, List<MapData> mapData, int objectKey, String objectSymbol,
-                                    boolean showStrain) throws Exception{
+                                    boolean showStrain, boolean collapseExtraAssemblies) throws Exception{
 
         if( mapData.isEmpty() ) {
             return "No map positions available.";
@@ -297,14 +313,56 @@ public class  MapDataFormatter {
         int colCount = mapTableColumnCount(objectKey) + (showStrain ? 1 : 0);
         boolean showGroupHeaders = groups.size() > 1;
 
+        // Which assemblies stay visible when the table opens collapsed: the reference assembly,
+        // or - for an object with no position on it - the top ranked assembly it does have, so
+        // that a collapsed table is never empty. mapData is rank-sorted by now.
+        Set<Integer> openMapKeys = new HashSet<>();
+        if( collapseExtraAssemblies ) {
+            for( MapData mdObj: mapData ) {
+                if( mdObj.getMapKey()==activeMapKey ) {
+                    openMapKeys.add(activeMapKey);
+                }
+            }
+            if( openMapKeys.isEmpty() ) {
+                openMapKeys.add(mapData.get(0).getMapKey());
+            }
+        }
+        // the button counts assemblies, not rows - an assembly with two positions on it is one
+        // more assembly to show, even though expanding reveals two rows
+        Set<Integer> hiddenMapKeys = new HashSet<>();
+        if( collapseExtraAssemblies ) {
+            for( MapData mdObj: mapData ) {
+                if( !openMapKeys.contains(mdObj.getMapKey()) ) {
+                    hiddenMapKeys.add(mdObj.getMapKey());
+                }
+            }
+        }
+        boolean collapse = !hiddenMapKeys.isEmpty();
+
         for (java.util.Map.Entry<String, List<MapData>> group: groups.entrySet()) {
 
             if( showGroupHeaders ) {
-                appendGroupHeaderRow(ret, group.getKey(), colCount);
+                // a group header with every row below it hidden has to go with them
+                boolean groupOpen = false;
+                for( MapData mdObj: group.getValue() ) {
+                    if( !collapse || openMapKeys.contains(mdObj.getMapKey()) ) {
+                        groupOpen = true;
+                    }
+                }
+                if( groupOpen ) {
+                    appendGroupHeaderRow(ret, group.getKey(), colCount);
+                } else {
+                    ret.append("<tr class=\"mapDataGroup mapDataExtra\" hidden><td colspan=\"")
+                            .append(colCount).append("\">").append(group.getKey()).append("</td></tr>");
+                }
             }
 
             for (MapData mdObj: group.getValue()) {
-                ret.append("<tr>");
+                if( collapse && !openMapKeys.contains(mdObj.getMapKey()) ) {
+                    ret.append("<tr class=\"mapDataExtra\" hidden>");
+                } else {
+                    ret.append("<tr>");
+                }
                 Map map = mm.getMap(mdObj.getMapKey());
                 //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
                 if( map==null ) {
@@ -407,9 +465,26 @@ public class  MapDataFormatter {
                 ret.append("</tr>");
             }
         }
+        if( collapse ) {
+            appendMoreAssembliesRow(ret, colCount, hiddenMapKeys.size());
+        }
         ret.append("</table>");
 
         return ret.toString();
+    }
+
+    /** the "show N more assemblies" toggle, last row of a table rendered collapsed */
+    static void appendMoreAssembliesRow(StringBuilder ret, int colCount, int hiddenCount) {
+
+        String noun = hiddenCount==1 ? " more assembly" : " more assemblies";
+        String more = "Show " + hiddenCount + noun;
+        String less = "Hide " + hiddenCount + noun;
+
+        ret.append("<tr class=\"mapDataMoreRow\"><td colspan=\"").append(colCount).append("\">")
+                .append("<button type=\"button\" class=\"mapDataMoreBtn\" aria-expanded=\"false\"")
+                .append(" data-label-more=\"").append(more).append("\"")
+                .append(" data-label-less=\"").append(less).append("\">")
+                .append(more).append("</button></td></tr>");
     }
 
     public static String buildTableVar(int speciesTypeKey, List<VariantMapData> mapData, int objectKey, String objectSymbol) throws Exception{

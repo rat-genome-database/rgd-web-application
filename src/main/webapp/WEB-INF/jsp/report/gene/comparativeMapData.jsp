@@ -50,13 +50,43 @@ for (Object thisObject: compareHomologs) {
         </td>
         <%-- no Strain column here: this table is repeated once per homolog inside a cell, and the
              strain an assembly was built from belongs with the assembly, not with the comparison --%>
-        <td class="cmapMap"><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol(), false)%></td>
+        <%-- collapsed to the reference assembly: see the collapseExtraAssemblies param of
+             MapDataFormatter.buildTable(), and the toggle script below --%>
+        <td class="cmapMap"><%=MapDataFormatter.buildTable(g.getRgdId(),g.getSpeciesTypeKey(), rgdId.getObjectKey(), g.getSymbol(), false, true)%></td>
     </tr>
 
 <% } %>
     </tbody>
 </table>
 <%//ui.dynClose("mapAssociation")%>
+
+<%-- One delegated handler for every species table in the section: each "show N more
+     assemblies" button reveals the .mapDataExtra rows of its own table only. The rows are
+     already in the page, so this never goes back to the server. --%>
+<script>
+(function () {
+    var section = document.getElementById("comparativeMapDataTableDiv");
+    if (!section) {
+        return;
+    }
+    section.addEventListener("click", function (e) {
+        var btn = e.target.closest ? e.target.closest(".mapDataMoreBtn") : null;
+        if (!btn) {
+            return;
+        }
+        var table = btn.closest("table");
+        if (!table) {
+            return;
+        }
+        var expanded = btn.getAttribute("aria-expanded") === "true";
+        Array.prototype.forEach.call(table.querySelectorAll("tr.mapDataExtra"), function (tr) {
+            tr.hidden = expanded;
+        });
+        btn.setAttribute("aria-expanded", expanded ? "false" : "true");
+        btn.textContent = btn.getAttribute(expanded ? "data-label-more" : "data-label-less");
+    });
+}());
+</script>
 </div>
 <% } %>
 <%@ include file="../sectionFooter.jsp"%>

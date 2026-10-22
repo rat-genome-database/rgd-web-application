@@ -1298,6 +1298,33 @@ color: #ffffff;
         border: 1px solid #c3ccdd;
     }
 
+    /* Assemblies past the reference one in a collapsed table (Comparative Map Data). The
+       rows are in the page from the start and the toggle flips the hidden attribute, so the
+       rule has to beat ".mapDataTable td { ... }" setting the row group back to visible. */
+    .mapDataTable tr.mapDataExtra[hidden] {
+        display: none;
+    }
+
+    .mapDataTable tr.mapDataMoreRow td {
+        border: 0;
+        padding: 4px 6px;
+        background: none;
+    }
+
+    .mapDataTable button.mapDataMoreBtn {
+        padding: 2px 8px;
+        font-size: 11px;
+        color: #1a4f8a;
+        background: #f1f5fa;
+        border: 1px solid #c3ccdd;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .mapDataTable button.mapDataMoreBtn:hover {
+        background: #e3ebf5;
+    }
+
     /* Position (strand) column - keep the coordinate range and strand on one line */
     .mapDataTable td.mapDataPos,
     .mapDataTable th.mapDataPos {
