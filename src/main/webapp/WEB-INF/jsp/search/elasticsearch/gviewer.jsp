@@ -11,6 +11,7 @@
 %>
 
 
+<script type="text/javascript" src="/rgdweb/js/jquery/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="/rgdweb/gviewer/script/jkl-parsexml.js">
     // ================================================================
     //  jkl-parsexml.js ---- JavaScript Kantan Library for Parsing XML
