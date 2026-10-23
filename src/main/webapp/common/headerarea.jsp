@@ -1,4 +1,5 @@
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedObject" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedTerm" %>
@@ -456,20 +457,28 @@
 </table>
 
     <%
-    ArrayList error = (ArrayList) request.getAttribute("error");
+    // List, not ArrayList: both are only iterated, and the narrower cast meant a controller
+    // handing over anything else - Collections.singletonList, List.of - took the page down with
+    // a ClassCastException instead of showing its message. ElasticSearchController forwards here
+    // with a singletonList when it rejects a search term.
+    List error = (List) request.getAttribute("error");
     if (error != null) {
         Iterator errorIt = error.iterator();
         while (errorIt.hasNext()) {
-            String err = (String) errorIt.next();
+            // escaped: several controllers put e.getMessage() in here, and an exception message
+            // carries whatever was typed - "For input string: \"<img src=x onerror=...>\"" - so
+            // concatenating it raw into the span made any such page reflect it as markup. Every
+            // message in the codebase is plain text, so escaping changes none of them.
+            String err = StringEscapeUtils.escapeHtml4((String) errorIt.next());
             out.println("<br><span style=\"color:red;font-size:20px;\">&nbsp;&nbsp;&nbsp;&nbsp;" + err + "</span>");
         out.println("<br>");
         }
     }
-    ArrayList status = (ArrayList) request.getAttribute("status");
+    List status = (List) request.getAttribute("status");
     if (status !=null) {
         Iterator statusIt = status.iterator();
         while (statusIt.hasNext()) {
-            String stat = (String) statusIt.next();
+            String stat = StringEscapeUtils.escapeHtml4((String) statusIt.next());  // see the error block above
             out.println("<br><span style=\"color:blue;font-size:20px;\">&nbsp;&nbsp;&nbsp;&nbsp;" + stat + "</span>");
         out.println("<br>");
         }
