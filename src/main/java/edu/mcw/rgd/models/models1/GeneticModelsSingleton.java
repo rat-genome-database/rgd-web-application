@@ -33,7 +33,7 @@ public class GeneticModelsSingleton {
     private List<GeneticModel> gerrcModels = new ArrayList<>();
     private List<Strain> rgdStrains;
 
-    private final AssociationDAO associationDAO = new AssociationDAO();
+    private final ReferenceDAO referenceDAO = new ReferenceDAO();
     private final GeneticModelsDAO modelDao = new GeneticModelsDAO();
     private final AliasDAO aliasDAO = new AliasDAO();
     private final ModelProcesses process = new ModelProcesses();
@@ -154,12 +154,14 @@ public class GeneticModelsSingleton {
             expRecordCountMap.putAll(process.getExperimentRecordCounts(termsSubList));
         }
 
+        Map<Integer, List<Reference>> refsByStrain = referenceDAO.getReferencesForObjects(rgdIds);
+
         List<GeneticModel> result = new ArrayList<>();
         for (GeneticModel strain : strains) {
             int rgdId = strain.getStrainRgdId();
 
             // Set references
-            List<Reference> refs = associationDAO.getReferenceAssociations(rgdId);
+            List<Reference> refs = refsByStrain.getOrDefault(rgdId, Collections.emptyList());
             List<Reference> journalRefs = refs.stream()
                 .filter(ref -> REFERENCE_TYPE_JOURNAL.equalsIgnoreCase(ref.getReferenceType()))
                 .collect(Collectors.toList());
