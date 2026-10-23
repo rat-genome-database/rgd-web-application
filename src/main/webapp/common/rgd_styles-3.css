@@ -1165,6 +1165,16 @@ color: #ffffff;
     }
     .rgdChipLink:hover { background: #d8e7f8; text-decoration: none; }
 
+    /* An icon leading a chip's label - the download arrow that marks the chips handing over a
+       file rather than navigating. Slightly smaller than the label so it reads as a marker on
+       the word and not as a second word, and nudged down to sit on the text's optical centre. */
+    .rgdChipLink > .rgdChipIcon {
+        margin-right: 5px;
+        font-size: 10px;
+        position: relative;
+        top: 1px;
+    }
+
     /* A section whose whole content is a set of links to one external resource. The lead-in
        carries the words every link would otherwise repeat, so the links only have to say
        which one they are. */
