@@ -63,18 +63,6 @@ public class ElasticSearchController implements Controller {
             return Collections.emptyMap();
         }
     }
-
-  //  @Override
-    public Report getReport(edu.mcw.rgd.process.search.SearchBean search, HttpRequestFacade req) throws Exception {
-        return null;
-    }
-
- //   @Override
-    public String getViewUrl() throws Exception {
-        return null;
-    }
-
- //   @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
 

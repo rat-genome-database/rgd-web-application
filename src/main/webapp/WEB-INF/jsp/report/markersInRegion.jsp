@@ -38,27 +38,21 @@
 <%  String markerSearchUrl = "/rgdweb/search/markers.html?term=" + displayName + "%5B" + objectType
             + "%5D&speciesType=" + obj.getSpeciesTypeKey();
 
-    // the html result page of the legacy "symbol[objectType]" search was replaced by
-    // elasticsearch, which takes a region as chr/start/stop. The export formats below still
-    // come from the legacy report, so they keep the legacy url.
-    String markerRegionUrl = markerSearchUrl;
-    if( md!=null && md.getChromosome()!=null ) {
-        markerRegionUrl = "/rgdweb/elasticResults.html?category=SSLP&term=&objectSearch=true"
-            + "&speciesType=" + obj.getSpeciesTypeKey()
-            + "&chr=" + md.getChromosome()
-            + "&start=" + md.getStartPos()
-            + "&stop=" + md.getStopPos()
-            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
-    }
+    // Full report, CSV, TAB and Printer are replaced by one Excel download. GViewer below still
+    // comes from the legacy report, and so does Excel now, so markerSearchUrl stays.
 %>
-    <%-- one sentence and five links to the same search, which used to be an eleven column
-         table with a green bullet image between every pair of cells --%>
+    <%-- Excel is fmt=7 on the same legacy search report the CSV and TAB links used, so it
+         carries this table's own columns - Relevance, RGD ID, Symbol, Expected Size, Chr, Start,
+         Stop, Species, Match, Type.
+
+         Not the RGD tools' excel action, which is what Genes and QTLs in Region use: that route
+         resolves its list through OLGAParser/GeneratorCommandParser in rgdcore, and neither of
+         those knows about markers - they reach for GeneDAO, QTLDAO and StrainDAO only. oKey 3
+         resolves to nothing there, so the tools hand back a workbook with headers and no rows. --%>
     <div class="rgdLinkRow">
         <span class="rgdLinkRowLead">The following <b>Markers</b> overlap with this region.</span>
-        <a class="rgdChipLink" href="<%=markerRegionUrl%>">Full report</a>
-        <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=2">CSV</a>
-        <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=3">TAB</a>
-        <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=4">Printer</a>
+        <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=7"
+           title="Download these markers as an Excel workbook"><i class="fa fa-download rgdChipIcon" aria-hidden="true"></i>Excel</a>
         <a class="rgdChipLink" href="<%=markerSearchUrl%>&fmt=5">GViewer</a>
     </div>
 
@@ -78,6 +72,8 @@
                     while (it.hasNext()) {
                         String sym = (String) it.next();
                         String ident =  (String) r.getColumn(0).get(count);
+                        // no list class here: the Excel link is a plain fmt=7 download off the
+                        // search report, not the RGD tools' DOM-scraping export
                         r.updateRecordValue(count, 1, "<a href='" + Link.marker(Integer.parseInt(ident)) + "'>" + sym + "</a>");
                         count++;
                     }

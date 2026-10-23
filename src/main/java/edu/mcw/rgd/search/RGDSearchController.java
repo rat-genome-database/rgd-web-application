@@ -5,6 +5,7 @@ import edu.mcw.rgd.dao.impl.RGDManagementDAO;
 import edu.mcw.rgd.datamodel.RgdId;
 import edu.mcw.rgd.datamodel.ontologyx.Term;
 import edu.mcw.rgd.process.Utils;
+import edu.mcw.rgd.report.ReportExcelWriter;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,8 +45,45 @@ public abstract class RGDSearchController implements Controller {
     }
 
     // fmt values the legacy search still serves: 2=csv, 3=tab, 4=printer, 5+6=gviewer
+    /** csv, tab, printer, gviewer, gviewer xml and excel - the formats still produced from the
+     *  legacy report rather than redirected to elasticsearch */
     private boolean isLegacyExportFormat(int fmt) {
-        return fmt>=2 && fmt<=6;
+        return fmt>=2 && fmt<=FMT_EXCEL;
+    }
+
+    /** the excel download, added after the other five; see the fmt dispatch in handleRequest */
+    static final int FMT_EXCEL = 7;
+
+    /**
+     * What the excel download calls the search it came from, taken from the view name each
+     * subclass sets - "markers.jsp" gives "markers". Defensive about that name because it is not
+     * written for this purpose: CellLineSearchController returns a path ("advanced/cellLines.jsp")
+     * and the two base classes return null, so only the last segment is used and an empty result
+     * falls back rather than reaching POI or a response header.
+     */
+    String excelObjectType() throws Exception {
+        String view = Utils.defaultString(getViewUrl());
+        int slash = view.lastIndexOf('/');
+        if( slash >= 0 ) {
+            view = view.substring(slash + 1);
+        }
+        if( view.endsWith(".jsp") ) {
+            view = view.substring(0, view.length() - 4);
+        }
+        return view;
+    }
+
+    String excelSheetName() throws Exception {
+        String objectType = excelObjectType();
+        return objectType.isEmpty()
+                ? "Search results"
+                : objectType.substring(0, 1).toUpperCase() + objectType.substring(1);
+    }
+
+    String excelFileName() throws Exception {
+        String objectType = excelObjectType();
+        return ReportExcelWriter.fileName(objectType.isEmpty() ? "" : "rgd_" + objectType,
+                "rgd_search", "");
     }
 
     /**
@@ -211,6 +249,11 @@ public abstract class RGDSearchController implements Controller {
             return new ModelAndView(path + "gviewer.jsp");
         } else if (search.getFmt() == 6) {
             return new ModelAndView(path + "gviewerXML.jsp");
+        } else if (search.getFmt() == FMT_EXCEL) {
+            // The same report the csv format renders, as a workbook - so it carries this search's
+            // own columns. Writes the response itself, hence the null ModelAndView.
+            ReportExcelWriter.write(response, report, excelSheetName(), excelFileName());
+            return null;
         }
         return new ModelAndView(path + this.getViewUrl());
     }

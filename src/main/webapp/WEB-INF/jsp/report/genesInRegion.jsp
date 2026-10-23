@@ -43,35 +43,34 @@
     </div>
     <input class="search table-search" id='geneAssociationSearch' type="search" data-column="all" placeholder="Search table">
 </div>
-<%  String geneSearchUrl = "/rgdweb/search/genes.html?term=" + displayName + "%5B" + objectType
+<%  // Full report, CSV, TAB and Printer are replaced by one Excel download off this same legacy
+    // search report; the legacy elasticsearch region url that only "Full report" used is gone.
+    String geneSearchUrl = "/rgdweb/search/genes.html?term=" + displayName + "%5B" + objectType
             + "%5D&speciesType=" + obj.getSpeciesTypeKey();
 
-    // the html result page of the legacy "symbol[objectType]" search was replaced by
-    // elasticsearch, which takes a region as chr/start/stop. The export formats below still
-    // come from the legacy report, so they keep the legacy url.
-    String geneRegionUrl = geneSearchUrl;
-    if( md!=null && md.getChromosome()!=null ) {
-        geneRegionUrl = "/rgdweb/elasticResults.html?category=Gene&term=&objectSearch=true"
-            + "&speciesType=" + obj.getSpeciesTypeKey()
-            + "&chr=" + md.getChromosome()
-            + "&start=" + md.getStartPos()
-            + "&stop=" + md.getStopPos()
-            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
-    }
+    // the reference assembly the Analysis tools link is handed
+    int toolsMapKey = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey();
 %>
-    <%-- one sentence and five links to the same search, which used to be an eleven column
-         table with a green bullet image between every pair of cells --%>
+    <%-- Excel is fmt=7 on the same search report the CSV and TAB links used, so it carries this
+         table's own columns - Relevance, RGD ID, Symbol, Name, Description, Chr, Start, Stop,
+         Species, Annotations, Match, Type.
+
+         It used to be the RGD tools' excel action, which scraped the symbols out of the page and
+         posted them to the generator. The generator's sheet is six fixed columns for every object
+         type, so Name, Description and Annotations were all dropped on the way.
+
+         Analysis tools still goes through the tools dialog, which is why the symbol column below
+         keeps class="geneList" - toolSubmit() in my/my.js collects that class into the list it
+         posts. Nothing else reads it now. --%>
     <div class="rgdLinkRow">
         <span class="rgdLinkRowLead">The following <b>Genes</b> overlap with this region.</span>
-        <a class="rgdChipLink" href="<%=geneRegionUrl%>">Full report</a>
-        <a class="rgdChipLink" href="<%=geneSearchUrl%>&fmt=2">CSV</a>
-        <a class="rgdChipLink" href="<%=geneSearchUrl%>&fmt=3">TAB</a>
-        <a class="rgdChipLink" href="<%=geneSearchUrl%>&fmt=4">Printer</a>
+        <a class="rgdChipLink" href="<%=geneSearchUrl%>&fmt=7"
+           title="Download these genes as an Excel workbook"><i class="fa fa-download rgdChipIcon" aria-hidden="true"></i>Excel</a>
         <%-- the tools icon next to this link ran showTools('geneList',3,360) - rat, and an
              assembly key from years ago - regardless of the species being reported on. The
              link beside it always passed the right species and assembly, so only it is kept --%>
         <a class="rgdChipLink" href="javascript:void(0)"
-           ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>)">Analysis tools</a>
+           ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=toolsMapKey%>)">Analysis tools</a>
     </div>
 
     <%

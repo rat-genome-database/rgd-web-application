@@ -157,15 +157,22 @@
     <div class="annotGroup"><%= isMirnaGene?"Predicted Targets":"Predicted Target Of"%></div>
     <%=report.format(new HTMLTableReportStrategy())%>
 
-    <%-- four links to one report in four formats. This was a nine column table: a lead-in
-         cell, then a green bullet image and a link, four times over. The bullets carried no
-         meaning the links did not already carry. --%>
+    <%-- Two links to one report. This was a nine column table: a lead-in cell, then a green
+         bullet image and a link, four times over. The bullets carried no meaning the links did
+         not already carry.
+
+         CSV and TAB are both gone into Excel, which is the same report as a workbook - see
+         writeExcelFile() in MirnaTargetsController. Full report stays: it is the report on
+         screen rather than a download, so Excel does not replace it.
+
+         The download icon is the one thing that tells the two apart before they are clicked -
+         one navigates, the other hands over a file. Font Awesome 4.7 is loaded for every report
+         page, and the icon is aria-hidden because "Excel" beside it already says what it is. --%>
     <div class="rgdLinkRow">
         <span class="rgdLinkRowLead">Detailed report:</span>
         <a class="rgdChipLink" href="<%=miRnaReportUrl%>full">Full report</a>
-        <a class="rgdChipLink" href="<%=miRnaReportUrl%>csv">CSV</a>
-        <a class="rgdChipLink" href="<%=miRnaReportUrl%>tab">TAB</a>
-        <a class="rgdChipLink" href="<%=miRnaReportUrl%>print">Printer</a>
+        <a class="rgdChipLink" href="<%=miRnaReportUrl%>excel"
+           title="Download this report as an Excel workbook"><i class="fa fa-download rgdChipIcon" aria-hidden="true"></i>Excel</a>
     </div>
 
     <%-- the attribution used to live in a colspan="9" cell of that same table, behind a <br> --%>

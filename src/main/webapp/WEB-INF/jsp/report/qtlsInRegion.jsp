@@ -47,27 +47,23 @@
 <%  String qtlSearchUrl = "/rgdweb/search/qtls.html?term=" + displayName + "%5B" + objectType
             + "%5D&speciesType=" + obj.getSpeciesTypeKey();
 
-    // the html result page of the legacy "symbol[objectType]" search was replaced by
-    // elasticsearch, which takes a region as chr/start/stop. The export formats below still
-    // come from the legacy report, so they keep the legacy url.
-    String qtlRegionUrl = qtlSearchUrl;
-    if( md!=null && md.getChromosome()!=null ) {
-        qtlRegionUrl = "/rgdweb/elasticResults.html?category=QTL&term=&objectSearch=true"
-            + "&speciesType=" + obj.getSpeciesTypeKey()
-            + "&chr=" + md.getChromosome()
-            + "&start=" + md.getStartPos()
-            + "&stop=" + md.getStopPos()
-            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
-    }
+    // Full report, CSV, TAB and Printer are replaced by one Excel download. Both it and GViewer
+    // come from this legacy search report, so qtlSearchUrl stays; the legacy elasticsearch
+    // region url that only "Full report" used went with it.
 %>
-    <%-- one sentence and five links to the same search, which used to be an eleven column
-         table with a green bullet image between every pair of cells --%>
+    <%-- Excel is fmt=7 on the same search report the CSV and TAB links used, so it carries this
+         table's own columns - Relevance, RGD ID, Symbol, Name, LOD, P Value, Trait, Sub Trait,
+         Chr, Start, Stop, Species, Annotations, Match, Type.
+
+         It used to be the RGD tools' excel action, which scraped the symbols out of the page and
+         posted them to the generator. That worked, but the generator's sheet is six fixed columns
+         for every object type - no LOD, no p value, no trait - which is most of what a QTL list
+         is for. See also markersInRegion.jsp, which has to use this route: the generator cannot
+         resolve markers at all. --%>
     <div class="rgdLinkRow">
         <span class="rgdLinkRowLead">The following <b>QTLs</b> overlap with this region.</span>
-        <a class="rgdChipLink" href="<%=qtlRegionUrl%>">Full report</a>
-        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=2">CSV</a>
-        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=3">TAB</a>
-        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=4">Printer</a>
+        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=7"
+           title="Download these QTLs as an Excel workbook"><i class="fa fa-download rgdChipIcon" aria-hidden="true"></i>Excel</a>
         <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=5">GViewer</a>
     </div>
 
@@ -87,6 +83,8 @@
                     while (it.hasNext()) {
                         String sym = (String) it.next();
                         String ident =  (String) r.getColumn(0).get(count);
+                        // no list class here: the Excel link is a plain fmt=7 download off the
+                        // search report, not the RGD tools' DOM-scraping export
                         r.updateRecordValue(count, 1, "<a href='" + Link.qtl(Integer.parseInt(ident)) + "'>" + sym + "</a>");
                         count++;
                     }
