@@ -1,8 +1,7 @@
-<%@ page import="edu.mcw.rgd.reporting.Report" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="edu.mcw.rgd.reporting.HTMLTableReportStrategy" %>
 <%@ page import="edu.mcw.rgd.reporting.Link" %>
+<%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../dao.jsp"%>
 
@@ -14,53 +13,28 @@
 
     List<Gene> genes = geneDAO.getGenesForProteinDomain(obj.getRgdId());
 
-    // organize genes per lower-case gene symbol: for that symbol an array with genes with all species is provided;
-    //  in that array, species type key is an array index
-    List emptyListOfTenElements = new ArrayList<>(10);
-    for( int i=0; i<10; i++ ) {
-        emptyListOfTenElements.add(null);
-    }
-
-    // species 
-    Map<String, List<Gene>> geneSymbolsMap = new TreeMap<>();
+    // one row per lower-case gene symbol, with that symbol's gene in each species
+    Map<String, Map<Integer, Gene>> geneSymbolsMap = new TreeMap<>();
+    Map<Integer, Integer> geneCountBySpecies = new HashMap<>();
     for( Gene g: genes ) {
-        String geneSymbolLC = g.getSymbol().toLowerCase();
-        List<Gene> bucket = geneSymbolsMap.get(geneSymbolLC);
-        if( bucket==null ) {
-            bucket = new ArrayList<>();
-            bucket.addAll(emptyListOfTenElements);
-            geneSymbolsMap.put(geneSymbolLC, bucket);
-        }
-        bucket.set(g.getSpeciesTypeKey(), g);
+        geneSymbolsMap.computeIfAbsent(g.getSymbol().toLowerCase(), k -> new HashMap<>()).put(g.getSpeciesTypeKey(), g);
+        geneCountBySpecies.merge(g.getSpeciesTypeKey(), 1, Integer::sum);
     }
 
-    // print header with species names
-    Report report = new Report();
-    edu.mcw.rgd.reporting.Record re = new edu.mcw.rgd.reporting.Record();
-    Collection<Integer> speciesTypeKeys = SpeciesType.getSpeciesTypeKeys();
-    for( int sp: speciesTypeKeys ) {
-        if( SpeciesType.isSearchable(sp) ) {
-            re.append(SpeciesType.getCommonName(sp)+" &nbsp; ");
+    // a column for each species with genes; species without genes are listed under the table
+    List<Integer> speciesColumns = new ArrayList<>();
+    List<String> speciesWithoutGenes = new ArrayList<>();
+    for( int sp: SpeciesType.getSpeciesTypeKeys() ) {
+        if( !SpeciesType.isSearchable(sp) ) {
+            continue;
+        }
+        if( geneCountBySpecies.containsKey(sp) ) {
+            speciesColumns.add(sp);
+        } else {
+            speciesWithoutGenes.add(SpeciesType.getCommonName(sp));
         }
     }
-    report.append(re);
-
-
-    // print genes
-    for( List<Gene> bucket: geneSymbolsMap.values() ) {
-        re = new edu.mcw.rgd.reporting.Record();
-        for( int sp: speciesTypeKeys ) {
-            if( SpeciesType.isSearchable(sp) ) {
-                Gene g = bucket.size()>sp ? bucket.get(sp) : null;
-                if( g!=null ) {
-                    re.append("<a href='" + Link.gene(g.getRgdId()) + "'>" + g.getSymbol() + "</a>");
-                } else {
-                    re.append("");
-                }
-            }
-        }
-        report.append(re);
-    }
+    int ratGeneCount = geneCountBySpecies.getOrDefault(SpeciesType.RAT, 0);
 
     String description = displayName;
     String pageTitle = obj.getSymbol() + " (" + obj.getName() + ") - " + RgdContext.getLongSiteName(request);
@@ -90,28 +64,80 @@
 </script>
 
 
-<%
-    String pageHeader="Protein Domain: " + obj.getSymbol();
+<style>
+    #domain-info td.label { white-space: nowrap; width: 160px; font-weight: 700; color: #2865A3; padding: 3px 8px; }
+    #domain-info td { padding: 3px 8px; }
+    #domainGenes { width: auto; margin-top: 6px; }
+    #domainGenes th { white-space: nowrap; padding: 6px 22px 6px 10px; }
+    #domainGenes td { white-space: nowrap; padding: 4px 10px; }
+    #domainGenes th .gene-count { font-weight: 400; }
+    .domain-note { color: #555; font-size: 12px; margin-top: 8px; }
+</style>
 
-%>
 <table width="95%" style="padding-top:10px;" border="0">
     <tr>
-        <td style="font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></td>
-    </tr>
-</table>
+        <td valign="top">
+            <table id="domain-info" width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+                <tr><td colspan="2"><h3>Protein Domain : <%=obj.getSymbol()%><%=obj.getName()==null || obj.getName().trim().isEmpty() || obj.getName().equals(obj.getSymbol()) ? "" : " ("+obj.getName()+")"%></h3></td></tr>
+                <tr>
+                    <td class="label">Symbol:</td>
+                    <td><%=obj.getSymbol()%></td>
+                </tr>
+                <tr>
+                    <td class="label">Name:</td>
+                    <td><%=Utils.NVL(obj.getName(), "N/A")%></td>
+                </tr>
+                <tr>
+                    <td class="label">Description:</td>
+                    <td><%=Utils.NVL(obj.getDescription(), "N/A")%></td>
+                </tr>
+                <tr>
+                    <td class="label">Source:</td>
+                    <td><%=Utils.NVL(obj.getSource(), "N/A")%></td>
+                </tr>
+                <tr>
+                    <td class="label">SO Acc Id:</td>
+                    <td><% if( obj.getSoAccId()==null ) { %>N/A<% } else { %><a href="<%=Link.ontView(obj.getSoAccId())%>" title="click to go to sequence ontology"><%=obj.getSoAccId()%></a><% } %></td>
+                </tr>
+                <tr>
+                    <td class="label">Genes:</td>
+                    <td><%=ratGeneCount%> rat gene<%=ratGeneCount==1?"":"s"%>; <%=genes.size()%> gene<%=genes.size()==1?"":"s"%> in <%=speciesColumns.size()%> species</td>
+                </tr>
+            </table>
 
-<p>
-<table width="95%" border="0">
-    <tr>
-        <td>
-            <script type="text/javascript" src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
-            <%
-                HTMLTableReportStrategy strat = new HTMLTableReportStrategy();
-                strat.setTableProperties(" class='sortable' ");
-                String[] tdProps = {"valign='top'","valign='top'","valign='top'","valign='top'","valign='top'","valign='top'","valign='top'","valign='top'"};
-                strat.setTdProperties(tdProps);
-                out.print(strat.format(report));
-            %>
+            <br>
+            <div class="sectionHeading">Genes with the <%=obj.getSymbol()%> Domain</div>
+            <% if( genes.isEmpty() ) { %>
+                <p>No genes are annotated with this protein domain.</p>
+            <% } else { %>
+            <table id="domainGenes" class="tablesorter">
+                <thead>
+                <tr>
+                    <% for( int sp: speciesColumns ) { %>
+                    <th><%=SpeciesType.getCommonName(sp)%> <span class="gene-count">(<%=geneCountBySpecies.get(sp)%>)</span></th>
+                    <% } %>
+                </tr>
+                </thead>
+                <tbody>
+                <% for( Map<Integer, Gene> row: geneSymbolsMap.values() ) { %>
+                <tr>
+                    <% for( int sp: speciesColumns ) {
+                        Gene g = row.get(sp); %>
+                    <td><% if( g!=null ) { %><a href="<%=Link.gene(g.getRgdId())%>"><%=g.getSymbol()%></a><% } %></td>
+                    <% } %>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+            <% if( !speciesWithoutGenes.isEmpty() ) { %>
+            <div class="domain-note">No genes with this domain in: <%=String.join(", ", speciesWithoutGenes)%>.</div>
+            <% } %>
+            <script>
+                $(function() {
+                    $("#domainGenes").tablesorter({ theme: 'blue', widgets: ['zebra'], emptyTo: 'bottom' });
+                });
+            </script>
+            <% } %>
         </td>
         <td>&nbsp;</td>
         <td valign="top">
