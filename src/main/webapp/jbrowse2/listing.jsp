@@ -147,6 +147,7 @@
                     <li>Pig</li>
                     <ul>
 
+                        <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Sscrofa_HxYL_maternal_Yorkshire_Landrace_v2.0&tracklist=true&tracks=Pig Sscrofa_HxYL_maternal_Yorkshire_Landrace_v2.0 (sscrofa_HxYL_maternal_Yorkshire_Landrace_v2) Genes and Transcripts-Sscrofa_HxYL_maternal_Yorkshire_Landrace_v2.0">Sscrofa_HxYL_maternal_Yorkshire_Landrace_v2.0</a></li>
                         <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Sscrofa11.1&tracklist=true&tracks=Pig Sscrofa11.1 (susScr11) Genes and Transcripts-Sscrofa11.1">Sscrofa11.1</a></li>
                                 <li><a href="/jbrowse2/?loc=chr1:6000000-7000000&assembly=Sscrofa10.2&tracklist=true&tracks=Pig Sscrofa10.2 (susScr3) Genes and Transcripts-Sscrofa10.2">Sscrofa10.2</a></li>
                     </ul>
