@@ -144,7 +144,7 @@
         <ol>
             <li><b>Assign.</b> Signed-in curators assign items to testers with the assignee list, or take an unassigned item with <i>Take this one</i>.</li>
             <li><b>Test.</b> The tester sets the item to In progress, opens the Test link beside the Production link, and works through the item's checks (click the item's name to see them).</li>
-            <li><b>Record the result.</b> Passed if everything matches. Slow if the page works but is much slower than production. Slow, Failed or Blocked needs a note: the URL, the ID used, and what was wrong or how long the page took.</li>
+            <li><b>Record the result.</b> Any signed-in curator can change an item's status. Passed if everything matches. Slow if the page works but is much slower than production. Slow, Failed or Blocked needs a note: the URL, the ID used, and what was wrong or how long the page took.</li>
             <li><b>Fix and retest.</b> A developer fixes the failure and redeploys newdev, and the tester runs the item again from step 2.</li>
             <li><b>Sign off.</b> Once an item has Passed, its tester presses <i>Sign off</i>. The page records who signed and when. Changing the result away from Passed removes the sign-off. Every change is kept in the item's history.</li>
         </ol>
@@ -262,7 +262,7 @@
             </div>
 
             <div>
-                <% if (mine) { %>
+                <% if (login != null) { %>
                 <form method="post" action="testPlan.html" onsubmit="return needsNote(this)">
                     <input type="hidden" name="itemId" value="<%=id%>"><input type="hidden" name="action" value="status"><input type="hidden" name="notes" value="">
                     <select name="status" class="status s-<%=statusClass.get(i.getStatus())%>" onchange="if (needsNote(this.form)) this.form.submit()" aria-label="Status of <%=h(i.getName())%>">

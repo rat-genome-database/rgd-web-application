@@ -89,9 +89,7 @@ public class TestPlanController implements Controller {
                 dao.assign(itemId, login, login);
                 return null;
             case "status": {
-                if (!login.equals(item.getAssignee())) {
-                    return "Only the assigned tester can record a result.";
-                }
+                // any signed-in curator can change the status of any item
                 String status = request.getParameter("status");
                 String notes = trimToNull(request.getParameter("notes"));
                 if (("Slow".equals(status) || "Failed".equals(status) || "Blocked".equals(status)) && notes == null && item.getNotes() == null) {
