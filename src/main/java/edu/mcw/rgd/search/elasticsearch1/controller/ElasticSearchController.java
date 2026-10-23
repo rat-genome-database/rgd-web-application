@@ -135,18 +135,59 @@ public class ElasticSearchController implements Controller {
      *                   the normal case rather than a mistake
      */
     private String validateSearchTerm(String typed, String normalized, boolean positional) {
-        if (searchableLength(typed) > MAX_SEARCH_LENGTH) {
-            return "Search term must be " + MAX_SEARCH_LENGTH + " characters or fewer. Please search again.";
+
+        // the ceiling is on what was typed, because it is there to bound the input rather than to
+        // judge how much of it the search can use
+        if (typed.length() > MAX_SEARCH_LENGTH) {
+            return "That search is too long. Please shorten it to " + MAX_SEARCH_LENGTH
+                    + " characters or fewer and search again.";
         }
-        if (!positional && searchableLength(normalized) < MIN_SEARCH_LENGTH) {
-            return "Search term must be at least " + MIN_SEARCH_LENGTH + " characters long. Please search again.";
+        if (positional || searchableLength(normalized) >= MIN_SEARCH_LENGTH) {
+            return null;
         }
-        return null;
+
+        // One message per reason the term came up short. They used to share "must be at least 2
+        // characters long", which reads as plainly wrong to anyone who typed more than that:
+        // "a*" and "%a" are two characters and "RGD" is three, and all three land here.
+        //
+        // None of these quote what was typed. headerarea.jsp, where this is rendered, builds the
+        // span by concatenation, and other pages render the same attribute, so a term echoed back
+        // into the message could come back as markup.
+        if (typed.indexOf('*') >= 0 || typed.indexOf('%') >= 0) {
+            return "A wildcard (* or %) cannot stand in for the characters you search on. Please "
+                    + "enter at least " + MIN_SEARCH_LENGTH + " letters or numbers with it - "
+                    + "\"ab*\" rather than \"a*\".";
+        }
+        if (normalized.isEmpty() && !typed.isEmpty()) {
+            // what is left after the RGD prefix comes off - "RGD", "rgd:", "RGD_"
+            return "Please include the ID digits after \"RGD\" - for example RGD:2004.";
+        }
+        // "letters or numbers", not "characters": punctuation does not narrow a search, so "a."
+        // is as short as "a" as far as the index is concerned
+        return "Please enter at least " + MIN_SEARCH_LENGTH + " letters or numbers to search.";
     }
 
-    /** how much of a term a search can match on - a wildcard is not a character, so "**" is not two */
+    /**
+     * How much of a term the search can actually narrow on: letters and digits only.
+     *
+     * Discounting "*" alone was not enough. A wildcard is not the only character that contributes
+     * nothing - the analyzer drops punctuation as well, so "%a" reaches Elasticsearch as the one
+     * character "a", and a one character search does not come back. ("%ab" and "ab" return the
+     * same results in the same time, which is what showed the "%" was being ignored.) Counting
+     * only letters and digits covers *, %, quotes, hyphens and anything else in a single rule,
+     * instead of a list of characters to remember.
+     */
     private static int searchableLength(String term) {
-        return term == null ? 0 : term.replaceAll("\\*", "").length();
+        if (term == null) {
+            return 0;
+        }
+        int count = 0;
+        for (int i = 0; i < term.length(); i++) {
+            if (Character.isLetterOrDigit(term.charAt(i))) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -289,37 +330,61 @@ public class ElasticSearchController implements Controller {
         }
         return null;
     }
+    /**
+     * Whether the number is an expression study id.
+     *
+     * It is only ever used to suppress a redirect, never to make one: getRedirectForRgdId() had a
+     * branch building an /report/expressionStudy/main.html url, but reaching it required this to
+     * be true, and that case returned null before getting there. So a study id has always fallen
+     * through to the search. The dead branch is gone rather than left looking live - if a study id
+     * should redirect to its report, that is a feature to add deliberately.
+     */
     private boolean isStudyId(int id) throws Exception {
         StudySampleMetadataDAO dao=new StudySampleMetadataDAO();
         List<StudySampleMetadata> studies=dao.getStudySampleMetadata(id);
         return studies!=null && studies.size()>0;
 
     }
+    /**
+     * The report page a purely numeric term goes straight to, or null to let the search answer.
+     *
+     * getRgdId2() returns null for a number that is not an RGD id - which is most numbers people
+     * type - and the status was read off it before that was checked, so searching for "22" threw
+     * an NPE. It was caught and logged by getRedirectUrl(), so the search still ran, but every
+     * such search left a warning and a stack trace in the log.
+     *
+     * The null checks that followed could not help: inside "if (id.getObjectStatus()...)" the id
+     * is never null, so "id == null && !studyId" was unreachable - and with id non-null the whole
+     * condition reduced to "studyId". A number that is both an RGD id and a study id therefore
+     * falls through to the search, which is the behaviour kept here. See the note on isStudyId().
+     */
     private String getRedirectForRgdId(String term) throws Exception {
         int rgdId = Integer.parseInt(term);
+
         RGDManagementDAO dao = new RGDManagementDAO();
         RgdId id = dao.getRgdId2(rgdId);
-        if(id.getObjectStatus().equalsIgnoreCase("active")) {
-            boolean studyId = isStudyId(rgdId);
-            if ((id == null && !studyId) || (id != null && studyId)) {
-                return null;
-            }
 
-            String url;
-            // Non-human variants use different report page
-            if (id.getSpeciesTypeKey() != 1 && id.getObjectKey() == 7) {
-                url = "/rgdweb/report/variants/main.html?id=" + id.getRgdId();
-            } else {
-                if (!studyId)
-                    url = Link.it(rgdId, id.getObjectKey());
-                else
-                    url = "/rgdweb/report/expressionStudy/main.html?id=" + term;
-            }
+        // not an RGD id at all, or not an active one: nothing to go to
+        if (id == null || !"active".equalsIgnoreCase(id.getObjectStatus())) {
+            return null;
+        }
 
-            // Only redirect if Link.it returned a valid URL (not just the ID)
-            if (url != null && !url.equals(String.valueOf(rgdId))) {
-                return buildFullUrl(url);
-            }
+        // also a study id, so there are two places it could mean: let the search show both
+        if (isStudyId(rgdId)) {
+            return null;
+        }
+
+        String url;
+        if (id.getSpeciesTypeKey() != 1 && id.getObjectKey() == 7) {
+            // non-human variants have their own report page
+            url = "/rgdweb/report/variants/main.html?id=" + id.getRgdId();
+        } else {
+            url = Link.it(rgdId, id.getObjectKey());
+        }
+
+        // Link.it hands back just the id when it has no page for that object type
+        if (url != null && !url.equals(String.valueOf(rgdId))) {
+            return buildFullUrl(url);
         }
         return null;
     }
