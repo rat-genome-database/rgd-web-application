@@ -35,7 +35,10 @@ public class ElasticSearchController implements Controller {
 
     private static final Logger logger = Logger.getLogger(ElasticSearchController.class.getName());
 
-    private static final int MIN_SEARCH_LENGTH = 1;
+    /** Was 1, which meant only an empty term was turned away while the error message promised 2.
+     *  A single character general search does not come back - it was still running after four
+     *  minutes - so the message was describing the rule that was wanted and this was not it. */
+    private static final int MIN_SEARCH_LENGTH = 2;
     private static final int MAX_SEARCH_LENGTH = 200;
     private static final int DEFAULT_PAGE_SIZE = 50;
     private static final String DEFAULT_SPECIES = "rat";
@@ -63,34 +66,25 @@ public class ElasticSearchController implements Controller {
             return Collections.emptyMap();
         }
     }
-
-  //  @Override
-    public Report getReport(edu.mcw.rgd.process.search.SearchBean search, HttpRequestFacade req) throws Exception {
-        return null;
-    }
-
- //   @Override
-    public String getViewUrl() throws Exception {
-        return null;
-    }
-
- //   @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        String searchTerm = req.getParameter("term").trim();
-        String category = req.getParameter("category");
+        // HttpRequestFacade.getParameter returns "" rather than null for a parameter that is not
+        // there, but this is the first thing every request to this controller touches, so it does
+        // not lean on that
+        String searchTerm = searchTerm(req.getParameter("term"));
 
-        // Validate search term
-        String validationError = validateSearchTerm(searchTerm, category);
+        // Normalized before it is validated, because the normalized term is what the search
+        // actually runs on and the two lengths differ: "RGD" is three characters that reduce to
+        // nothing, "RGD:2" is five that reduce to one. Validating what was typed let both past.
+        String term = normalizeSearchTerm(searchTerm);
+
+        String validationError = validateSearchTerm(searchTerm, term, isPositionalSearch(req));
         if (validationError != null) {
             request.setAttribute("error", Collections.singletonList(validationError));
             request.getServletContext().getRequestDispatcher("/").forward(request, response);
             return null;
         }
-
-        // Normalize search term
-        String term = normalizeSearchTerm(searchTerm);
 
         SearchService service = new SearchService();
         SearchBean searchBean = service.getSearchBean(req, term);
@@ -113,27 +107,69 @@ public class ElasticSearchController implements Controller {
         return new ModelAndView(selectView(req, searchBean), "model", model);
     }
 
-    private String validateSearchTerm(String searchTerm, String category) {
-        int termLength = searchTerm.replaceAll("\\*", "").length();
-        boolean isGeneralCategory = isBlank(category) || GENERAL.equalsIgnoreCase(category);
+    /** the typed term, never null and with the surrounding whitespace off */
+    private String searchTerm(String raw) {
+        return raw == null ? "" : raw.trim();
+    }
 
-        if (termLength > MAX_SEARCH_LENGTH) {
-            return "Search term must be less than 200 characters long. Please search again.";
+    /**
+     * A region search carries its query in chr/start/stop and its term is legitimately empty -
+     * that is exactly what buildElasticSearchUrl() in RGDSearchController emits for one. So the
+     * minimum length cannot apply to it.
+     *
+     * This replaces a test on the category. The minimum used to be skipped for every category
+     * but "general", which was far wider than the case it was protecting: "?category=Gene" with
+     * no term and no position ran as a match-all. "all" is not a chromosome, which is how
+     * SearchService reads it too.
+     */
+    private boolean isPositionalSearch(HttpRequestFacade req) {
+        String chr = req.getParameter("chr");
+        boolean hasChr = !isBlank(chr) && !ALL.equalsIgnoreCase(chr);
+        return hasChr || !isBlank(req.getParameter("start")) || !isBlank(req.getParameter("stop"));
+    }
+
+    /**
+     * @param typed      what was entered, which is what the ceiling applies to
+     * @param normalized what the search will run on, which is what the floor applies to
+     * @param positional whether chr/start/stop carry the query, in which case an empty term is
+     *                   the normal case rather than a mistake
+     */
+    private String validateSearchTerm(String typed, String normalized, boolean positional) {
+        if (searchableLength(typed) > MAX_SEARCH_LENGTH) {
+            return "Search term must be " + MAX_SEARCH_LENGTH + " characters or fewer. Please search again.";
         }
-        if (termLength < MIN_SEARCH_LENGTH && isGeneralCategory) {
-            return "Search term must be at least 2 characters long. Please search again.";
+        if (!positional && searchableLength(normalized) < MIN_SEARCH_LENGTH) {
+            return "Search term must be at least " + MIN_SEARCH_LENGTH + " characters long. Please search again.";
         }
         return null;
     }
 
+    /** how much of a term a search can match on - a wildcard is not a character, so "**" is not two */
+    private static int searchableLength(String term) {
+        return term == null ? 0 : term.replaceAll("\\*", "").length();
+    }
+
+    /**
+     * Drops an "RGD" identifier prefix, so "RGD:2004", "RGD_2004", "RGD 2004" and "RGD2004" all
+     * search as 2004, and lower cases the rest.
+     *
+     * Two things were wrong before. The prefix tests were case sensitive while the fallback lower
+     * cased, so the two disagreed: "RGD:2004" came out as "2004" but "rgd:2004" fell through to
+     * the fallback and came out as ":2004" - a different search for the same thing typed in
+     * another case. And the fallback ran replaceAll("rgd", " ") across the whole string rather
+     * than the prefix, so any term that merely contained those three letters was rewritten:
+     * "Nrgdx" became "n x". Case is folded once up front now, and only a prefix is removed.
+     */
     private String normalizeSearchTerm(String searchTerm) {
-        if (searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ")) {
-            return searchTerm.substring(4).toLowerCase();
+        String term = searchTerm == null ? "" : searchTerm.trim().toLowerCase();
+
+        if (term.startsWith("rgd:") || term.startsWith("rgd_") || term.startsWith("rgd ")) {
+            return term.substring(4).trim();
         }
-        if (searchTerm.startsWith("RGD")) {
-            return searchTerm.substring(3).toLowerCase();
+        if (term.startsWith("rgd")) {
+            return term.substring(3).trim();
         }
-        return searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
+        return term;
     }
 
     private ModelMap buildSearchModel(HttpServletRequest request, HttpRequestFacade req,
@@ -312,7 +348,7 @@ public class ElasticSearchController implements Controller {
     }
 
     private String buildFullUrl(String path) {
-        return path;
+        return (path != null) ? RgdContext.getHostname() + path : null;
     }
     private String getUrlFromSearchHit(SearchResponse<java.util.Map> response, HttpServletRequest request, String term) {
         TotalHits totalHits = response.hits().total();
