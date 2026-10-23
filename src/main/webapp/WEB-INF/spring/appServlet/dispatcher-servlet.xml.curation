@@ -72,7 +72,6 @@
                 <prop key="curation/edit/editStrain.html">StrainEditObjectController</prop>
                 <prop key="curation/edit/editAnnotation.html">AnnotationEditObjectController</prop>
                 <prop key="curation/edit/editGenomicElement.html">GenomicElementEditObjectController</prop>
-                <prop key="curation/edit/editGenomicElementAttr.html">GenomicElementAttrEditObjectController</prop>
                 <prop key="curation/edit/editCellLine.html">CellLineEditObjectController</prop>
                 <prop key="curation/edit/editTerm.html">TermEditObjectController</prop>
                 <prop key="curation/edit/updateAliases.html">AliasesEditObjectController</prop>
@@ -84,7 +83,6 @@
                 <prop key="curation/edit/updateNotes.html">NotesEditObjectController</prop>
                 <prop key="curation/edit/updateID.html">IDEditObjectController</prop>
                 <prop key="curation/edit/updateSequence.html">SequenceEditObjectController</prop>
-                <prop key="curation/edit/updateGenomicElementAttrs.html">GenomicElementAttrsEditObjectController</prop>
                 <prop key="curation/edit/updateGeneVariants.html">GeneVariantsEditObjectController</prop>
                 <prop key="curation/edit/updateGeneAssociations.html">GeneAssociationsEditObjectController</prop>
                 <prop key="curation/edit/updateGeneVariantAssociations.html">GeneVariantAssociationsEditObjectController</prop>
@@ -419,8 +417,6 @@
     <bean id="StrainEditObjectController" class="edu.mcw.rgd.edit.StrainEditObjectController"/>
     <bean id="AnnotationEditObjectController" class="edu.mcw.rgd.edit.AnnotationEditObjectController"/>
     <bean id="GenomicElementEditObjectController" class="edu.mcw.rgd.edit.GenomicElementEditObjectController"/>
-    <bean id="GenomicElementAttrEditObjectController" class="edu.mcw.rgd.edit.GenomicElementAttrEditObjectController"/>
-    <bean id="GenomicElementAttrsEditObjectController" class="edu.mcw.rgd.edit.GenomicElementAttrsEditObjectController"/>
     <bean id="CellLineEditObjectController" class="edu.mcw.rgd.edit.CellLineEditObjectController"/>
     <bean id="TermEditObjectController" class="edu.mcw.rgd.edit.TermEditObjectController"/>
 

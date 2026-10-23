@@ -84,7 +84,6 @@
 </table>
 
 <%@ include file="aliasData.jsp" %>
-<%@ include file="genomicElementAttrData.jsp" %>
 <%@ include file="sequenceData.jsp" %>
 
 <%@ include file="/common/footerarea.jsp" %>
