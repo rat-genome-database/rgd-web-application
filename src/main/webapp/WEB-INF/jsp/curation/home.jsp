@@ -64,11 +64,6 @@ Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbs
             </tr>
             <tr>
                 <td>
-                    <a v-bind:href="'/rgdCuration/?module=notesEdit&func=selectObjects&token='+token">Notes Editor</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
                     <a v-bind:href="'/rgdCuration/?module=ont&func=obsoleteTerms&token='+token">Obsolete Terms</a>
                 </td>
             </tr>
@@ -142,10 +137,6 @@ Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbs
             <tr valign="top">
                 <td>
                     <a v-bind:href="'/rgdweb/curation/edit/submittedStrains/editStrains.html?token='+token+'&login='+name">Submitted Strains</a></td>
-            </tr>
-            <tr valign="top">
-                <td>
-                    <a href="journals.shtml">Journal List and Links</a></td>
             </tr>
             <tr valign="top">
                 <td>
