@@ -224,7 +224,7 @@ function toggleSynonyms(synType) {
           } else if( syn.getName().startsWith("ICD9CM:") ) {
               synLink = "<a href='" + XDBIndex.getInstance().getXDB(130).getUrl() + syn.getName().substring(7) + "'>" + syn.getName() + "</a>";
           } else if( syn.getName().startsWith("MONDO:") ) {
-              synLink = "<a href='" + XDBIndex.getInstance().getXDB(145).getUrl() + "MONDO_" + syn.getName().substring(6) + "'>" + syn.getName() + "</a>";
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(145).getUrl() + syn.getName() + "'>" + syn.getName() + "</a>";
           } else if( syn.getName().startsWith("EFO:") ) {
               synLink = "<a href='" + XDBIndex.getInstance().getXDB(93).getUrl() + "EFO_" + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
           } else if( syn.getName().startsWith("OBA:") ) {
