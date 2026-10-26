@@ -12,9 +12,9 @@ To change this template use File | Settings | File Templates.
 <%@ page import="edu.mcw.rgd.dao.spring.StringMapQuery" %>
 <%@ include file="/WEB-INF/jsp/report/dao.jsp" %>
 <%
-    String pageTitle = "Hybrid Rat Diversity Panel Portal";
+    String pageTitle = "Hybrid Rat Discovery Panel Portal";
     String headContent = "";
-    String pageDescription = "Hybrid Rat Diversity Panel Portal";
+    String pageDescription = "Hybrid Rat Discovery Panel Portal";
 %>
 <%@ include file="/common/headerarea.jsp"%>
 <%
@@ -41,7 +41,7 @@ To change this template use File | Settings | File Templates.
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
     <div class="hrdp-header">
-        <h1>The Hybrid Rat Diversity Panel</h1>
+        <h1>The Hybrid Rat Discovery Panel</h1>
         <button id="btn-contact">
             <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry" style="text-decoration: none">Contact HRDP</a>
         </button>
@@ -49,7 +49,7 @@ To change this template use File | Settings | File Templates.
     <div class="hrdp-img-container">
         <a title="Click here to jump to strain listing" href="#strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image" class="hrdp-main-img"></a>
     </div>
-    <h3>What is the Hybrid Rat Diversity Panel (HRDP)?</h3>
+    <h3>What is the Hybrid Rat Discovery Panel (HRDP)?</h3>
     <ul>
         <li>Panel of 96 inbred rat strains with genetic and phenotypic diversity
             <ul>
