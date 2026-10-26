@@ -1,5 +1,6 @@
 <%@ page import="edu.mcw.rgd.process.search.SearchBean" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.web.RgdContext" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -74,6 +75,8 @@
 <%@ include file="/common/headerarea.jsp"%>
 <%@ include file="../reportHeader.jsp"%>
 
+<%-- modern presentation layer for this report; loaded last so it wins over report.css --%>
+
 <script type="application/ld+json">
 {
 "@context": "http://schema.org",
@@ -103,7 +106,7 @@
     let reportTitle = "gene";
 </script>
 
-<div id="page-container">
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <div id="species-image">
@@ -115,28 +118,47 @@
 
 
     <div id="content-wrap">
-        <table width="95%" style="padding-top:10px;" border="0">
-            <tr>
-                <% if( RgdContext.isChinchilla(request) ) { %>
-                <td style="font-size:20px; color:#96151d; font-weight:700;"><%=pageHeader%></td>
-                <% } else { %>
-                <td style="font-size:20px; color:#2865A3; font-weight:700;"><%=pageHeader%></td>
-                <% } %>
-                <td align="center" valign="bottom"><div ng-click="rgd.addWatch(pageObject)"><img heght="30" width="30" src="/rgdweb/common/images/binoculars.png" border="0"/><br><a href="javascript:void(0)" >{{ watchLinkText }}</a></div></td>
-                <td align="center" valign="bottom"><img src="/rgdweb/common/images/tools-white-40.png" style="cursor:hand; border: 0px solid black;" border="0" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')"/><br><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>,1,'')">Analyze</a></td>
 
-                <% if( tutorialLink!=null && !tutorialLink.isEmpty() && !RgdContext.isChinchilla(request) ) { %>
-                <td align="right">
-                    <a  href="<%=tutorialLink%>"><img src="http://rgd.mcw.edu/common/images/tutorial.png" border=0/></a>
-                </td>
-                <% } %>
-            </tr>
-        </table>
-
-
-
-
-        <%@ include file="menu.jsp"%>
+        <%-- report hero: identity of the gene up front, actions on the right. The panel itself
+             lives in ../reportHero.jsp so that every report page presents the same header;
+             this block only says what the gene puts in it. --%>
+        <%
+            // An allele is stored as a gene and so is rendered by this page, but the reader is
+            // looking at an allele - the eyebrow says so, and the type chip below repeats it.
+            // The object key cannot tell the two apart; only the Gene in hand can.
+            boolean isAllele = "allele".equalsIgnoreCase(Utils.NVL(obj.getType(), ""));
+            heroEyebrow = isAllele ? "Allele Report" : "Gene Report";
+            heroTitle = obj.getSymbol();
+            heroSubtitle = Utils.NVL(obj.getName(), "");
+            heroSpeciesKey = obj.getSpeciesTypeKey();
+            heroRgdId = obj.getRgdId();
+            // An allele's symbol is markup - the superscript that names the allele is part of
+            // how it is written - so the hero prints it rather than escaping it, the same way
+            // it prints a strain name. Every other gene type has a plain symbol and stays
+            // escaped.
+            heroTitleIsMarkup = isAllele;
+            if( !Utils.isStringEmpty(obj.getType()) ) {
+                heroChips.add("|" + obj.getType());
+            }
+            if( mapDataList.size()>0 && md.getChromosome()!=null ) {
+                heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
+                        + "|" + refMap.getName());
+            }
+            heroAnalyze = "rgd.showTools('geneList'," + obj.getSpeciesTypeKey() + ","
+                    + MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey() + ",1,'')";
+            heroTutorialLink = tutorialLink;
+            // "Edit Me!" was the second item in the tab strip that used to sit here (menu.jsp).
+            // The strip held one real tab, "General", pointing at the view the page was already
+            // showing - the Array IDs and References tabs had both become sections of the report
+            // body - so it was a row of chrome that selected nothing. It is gone; the curator
+            // link belongs with the other page-level actions, which is where the variant report
+            // has kept its own Edit action all along.
+            if( RgdContext.isCurator() ) {
+                heroExtraActions = "<a class=\"rgd-action\" href=\"/rgdweb/curation/edit/editGene.html?edit=new&amp;objectType=editGene.html&amp;rgdId="
+                        + obj.getRgdId() + "\" title=\"go to Object Edit\"><i class=\"fa fa-pencil\"></i>Edit Me!</a>";
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
 
         <% if (view.equals("2")) { %>
 
@@ -151,8 +173,9 @@
 
         <% if (true) return; %>
 
-        <% } else if (view.equals("4")) { %><table width="95%"><tr><td valign="top">
-        <%@ include file="../arrayIds.jsp"%>
+        <%-- the "view=4" branch that rendered Array IDs as its own tab is gone; the section
+             now lives in the report body under External Database Links. An existing
+             ?view=4 link falls through to the full report rather than to a blank page. --%>
             <% } else if (view.equals("5")) { %><table width="95%"><tr><td valign="top">
         <%@ include file="../referencesTab.jsp"%>
             <% } else { %>
@@ -167,7 +190,7 @@
                     <%@ include file="info.jsp"%>
 
                     <a name="annotation"></a>
-                    <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
+                    <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
 
                     <div id="associationsCurator" style="display:none;">
                         <%@ include file="../associationsCurator.jsp"%>
@@ -183,9 +206,7 @@
                     <!--above genomics table--->
 
                     <a name="genomics"></a>
-                    <br>
                     <div class="subTitle" id="genomics">Genomics</div>
-                    <br>
 
                     <%
                         SearchBean sb = new SearchBean();
@@ -205,22 +226,24 @@
                     <%@ include file="../qtlsInRegion.jsp"%>
                     <%@ include file="markers.jsp"%>
                     <%@ include file="../cellLines.jsp"%>
-                    <%@ include file="../relatedStrains.jsp"%>
-                    <%@ include file="../geneticModels.jsp"%>
+                    <%-- "Related Rat Strains" (../relatedStrains.jsp) and "Genetic Models"
+                         (../geneticModels.jsp) used to be included here, each a card holding a
+                         single run of strain links. The summary table already carries both in one
+                         "Related Strains" row (see the RELATED STRAINS block in info.jsp, which
+                         merges the genetic models with the strains this gene is a marker for), so
+                         the two cards repeated it a screen further down. Both includes are gone;
+                         the files stay, since relatedStrains.jsp is still included as-is by the
+                         cell line, QTL and variant reports, which have no such summary row. --%>
                     <!---Above expression table-->
                     <a name="expression"></a>
-                    <br>
                     <div class="subTitle" id="expression">Expression</div>
-                    <br>
                     <%try {%>
                     <jsp:include page="expressionDataNew.jsp"/>
                     <%} catch (Exception e){e.printStackTrace();}%>
 
                     <!--above sequence table--->
                     <a name="sequence"></a>
-                    <br>
                     <div class="subTitle" id="sequence">Sequence</div>
-                    <br>
                     <%@ include file="../nucleotide.jsp"%>
                     <%@ include file="../proteins.jsp"%>
                     <%@ include file="proteinStructures.jsp"%>
@@ -231,9 +254,14 @@
                     
                     <!--above additional information--->
                     <a name="additional"></a>
-                    <br><div  class="subTitle" id = "additionalInformation">Additional Information</div><br>
+                    <div  class="subTitle" id = "additionalInformation">Additional Information</div>
 
                     <%@ include file="../xdbs.jsp"%>
+                    <%-- Array IDs sits directly under External Database Links: it is the same
+                         kind of thing, a list of this gene's identifiers somewhere else. It
+                         used to be the "view=4" tab instead, which is gone from menu.jsp and
+                         from the branch above. --%>
+                    <%@ include file="../arrayIds.jsp"%>
                     <%@ include file="../nomen.jsp"%>
                     <%@ include file="../curatorNotes.jsp"%>
 <%--                    <%@ include file="../rgdVariants.jsp"%>--%>
@@ -259,8 +287,10 @@
 <%@ include file="/common/footerarea.jsp"%>
 
 
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>
+<%-- must come last: it decorates the sidebar and the sections both scripts above build --%>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=9"> </script>
 
 
 

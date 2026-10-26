@@ -29,8 +29,11 @@
         <tr>
             <td class="label"> RGD Orthologs</td>
             <td>
-                <table>
-                    <tr>
+                <%-- The species cards used to be a one row inner table, one <td> per species. A
+                     table row cannot wrap, so a gene with orthologs in a dozen species ran the row
+                     straight out of the summary card. They are a wrapping list now - the same
+                     cards, onto as many lines as the column needs. --%>
+                <div class="orthoSpeciesList">
         <% for (Gene gene : homologs) {
             if (!rgdIds.contains(gene.getRgdId())){
                 rgdIds.add(gene.getRgdId());
@@ -38,16 +41,21 @@
                 String orthTitle = "Species: &nbsp; "+SpeciesType.getCommonName(gene.getSpeciesTypeKey())+" ("+SpeciesType.getTaxonomicName(gene.getSpeciesTypeKey())+")"
                         +"\nGene Symbol: &nbsp; "+gene.getSymbol();
         %>
-                <td>
-                    <a class="speciesCardOverlay" href="/rgdweb/report/gene/main.html?id=<%=gene.getRgdId()%>" title="<%=orthTitle%>">
-                    <div style="margin:5px; font-weight:700;" >
-                        <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
-                    </a>
-                    <img border="0" src=<%=imageSource%> class="speciesIcon">
-                </td>
+                    <%-- each card is its own positioning context, so the absolutely positioned
+                         overlay covers this species' icon rather than some ancestor --%>
+                    <span class="orthoSpeciesCard">
+                        <%-- the name is laid out by .speciesCardOverlay in reportModern.css; the
+                             inline margin:5px that used to be here left only 53px of the 63px
+                             box for it, which is what pushed a long name onto the next card --%>
+                        <a class="speciesCardOverlay" href="/rgdweb/report/gene/main.html?id=<%=gene.getRgdId()%>" title="<%=orthTitle%>">
+                        <div style="font-weight:700;" >
+                            <%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%></div>
+                        </a>
+                        <img border="0" src="<%=imageSource%>" class="speciesIcon"
+                             alt="<%=SpeciesType.getCommonName(gene.getSpeciesTypeKey())%>">
+                    </span>
         <%} }%>
-        </tr>
-        </table>
+                </div>
             </td>
         </tr>
 
@@ -96,40 +104,46 @@
                     <% } %>
             </td>
             </tr>
-            <%
-         if( homologs.isEmpty() ) {
-            buttonCaption = "homologs&nbsp;...";
-     %>
-        No known orthologs.
-     <% } else {
-            buttonCaption = "more&nbsp;info&nbsp;...";
-        }
-     %>
+            <% buttonCaption = homologs.isEmpty() ? "homologs" : "more info"; %>
 
-            <tr style="height: 40px;">
+            <tr>
                 <td class="label">More Info</td>
-                <TD style="vertical-align: middle;">
-                    <A HREF="javascript:showAllOrthos();" class="orthoExtInfo"
-                            title="click to see extended ortholog information from HGNC HCOP"><%=buttonCaption%></A>
-                </TD>
+                <td>
+                    <%-- "No known orthologs." used to be printed here as bare text inside the
+                         row group, outside any cell, which the HTML parser lifts out of the
+                         table entirely - it rendered above the summary table, not in this row --%>
+                    <% if( homologs.isEmpty() ) { %>
+                    <span class="orthoNoneNote">No known orthologs.</span>
+                    <% } %>
+                    <a href="javascript:showAllOrthos();" class="orthoExtInfo" role="button"
+                       aria-expanded="false" aria-controls="orthoExtended"
+                       title="click to see extended ortholog information from HGNC HCOP"><%=buttonCaption%></a>
+                </td>
             </tr>
      </tbody>
 
 
-         <tbody class="ortho_long" style="display: none;">
+         <tbody class="ortho_long" id="orthoExtended" style="display: none;">
              <tr>
                 <td class="label">More Info</td>
                 <td>
-                    <table>
+                    <%-- "less info" used to be a fifth rowspan="2" header cell on the right of
+                         the table, where it had no column of its own to belong to and sat in a
+                         white notch in the header bar. It is a control over the table, not data
+                         in it, so it lives above the table now - in the same spot the "more
+                         info" button occupies in the collapsed row, so the button does not jump
+                         when it is toggled. --%>
+                    <div class="orthoExtToolbar">
+                        <a href="javascript:hideAllOrthos();" class="orthoExtInfo orthoExtInfo--less"
+                           role="button" aria-expanded="true" aria-controls="orthoExtended"
+                           title="click to see simple ortholog information">less info</a>
+                    </div>
+                    <table class="orthoExtTable">
                  <TR>
-                     <TH style="background-color: #b6baba;">Species</TH>
-                     <TH style="background-color: #b6baba;">Gene symbol and name</TH>
-                     <TH style="background-color: #b6baba;">Data Source</TH>
-                     <TH style="background-color: #b6baba;">Assertion derived from</TH>
-                     <TH rowspan="2" style="padding-left:20px;">
-                         <A HREF="javascript:hideAllOrthos();" class="orthoExtInfo"
-                                 title="click to see simple ortholog information">less&nbsp;info&nbsp;...</A>
-                     </TH>
+                     <TH>Species</TH>
+                     <TH>Gene symbol and name</TH>
+                     <TH>Data Source</TH>
+                     <TH>Assertion derived from</TH>
                  </TR>
              <%
                  if( !homologs.isEmpty() ) {
@@ -143,10 +157,10 @@
                      Ortholog o = orthologDAO.getOrthologs(obj.getRgdId(), gg.getRgdId()).get(0);
              %>
                  <TR>
-                     <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-                     <TD style="background-color:#e2e2e2"><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
-                     <TD style="background-color:#e2e2e2"><%=o.getXrefDataSrc()%></TD>
-                     <TD style="background-color:#e2e2e2"><%=o.getXrefDataSet()%></TD>
+                     <TD><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                     <TD><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
+                     <TD><%=o.getXrefDataSrc()%></TD>
+                     <TD><%=o.getXrefDataSet()%></TD>
                  </TR>
              <% }
                  if( !weakOrthos.isEmpty() ) {
@@ -159,10 +173,10 @@
                          Gene gg = geneDAO.getGene(ass.getDetailRgdId());
                  %>
                      <TR>
-                         <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-                         <TD style="background-color:#e2e2e2"><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
-                         <TD style="background-color:#e2e2e2"><%=Utils.defaultString(ass.getSrcPipeline()).equals("ortholog")?"NCBI ortholog":ass.getSrcPipeline()%></TD>
-                         <TD style="background-color:#e2e2e2"><%=ass.getAssocSubType()%></TD>
+                         <TD><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                         <TD><A href="<%=Link.gene(gg.getRgdId())%>"><%=gg.getSymbol()%> (<%=gg.getName()%>)</A></TD>
+                         <TD><%=Utils.defaultString(ass.getSrcPipeline()).equals("ortholog")?"NCBI ortholog":ass.getSrcPipeline()%></TD>
+                         <TD><%=ass.getAssocSubType()%></TD>
                      </TR>
                  <% }}
 
@@ -175,14 +189,14 @@
                      for (Gene gg: agrOrthos) {
                  %>
                  <TR>
-                     <TD style="background-color:#e2e2e2"><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
-                     <TD style="background-color:#e2e2e2">
+                     <TD><%=SpeciesType.getTaxonomicName(gg.getSpeciesTypeKey())%> (<%=SpeciesType.getGenebankCommonName(gg.getSpeciesTypeKey())%>):</TD>
+                     <TD>
                         <a href="<%=XDBIndex.getInstance().getXDB(63).getUrl()+gg.getDescription()%>" title="see this gene at the Alliance">
                           <%-- do not print null gene name or gene name same as gene symbol --%>
                           <%=gg.getSymbol()%><% if( !Utils.NVL(gg.getName(), gg.getSymbol()).equals(gg.getSymbol()) ) { out.print(" ("+gg.getName()+")"); } %></a>
                      </TD>
-                     <TD style="background-color:#e2e2e2">Alliance</TD>
-                     <TD style="background-color:#e2e2e2">DIOPT (<%=gg.getNotes()%>)</TD><%-- methods matched --%>
+                     <TD>Alliance</TD>
+                     <TD>DIOPT (<%=gg.getNotes()%>)</TD><%-- methods matched --%>
                  </TR>
                  <% }} %>
 
@@ -198,6 +212,7 @@ function showAllOrthos() {
   if( $ ) {
     $(".ortho_short").hide(400);
     $(".ortho_long").show(900);
+    $(".ortho_short .orthoExtInfo").attr("aria-expanded", "true");
   }
 }
 
@@ -205,6 +220,7 @@ function hideAllOrthos() {
   if( $ ) {
     $(".ortho_long").hide(400);
     $(".ortho_short").show(900);
+    $(".ortho_short .orthoExtInfo").attr("aria-expanded", "false");
   }
 }
 </script>

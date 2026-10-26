@@ -14,6 +14,12 @@
     #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
 </style>
 <table id="info-table" width="100%" border="0" style="background-color: rgb(249, 249, 249)">
+    <%-- #info-table is laid out table-layout:fixed (reportModern.css) so that a wide row cannot
+         push the summary card off the page. Fixed layout takes its column widths from the first
+         row, and this table's first row is a single colspan=2 heading - with nothing to read, the
+         browser splits the width evenly and the label column doubles. These are the widths the
+         td.label rule above asks for, stated where fixed layout will actually see them. --%>
+    <colgroup><col style="width:180px"><col></colgroup>
     <tr><td colspan="2"><h3><%=objType%> : <%=obj.getSymbol()%>&nbsp;<%=obj.getName()!=null?"("+obj.getName()+")":""%>&nbsp;<%=SpeciesType.getTaxonomicName(obj.getSpeciesTypeKey())%></h3></td></tr>
     <tr>
         <td class="label">Symbol:</td>

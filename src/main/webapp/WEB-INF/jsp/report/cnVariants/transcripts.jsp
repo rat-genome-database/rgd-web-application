@@ -18,12 +18,17 @@
 %>
 <div class="reportTable light-table-border" id="variantTranscriptsTableWrapper">
     <div class="sectionHeading" id="variantTranscripts" >Variant Transcripts</div>
-        <div id="variantTranscriptsTableDiv" class="annotation-detail">
-            <table id="variantTranscriptsTable" width="650" border=0 ><tr></tr>
-            <tr>
-                <td>
-                    <a></a>
-                    <div id="sampleTranscripts">
+        <%-- no annotation-detail here: that class is a marker geneReport.js reads, and it means
+                 "promote my first table's first row into a <thead>". The first table in this
+                 div used to be the layout wrapper, whose first row was an empty <tr></tr>, so the
+                 promotion was invisible; with the wrapper gone it would promote the first card's
+                 Location row and paint it as a header. --%>
+        <div id="variantTranscriptsTableDiv">
+            <%-- One card per transcript. This was a 650px layout table holding a single cell, with
+                 each transcript's own borderless table inside it and a <br> between them; the outer
+                 table was also initialised as a tablesorter with a pager whose container
+                 (.variantTranscriptsPager) is not on the page, so it sorted and paged nothing. --%>
+            <div id="sampleTranscripts" class="rgdTranscriptList">
             <% for (TranscriptResult tr: results) {
                 String aaVar = "";
                 String aaRef = tr.getAminoAcidVariant().getReferenceAminoAcid();
@@ -63,66 +68,80 @@
                 }
                 else
                     aaVarPos++;
+
+                // The gene symbol is a lookup per transcript and is missing for plenty of them.
+                // It used to sit in a <tr> wrapped in try/catch, which swallowed the failure but
+                // left the row out; here it is resolved first so the card can lead with it.
+                String transcriptGeneSymbol = "";
+                try {
+                    transcriptGeneSymbol = xdbDAO.getGenesByXdbId(1, tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol();
+                } catch (Exception e) {
+                }
+
+                String synonymousFlag = tr.getAminoAcidVariant().getSynonymousFlag();
+                boolean isFaulty = tr.getAminoAcidVariant().getTripletError().equals("T")
+                        || tr.getAminoAcidVariant().getLocation().equals("Unknown");
             %>
-                    <table border="0" width="100%" style="background-color:white; color:#053867;font-size:12px;">
-                <% try { %>
-                <tr>
-                    <td class="carpeLabel" width=200>Gene Symbol:</td><td width=70%><%=xdbDAO.getGenesByXdbId(1,tr.getAminoAcidVariant().getTranscriptSymbol()).get(0).getSymbol()%></td>
-                </tr>
-                <% } catch (Exception e) { %>
+                <div class="rgdTranscriptCard">
+                    <div class="rgdTranscriptHead">
+                        <% if( !Utils.isStringEmpty(transcriptGeneSymbol) ) { %>
+                        <span class="rgdTranscriptSymbol"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(transcriptGeneSymbol)%></span>
+                        <% } %>
+                        <span class="rgdTranscriptAcc"><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(tr.getAminoAcidVariant().getTranscriptSymbol())%></span>
+                    </div>
 
-                <% } %>
-                <tr>
-                    <td class="carpeLabel" width=200>Accession:</td><td width=70%><%=tr.getAminoAcidVariant().getTranscriptSymbol()%></td>
-                </tr>
-                <tr>
-                    <td class="carpeLabel" >Location:</td><td><%=tr.getAminoAcidVariant().getLocation().replace(",",";")%></td>
-                </tr>
+                    <table class="rgdSeqTable">
+                        <tr>
+                            <td class="label">Location</td>
+                            <td><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(tr.getAminoAcidVariant().getLocation().replace(",",";"))%></td>
+                        </tr>
+                        <% if (tr.getAminoAcidVariant().getVariantAminoAcid() != null && !tr.getAminoAcidVariant().getLocation().equals("Unknown")) {%>
+                        <tr>
+                            <td class="label">Amino Acid Prediction</td>
+                            <td><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(aaRef)%> to <%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(isFrameshift ? tr.getAminoAcidVariant().getVariantAminoAcid() : aaVar)%>
+                                <%=Utils.stringsAreEqualIgnoreCase("snv", var.getVariantType()) && synonymousFlag != null ? org.apache.commons.text.StringEscapeUtils.escapeHtml4(synonymousFlag) : ""%></td>
+                        </tr>
+                        <% }else if (synonymousFlag != null){ %>
+                        <tr>
+                            <td class="label">Amino Acid Prediction</td>
+                            <td><%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(synonymousFlag)%></td>
+                        </tr>
+                        <%}%>
+                        <% if (tr.getAminoAcidVariant().getAaPosition() > 0) { %>
+                        <%-- these two cells were written outside any <tr>, so the browser had to
+                             invent a row for them and they came out on a line of their own --%>
+                        <tr>
+                            <td class="label">Amino Acid Position</td>
+                            <td><%=tr.getAminoAcidVariant().getAaPosition()%></td>
+                        </tr>
+                        <% } %>
+                    </table>
 
-                <% if (tr.getAminoAcidVariant().getVariantAminoAcid() != null && !tr.getAminoAcidVariant().getLocation().equals("Unknown")) {%>
-                <tr>
-                    <td class="carpeLabel">Amino Acid Prediction:</td><td> <%= aaRef %> to  <%= isFrameshift ? tr.getAminoAcidVariant().getVariantAminoAcid() : aaVar %> <%= Utils.stringsAreEqualIgnoreCase("snv", var.getVariantType()) ? tr.getAminoAcidVariant().getSynonymousFlag() : "" %></td>
-                </tr>
-                <% }else if (tr.getAminoAcidVariant().getSynonymousFlag() != null){ %>
-                <tr>
-                    <td class="carpeLabel">Amino Acid Prediction:</td><td> <%=tr.getAminoAcidVariant().getSynonymousFlag()%></td>
-                </tr>
-                <%}%>
-                <% if (tr.getAminoAcidVariant().getAaPosition() > 0) { %>
-                <td class="carpeLabel">Amino Acid Position:</td><td> <%=tr.getAminoAcidVariant().getAaPosition()%></td>
+                    <% if (isFaulty) { %>
+                    <p class="rgdTranscriptWarn">This transcript may be faulty. Please check with NCBI for corrections.</p>
+                    <% } %>
 
-                <% } %>
-
-                <% if (tr.getAminoAcidVariant().getTripletError().equals("T") || tr.getAminoAcidVariant().getLocation().equals("Unknown")) { %>
-                <tr>
-                    <td colspan=2 align="center" style="font-weight:700; color:red;"><br>TRANSCRIPT MAY BE FAULTY.  PLEASE CHECK WITH NCBI FOR CORRECTIONS</td>
-                </tr>
-                <% } %>
-
-                <tr><td></td></tr>
-
-                <% if (tr.getPolyPhenPrediction().size() > 0) { %>
-                <tr>
-                    <td colspan=2 style="color:#053894; font-size:16px;padding-left:5px;font-weight:700;">Polyphen Predictions</td>
-                </tr>
-                <tr>
-                    <td colspan=2>
-                        <table border=1 cellspacing=0 cellpadding=4 style="background-color:white; font-size:12px;" width="640">
+                    <% if (tr.getPolyPhenPrediction().size() > 0) { %>
+                    <div class="rgdSubHeading">Polyphen Predictions</div>
+                    <div class="rgdTableScroll">
+                        <table class="rgdSubTable">
+                            <thead>
                             <tr>
-                                <td class="carpeLabel">Prediction</td>
-                                <td class="carpeLabel">Basis</td>
-                                <td class="carpeLabel">Effect</td>
-                                <td class="carpeLabel">Site</td>
-                                <td class="carpeLabel">Score1</td>
-                                <td class="carpeLabel">Score2</td>
-                                <td class="carpeLabel">Diff</td>
-                                <td class="carpeLabel">Number Observed</td>
-                                <td class="carpeLabel">Structures</td>
-                                <td class="carpeLabel">Protein ID</td>
-                                <td class="carpeLabel">PDB ID</td>
-                                <td class="carpeLabel">Inverted</td>
+                                <th>Prediction</th>
+                                <th>Basis</th>
+                                <th>Effect</th>
+                                <th>Site</th>
+                                <th>Score1</th>
+                                <th>Score2</th>
+                                <th>Diff</th>
+                                <th>Number Observed</th>
+                                <th>Structures</th>
+                                <th>Protein ID</th>
+                                <th>PDB ID</th>
+                                <th>Inverted</th>
                             </tr>
-
+                            </thead>
+                            <tbody>
                             <% for (int i=0; i< tr.getPolyPhenPrediction().size(); i++) {  %>
                             <tr>
                                 <td><%=tr.getPolyPhenPrediction().get(i).getPrediction()%></td>
@@ -139,123 +158,82 @@
                                 <td><%=fu.blank(tr.getPolyPhenPrediction().get(i).getInvertedFlag())%></td>
                             </tr>
                             <% } %>
+                            </tbody>
                         </table>
-                    </td>
-                </tr>
+                    </div>
+                    <% }
+                        if (tr.getAminoAcidVariant().getAASequence() !=null && tr.getAminoAcidVariant().getAASequence().length()  > 1) {
 
-                <% }
-                    if (tr.getAminoAcidVariant().getAASequence() !=null && tr.getAminoAcidVariant().getAASequence().length()  > 1) {
-
-                        String aaSequence="";
-                        String aaSequence2="";
-                        StringBuilder sb = new StringBuilder(tr.getAminoAcidVariant().getAASequence());
-
-                        if (tr.getAminoAcidVariant().getAaPosition() != -1) {
-                            sb.replace(tr.getAminoAcidVariant().getAaPosition()-1, aaVarPos, "=");
-                        }
-//                        System.out.println(sb.toString());
-                        if (isFrameshift){
-                            aaSequence2 = sb.substring(0, sb.indexOf("="));
-                            int aaPos = sb.indexOf("=");
-                            aaSequence2 += tr.getAminoAcidVariant().getVariantAminoAcid();
-
-                            boolean spanOpened = false;
-                            int pos;
-                            for (pos = 0; pos < aaSequence2.length() - 100; pos += 100) {
-                                if (aaPos == pos) {
-                                    aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
-                                    spanOpened = true;
-                                    aaSequence += aaSequence2.substring(aaPos, pos + 100);
-                                    aaSequence += "<br>";
-                                } else if (aaPos > pos && aaPos < (pos + 100)) {
-                                    aaSequence += aaSequence2.substring(pos, aaPos);
-                                    aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
-                                    spanOpened = true;
-                                    aaSequence += aaSequence2.substring(aaPos, pos + 100);
-                                    aaSequence += "<br>";
-                                } else if (aaPos == (pos + 100)) {
-                                    aaSequence += aaSequence2.substring(pos, aaPos);
-                                    aaSequence += "<br>";
-                                    aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
-                                    spanOpened = true;
-                                } else {
-                                    aaSequence += aaSequence2.substring(pos, pos + 100);
-                                    aaSequence += "<br>";
-                                }
-                            }
-                            if (!spanOpened && aaPos >= pos && aaPos <= aaSequence2.length()) {
-                                aaSequence += aaSequence2.substring(pos, aaPos);
-                                aaSequence += "<span style='color:red;font-weight:700;font-size:24px;'>";
-                                aaSequence += aaSequence2.substring(aaPos);
-                                spanOpened = true;
-                            } else {
-                                aaSequence += aaSequence2.substring(pos);
-                            }
-                            if (spanOpened) {
-                                aaSequence += "</span>";
-                            }
-                        }
-                        else {
-                            int pos;
-                            for (pos=0; pos<sb.length()-100; pos+=100) {
-                                aaSequence += sb.substring(pos, pos+100);
-                                aaSequence += "<br>";
-                            }
-                            aaSequence += sb.substring(pos);
+                            String aaSequence="";
+                            String aaSequence2="";
+                            StringBuilder sb = new StringBuilder(tr.getAminoAcidVariant().getAASequence());
 
                             if (tr.getAminoAcidVariant().getAaPosition() != -1) {
-                                aaSequence = aaSequence.replace("=", "<span style='color:red;font-weight:700;font-size:24px;'>" + aaVar + "</span>" );
+                                sb.replace(tr.getAminoAcidVariant().getAaPosition()-1, aaVarPos, "=");
                             }
-                        }
-//                        if (tr.getAminoAcidVariant().getAaPosition() != -1) {
-//                            aaSequence = aaSequence2.replace("=", "<span style='color:red;font-weight:700;font-size:24px;'>" + tr.getAminoAcidVariant().getVariantAminoAcid() + "</span>" );
-//                        }
+                            if (isFrameshift){
+                                aaSequence2 = sb.substring(0, sb.indexOf("="));
+                                int aaPos = sb.indexOf("=");
+                                aaSequence2 += tr.getAminoAcidVariant().getVariantAminoAcid();
 
-                %>
-                    <tr><td  colspan=2 style="color:#053894; font-size:16px;padding-left:5px;font-weight:700;padding-top:5px;">Amino Acid Sequence<br><span style="font-size:12px;">(Calculated using NCBI transcript definition)</span></td></tr>
-                    <tr><td  colspan=2 style="border:5px solid #D8D8DB;padding:5px; background-color:white; font-size:14px;"><pre><%=aaSequence%></pre></td></tr>
-                <% } %>
+                                boolean spanOpened = false;
+                                int pos;
+                                for (pos = 0; pos < aaSequence2.length() - 100; pos += 100) {
+                                    if (aaPos == pos) {
+                                        aaSequence += "<span class='rgdSeqMark'>";
+                                        spanOpened = true;
+                                        aaSequence += aaSequence2.substring(aaPos, pos + 100);
+                                        aaSequence += "<br>";
+                                    } else if (aaPos > pos && aaPos < (pos + 100)) {
+                                        aaSequence += aaSequence2.substring(pos, aaPos);
+                                        aaSequence += "<span class='rgdSeqMark'>";
+                                        spanOpened = true;
+                                        aaSequence += aaSequence2.substring(aaPos, pos + 100);
+                                        aaSequence += "<br>";
+                                    } else if (aaPos == (pos + 100)) {
+                                        aaSequence += aaSequence2.substring(pos, aaPos);
+                                        aaSequence += "<br>";
+                                        aaSequence += "<span class='rgdSeqMark'>";
+                                        spanOpened = true;
+                                    } else {
+                                        aaSequence += aaSequence2.substring(pos, pos + 100);
+                                        aaSequence += "<br>";
+                                    }
+                                }
+                                if (!spanOpened && aaPos >= pos && aaPos <= aaSequence2.length()) {
+                                    aaSequence += aaSequence2.substring(pos, aaPos);
+                                    aaSequence += "<span class='rgdSeqMark'>";
+                                    aaSequence += aaSequence2.substring(aaPos);
+                                    spanOpened = true;
+                                } else {
+                                    aaSequence += aaSequence2.substring(pos);
+                                }
+                                if (spanOpened) {
+                                    aaSequence += "</span>";
+                                }
+                            }
+                            else {
+                                int pos;
+                                for (pos=0; pos<sb.length()-100; pos+=100) {
+                                    aaSequence += sb.substring(pos, pos+100);
+                                    aaSequence += "<br>";
+                                }
+                                aaSequence += sb.substring(pos);
 
-<%--                <tr><td>&nbsp;</td></tr>--%>
-                    </table>
-                    <br>
-                <% } %>
+                                if (tr.getAminoAcidVariant().getAaPosition() != -1) {
+                                    aaSequence = aaSequence.replace("=", "<span class='rgdSeqMark'>" + aaVar + "</span>" );
+                                }
+                            }
+                    %>
+                    <div class="rgdSubHeading">Amino Acid Sequence
+                        <span class="rgdSubNote">calculated using the NCBI transcript definition</span>
                     </div>
-                </td>
-            </tr>
-
-            </table>
+                    <pre class="rgdSeqBlock"><%=aaSequence%></pre>
+                    <% } %>
+                </div>
+            <% } %>
+            </div>
         </div>
 </div>
 <% } %>
-<%--else {%>--%>
-<%--    <h1>No transcripts for sample.--%>
-<%--<%}%>--%>
     <%@ include file="../sectionFooter.jsp"%>
-<style>
-    /*#variantTranscriptsTableWrapper{*/
-    /*    background-image: url(/rgdweb/common/images/bg3.png);*/
-    /*}*/
-    /*table {*/
-    /*    display: table;*/
-    /*    border-collapse: separate;*/
-    /*    box-sizing: border-box;*/
-    /*    text-indent: initial;*/
-    /*    white-space: normal;*/
-    /*    line-height: normal;*/
-    /*    font-weight: normal;*/
-    /*    font-size: medium;*/
-    /*    font-style: normal;*/
-    /*    color: -internal-quirk-inherit;*/
-    /*    text-align: start;*/
-    /*    border-spacing: 2px;*/
-    /*    border-color: grey;*/
-    /*    font-variant: normal;*/
-    /*}*/
-    /*#variantTranscripts{*/
-    /*    background-color: white;*/
-    /*    width: 180px;*/
-    /*    padding-left: 4px;*/
-    /*    font-size: 22px;*/
-    /*}*/
-</style>

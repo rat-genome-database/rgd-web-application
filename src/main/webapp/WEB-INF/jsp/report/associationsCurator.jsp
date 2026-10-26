@@ -101,7 +101,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -133,7 +133,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -167,7 +167,7 @@
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                     <select class="pagesize">
-                        <option selected="selected" value="10">10</option>
+                        <option value="10" selected="selected">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
                         <option  value="40">40</option>
@@ -192,7 +192,7 @@
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                     <select class="pagesize">
-                        <option selected="selected" value="10">10</option>
+                        <option value="10" selected="selected">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
                         <option  value="40">40</option>
@@ -220,7 +220,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -246,7 +246,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -273,7 +273,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -298,7 +298,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -324,7 +324,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -348,7 +348,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -375,7 +375,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -399,7 +399,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -426,7 +426,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -451,7 +451,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -479,7 +479,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -505,7 +505,7 @@
             <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
             <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
             <select class="pagesize">
-                <option selected="selected" value="10">10</option>
+                <option value="10" selected="selected">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
                 <option  value="40">40</option>
@@ -544,7 +544,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -575,7 +575,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -600,11 +600,20 @@
 %>
 
 <%//ui.dynOpen("goAsscociationC", "Gene Ontology Annotations")%>
+<%-- This heading had no card around it, which is why it had no accordion: buildCards() in
+     reportModernUx.js collapses a .light-table-border that has a .sectionHeading as a direct
+     child, and a bare heading matches nothing. Disease Annotations and Phenotype Annotations
+     in this same file are wrapped this way already; Gene Ontology and Molecular Pathway were
+     the two that were not, so their sub-cards sat as siblings of a loose heading.
+
+     Opened inside the "(bpList + ccList + mfList) > 0" guard and closed inside it as well -
+     see the Phenotype card lower down for what happens when those two do not match. --%>
+<div class="reportTable light-table-border">
 <div class="sectionHeading" id="geneOntologyAnnotationsCurator">Gene Ontology Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('geneOntologyAnnotationsCurator', 'geneOntologyAnnotations');">Click to see Annotation Detail View</a>
 </div>
 <% if (bpList.size() > 0) { %>
 <div class="reportTable light-table-border" id="biologicalProcessAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Biological Process</u></span><br></span>
+   <div class="annotGroup sectionHeading" id="biologicalProcessDetail">Biological Process</div>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -616,7 +625,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -644,7 +653,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -658,7 +667,7 @@
 <% } %>
 <% if (ccList.size() > 0) { %>
 <div class="reportTable light-table-border" id="cellularComponentAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="cellularComponentDetail"><u>Cellular Component</u></span><br></span>
+   <div class="annotGroup sectionHeading" id="cellularComponentDetail">Cellular Component</div>
 
 <div class="search-and-pager">
 
@@ -671,7 +680,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -702,7 +711,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -717,7 +726,7 @@
 <% } %>
 <% if (mfList.size() > 0) { %>
 <div class="reportTable light-table-border" id="molecularFunctionAnnotationsTableWrapper">
-   <span style="border-bottom: 0 solid gray"><br><span class="highlight" id="molecularFunctionDetail"><u>Molecular Function</u></span><br></span>
+   <div class="annotGroup sectionHeading" id="molecularFunctionDetail">Molecular Function</div>
 
 <div class="search-and-pager">
 
@@ -730,7 +739,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -759,7 +768,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -774,6 +783,7 @@
 
 <br>
 <%//ui.dynClose("goAsscociationC")%>
+</div><%-- /.reportTable.light-table-border (Gene Ontology Annotations) --%>
 <% } %>
 
 <%
@@ -804,6 +814,9 @@
         }
 %>
 <%//ui.dynOpen("pathwayAssociationC", "Molecular Pathway Annotations")%>
+<%-- as above: the heading needs a .light-table-border around it to become collapsible.
+     Opened and closed inside the same pathway guard. --%>
+<div class="reportTable light-table-border">
 <div class="sectionHeading" id="molecularPathwayAnnotationsDetail">Molecular Pathway Annotations&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('molecularPathwayAnnotationsDetail', 'molecularPathwayAnnotationsTableWrapper');">Click to see Annotation Detail View</a>
 </div>
 
@@ -822,7 +835,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -851,7 +864,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -879,7 +892,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -904,7 +917,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -930,7 +943,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -954,7 +967,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -980,7 +993,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1004,7 +1017,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1029,7 +1042,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1053,7 +1066,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1071,6 +1084,7 @@
     <% } %>
 <%//ui.dynClose("pathwayAssociationC")%>
 <%@ include file="gene/bioCycPathway.jsp"%>
+</div><%-- /.reportTable.light-table-border (Molecular Pathway Annotations) --%>
 <% } %>
 
 <%
@@ -1109,7 +1123,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1133,7 +1147,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1159,7 +1173,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1183,7 +1197,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1209,7 +1223,7 @@
                         <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                         <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                         <select class="pagesize">
-                            <option selected="selected" value="10">10</option>
+                            <option value="10" selected="selected">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
                             <option  value="40">40</option>
@@ -1233,7 +1247,7 @@
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                     <select class="pagesize">
-                        <option selected="selected" value="10">10</option>
+                        <option value="10" selected="selected">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
                         <option  value="40">40</option>
@@ -1259,7 +1273,7 @@
                         <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                         <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                         <select class="pagesize">
-                            <option selected="selected" value="10">10</option>
+                            <option value="10" selected="selected">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
                             <option  value="40">40</option>
@@ -1283,7 +1297,7 @@
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                     <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                     <select class="pagesize">
-                        <option selected="selected" value="10">10</option>
+                        <option value="10" selected="selected">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
                         <option  value="40">40</option>
@@ -1296,8 +1310,16 @@
     </div>
 
     <% } %>
-<% } %>
+<%-- This closes the Phenotype Annotations card opened above the "if (mpList.size()+hpList.size()
+     > 0)" guard, so it has to sit inside that guard too. It used to sit after the guard's
+     closing brace: on a gene with no phenotype annotations the opening <div> was skipped while
+     this tag was still emitted, leaving a stray </div> that closed #associationsCurator early
+     and then took #content-wrap with it. Everything after this include - Disease, Gene Ontology,
+     Molecular Pathway, Phenotype, References and the rest - was reparented outside #content-wrap,
+     so "#content-wrap .light-table-border" in reportModernUx.js stopped matching any of it and
+     those sections lost their accordion. --%>
 </div>
+<% } %>
 
 
 <%
@@ -1337,7 +1359,7 @@
     }else if(isReferenceRgd==0){
        if (clList.size() > 0) { %>
 <div id="cellOntologyTableWrapper">
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Cell Ontology</u></span><br></span>
+       <div class="annotGroup">Cell Ontology</div>
 
 <div class="search-and-pager">
 
@@ -1350,7 +1372,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1374,7 +1396,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1389,7 +1411,7 @@
 
     <% if (cmoList.size() > 0) { %>
     <div class="reportTable" id="clinicalMeasurementTableWrapper">
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Clinical Measurement</u></span><br></span>
+       <div class="annotGroup">Clinical Measurement</div>
         <div id="clinicalMeasurementTableDiv" class="annotation-detail">
             <%=af.createGridFormatAnnotationsTable(cmoList, siteName,excludeRef)%>
         </div>
@@ -1397,7 +1419,7 @@
     <% } %>
     <% if (xcoList.size() > 0) { %>
     <div class="reportTable" id="experimentalConditionTableWrapper">
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Experimental Condition</u></span><br></span>
+       <div class="annotGroup">Experimental Condition</div>
         <div id="experimentalConditionTableDiv" class="annotation-detail">
             <%=af.createGridFormatAnnotationsTable(xcoList, siteName,excludeRef)%>
         </div>
@@ -1405,7 +1427,7 @@
     <% } %>
     <% if (mmoList.size() > 0) { %>
         <div class="reportTable" id="measurementMethodTableWrapper">
-           <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Measurement Method</u></span><br></span>
+           <div class="annotGroup">Measurement Method</div>
             <div id="measurementMethodTableDiv" class="annotation-detail">
                 <%=af.createGridFormatAnnotationsTable(mmoList, siteName,excludeRef)%>
             </div>
@@ -1414,7 +1436,7 @@
 
     <% if (maList.size() > 0) { %>
 <div class="reportTable " id="mouseAnatomyTableWrapper">
-    <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Mouse Anatomy</u></span><br></span>
+    <div class="annotGroup">Mouse Anatomy</div>
 
 
 <div class="search-and-pager">
@@ -1427,7 +1449,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1451,7 +1473,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1465,7 +1487,7 @@
     <% } %>
     <% if (rsList.size() > 0) { %>
 <div class="reportTable" id="ratStrainTableWrapper">
-       <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Rat Strain</u></span><br></span>
+       <div class="annotGroup">Rat Strain</div>
 
 <div class="search-and-pager">
     <div class="modelsViewContent" >
@@ -1477,7 +1499,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1501,7 +1523,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1516,7 +1538,7 @@
     <%}%>
     <% if (vtList.size() > 0) { %>
     <div class="reportTable" id="vertebrateTraitTableWrapper">
-        <span style="border-bottom: 0 solid gray"><br><span class="highlight"><u>Vertebrate Trait</u></span><br></span>
+        <div class="annotGroup">Vertebrate Trait</div>
         <div id="vertebrateTraitTableDiv" class="annotation-detail">
             <%=af.createGridFormatAnnotationsTable(vtList)%>
         </div>
@@ -1542,7 +1564,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -1566,7 +1588,7 @@
             <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
             <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
             <select class="pagesize">
-                <option selected="selected" value="10">10</option>
+                <option value="10" selected="selected">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
                 <option  value="40">40</option>

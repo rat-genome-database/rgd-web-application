@@ -5,10 +5,11 @@ run();
 
 function run() {
     rebuildAnnotationTables();
-//in region tables
-    addHeadAndIdToTable("qtlAssociationTableDiv", 1);
-    addHeadAndIdToTable("geneAssociationTableDiv", 1);
-    addHeadAndIdToTable("mark2AssociationTableDiv", 1);
+//in region tables - index 0 now: the link strip above each of these used to be a <table>,
+//  which made the data table the second one in the div
+    addHeadAndIdToTable("qtlAssociationTableDiv", 0);
+    addHeadAndIdToTable("geneAssociationTableDiv", 0);
+    addHeadAndIdToTable("mark2AssociationTableDiv", 0);
 
 //annotation detail view tables
 
@@ -22,8 +23,9 @@ function run() {
     addHeadAndIdToTable("phenominerAssociationTableDiv", 0);
 
     rebuildReferenceSequenceTables();
-    checkForRegionTables();
-    checkForAdditionalInfoTables();
+    // empty sections and cards are taken down inside addEventsToSidebar(), late enough to see
+    // the tables the rebuilds above produce and early enough for addItemsToSideBar() to skip
+    // what has been hidden
     addEventsToSidebar();
 
 
@@ -55,15 +57,40 @@ function rebuildAnnotationTables() {
 function rebuildReferenceSequenceTables() {
     let nucleotideRefTable = buildNucleotideReferenceSequencesTable();
     addClassAndId(nucleotideRefTable, 'tablesorter', 'nucleotideReferenceSequencesTable');
-    appendTableToDiv(nucleotideRefTable, 'nucleotideReferenceSequencesTableDiv');
+    insertTableBetweenPagers(nucleotideRefTable, 'nucleotideReferenceSequencesTableDiv');
 
     removeBreaks('nucleotideReferenceSequencesTableDiv');
 
 
     let proteinRefTable = buildProteinReferenceSequencesTable();
     addClassAndId(proteinRefTable, 'tablesorter', 'proteinReferenceSequencesTable');
-    appendTableToDiv(proteinRefTable, 'proteinReferenceSequencesTableDiv');
+    insertTableBetweenPagers(proteinRefTable, 'proteinReferenceSequencesTableDiv');
     removeBreaks('proteinReferenceSequencesTableDiv');
+}
+
+// These sections are written as: top pager, the source tables, bottom pager. Building the
+// paged table MOVES those source tables out from between the pagers (buildRowArrayFromTableArray
+// appends each one into a cell of the new table), so the table has to be put back where they
+// were. Appending it to the div instead dropped it after the closing pager, which left the two
+// pagers rendering back to back - the same "1 to 10 of 13 rows" twice - with the table below both.
+function insertTableBetweenPagers(table, divId){
+    let div = document.getElementById(divId);
+    if(div == null){
+        return;
+    }
+
+    let pagers = [];
+    for(let i = 0; i < div.children.length; i++){
+        if(div.children[i].classList.contains('modelsViewContent')){
+            pagers.push(div.children[i]);
+        }
+    }
+
+    if(pagers.length > 1){
+        div.insertBefore(table, pagers[pagers.length - 1]);
+    } else {
+        div.append(table);
+    }
 }
 
 function addEventsToSidebar() {
@@ -75,16 +102,21 @@ function addEventsToSidebar() {
         let top = domRect.top + document.body.scrollTop;
     });
 
-    checkForAnnotations();
+    // cards first: a section whose only cards are empty shells then reads as empty too
+    hideEmptyCards();
+    hideEmptySections();
     addItemsToSideBar();
 
-    sidebar.addEventListener("mouseover", (event) => {
-        sidebar.style.overflowY = "auto";
-    });
+    // the modern layout keeps the sidebar scrollable at all times
+    if(!isModernReportLayout()){
+        sidebar.addEventListener("mouseover", (event) => {
+            sidebar.style.overflowY = "auto";
+        });
 
-    sidebar.addEventListener("mouseout", (event) => {
-        sidebar.style.overflowY = "hidden";
-    });
+        sidebar.addEventListener("mouseout", (event) => {
+            sidebar.style.overflowY = "hidden";
+        });
+    }
 
     let toggles = Array.from(document.getElementsByClassName("associationsToggle"));
     toggles.forEach( toggle => {
@@ -101,7 +133,15 @@ function addEventsToSidebar() {
 function removeBreaks(divId){
     let div = document.getElementById(divId);
     if(div != null){
-        let breaks = div.getElementsByTagName('br');
+        // Only the <br> used as blank-line spacing goes. A <br> inside a sequence block is
+        // content: FormUtility.formatFasta() breaks a FASTA string every 64 bases with one, and
+        // removing those ran a 4,614 base transcript onto a single line about 29,000px wide,
+        // which turned the card into a horizontal scroller.
+        //
+        // getElementsByTagName returns a live collection, so removing while indexing forward
+        // skipped every second <br>; taking a static copy first is also what lets it be filtered.
+        let breaks = Array.from(div.getElementsByTagName('br'))
+            .filter(br => !br.closest('pre, .rgdSeqBlock'));
         for (let i = 0; i < breaks.length; i++) {
             breaks[i].parentNode.removeChild(breaks[i]);
         }
@@ -121,11 +161,17 @@ function appendTableToDiv(table, divId){
 
 
 
+// Picks the table by position, so it is sensitive to anything else in the div being a
+// <table>. Without the guard a missing one throws on table.firstChild, and because run() calls
+// this before everything else, the whole report's JS stops there - no sidebar, no pagers.
 function addHeadAndIdToTable(tableDivId, tableNumber){
     let div = document.getElementById(tableDivId);
     if(div !== null){
         let tables = div.getElementsByTagName('table');
         let table = tables[tableNumber];
+        if(table === undefined || table.rows.length === 0){
+            return;
+        }
         let tHead = document.createElement('thead');
         let tBody = table.firstChild;
         let headerRow = table.rows[0];
@@ -327,7 +373,17 @@ function addIdToSearchBar(searchBar, searchBarNumber){
     return searchBar;
 }
 
+// reports on the modern layout pin the sidebar with CSS position:sticky, so the
+// inline positioning below would only fight it
+function isModernReportLayout(){
+    let container = document.getElementById('page-container');
+    return container !== null && container.classList.contains('rgd-modern-report');
+}
+
 function stickifySideBar(sidebar){
+    if(isModernReportLayout()){
+        return;
+    }
     let scrollPosition = window.pageYOffset;
     let percentScrolled = calculateScrollPercentage(scrollPosition);
     let footer = document.getElementById('footer');
@@ -403,6 +459,14 @@ function addItemsToSideBar(){
     let sidebar = document.getElementById('navbarUlId');
     removeAllChildNodes(sidebar);
     $('.sidebar-item').each(function(index, value){
+        // A heading with no id has nothing for a link to point at, and the entry would come out
+        // as href="#undefined". The Summary card's heading - the one reportModernUx.js wraps
+        // around #info-table - is deliberately one of those: the list already opens with a
+        // static "Summary" item pointing at #top, and a second one would only repeat it.
+        if(!value.id){
+            return;
+        }
+
         let parent;
         let curator = document.getElementById('associationsCurator');
         let standard = document.getElementById('associationsStandard');
@@ -423,22 +487,18 @@ function addItemsToSideBar(){
                 text = "PubMed References";
             }
 
-
-            if(text === "QTLs in Region (Rnor_6.0)" || text === "QTLs in Region (GRCm38)"){
-                text = "QTLs in Region";
-            }
-
-            if(text === "Strain Sequence Variants (Rnor 6.0)"){
-                text = "Strain Sequence Variants";
-            }
-
             if(text === "Phenotype Values via PhenoMiner"){
                 text = "Phenotype Values";
             }
 
             if(text.includes("Annotations")){
-                text = text.replace('Annotations', '');
+                text = text.replace('Annotations', '').trim();
             }
+
+            // the qualifier goes on an info marker rather than into the link text
+            let note = headingNote(value, text);
+            text = note.label;
+
             if(text.length > 27){
                 let lastWhiteSpace = text.lastIndexOf(" ");
                 text = text.substring(0, lastWhiteSpace);
@@ -455,6 +515,11 @@ function addItemsToSideBar(){
             a.innerText = text;
             li.appendChild(a);
 
+            if(note.note){
+                li.classList.add('has-toc-info');
+                li.appendChild(buildInfoDot(note.note, 'rgd-toc-info'));
+            }
+
             sidebar.append(li);
         }
 
@@ -462,52 +527,178 @@ function addItemsToSideBar(){
     });
 }
 
-function checkForAnnotations(){
-    //get all the tables with annotationTable class
-    let annotationTables = Array.from(document.getElementsByClassName('annotationTable'));
-    let phenotypeValues = document.getElementById('phenominerAssociationTableDiv');
-
-    //if list == 0,
-    if(annotationTables.length === 0 && !phenotypeValues){
-        //make Annotations div display == none
-        let annotationDiv = document.getElementById('annotation');
-        if(annotationDiv){
-            annotationDiv.style.display = 'none';
-        }
+// A section heading can carry a qualifier the sidebar has no room for - the assembly a
+// region was computed against, or a note that a data set is no longer maintained. The sidebar
+// caps a label at 27 characters and cuts at the last space, so "miRNA Target Status (No longer
+// updated)" used to render as "miRNA Target Status (No longer": truncated mid-bracket.
+//
+// The qualifier comes either from an explicit marker in the heading (miRnaTargets.jsp) or from
+// a trailing "(...)" in its text. Doing the second generically retires the special cases that
+// used to be listed here one assembly at a time - "(Rnor_6.0)", "(GRCm38)", "(Rnor 6.0)" -
+// which is exactly why "(GRCr8)" leaked into the sidebar when the reference assembly changed.
+function headingNote(heading, text){
+    let marker = heading.querySelector('.rgdInfoDot');
+    if(marker){
+        return { label: text.trim(), note: marker.getAttribute('title') || '' };
     }
 
-}
-//to remove headers if there are no table displaying
-function checkForRegionTables(){
-    let regionDiv = document.getElementById('region');
-    if(regionDiv){
-        let element = regionDiv.nextElementSibling;
-        while(element.tagName === "BR"){
-            element = element.nextElementSibling;
-        }
-        if(element.id === "additionalInformation"){
-            regionDiv.style.display = 'none';
-        }
+    let match = text.match(/^(.*[^\s(])\s*\(([^()]+)\)$/);
+    if(match){
+        return { label: match[1].trim(), note: match[2].trim() };
     }
 
+    return { label: text.trim(), note: '' };
 }
-//to remove headers if there are no table displaying
-function checkForAdditionalInfoTables(){
-    let additionalInfoDiv = document.getElementById('additionalInformation');
 
-    if(additionalInfoDiv){
-        let element = additionalInfoDiv.nextElementSibling;
+// A small "i" that shows its text on hover. Kept as a <span> with a title rather than a button:
+// it carries no action, and inside the sidebar the whole row is already a link.
+function buildInfoDot(note, className){
+    let dot = document.createElement('span');
+    dot.className = className;
+    dot.setAttribute('title', note);
+    dot.setAttribute('aria-label', note);
+    dot.setAttribute('role', 'img');
+    dot.textContent = 'i';
+    return dot;
+}
 
-        while(element && element.tagName === "BR"){
-            element = element.nextElementSibling;
+// Every report's main.jsp writes the Annotation heading unconditionally, so it has to be taken
+// down when the includes underneath it turned out to produce nothing. Hiding the heading also
+// drops it from the sidebar, because addItemsToSideBar skips display:none items.
+//
+// This used to count .annotationTable across the whole document, but that class is not unique to
+// annotations: on strain reports the Substrains, Congenics and Mutants tables carry it too, and
+// they sit ABOVE the heading, up in the summary. A strain with substrains and no annotations
+// (RGD:68038, say) therefore kept an empty Annotation bar. Count only what is really inside the
+// section - the run of siblings between the heading and the next .subTitle.
+// Applied to every .subTitle on the page, not just the three headings that used to be named
+// here one at a time. Annotation went through sectionHasContent(); Region and Additional
+// Information each had their own weaker test - "is the next non-<br> sibling the heading after
+// me" - and every other heading (Genomics, Expression, Sequence, References, and whatever the
+// non-gene reports carry) was never checked at all, so those rendered as a bare bar whenever
+// their includes produced nothing.
+//
+// Runs late enough to see the tables rebuildAnnotationTables() and friends produce, and before
+// addItemsToSideBar(), which skips display:none headings - so a hidden section also loses its
+// sidebar entry rather than becoming a link that scrolls nowhere.
+function hideEmptySections(){
+    document.querySelectorAll('#content-wrap .subTitle').forEach(function(heading){
+        if(!sectionHasContent(heading)){
+            heading.style.display = 'none';
         }
+    });
+}
 
-        if(!element){
-            additionalInfoDiv.style.display = 'none';
+// A card whose include ran, found nothing and emitted the shell anyway: a .light-table-border
+// holding its own heading and nothing else. Taken down for the same reason, and in reverse
+// document order so that a card made up only of sub-cards is judged after they are.
+function hideEmptyCards(){
+    let cards = document.querySelectorAll('#content-wrap .light-table-border');
+    for(let i = cards.length - 1; i >= 0; i--){
+        if(cardIsEmpty(cards[i])){
+            // the class, not just the display, is what sectionHasContent() reads: it counts
+            // content that is display:none on purpose - the annotation detail view - so it
+            // needs a way to tell that apart from a shell that was hidden for being empty
+            cards[i].classList.add('rgd-empty');
+            cards[i].style.display = 'none';
         }
     }
-
 }
+
+// Deliberately strict about what counts as empty: everything but the card's own heading, its
+// scripts and its styles has to be gone. A card is left alone the moment it holds any table,
+// image or form control, or any text at all - including text inside a branch that is
+// display:none for now, like the "show sequence" toggles, which are content the reader can ask
+// for rather than an empty card.
+function cardIsEmpty(card){
+    let clone = card.cloneNode(true);
+    // The card's own heading, and the chrome the include emits whether or not it found data:
+    // the pager strip is written out either way - #nucleotideSequencesTable on a promoter
+    // report ships a full pager, icons and a page-size select above an empty table - so
+    // counting its <img> and <select> as content would keep every paged card alive forever.
+    clone.querySelectorAll(':scope > .sectionHeading, script, style,' +
+        ' .search-and-pager, .modelsViewContent, .pager, .table-search').forEach(function(el){
+        el.remove();
+    });
+
+    // A table with headers and an empty <tbody> is a shell too. Removing it here rather than
+    // just not counting it also takes its header labels out of the text test below; otherwise
+    // "Source Accession Links" reads as content.
+    clone.querySelectorAll('table').forEach(function(table){
+        if(!tableHasRows(table)){
+            table.remove();
+        }
+    });
+
+    if(clone.querySelector('table, img, input, select, textarea')){
+        return false;
+    }
+    return clone.textContent.replace(/ /g, ' ').trim().length === 0;
+}
+
+// The report body is a flat list: a .subTitle, then the cards that belong to it, then the next
+// .subTitle. A section counts as having something to show if any of those siblings holds a table
+// or a card - including one in a hidden branch, since the annotation detail view is display:none
+// until the reader asks for it, and its heading still has to be there to be toggled.
+//
+// Empty sections come through as nothing but <br>, <script> and <style>: the includes run either
+// way, they just emit no markup when the object has no data.
+function sectionHasContent(heading){
+    let node = heading.nextElementSibling;
+
+    while(node && !node.classList.contains('subTitle')){
+        if(siblingHasContent(node)){
+            return true;
+        }
+        node = node.nextElementSibling;
+    }
+
+    return false;
+}
+
+// One sibling of a heading. It counts when it is, or contains, a table or a card - except for
+// the shells hideEmptyCards() has just marked .rgd-empty, which are exactly the cards that
+// looked like content while holding none. Without that exclusion a section whose every card
+// came through empty would keep its heading: the cards are still in the DOM, merely hidden.
+function siblingHasContent(node){
+    if(node.classList.contains('rgd-empty')){
+        return false;
+    }
+    if(node.tagName === 'TABLE'){
+        return tableHasRows(node);
+    }
+    if(node.classList.contains('light-table-border')){
+        return true;
+    }
+    let found = node.querySelectorAll('table, .light-table-border');
+    for(let i = 0; i < found.length; i++){
+        if(found[i].closest('.rgd-empty')){
+            continue;
+        }
+        if(found[i].tagName !== 'TABLE' || tableHasRows(found[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
+// Whether a table carries data rather than just a header. Counting rows will not do: a table
+// written without a <thead> keeps its header row in the <tbody> like any other row. A data row
+// is one with at least one <td>; a header row is all <th>.
+function tableHasRows(table){
+    let rows = table.rows;
+    for(let i = 0; i < rows.length; i++){
+        if(rows[i].querySelector('td')){
+            return true;
+        }
+    }
+    return false;
+}
+// checkForRegionTables() and checkForAdditionalInfoTables() lived here. Both asked "is the next
+// non-<br> sibling the heading after me", which only ever worked for the one heading each was
+// written for, and neither could tell an empty section from one whose content is a card rather
+// than a bare table. hideEmptySections() above does that job for every heading on every report,
+// through the same sectionHasContent() the Annotation heading already used.
 
 function removeAllChildNodes(parent) {
     while (parent.lastElementChild){
@@ -535,10 +726,13 @@ function removeAGRLink(){
     let link;
     if(externalDbTable !== null){
         let rows = externalDbTable.rows;
-        for(let i = 0; i < rows.length; i++){
-            let row = rows[i];
-            let cells = row.cells;
-            if(cells[0].innerText === "AGR Gene"){
+        // Backwards: deleteRow shifts every later row up, so a forward loop skips the
+        // row after each one it removes. That did not show while the table blanked out
+        // repeated database names and only one row could ever say "AGR Gene"; now every
+        // AGR row carries the name, so more than one can match.
+        for(let i = rows.length - 1; i >= 0; i--){
+            let cells = rows[i].cells;
+            if(cells.length > 1 && cells[0].innerText.trim() === "AGR Gene"){
                 link = cells[1].getElementsByTagName('a')[0];
                 externalDbTable.deleteRow(i);
             }

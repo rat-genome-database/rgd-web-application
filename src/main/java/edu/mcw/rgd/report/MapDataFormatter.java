@@ -4,6 +4,8 @@ import edu.mcw.rgd.dao.impl.Jbrowse2UrlConfigDAO;
 import edu.mcw.rgd.dao.impl.variants.VariantDAO;
 import edu.mcw.rgd.datamodel.*;
 import edu.mcw.rgd.dao.impl.MapDAO;
+import edu.mcw.rgd.dao.impl.StrainDAO;
+import edu.mcw.rgd.reporting.Link;
 import edu.mcw.rgd.process.Utils;
 import edu.mcw.rgd.process.mapping.MapManager;
 import edu.mcw.rgd.web.FormUtility;
@@ -13,8 +15,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +28,106 @@ import java.util.stream.Collectors;
  * Date: Jun 9, 2011
  */
 public class  MapDataFormatter {
+
+    /* ----------------------------------------------------------------------
+       Grouping for the position table.
+
+       Which block a row belongs to comes straight from MAPS.MAP_TYPE
+       (Map.getMapType()), so nothing here has to recognise assembly names.
+       Groups are rendered in the order their first map turns up once the list
+       is rank-sorted, and MAP_TYPE is used verbatim as the header label.
+       Headers are only emitted when a table spans more than one group, so
+       single-assembly objects look unchanged.
+       ---------------------------------------------------------------------- */
+
+    /** header shown for maps whose MAP_TYPE is not set */
+    static final String GROUP_UNTYPED = "Other";
+
+    /** which block of the position table a map belongs to */
+    static String assemblyGroup(Map map) {
+        String mapType = map==null ? null : map.getMapType();
+        return Utils.isStringEmpty(mapType) ? GROUP_UNTYPED : mapType.trim();
+    }
+
+    /** number of columns both position tables render for this object type - the colspan of a group header.
+     *  Neither the Strain column nor the comparative table's Species column is one of these, so each
+     *  caller adds one for whichever it puts in front. */
+    static int mapTableColumnCount(int objectKey) {
+        if( objectKey==RgdId.OBJECT_KEY_GENES ) {
+            return 8;
+        }
+        if( objectKey==RgdId.OBJECT_KEY_QTLS ||
+                objectKey==RgdId.OBJECT_KEY_SSLPS ||
+                objectKey==RgdId.OBJECT_KEY_STRAINS ) {
+            return 5;
+        }
+        return 4;
+    }
+
+    /** bucket already rank-sorted rows by MAP_TYPE, keeping both the group order and the sort within a group */
+    static <T> LinkedHashMap<String, List<T>> groupByAssembly(List<T> rows, ToIntFunction<T> mapKeyOf) throws Exception {
+
+        final MapManager mm = MapManager.getInstance();
+
+        LinkedHashMap<String, List<T>> groups = new LinkedHashMap<>();
+        for( T row: rows ) {
+            String group = assemblyGroup(mm.getMap(mapKeyOf.applyAsInt(row)));
+            groups.computeIfAbsent(group, k -> new ArrayList<T>()).add(row);
+        }
+        return groups;
+    }
+
+    static void appendGroupHeaderRow(StringBuilder ret, String label, int colCount) {
+        ret.append("<tr class=\"mapDataGroup\"><td colspan=\"").append(colCount).append("\">")
+                .append(label).append("</td></tr>");
+    }
+
+    /* ----------------------------------------------------------------------
+       Strain column of the position table.
+
+       An assembly is built from one strain (MAPS.STRAIN_RGD_ID), so the symbol
+       is a property of the map, not of the object being reported on. Symbols
+       are cached for the life of the app, the same way MapManager caches the
+       maps themselves, so a report page costs at most one extra query.
+       ---------------------------------------------------------------------- */
+
+    /** strain symbol by strain rgd id; "" for a strain rgd id that could not be resolved */
+    private static final java.util.Map<Integer, String> strainSymbols = new ConcurrentHashMap<>();
+
+    /** load the symbols of the strains these maps were built from - one query for everything not cached yet */
+    static void cacheStrainSymbols(List<Map> maps) throws Exception {
+
+        List<Integer> missing = new ArrayList<>();
+        for( Map map: maps ) {
+            int strainRgdId = map==null ? 0 : map.getStrainRgdId();
+            if( strainRgdId>0 && !strainSymbols.containsKey(strainRgdId) && !missing.contains(strainRgdId) ) {
+                missing.add(strainRgdId);
+            }
+        }
+        if( missing.isEmpty() ) {
+            return;
+        }
+
+        for( Strain strain: new StrainDAO().getStrains(missing) ) {
+            strainSymbols.put(strain.getRgdId(), Utils.defaultString(strain.getSymbol()));
+        }
+        // strains that are not there are cached as blank, so they are not looked up again on every page
+        for( Integer strainRgdId: missing ) {
+            strainSymbols.putIfAbsent(strainRgdId, "");
+        }
+    }
+
+    /** the strain the assembly was built from, linked to its report page; blank cell when the map has no strain */
+    static void appendStrainCell(StringBuilder ret, Map map) {
+
+        int strainRgdId = map==null ? 0 : map.getStrainRgdId();
+        String symbol = strainRgdId>0 ? strainSymbols.get(strainRgdId) : null;
+        if( Utils.isStringEmpty(symbol) ) {
+            ret.append("<td>&nbsp;</td>");
+            return;
+        }
+        ret.append("<td><a href=\"").append(Link.strain(strainRgdId)).append("\" title='Reference Strain'>").append(symbol).append("</a></td>");
+    }
 
     public static String buildTable(int rgdId, int speciesTypeKey) throws Exception{
         return buildTable(rgdId, speciesTypeKey, 0);
@@ -89,6 +194,12 @@ public class  MapDataFormatter {
         return buildTable(speciesTypeKey, mapData, objectKey, objectSymbol);
     }
 
+    /**
+     * The position table of a single object's report: one object, every assembly it has a position
+     * on, grouped by MAP_TYPE. The comparative map data section of the gene report wants the
+     * opposite shape - many objects, one assembly each, in one table - and builds it with
+     * {@link #buildComparativeTable}; both share {@link #appendMapDataCells} for the cells of a row.
+     */
     public static String buildTable(int speciesTypeKey, List<MapData> mapData, int objectKey, String objectSymbol) throws Exception{
 
         if( mapData.isEmpty() ) {
@@ -101,7 +212,186 @@ public class  MapDataFormatter {
 
         String mapColumnTitle = SpeciesType.getCommonName(speciesTypeKey)+" Assembly";
 
-        // sort map data by order specified in the database
+        sortMapDataByRank(mapData);
+
+        StringBuilder ret = new StringBuilder("<table border=\"0\" class=\"mapDataTable\" width=\"670\">");
+        if( objectKey==RgdId.OBJECT_KEY_GENES ) {
+            // One header row. The second row used to repeat JBrowse / NCBI / UCSC / Ensembl under
+            // "Genome Browsers", but every one of those cells renders the browser's own name as its
+            // link text, so the labels said nothing the row below them did not - and the rowspans
+            // they forced on the other columns went with them.
+            ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
+            ret.append("<th align=\"left\">Strain</th>");
+            ret.append("<th align=\"left\">Chr</th>");
+            ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
+            ret.append("<th align=\"left\">Source</th>");
+            ret.append("<th colspan=\"4\">Genome Browsers</th>");
+            ret.append("</tr>");
+        } else {
+            ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
+            ret.append("<th align=\"left\">Strain</th>");
+            ret.append("<th align=\"left\">Chr</th>");
+            ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
+            ret.append("<th align=\"left\">Source</th>");
+            if( objectKey==RgdId.OBJECT_KEY_QTLS ||
+                    objectKey==RgdId.OBJECT_KEY_SSLPS ||
+                    objectKey==RgdId.OBJECT_KEY_STRAINS ) {
+                ret.append("<th align=\"left\">JBrowse</th>");
+            }
+            ret.append("</tr>");
+        }
+
+        // the Strain column needs a symbol for every assembly listed below
+        List<Map> tableMaps = new ArrayList<>();
+        for( MapData mdObj: mapData ) {
+            tableMaps.add(mm.getMap(mdObj.getMapKey()));
+        }
+        cacheStrainSymbols(tableMaps);
+
+        List<String> activeMapChr = referenceChromosomes(mapData, activeMapKey);
+
+        LinkedHashMap<String, List<MapData>> groups = groupByAssembly(mapData, MapData::getMapKey);
+        int colCount = mapTableColumnCount(objectKey) + 1;  // + the Strain column
+        boolean showGroupHeaders = groups.size() > 1;
+
+        for (java.util.Map.Entry<String, List<MapData>> group: groups.entrySet()) {
+
+            if( showGroupHeaders ) {
+                appendGroupHeaderRow(ret, group.getKey(), colCount);
+            }
+
+            for (MapData mdObj: group.getValue()) {
+                ret.append("<tr>");
+                appendMapDataCells(ret, mdObj, objectKey, objectSymbol, activeMapKey, activeMapChr, true);
+                ret.append("</tr>");
+            }
+        }
+        ret.append("</table>");
+
+        return ret.toString();
+    }
+
+    /**
+     * The cells of one position row - assembly, strain, chromosome, position, source and the
+     * genome browser links - with no surrounding &lt;tr&gt;, so a caller can prepend a column of
+     * its own. {@link #buildTable} prepends nothing; {@link #buildComparativeTable} prepends the
+     * species.
+     *
+     * @param activeMapChr chromosomes the object sits on in the reference assembly, from
+     *   {@link #referenceChromosomes}. A chromosome that disagrees with it is flagged red - that
+     *   mismatch is the thing worth noticing on a report, so it is worth the extra argument.
+     * @param showStrain whether to render the Strain column; the caller's header has to agree
+     */
+    static void appendMapDataCells(StringBuilder ret, MapData mdObj, int objectKey, String objectSymbol,
+                                   int activeMapKey, List<String> activeMapChr, boolean showStrain) throws Exception {
+
+        final MapManager mm = MapManager.getInstance();
+
+        Map map = mm.getMap(mdObj.getMapKey());
+        //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
+        if( map==null ) {
+            // map not known
+            ret.append("<td>&nbsp;</td>");
+        }
+        else
+        if (map.getKey() == activeMapKey) {
+
+            //System.out.println(" activeMap hit: "+activeMapKey);
+            ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
+                    .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
+                    .append("'>").append(map.getName())
+                    .append("</a></td>");
+
+        }else {
+            //System.out.println(" map hit: "+mdObj.getMapKey());
+            ret.append("<td>").append(map.getName()).append("</td>");
+        }
+
+        if( showStrain ) {
+            appendStrainCell(ret, map);
+        }
+
+        if(activeMapChr.size()>1){
+            //System.out.println("active map " + activeMapChr.toString());
+            ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+        }else{
+            if(activeMapChr.size()==1) {
+                for (String chr : activeMapChr) {
+                    //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
+                    if (mdObj.getChromosome().equals(chr))
+                        ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                    else
+                        ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+                }
+            }else {
+                ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+            }
+        }
+
+        if (map!=null && map.getUnit().equals("bp")) {
+            ret.append("<td class=\"mapDataPos\">")
+                    .append(FormUtility.formatThousands(mdObj.getStartPos()))
+                    .append("&nbsp;-&nbsp;")
+                    .append(FormUtility.formatThousands(mdObj.getStopPos()));
+            if( mdObj.getStrand()!=null ) {
+                ret.append(" (").append(mdObj.getStrand()).append(")");
+            }
+            ret.append("</td>");
+        } else if (mdObj.getAbsPosition() != null){
+            ret.append("<td class=\"mapDataPos\">").append(mdObj.getAbsPosition()).append("</td>");
+
+        } else if (mdObj.getFishBand() != null) {
+            ret.append("<td class=\"mapDataPos\">").append(mdObj.getFishBand()).append("</td>");
+        } else {
+            ret.append("<td class=\"mapDataPos\">&nbsp;</td>");
+        }
+
+        String src = "RGD";
+        if (mdObj.getSrcPipeline() != null) {
+            src=mdObj.getSrcPipeline();
+        }
+        ret.append("<td>").append(src).append("</td>");
+
+        // JBrowse links - removed genes, qtls for jbrowse2
+        if(objectKey==RgdId.OBJECT_KEY_SSLPS) {
+            ret.append("<td>");
+            generateJBrowseLink(ret, objectKey, mdObj);
+            ret.append("</td>");
+        }
+        if(objectKey==RgdId.OBJECT_KEY_QTLS || objectKey==RgdId.OBJECT_KEY_STRAINS){
+            ret.append("<td>");
+            generateJBrowse2Link(ret, objectKey, mdObj);
+            ret.append("</td>");
+        }
+        if(objectKey==RgdId.OBJECT_KEY_GENES) {
+            //Jbrowse2 link for genes
+            ret.append("<td>");
+            generateJBrowse2Link(ret, objectKey, mdObj);
+            ret.append("</td>");
+            // NCBI links
+            ret.append("<td>");
+            if( map!=null ) {
+                generateNcbiGDVLink(ret, objectSymbol, map.getRefSeqAssemblyAcc(), map.getName());
+            }
+            ret.append("</td>");
+
+            // UCSC links
+            ret.append("<td>");
+            generateUcscLink(ret, objectKey, mdObj);
+            ret.append("</td>");
+
+            // Ensembl links
+            ret.append("<td>");
+            generateEnsemblLink(ret, objectKey, mdObj);
+            ret.append("</td>");
+        }
+    }
+
+    /** sort positions into the order the database ranks their assemblies in */
+    static void sortMapDataByRank(List<MapData> mapData) throws Exception {
+
+        final MapManager mm = MapManager.getInstance();
+
         Collections.sort(mapData, new Comparator<MapData>() {
             @Override
             public int compare(MapData o1, MapData o2) {
@@ -117,142 +407,189 @@ public class  MapDataFormatter {
                 return rank1 - rank2;
             }
         });
+    }
 
-        StringBuilder ret = new StringBuilder("<table border=\"0\" class=\"mapDataTable\" width=\"670\">");
-        if( objectKey==RgdId.OBJECT_KEY_GENES ) {
-            ret.append("<tr><th align=\"left\" rowspan=\"2\"><b>").append(mapColumnTitle).append("</b></th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Chr</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Position (strand)</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Source</th>");
-            ret.append("<th colspan=\"4\">Genome Browsers</th>");
-            ret.append("</tr>");
-            ret.append("<tr><th>JBrowse</th><th>NCBI</th><th>UCSC</th><th>Ensembl</th></tr>");
-        } else {
-            ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
-            ret.append("<th align=\"left\">Chr</th>");
-            ret.append("<th align=\"left\">Position (strand)</th>");
-            ret.append("<th align=\"left\">Source</th>");
-            if( objectKey==RgdId.OBJECT_KEY_QTLS ||
-                    objectKey==RgdId.OBJECT_KEY_SSLPS ||
-                    objectKey==RgdId.OBJECT_KEY_STRAINS ) {
-                ret.append("<th align=\"left\">JBrowse</th>");
-            }
-            ret.append("</tr>");
-        }
+    /** the chromosomes the object sits on in its reference assembly - what every other row's chromosome is checked against */
+    static List<String> referenceChromosomes(List<MapData> mapData, int activeMapKey) throws Exception {
 
-        List<String> activeMapChr=new ArrayList<>();
-        for(MapData mdObj: mapData){
+        final MapManager mm = MapManager.getInstance();
+
+        List<String> activeMapChr = new ArrayList<>();
+        for( MapData mdObj: mapData ) {
             Map map = mm.getMap(mdObj.getMapKey());
-            if( map==null ) {
-                // map not known
-                //ret.append("<td>&nbsp;</td>");
-                continue;
-            }
-            if (map.getKey() == activeMapKey) {
+            if( map!=null && map.getKey()==activeMapKey ) {
                 activeMapChr.add(mdObj.getChromosome());
             }
         }
+        return activeMapChr;
+    }
 
-        for (MapData mdObj: mapData) {
-            Map map = mm.getMap(mdObj.getMapKey());
-            //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
-            if( map==null ) {
-                // map not known
-                ret.append("<td>&nbsp;</td>");
-            }
-            else
-            if (map.getKey() == activeMapKey) {
+    /* ----------------------------------------------------------------------
+       Comparative Map Data table of the gene report.
 
-                //System.out.println(" activeMap hit: "+activeMapKey);
-                ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
-                        .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
-                        .append("'>").append(map.getName())
-                        .append("</a></td>");
+       The inverse of buildTable(): many objects, one assembly each. It used to
+       be built as one buildTable() per homolog, nested in a cell of an outer
+       two column table - which repeated the eight column header a dozen times,
+       and left each nested table sizing its own columns, so no two species'
+       positions lined up. One table fixes both: a single header, species in the
+       first column, and the assemblies actually comparable because they finally
+       share column positions.
 
-            }else {
-                //System.out.println(" map hit: "+mdObj.getMapKey());
-                ret.append("<td>").append(map.getName()).append("</td>");
-            }
+       Each species opens on its reference assembly alone; the rest are rendered
+       hidden behind a per-species "show N more assemblies" button. Rows carry
+       data-cmap-species so the toggle in comparativeMapData.jsp can reveal one
+       species' assemblies without touching its neighbours'.
 
-            if(activeMapChr.size()>1){
-                //System.out.println("active map " + activeMapChr.toString());
-                ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
-            }else{
-                if(activeMapChr.size()==1) {
-                    for (String chr : activeMapChr) {
-                        //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
-                        if (mdObj.getChromosome().equals(chr))
-                            ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
-                        else
-                            ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
-                    }
-                }else {
-                    ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
-                }
-            }
+       MAP_TYPE grouping survives inside a block, over the rows the toggle
+       reveals: a bp assembly, a genetic map and an RH map are different kinds
+       of position and the label is what says which. Those headers are hidden
+       along with the rows they label, so a collapsed block is still one row
+       tall, and they sit indented past the Species column - species is the
+       outer grouping here, MAP_TYPE the inner one, and the indent is what says
+       so. The row the block opens on is not given a header: it is the one row
+       whose kind is never in question, and a header per species on first paint
+       is the clutter this layout exists to remove.
+       ---------------------------------------------------------------------- */
 
-            if (map!=null && map.getUnit().equals("bp")) {
-                ret.append("<td>")
-                        .append(FormUtility.formatThousands(mdObj.getStartPos()))
-                        .append("&nbsp;-&nbsp;")
-                        .append(FormUtility.formatThousands(mdObj.getStopPos()));
-                if( mdObj.getStrand()!=null ) {
-                    ret.append(" (").append(mdObj.getStrand()).append(")");
-                }
-                ret.append("</td>");
-            } else if (mdObj.getAbsPosition() != null){
-                ret.append("<td>").append(mdObj.getAbsPosition()).append("</td>");
+    /** a MAP_TYPE header over rows the toggle reveals - hidden with them, and indented past the Species column */
+    static void appendHiddenGroupHeaderRow(StringBuilder ret, int speciesRgdId, String label, int colCount) {
+        ret.append("<tr class=\"mapDataGroup mapDataExtra\" hidden data-cmap-species=\"")
+                .append(speciesRgdId).append("\">")
+                .append("<td class=\"cmapSpecies\"></td>")
+                .append("<td colspan=\"").append(colCount-1).append("\">").append(label).append("</td></tr>");
+    }
 
-            } else if (mdObj.getFishBand() != null) {
-                ret.append("<td>").append(mdObj.getFishBand()).append("</td>");
-            } else {
-                ret.append("<td>&nbsp;</td>");
-            }
+    /** the "show N more assemblies" toggle, last row of a species block */
+    static void appendMoreAssembliesRow(StringBuilder ret, int speciesRgdId, int colCount, int hiddenCount) {
 
-            String src = "RGD";
-            if (mdObj.getSrcPipeline() != null) {
-                src=mdObj.getSrcPipeline();
-            }
-            ret.append("<td>").append(src).append("</td>");
+        String noun = hiddenCount==1 ? " more assembly" : " more assemblies";
+        String more = "Show " + hiddenCount + noun;
+        String less = "Hide " + hiddenCount + noun;
 
-            // JBrowse links - removed genes, qtls for jbrowse2
-            if(objectKey==RgdId.OBJECT_KEY_SSLPS) {
-                ret.append("<td>");
-                generateJBrowseLink(ret, objectKey, mdObj);
-                ret.append("</td>");
-            }
-            if(objectKey==RgdId.OBJECT_KEY_QTLS || objectKey==RgdId.OBJECT_KEY_STRAINS){
-                ret.append("<td>");
-                generateJBrowse2Link(ret, objectKey, mdObj);
-                ret.append("</td>");
-            }
-            if(objectKey==RgdId.OBJECT_KEY_GENES) {
-                //Jbrowse2 link for genes
-                ret.append("<td>");
-                generateJBrowse2Link(ret, objectKey, mdObj);
-                ret.append("</td>");
-                // NCBI links
-                ret.append("<td>");
-                if( map!=null ) {
-                    generateNcbiGDVLink(ret, objectSymbol, map.getRefSeqAssemblyAcc(), map.getName());
-                }
-                ret.append("</td>");
+        ret.append("<tr class=\"mapDataMoreRow\" data-cmap-species=\"").append(speciesRgdId).append("\">")
+                .append("<td class=\"cmapSpecies\"></td>")
+                .append("<td colspan=\"").append(colCount-1).append("\">")
+                .append("<button type=\"button\" class=\"mapDataMoreBtn\" aria-expanded=\"false\"")
+                .append(" data-cmap-species=\"").append(speciesRgdId).append("\"")
+                .append(" data-label-more=\"").append(more).append("\"")
+                .append(" data-label-less=\"").append(less).append("\">")
+                .append(more).append("</button></td></tr>");
+    }
 
-                // UCSC links
-                ret.append("<td>");
-                generateUcscLink(ret, objectKey, mdObj);
-                ret.append("</td>");
+    /** the Species column - symbol, taxonomic name and common name, which .cmapSpecies stacks */
+    static String speciesCell(Gene g) {
+        return "<td class=\"cmapSpecies\">"
+                + "<span class=\"cmapSymbol\">" + g.getSymbol() + "</span>"
+                + "<span class=\"cmapTaxon\">" + SpeciesType.getTaxonomicName(g.getSpeciesTypeKey()) + "</span>"
+                + "<span class=\"cmapCommon\">" + SpeciesType.getGenebankCommonName(g.getSpeciesTypeKey()) + "</span>"
+                + "</td>";
+    }
 
-                // Ensembl links
-                ret.append("<td>");
-                generateEnsemblLink(ret, objectKey, mdObj);
-                ret.append("</td>");
-            }
+    /**
+     * @param genes the gene being reported on followed by its homologs - the caller's order is kept
+     * @param objectKey decides the browser columns, exactly as in {@link #buildTable}
+     */
+    public static String buildComparativeTable(List<Gene> genes, int objectKey) throws Exception {
 
-            ret.append("</tr>");
+        final MapManager mm = MapManager.getInstance();
+        MapDAO mdao = new MapDAO();
 
+        // the Species column takes the place of buildTable()'s Strain column: one assembly per
+        // species is on show here, and the strain it was built from says nothing about the comparison
+        int colCount = mapTableColumnCount(objectKey) + 1;
+
+        StringBuilder ret = new StringBuilder("<table id=\"comparativeMapDataTable\" class=\"mapDataTable\">");
+
+        ret.append("<thead><tr>");
+        ret.append("<th align=\"left\">Species</th>");
+        ret.append("<th align=\"left\">Assembly</th>");
+        ret.append("<th align=\"left\">Chr</th>");
+        ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
+        ret.append("<th align=\"left\">Source</th>");
+        if( objectKey==RgdId.OBJECT_KEY_GENES ) {
+            ret.append("<th colspan=\"4\">Genome Browsers</th>");
+        } else if( objectKey==RgdId.OBJECT_KEY_QTLS ||
+                objectKey==RgdId.OBJECT_KEY_SSLPS ||
+                objectKey==RgdId.OBJECT_KEY_STRAINS ) {
+            ret.append("<th align=\"left\">JBrowse</th>");
         }
-        ret.append("</table>");
+        ret.append("</tr></thead><tbody>");
+
+        for( Gene g: genes ) {
+
+            List<MapData> mapData = mdao.getMapData(g.getRgdId());
+
+            if( mapData.isEmpty() ) {
+                ret.append("<tr class=\"cmapBlockStart\">").append(speciesCell(g))
+                        .append("<td colspan=\"").append(colCount-1).append("\">No map positions available.</td></tr>");
+                continue;
+            }
+
+            sortMapDataByRank(mapData);
+
+            // a species with no reference assembly on record leaves activeMapKey at 0, which no
+            // map matches - the block then opens on its top ranked assembly and skips the
+            // chromosome comparison, rather than taking the whole section down with an NPE
+            Map refAssembly = mm.getReferenceAssembly(g.getSpeciesTypeKey());
+            int activeMapKey = refAssembly==null ? 0 : refAssembly.getKey();
+            List<String> activeMapChr = referenceChromosomes(mapData, activeMapKey);
+
+            // the assembly this species opens on: its reference assembly, or - when the gene has
+            // no position there - the top ranked assembly it does have, so a block is never empty
+            int openMapKey = mapData.get(0).getMapKey();
+            for( MapData mdObj: mapData ) {
+                if( mdObj.getMapKey()==activeMapKey ) {
+                    openMapKey = activeMapKey;
+                }
+            }
+
+            // open rows first, so the species name and the block's hairline land on a visible row
+            // whatever rank the reference assembly happens to carry
+            List<MapData> openRows = new ArrayList<>();
+            List<MapData> hiddenRows = new ArrayList<>();
+            Set<Integer> hiddenMapKeys = new HashSet<>();
+            for( MapData mdObj: mapData ) {
+                if( mdObj.getMapKey()==openMapKey ) {
+                    openRows.add(mdObj);
+                } else {
+                    hiddenRows.add(mdObj);
+                    // the button counts assemblies, not rows - an assembly with two positions on
+                    // it is one more assembly to show, even though expanding reveals two rows
+                    hiddenMapKeys.add(mdObj.getMapKey());
+                }
+            }
+
+            boolean firstOfBlock = true;
+            for( MapData mdObj: openRows ) {
+                ret.append("<tr data-cmap-species=\"").append(g.getRgdId()).append("\"");
+                if( firstOfBlock ) {
+                    ret.append(" class=\"cmapBlockStart\"");
+                }
+                ret.append(">");
+                ret.append(firstOfBlock ? speciesCell(g) : "<td class=\"cmapSpecies\"></td>");
+                appendMapDataCells(ret, mdObj, objectKey, g.getSymbol(), activeMapKey, activeMapChr, false);
+                ret.append("</tr>");
+                firstOfBlock = false;
+            }
+            // the revealed rows keep their MAP_TYPE grouping, in rank order
+            for( java.util.Map.Entry<String, List<MapData>> group: groupByAssembly(hiddenRows, MapData::getMapKey).entrySet() ) {
+
+                appendHiddenGroupHeaderRow(ret, g.getRgdId(), group.getKey(), colCount);
+
+                for( MapData mdObj: group.getValue() ) {
+                    ret.append("<tr class=\"mapDataExtra\" hidden data-cmap-species=\"")
+                            .append(g.getRgdId()).append("\">");
+                    ret.append("<td class=\"cmapSpecies\"></td>");
+                    appendMapDataCells(ret, mdObj, objectKey, g.getSymbol(), activeMapKey, activeMapChr, false);
+                    ret.append("</tr>");
+                }
+            }
+            if( !hiddenMapKeys.isEmpty() ) {
+                appendMoreAssembliesRow(ret, g.getRgdId(), colCount, hiddenMapKeys.size());
+            }
+        }
+
+        ret.append("</tbody></table>");
 
         return ret.toString();
     }
@@ -288,17 +625,17 @@ public class  MapDataFormatter {
 
         StringBuilder ret = new StringBuilder("<table border=\"0\" class=\"mapDataTable\" width=\"670\">");
         if( objectKey==RgdId.OBJECT_KEY_GENES ) {
-            ret.append("<tr><th align=\"left\" rowspan=\"2\"><b>").append(mapColumnTitle).append("</b></th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Chr</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Position (strand)</th>");
-            ret.append("<th align=\"left\" rowspan=\"2\">Source</th>");
+            // one header row, for the reason given in buildTable() above
+            ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
+            ret.append("<th align=\"left\">Chr</th>");
+            ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
+            ret.append("<th align=\"left\">Source</th>");
             ret.append("<th colspan=\"4\">Genome Browsers</th>");
             ret.append("</tr>");
-            ret.append("<tr><th>JBrowse</th><th>NCBI</th><th>UCSC</th><th>Ensembl</th></tr>");
         } else {
             ret.append("<tr><th align=\"left\"><b>").append(mapColumnTitle).append("</b></th>");
             ret.append("<th align=\"left\">Chr</th>");
-            ret.append("<th align=\"left\">Position (strand)</th>");
+            ret.append("<th align=\"left\" class=\"mapDataPos\">Position (strand)</th>");
             ret.append("<th align=\"left\">Source</th>");
             if( objectKey==RgdId.OBJECT_KEY_QTLS ||
                     objectKey==RgdId.OBJECT_KEY_SSLPS ||
@@ -321,61 +658,72 @@ public class  MapDataFormatter {
             }
         }
 
-        for (VariantMapData mdObj: mapData) {
-            Map map = mm.getMap(mdObj.getMapKey());
-            //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
-            if( map==null ) {
-                // map not known
-                ret.append("<td>&nbsp;</td>");
-            }
-            else
-            if (map.getKey() == activeMapKey) {
+        LinkedHashMap<String, List<VariantMapData>> groups = groupByAssembly(mapData, VariantMapData::getMapKey);
+        int colCount = mapTableColumnCount(objectKey);
+        boolean showGroupHeaders = groups.size() > 1;
 
-                //System.out.println(" activeMap hit: "+activeMapKey);
-                ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
-                        .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
-                        .append("'>").append(map.getName())
-                        .append("</a></td>");
+        for (java.util.Map.Entry<String, List<VariantMapData>> group: groups.entrySet()) {
 
-            }else {
-                //System.out.println(" map hit: "+mdObj.getMapKey());
-                ret.append("<td>").append(map.getName()).append("</td>");
+            if( showGroupHeaders ) {
+                appendGroupHeaderRow(ret, group.getKey(), colCount);
             }
 
-            if(activeMapChr.size()>1){
-                //System.out.println("active map " + activeMapChr.toString());
-                ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
-            }else{
-                if(activeMapChr.size()==1) {
-                    for (String chr : activeMapChr) {
-                        //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
-                        if (mdObj.getChromosome().equals(chr))
-                            ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
-                        else
-                            ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
-                    }
-                }else {
-                    ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+            for (VariantMapData mdObj: group.getValue()) {
+                ret.append("<tr>");
+                Map map = mm.getMap(mdObj.getMapKey());
+                //System.out.println(" mdObjMapKey="+mdObj.getMapKey()+", map.getKey="+(map==null?0:map.getKey())+", map="+map);
+                if( map==null ) {
+                    // map not known
+                    ret.append("<td>&nbsp;</td>");
                 }
+                else
+                if (map.getKey() == activeMapKey) {
+
+                    //System.out.println(" activeMap hit: "+activeMapKey);
+                    ret.append("<td><a style='color:blue;font-weight:700;font-size:11px;' href='")
+                            .append(SpeciesType.getNCBIAssemblyDescriptionForSpecies(map.getSpeciesTypeKey()))
+                            .append("'>").append(map.getName())
+                            .append("</a></td>");
+
+                }else {
+                    //System.out.println(" map hit: "+mdObj.getMapKey());
+                    ret.append("<td>").append(map.getName()).append("</td>");
+                }
+
+                if(activeMapChr.size()>1){
+                    //System.out.println("active map " + activeMapChr.toString());
+                    ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+                }else{
+                    if(activeMapChr.size()==1) {
+                        for (String chr : activeMapChr) {
+                            //System.out.println("chr comparison " + mdObj.getChromosome() + " - " + chr);
+                            if (mdObj.getChromosome().equals(chr))
+                                ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                            else
+                                ret.append("<td style='color:red;font-weight:bold;'>").append(mdObj.getChromosome()).append("</td>");
+                        }
+                    }else {
+                        ret.append("<td>").append(mdObj.getChromosome()).append("</td>");
+                    }
+                }
+
+                if (map!=null && map.getUnit().equals("bp")) {
+                    ret.append("<td class=\"mapDataPos\">")
+                            .append(FormUtility.formatThousands(mdObj.getStartPos()))
+                            .append("&nbsp;-&nbsp;")
+                            .append(FormUtility.formatThousands(mdObj.getEndPos()));
+
+                    ret.append("</td>");
+                }  else {
+                    ret.append("<td class=\"mapDataPos\">&nbsp;</td>");
+                }
+
+                String src = "RGD";
+
+                ret.append("<td>").append(src).append("</td>");
+
+                ret.append("</tr>");
             }
-
-            if (map!=null && map.getUnit().equals("bp")) {
-                ret.append("<td>")
-                        .append(FormUtility.formatThousands(mdObj.getStartPos()))
-                        .append("&nbsp;-&nbsp;")
-                        .append(FormUtility.formatThousands(mdObj.getEndPos()));
-
-                ret.append("</td>");
-            }  else {
-                ret.append("<td>&nbsp;</td>");
-            }
-
-            String src = "RGD";
-
-            ret.append("<td>").append(src).append("</td>");
-
-            ret.append("</tr>");
-
         }
         ret.append("</table>");
 
@@ -537,13 +885,12 @@ public class  MapDataFormatter {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse/index.html?data=")
                     .append(db).append("&tracks=").append(track).append("&highlight=&loc=")
                     .append(FormUtility.getJBrowseLoc(md))
-                    .append("\">").append(link).append("</a>");
+                    .append("\">").append("JBrowse").append("</a>");
         }
     }
     static void generateJBrowse2Link(StringBuilder buf, int objectKey, MapData md) throws Exception {
         String url=generateJbrowse2URL(objectKey,md);
         if(url!=null) {
-            String linkName= MapManager.getInstance().getMap(md.getMapKey()).getName();
 //                buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"/jbrowse2/?loc=")
 //                        .append(FormUtility.getJBrowse2Loc(md, chrPrefix))
 //                        .append("&assembly=").append(assembly)
@@ -551,7 +898,7 @@ public class  MapDataFormatter {
 //                        .append("&tracks=").append(tracks)
 //                        .append("\">").append(link).append("</a>");
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
-                    .append(url).append("\">").append(linkName).append("</a>");
+                    .append(url).append("\">").append("JBrowse").append("</a>");
 
         }
     }
@@ -663,7 +1010,7 @@ public class  MapDataFormatter {
                     .append(refSeqAccId)
                     .append("&q=").append(objectSymbol)
                     .append("&context=genome")
-                    .append("\">").append(mapName).append("</a>");
+                    .append("\">").append("NCBI").append("</a>");
         }
     }
 
@@ -707,6 +1054,16 @@ public class  MapDataFormatter {
                 case 361: // Rnor6.0
                     db = "rn6";
                     break;
+                case 372:
+                case 373: // mRatBN7.2 - UCSC "Nov. 2020 (mRatBN7.2/rn7)"
+                    db = "rn7";
+                    break;
+                case 380:
+                case 381: // GRCr8 - UCSC "Jan. 2024 (GRCr8/rn8)". rn8 is a GenArk assembly
+                    // (GCF_036323735.1) that UCSC serves under the short rn8 name; its
+                    // chromAlias carries the chr1..chr20/chrX/chrY spellings this link builds.
+                    db = "rn8";
+                    break;
 
                 case 510: // bonobo
                     db = "panPan1";
@@ -743,13 +1100,87 @@ public class  MapDataFormatter {
                     break;
             }
         }
-        if( db!=null ) {
+        if( db==null ) {
+            return;   // assembly has no UCSC browser; nothing to link to
+        }
+        // No link unless there is a sequence and a span to point at. The position used to be
+        // built straight from the RGD chromosome, which produced chrMT / chrUn / chrPNS010000024.1
+        // - none of them UCSC names - and "position=chr1%3Anull-null" for a gene placed only by
+        // fish band or absolute position.
+        String chr = ucscChromosome(db, md.getChromosome());
+        if( chr!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"https://genome.ucsc.edu/cgi-bin/hgTracks?db=")
-                    .append(db).append("&position=chr")
-                    .append(md.getChromosome()).append("%3A").append(md.getStartPos()).append("-").append(md.getStopPos())
-                    .append("\">").append(db).append("</a>");
+                    .append(db).append("&position=").append(chr)
+                    .append("%3A").append(md.getStartPos()).append("-").append(md.getStopPos())
+                    .append("\">").append("UCSC").append("</a>");
         }
     }
+
+    /** The UCSC spelling of an RGD chromosome for a given assembly, or null when that assembly
+     *  has no sequence this link could address.
+     *
+     *  RGD stores nuclear chromosomes as bare numbers or X/Y, the mitochondrion as "MT", a
+     *  feature known to the assembly but unplaced as "Un", and a feature still on a scaffold
+     *  under the scaffold's own accession ("PNS010000024.1" - 320 rat gene positions are MT, 213
+     *  are Un, and a long tail sits on scaffolds). UCSC prefixes the nuclear ones with chr and
+     *  calls the mitochondrion chrM, and has no name at all for the last two.
+     *
+     *  Checked against UCSC's chromosome lists for every assembly named in the switch above:
+     *  all of them carry chrM, and chrUn exists in rn4 alone. The exception is rn8 - GRCr8's
+     *  GenArk hub (GCF_036323735.1) has no mitochondrial sequence, so MT gets no link there. */
+    static String ucscChromosome(String db, String chromosome) {
+        // db is null for every assembly the switch above does not name, which is most of them -
+        // there is no UCSC browser to send those to, and UCSC_MISSING_CHROMOSOMES is a Map.of,
+        // whose get() throws on a null key rather than returning null the way HashMap does.
+        if( db==null || chromosome==null ) {
+            return null;
+        }
+        String chr = chromosome.trim();
+        if( chr.isEmpty() ) {
+            return null;
+        }
+
+        String ucscName;
+        if( chr.equalsIgnoreCase("MT") || chr.equalsIgnoreCase("M") ) {
+            ucscName = "chrM";
+        } else if( chr.equalsIgnoreCase("Un") ) {
+            // chrUn is a real catch-all contig in rn4; the other assemblies have no such name,
+            // and UCSC_MISSING_CHROMOSOMES cannot express "every assembly but one", so it is
+            // filtered here instead
+            if( !"rn4".equals(db) ) {
+                return null;
+            }
+            ucscName = "chrUn";
+        } else if( chr.matches("[0-9]+[A-Za-z]?|[XYZWxyzw]") ) {
+            // the optional letter is for the great ape chromosome 2 split: RGD stores bonobo
+            // positions as 2A / 2B, which is exactly how panPan2 and panPan3 name them
+            ucscName = "chr" + chr.toUpperCase();
+        } else {
+            return null;   // scaffold accession, or anything else with no UCSC name
+        }
+
+        Set<String> missing = UCSC_MISSING_CHROMOSOMES.get(db);
+        if( missing!=null && missing.contains(ucscName) ) {
+            return null;
+        }
+        return ucscName;
+    }
+
+    /** Chromosomes an assembly listed in generateUcscLink has no sequence for, so that a position
+     *  on one of them produces no link rather than a link to nowhere. Read off UCSC's own
+     *  chromosome list for each assembly (api.genome.ucsc.edu/list/chromosomes), and for rn8 off
+     *  the chromAlias of its GenArk hub.
+     *
+     *  Only the rat assemblies are listed, because those are the ones checked against the
+     *  chromosome values RGD actually holds. The same kind of gap exists for three of the other
+     *  species - canFam3 and panPan3 have no chrY, panPan3 splits chromosome 2 into chr2A/chr2B,
+     *  and hetGla2 is scaffold-only so none of the naked mole rat chromosome numbers exist there
+     *  at all - but filling those in needs the same check run per species first. */
+    private static final java.util.Map<String, Set<String>> UCSC_MISSING_CHROMOSOMES = java.util.Map.of(
+            "rn4", Set.of("chrY"),   // RGSC 3.4 has no Y
+            "rn5", Set.of("chrY"),   // RGSC 5.0 has no Y
+            "rn8", Set.of("chrM")    // GRCr8's GenArk hub carries no mitochondrion
+    );
 
     static void generateEnsemblLink(StringBuilder buf, int objectKey, MapData md) {
 
@@ -760,7 +1191,7 @@ public class  MapDataFormatter {
             switch(md.getMapKey()) {
                 case 380:
                 case 381:
-                    db = "http://useast.ensembl.org/Rattus_norvegicus/Location/View?r=";
+                    db = "http://ensembl.org/Rattus_norvegicus/Location/View?r=";
                     link="GRCr8";
                     break;
 
@@ -862,7 +1293,7 @@ public class  MapDataFormatter {
             buf.append("<a style=\"font-size:11px;font-weight:bold\" href=\"")
                     .append(db)
                     .append(md.getChromosome()).append("%3A").append(md.getStartPos()).append("-").append(md.getStopPos())
-                    .append("\">").append(link).append("</a>");
+                    .append("\">").append("Ensembl").append("</a>");
         }
     }
 

@@ -4,6 +4,7 @@
 <% List<Strain2MarkerAssociation> strainAssocs = associationDAO.getStrain2SslpAssociations(obj.getRgdId());
     strainAssocs.addAll(associationDAO.getStrain2GeneAssociations(obj.getRgdId()));
     strainAssocs.addAll(associationDAO.getStrain2StrainAssociations(obj.getRgdId()));
+    strainAssocs.addAll(associationDAO.getStrain2VariantAssociations(obj.getRgdId()));
 
     // remove alleles from the list (many genes are alleles)
     Iterator<Strain2MarkerAssociation> its2m = strainAssocs.iterator();
@@ -22,12 +23,16 @@
     for( Strain2MarkerAssociation sa: strainAssocs ) {
 %>
     <tr>
-        <td valign="top"><br><%=StringUtils.capitalize(sa.getAssocType())%> / <%=sa.getRegionName()%> (<a href="<%=Link.it(sa.getMarkerRgdId())%>"><%=sa.getMarkerSymbol()%></a>)</td>
+        <td valign="top"><br><%=StringUtils.capitalize(sa.getAssocType())%> / <%=sa.getRegionName()%> (<a href="<%=Link.it(sa.getMarkerRgdId())%>"><%=!Utils.isStringEmpty(sa.getMarkerSymbol()) ? sa.getMarkerSymbol() : "RGD:"+sa.getMarkerRgdId()%></a>)</td>
         <td><%=MapDataFormatter.buildTable(sa.getMarkerRgdId(),obj.getSpeciesTypeKey())%></td>
     </tr>
     <% } %>
 </table>
 <%--<%=ui.dynClose("markerAssociation")%>--%>
-<% } %>
+<%-- same pairing as gene/markers.jsp: #markerAssociationTableDiv opens inside
+     "if(!strainAssocs.isEmpty())", so it has to close inside it. Closing it after the brace
+     meant a strain with no marker associations emitted an unmatched </div>, which closed
+     #content-wrap and dropped every section below it out of the accordion's selector. --%>
 </div>
+<% } %>
 <%@ include file="../sectionFooter.jsp"%>

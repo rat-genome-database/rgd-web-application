@@ -27,9 +27,9 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
+                    <option value="3">3</option>
                     <option value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>
@@ -39,42 +39,31 @@
     </div>
 
 <%
-
     for (Transcript t : tlist) {
-        String accStr = t.getAccId();
-        if( t.getProteinAccId()!=null ) {
-            accStr += " &nbsp; &xrArr; &nbsp; " + t.getProteinAccId();
-        }
-    %>
+        String accId = t.getAccId()==null ? "" : t.getAccId();
+        String refDB = accId.startsWith("ENS") ? "Ensembl" : "RefSeq";
+%>
 
-
-<table width="100%" border="0" style="background-color: rgb(249, 249, 249)" class="nucleotideReferenceSequencesTable" >
-    <thead></thead>
+<table width="100%" border="0" class="nucleotideReferenceSequencesTable refSeqCard">
     <tbody>
-    <tr>
-        <%
-            String refDB = "RefSeq";
-            if (accStr.startsWith("ENS")) {
-                refDB="Ensembl";
-            }
-        %>
-
-        <td class="label" valign="top" width="100"><%=refDB%> Acc Id:</td>
-        <td style="font-weight: bold; color: #2865A3"><%=accStr%></td>
-    </tr>
-    <% if( t.getRefSeqStatus()!=null ) { %>
-    <tr>
-        <td class="label" valign="top" width="100">RefSeq Status:</td>
-        <td><%=fu.chkNull(t.getRefSeqStatus())%></td>
-    </tr>
-    <% } %>
-    <tr>
-        <td class="label" valign="top" width="100">Type:</td>
-        <td><%=t.isNonCoding() ? "NON-CODING" : "CODING"%></td>
+    <tr class="refSeqCardHead">
+        <td colspan="2">
+            <span class="refSeqAcc" title="<%=refDB%> accession"><%=accId%></span>
+            <% if( t.getProteinAccId()!=null ) { %>
+            <span class="refSeqArrow" aria-hidden="true">&xrArr;</span>
+            <span class="refSeqAcc refSeqAcc--paired" title="protein accession"><%=t.getProteinAccId()%></span>
+            <% } %>
+            <span class="refSeqTag"><%=refDB%></span>
+            <span class="refSeqTag <%=t.isNonCoding() ? "refSeqTag--noncoding" : "refSeqTag--coding"%>"
+                  title="transcript type"><%=t.isNonCoding() ? "non-coding" : "coding"%></span>
+            <% if( t.getRefSeqStatus()!=null ) { %>
+            <span class="refSeqTag refSeqTag--status" title="RefSeq status"><%=fu.chkNull(t.getRefSeqStatus())%></span>
+            <% } %>
+        </td>
     </tr>
     <tr>
-        <td class="label" valign="top">Position:</td>
-        <td><%=MapDataFormatter.buildTable(t.getRgdId(), obj.getSpeciesTypeKey())%></td>
+        <td class="refSeqLabel">Position</td>
+        <td class="refSeqValue"><%=MapDataFormatter.buildTable(t.getRgdId(), obj.getSpeciesTypeKey())%></td>
     </tr>
 
     <%
@@ -85,16 +74,16 @@
             String seqFormatted = FormUtility.formatFasta(seq.getSeqData());
     %>
     <tr>
-        <td class="label" valign="top">Sequence:</td>
-        <td>
+        <td class="refSeqLabel">Sequence</td>
+        <td class="refSeqValue">
             <div id="s_<%=t.getAccId()%>">
-                <A HREF="javascript:toggleDivs('s_<%=t.getAccId()%>','l_<%=t.getAccId()%>');" class="seqExtInfo"
-                        title="click to see full sequence">show sequence</A>
+                <a href="javascript:toggleDivs('s_<%=t.getAccId()%>','l_<%=t.getAccId()%>');" class="seqExtInfo"
+                   title="click to see full sequence">show sequence</a>
             </div>
             <div id="l_<%=t.getAccId()%>" style="display:none">
-            <pre><%=seqFormatted%></pre>
-            <A HREF="javascript:toggleDivs('l_<%=t.getAccId()%>','s_<%=t.getAccId()%>');" class="seqExtInfo"
-                    title="click to hide sequence">hide sequence</A>
+                <pre><%=seqFormatted%></pre>
+                <a href="javascript:toggleDivs('l_<%=t.getAccId()%>','s_<%=t.getAccId()%>');" class="seqExtInfo"
+                   title="click to hide sequence">hide sequence</a>
             </div>
         </td>
     </tr>
@@ -113,9 +102,9 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="3">3</option>
+                    <option value="3">3</option>
                     <option value="5">5</option>
-                    <option value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>

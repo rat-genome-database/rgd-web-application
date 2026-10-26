@@ -47,7 +47,16 @@
 <%@ include file="sectionHeader.jsp"%>
 <%//ui.dynOpen("miRnaTargets", "miRNA Target Status")%>
 <div class="light-table-border">
-<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status (No longer updated)</div>
+<div class="sectionHeading" id="miRnaTargetStatus">miRNA Target Status<%--
+     The provenance note, spelled out rather than folded into a hover: where the data came from
+     is something a reader has to see without going looking for it.
+
+     It stays in a span of its own, which is what keeps it out of the sidebar entry - the entry
+     is labelled from the heading's FIRST CHILD NODE (addItemsToSideBar() in geneReport.js), so
+     the bare "miRNA Target Status" text node is all that travels there. Written straight into
+     the heading text it would be one node with the name, and the sidebar's 27 character cap
+     would cut it mid-sentence - which is the bug the .rgdInfoDot marker this replaces was
+     introduced to fix. --%><span class="sectionHeadingNote">(Data imported from miRGate (mirgate.bioinfo.cnio.es) is no longer updated)</span></div>
     <% if( confirmedCount>0 ) {
 
         String pubmedUrl = xdbDAO.getXdbUrl(XdbId.XDB_KEY_PUBMED, obj.getSpeciesTypeKey());
@@ -80,8 +89,8 @@
             }
             report.append(rec);
         }
-    %><p>
-    <div style="font-weight:bold"><%= isMirnaGene?"Confirmed Targets":"Confirmed Target Of"%></div>
+    %>
+    <div class="annotGroup"><%= isMirnaGene?"Confirmed Targets":"Confirmed Target Of"%></div>
     <%=report.format(new HTMLTableReportStrategy())%>
     <% if( isMirnaGene ) { // initial iframe %>
 <div id="cyChart">
@@ -143,23 +152,41 @@
     rec.append("Result types:");
     rec.append(miRnaPredictedStats.get("Result types"));
     report.append(rec);
-%><p>
-    <div style="font-weight:bold"><%= isMirnaGene?"Predicted Targets":"Predicted Target Of"%></div>
-    <%=report.format(new HTMLTableReportStrategy())%><p>
-    <table>
-    <tr><td>The detailed report is available here:</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/genes/mirnaTargets.html?id=<%=obj.getRgdId()%>&fmt=full">Full Report</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/genes/mirnaTargets.html?id=<%=obj.getRgdId()%>&fmt=csv">CSV</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/genes/mirnaTargets.html?id=<%=obj.getRgdId()%>&fmt=tab">TAB</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="/rgdweb/genes/mirnaTargets.html?id=<%=obj.getRgdId()%>&fmt=print">Printer</a></span></td>
-    </tr>
-    <tr><td colspan="9"><br>miRNA Target Status data imported from miRGate (<a href="http://mirgate.bioinfo.cnio.es/">http://mirgate.bioinfo.cnio.es/</a>).<br>
-        For more information about miRGate, see <a href="https://www.ncbi.nlm.nih.gov/pubmed/25858286">PMID:25858286</a>
-        or access the full paper <a href="http://database.oxfordjournals.org/content/2015/bav035.full.pdf+html">here</a>.</td>
-    </tr>
-    </table>
-</div>
+    String miRnaReportUrl = "/rgdweb/genes/mirnaTargets.html?id=" + obj.getRgdId() + "&fmt=";
+%>
+    <div class="annotGroup"><%= isMirnaGene?"Predicted Targets":"Predicted Target Of"%></div>
+    <%=report.format(new HTMLTableReportStrategy())%>
+
+    <%-- Two links to one report. This was a nine column table: a lead-in cell, then a green
+         bullet image and a link, four times over. The bullets carried no meaning the links did
+         not already carry.
+
+         CSV and TAB are both gone into Excel, which is the same report as a workbook - see
+         writeExcelFile() in MirnaTargetsController. Full report stays: it is the report on
+         screen rather than a download, so Excel does not replace it.
+
+         The download icon is the one thing that tells the two apart before they are clicked -
+         one navigates, the other hands over a file. Font Awesome 4.7 is loaded for every report
+         page, and the icon is aria-hidden because "Excel" beside it already says what it is. --%>
+    <div class="rgdLinkRow">
+        <span class="rgdLinkRowLead">Detailed report:</span>
+        <a class="rgdChipLink" href="<%=miRnaReportUrl%>full">Full report</a>
+        <a class="rgdChipLink" href="<%=miRnaReportUrl%>excel"
+           title="Download this report as an Excel workbook"><i class="fa fa-download rgdChipIcon" aria-hidden="true"></i>Excel</a>
+    </div>
+
+    <%-- the attribution used to live in a colspan="9" cell of that same table, behind a <br> --%>
+    <p class="rgdSourceNote">
+        miRNA Target Status data imported from miRGate
+        (<a href="http://mirgate.bioinfo.cnio.es/">mirgate.bioinfo.cnio.es</a>).
+        For more information about miRGate see <a href="https://www.ncbi.nlm.nih.gov/pubmed/25858286">PMID:25858286</a>,
+        or read the full paper <a href="http://database.oxfordjournals.org/content/2015/bav035.full.pdf+html">here</a>.
+    </p>
 <% } %>
+<%-- the card is opened before the confirmed-targets branch, so it has to be closed after both
+     branches: closing it inside `if (predictedCount > 0)` left a gene that has confirmed
+     targets but no prediction stats with an open card that swallowed the rest of the page --%>
+</div>
 <%//ui.dynClose("miRnaTargets")%>
 <%@ include file="sectionFooter.jsp"%>
 <%}%>

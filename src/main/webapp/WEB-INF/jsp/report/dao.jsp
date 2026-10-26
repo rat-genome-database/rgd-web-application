@@ -20,4 +20,5 @@
     TranscriptDAO transcriptDAO = new TranscriptDAO();
     XdbIdDAO xdbDAO = new XdbIdDAO();
     GeneticModelsDAO geneticModelsDAO= new GeneticModelsDAO();
+    HgncDAO hgncDAO = new HgncDAO();
 %>

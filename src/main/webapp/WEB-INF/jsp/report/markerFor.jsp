@@ -18,18 +18,18 @@
         <tr>
             <td class="label">Is Marker For:</td>
             <td><%
-                if( mstrains.size()>0 ) {
-                    out.print("<b>Strains:</b> &nbsp; ");
-                    int count=0;
-                    for( Strain astrain: mstrains ) { %>
+        if( mstrains.size()>0 ) {
+            out.print("<b>Strains:</b> &nbsp; ");
+            int count=0;
+            for( Strain astrain: mstrains ) { %>
                 <%
-                    ++count;
-                    boolean isLastStrain = (count==mstrains.size());
+                ++count;
+                boolean isLastStrain = (count==mstrains.size());
                 %>
                 <a href="<%=Link.strain(astrain.getRgdId())%>"><%=astrain.getSymbol()%></a><%=!isLastStrain?" ; ":""%><%
-                        }
-                        out.println("<br>");
-                    }
+            }
+            out.println("<br>");
+        }
 
         if( mqtls.size()>0 ) {
             out.print("<b>QTLs:</b> &nbsp; ");

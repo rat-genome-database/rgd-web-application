@@ -16,22 +16,6 @@
 
 %>
 
-<%
-    // the legacy "symbol[objectType]" result page was replaced by elasticsearch, which takes a
-    // region as chr/start/stop. The export links below still come from the legacy report.
-    String geneSearchUrl = "/rgdweb/search/genes.html?term=" + displayName + "%5B" + objectType
-            + "%5D&speciesType=" + obj.getSpeciesTypeKey();
-    String geneRegionUrl = geneSearchUrl;
-    if( md!=null && md.getChromosome()!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
-        geneRegionUrl = "/rgdweb/elasticResults.html?category=Gene&term=&objectSearch=true"
-            + "&speciesType=" + obj.getSpeciesTypeKey()
-            + "&chr=" + md.getChromosome()
-            + "&start=" + md.getStartPos()
-            + "&stop=" + md.getStopPos()
-            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
-    }
-%>
-
 <%--<%=ui.dynOpen("geneAsscociation", geneAssotitle)%>    <br>--%>
 <div id="geneAssociationTableDiv" class="light-table-border">
 <div class="sectionHeading" id="geneAssociation">Genes in Region</div>
@@ -47,8 +31,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
+                    <option  value="10" selected="selected">10</option>
+                    <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>
@@ -59,17 +43,35 @@
     </div>
     <input class="search table-search" id='geneAssociationSearch' type="search" data-column="all" placeholder="Search table">
 </div>
-<table>
-    <tr>
-        <td>The following <b>Genes</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=geneRegionUrl%>">Full Report</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=geneSearchUrl%>&fmt=2">CSV</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=geneSearchUrl%>&fmt=3">TAB</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=geneSearchUrl%>&fmt=4">Printer</a></span></td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><img src="/rgdweb/common/images/tools-white-30.png" style="cursor:hand; border: 1px solid black;" border="0" ng-click="rgd.showTools('geneList',3,360)"/></td>
-        <td><a href="javascript:void(0)" ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey()%>)">Analysis Tools</a></td>
-    </tr>
-</table>
+<%  // Full report, CSV, TAB and Printer are replaced by one Excel download off this same legacy
+    // search report; the legacy elasticsearch region url that only "Full report" used is gone.
+    String geneSearchUrl = "/rgdweb/search/genes.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey();
+
+    // the reference assembly the Analysis tools link is handed
+    int toolsMapKey = MapManager.getInstance().getReferenceAssembly(obj.getSpeciesTypeKey()).getKey();
+%>
+    <%-- Excel is fmt=7 on the same search report the CSV and TAB links used, so it carries this
+         table's own columns - Relevance, RGD ID, Symbol, Name, Description, Chr, Start, Stop,
+         Species, Annotations, Match, Type.
+
+         It used to be the RGD tools' excel action, which scraped the symbols out of the page and
+         posted them to the generator. The generator's sheet is six fixed columns for every object
+         type, so Name, Description and Annotations were all dropped on the way.
+
+         Analysis tools still goes through the tools dialog, which is why the symbol column below
+         keeps class="geneList" - toolSubmit() in my/my.js collects that class into the list it
+         posts. Nothing else reads it now. --%>
+    <div class="rgdLinkRow">
+        <span class="rgdLinkRowLead">The following <b>Genes</b> overlap with this region.</span>
+        <a class="rgdChipLink" href="<%=geneSearchUrl%>&fmt=7"
+           title="Download these genes as an Excel workbook"><i class="fa fa-download rgdChipIcon" aria-hidden="true"></i>Excel</a>
+        <%-- the tools icon next to this link ran showTools('geneList',3,360) - rat, and an
+             assembly key from years ago - regardless of the species being reported on. The
+             link beside it always passed the right species and assembly, so only it is kept --%>
+        <a class="rgdChipLink" href="javascript:void(0)"
+           ng-click="rgd.showTools('geneList',<%=obj.getSpeciesTypeKey()%>,<%=toolsMapKey%>)">Analysis tools</a>
+    </div>
 
     <%
         r.removeColumn(11);
@@ -102,8 +104,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
+                    <option  value="10" selected="selected">10</option>
+                    <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>

@@ -42,7 +42,11 @@
 <script>
     let reportTitle = "reference";
 </script>
-<div id="page-container">
+
+
+
+
+<div id="page-container" class="<%=reportSkinClass%>">
 
     <div id="left-side-wrap">
         <%@ include file="../reportSidebar.jsp"%>
@@ -51,6 +55,21 @@
 
 
     <div id="content-wrap">
+
+        <%
+            heroEyebrow = "Reference Report";
+            heroTitle = Utils.NVL(obj.getTitle(), Utils.NVL(obj.getCitation(), ""));
+            heroTitleClass = "report-hero-title--long";
+            heroSubtitle = Utils.NVL(obj.getCitation(), "");
+            heroShortName = "RGD:" + obj.getRgdId();
+            heroRgdId = obj.getRgdId();
+            heroIcon = "fa-book";
+            if( !Utils.isStringEmpty(obj.getReferenceType()) ) {
+                heroChips.add("|" + obj.getReferenceType());
+            }
+        %>
+        <%@ include file="../reportHero.jsp"%>
+
 
 <%@ include file="menu.jsp"%>
 
@@ -65,17 +84,188 @@
 <% } else { %>
 
 
+
 <table width="95%" border="0">
     <tr>
         <td>
             <%@ include file="info.jsp"%>
 
+<%
+/*
+        String paper = PubmedFetcher.fetchPMCFullTextXML("21995344");
+
+        String body = XMLBodyExtractor.extractBodyText(paper);
+
+        System.out.println(body);
+
+        String paperText = "<abstract> " + obj.getRefAbstract() + "</abstract>\n" + body;
+*/
+%>
+
+    <%
+        /*
+                OllamaChatModel model = OllamaChatModel.builder()
+                        .baseUrl("http://grudge.rgd.mcw.edu:11434") // Ollama's default port
+                        .modelName("rgddeepseek70") // Replace with your downloaded model
+                        .build();
+
+                String prompt = "Extract the gene symbol for any gene discussed in the following paper. Each genes should only show up once in the return list.  The maximum number of symbols returned should be 100.  If you fine more than 100, please return the first 100 found. <paper>"  + paperText+ "</paper> respond with a pipe delimited list of <symbol> and no other output";
+                String genes = model.generate(prompt);
+
+
+                model = OllamaChatModel.builder()
+                        .baseUrl("http://grudge.rgd.mcw.edu:11434") // Ollama's default port
+                        .modelName("rgddeepseek70") // Replace with your downloaded model
+                        .build();
+                prompt = "Extract the Disease ontology Terms for any disease discussed in the following paper. Each disease should only show up once in the return list.  The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found. <paper> " + paperText+ "<paper> respond with a pipe delimited list of symbols and no other output";
+                String diseases = model.generate(prompt);
+*/
+/*
+                prompt = "Extract the <Biological Process Terms> for any Biological Processes discussed in the following abstract. The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found.  <abstract>" + obj.getRefAbstract() + "</abstract> respond with a pipe delimited list of <symbol> and no other output";
+                String bp = model.generate(prompt);
+
+                prompt = "Extract the <CHEBI chemical terms> for any chemical discussed in the following abstract. The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found.  <abstract>" + obj.getRefAbstract() + "</abstract> respond with a pipe delimited list of <symbol> and no other output";
+                String chebi = model.generate(prompt);
+
+                prompt = "Extract the <Sequnece Ontology terms> for any Sequence Ontology in the following abstract. The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found.  <abstract>" + obj.getRefAbstract() + "</abstract> respond with a pipe delimited list of <symbol> and no other output";
+                String so = model.generate(prompt);
+
+                prompt = "Extract the <Biological Pathway terms> for any biological pathway in the following abstract. The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found.  <abstract>" + obj.getRefAbstract() + "</abstract> respond with a pipe delimited list of <symbol> and no other output";
+                String pw = model.generate(prompt);
+
+                prompt = "Extract the <Anatomy terms> in the following abstract. The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found.  <abstract>" + obj.getRefAbstract() + "</abstract> respond with a pipe delimited list of <symbol> and no other output";
+                String ma = model.generate(prompt);
+
+                prompt = "Extract the <Phenotype terms> in the following abstract. The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found.  <abstract>" + obj.getRefAbstract() + "</abstract> respond with a pipe delimited list of <symbol> and no other output";
+                String mp = model.generate(prompt);
+*/
+            %>
+
+<%-- The AI Assistant panel is left out on this branch: its buttons call
+     /rgdweb/webservice/entity.html (EntityService) and the block needs
+     edu.mcw.rgd.web.OntologyTermMatcher, neither of which exists here - that is dev's
+     entity-tagging work, not part of the report pages. Kept as markup rather than deleted
+     so it comes back with one edit once those are on this branch. --%>
+<%--
+            <br>
+            <div style="border:2px solid black;padding:5px;">
+                AI Assistant<br><br>
+
+                <table>
+                    <tr>
+                        <td><b>Genes:</b></td>
+                        <td>
+                            <button onclick="loadData('<%=pId%>','gene')">Load Content</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="geneDiv" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div><br>
+                            <div id="geneThink" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Diseases:</b></td>
+                        <td>
+                            <button onclick="loadData('<%=pId%>','do')">Load Content</button>
+                        </td>
+                    </tr>
+                    <tr>
+                    <td colspan="2">
+                            <div id="doDiv" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div><br>
+                            <div id="doThink" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>GO Biological Process:</b></td>
+                        <td>
+                            <button onclick="loadData('<%=pId%>','bp')">Load Content</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="bpDiv" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div><br>
+                            <div id="bpThink" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>CHEBi:</b></td>
+                        <td>
+                            <button onclick="loadData('<%=pId%>','chebi')">Load Content</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="chebiDiv" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div><br>
+                            <div id="chebiThink" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Sequence Ontology:</b></td>
+                        <td>
+                            <button onclick="loadData('<%=pId%>','so')">Load Content</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="soDiv" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div><br>
+                            <div id="soThink" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Pathway Ontology:</b></td>
+                        <td>
+                            <button onclick="loadData('<%=pId%>','pw')">Load Content</button>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="pwDiv" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div><br>
+                            <div id="pwThink" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Mouse Anatomy Ontology:</b></td>
+                        <td>
+                            <button onclick="loadData('<%=pId%>','ma')">Load Content</button>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="maDiv" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div><br>
+                            <div id="maThink" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Mammalian Phenotype Ontology:</b></td>
+                        <td>
+                            <button onclick="loadData('<%=pId%>','mp')">Load Content</button>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="mpDiv" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div><br>
+                            <div id="mpThink" style="display:none; margin:5px; padding:5px;border:1px solid black;"></div>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+--%>
+
             <%
                 //exclude from the  pipelines
                 if ( !obj.getReferenceType().equals("DIRECT DATA TRANSFER") ) { %>
 
-            <br><div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div><br>
-            <br>
+            <div class="subTitle" id="annotation">Annotation&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" class="associationsToggle" onclick="toggleAssociations('annotation', 'annotation');">Click to see Annotation Detail View</a></div>
 
             <div id="associationsCurator" style="display:block;">
                 <%@ include file="../associationsCurator.jsp"%>
@@ -88,7 +278,7 @@
 
                 <%@ include file="../objectsAnnotated.jsp"%>
 
-                <br><div  class="subTitle" id="additionalInformation">Additional Information</div><br>
+                <div  class="subTitle" id="additionalInformation">Additional Information</div>
 
                 <%@ include file="xdbs.jsp"%>
                 <%@ include file="../nomen.jsp"%>
@@ -105,6 +295,9 @@
  </table>
     </div>
 </div>
+
+
+
 <% }%>
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
@@ -124,6 +317,7 @@
     openAll();
     //alert("done expanding");
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=15"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=2"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=9"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>
 

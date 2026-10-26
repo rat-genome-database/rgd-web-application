@@ -1,4 +1,11 @@
 <%@ page import="java.util.TreeMap" %>
+<%@ page import="edu.mcw.rgd.datamodel.HgncFamily" %>
+<%-- Strain/QTL used to come in with ../markerFor.jsp, which this page no longer includes --%>
+<%@ page import="edu.mcw.rgd.datamodel.Strain" %>
+<%@ page import="edu.mcw.rgd.datamodel.QTL" %>
+<%-- GeneticModel likewise reached the Related Strains row only because ../geneticModels.jsp,
+     included further down the same page, happened to import it. That include is gone now. --%>
+<%@ page import="edu.mcw.rgd.datamodel.models.GeneticModel" %>
 <%@ include file="../sectionHeader.jsp"%>
 <%
     RgdId id = null;
@@ -53,6 +60,24 @@
 <style>
     #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
 </style>
+
+<%-- Summary is a major section of the report, the same kind of thing as Annotation or Sequence
+     further down, and the sidebar has always listed it at top level. The body says so too now,
+     so the two read alike, and the cards below it - General and Position - are its subsections.
+
+     The heading carries no id on purpose. addItemsToSideBar() in geneReport.js lists every
+     .subTitle it can link to, and reportSidebar.jsp already opens the list with a static
+     "Summary" pointing at #top; an id here would put a second one straight underneath it. --%>
+<div class="subTitle">Summary</div>
+
+<%-- General: the summary table itself, which until now was a bare <table> with no heading and
+     no way to fold it, sitting directly above a Position card that had both. Same card shape as
+     Position below - .light-table-border with a .sectionHeading as its DIRECT child - so
+     buildCards() gives it the same accordion and addItemsToSideBar() lists it as a sub entry
+     beside Position. --%>
+<div class="reportTable light-table-border" id="generalTableWrapper">
+    <div class="sectionHeading" id="general">General</div>
+
 <table width="100%" border="0" id="info-table">
     <tbody>
     <input name="rgdId" type="hidden" value="<%=id.getRgdId()%>" />
@@ -253,6 +278,27 @@
      </tr>
     <% } %>
 
+    <%-- OPTIONAL SECTION: HGNC GENE FAMILY (human genes only) --%>
+    <% if (obj.getSpeciesTypeKey()==1) {
+        List<HgncFamily> geneFamilies = hgncDAO.getGeneFamiliesByRgdId(obj.getRgdId());
+        if( !geneFamilies.isEmpty() ) {
+    %>
+    <tr>
+        <td class="label" valign="top">HGNC Gene Family:</td>
+        <td>
+    <%
+            int gfCount = 0;
+            for( HgncFamily gf: geneFamilies ) {
+                gfCount++;
+                boolean isLast = (gfCount == geneFamilies.size());
+    %>
+            <a href="/rgdweb/report/geneFamily/main.html?id=<%=gf.getFamilyId()%>"><%=gf.getName()%></a><%=!isLast?" ; ":""%>
+    <% } %>
+        </td>
+    </tr>
+    <% }
+    } %>
+
     <%  // ClinVar variants
         List<VariantInfo> clinvars = new VariantInfoDAO().getVariantsForGene(obj.getRgdId());
         session.setAttribute("clinvars", clinvars);
@@ -280,26 +326,67 @@
     </tr>
     <% } %>
 
+    <%-- RELATED STRAINS: the genetic models for this gene and the strains it is a
+         marker for are the same kind of thing, so they share one row. The QTLs it
+         is a marker for stay on their own row - they are not strains. This page
+         therefore builds both rows itself instead of including ../markerFor.jsp,
+         which is still used as-is by the marker, GE and SSLP-edit pages. --%>
     <%
         List<GeneticModel> modelList = geneticModelsDAO.getAllModelsByGeneRgdId(obj.getRgdId());
-        if (modelList.size() > 0) {
+        List<Strain> markerStrains = strainDAO.isMarkerFor(obj.getRgdId());
+        // The strains annotated to this gene. This is a different question from isMarkerFor()
+        // above - a strain can be annotated to the gene without the gene being one of its
+        // markers - and it is the list the old "Related Rat Strains" card was built from. That
+        // card is gone, so if this row did not ask the question too, those strains would be
+        // named nowhere on the report.
+        List<Strain> annotatedStrains = strainDAO.getAssociatedStrains(obj.getRgdId());
+        List<QTL> markerQtls = qtlDAO.isMarkerFor(obj.getRgdId());
+
+        // symbol -> rgd id, so a strain that reaches this row by more than one of the three
+        // routes is only listed once; sorted alphabetically like the other lists
+        TreeMap<String, Integer> relatedStrains = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+        for( GeneticModel m: modelList ) {
+            relatedStrains.put(m.getStrainSymbol(), m.getStrainRgdId());
+        }
+        for( Strain astrain: markerStrains ) {
+            relatedStrains.put(astrain.getSymbol(), astrain.getRgdId());
+        }
+        for( Strain astrain: annotatedStrains ) {
+            relatedStrains.put(astrain.getSymbol(), astrain.getRgdId());
+        }
+
+        if( !relatedStrains.isEmpty() ) {
     %>
     <tr>
-        <td class="label" valign="top">Genetic Models:</td>
+        <td class="label" valign="top">Related Strains:</td>
         <td>
             <%
-                int count=0;
-                for (GeneticModel m : modelList) {
-                    ++count;
-                    boolean isLast = (count==modelList.size());
+                int strainCount = 0;
+                for( java.util.Map.Entry<String, Integer> entry: relatedStrains.entrySet() ) {
+                    ++strainCount;
+                    boolean isLast = (strainCount==relatedStrains.size());
             %>
-                <a href=<%=Link.strain(m.getStrainRgdId())%>> <%=m.getStrainSymbol()%></a><%=!isLast?" ; ":""%>
-            <%}%>
+                <a href="<%=Link.strain(entry.getValue())%>"><%=entry.getKey()%></a><%=!isLast?" ; ":""%>
+            <% } %>
         </td>
     </tr>
-    <% }%>
+    <% } %>
 
-    <%@ include file="../markerFor.jsp"%>
+    <% if( !markerQtls.isEmpty() ) { %>
+    <tr>
+        <td class="label" valign="top">Is Marker For:</td>
+        <td>
+            <%
+                int qtlCount = 0;
+                for( QTL aqtl: markerQtls ) {
+                    ++qtlCount;
+                    boolean isLast = (qtlCount==markerQtls.size());
+            %>
+                <a href="<%=Link.qtl(aqtl.getRgdId())%>"><%=aqtl.getSymbol()%></a><%=!isLast?" ; ":""%>
+            <% } %>
+        </td>
+    </tr>
+    <% } %>
     <%@ include file="candidateGenes.jsp"%>
     <tr>
         <td class="label" valign="top">Latest Assembly:</td>
@@ -311,33 +398,50 @@
         <td><%=obj.getNcbiAnnotStatus()%></td>
     </tr>
     <% } %>
-    <tr>
-        <td class="label" valign="top">Position:</td>
-        <td><%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%></td>
-    </tr>
-    <%
-        String jbrowse2Url = MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData);
-        if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){
-    %>
-   <tr>
-        <td  class="label">JBrowse:</td>
-        <td align="left">
-            <div style="padding:10px;"><a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a></div>
-        </td>
-    </tr>
-    <%}%>
     </tbody>
 </table>
-<br>
-<%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
-<br>
-<div id="sequenceViewer" onclick="goToJBrowse()">
-    <div class="container">
-        <div id="range" style="text-align: center"></div>
-        <svg className="viewer" id="viewerActnFly"/>
+</div><%-- /#generalTableWrapper --%>
+
+<%-- Position was two rows of the summary table - the position table itself and the JBrowse
+     link - with the sequence viewer left loose underneath, the one block on the report body
+     that belonged to no section. They are all one subject, so they are one section now.
+
+     The card is a .reportTable .light-table-border with a .sectionHeading as its DIRECT
+     child, which is what buildCards() in reportModernUx.js looks for; that is what gives it
+     the accordion, and addItemsToSideBar() picks the heading up as a nav entry from the same
+     class. The card opens and closes outside the jbrowse2Url condition below, so a gene
+     without a JBrowse URL still gets a well-formed card rather than a stray </div>.
+
+     jbrowse2Url moved up here with the markup it guards: it is read three times below and
+     nothing above this point uses it. --%>
+<%
+    String jbrowse2Url = MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData);
+%>
+<div class="reportTable light-table-border" id="positionTableWrapper">
+    <div class="sectionHeading" id="position">Position</div>
+
+    <%=MapDataFormatter.buildTable(obj.getSpeciesTypeKey(), mapData, rgdId.getObjectKey(), obj.getSymbol())%>
+
+    <% if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){ %>
+    <div style="padding:10px;"><a target="_blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a></div>
+
+    <%-- the viewer no longer carries .light-table-border of its own: it used to need it
+         because an <svg> has no background and the page ground showed through, and that
+         class was the only thing painting a block white. Inside this card the white comes
+         from the card, and a second bordered box around just the svg would read as a card
+         inside a card. --%>
+    <div id="sequenceViewer" onclick="goToJBrowse()">
+        <div class="container">
+            <div id="range" style="text-align: center"></div>
+            <%-- class, not className: className is the JSX property name and this block was
+                 copied from the React demo template (js/sequenceViewer/demo/index.ejs). In plain
+                 HTML the browser just stores an attribute literally called "className", so the
+                 element ends up with no class and no .viewer rule could ever match it. --%>
+            <svg class="viewer" id="viewerActnFly"/>
+        </div>
     </div>
+    <% } %>
 </div>
-<%}%>
 <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 

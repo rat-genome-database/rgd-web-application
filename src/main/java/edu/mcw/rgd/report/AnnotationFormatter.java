@@ -288,7 +288,13 @@ public class AnnotationFormatter {
                 } else {
                     rec.append(a.getQualifier());
                 }
-                rec.append("<a href='javascript:void(0)' title='" + EvidenceCode.getName(a.getEvidence()) +"'>" + a.getEvidence() + "</a>");
+                // An evidence code is an abbreviation with an expansion behind it, not a
+                // destination. This was an <a href="javascript:void(0)">, so it took the link
+                // colour and underline and then did nothing at all when clicked - the whole
+                // Evidence column read as a set of dead links. <abbr title> is what it actually
+                // is: same tooltip on hover, and it stops advertising a click that never worked.
+                rec.append("<abbr class=\"rgdEvidenceCode\" title=\"" + EvidenceCode.getName(a.getEvidence()) + "\">"
+                        + a.getEvidence() + "</abbr>");
 
                 if (a.getWithInfo() == null) {
                     rec.append("&nbsp;");

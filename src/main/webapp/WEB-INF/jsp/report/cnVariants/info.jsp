@@ -79,8 +79,8 @@
     if (geneList.size()>0)
         genicStatus = "GENIC";
 
-    RGDManagementDAO rdao = new RGDManagementDAO();
-    RgdId rid = rdao.getRgdId2(obj.getRgdId());
+    RGDManagementDAO mgmtDao = new RGDManagementDAO();
+    RgdId rid = mgmtDao.getRgdId2(obj.getRgdId());
     if (!rid.getObjectStatus().equals("ACTIVE")) {
     %>
         <div style="border:5px solid red; padding:20px;margin-bottom:10px;">
@@ -107,9 +107,7 @@
 <style>
     #info-table td.label { white-space: nowrap; width: 180px; min-width: 180px; }
 </style>
-<table id="info-table" width="100%" border="0" style="background-color: rgb(249, 249, 249)">
-    <tr><td colspan="2"><h3>Variant: <%=displayName%>&nbsp;-&nbsp; <%=SpeciesType.getTaxonomicName(speciesType)%>
-    </h3></td></tr>
+<table id="info-table" width="100%" border="0">
 
 <%--    <tr>--%>
 <%--        <td class="label" valign="top">Name:</td>--%>
@@ -301,7 +299,7 @@
                 jbrowse2Url="https://pipelines.rgd.mcw.edu"+jbrowse2Url;
             }%>
 <%--            <a href="<%=baseURL%>jbrowse?data=<%=dbJBrowse%>&loc=<%=fu.getJBrowseLoc(var)%>&tracks=<%=tracks%>">View Region in Genome Browser (JBrowse)</a>--%>
-                <a target="blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a>
+                <a target="_blank" href="<%=jbrowse2Url%>">View Region in Genome Browser (JBrowse)</a>
         </td>
     </tr>
     <%}%>
@@ -333,10 +331,19 @@
 </table>
 <%if(jbrowse2Url!=null&&!jbrowse2Url.isEmpty()){%>
 <br>
-<div id="sequenceViewer">
+<%-- the viewer is the one block on the report body that is not inside a
+     .light-table-border, which is the single rule that paints every other block white -
+     an <svg> has no background of its own, so the page ground showed through it.
+     goToJBrowse() was defined below but never wired to anything; the gene report calls
+     it from here, so the two viewers now behave the same --%>
+<div id="sequenceViewer" class="light-table-border" onclick="goToJBrowse()">
     <div class="container">
         <div id="range" style="text-align: center"></div>
-        <svg className="viewer" id="viewerActnFly"/>
+        <%-- class, not className: className is the JSX property name and this block was
+             copied from the React demo template (js/sequenceViewer/demo/index.ejs). In plain
+             HTML the browser just stores an attribute literally called "className", so the
+             element ends up with no class and no .viewer rule could ever match it. --%>
+        <svg class="viewer" id="viewerActnFly"/>
     </div>
 </div>
 <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>

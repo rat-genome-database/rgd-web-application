@@ -6,8 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
+
     <style>
         .metadata-controls {
             display: flex;
@@ -110,8 +109,7 @@
         .col-application-method { display: none; }
         .col-notes { display: none; }
     </style>
-</head>
-<body>
+
 <%
     StudySampleMetadataDAO dao = new StudySampleMetadataDAO();
     List<StudySampleMetadata>metadata = dao.getStudySampleMetadata(obj.getId());
@@ -131,7 +129,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option value="40">40</option>
@@ -470,5 +468,4 @@
     });
 </script>
 
-</body>
-</html>
+<%--<%@include file="sampleMetaDataDiv..jsp"%>--%>

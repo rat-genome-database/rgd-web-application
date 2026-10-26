@@ -25,11 +25,17 @@ import java.util.*;
  * to download (often very long) list of mirna targets data for a given gene
  */
 public class MirnaTargetsController implements Controller {
+
+    /** the formats rendered by a jsp, which fmt also names - so an unrecognised value must not
+     *  reach the forward path below */
+    private static final Set<String> PAGE_FORMATS =
+            new HashSet<>(Arrays.asList("full", "csv", "tab", "print"));
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         int rgdId = Integer.parseInt(Utils.NVL(request.getParameter("id"), "0"));
-        String fmt = Utils.NVL(request.getParameter("fmt"), "full"); // one of 'full','csv','tab','print'
+        String fmt = Utils.NVL(request.getParameter("fmt"), "full"); // one of 'full','csv','tab','print','excel'
 
         GeneDAO geneDAO = new GeneDAO();
         Gene obj;
@@ -40,6 +46,20 @@ public class MirnaTargetsController implements Controller {
             obj.setSymbol("");
         }
         request.setAttribute("geneSymbol", obj.getSymbol());
+
+        // excel writes the response itself - there is no jsp for a binary body. The report is
+        // built with generateGeneLinks off, so the cells hold plain rgd ids rather than markup.
+        if( fmt.equals("excel") ) {
+            ReportExcelWriter.write(response,
+                    getMirnaData(obj, geneDAO, false, request),
+                    "miRNA Targets",
+                    ReportExcelWriter.fileName(obj.getSymbol(), "mirna", "_mirna_targets"));
+            return null;
+        }
+
+        if( !PAGE_FORMATS.contains(fmt) ) {
+            fmt = "full";
+        }
 
         Report report = getMirnaData(obj, geneDAO, fmt.equals("full"), request);
         request.setAttribute("report", report);
