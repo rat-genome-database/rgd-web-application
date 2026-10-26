@@ -6,8 +6,8 @@
 
 <% String qtlAssotitle = "QTLs in Region (" + refMap.getName() + ")";            %>
 
-<%
-    if (RgdContext.isChinchilla(request)) {
+<%  RgdContext context = new RgdContext();
+    if (context.isChinchilla(request)) {
         sb.setChinchilla(true);
     }
 
@@ -15,22 +15,6 @@
 
     if (r.records.size() > 1) {
 
-%>
-
-<%
-    // the legacy "symbol[objectType]" result page was replaced by elasticsearch, which takes a
-    // region as chr/start/stop. The export links below still come from the legacy report.
-    String qtlSearchUrl = "/rgdweb/search/qtls.html?term=" + displayName + "%5B" + objectType
-            + "%5D&speciesType=" + obj.getSpeciesTypeKey();
-    String qtlRegionUrl = qtlSearchUrl;
-    if( md!=null && md.getChromosome()!=null && md.getStartPos()!=null && md.getStopPos()!=null ) {
-        qtlRegionUrl = "/rgdweb/elasticResults.html?category=QTL&term=&objectSearch=true"
-            + "&speciesType=" + obj.getSpeciesTypeKey()
-            + "&chr=" + md.getChromosome()
-            + "&start=" + md.getStartPos()
-            + "&stop=" + md.getStopPos()
-            + "&assembly=" + java.net.URLEncoder.encode(refMap.getDescription(), java.nio.charset.StandardCharsets.UTF_8);
-    }
 %>
 
 <br>
@@ -48,8 +32,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
+                    <option  value="10" selected="selected">10</option>
+                    <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>
@@ -60,20 +44,28 @@
     </div>
     <input class="search table-search" id='qtlAssociationSearch' type="search" data-column="all" placeholder="Search table">
 </div>
-    <table>
+<%  String qtlSearchUrl = "/rgdweb/search/qtls.html?term=" + displayName + "%5B" + objectType
+            + "%5D&speciesType=" + obj.getSpeciesTypeKey();
 
-    <tbody>
-    <tr>
-        <td>The following <b>QTLs</b> overlap with this region.&nbsp;&nbsp;&nbsp;</td>
-        <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlRegionUrl%>">Full Report</a></span></td>
+    // Full report, CSV, TAB and Printer are replaced by one Excel download. Both it and GViewer
+    // come from this legacy search report, so qtlSearchUrl stays; the legacy elasticsearch
+    // region url that only "Full report" used went with it.
+%>
+    <%-- Excel is fmt=7 on the same search report the CSV and TAB links used, so it carries this
+         table's own columns - Relevance, RGD ID, Symbol, Name, LOD, P Value, Trait, Sub Trait,
+         Chr, Start, Stop, Species, Annotations, Match, Type.
 
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlSearchUrl%>&fmt=2">CSV</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlSearchUrl%>&fmt=3">TAB</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlSearchUrl%>&fmt=4">Printer</a></span></td>
-<td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><span class="detailReportLink"><a href="<%=qtlSearchUrl%>&fmt=5">Gviewer</a></span></td>
-</tr>
-    </tbody>
-</table>
+         It used to be the RGD tools' excel action, which scraped the symbols out of the page and
+         posted them to the generator. That worked, but the generator's sheet is six fixed columns
+         for every object type - no LOD, no p value, no trait - which is most of what a QTL list
+         is for. See also markersInRegion.jsp, which has to use this route: the generator cannot
+         resolve markers at all. --%>
+    <div class="rgdLinkRow">
+        <span class="rgdLinkRowLead">The following <b>QTLs</b> overlap with this region.</span>
+        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=7"
+           title="Download these QTLs as an Excel workbook"><i class="fa fa-download rgdChipIcon" aria-hidden="true"></i>Excel</a>
+        <a class="rgdChipLink" href="<%=qtlSearchUrl%>&fmt=5">GViewer</a>
+    </div>
 
 
                 <%
@@ -91,6 +83,8 @@
                     while (it.hasNext()) {
                         String sym = (String) it.next();
                         String ident =  (String) r.getColumn(0).get(count);
+                        // no list class here: the Excel link is a plain fmt=7 download off the
+                        // search report, not the RGD tools' DOM-scraping export
                         r.updateRecordValue(count, 1, "<a href='" + Link.qtl(Integer.parseInt(ident)) + "'>" + sym + "</a>");
                         count++;
                     }
@@ -111,8 +105,8 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option  value="10">10</option>
-                    <option selected="selected" value="20">20</option>
+                    <option  value="10" selected="selected">10</option>
+                    <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
                     <option   value="100">100</option>

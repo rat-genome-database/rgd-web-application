@@ -1,0 +1,2132 @@
+/* ==========================================================================
+   RGD report pages - modern presentation layer
+   --------------------------------------------------------------------------
+   Scoped to #page-container.rgd-modern-report so report pages that do not opt
+   in keep their old look. Restyles the existing markup only - no JSP structure
+   change is required beyond the opt-in class.
+   ========================================================================== */
+
+.rgd-modern-report {
+    /* palette */
+    --rgd-blue:        #2865a3;
+    --rgd-blue-dark:   #1c4a79;
+    --rgd-blue-light:  #eaf2fb;
+    --rgd-accent:      #2865a3;
+    --rgd-accent-soft: #eaf2fb;
+
+    --rgd-text:        #1f2933;
+    --rgd-text-muted:  #5b6672;
+    --rgd-text-faint:  #8a95a1;
+
+    --rgd-bg:          #f4f6f9;
+    --rgd-surface:     #ffffff;
+    --rgd-surface-alt: #f8fafc;
+    --rgd-border:      #dfe4ea;
+    --rgd-border-soft: #edf0f4;
+
+    /* Table headers. A blue band, in the same hue the reports have always used but a long way
+       lighter than the #99BFE6 it came from, with the label in the skin's dark blue instead of
+       black. --rgd-thead-active is the sorted / hovered column, one step deeper again.
+       Every header path reads these, so they are the one place the header look is set. */
+    --rgd-thead:        #dbe8f6;
+    --rgd-thead-active: #bcd5ef;
+    --rgd-thead-line:   #a9c6e6;
+    --rgd-thead-text:   #1c4a79;
+    --rgd-row-hover:    #eaf2fb;
+
+    --rgd-radius:      10px;
+    --rgd-radius-sm:   6px;
+    --rgd-shadow-sm:   0 1px 2px rgba(16, 32, 51, .06), 0 1px 3px rgba(16, 32, 51, .05);
+    --rgd-shadow-md:   0 4px 14px rgba(16, 32, 51, .10);
+
+    --rgd-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                "Helvetica Neue", Arial, sans-serif;
+
+    --rgd-sidebar-w: 250px;
+    --rgd-stick-top: 8px;
+}
+
+/* Chinchilla (NGC) skin: same layout, different accent */
+.rgd-modern-report.chinchilla {
+    --rgd-blue:        #96151d;
+    --rgd-blue-dark:   #6f0f16;
+    --rgd-blue-light:  #fbecec;
+    --rgd-accent:      #96151d;
+    --rgd-accent-soft: #fbecec;
+}
+
+/* --------------------------------------------------------------------------
+   Page shell: a two column grid replaces the float + fixed-margin layout
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report {
+    display: grid;
+    grid-template-columns: var(--rgd-sidebar-w) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 12px 16px 28px;
+    background: var(--rgd-bg);
+    font-family: var(--rgd-font);
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--rgd-text);
+}
+
+.rgd-modern-report *,
+.rgd-modern-report *::before,
+.rgd-modern-report *::after { box-sizing: border-box; }
+
+/* Scroll anchors are markers, not layout. One of these sitting between the sidebar and the
+   body - marker/main.jsp had a stray duplicate #top there - becomes a grid item, takes the
+   column the report body wants and pushes #content-wrap onto its own row underneath the
+   sidebar. Pinning it into the sidebar's cell keeps it addressable by href="#top" and keeps it
+   out of auto-placement; it is empty and zero height, so it covers nothing. */
+.rgd-modern-report > div#top {
+    grid-row: 1;
+    grid-column: 1;
+    height: 0;
+    overflow: hidden;
+}
+
+.rgd-modern-report #left-side-wrap {
+    width: auto;
+    float: none;
+    min-width: 0;
+    position: sticky;
+    top: var(--rgd-stick-top);
+}
+
+.rgd-modern-report #content-wrap {
+    margin-left: 0;
+    max-width: none;
+    min-width: 0;
+    position: static;
+}
+
+/* the species image now lives in the report hero */
+.rgd-modern-report #species-image { display: none; }
+
+/* neutralise the legacy layout tables wrapping the report body.
+
+   table-layout:fixed is what keeps the page inside the viewport: with the
+   default auto layout this table sizes to its widest descendant, so one wide
+   section (the 22 column RNA-Seq grid, a tablesorter table, mapDataTable at
+   width=670) stretches the cell, the table and the whole page to the right.
+   Fixed layout pins the body column to the container instead, which is what
+   lets .light-table-border's overflow-x actually scroll. */
+.rgd-modern-report #content-wrap > table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+    border: 0;
+    border-collapse: collapse;
+    background: none;
+}
+.rgd-modern-report #content-wrap > table > tbody > tr > td {
+    padding: 0;
+    border: 0;
+    background: none;
+    vertical-align: top;
+}
+/* the report body lives in the first cell; the trailing cell is a spacer */
+.rgd-modern-report #content-wrap > table > tbody > tr > td:first-child {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+.rgd-modern-report #content-wrap > table > tbody > tr > td + td {
+    width: 0;
+    font-size: 0;
+}
+
+.rgd-modern-report a {
+    color: var(--rgd-blue-dark);
+    font-weight: 500;
+    text-decoration: none;
+}
+.rgd-modern-report a:hover { text-decoration: underline; }
+
+/* --------------------------------------------------------------------------
+   Report hero (symbol / name / species / actions)
+   -------------------------------------------------------------------------- */
+
+.report-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 13px 18px;
+    margin-bottom: 10px;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-top: 3px solid var(--rgd-accent);
+    border-radius: var(--rgd-radius);
+    box-shadow: var(--rgd-shadow-sm);
+}
+
+.report-hero-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    min-width: 0;
+    flex: 1 1 420px;
+}
+
+.report-hero-species {
+    flex: 0 0 auto;
+    width: 76px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border-soft);
+    border-radius: 50%;
+}
+.report-hero-species img {
+    max-width: 100%;
+    max-height: 100%;
+    border: 0;
+}
+
+/* A report with no species behind it - a reference, a project, a gene family - still wants
+   something in the circle, so it puts a font-awesome glyph there instead of a portrait. */
+.report-hero-species--icon {
+    font-size: 30px;
+    color: var(--rgd-accent);
+    background: var(--rgd-accent-soft);
+    border-color: transparent;
+}
+
+.report-hero-text { min-width: 0; }
+
+.report-hero-eyebrow {
+    margin-bottom: 3px;
+    font-size: 13px;
+    font-weight: 700;
+    /* the tracking was tuned for 11px; at 13px the same .09em reads as gappy */
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    /* faint was legible at 11px, but a larger label that stays washed out looks unfinished */
+    color: var(--rgd-text-muted);
+}
+
+.report-hero-title {
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: -.01em;
+    color: var(--rgd-accent);
+}
+
+/* A title that is a sentence rather than a symbol - a paper title, a study name. 30px was
+   picked for "Brca1"; the same size on a full title wraps to three lines and swamps the page. */
+.report-hero-title--long {
+    font-size: 19px;
+    line-height: 1.35;
+    letter-spacing: 0;
+}
+
+.report-hero-subtitle {
+    margin-top: 3px;
+    font-size: 15px;
+    color: var(--rgd-text-muted);
+}
+
+.report-hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.rgd-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.6;
+    white-space: nowrap;
+    color: var(--rgd-blue-dark);
+    background: var(--rgd-accent-soft);
+    border: 1px solid transparent;
+    border-radius: 999px;
+}
+.rgd-chip.rgd-chip-neutral {
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    border-color: var(--rgd-border);
+}
+.rgd-chip i { opacity: .75; }
+
+.report-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+}
+
+.rgd-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    color: var(--rgd-text) !important;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+    text-decoration: none !important;
+    transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.rgd-action:hover {
+    background: var(--rgd-accent-soft);
+    border-color: var(--rgd-accent);
+    box-shadow: var(--rgd-shadow-sm);
+}
+.rgd-action i { color: var(--rgd-accent); }
+.rgd-action img { height: 18px; width: auto; border: 0; }
+.rgd-action.rgd-action-primary {
+    color: #fff !important;
+    background: var(--rgd-accent);
+    border-color: var(--rgd-accent);
+}
+.rgd-action.rgd-action-primary i { color: #fff; }
+.rgd-action.rgd-action-primary:hover { background: var(--rgd-blue-dark); }
+
+/* --------------------------------------------------------------------------
+   Tab strip (General / Array IDs / ...)
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #searchResultHeader {
+    float: none;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--rgd-border) !important;
+}
+.rgd-modern-report #searchResultHeader ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+.rgd-modern-report #searchResultHeader li { display: block; margin: 0; }
+.rgd-modern-report #searchResultHeader a {
+    display: block;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    background: transparent;
+    border-bottom: 3px solid transparent;
+    border-radius: var(--rgd-radius-sm) var(--rgd-radius-sm) 0 0;
+}
+.rgd-modern-report #searchResultHeader a:hover {
+    color: var(--rgd-accent);
+    background: var(--rgd-accent-soft);
+    text-decoration: none;
+}
+.rgd-modern-report #searchResultHeader #selected a {
+    color: var(--rgd-accent);
+    background: transparent;
+    border-bottom-color: var(--rgd-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar table of contents
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #reportMainSidebar {
+    display: block;
+    width: 100%;
+    height: auto !important;
+    max-height: calc(100vh - 2 * var(--rgd-stick-top));
+    padding: 10px;
+    margin: 0;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    background: var(--rgd-surface) !important;
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius);
+    box-shadow: var(--rgd-shadow-sm);
+    scrollbar-width: thin;
+}
+.rgd-modern-report #reportMainSidebar::-webkit-scrollbar { width: 8px; }
+.rgd-modern-report #reportMainSidebar::-webkit-scrollbar-thumb {
+    background: #cfd6de;
+    border-radius: 4px;
+}
+
+.rgd-toc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 2px 6px 8px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--rgd-text-faint);
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-toc-filter {
+    width: 100%;
+    margin: 8px 0 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: inherit;
+    color: var(--rgd-text);
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-toc-filter:focus {
+    outline: none;
+    border-color: var(--rgd-accent);
+    box-shadow: 0 0 0 3px var(--rgd-accent-soft);
+}
+
+.rgd-modern-report #reportMainSidebar ul {
+    display: block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.rgd-modern-report #reportMainSidebar li { margin: 1px 0; padding: 0; }
+
+.rgd-modern-report #reportMainSidebar a {
+    display: block;
+    padding: 6px 10px 6px 12px;
+    font-family: var(--rgd-font);
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--rgd-text) !important;
+    border-left: 3px solid transparent;
+    border-radius: 0 var(--rgd-radius-sm) var(--rgd-radius-sm) 0;
+    text-decoration: none;
+    transition: background .12s ease, color .12s ease;
+}
+.rgd-modern-report #reportMainSidebar a:hover {
+    color: var(--rgd-accent) !important;
+    background: var(--rgd-surface-alt);
+    text-decoration: none;
+}
+.rgd-modern-report #reportMainSidebar a.active,
+.rgd-modern-report #reportMainSidebar a.rgd-toc-current {
+    font-weight: 700;
+    color: var(--rgd-accent) !important;
+    background: var(--rgd-accent-soft);
+    border-left-color: var(--rgd-accent);
+}
+.rgd-modern-report #reportMainSidebar .sub-nav-item > a {
+    margin: 0;
+    padding-left: 26px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--rgd-text-muted) !important;
+}
+/* The same footnote next to a table of contents entry. The link is display:block and fills
+   the row, so the marker is positioned over it rather than placed after it. Only section
+   entries carry one, and only major sections get the accordion caret, so the two never land
+   on the same row. */
+.rgd-modern-report #reportMainSidebar li.has-toc-info { position: relative; }
+.rgd-modern-report #reportMainSidebar li.has-toc-info > a { padding-right: 28px; }
+
+.rgd-toc-info {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    border-radius: 50%;
+    cursor: help;
+    user-select: none;
+}
+.rgd-toc-info:hover { color: var(--rgd-accent); background: var(--rgd-accent-soft); }
+
+/* table of contents accordion: a major section folds away the sections under it.
+   These rules sit above the .rgd-toc-hidden rule on purpose - an entry that the
+   filter has ruled out must stay hidden even while the accordion is standing down,
+   and the two selectors have the same specificity, so source order decides. */
+.rgd-modern-report #reportMainSidebar li.rgd-toc-group { position: relative; }
+.rgd-modern-report #reportMainSidebar li.rgd-toc-group > a { padding-right: 30px; }
+
+.rgd-toc-caret {
+    position: absolute;
+    top: 3px;
+    right: 2px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    color: var(--rgd-text-faint);
+    background: none;
+    border: 0;
+    border-radius: var(--rgd-radius-sm);
+    cursor: pointer;
+}
+.rgd-toc-caret:hover { color: var(--rgd-accent); background: var(--rgd-surface-alt); }
+.rgd-toc-caret:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--rgd-accent-soft);
+}
+/* a chevron drawn from two borders - down when open, right when folded */
+.rgd-toc-caret::before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 6px;
+    margin: -3px auto 0;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform .15s ease;
+}
+.rgd-modern-report #reportMainSidebar li.rgd-toc-group.is-collapsed > .rgd-toc-caret::before {
+    margin: 0 auto;
+    transform: rotate(-45deg);
+}
+
+.rgd-modern-report #reportMainSidebar li.rgd-toc-collapsed { display: none; }
+.rgd-modern-report #navbarUlId.rgd-toc-filtering li.rgd-toc-collapsed { display: block; }
+
+.rgd-modern-report #reportMainSidebar li.rgd-toc-hidden { display: none; }
+
+/* --------------------------------------------------------------------------
+   Major sections (.subTitle) - collapsible
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .subTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0 9px;
+    padding: 0 0 6px;
+    font-family: var(--rgd-font);
+    font-size: 19px;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: -.01em;
+    color: var(--rgd-text);
+    border-bottom: 2px solid var(--rgd-border);
+    scroll-margin-top: 64px;
+}
+/* The heading that opens the report body. 18px above it is the gap between two sections, and
+   there is no section above this one - only the hero and the collapse-all row, which already
+   separate it. reportModernUx.js sets the class, and only when nothing visible precedes the
+   heading, so a report whose summary card sits above its first heading keeps the margin. */
+.rgd-modern-report .subTitle.rgd-section-first { margin-top: 0; }
+
+.rgd-modern-report .subTitle.rgd-collapsible { cursor: pointer; }
+.rgd-modern-report .subTitle.rgd-collapsible:hover { color: var(--rgd-accent); }
+
+/* The caret is appended last so that geneReport.js can keep reading the
+   heading label from childNodes[0]; flex order puts it back in front. */
+.rgd-caret {
+    order: -1;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rgd-text-faint);
+    transition: transform .18s ease;
+}
+.rgd-caret::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+}
+.rgd-collapsed > .rgd-caret { transform: rotate(-90deg); }
+
+.rgd-section-count {
+    margin-left: auto;
+    padding: 2px 9px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: 999px;
+}
+
+/* members of a collapsed major section */
+.rgd-modern-report .rgd-section-member.rgd-hidden { display: none !important; }
+
+/* --------------------------------------------------------------------------
+   Data cards
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .light-table-border,
+.rgd-modern-report #info-table {
+    max-width: none;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius);
+    box-shadow: var(--rgd-shadow-sm);
+}
+
+.rgd-modern-report .light-table-border {
+    display: block;
+    padding: 2px 14px 10px;
+    margin: 0 0 9px;
+    overflow-x: auto;
+    transition: box-shadow .18s ease, border-color .18s ease;
+}
+.rgd-modern-report .light-table-border:hover {
+    border-color: #cdd6e0;
+    box-shadow: var(--rgd-shadow-md);
+}
+
+.rgd-modern-report .sectionHeading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 -14px 8px;
+    padding: 8px 14px;
+    font-family: var(--rgd-font);
+    font-size: 14.5px;
+    font-weight: 700;
+    font-style: normal;
+    color: var(--rgd-text);
+    border-bottom: 1px solid var(--rgd-border-soft);
+    cursor: pointer;
+    user-select: none;
+    scroll-margin-top: 64px;
+}
+.rgd-modern-report .sectionHeading:hover { background: var(--rgd-surface-alt); }
+/* .sectionHeading is a flex row, so a spelled-out footnote in it is a flex item: let it shrink
+   and wrap instead of pushing the section name off the edge of the card on a narrow viewport */
+.rgd-modern-report .sectionHeading .sectionHeadingNote {
+    min-width: 0;
+    line-height: 1.35;
+}
+.rgd-modern-report .light-table-border.rgd-collapsed .sectionHeading {
+    margin-bottom: -2px;
+    border-bottom-color: transparent;
+}
+
+/* A sub-section heading - Biological Process, Cellular Component, Molecular Function inside
+   Gene Ontology Annotations - is both things at once: .annotGroup for what it is, and
+   .sectionHeading so the card it heads can collapse. It should not read with the same weight
+   as the section heading directly above it, so it steps down a size and takes the muted ink;
+   the caret and the click target are unchanged.
+
+   The margin is restated rather than inherited because .annotGroup carries its own
+   (16px 0 8px, and 4px on :first-child) at the same specificity as the .sectionHeading rule
+   that sets the -14px bleed to the card edges - which of the two wins would otherwise depend
+   on the order the two stylesheets happen to load in. */
+.rgd-modern-report .sectionHeading.annotGroup {
+    margin: 0 -14px 8px;
+    font-size: 13px;
+    color: var(--rgd-text-muted);
+}
+/* everything but the heading disappears when the card is collapsed */
+.rgd-modern-report .light-table-border.rgd-collapsed > *:not(.sectionHeading) {
+    display: none !important;
+}
+
+/* the "Annotation Detail View" link inside a heading must not read as the title */
+.rgd-modern-report .associationsToggle {
+    margin-left: auto;
+    padding: 4px 11px;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--rgd-accent) !important;
+    background: var(--rgd-accent-soft);
+    border: 1px solid transparent;
+    border-radius: 999px;
+}
+.rgd-modern-report .associationsToggle:hover {
+    border-color: var(--rgd-accent);
+    text-decoration: none;
+}
+/* when a heading carries both a toggle link and a count, keep them together
+   on the right instead of letting the two auto margins split the gap */
+.rgd-modern-report .associationsToggle ~ .rgd-section-count { margin-left: 8px; }
+
+/* --------------------------------------------------------------------------
+   Summary table at the top of the report
+   -------------------------------------------------------------------------- */
+
+/* table-layout:fixed for the same reason #content-wrap > table has it, and it matters more
+   here: #info-table carries the card styling itself, so unlike .light-table-border there is no
+   block box around it whose overflow-x could scroll. With the default auto layout the table
+   sized to its widest descendant - the position table is emitted at width=670, next to a 190px
+   label column - so once the body column narrowed past ~970px the card stopped shrinking and
+   the whole summary ran off the right of the page (321px past the viewport at 600px wide).
+   Fixed layout pins it to the column and the wide things inside it scroll or wrap instead. */
+.rgd-modern-report #info-table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+    margin-bottom: 6px;
+    border-collapse: collapse;
+}
+.rgd-modern-report #info-table td { overflow-wrap: break-word; }
+
+/* Once #info-table is inside a card the surround is the card's job. It drew the border, the
+   rounding and the shadow itself back when nothing enclosed it; left on, they would sit a
+   second frame inside the first. Two things put it in a card: the gene report writes the
+   General card around it in its own info.jsp, and every other report gets the Summary card
+   reportModernUx.js wraps at load. The selector covers both. */
+.rgd-modern-report .light-table-border > #info-table {
+    margin-bottom: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* The position table is the one descendant carrying a hard pixel width. As a block it scrolls
+   inside its own cell at its natural width rather than setting the width of the card - the
+   columns keep their sizes instead of being squeezed. Scoped to #info-table: in the Position
+   section proper the same table sits in a .light-table-border, which already scrolls. */
+.rgd-modern-report #info-table td .mapDataTable {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* RGD Orthologs: a wrapping row of species cards. They were a one row inner table - one cell
+   per species - and a table row cannot wrap, so a gene with orthologs in a dozen species ran
+   the row out of the cell. The card is the positioning context for .speciesCardOverlay, which
+   is position:absolute and otherwise resolves against whatever ancestor happens to be
+   positioned rather than against its own icon. */
+.rgd-modern-report .orthoSpeciesList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+}
+.rgd-modern-report .orthoSpeciesCard {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+}
+/* The overlay is sized in the shared header CSS to match the icon (63x63); keep it on the card
+   and make the species name fit inside it. Two separate things used to push the name out over
+   the neighbouring cards:
+     - .orthoSpeciesCard above sets line-height:0 to kill the inline-block gap under the icon,
+       and the overlay inherited it. With zero-height line boxes a two word name drew both of
+       its lines at the same vertical position, so "Green Monkey", "Naked Mole-Rat" and
+       "Black Rat" came out written on top of themselves.
+     - the name inherited the cell's 13.5px bold, at which a single unbreakable word is wider
+       than the box: "Chinchilla" measures ~64px against the 53px the old inline margin:5px
+       left, and "Green Monkey"'s longest word ~54px, with nothing to clip or wrap either.
+       Those two were the only names that overflowed, which is exactly what was reported.
+   So: a real line-height, a size the longest name fits at, and overflow/break-word as a
+   backstop so no name can ever paint onto the card next to it again. */
+.rgd-modern-report .orthoSpeciesCard .speciesCardOverlay {
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    overflow: hidden;
+    font-size: 10px;
+    line-height: 1.15;
+    text-align: center;
+}
+.rgd-modern-report .orthoSpeciesCard .speciesCardOverlay > div {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* "less info" is the same pill as "more info" (report.css) but it lands somewhere far less
+   forgiving: the right hand end of the extended table's header row, where the four cells beside
+   it are solid #b6baba and the cell holding it sets no background of its own, so it sits on the
+   card's white.
+
+   The pale pill does not survive that. #eaf2fb on white is 1.13:1 and its #cfe0f4 border 1.34:1,
+   so both the surface and the outline are effectively invisible - all that showed was the small
+   caption, floating beside a heavy grey bar that pulls the eye away from it. Filling the pill
+   gives it 6.03:1 against the white and 3.08:1 against that grey, so it reads as a control in
+   both directions, and the white caption on it is 6.03:1, clear of WCAG AA.
+
+   It has to be here rather than next to the base pill in report.css: `.rgd-modern-report a`
+   above is (0,1,1) and this file loads last, so a bare `.orthoExtInfo--less` there would lose
+   the colour and leave dark text on the dark fill.
+
+   Only the collapse control is filled. "more info" keeps the subtle pill - it sits in the
+   summary card in a row captioned "More Info", so it has that label to be found by, where this
+   one is on its own. Colours come from the skin variables so the chinchilla palette recolours
+   it too (there it is 8.67:1 on white, 4.43:1 on the grey). */
+.rgd-modern-report .orthoExtInfo--less {
+    color: #ffffff;
+    background: var(--rgd-blue);
+    border-color: var(--rgd-blue);
+    box-shadow: 0 1px 2px rgba(16, 42, 70, .25);
+}
+/* hover has to be restated: the base rule repaints the background pale, which under white text
+   would blank the caption out at the moment the pointer reaches it */
+.rgd-modern-report .orthoExtInfo--less:hover,
+.rgd-modern-report .orthoExtInfo--less:focus-visible {
+    color: #ffffff;
+    background: var(--rgd-blue-dark);
+    border-color: var(--rgd-blue-dark);
+    text-decoration: none;
+}
+/* the base chevron tint is sized for the pale pill; on the filled one it must be light */
+.rgd-modern-report .orthoExtInfo--less::after { color: rgba(255, 255, 255, .85); }
+
+/* "less info" is a control over the extended table, not a column of it, so the JSP now puts it
+   in this strip above the table instead of a fifth rowspan="2" header cell. It lands at the same
+   left edge as the "more info" button in the collapsed row, so the button does not move when the
+   section is toggled. */
+.rgd-modern-report #info-table .orthoExtToolbar { margin: 0 0 6px; }
+
+/* The extended ortholog table itself. Two things made it bulky and grey:
+
+   - it painted its own fills inline, #b6baba across the four header cells and #e2e2e2 on every
+     data cell, so it read as a stack of grey slabs rather than as a table. Those inline fills
+     are gone from the JSP and the look now comes from the skin's shared table tokens, the same
+     ones the rest of the report's tables use.
+   - `#info-table td` and `#info-table tr` match the cells of any table nested inside the summary
+     table, so these rows were also carrying its 5px/13.5px/1.45 rhythm and a border under every
+     row. That is right for a two column summary and much too loose for a four column data grid.
+
+   That second point is why every rule here is scoped through #info-table as well: a class-only
+   selector is (0,2,1) and would silently lose to that (1,1,1) ID rule. */
+.rgd-modern-report #info-table .orthoExtTable {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    background: var(--rgd-surface);
+}
+/* the summary table's row rule would otherwise draw a line under every nested row as well */
+.rgd-modern-report #info-table .orthoExtTable tr { border-bottom: 0; }
+.rgd-modern-report #info-table .orthoExtTable th,
+.rgd-modern-report #info-table .orthoExtTable td {
+    padding: 3px 9px;
+    font-size: 12.5px;
+    line-height: 1.35;
+    text-align: left;
+    vertical-align: top;
+}
+/* column headers: the skin's shared header band, so this matches every other report table */
+.rgd-modern-report #info-table .orthoExtTable th:not(.orthoExtBar) {
+    background: var(--rgd-thead);
+    color: var(--rgd-thead-text);
+    font-size: 11.5px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--rgd-thead-line);
+}
+/* the Orthologs / Other homologs / Alliance orthologs dividers */
+.rgd-modern-report #info-table .orthoExtTable .orthoExtBar {
+    padding: 3px 9px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: var(--rgd-accent-soft);
+    color: var(--rgd-blue-dark);
+    border-top: 1px solid var(--rgd-border);
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+/* data cells: a hairline between rows instead of a fill on every cell, plus a row hover so a
+   wide row stays easy to read across */
+.rgd-modern-report #info-table .orthoExtTable td {
+    color: var(--rgd-text);
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-modern-report #info-table .orthoExtTable tr:hover > td { background: var(--rgd-row-hover); }
+.rgd-modern-report #info-table .orthoExtTable tr:last-child > td { border-bottom: 0; }
+
+/* the Alliance row's logos are inline and already wrap, but they need the same breathing room */
+.rgd-modern-report #info-table td > a > img[src*="alliance_logo"] { margin: 0 6px 6px 0; }
+.rgd-modern-report #info-table tr { border-bottom: 1px solid var(--rgd-border-soft); }
+.rgd-modern-report #info-table tr:last-child { border-bottom: 0; }
+.rgd-modern-report #info-table td {
+    padding: 5px 9px;
+    font-family: var(--rgd-font);
+    font-size: 13.5px;
+    line-height: 1.45;
+    vertical-align: top;
+    background: none;
+    border: 0;
+}
+/* the table sets border-collapse:collapse, which makes the browser drop padding
+   on the table box itself - the card's inset has to come from the edge cells */
+.rgd-modern-report #info-table td:first-child { padding-left: 14px; }
+.rgd-modern-report #info-table td:last-child { padding-right: 14px; }
+.rgd-modern-report #info-table tr:first-child td { padding-top: 9px; }
+.rgd-modern-report #info-table tr:last-child td { padding-bottom: 9px; }
+/* The label column is tinted and ruled off, so the eye has a column to run down and every value
+   has an obvious owner. On a summary of twenty-odd rows - several of them long wrapped prose -
+   a muted label on the same white ground as its value left the two reading as one block. The
+   label sits on --rgd-text now rather than the muted grey: on the tint, muted was the weaker
+   half of a pair that is supposed to be the anchor. */
+.rgd-modern-report #info-table td.label {
+    width: 190px;
+    min-width: 190px;
+    padding-right: 14px;
+    font-weight: 600;
+    color: var(--rgd-text);
+    background: var(--rgd-surface-alt);
+    border-right: 1px solid var(--rgd-border-soft);
+}
+/* the column runs to the card's edge, so its top and bottom follow the card's corners. A page
+   whose first row is a full-width heading (ge/info.jsp) simply has no label cell in that row,
+   and the column starts below the corner where no radius is wanted. */
+.rgd-modern-report #info-table tr:first-child td.label { border-top-left-radius: var(--rgd-radius); }
+.rgd-modern-report #info-table tr:last-child td.label { border-bottom-left-radius: var(--rgd-radius); }
+
+/* group header rows in the position table sit flush across every column and
+   read as a band, not as a data row */
+.rgd-modern-report .mapDataTable tr.mapDataGroup td {
+    padding: 7px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-text-muted);
+    background: var(--rgd-surface-alt);
+    border: 0;
+    border-top: 1px solid var(--rgd-border-soft);
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-modern-report .mapDataTable tr.mapDataGroup:first-child td { border-top: 0; }
+
+/* value cells that hold nothing but a run of links are tagged .rgd-value-list
+   by reportModernUx.js, which also strips the ";" separators - each value then
+   gets its own chip so the entries are scannable instead of running together */
+.rgd-modern-report #info-table td.rgd-value-list {
+    padding-bottom: 4px;
+    line-height: 1.9;
+}
+.rgd-modern-report #info-table td.rgd-value-list > a.rgd-value-chip {
+    display: inline-block;
+    margin: 0 6px 5px 0;
+    padding: 2px 11px;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.7;
+    white-space: nowrap;
+    color: var(--rgd-accent) !important;
+    background: var(--rgd-accent-soft);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    transition: background .15s ease, border-color .15s ease;
+}
+.rgd-modern-report #info-table td.rgd-value-list > a.rgd-value-chip:hover,
+.rgd-modern-report #info-table td.rgd-value-list > a.rgd-value-chip:focus-visible {
+    background: var(--rgd-surface);
+    border-color: var(--rgd-accent);
+    text-decoration: none;
+}
+
+/* .label is a grey pill site-wide; keep it flat inside the report */
+.rgd-modern-report .label {
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    background: none;
+}
+
+/* --------------------------------------------------------------------------
+   Data tables
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report table {
+    border: 0;
+    border-collapse: collapse;
+    font-family: var(--rgd-font);
+}
+.rgd-modern-report td,
+.rgd-modern-report th,
+.rgd-modern-report thead td {
+    padding: 4px 8px;
+    font-family: var(--rgd-font);
+    font-size: 12.5px;
+    line-height: 1.45;
+    vertical-align: top;
+}
+/* `thead td` is here because several tables write their header cells as <td>, and because
+   addHeadAndIdToTable() builds a <thead> at runtime out of the table's first row - which is a
+   row of <td>. What makes a cell a header here is the row group it is in, not its tag. */
+.rgd-modern-report th,
+.rgd-modern-report thead td {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-thead-text);
+    background: var(--rgd-thead);
+    background-image: none;
+    text-shadow: none;
+    /* 2px, so the band still separates from the first row when a table is scrolled */
+    border-bottom: 2px solid var(--rgd-thead-line);
+}
+/* theme.blue.css, neutralised.
+
+   tablesorter is initialised with theme: 'blue', and its core appends .tablesorter-blue to any
+   table whose class does not already contain "tablesorter-". Every one of these tables therefore
+   picks up the blue theme. Its table-wide rules weigh the same as this sheet's and are settled by
+   load order (see reportHeader.jsp), but everything it hangs off a second class outranks the skin
+   whatever the order, so those are answered by name and by weight. */
+.rgd-modern-report .tablesorter-blue,
+.rgd-modern-report .tablesorter-blue th,
+.rgd-modern-report .tablesorter-blue thead td,
+.rgd-modern-report .tablesorter-blue td { border: 0; }
+.rgd-modern-report .tablesorter-blue { margin: 0; }
+
+/* the header: its ground, its 4px 18px padding and its arrow image */
+.rgd-modern-report .tablesorter-blue th,
+.rgd-modern-report .tablesorter-blue thead td,
+.rgd-modern-report .tablesorter-blue .tablesorter-header {
+    padding: 4px 8px;
+    /* the theme sets `font: bold 12px/18px Arial` as a shorthand. Load order settles that
+       today, but the whole header look is restated here so it cannot come back if these
+       sheets are ever reordered again. */
+    font-family: var(--rgd-font);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-thead-text);
+    background-color: var(--rgd-thead);
+    background-image: none;
+    text-shadow: none;
+    border-bottom: 2px solid var(--rgd-thead-line);
+}
+/* the theme paints a sorted column #9fbfdf or #8cb3d9, two further blues of its own. It is the
+   deeper ground of this palette instead - the selector is (0,3,0), so it has to be pointed at
+   the active token by name or it would flatten the sorted column back to the plain header. */
+.rgd-modern-report .tablesorter-blue .tablesorter-headerAsc,
+.rgd-modern-report .tablesorter-blue .tablesorter-headerDesc {
+    background-color: var(--rgd-thead-active);
+    background-image: none;
+}
+
+/* data cells: the theme sets 4px, which made a sorted table denser than everything around it */
+.rgd-modern-report .tablesorter-blue tbody td {
+    padding: 4px 8px;
+    color: var(--rgd-text);
+    background-color: transparent;
+    vertical-align: top;
+}
+.rgd-modern-report .tablesorter-blue tbody > tr:hover > td { background-color: var(--rgd-row-hover); }
+
+/* the zebra widget's classes, which the theme paints #ebf2fa / #fff. Banding belongs on the
+   row, at the same value the report-strategy tables use, so the two kinds of table band alike. */
+.rgd-modern-report .tablesorter-blue tbody > tr.odd > td,
+.rgd-modern-report .tablesorter-blue tbody > tr.even > td { background-color: transparent; }
+.rgd-modern-report .tablesorter-blue tbody > tr.odd { background-color: var(--rgd-surface-alt); }
+
+/* Sortable headers. addClassAndId() tags these tables "tablesorter", never "tablesorter-blue",
+   so the bundled theme's own arrow sprite never reaches them and a sortable column looked exactly
+   like a fixed one. tablesorter sets these three classes itself, with no theme.
+
+   The signal is the arrow and a deeper ground, not a colour: on a blue band the accent is lighter
+   than the label, so recolouring a sorted column would read as de-emphasis. */
+.rgd-modern-report .tablesorter-header { cursor: pointer; }
+.rgd-modern-report .tablesorter-header:hover { background-color: var(--rgd-thead-active); }
+.rgd-modern-report .tablesorter-headerAsc,
+.rgd-modern-report .tablesorter-headerDesc { background-color: var(--rgd-thead-active); }
+/* The marker sits at the right edge of the cell with room reserved for it, the way theme.blue's
+   21x9 GIF did on the old pages - a fixed place of its own rather than a glyph competing with the
+   label for the same line. Drawn out of borders, so it stays crisp at any zoom, takes the header
+   colour through currentColor, and cannot come out as a missing-glyph box.
+
+   .tablesorter-header-inner carries the positioning: tablesorter's headerTemplate defaults to
+   '{content}', and a non-empty template makes it replace each header cell's contents with
+   <div class="tablesorter-header-inner">label</div>. Positioning that block rather than the <th>
+   also keeps clear of quirks mode - these pages have no DOCTYPE, and a positioned table-cell is
+   the kind of thing it handles unevenly. */
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner {
+    display: block;
+    position: relative;
+    padding-right: 16px;
+}
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner::before,
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    opacity: .45;
+}
+/* unsorted: the pair, one above the other */
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner::before {
+    margin-top: -7px;
+    border-bottom: 5px solid currentColor;
+}
+.rgd-modern-report .tablesorter-header .tablesorter-header-inner::after {
+    margin-top: 2px;
+    border-top: 5px solid currentColor;
+}
+/* sorted: one triangle, centred and at full strength, and the other one gone */
+.rgd-modern-report .tablesorter-headerAsc .tablesorter-header-inner::before {
+    margin-top: -3px;
+    opacity: 1;
+}
+.rgd-modern-report .tablesorter-headerAsc .tablesorter-header-inner::after { display: none; }
+.rgd-modern-report .tablesorter-headerDesc .tablesorter-header-inner::after {
+    margin-top: -2px;
+    opacity: 1;
+}
+.rgd-modern-report .tablesorter-headerDesc .tablesorter-header-inner::before { display: none; }
+/* a column switched off with sorter-false is not clickable, so it should not look it */
+.rgd-modern-report .tablesorter .sorter-false { cursor: default; }
+.rgd-modern-report .tablesorter .sorter-false .tablesorter-header-inner { padding-right: 0; }
+.rgd-modern-report .tablesorter .sorter-false .tablesorter-header-inner::before,
+.rgd-modern-report .tablesorter .sorter-false .tablesorter-header-inner::after { display: none; }
+.rgd-modern-report .tablesorter .sorter-false:hover { background-color: var(--rgd-thead); }
+
+.rgd-modern-report thead tr { border-bottom: 0; }
+.rgd-modern-report tbody tr { border-bottom: 1px solid var(--rgd-border-soft); }
+.rgd-modern-report tbody tr:last-child { border-bottom: 0; }
+.rgd-modern-report tbody tr:hover { background: var(--rgd-row-hover); }
+/* the report-strategy tables put their header in the body, so it has to opt out of the hover */
+.rgd-modern-report tbody tr.headerRow:hover { background: var(--rgd-thead); }
+
+/* tables nested inside a cell are layout helpers - no chrome, no hover */
+.rgd-modern-report td table,
+.rgd-modern-report td table tbody tr { border: 0; }
+.rgd-modern-report td table tbody tr:hover { background: none; }
+
+.rgd-modern-report .annotationTable { border: 0; padding: 0; }
+.rgd-modern-report .mapDataTable,
+.rgd-modern-report .mapDataTable td,
+.rgd-modern-report .mapDataTable th { border: 0; }
+.rgd-modern-report .mapDataTable td,
+.rgd-modern-report .mapDataTable th { font-size: 12.5px; }
+
+/* The PubMed link cloud. pubMedReferences.jsp lays twelve PMIDs per row out as a twelve column
+   table, so every cell holds one short link rather than a paragraph of citation. The table cell
+   padding is sized for the latter, which left each link floating in its own box; here the gap
+   between one PMID and the next is all that is needed, so it is carried by padding-right and the
+   vertical padding comes almost off. The rows are one list, not banded data - no rule, no hover. */
+.rgd-modern-report #pubMedReferencesTable td {
+    padding: 2px 16px 2px 0;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+.rgd-modern-report #pubMedReferencesTable tbody tr { border-bottom: 0; }
+.rgd-modern-report #pubMedReferencesTable tbody tr:hover { background: none; }
+
+.rgd-modern-report .reportTableHeader { color: var(--rgd-accent); }
+
+/* --------------------------------------------------------------------------
+   Variants section on the gene report (cnVariants.jsp)
+
+   The section holds one thing: how many variants the gene has, and the way through to them.
+   It arrived as a copy of the homepage's "popular tools" tile - a layout table holding a
+   295px card with a hard black border, an absolutely positioned title block painted #eff3fc,
+   and an invisible overlay div on top to catch the click - so it read as a cut-out from
+   another site wherever it landed among the report's cards.
+
+   The count leads here, because that is the number a reader came for; the screenshot is
+   demoted to a thumbnail whose job is to say where the link goes. The button is a span, not
+   a second link: the whole card is the anchor.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .rgd-variant-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 14px;
+    margin: 2px 0 4px;
+    color: inherit !important;
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+    text-decoration: none !important;
+    transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.rgd-modern-report .rgd-variant-cta:hover {
+    background: var(--rgd-accent-soft);
+    border-color: var(--rgd-accent);
+    box-shadow: var(--rgd-shadow-sm);
+}
+
+.rgd-modern-report .rgd-variant-cta-thumb {
+    flex: 0 0 auto;
+    width: 104px;
+    height: 68px;
+    /* the source is a 270x175 screenshot; cropping from the top left keeps the part of it
+       that reads as a table rather than scaling the whole thing down to a grey smudge */
+    object-fit: cover;
+    object-position: left top;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+
+.rgd-modern-report .rgd-variant-cta-text {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+.rgd-modern-report .rgd-variant-cta-count {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    color: var(--rgd-accent);
+}
+.rgd-modern-report .rgd-variant-cta-label {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--rgd-text-muted);
+}
+
+/* A button in looks only - the anchor around it is what is clickable. Without
+   pointer-events:none it would take .rgd-action:hover on its own and light up
+   out of step with the card it sits in. */
+.rgd-modern-report .rgd-variant-cta-go {
+    flex: 0 0 auto;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Variant Transcripts (cnVariants/transcripts.jsp)
+
+   One card per transcript: the accession and gene symbol lead it, the predictions sit in the
+   report's own label/value table, and the amino acid sequence keeps a monospace block of its own.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .rgdTranscriptCard {
+    margin: 0 0 14px;
+    padding: 14px 16px;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .rgdTranscriptCard:last-child { margin-bottom: 0; }
+
+.rgd-modern-report .rgdTranscriptHead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 11px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--rgd-border-soft);
+}
+.rgd-modern-report .rgdTranscriptSymbol {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rgd-blue-dark);
+}
+.rgd-modern-report .rgdTranscriptAcc {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+    color: var(--rgd-text-muted);
+}
+/* inside a card the label column can sit closer than it does in a standalone Sequence table */
+.rgd-modern-report .rgdTranscriptCard table.rgdSeqTable td { padding: 4px 12px 4px 0; }
+.rgd-modern-report .rgdTranscriptCard table.rgdSeqTable td.label {
+    width: 170px;
+    min-width: 170px;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .rgdTranscriptCard table.rgdSeqTable tbody tr { border-bottom: 0; }
+.rgd-modern-report .rgdTranscriptCard table.rgdSeqTable tbody tr:hover { background: none; }
+
+/* "TRANSCRIPT MAY BE FAULTY..." was centred, bold, pure red and preceded by a <br> */
+.rgd-modern-report .rgdTranscriptWarn {
+    margin: 12px 0 0;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #8c1d18;
+    background: #fdf0ee;
+    border-left: 3px solid #b3261e;
+    border-radius: 0 4px 4px 0;
+}
+
+/* "Polyphen Predictions" and "Amino Acid Sequence" were 16px blue bold cells inside the data
+   table; they are headings of the card, so they read as headings */
+.rgd-modern-report .rgdSubHeading {
+    margin: 16px 0 7px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .rgdSubNote {
+    margin-left: 8px;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--rgd-text-faint);
+}
+
+/* twelve columns of PolyPhen data. It was a 640px fixed-width table with border=1 and its header
+   cells written as <td>; now it scrolls inside the card rather than widening the page, and the
+   header row is a real <thead> so it picks up the report's header band. */
+.rgd-modern-report .rgdTableScroll { overflow-x: auto; }
+.rgd-modern-report table.rgdSubTable { width: 100%; border-collapse: collapse; }
+.rgd-modern-report table.rgdSubTable td { white-space: nowrap; }
+
+/* the substituted amino acid inside the sequence block. This was inline red 24px bold, which
+   broke the line rhythm of a 12px monospace block wherever it landed. */
+.rgdSeqMark {
+    padding: 0 2px;
+    font-weight: 700;
+    color: #b3261e;
+    background: #fdecea;
+    border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Search box + pager above each table
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .search-and-pager {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 5px;
+}
+.rgd-modern-report .table-search {
+    width: 240px;
+    max-width: 100%;
+    margin: 0;
+    padding: 6px 11px;
+    font-family: inherit;
+    font-size: 12.5px;
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .table-search:focus {
+    outline: none;
+    border-color: var(--rgd-accent);
+    box-shadow: 0 0 0 3px var(--rgd-accent-soft);
+}
+.rgd-modern-report .pager {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .pager form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+.rgd-modern-report .pager img {
+    width: 16px;
+    height: 16px;
+    padding: 3px;
+    box-sizing: content-box;
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .pager img:hover {
+    background: var(--rgd-accent-soft);
+    border-color: var(--rgd-accent);
+}
+.rgd-modern-report select,
+.rgd-modern-report input[type="text"],
+.rgd-modern-report input[type="search"] {
+    padding: 5px 8px;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--rgd-text);
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Collapse all / expand all, at the head of the content column
+
+   The same control appears in the sticky bar below, on the same edge of the page, so that
+   scrolling swaps one for the other in place instead of appearing to move the button from
+   one side of the report to the other - which is what happened while it lived in the sidebar
+   head on the left.
+
+   The declarations deliberately match .rgd-stickybar-btn value for value, by way of the
+   tokens: the sticky bar is appended to <body>, outside #page-container, so it cannot read
+   them and spells the same colours out literally. Going through the tokens here is what lets
+   the chinchilla skin tint this copy on hover.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report .rgd-content-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: -2px 0 6px;
+}
+.rgd-modern-report .rgd-content-toggle-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--rgd-font);
+    cursor: pointer;
+    color: var(--rgd-text);
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .rgd-content-toggle-all:hover {
+    color: var(--rgd-accent);
+    border-color: var(--rgd-accent);
+}
+
+/* --------------------------------------------------------------------------
+   Sticky context bar - appears once the hero scrolls away
+   -------------------------------------------------------------------------- */
+
+.rgd-stickybar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 22px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    background: rgba(255, 255, 255, .96);
+    border-bottom: 1px solid #dfe4ea;
+    box-shadow: 0 2px 10px rgba(16, 32, 51, .07);
+    backdrop-filter: saturate(180%) blur(6px);
+    transform: translateY(-100%);
+    transition: transform .2s ease;
+}
+.rgd-stickybar.is-visible { transform: translateY(0); }
+.rgd-stickybar-symbol {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2865a3;
+}
+.rgd-stickybar.chinchilla .rgd-stickybar-symbol { color: #96151d; }
+.rgd-stickybar-sep { color: #c6ced8; }
+.rgd-stickybar-section {
+    font-weight: 600;
+    color: #5b6672;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.rgd-stickybar-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+.rgd-stickybar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #1f2933;
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 6px;
+}
+.rgd-stickybar-btn:hover { color: #2865a3; border-color: #2865a3; }
+
+/* back to top
+
+   The site-wide feedback widget (common/helpFeedbackChat.jsp, styled by css/webFeedback.css)
+   is fixed into this same corner on every page of the site, and at z-index 5000000 it sits on
+   top of anything declared here. Collapsed - which is how the page always loads, since
+   #divButtons carries an inline display:none and the hideMe cookie is only ever written,
+   never read - it is a 50px chat icon at right:35 bottom:25. This button was at right:22
+   bottom:26, so the two overlapped and the feedback icon covered it.
+
+   Stacked above the widget instead, on the same right edge so the two read as one column
+   rather than two things that happen to be near each other. */
+.rgd-to-top {
+    position: fixed;
+    right: 35px;
+    bottom: 88px;
+    z-index: 1020;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: #fff;
+    background: #2865a3;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: 0 4px 14px rgba(16, 32, 51, .25);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+}
+.rgd-to-top.is-visible { opacity: 1; pointer-events: auto; }
+.rgd-to-top:hover { transform: translateY(-2px); }
+
+/* Clicking the chat icon swaps it for the expanded panel, which is 115px tall at bottom:15
+   and so reaches 130px up the viewport - far enough to swallow the button at its resting
+   place. hideButtons() toggles the two by inline display, and only ever one of them is on
+   screen, so the open panel is the one case that needs the extra lift.
+
+   Kept in a rule of its own: an unsupported :has() invalidates the whole rule it appears in,
+   and grouping it above would take the button's position down with it. On a browser without
+   :has() the base rule still stands and the collapsed state - the one the page loads in -
+   is clear either way. */
+body:has(#divButtons:not([style*="none"])) .rgd-to-top { bottom: 145px; }
+
+/* --------------------------------------------------------------------------
+   Legacy inline styles
+
+   Parts of the report body still paint themselves: a 10px span after every
+   annotation evidence code, 11px bold position links, flat #e2e2e2 / #f1f1f1
+   greys on label and zebra cells, hard black hairlines. An inline style beats a
+   stylesheet, so this is the one place in this file where !important is the
+   right tool - the alternative is chasing the same values through half a dozen
+   JSPs and AnnotationFormatter, where they would drift apart again.
+
+   Each rule maps a hard-coded legacy value onto the token that already covers
+   the same job elsewhere, so the page reads as one design rather than a dozen.
+   -------------------------------------------------------------------------- */
+
+/* 10px is three steps below the body text. It marks the evidence code after an
+   annotation term, which is secondary information, not fine print. */
+.rgd-modern-report #content-wrap [style*="font-size:10px"],
+.rgd-modern-report #content-wrap [style*="font-size: 10px"] {
+    font-size: 11.5px !important;
+    color: var(--rgd-text-muted) !important;
+}
+
+/* The evidence code in the Annotation tables (AnnotationFormatter). It reads as body text with
+   a dotted rule under it and a help cursor - the standing convention for "there is an
+   explanation behind this" - rather than as a link, which is how it used to present while
+   being unclickable. The expansion is in its title attribute.
+
+   A dotted underline is the browser default for abbr[title] in most engines but not all, and
+   report.css underlines things broadly, so it is stated here rather than inherited. */
+.rgd-modern-report #content-wrap abbr.rgdEvidenceCode {
+    color: var(--rgd-text);
+    cursor: help;
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--rgd-text-faint);
+}
+
+/* 11px bold: the JBrowse and position links inside the map tables */
+.rgd-modern-report #content-wrap [style*="font-size:11px"],
+.rgd-modern-report #content-wrap [style*="font-size: 11px"] {
+    font-size: 12px !important;
+}
+
+/* Label and band cells - a flat mid-grey that predates the cards. Nothing else
+   on a modern report page is that dark. */
+.rgd-modern-report #content-wrap [style*="#e2e2e2"],
+.rgd-modern-report #content-wrap [style*="#E2E2E2"] {
+    background-color: var(--rgd-surface-alt) !important;
+    color: var(--rgd-text) !important;
+}
+
+/* The other half of nucleotide.jsp's zebra. Painting it white rather than a
+   second grey is what makes the pair read as banding. */
+.rgd-modern-report #content-wrap [style*="#f1f1f1"],
+.rgd-modern-report #content-wrap [style*="#F1F1F1"] {
+    background-color: var(--rgd-surface) !important;
+}
+
+/* The darkest of the legacy greys. It is only ever on a <th>, so it lands on the header
+   ground rather than the zebra - otherwise these four headers would end up lighter than
+   every other header on the page. */
+.rgd-modern-report #content-wrap [style*="#b6baba"],
+.rgd-modern-report #content-wrap [style*="#B6BABA"] {
+    background-color: var(--rgd-thead) !important;
+    color: var(--rgd-thead-text) !important;
+}
+
+/* Hard black hairlines around the expandable detail boxes and the tool icons */
+.rgd-modern-report #content-wrap [style*="solid black"] {
+    border-color: var(--rgd-border) !important;
+    border-radius: var(--rgd-radius-sm);
+}
+
+/* The "only show direct experimental evidence" control above the annotation
+   tables: its own Arial, its own blue and a 15px radius, all set in a <style>
+   block inside associationsCurator.jsp */
+.rgd-modern-report .only-show-annot-background {
+    padding: 6px 12px !important;
+    font-family: var(--rgd-font) !important;
+    background-color: var(--rgd-surface-alt) !important;
+    border: 1px solid var(--rgd-border-soft);
+    border-radius: var(--rgd-radius-sm) !important;
+}
+.rgd-modern-report .only-show-annot-background label.hideEviText {
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: var(--rgd-text-muted) !important;
+}
+
+/* Bold black on a light row is heavier than anything else in the tables */
+.rgd-modern-report #content-wrap .highlight {
+    font-weight: 600;
+    color: var(--rgd-text);
+}
+
+.rgd-modern-report #content-wrap .detailReportLink { font-size: 12.5px; }
+
+/* --------------------------------------------------------------------------
+   HTMLTableReportStrategy tables
+
+   The strategy emits its own <link> to treport.css mid-body, which paints these
+   tables in a #99BFE6 header with white bold Arial and a #F1F1F1 zebra - the
+   look the rest of the report has moved away from. Those rules are plain
+   element selectors, so naming the skin here outranks them whatever order the
+   sheets happen to load in. The strategy marks the header row with a class
+   rather than using <th>, so the header styling has to be restated by hand.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report tr.headerRow td {
+    font-family: var(--rgd-font);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--rgd-thead-text);
+    background-color: var(--rgd-thead);
+    border-bottom: 2px solid var(--rgd-thead-line);
+}
+.rgd-modern-report tr.evenRow td,
+.rgd-modern-report tr.evenRow td a,
+.rgd-modern-report tr.oddRow td,
+.rgd-modern-report tr.oddRow td a {
+    font-family: var(--rgd-font);
+    font-size: 12.5px;
+    color: var(--rgd-text);
+}
+.rgd-modern-report tr.evenRow td a,
+.rgd-modern-report tr.oddRow td a { color: var(--rgd-blue-dark); }
+/* banding comes from the row, not from every cell painting its own background */
+.rgd-modern-report tr.evenRow td,
+.rgd-modern-report tr.oddRow td { background-color: transparent; }
+.rgd-modern-report tr.oddRow { background-color: var(--rgd-surface-alt); }
+
+/* --------------------------------------------------------------------------
+   Comparative Map Data
+
+   One table, one header row, species in the first column - it is a .mapDataTable
+   like the Position section's, so the shared rules above already style the cells
+   and all that is left is the species column and the hairline that separates one
+   species block from the next.
+
+   A block is the rows of one species: its reference assembly, any assemblies
+   hidden behind the toggle, and the toggle row. Only its first row carries
+   .cmapBlockStart, so the hairline marks the species boundary and not every row.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #comparativeMapDataTable {
+    width: 100%;
+}
+.rgd-modern-report #comparativeMapDataTable > tbody > tr.cmapBlockStart > td {
+    border-top: 1px solid var(--rgd-border-soft);
+}
+.rgd-modern-report #comparativeMapDataTable > tbody > tr.cmapBlockStart:first-child > td {
+    border-top: 0;
+}
+.rgd-modern-report #comparativeMapDataTable > tbody > tr > td {
+    background: none;
+    vertical-align: top;
+}
+
+.rgd-modern-report #comparativeMapDataTable td.cmapSpecies {
+    width: 170px;
+    padding-right: 14px;
+}
+/* The species is named once per block; the blank cells below it must not reserve three
+   lines of height the way the named one does, and must stay out of the MAP_TYPE band -
+   the band starting at the Assembly column is what nests MAP_TYPE inside the species. */
+.rgd-modern-report #comparativeMapDataTable td.cmapSpecies:empty {
+    padding: 0;
+    background: none;
+    border: 0;
+}
+.rgd-modern-report .cmapSymbol {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rgd-text);
+}
+.rgd-modern-report .cmapTaxon {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .cmapCommon {
+    display: block;
+    font-size: 11.5px;
+    color: var(--rgd-text-faint);
+}
+
+/* Each species opens showing its reference assembly only, with the rest in the page
+   but hidden behind a toggle - otherwise a block is a dozen assemblies tall and the
+   species comparison the section exists for is lost in them. */
+.rgd-modern-report .mapDataTable tr.mapDataExtra[hidden] { display: none; }
+
+.rgd-modern-report .mapDataTable tr.mapDataMoreRow td {
+    padding: 2px 6px 6px;
+    border: 0;
+    background: none;
+}
+.rgd-modern-report .mapDataTable button.mapDataMoreBtn {
+    padding: 2px 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--rgd-blue-dark);
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border-soft);
+    border-radius: 999px;
+    cursor: pointer;
+}
+.rgd-modern-report .mapDataTable button.mapDataMoreBtn:hover {
+    background: #e3ebf5;
+    border-color: var(--rgd-blue-dark);
+}
+
+/* --------------------------------------------------------------------------
+   <br> used as spacing
+
+   The report body predates the stylesheet, so the blank line between a heading
+   and a card, or between two cards, is a <br> rather than a margin - 439 of
+   them across seven sampled pages, 249 sitting between two block elements and
+   34 of those doubled up. That is what makes the spacing drift from section to
+   section: the gap depends on how many <br> a given include happens to carry.
+
+   The two biggest sources are fixed in the markup (the annotation group
+   headings and the .subTitle wrappers). The rest live in some forty includes,
+   and are handled here instead: a <br> next to a block element is hidden, so
+   the section and card margins set the rhythm. A <br> in running text - a
+   formatted sequence, a wrapped note, a label above a table - separates two
+   pieces of text and is left alone.
+   -------------------------------------------------------------------------- */
+
+.rgd-modern-report #content-wrap br + br,
+.rgd-modern-report #content-wrap div + br,
+.rgd-modern-report #content-wrap table + br,
+.rgd-modern-report #content-wrap p + br,
+.rgd-modern-report #content-wrap .light-table-border > br:first-child,
+.rgd-modern-report #content-wrap .light-table-border > br:last-child { display: none; }
+
+/* The other half of the pair - a <br> that comes BEFORE a block. Kept in its
+   own rule: an unknown selector invalidates the whole rule it appears in, so
+   grouping :has() with the selectors above would lose them on a browser that
+   does not support it. */
+.rgd-modern-report #content-wrap br:has(+ div),
+.rgd-modern-report #content-wrap br:has(+ table) { display: none; }
+
+/* A <br> inside a sequence block is content, not spacing. FormUtility.formatFasta() breaks a
+   FASTA string every 64 bases with a <br>, and "br + br" above matches every one of them after
+   the first: the adjacent sibling combinator skips the text node between two <br>, so a run of
+   "64 bases <br> 64 bases <br> ..." is a run of adjacent <br> siblings as far as CSS is
+   concerned. A 4,614 base transcript collapsed onto a single line about 29,000px wide, which
+   turned its card into a horizontal scroller.
+
+   This has to stay after the rules above: it is the same specificity, so source order settles
+   it. */
+.rgd-modern-report #content-wrap pre br,
+.rgd-modern-report #content-wrap .rgdSeqBlock br { display: inline; }
+
+/* --------------------------------------------------------------------------
+   Variant list report - report/rsId/main.html
+   -------------------------------------------------------------------------- */
+
+/* The summary strip: the count and the assembly on the left, the actions on the right,
+   wrapping onto a second row when the body column is narrow. This replaced a layout table -
+   table cells cannot wrap, so on a narrow column the actions used to push the card wider
+   instead of moving below the count. */
+.rgd-modern-report .variantSummary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 18px;
+    padding: 4px 0 2px;
+}
+.rgd-modern-report .variantSummaryLead {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    /* without this a long symbol or assembly name sets the flex item's floor and widens the
+       card rather than wrapping inside it */
+    min-width: 0;
+}
+.rgd-modern-report .variantSummaryHeadline {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.rgd-modern-report .variantSummaryFigure {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--rgd-blue-dark);
+    font-variant-numeric: tabular-nums;
+}
+.rgd-modern-report .variantSummaryLabel {
+    font-size: 13.5px;
+    color: var(--rgd-text-muted);
+    overflow-wrap: anywhere;
+}
+.rgd-modern-report .variantSummaryLabel strong {
+    font-weight: 700;
+    color: var(--rgd-text);
+}
+.rgd-modern-report .variantSummarySpecies {
+    font-style: italic;
+    color: var(--rgd-text-faint);
+}
+.rgd-modern-report .variantSummarySpecies::before {
+    content: "\00b7";
+    margin: 0 5px 0 3px;
+    font-style: normal;
+    color: var(--rgd-border);
+}
+
+.rgd-modern-report .variantSummaryChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+/* .rgd-chip is normally a static badge; as a link it still must not underline, and it
+   already carries a transparent border for the hover to colour in */
+.rgd-modern-report a.variantSummaryChip,
+.rgd-modern-report a.variantSummaryChip:hover {
+    text-decoration: none;
+}
+.rgd-modern-report a.variantSummaryChip:hover { border-color: var(--rgd-accent); }
+
+.rgd-modern-report .variantSummaryActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+.rgd-modern-report .variantSummaryDownload { margin: 0; }
+
+/* Filter left, pager right, one row that wraps to two on a narrow body column. Both used to
+   be stacked blocks, the pager built out of a layout table. */
+.rgd-modern-report .variantToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin: 0 0 11px;
+}
+.rgd-modern-report .variantLocFilter {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+}
+.rgd-modern-report .variantToolbarLabel {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--rgd-text-muted);
+}
+
+/* Segmented control. The radio is moved out of sight rather than display:none'd so it keeps
+   its place in the accessibility tree and can still take focus - the label is only the
+   visible half of a control that is still a real radio. */
+.rgd-modern-report .variantSegmented {
+    display: inline-flex;
+    padding: 2px;
+    background: var(--rgd-surface-alt);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+}
+.rgd-modern-report .variantSegmented input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+.rgd-modern-report .variantSegmented label {
+    padding: 4px 13px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--rgd-text-muted);
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .15s ease, color .15s ease;
+}
+.rgd-modern-report .variantSegmented label:hover { color: var(--rgd-text); }
+.rgd-modern-report .variantSegmented input:checked + label {
+    color: #fff;
+    background: var(--rgd-accent);
+}
+.rgd-modern-report .variantSegmented input:focus-visible + label {
+    outline: 2px solid var(--rgd-accent);
+    outline-offset: 1px;
+}
+
+.rgd-modern-report .variantPager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+.rgd-modern-report .variantPagerStatus {
+    font-size: 12.5px;
+    white-space: nowrap;
+    color: var(--rgd-text-muted);
+}
+.rgd-modern-report .variantPagerStatus strong {
+    font-weight: 700;
+    color: var(--rgd-text);
+}
+.rgd-modern-report .variantPager button,
+.rgd-modern-report .variantPager select {
+    font-family: inherit;
+    font-size: 12.5px;
+    padding: 4px 11px;
+    color: var(--rgd-text);
+    background: var(--rgd-surface);
+    border: 1px solid var(--rgd-border);
+    border-radius: var(--rgd-radius-sm);
+    cursor: pointer;
+}
+.rgd-modern-report .variantPager button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    transition: background .15s ease, border-color .15s ease;
+}
+.rgd-modern-report .variantPager button:hover {
+    background: var(--rgd-accent-soft);
+    border-color: var(--rgd-accent);
+}
+.rgd-modern-report .variantPager button i {
+    font-size: 10px;
+    color: var(--rgd-accent);
+}
+
+/* The grid is its own scroll container, not the card. Scrolling #mapDataTableDiv rather
+   than .light-table-border keeps the section heading and the toolbar still while only the
+   columns move, which is what you want when a 12 column grid is wider than the body column.
+
+   There is deliberately no min-width. An earlier revision pinned this table at 980px, which
+   forced a horizontal scrollbar on window widths where the content would have fitted on its
+   own - the production page has no such floor and fits. width:100% lets it fill the column
+   when there is room and fall back to its own min-content width when there is not.
+
+   Nothing here restates the header ground, cell padding, zebra or hover - those come from
+   the .tablesorter-blue block above. An #id selector outranks that block, so anything added
+   here would silently undo it. Only per-column behaviour belongs in this rule set. */
+.rgd-modern-report #mapDataTableDiv {
+    max-width: 100%;
+    overflow-x: auto;
+}
+.rgd-modern-report #mapDataTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Column headers are labels, not prose. "Reference Nucleotide" and "Variant Nucleotide"
+   broke over two lines, which doubled the height of the whole header band and left the
+   one-word headers next to them floating against a band twice their size.
+
+   white-space is inherited, so setting it on the th also reaches .tablesorter-header-inner -
+   the div tablesorter swaps in for each header cell's contents once it initialises - and the
+   rule therefore holds whether or not the plugin has run. It is safe to hang this off an #id
+   even though that outranks the .tablesorter-blue header block above, because white-space is
+   the one property that block does not set. */
+.rgd-modern-report #mapDataTable th { white-space: nowrap; }
+
+/* Position is one value, not two. The markup already glues the range with &nbsp; either side
+   of the dash, which holds "start - stop" together but still lets the cell wrap when the
+   column is squeezed; nowrap makes the column itself hold the line. */
+.rgd-modern-report #mapDataTable .variantPos { white-space: nowrap; }
+
+/* the other short columns that should never break */
+.rgd-modern-report #mapDataTable .variantChr { white-space: nowrap; }
+.rgd-modern-report #mapDataTable .variantIdx { width: 1%; white-space: nowrap; }
+.rgd-modern-report #mapDataTable td.variantIdx {
+    text-align: right;
+    color: var(--rgd-text-faint);
+}
+
+/* The nucleotide columns hold the long runs, so they are the ones that absorb the wrapping
+   the columns above refuse. A run of bases has no spaces to break at, hence anywhere.
+
+   td only, deliberately: these selectors carry an #id and would outrank the .tablesorter-blue
+   header rules, so putting the monospace face on the bare class would take the two nucleotide
+   headers out of the uppercase header face the other ten keep. */
+.rgd-modern-report #mapDataTable td.variantNuc {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 11.5px;
+    overflow-wrap: anywhere;
+}
+.rgd-modern-report #mapDataTable .moreLink {
+    font-family: var(--rgd-font);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* rs ID: the identifier on its own. tabular-nums lines the digits up down the column. */
+.rgd-modern-report #mapDataTable td.variantRsId {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Links: the per-variant destinations, in their own column rather than trailing the rs id.
+   RGD is on every row (it is keyed off the variant id); EVA only where there is an rs id
+   and the species is not human.
+
+   .rgdChipLink carries a left margin of its own for use mid-sentence, which would indent
+   the first chip away from the cell edge - reset it and space the pair off the adjacent
+   sibling instead. The hover reset is needed because .rgd-modern-report a:hover is one type
+   selector heavier than .rgdChipLink:hover and would otherwise underline the chips. */
+.rgd-modern-report #mapDataTable td.variantLinks { white-space: nowrap; }
+.rgd-modern-report td.variantLinks .rgdChipLink { margin-left: 0; }
+.rgd-modern-report td.variantLinks .rgdChipLink + .rgdChipLink { margin-left: 4px; }
+.rgd-modern-report td.variantLinks .rgdChipLink:hover { text-decoration: none; }
+
+/* The row pager, one copy above the grid and one below. .pager already supplies the flex
+   row, the icon buttons and the select; this only places it and settles the row-count
+   readout, which would otherwise shift the arrows sideways every time the width of the
+   number changed. */
+.rgd-modern-report .mapDataPager {
+    justify-content: flex-end;
+    margin: 0 0 8px;
+}
+.rgd-modern-report .mapDataPagerBottom { margin: 10px 0 0; }
+.rgd-modern-report .mapDataPager .pagedisplay {
+    min-width: 104px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    color: var(--rgd-text-muted);
+}
+/* the addon puts .disabled on first/prev at the start of the table and on next/last at the
+   end; without a rule for it a dead arrow looks identical to a live one */
+.rgd-modern-report .mapDataPager img.disabled {
+    opacity: .3;
+    cursor: default;
+    background: var(--rgd-surface-alt);
+    border-color: var(--rgd-border-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    .rgd-modern-report {
+        --rgd-sidebar-w: 210px;
+        gap: 18px;
+    }
+}
+
+@media (max-width: 860px) {
+    .rgd-modern-report {
+        display: block;
+        padding: 10px 12px 28px;
+    }
+    .rgd-modern-report #left-side-wrap {
+        position: static;
+        width: 100%;
+        margin-bottom: 14px;
+    }
+    .rgd-modern-report #reportMainSidebar { max-height: 320px; }
+    .report-hero { padding: 16px; }
+    .report-hero-title { font-size: 24px; }
+    .report-hero-actions { width: 100%; }
+    .rgd-modern-report .light-table-border { padding: 2px 12px 9px; }
+    .rgd-modern-report .sectionHeading {
+        margin-left: -12px;
+        margin-right: -12px;
+        padding: 8px 12px;
+    }
+    .rgd-modern-report #info-table td.label { width: 130px; min-width: 130px; }
+    /* the count and the way through matter; the screenshot is the part that can go */
+    .rgd-modern-report .rgd-variant-cta { flex-wrap: wrap; gap: 12px; }
+    .rgd-modern-report .rgd-variant-cta-thumb { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Print: everything open, no chrome
+   -------------------------------------------------------------------------- */
+
+@media print {
+    .rgd-modern-report {
+        display: block;
+        padding: 0;
+        background: #fff;
+    }
+    .rgd-modern-report #left-side-wrap,
+    .rgd-stickybar,
+    .rgd-to-top,
+    .rgd-modern-report .search-and-pager,
+    .rgd-modern-report .associationsToggle,
+    .report-hero-actions { display: none !important; }
+
+    .rgd-modern-report .rgd-section-member.rgd-hidden,
+    .rgd-modern-report .light-table-border.rgd-collapsed > *:not(.sectionHeading) {
+        display: block !important;
+    }
+    .rgd-modern-report .light-table-border {
+        border: 1px solid #ccc;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+}

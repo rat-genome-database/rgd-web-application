@@ -33,10 +33,10 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize" >
-                    <option  value="10">10</option>
+                    <option  value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
-                    <option selected="selected"  value="40">40</option>
+                    <option  value="40">40</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>
                 </select>
@@ -61,19 +61,19 @@
 <%--Beggining of row--%>
         <tr>
             <td class="report-page-grey">
-                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span>
             </td>
 
     <% }else if(i % 12 == 11){ %>
 <%--            End of Row--%>
             <td class="report-page-grey">
-                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span>
             </td>
         </tr>
   <% }else{%>
 <%--middle item--%>
             <td class="report-page-grey">
-                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span> &nbsp;
+                <span>PMID:<a href="<%=pubmedLink%><%=ei.get(i).getAccId()%>"><%=link%></a></span>
             </td>
     <% }
     }%>
@@ -90,10 +90,10 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize" >
-                    <option  value="10">10</option>
+                    <option  value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
-                    <option selected="selected"  value="40">40</option>
+                    <option  value="40">40</option>
                     <option   value="100">100</option>
                     <option value="9999">All Rows</option>
                 </select>

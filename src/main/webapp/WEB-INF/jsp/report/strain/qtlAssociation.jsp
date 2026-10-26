@@ -32,7 +32,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
@@ -47,9 +47,9 @@
     <table cellpadding="3" cellspacing="3" id="strainQtlAssociationTable" >
     <thead>
         <tr>
-            <td><b>Symbol</b></td>
-            <td><b>Name</b></td>
-            <td><b>Trait</b></td>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Trait</th>
         </tr>
     </thead>
     <tbody>
@@ -94,7 +94,7 @@
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/next.png" class="next"/>
                 <img src="/rgdweb/common/tablesorter-2.18.4/addons/pager/icons/last.png" class="last"/>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
                     <option  value="40">40</option>
