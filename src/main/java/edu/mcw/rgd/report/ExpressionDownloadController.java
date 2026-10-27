@@ -31,6 +31,16 @@ public class ExpressionDownloadController implements Controller {
             String term = obj.getString("term");
             request.setAttribute("rgdId",rgdId);
             request.setAttribute("termAcc", term); //"UBERON:9999999"
+            // The assembly the report page was showing. A sample aligned to several assemblies is
+            // one expression record per assembly, so without this the csv repeats every sample
+            // once per assembly and does not match the counts the user clicked. Optional: an
+            // older page, or a gene with one assembly, sends nothing and gets every assembly.
+            if( obj.has("mapKey") && !obj.isNull("mapKey") ) {
+                String mapKey = obj.get("mapKey").toString().trim();
+                if( !mapKey.isEmpty() ) {
+                    request.setAttribute("mapKey", Integer.valueOf(mapKey));
+                }
+            }
 //            String rsId = obj.get("rsId").toString();
 //            request.setAttribute("rsId", rsId);
         }

@@ -10,6 +10,10 @@
     MapDAO mdao = new MapDAO();
     OntologyXDAO xdao = new OntologyXDAO();
     List<GeneExpression> expressionList = gdao.getGeneExpressionObjectsByTermRgdIdUnit(termAcc, rgdId, "TPM");
+    // The assembly the report page was showing, when it sent one. Filtered here rather than in the
+    // query because the DAO has no assembly-aware variant; the rows are already in hand and a gene
+    // carries at most a few tens of thousands of them.
+    Integer mapKeyFilter = (Integer) request.getAttribute("mapKey");
     HashMap<String, String> tissueTerms = new HashMap<>();
     if (geneId.getSpeciesTypeKey()==1)
         out.print("Cell Line");
@@ -40,6 +44,8 @@
     for (GeneExpression ge : expressionList){
 
         GeneExpressionRecordValue v = ge.getGeneExpressionRecordValue();
+        if (mapKeyFilter != null && (v == null || v.getMapKey() != mapKeyFilter.intValue()))
+            continue;
         GeneExpressionRecord r = ge.getGeneExpressionRecord();
         Sample s = ge.getSample();
         List<Integer> refs = pdao.getStudyReferences(ge.getStudyId());
