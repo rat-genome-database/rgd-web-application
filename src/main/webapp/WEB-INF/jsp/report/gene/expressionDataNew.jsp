@@ -9,6 +9,33 @@
 <%@ page import="edu.mcw.rgd.expression.ExpressionIndexCounts" %>
 <%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
 <%@ page import="static edu.mcw.rgd.web.RgdContext.getAPIHostname" %>
+<%!
+    /* Reading one cell out of the per-assembly counts. byTissuePerMapKey omits a system an
+       assembly has no records for, and omits a level that system has none at, so every lookup is
+       two levels of "might not be there" - which inline in the markup below would bury the
+       ribbon in null checks. Declarations rather than scriptlet locals because a scriptlet
+       cannot hold a method, and this page is <jsp:include>d, so it compiles as its own servlet. */
+    private static java.util.Map<String,Integer> exprLevels(
+            java.util.Map<Integer, java.util.LinkedHashMap<String, java.util.Map<String,Integer>>> all,
+            Integer mapKey, String term) {
+
+        java.util.LinkedHashMap<String, java.util.Map<String,Integer>> perTerm = all.get(mapKey);
+        return perTerm==null ? null : perTerm.get(term);
+    }
+
+    /** records this assembly has for this system at this level; 0 when it has none */
+    private static int exprCount(
+            java.util.Map<Integer, java.util.LinkedHashMap<String, java.util.Map<String,Integer>>> all,
+            Integer mapKey, String term, String level) {
+
+        java.util.Map<String,Integer> perLevel = exprLevels(all, mapKey, term);
+        if( perLevel==null ) {
+            return 0;
+        }
+        Integer n = perLevel.get(level);
+        return n==null ? 0 : n;
+    }
+%>
 
 <script src="https://unpkg.com/bootstrap-vue@2.5.0/dist/bootstrap-vue.min.js"></script>
 
@@ -222,28 +249,74 @@
         color: #5b6672;
     }
 
+
+    /* Assembly picker. A sample aligned to several assemblies is a separate record per assembly,
+       so the ribbon can only report one assembly at a time; this is what says which. Drawn only
+       when the gene has records on more than one. */
+    #exprAssemblyChoice {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 4px 18px;
+        margin: 14px 0 4px;
+        padding: 7px 12px 9px;
+        border: 1px solid #edf0f4;
+        border-radius: 4px;
+        background: #f8fafc;
+    }
+    #exprAssemblyChoice legend {
+        float: none;              /* the report pages' base css floats a legend */
+        width: auto;
+        margin: 0 4px 0 0;
+        padding: 0;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: inherit;
+        color: #5b6672;
+        border: 0;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+    }
+    .exprAssemblyOption {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 5px;
+        margin: 0;
+        font-size: 13px;
+        font-weight: 400;
+        color: #1f2933;
+        cursor: pointer;
+    }
+    .exprAssemblyOption input { margin: 0; cursor: pointer; }
+    /* how many records the assembly carries - the ribbon's own total, so the choice can be made
+       without opening each one in turn */
+    .exprAssemblyCount {
+        font-size: 11.5px;
+        color: #5b6672;
+        font-variant-numeric: tabular-nums;
+    }
     /* the table view - the same numbers, for reading and for screen readers */
     #exprTableView { padding-top: 10px; }
-    #exprData {
+    .exprData {
         border-collapse: collapse;
         width: 100%;
         max-width: 780px;
     }
-    #exprData th,
-    #exprData td {
+    .exprData th,
+    .exprData td {
         padding: 5px 10px;
         font-size: 12.5px;
         text-align: left;
         border-bottom: 1px solid #edf0f4;
     }
-    #exprData th { font-weight: 700; }
-    #exprData td.exprNum {
+    .exprData th { font-weight: 700; }
+    .exprData td.exprNum {
         text-align: right;
         font-variant-numeric: tabular-nums;
     }
-    #exprData tr[data-col] { cursor: pointer; }
-    #exprData tr[data-col]:hover { background: #f8fafc; }
-    #exprData tr.is-selected { background: #eaf2fb; }
+    .exprData tr[data-col][onclick] { cursor: pointer; }
+    .exprData tr[data-col][onclick]:hover { background: #f8fafc; }
+    .exprData tr.is-selected { background: #eaf2fb; }
 </style>
 <%@ include file="../sectionHeader.jsp"%>
 <%
@@ -254,11 +327,11 @@
     List<String> terms = xdao.getAllSlimTermsOrdered("UBERON","AGR");
 
     // The ribbon carries one row per expression level. The counts come from the rgdws
-    // expression index (/rgdws/expression/index/facets?rgdIds=..&tissueIds=..), which is
-    // the same index and the same filter as
+    // expression index (/rgdws/expression/index/facets?rgdIds=..&tissueIds=..&mapKey=..), which
+    // is the same index and the same filter as
     // /rgdws/expression/index/records/search?tissueIds=UBERON:0002107 - so a square on the
     // ribbon and a search on that system report the same number. ExpressionIndexCounts
-    // fans the ~22 systems out in parallel and caches per gene.
+    // fans the ~22 systems out per assembly, in parallel, and caches per gene.
     //
     // Counts are TPM only, through the endpoint's units filter, so they line up with the TPM
     // detail table a square opens. Descendant systems are rolled up by the index itself,
@@ -290,19 +363,73 @@
         RIBBON_TITLES[r] = RIBBON_LABELS[r] + ": " + RIBBON_RANGES[r];
     }
 
-    java.util.LinkedHashMap<String, java.util.Map<String,Integer>> termLevelCnt =
-            ExpressionIndexCounts.byTissue(obj.getRgdId(), terms, ExpressionIndexCounts.UNIT_TPM);
+    // Counts are per assembly. A sample aligned to several assemblies is one record per assembly
+    // in the index, so a gene with three loaded assemblies reported roughly three times its
+    // samples when the ribbon summed over all of them - the liver square counted the same liver
+    // sample once for GRCr8, once for mRatBN7.2 and once for Rnor_6.0. The radio buttons pick one
+    // assembly and the ribbon, the counts table and the detail table all answer for that one.
+    //
+    // Which assemblies to offer comes from the index rather than from MapManager: only the
+    // assemblies the expression load actually covered have records, and that is a subset of the
+    // species' assemblies.
+    java.util.LinkedHashMap<Integer,Integer> asmRecordCnt =
+            ExpressionIndexCounts.mapKeyCounts(obj.getRgdId(), ExpressionIndexCounts.UNIT_TPM);
 
-    List<String> include = new ArrayList<>(termLevelCnt.keySet());
-    HashMap<String,String> termCnt = new HashMap<>();   // term -> total count, as before
-    for( String term: include ) {
-        termCnt.put(term, String.valueOf(termLevelCnt.get(term).get(ExpressionIndexCounts.LEVEL_ALL)));
+    final MapManager mapManager = MapManager.getInstance();
+    final HashMap<Integer, edu.mcw.rgd.datamodel.Map> asmMaps = new HashMap<>();
+    for( Integer mk: asmRecordCnt.keySet() ) {
+        asmMaps.put(mk, mapManager.getMap(mk));
+    }
+
+    // Listed in the database's own assembly order (MapData rows are sorted by rank the same way
+    // on the position section), not by how many records each carries - so the list reads the same
+    // on every gene. An assembly MapManager does not know lands last under its bare map key.
+    List<Integer> asmKeys = new ArrayList<>(asmRecordCnt.keySet());
+    java.util.Collections.sort(asmKeys, new java.util.Comparator<Integer>() {
+        public int compare(Integer k1, Integer k2) {
+            edu.mcw.rgd.datamodel.Map m1 = asmMaps.get(k1), m2 = asmMaps.get(k2);
+            int r1 = m1==null ? Integer.MAX_VALUE : m1.getRank();
+            int r2 = m2==null ? Integer.MAX_VALUE : m2.getRank();
+            return r1!=r2 ? r1-r2 : k2-k1;   // same rank: newer map key first
+        }
+    });
+
+    // Opens on the primary reference assembly, which is what the rest of the report page shows
+    // positions on, so the two sections agree on what "this gene" means. A gene whose expression
+    // was never loaded against the reference assembly opens on the first one it does have.
+    int selectedMapKey = asmKeys.isEmpty() ? 0 : asmKeys.get(0);
+    for( Integer mk: asmKeys ) {
+        edu.mcw.rgd.datamodel.Map m = asmMaps.get(mk);
+        if( m!=null && m.isPrimaryRefAssembly() ) {
+            selectedMapKey = mk;
+            break;
+        }
+    }
+
+    // One fan-out for every assembly at once, so switching assemblies is a show/hide rather than
+    // a round trip - each assembly's ribbon is rendered here and only one is displayed.
+    java.util.LinkedHashMap<Integer, java.util.LinkedHashMap<String, java.util.Map<String,Integer>>> asmTermLevelCnt =
+            ExpressionIndexCounts.byTissuePerMapKey(obj.getRgdId(), terms,
+                    ExpressionIndexCounts.UNIT_TPM, asmKeys);
+
+    // The columns are shared across assemblies: a system is a column if ANY assembly has records
+    // for it, hatched empty on the assemblies that do not. Per-assembly column sets would renumber
+    // the columns - Rnor_6.0 carries a fraction of the systems GRCr8 does - so the ribbon would
+    // reshuffle under the cursor on every switch, and data-col would stop meaning one system.
+    List<String> include = new ArrayList<>();
+    for( String term: terms ) {
+        for( Integer mk: asmKeys ) {
+            if( exprLevels(asmTermLevelCnt, mk, term)!=null ) {
+                include.add(term);
+                break;
+            }
+        }
     }
 
     // mapKey -> assembly name. The index carries the numeric mapKey and nothing else, so the
     // names are emitted once here rather than looked up per row when the detail table loads.
     StringBuilder assemblyJs = new StringBuilder();
-    for( edu.mcw.rgd.datamodel.Map aMap: MapManager.getInstance().getAllMaps(obj.getSpeciesTypeKey()) ) {
+    for( edu.mcw.rgd.datamodel.Map aMap: mapManager.getAllMaps(obj.getSpeciesTypeKey()) ) {
         if( assemblyJs.length()>0 ) {
             assemblyJs.append(",");
         }
@@ -312,22 +439,33 @@
                 .append("\"");
     }
 
-    // rows to draw: keep a level only if some system has records at it
+    // rows to draw: keep a level only if some system on some assembly has records at it. Shared
+    // across assemblies for the same reason the columns are - the ribbon keeps its height, so
+    // switching assemblies does not move the rows the cursor is over.
     List<Integer> rows = new ArrayList<>();
     for( int r = 0; r < RIBBON_LEVELS.length; r++ ) {
-        for( String term: include ) {
-            Integer cnt = termLevelCnt.get(term).get(RIBBON_LEVELS[r]);
-            if( cnt!=null && cnt>0 ) {
-                rows.add(r);
+        boolean any = false;
+        for( Integer mk: asmKeys ) {
+            for( String term: include ) {
+                if( exprCount(asmTermLevelCnt, mk, term, RIBBON_LEVELS[r])>0 ) {
+                    any = true;
+                    break;
+                }
+            }
+            if( any ) {
                 break;
             }
         }
+        if( any ) {
+            rows.add(r);
+        }
     }
 
-    // Nothing to draw at all. ExpressionIndexCounts.byTissue returns only the systems that
-    // actually have records, so an empty map means this gene has no RNA-SEQ expression - every
+    // Nothing to draw at all. byTissuePerMapKey returns only the systems that actually have
+    // records, so no column on any assembly means this gene has no RNA-SEQ expression - every
     // gene of a species the expression index does not carry lands here, which is why a naked
     // mole rat or bonobo report used to show the heading, the instructions and a blank ribbon.
+    // asmKeys being empty lands here too, by the same route: no assemblies, no counts, no columns.
     //
     // Returning rather than wrapping the rest in a conditional: the ribbon, the Vue detail table
     // and the script that feeds them run past the try block sectionFooter.jsp closes, where the
@@ -335,7 +473,7 @@
     // take down all three. The outer "Expression" heading in main.jsp goes with it - geneReport.js
     // hideEmptySections() drops a .subTitle whose siblings hold no table or card.
     //
-    // Note this cannot tell "no data" from "the index did not answer": byTissue logs and omits a
+    // Note this cannot tell "no data" from "the index did not answer": the counts log and omit a
     // system whose fetch fails, so an index outage reads as an empty gene and hides the section
     // rather than showing an empty ribbon.
     if( include.isEmpty() ) {
@@ -347,7 +485,11 @@
     <div class="sectionHeading" id="rnaSeqExpression" style="padding-bottom: 5px">RNA-SEQ Expression</div>
     <input type="hidden" id="geneRgdId" value="<%=obj.getRgdId()%>">
     <label style="font-size: 16px">
-        <b>Rows are expression levels, columns are anatomical systems. Click a square for the detailed data table, filtered to that level. Darker means more expression records; hover for the exact count.</b>
+        <b>Rows are expression levels, columns are anatomical systems.<%
+            if( asmKeys.size()>1 ) {
+        %> Counts are for the selected assembly.<%
+            }
+        %> Click a square for the detailed data table, filtered to that level. Darker means more expression records; hover for the exact count.</b>
     </label>
     <br>
     <img id="spinner" style="display: none;" src="/rgdweb/images/spinner.gif">
@@ -360,6 +502,34 @@
         </label>
         <% } %>
     </form>
+
+    <%-- The assembly every panel below is showing, and what the download and the detail table
+         filter on. Always present, even for a gene loaded against one assembly only, so the
+         script has one place to read the selection from whether or not the radios are drawn. --%>
+    <input type="hidden" id="exprMapKey" value="<%=selectedMapKey%>">
+    <%
+        if( asmKeys.size()>1 ) {
+    %>
+    <fieldset id="exprAssemblyChoice">
+        <legend>Assembly</legend>
+        <%
+            for( Integer mk: asmKeys ) {
+                edu.mcw.rgd.datamodel.Map aMap = asmMaps.get(mk);
+                String asmName = org.apache.commons.text.StringEscapeUtils.escapeHtml4(
+                        (aMap!=null && aMap.getName()!=null) ? aMap.getName() : String.valueOf(mk));
+                int asmCnt = asmRecordCnt.get(mk)==null ? 0 : asmRecordCnt.get(mk);
+        %>
+        <label class="exprAssemblyOption">
+            <input type="radio" name="exprAssembly" value="<%=mk%>"
+                   <%=mk==selectedMapKey ? "checked" : ""%>
+                   onchange="selectExprAssembly(this.value)">
+            <%=asmName%>
+            <span class="exprAssemblyCount" title="expression records for this gene on <%=asmName%>"><%=String.format("%,d", asmCnt)%></span>
+        </label>
+        <% } %>
+    </fieldset>
+    <% } %>
+
     <div id="expresTable">
 
         <%
@@ -370,7 +540,9 @@
             // wc-ribbon defaults maxHeatLevel to 48 because it counts GO annotations
             // (tens); these are sample counts (thousands), so the ceiling is raised to
             // saturate near 8,000 instead of near 120. It stays a fixed ceiling, so a
-            // shade means the same count in every row and on every gene report.
+            // shade means the same count in every row, on every assembly and on every
+            // gene report - which is also what lets two assemblies be compared by eye
+            // rather than each being normalised to its own largest system.
             final double MAX_HEAT = 90.0;
             final int[] MIN_COLOR = {255, 255, 255};
             final int[] MAX_COLOR = {24, 73, 180};
@@ -393,59 +565,66 @@
             }
         %>
 
-        <div class="ribbon" id="exprRibbon">
+        <%-- One ribbon per assembly, all rendered, one shown. The counts behind them were all
+             fetched in the one fan-out above, so switching is a show/hide with no round trip;
+             and because the columns and rows are shared, the two ribbons are directly comparable
+             square for square. --%>
+        <% for( Integer mk: asmKeys ) { %>
+        <div class="exprAssemblyPanel" data-mapkey="<%=mk%>"<%=mk==selectedMapKey ? "" : " style=\"display: none;\""%>>
+            <div class="ribbon">
 
-            <div class="ribbonCategory">
-                <span class="ribbonRowLabel">&nbsp;</span>
-                <% for( int i = 0; i < include.size(); i++ ) { %>
-                <span class="ribbonCategoryLabel" data-col="<%=i%>"
-                      title="<%=ribbonLabel.get(i)%>"><%=ribbonLabel.get(i)%></span>
+                <div class="ribbonCategory">
+                    <span class="ribbonRowLabel">&nbsp;</span>
+                    <% for( int i = 0; i < include.size(); i++ ) { %>
+                    <span class="ribbonCategoryLabel" data-col="<%=i%>"
+                          title="<%=ribbonLabel.get(i)%>"><%=ribbonLabel.get(i)%></span>
+                    <% } %>
+                </div>
+
+                <% for( int r: rows ) { %>
+                <div class="ribbonRow">
+                    <%-- no title here: the range used to live in a tooltip and now sits on the row,
+                         so repeating it would only be read out twice --%>
+                    <span class="ribbonRowLabel"><%=RIBBON_LABELS[r]%><%
+                        if( !RIBBON_RANGES[r].isEmpty() ) {
+                    %> <span class="ribbonRowRange">(<%=RIBBON_RANGES[r]%>)</span><%
+                        }
+                    %></span>
+                    <%
+                        for( int i = 0; i < include.size(); i++ ) {
+                            String t = include.get(i);
+                            int cnt = exprCount(asmTermLevelCnt, mk, t, RIBBON_LEVELS[r]);
+                            String cntShown = String.format("%,d", cnt);
+
+                            double fraction = Math.min(10.0 * Math.log(cnt + 1.0), MAX_HEAT) / MAX_HEAT;
+                            StringBuilder rgb = new StringBuilder("rgb(");
+                            for( int c = 0; c < 3; c++ ) {
+                                rgb.append(Math.round(MIN_COLOR[c] + fraction * (MAX_COLOR[c] - MIN_COLOR[c])));
+                                rgb.append(c < 2 ? "," : ")");
+                            }
+
+                            if( cnt == 0 ) {
+                    %>
+                    <span class="ribbonCell ribbonCell--empty"
+                          title="<%=ribbonLabel.get(i)%> - no <%=RIBBON_LABELS[r].toLowerCase()%> records"></span>
+                    <%      } else { %>
+                    <span class="ribbonCell"
+                          data-col="<%=i%>"
+                          tabindex="0"
+                          role="button"
+                          aria-label="<%=ribbonLabel.get(i)%>, <%=RIBBON_LABELS[r]%>, <%=cntShown%> records"
+                          title="<%=ribbonLabel.get(i)%> - <%=cntShown%> <%=RIBBON_LABELS[r].toLowerCase()%> records"
+                          style="background-color: <%=rgb%>;"
+                          v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>','<%=cnt%>','<%=RIBBON_FILTERS[r]%>','<%=mk%>')"
+                          onclick="highlightCurrent('<%=i%>','<%=t%>');"
+                          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></span>
+                    <%      }
+                        } %>
+                </div>
                 <% } %>
             </div>
-
-            <% for( int r: rows ) { %>
-            <div class="ribbonRow">
-                <%-- no title here: the range used to live in a tooltip and now sits on the row,
-                     so repeating it would only be read out twice --%>
-                <span class="ribbonRowLabel"><%=RIBBON_LABELS[r]%><%
-                    if( !RIBBON_RANGES[r].isEmpty() ) {
-                %> <span class="ribbonRowRange">(<%=RIBBON_RANGES[r]%>)</span><%
-                    }
-                %></span>
-                <%
-                    for( int i = 0; i < include.size(); i++ ) {
-                        String t = include.get(i);
-                        Integer boxed = termLevelCnt.get(t).get(RIBBON_LEVELS[r]);
-                        int cnt = boxed==null ? 0 : boxed;
-                        String cntShown = String.format("%,d", cnt);
-
-                        double fraction = Math.min(10.0 * Math.log(cnt + 1.0), MAX_HEAT) / MAX_HEAT;
-                        StringBuilder rgb = new StringBuilder("rgb(");
-                        for( int c = 0; c < 3; c++ ) {
-                            rgb.append(Math.round(MIN_COLOR[c] + fraction * (MAX_COLOR[c] - MIN_COLOR[c])));
-                            rgb.append(c < 2 ? "," : ")");
-                        }
-
-                        if( cnt == 0 ) {
-                %>
-                <span class="ribbonCell ribbonCell--empty"
-                      title="<%=ribbonLabel.get(i)%> - no <%=RIBBON_LABELS[r].toLowerCase()%> records"></span>
-                <%      } else { %>
-                <span class="ribbonCell"
-                      data-col="<%=i%>"
-                      tabindex="0"
-                      role="button"
-                      aria-label="<%=ribbonLabel.get(i)%>, <%=RIBBON_LABELS[r]%>, <%=cntShown%> records"
-                      title="<%=ribbonLabel.get(i)%> - <%=cntShown%> <%=RIBBON_LABELS[r].toLowerCase()%> records"
-                      style="background-color: <%=rgb%>;"
-                      v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>','<%=cnt%>','<%=RIBBON_FILTERS[r]%>')"
-                      onclick="highlightCurrent('<%=i%>','<%=t%>');"
-                      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"></span>
-                <%      }
-                    } %>
-            </div>
-            <% } %>
         </div>
+        <% } %>
 
         <div id="exprLegend">
             <b>Expression records</b>
@@ -464,38 +643,54 @@
             <a href="javascript:void(0)" id="exprTableToggle" onclick="toggleExprTableView()">Show data table</a>
         </div>
 
+        <%-- The counts behind the ribbon as numbers, also one table per assembly. The wrapper
+             carries the show/hide the toggle link drives; the panels inside it follow the
+             assembly, so the two are independent - picking another assembly does not collapse
+             a table the user opened. --%>
         <div id="exprTableView" style="display: none;">
-            <table id="exprData" name="exprData">
-                <tr>
-                    <th scope="col">System</th>
-                    <% for( int r: rows ) { %>
-                    <th scope="col" class="exprNum" title="<%=RIBBON_TITLES[r]%>"><%=RIBBON_LABELS[r]%></th>
+            <% for( Integer mk: asmKeys ) { %>
+            <div class="exprAssemblyPanel" data-mapkey="<%=mk%>"<%=mk==selectedMapKey ? "" : " style=\"display: none;\""%>>
+                <table class="exprData" name="exprData">
+                    <tr>
+                        <th scope="col">System</th>
+                        <% for( int r: rows ) { %>
+                        <th scope="col" class="exprNum" title="<%=RIBBON_TITLES[r]%>"><%=RIBBON_LABELS[r]%></th>
+                        <% } %>
+                    </tr>
+                    <% for( int i = 0; i < include.size(); i++ ) {
+                           String t = include.get(i);
+                           int allCnt = exprCount(asmTermLevelCnt, mk, t, ExpressionIndexCounts.LEVEL_ALL);
+                           java.util.Map<String,Integer> levelCnt = exprLevels(asmTermLevelCnt, mk, t); %>
+                    <tr data-col="<%=i%>"
+                        <%-- a system this assembly has nothing for opens nothing: the whole row is
+                             dashes, and the detail table would come back empty --%>
+                        <% if( allCnt>0 ) { %>
+                        v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>','<%=allCnt%>','','<%=mk%>')"
+                        onclick="highlightCurrent('<%=i%>','<%=t%>');"
+                        <% } %>>
+                        <td><%=ribbonLabel.get(i)%></td>
+                        <% for( int r: rows ) {
+                               Integer boxed = levelCnt==null ? null : levelCnt.get(RIBBON_LEVELS[r]); %>
+                        <td class="exprNum"><%=boxed==null ? "&ndash;" : String.format("%,d", boxed)%></td>
+                        <% } %>
+                    </tr>
                     <% } %>
-                </tr>
-                <% for( int i = 0; i < include.size(); i++ ) {
-                       String t = include.get(i); %>
-                <tr data-col="<%=i%>"
-                    v-on:click="createTable('<%=t%>','<%=rgdId.getRgdId()%>','<%=termCnt.get(t)%>','')"
-                    onclick="highlightCurrent('<%=i%>','<%=t%>');">
-                    <td><%=ribbonLabel.get(i)%></td>
-                    <% for( int r: rows ) {
-                           Integer boxed = termLevelCnt.get(t).get(RIBBON_LEVELS[r]); %>
-                    <td class="exprNum"><%=boxed==null ? "&ndash;" : String.format("%,d", boxed)%></td>
-                    <% } %>
-                </tr>
-                <% } %>
-            </table>
+                </table>
+            </div>
+            <% } %>
         </div>
 
         <input type="button" id="hideBtn1" onclick="hideTable()" style="display: none;top: 5px;position: relative;" value="Hide Table">
         <div id="coolTable" style="display: none; overflow-y: auto; padding-top: 10px;">
-            <%-- The ribbon square is the filter: its system and its level go into the request,
-                 so the table holds exactly what the square's tooltip counted. This used to be a
-                 row of level checkboxes filtering the loaded rows client side, which could
-                 disagree with the tooltip; it is a caption now, not a control. --%>
+            <%-- The ribbon square is the filter: its system, its level and the assembly it was
+                 drawn for all go into the request, so the table holds exactly what the square's
+                 tooltip counted. This used to be a row of level checkboxes filtering the loaded
+                 rows client side, which could disagree with the tooltip; it is a caption now,
+                 not a control. --%>
             <div id="exprTableCaption">
                 <b>{{ activeSystem }}</b>
                 <span>&mdash; {{ activeLevel ? activeLevelDescription : 'all expression levels' }}</span>
+                <span v-if="activeAssembly">&mdash; {{ activeAssembly }}</span>
                 <span class="exprCaptionCount">{{ rangeLabel }}</span>
                 <span class="exprCaptionHint">Click another square in the ribbon to change the system or the level. Sorting a column orders the page shown.</span>
             </div>
@@ -729,9 +924,13 @@
                 // what the open detail table is showing, for the caption; "" level = every level
                 activeSystem: '',
                 activeLevel: '',
+                activeAssembly: '',
                 // the query the open table stands for, kept so a page change can re-issue it
                 activeTerm: '',
                 activeRgdId: '',
+                // the assembly the open query is filtered to - always set, since every square is
+                // drawn for one assembly and the counts only agree with the index if it is sent
+                activeMapKey: '',
                 // server side paging state. currentPage is 1-based, b-pagination's convention;
                 // the request wants a 0-based page, so loadPage subtracts.
                 currentPage: 1,
@@ -887,13 +1086,19 @@
             // v-on listener (Vue's attrs module runs before its events module), so an onclick
             // that set the filter ran first and was wiped by this method's own reset, and every
             // level square opened the whole system.
-            createTable(termAcc,rgdId,count,level){
+            //
+            // mapKey is a parameter for the same reason: a square belongs to one assembly, and
+            // sending it is what keeps the table the answer to the square that was clicked rather
+            // than to every assembly summed together.
+            createTable(termAcc,rgdId,count,level,mapKey){
                 // clear table if full
                 // termAcc = termAcc.replace(':','%3A')
                 this.activeSystem = SYSTEM_LABELS[termAcc] || termAcc;
                 this.activeLevel = level || '';
                 this.activeTerm = termAcc;
                 this.activeRgdId = rgdId;
+                this.activeMapKey = (mapKey == null) ? '' : String(mapKey);
+                this.activeAssembly = ASSEMBLY_NAMES[this.activeMapKey] || this.activeMapKey;
                 var download = document.getElementById("downloadTerm"+termAcc);
                 download.style.display = 'block';
 
@@ -1132,9 +1337,9 @@
                 // return someItems;
             },
             // One page of the open query, from the expression index: the same index, gene, system,
-            // unit and level the ribbon square was drawn from, so the totals agree with the
-            // square's tooltip. Descendant systems are rolled up by the index. Levels are indexed
-            // lower case, and expressionLevel is an exact match.
+            // unit, level and assembly the ribbon square was drawn from, so the totals agree with
+            // the square's tooltip. Descendant systems are rolled up by the index. Levels are
+            // indexed lower case, and expressionLevel is an exact match.
             //
             // Only the page being looked at is fetched. The whole result used to come down in one
             // request - which meant a system with more than 6,000 records was refused outright
@@ -1168,6 +1373,7 @@
                         + "&tissueIds=" + encodeURIComponent(this.activeTerm)
                         + "&units=" + encodeURIComponent(EXPR_UNIT)
                         + (this.activeLevel ? "&expressionLevel=" + encodeURIComponent(this.activeLevel.toLowerCase()) : "")
+                        + (this.activeMapKey ? "&mapKey=" + encodeURIComponent(this.activeMapKey) : "")
                         + "&page=" + (page - 1)   // the endpoint pages from 0, the pager from 1
                         + "&size=" + this.perPage,
                     dataType: "json",
@@ -1207,13 +1413,33 @@
                 this.currentPage = 1;
                 this.loadPage();
             },
+            // The assembly radio moved. The ribbons are already drawn for every assembly, so this
+            // only has to re-aim the open detail table; selectExprAssembly() does the show/hide.
+            //
+            // The square stays selected rather than the table closing: the columns and rows are
+            // the same on every assembly, so "liver, medium" means the same thing on the new one
+            // and showing it there is the comparison the radio was clicked for. The seeded total
+            // is dropped because it came from the old assembly's square - the response carries
+            // the new one, and a system this assembly has no records for honestly reads as 0.
+            switchAssembly(mapKey){
+                this.activeMapKey = (mapKey == null) ? '' : String(mapKey);
+                this.activeAssembly = ASSEMBLY_NAMES[this.activeMapKey] || this.activeMapKey;
+                if (!this.activeTerm) {
+                    return;              // no table open, nothing to reload
+                }
+                this.totalRows = 0;
+                this.currentPage = 1;
+                this.loadPage();
+            },
             // Back to no open query, for when the table is hidden.
             resetTable(){
                 this.loadSeq++;          // drop any response still in flight
                 this.activeTerm = '';
                 this.activeRgdId = '';
+                this.activeMapKey = '';
                 this.activeSystem = '';
                 this.activeLevel = '';
+                this.activeAssembly = '';
                 this.expItems = [];
                 this.totalRows = 0;
                 this.currentPage = 1;
@@ -1274,7 +1500,10 @@
                     .post('/rgdweb/report/gene/downloadExpression.html',
                         {
                             rgdId: geneId,
-                            term: "UBERON:9999999"
+                            term: "UBERON:9999999",
+                            // the assembly on screen, so the csv holds the records the ribbon
+                            // just counted rather than the same sample once per assembly
+                            mapKey: selectedExprMapKey()
                         },
                         {responseType: 'blob'})
                     .then(function (response) {
@@ -1323,7 +1552,8 @@
                     .post('/rgdweb/report/gene/downloadExpression.html',
                         {
                             rgdId: geneId,
-                            term: termAcc
+                            term: termAcc,
+                            mapKey: selectedExprMapKey()
                         },
                         {responseType: 'blob'})
                     .then(function (response) {
@@ -1405,12 +1635,34 @@
 
     // marks the system whose detail table is open, in the heatmap and in the table
     // view at once. hideTable() calls this with -1 to clear the selection.
+    //
+    // Every assembly's panel is marked, not only the visible one: the columns mean the same
+    // system on all of them, so the selection is still on the right column after a switch.
     function highlightCurrent(colNum, termAcc) {
-        var marks = document.querySelectorAll("#exprRibbon [data-col], #exprTableView tr[data-col]");
+        var marks = document.querySelectorAll(".exprAssemblyPanel [data-col], #exprTableView tr[data-col]");
         for (var i = 0; i < marks.length; i++) {
             var selected = String(marks[i].getAttribute("data-col")) === String(colNum);
             marks[i].classList.toggle("is-selected", selected);
         }
+    }
+
+    // Shows the picked assembly's ribbon and counts table and hides the others, then points the
+    // open detail table at it. Every panel is already in the page, so there is nothing to fetch
+    // for the plot; only the detail table, which is paged server side, reloads.
+    function selectExprAssembly(mapKey) {
+        document.getElementById("exprMapKey").value = mapKey;
+        var panels = document.querySelectorAll(".exprAssemblyPanel");
+        for (var i = 0; i < panels.length; i++) {
+            var mine = String(panels[i].getAttribute("data-mapkey")) === String(mapKey);
+            panels[i].style.display = mine ? "block" : "none";
+        }
+        tableVue.switchAssembly(mapKey);
+    }
+
+    // the assembly every part of this section is currently showing
+    function selectedExprMapKey() {
+        var input = document.getElementById("exprMapKey");
+        return input ? input.value : "";
     }
 
     function toggleExprTableView() {
