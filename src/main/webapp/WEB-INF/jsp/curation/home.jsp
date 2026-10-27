@@ -87,6 +87,11 @@ Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbs
             </tr>
             <tr>
                 <td>
+                    <a v-bind:href="'/rgdweb/curation/expression/missingStudyReferences.html?token='+token+'&login='+name">Studies Missing References</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <a v-bind:href="'/rgdweb/curation/geneBinning/index.html?accessToken='+token">Gene Binning</a>
                 </td>
             </tr>

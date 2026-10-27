@@ -54,6 +54,7 @@
 				<prop key="curation/expression/experiments.html">GeoExperimentController</prop>
                 <prop key="curation/expression/editSamples.html">SampleEditController</prop>
                 <prop key="curation/expression/downloadMetaData.html">DownloadExpressionMetaDataController</prop>
+                <prop key="curation/expression/missingStudyReferences.html">MissingStudyReferencesController</prop>
 
 
                 <prop key="curation/phenominer/reference.html">PhenominerReferenceController</prop>
@@ -451,6 +452,7 @@
 	<bean id="GeoExperimentController" class="edu.mcw.rgd.expression.GeoExperimentController" />
     <bean id="SampleEditController" class="edu.mcw.rgd.expression.SampleEditController"/>
     <bean id="DownloadExpressionMetaDataController" class="edu.mcw.rgd.expression.DownloadMetaDataController"/>
+    <bean id="MissingStudyReferencesController" class="edu.mcw.rgd.expression.MissingStudyReferencesController"/>
     
     <!-- RGD Entity Tagger Controllers - imported from curation-context.xml -->
     
