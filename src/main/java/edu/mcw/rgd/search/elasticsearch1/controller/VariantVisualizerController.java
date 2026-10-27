@@ -81,7 +81,7 @@ public class VariantVisualizerController implements Controller {
         String encodedGeneList = URLEncoder.encode(geneList.toString(), StandardCharsets.UTF_8);
         String encodedMapKey = mapKey != null ? URLEncoder.encode(mapKey, StandardCharsets.UTF_8) : "";
         String encodedSample = sample != null ? URLEncoder.encode(sample, StandardCharsets.UTF_8) : "";
-        String redirectUrl= RgdContext.getHostname() + "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&con=&depthLowBound=8&depthHighBound=&sample1="+encodedSample+"&mapKey=" + encodedMapKey + "&geneList=" + encodedGeneList;
+        String redirectUrl= "/rgdweb/front/variants.html?start=&stop=&chr=&geneStart=&geneStop=&con=&depthLowBound=8&depthHighBound=&sample1="+encodedSample+"&mapKey=" + encodedMapKey + "&geneList=" + encodedGeneList;
                 //"/rgdweb/front/config.html?geneList="+geneList+"&sample1="+sample+"&mapKey="+mapKey;
         response.sendRedirect(redirectUrl);
         return null;
