@@ -35,10 +35,7 @@ public class ElasticSearchController implements Controller {
 
     private static final Logger logger = Logger.getLogger(ElasticSearchController.class.getName());
 
-    /** Was 1, which meant only an empty term was turned away while the error message promised 2.
-     *  A single character general search does not come back - it was still running after four
-     *  minutes - so the message was describing the rule that was wanted and this was not it. */
-    private static final int MIN_SEARCH_LENGTH = 2;
+    private static final int MIN_SEARCH_LENGTH = 1;
     private static final int MAX_SEARCH_LENGTH = 200;
     private static final int DEFAULT_PAGE_SIZE = 50;
     private static final String DEFAULT_SPECIES = "rat";
@@ -66,25 +63,34 @@ public class ElasticSearchController implements Controller {
             return Collections.emptyMap();
         }
     }
+
+  //  @Override
+    public Report getReport(edu.mcw.rgd.process.search.SearchBean search, HttpRequestFacade req) throws Exception {
+        return null;
+    }
+
+ //   @Override
+    public String getViewUrl() throws Exception {
+        return null;
+    }
+
+ //   @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        // HttpRequestFacade.getParameter returns "" rather than null for a parameter that is not
-        // there, but this is the first thing every request to this controller touches, so it does
-        // not lean on that
-        String searchTerm = searchTerm(req.getParameter("term"));
+        String searchTerm = req.getParameter("term").trim();
+        String category = req.getParameter("category");
 
-        // Normalized before it is validated, because the normalized term is what the search
-        // actually runs on and the two lengths differ: "RGD" is three characters that reduce to
-        // nothing, "RGD:2" is five that reduce to one. Validating what was typed let both past.
-        String term = normalizeSearchTerm(searchTerm);
-
-        String validationError = validateSearchTerm(searchTerm, term, isPositionalSearch(req));
+        // Validate search term
+        String validationError = validateSearchTerm(searchTerm, category);
         if (validationError != null) {
             request.setAttribute("error", Collections.singletonList(validationError));
             request.getServletContext().getRequestDispatcher("/").forward(request, response);
             return null;
         }
+
+        // Normalize search term
+        String term = normalizeSearchTerm(searchTerm);
 
         SearchService service = new SearchService();
         SearchBean searchBean = service.getSearchBean(req, term);
@@ -107,110 +113,27 @@ public class ElasticSearchController implements Controller {
         return new ModelAndView(selectView(req, searchBean), "model", model);
     }
 
-    /** the typed term, never null and with the surrounding whitespace off */
-    private String searchTerm(String raw) {
-        return raw == null ? "" : raw.trim();
+    private String validateSearchTerm(String searchTerm, String category) {
+        int termLength = searchTerm.replaceAll("\\*", "").length();
+        boolean isGeneralCategory = isBlank(category) || GENERAL.equalsIgnoreCase(category);
+
+        if (termLength > MAX_SEARCH_LENGTH) {
+            return "Search term must be less than 200 characters long. Please search again.";
+        }
+        if (termLength < MIN_SEARCH_LENGTH && isGeneralCategory) {
+            return "Search term must be at least 2 characters long. Please search again.";
+        }
+        return null;
     }
 
-    /**
-     * A region search carries its query in chr/start/stop and its term is legitimately empty -
-     * that is exactly what buildElasticSearchUrl() in RGDSearchController emits for one. So the
-     * minimum length cannot apply to it.
-     *
-     * This replaces a test on the category. The minimum used to be skipped for every category
-     * but "general", which was far wider than the case it was protecting: "?category=Gene" with
-     * no term and no position ran as a match-all. "all" is not a chromosome, which is how
-     * SearchService reads it too.
-     */
-    private boolean isPositionalSearch(HttpRequestFacade req) {
-        String chr = req.getParameter("chr");
-        boolean hasChr = !isBlank(chr) && !ALL.equalsIgnoreCase(chr);
-        return hasChr || !isBlank(req.getParameter("start")) || !isBlank(req.getParameter("stop"));
-    }
-
-    /**
-     * @param typed      what was entered, which is what the ceiling applies to
-     * @param normalized what the search will run on, which is what the floor applies to
-     * @param positional whether chr/start/stop carry the query, in which case an empty term is
-     *                   the normal case rather than a mistake
-     */
-    private String validateSearchTerm(String typed, String normalized, boolean positional) {
-
-        // the ceiling is on what was typed, because it is there to bound the input rather than to
-        // judge how much of it the search can use
-        if (typed.length() > MAX_SEARCH_LENGTH) {
-            return "That search is too long. Please shorten it to " + MAX_SEARCH_LENGTH
-                    + " characters or fewer and search again.";
-        }
-        if (positional || searchableLength(normalized) >= MIN_SEARCH_LENGTH) {
-            return null;
-        }
-
-        // One message per reason the term came up short. They used to share "must be at least 2
-        // characters long", which reads as plainly wrong to anyone who typed more than that:
-        // "a*" and "%a" are two characters and "RGD" is three, and all three land here.
-        //
-        // None of these quote what was typed. headerarea.jsp, where this is rendered, builds the
-        // span by concatenation, and other pages render the same attribute, so a term echoed back
-        // into the message could come back as markup.
-        if (typed.indexOf('*') >= 0 || typed.indexOf('%') >= 0) {
-            return "A wildcard (* or %) cannot stand in for the characters you search on. Please "
-                    + "enter at least " + MIN_SEARCH_LENGTH + " letters or numbers with it - "
-                    + "\"ab*\" rather than \"a*\".";
-        }
-        if (normalized.isEmpty() && !typed.isEmpty()) {
-            // what is left after the RGD prefix comes off - "RGD", "rgd:", "RGD_"
-            return "Please include the ID digits after \"RGD\" - for example RGD:2004.";
-        }
-        // "letters or numbers", not "characters": punctuation does not narrow a search, so "a."
-        // is as short as "a" as far as the index is concerned
-        return "Please enter at least " + MIN_SEARCH_LENGTH + " letters or numbers to search.";
-    }
-
-    /**
-     * How much of a term the search can actually narrow on: letters and digits only.
-     *
-     * Discounting "*" alone was not enough. A wildcard is not the only character that contributes
-     * nothing - the analyzer drops punctuation as well, so "%a" reaches Elasticsearch as the one
-     * character "a", and a one character search does not come back. ("%ab" and "ab" return the
-     * same results in the same time, which is what showed the "%" was being ignored.) Counting
-     * only letters and digits covers *, %, quotes, hyphens and anything else in a single rule,
-     * instead of a list of characters to remember.
-     */
-    private static int searchableLength(String term) {
-        if (term == null) {
-            return 0;
-        }
-        int count = 0;
-        for (int i = 0; i < term.length(); i++) {
-            if (Character.isLetterOrDigit(term.charAt(i))) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /**
-     * Drops an "RGD" identifier prefix, so "RGD:2004", "RGD_2004", "RGD 2004" and "RGD2004" all
-     * search as 2004, and lower cases the rest.
-     *
-     * Two things were wrong before. The prefix tests were case sensitive while the fallback lower
-     * cased, so the two disagreed: "RGD:2004" came out as "2004" but "rgd:2004" fell through to
-     * the fallback and came out as ":2004" - a different search for the same thing typed in
-     * another case. And the fallback ran replaceAll("rgd", " ") across the whole string rather
-     * than the prefix, so any term that merely contained those three letters was rewritten:
-     * "Nrgdx" became "n x". Case is folded once up front now, and only a prefix is removed.
-     */
     private String normalizeSearchTerm(String searchTerm) {
-        String term = searchTerm == null ? "" : searchTerm.trim().toLowerCase();
-
-        if (term.startsWith("rgd:") || term.startsWith("rgd_") || term.startsWith("rgd ")) {
-            return term.substring(4).trim();
+        if (searchTerm.startsWith("RGD:") || searchTerm.startsWith("RGD_") || searchTerm.startsWith("RGD ")) {
+            return searchTerm.substring(4).toLowerCase();
         }
-        if (term.startsWith("rgd")) {
-            return term.substring(3).trim();
+        if (searchTerm.startsWith("RGD")) {
+            return searchTerm.substring(3).toLowerCase();
         }
-        return term;
+        return searchTerm.toLowerCase().replaceAll("rgd", " ").trim();
     }
 
     private ModelMap buildSearchModel(HttpServletRequest request, HttpRequestFacade req,
@@ -330,61 +253,37 @@ public class ElasticSearchController implements Controller {
         }
         return null;
     }
-    /**
-     * Whether the number is an expression study id.
-     *
-     * It is only ever used to suppress a redirect, never to make one: getRedirectForRgdId() had a
-     * branch building an /report/expressionStudy/main.html url, but reaching it required this to
-     * be true, and that case returned null before getting there. So a study id has always fallen
-     * through to the search. The dead branch is gone rather than left looking live - if a study id
-     * should redirect to its report, that is a feature to add deliberately.
-     */
     private boolean isStudyId(int id) throws Exception {
         StudySampleMetadataDAO dao=new StudySampleMetadataDAO();
         List<StudySampleMetadata> studies=dao.getStudySampleMetadata(id);
         return studies!=null && studies.size()>0;
 
     }
-    /**
-     * The report page a purely numeric term goes straight to, or null to let the search answer.
-     *
-     * getRgdId2() returns null for a number that is not an RGD id - which is most numbers people
-     * type - and the status was read off it before that was checked, so searching for "22" threw
-     * an NPE. It was caught and logged by getRedirectUrl(), so the search still ran, but every
-     * such search left a warning and a stack trace in the log.
-     *
-     * The null checks that followed could not help: inside "if (id.getObjectStatus()...)" the id
-     * is never null, so "id == null && !studyId" was unreachable - and with id non-null the whole
-     * condition reduced to "studyId". A number that is both an RGD id and a study id therefore
-     * falls through to the search, which is the behaviour kept here. See the note on isStudyId().
-     */
     private String getRedirectForRgdId(String term) throws Exception {
         int rgdId = Integer.parseInt(term);
-
         RGDManagementDAO dao = new RGDManagementDAO();
         RgdId id = dao.getRgdId2(rgdId);
+        if(id.getObjectStatus().equalsIgnoreCase("active")) {
+            boolean studyId = isStudyId(rgdId);
+            if ((id == null && !studyId) || (id != null && studyId)) {
+                return null;
+            }
 
-        // not an RGD id at all, or not an active one: nothing to go to
-        if (id == null || !"active".equalsIgnoreCase(id.getObjectStatus())) {
-            return null;
-        }
+            String url;
+            // Non-human variants use different report page
+            if (id.getSpeciesTypeKey() != 1 && id.getObjectKey() == 7) {
+                url = "/rgdweb/report/variants/main.html?id=" + id.getRgdId();
+            } else {
+                if (!studyId)
+                    url = Link.it(rgdId, id.getObjectKey());
+                else
+                    url = "/rgdweb/report/expressionStudy/main.html?id=" + term;
+            }
 
-        // also a study id, so there are two places it could mean: let the search show both
-        if (isStudyId(rgdId)) {
-            return null;
-        }
-
-        String url;
-        if (id.getSpeciesTypeKey() != 1 && id.getObjectKey() == 7) {
-            // non-human variants have their own report page
-            url = "/rgdweb/report/variants/main.html?id=" + id.getRgdId();
-        } else {
-            url = Link.it(rgdId, id.getObjectKey());
-        }
-
-        // Link.it hands back just the id when it has no page for that object type
-        if (url != null && !url.equals(String.valueOf(rgdId))) {
-            return buildFullUrl(url);
+            // Only redirect if Link.it returned a valid URL (not just the ID)
+            if (url != null && !url.equals(String.valueOf(rgdId))) {
+                return buildFullUrl(url);
+            }
         }
         return null;
     }
@@ -413,7 +312,8 @@ public class ElasticSearchController implements Controller {
     }
 
     private String buildFullUrl(String path) {
-        return (path != null) ? RgdContext.getHostname() + path : null;
+//        return (path != null) ? RgdContext.getHostname() + path : null;
+        return (path != null) ?path : null;
     }
     private String getUrlFromSearchHit(SearchResponse<java.util.Map> response, HttpServletRequest request, String term) {
         TotalHits totalHits = response.hits().total();
