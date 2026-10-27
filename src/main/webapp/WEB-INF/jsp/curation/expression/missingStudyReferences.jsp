@@ -25,6 +25,32 @@
     <p>Studies whose GEO series has a PubMed ID in RNA_SEQ but no entry in STUDY_REFERENCES:
         <b><%=studies.size()%></b> studies.
         A PubMed ID with no RGD reference has to be imported before it can be linked to the study.</p>
+<%
+    int studiesToFix = 0;
+    int referencesToAdd = 0;
+    for( List<String> studyPmids: studies.values() ) {
+        java.util.Set<Integer> studyRefRgdIds = new java.util.HashSet<>();
+        for( String pmid: studyPmids ) {
+            if( refRgdIds.get(pmid) != null ) {
+                studyRefRgdIds.add(refRgdIds.get(pmid));
+            }
+        }
+        if( !studyRefRgdIds.isEmpty() ) {
+            studiesToFix++;
+            referencesToAdd += studyRefRgdIds.size();
+        }
+    }
+    String token = request.getParameter("token");
+%>
+    <form method="post" action="missingStudyReferences.html"
+          onsubmit="return confirm('Add <%=referencesToAdd%> study references to <%=studiesToFix%> studies?');">
+        <input type="hidden" name="act" value="fixAll"/>
+        <% if( token != null ) { %><input type="hidden" name="token" value="<%=org.apache.commons.text.StringEscapeUtils.escapeHtml4(token)%>"/><% } %>
+        <button type="submit" class="btn btn-info btn-md" <%=referencesToAdd==0 ? "disabled" : ""%>>
+            Fix All: add <%=referencesToAdd%> study references to <%=studiesToFix%> studies</button>
+        <span style="margin-left:10px;">PubMed IDs that are not in RGD are skipped.</span>
+    </form>
+    <br>
 
     <table id="missingStudyReferences" class="tablesorter">
         <thead><tr>
