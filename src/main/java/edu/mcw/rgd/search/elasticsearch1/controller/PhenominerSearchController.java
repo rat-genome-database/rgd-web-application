@@ -191,10 +191,10 @@ public class PhenominerSearchController implements Controller {
           if(docId.contains(":"))
               redirUrl = Link.ontAnnot(docId);
       }
-            if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
-              redirUrl = RgdContext.getHostname() + redirUrl;
-
-            }
+//            if(redirUrl!=null && !redirUrl.equals(String.valueOf(rgdIdValue))){
+//              redirUrl = RgdContext.getHostname() + redirUrl;
+//
+//            }
         } catch (Exception e) {e.printStackTrace();}
 
         return redirUrl;
