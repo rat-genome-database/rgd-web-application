@@ -46,7 +46,7 @@
 <%
     String pageHeader="Create GEO Samples";
     String pageTitle="Create GEO Samples";
-    String headContent="Create GEO Samples";
+    String headContent="";
     String pageDescription = "Create GEO Samples";
 %>
 <%@ include file="/common/headerarea.jsp"%>

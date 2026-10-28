@@ -12,7 +12,7 @@
 
 <%
     String pageTitle = " Phenotype Images Uploader - " + RgdContext.getLongSiteName(request);
-    String headContent = "Phenotype Images Uploader";
+    String headContent = "";
     String pageDescription = "Phenotype Images Uploader";
 
 %>

@@ -6,7 +6,7 @@
 
 <%
     String pageTitle = "Rat Genome Database Pathway";
-    String headContent = "Rat Genome Database Pathway";
+    String headContent = "";
     String pageDescription = "Rat Genome Database Pathway";
     //List<String> pwList = new ArrayList<String>();
 

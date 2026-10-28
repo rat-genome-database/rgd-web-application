@@ -15,7 +15,7 @@
 <%@ page import="java.util.List" %>
 <%
     String pageTitle = "Rat Genome Database Pathway";
-    String headContent = "Rat Gemnome Database Pathway";
+    String headContent = "";
     String pageDescription = "Rat Genome Database Pathway";
 %>
 <%@ include file="/common/headerarea.jsp"%>

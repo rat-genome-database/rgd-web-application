@@ -4,7 +4,7 @@
 
 <%
 String pageTitle = "test";
-String headContent = "test";
+String headContent = "";
 String pageDescription = "test";
 
 %>

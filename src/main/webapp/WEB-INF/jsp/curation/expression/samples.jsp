@@ -53,7 +53,7 @@
 <%
     String pageHeader="View GEO Samples";
     String pageTitle="View GEO Samples";
-    String headContent="View GEO Samples";
+    String headContent="";
     String pageDescription = "View GEO Samples";
     String title = (String) request.getAttribute("title");
     String gse = (String) request.getAttribute("gse");
