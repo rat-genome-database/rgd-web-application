@@ -2,12 +2,14 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
 <%@ page import="edu.mcw.rgd.dao.impl.variants.VariantTranscriptDao" %>
+<%@ page import="edu.mcw.rgd.dao.impl.variants.PolyphenDAO" %>
 <%@ page import="edu.mcw.rgd.datamodel.variants.VariantTranscript" %>
-<%@ page import="edu.mcw.rgd.process.mapping.MapManager" %>
+<%@ page import="edu.mcw.rgd.datamodel.prediction.PolyPhenPrediction" %>
 <%@ page import="java.util.ArrayList" %>
 <%
     Map map = mapDAO.getMap(mapKey);
     VariantTranscriptDao vtdao = new VariantTranscriptDao();
+    PolyphenDAO polydao = new PolyphenDAO();
     int objRgdId = 0;
     String paramId="" , start="", stop="", chr="";
     int curPage = Integer.parseInt(request.getAttribute("p").toString());
@@ -219,22 +221,12 @@
         </tr>
         </thead>
         <tbody>
-        <%
-            // transcripts (each row carries its PolyPhen prediction) for all variants on the page, one query per map
-            java.util.Map<Integer, List<Long>> variantIdsByMap = new java.util.HashMap<>();
-            for (VariantMapData v : vars) {
-                variantIdsByMap.computeIfAbsent(v.getMapKey(), k -> new ArrayList<>()).add(v.getId());
-            }
-            java.util.Map<Integer, java.util.Map<Long, List<VariantTranscript>>> transcriptsByMap = new java.util.HashMap<>();
-            for (java.util.Map.Entry<Integer, List<Long>> e : variantIdsByMap.entrySet()) {
-                transcriptsByMap.put(e.getKey(), vtdao.getVariantTranscripts(e.getValue(), e.getKey()));
-            }
-
-            for (VariantMapData v : vars) {
-            Map m = MapManager.getInstance().getMap(v.getMapKey());
+        <% for (VariantMapData v : vars) {
+            Map m = mapDAO.getMap(v.getMapKey());
 //            VariantMapData v = vars.get(i);
-            List<VariantTranscript> vts = transcriptsByMap.get(v.getMapKey()).getOrDefault(v.getId(), new ArrayList<>());
+            List<VariantTranscript> vts = vtdao.getVariantTranscripts(v.getId(),v.getMapKey());
 //            VariantTranscript transcript = null;
+            List<PolyPhenPrediction> predictions = null;
             List<String> locNames = new ArrayList<>();
             String locName = null;
             String isDamaging = null;
@@ -251,17 +243,20 @@
                             locName = type;
                     }
                 }
-                String prediction = vt.getPolyphenStatus();
-                if ("probably damaging".equals(prediction)) {
-                    isDamaging = prediction;
-                }
-                else if ("possibly damaging".equals(prediction)){
-                    if (Utils.isStringEmpty(isDamaging) || Utils.stringsAreEqual(isDamaging,"benign"))
-                        isDamaging = prediction;
-                }
-                else if ("benign".equals(prediction)){
-                    if (Utils.isStringEmpty(isDamaging))
-                        isDamaging = prediction;
+                predictions = polydao.getPloyphenDataByVariantId((int) v.getId(), vt.getTranscriptRgdId());
+                for (PolyPhenPrediction p : predictions){
+                    if (p.getPrediction().equals("probably damaging")) {
+                        isDamaging = p.getPrediction();
+                        break;
+                    }
+                    else if (p.getPrediction().equals("possibly damaging")){
+                        if (Utils.isStringEmpty(isDamaging) || Utils.stringsAreEqual(isDamaging,"benign"))
+                            isDamaging = p.getPrediction();
+                    }
+                    else if (p.getPrediction().equals("benign")){
+                        if (Utils.isStringEmpty(isDamaging))
+                            isDamaging = p.getPrediction();
+                    }
                 }
             }
         %>

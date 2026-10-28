@@ -97,10 +97,8 @@
             if( !Utils.isStringEmpty(obj.getPeakRsId()) ) {
                 heroChips.add("|peak " + obj.getPeakRsId());
             }
-            // the registration call to action used to float on its own line above the tab strip.
-            // It points at the contact page, not the old qtlRegistrationIndex.cgi, which no
-            // longer exists - this branch retired that link before the hero was introduced.
-            heroExtraActions = "<a class=\"rgd-action\" href=\"/rgdweb/contact/contactus.html\">"
+            // the registration call to action used to float on its own line above the tab strip
+            heroExtraActions = "<a class=\"rgd-action\" href=\"/tools/qtls/qtlRegistrationIndex.cgi\">"
                     + "<i class=\"fa fa-plus-circle\"></i>QTL Registration</a>";
         %>
         <%@ include file="../reportHero.jsp"%>
@@ -193,5 +191,5 @@
     <%@ include file="../reportFooter.jsp"%>
     <%@ include file="/common/footerarea.jsp"%>
 <script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
-<script src="/rgdweb/js/reportPages/reportModernUx.js?v=9"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=10"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>

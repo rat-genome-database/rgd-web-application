@@ -1,5 +1,14 @@
 <%@ page import="edu.mcw.rgd.reporting.SearchReportStrategy" %>
 <%@ page import="edu.mcw.rgd.datamodel.Reference" %>
+<%@ page import="dev.langchain4j.model.ollama.OllamaChatModel" %>
+<%@ page import="org.json.JSONObject" %>
+<%@ page import="org.json.JSONArray" %>
+<%@ page import="java.net.http.HttpRequest" %>
+<%@ page import="java.net.URI" %>
+<%@ page import="java.time.Duration" %>
+<%@ page import="java.net.http.HttpClient" %>
+<%@ page import="java.net.http.HttpResponse" %>
+<%@ page import="org.biojava.ontology.OntologyTerm" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -41,6 +50,39 @@
 <%@ include file="../reportHeader.jsp"%>
 <script>
     let reportTitle = "reference";
+</script>
+
+<script>
+
+
+    function loadData(pmid,entity) {
+        //var url = '/rgdweb/webservice/entity.html?pmid=' + pmid + '&entity=' + entity;
+
+        fetch('/rgdweb/webservice/entity.html?pmid=' + pmid + '&entity=' + entity)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.text(); // or response.json() if you're expecting JSON
+            })
+            .then(data => {
+
+                //console.log(data);
+                var thinkMatch = data.match(/<think>([\s\S]*?)<\/think>/);
+                //console.log(thinkMatch);
+                var thinkText = thinkMatch ? thinkMatch[1].trim() : "";
+                //console.log (thinkText);
+                var afterThink = data.replace(/<think>[\s\S]*?<\/think>/, "").trim();
+
+                document.getElementById(entity + "Div").style.display = "block";
+                document.getElementById(entity + "Think").style.display = "block";
+                document.getElementById(entity + "Div").innerHTML = afterThink;
+                document.getElementById(entity + "Think").innerHTML = thinkText;
+            })
+            .catch(error => {
+                document.getElementById(entity + "Div").innerHTML = 'Error loading content: ' + error;
+            });
+    }
 </script>
 
 
@@ -139,14 +181,15 @@
                 prompt = "Extract the <Phenotype terms> in the following abstract. The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found.  <abstract>" + obj.getRefAbstract() + "</abstract> respond with a pipe delimited list of <symbol> and no other output";
                 String mp = model.generate(prompt);
 */
+                OntologyTermMatcher otm = new OntologyTermMatcher();
+
+                List<XdbId> pIds = xdbDAO.getXdbIdsByRgdId(2, obj.getRgdId());
+                String pId = "";
+                if (pIds.size() > 0) {
+                    pId = pIds.get(0).getAccId();
+                }
             %>
 
-<%-- The AI Assistant panel is left out on this branch: its buttons call
-     /rgdweb/webservice/entity.html (EntityService) and the block needs
-     edu.mcw.rgd.web.OntologyTermMatcher, neither of which exists here - that is dev's
-     entity-tagging work, not part of the report pages. Kept as markup rather than deleted
-     so it comes back with one edit once those are on this branch. --%>
-<%--
             <br>
             <div style="border:2px solid black;padding:5px;">
                 AI Assistant<br><br>
@@ -259,7 +302,6 @@
                 </table>
 
             </div>
---%>
 
             <%
                 //exclude from the  pipelines
@@ -318,6 +360,6 @@
     //alert("done expanding");
 </script>
 <script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
-<script src="/rgdweb/js/reportPages/reportModernUx.js?v=9"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=10"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>
 

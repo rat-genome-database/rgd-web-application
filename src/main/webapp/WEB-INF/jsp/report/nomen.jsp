@@ -9,8 +9,8 @@
 <table border="1" cellspacing="0" width="95%">
     <tr>
         <th>Date</th>
-        <th>Current Symbol</th>
-        <th>Current Name</th>
+        <th>Symbol</th>
+        <th>Name</th>
         <th>Previous Symbol</th>
         <th>Previous Name</th>
         <th>Description</th>

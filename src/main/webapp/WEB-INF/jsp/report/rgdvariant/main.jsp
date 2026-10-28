@@ -53,8 +53,16 @@
             heroRgdId = obj.getRgdId();
             // A classification belongs in a chip, not under the title - the other variant report
             // this URL can land on (cnVariants/main.jsp) and the gene report both read this way.
+            //
+            // The type is held as a sequence ontology accession, so the chip has to name the
+            // term rather than repeat the accession: "deletion", not "SO:0000159". This is the
+            // same lookup the Type row in info.jsp makes, with the accession kept as the hover
+            // title, and an accession the ontology does not know still shows as itself.
             if( !Utils.isStringEmpty(obj.getType()) ) {
-                heroChips.add("|" + obj.getType());
+                edu.mcw.rgd.datamodel.ontologyx.Term heroTypeTerm = ontologyDAO.getTermByAccId(obj.getType());
+                String heroTypeName = heroTypeTerm!=null && !Utils.isStringEmpty(heroTypeTerm.getTerm())
+                        ? heroTypeTerm.getTerm() : obj.getType();
+                heroChips.add("|" + heroTypeName + "|" + obj.getType());
             }
             if( md!=null && md.getChromosome()!=null ) {
                 heroChips.add("fa-map-marker|chr" + md.getChromosome() + ":" + md.getStartPos() + "-" + md.getStopPos()
@@ -121,5 +129,5 @@
 <%@ include file="/common/footerarea.jsp"%>
 
 <script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
-<script src="/rgdweb/js/reportPages/reportModernUx.js?v=9"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=10"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>

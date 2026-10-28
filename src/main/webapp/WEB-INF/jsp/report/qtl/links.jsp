@@ -90,7 +90,7 @@ if(obj.getSpeciesTypeKey()==SpeciesType.MOUSE ){
 %>
 
     <tr>
-    <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><a href="/rgdweb/contact/contactus.html">QTL Registration</a></td>
+    <td><img src='/rgdweb/common/images/bullet_green.png' /></td><td><a href="/tools/qtls/qtlRegistrationIndex.cgi">QTL Registration</a></td>
 </tr>
  </table>
 
