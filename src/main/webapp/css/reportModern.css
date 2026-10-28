@@ -1444,6 +1444,15 @@
     color: #2865a3;
 }
 .rgd-stickybar.chinchilla .rgd-stickybar-symbol { color: #96151d; }
+/* The symbol is a fragment, not text - a strain or allele symbol carries the italics and
+   superscripts its nomenclature is spelled with. A raised <sup> grows the line box it sits in,
+   which would make the bar taller on a strain report than on a gene one, so it is taken out of
+   the line height the way a superscript in running text is not. */
+.rgd-stickybar-symbol sup,
+.rgd-stickybar-symbol sub {
+    font-size: 10px;
+    line-height: 0;
+}
 .rgd-stickybar-sep { color: #c6ced8; }
 .rgd-stickybar-section {
     font-weight: 600;

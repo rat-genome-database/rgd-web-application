@@ -360,6 +360,6 @@
     //alert("done expanding");
 </script>
 <script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
-<script src="/rgdweb/js/reportPages/reportModernUx.js?v=9"> </script>
+<script src="/rgdweb/js/reportPages/reportModernUx.js?v=10"> </script>
 <script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>
 
