@@ -359,7 +359,7 @@
     openAll();
     //alert("done expanding");
 </script>
-<script src="/rgdweb/js/reportPages/geneReport.js?v=22"> </script>
+<script src="/rgdweb/js/reportPages/geneReport.js?v=23"> </script>
 <script src="/rgdweb/js/reportPages/reportModernUx.js?v=10"> </script>
-<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=5"> </script>
+<script src="/rgdweb/js/reportPages/tablesorterReportCode.js?v=6"> </script>
 

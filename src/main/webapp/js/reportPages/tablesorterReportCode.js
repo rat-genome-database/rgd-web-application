@@ -1,8 +1,20 @@
 // Rows shown per page by every paged table on a report, from the Annotation section through
 // Sequence, Genomics and References. One number so the whole report pages the same way.
 //
-// tablesorter's pager remembers the size a user picks, so this is the default for someone who has
-// not changed it on that table before; anyone who has keeps their choice until they change it.
+// Every pager below also passes savePages: false, which is what makes this number the size a
+// table actually opens at. The pager addon otherwise saves the page and size a user picks into
+// localStorage under 'tablesorter-pager' (savePages defaults to true), keyed by URL path plus
+// table id, and that saved size overrides the size passed here. All gene reports share one path,
+// /rgdweb/report/gene/main.html, so a single visit where someone switched one table to 20 rows
+// made that table open at 20 on every gene they looked at afterwards, while the tables they had
+// never touched still opened at 10 - the "some tables show 20" report. Nothing cleared the key
+// either: geneReport.js carried a manageLocalStorage() written for exactly that, but it was never
+// called from anywhere.
+//
+// With savePages off the pager neither reads nor writes that key, so a size already stored in a
+// user's browser is ignored and every paged table on every report opens at REPORT_PAGE_SIZE. The
+// rows-per-page select still works; the choice now lasts for that page view instead of following
+// the user onto unrelated records.
 var REPORT_PAGE_SIZE = 10;
 
 tableSorterReport();
@@ -16,7 +28,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.variantSamplesPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         // The variant grid on report/rsId/main.html. The server sends up to 1000 records per
         // request, so without a pager the whole batch rendered as one scroll. .mapDataPager
@@ -33,7 +46,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.mapDataPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         // #variantTranscriptsTable was the 650px layout table that wrapped the Variant
@@ -51,7 +65,8 @@ function tableSorterReport() {
         })
             .tablesorterPager({
                 container: $('.sampleDetailsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#gwasDataTable').tablesorter({
@@ -64,7 +79,8 @@ function tableSorterReport() {
         })
             .tablesorterPager({
                 container: $('.gwasDataPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#ssIDTable')
@@ -86,7 +102,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager1'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#annotationTable2')
@@ -96,7 +113,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager2'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#annotationTable3')
@@ -106,7 +124,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager3'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#annotationTable4')
@@ -116,7 +135,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager4'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#annotationTable5')
@@ -126,7 +146,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager5'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#annotationTable6')
@@ -136,7 +157,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager6'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#annotationTable7')
@@ -146,7 +168,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager7'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
 
@@ -157,7 +180,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager8'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#annotationTable9')
@@ -167,7 +191,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.annotationPager9'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         //annotation detail view tables
 
@@ -182,7 +207,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.manualAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#importedAnnotationsClinVarTable')
@@ -196,7 +222,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsClinVarPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#importedAnnotationsCTDTable')
@@ -210,7 +237,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsCTDPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#importedAnnotationsGWASTable')
             .tablesorter({
@@ -223,7 +251,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsGWASPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#importedAnnotationsGADTable')
             .tablesorter({
@@ -236,7 +265,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsGADPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#importedAnnotationsMGITable')
@@ -250,7 +280,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsMGIPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#importedAnnotationsOMIATable')
             .tablesorter({
@@ -263,7 +294,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsOMIAPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#importedAnnotationsOMIMTable')
@@ -277,7 +309,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsOMIMPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#geneChemicalInteractionAnnotationsTable')
@@ -291,7 +324,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.geneChemicalInteractionAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#biologicalProcessAnnotationsTable')
@@ -305,7 +339,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.biologicalProcessAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#cellularComponentAnnotationsTable')
@@ -319,7 +354,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.cellularComponentAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#molecularFunctionAnnotationsTable')
@@ -333,7 +369,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.molecularFunctionAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#molecularPathwayManualAnnotationsTable')
@@ -347,7 +384,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.molecularPathwayManualAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#importedAnnotationsSMPDBTable')
@@ -361,7 +399,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsSMPDBPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#importedAnnotationsKEGGTable')
             .tablesorter({
@@ -374,7 +413,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsKEGGPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#importedAnnotationsPIDTable')
             .tablesorter({
@@ -387,7 +427,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsPIDPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#importedAnnotationsOtherTable')
             .tablesorter({
@@ -400,7 +441,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.importedAnnotationsOtherPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#mammalianPhenotypeAnnotationsTable')
             .tablesorter({
@@ -413,7 +455,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.mammalianPhenotypeAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#humanPhenotypeAnnotationsTable')
@@ -427,7 +470,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.humanPhenotypeAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#humanPhenotypeManualAnnotationsTable')
@@ -441,7 +485,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.humanPhenotypeManualAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#humanPhenotypeClinVarAnnotationsTable')
@@ -455,7 +500,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.humanPhenotypeClinVarAnnotationsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         
         $('#cellOntologyTable')
@@ -469,7 +515,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.cellOntologyPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#mouseAnatomyTable')
             .tablesorter({
@@ -482,7 +529,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.mouseAnatomyPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#ratStrainTable')
             .tablesorter({
@@ -495,7 +543,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.ratStrainPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#efoAnnotTable')
             .tablesorter({
@@ -508,7 +557,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.efoAnnotPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#clinicalMeasurementTable')
@@ -542,7 +592,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.pubMedReferencesPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
 
@@ -557,7 +608,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.referencesCuratedPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
 
@@ -572,7 +624,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.qtlAssociationPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
 
@@ -587,7 +640,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.geneAssociationPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#mark2AssociationTable')
@@ -601,7 +655,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.mark2AssociationPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#strainSequenceVariantsTable')
@@ -615,7 +670,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.strainSequenceVariantsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
 
@@ -626,7 +682,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.nucleotideReferenceSequencesPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#proteinReferenceSequencesTable')
@@ -636,7 +693,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.proteinReferenceSequencesPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#nucleotideSequencesTable')
@@ -650,7 +708,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.nucleotideSequencesPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#proteinSequencesTable')
@@ -664,7 +723,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.proteinSequencesPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
 
@@ -679,7 +739,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.clinicalVariantsPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
         $('#externalDatabaseLinksTable')
@@ -693,7 +754,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.externalDatabaseLinksPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         $('#strainQtlAssociationTable')
             .tablesorter({
@@ -706,7 +768,8 @@ function tableSorterReport() {
             })
             .tablesorterPager({
                 container: $('.strainQtlAssociationPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
         //added samplemetadatatable for expression study report page
         $('#sampleMetadataTable')
@@ -723,7 +786,8 @@ function tableSorterReport() {
 
             .tablesorterPager({
                 container: $('.sampleMetadataPager'),
-                size: REPORT_PAGE_SIZE
+                size: REPORT_PAGE_SIZE,
+                savePages: false
             });
 
     });
