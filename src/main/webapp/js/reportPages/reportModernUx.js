@@ -576,6 +576,13 @@
     function buildChrome() {
         var hero = root.querySelector(".report-hero");
         var symbol = hero ? hero.getAttribute("data-symbol") : "";
+        // RGD nomenclature is written with markup - italics and superscripts - and most strain
+        // symbols carry some: SHR.BN-(<i>D8Mit5-D8Mgh6</i>)/Ipcv. data-symbol is that symbol as
+        // text, so assigning it to the bar printed the tags themselves; data-symbol-html is the
+        // same symbol as the fragment the hero <h1> renders, sanitized server side by
+        // reportHero.jsp to the same short list of formatting tags. Older cached markup has only
+        // the text attribute, so that stays the fallback.
+        var symbolHtml = hero ? hero.getAttribute("data-symbol-html") : "";
 
         stickyBar = document.createElement("div");
         stickyBar.className = "rgd-stickybar";
@@ -585,7 +592,11 @@
 
         var symbolEl = document.createElement("span");
         symbolEl.className = "rgd-stickybar-symbol";
-        symbolEl.textContent = symbol || "";
+        if (symbolHtml) {
+            symbolEl.innerHTML = symbolHtml;
+        } else {
+            symbolEl.textContent = symbol || "";
+        }
         stickyBar.appendChild(symbolEl);
 
         var sep = document.createElement("span");
