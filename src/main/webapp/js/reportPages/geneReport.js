@@ -828,21 +828,11 @@ function autoChangeNavHeight(){
     }
 }
 
-function manageLocalStorage(){
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get('id');
-    let savedId = localStorage.getItem('id');
-    if(savedId){
-        if(id !== savedId){
-            localStorage.removeItem('tablesorter-pager');
-            localStorage.setItem('id', id);
-        }
-    }else{
-        localStorage.setItem('id', id);
-    }
-
-}
+// manageLocalStorage() stood here. It dropped the pager's saved rows-per-page whenever the id
+// query param changed, to stop a size picked on one record from carrying over to the next - but
+// nothing ever called it, so it never ran. The report pagers now pass savePages: false (see
+// tablesorterReportCode.js), which keeps the size out of localStorage in the first place, so
+// there is nothing left for it to clean up.
 
 function removePagerAutocomplete(){
     let pagerDivs = document.getElementsByClassName('modelsViewContent');
