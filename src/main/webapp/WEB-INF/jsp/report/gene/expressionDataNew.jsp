@@ -725,6 +725,9 @@
                     <template #cell(geoStudyAcc)="data">
                         <span v-html="data.value" title="Click to see more information about the study"></span>
                     </template>
+                    <template #cell(referenceRgdId)="data">
+                        <span v-html="data.value"></span>
+                    </template>
                 </b-table>
             </template>
             <%-- Paging is server side: each page is its own /index/records/search call with page
@@ -905,6 +908,15 @@
         return {
             strain: ontTermLinks(rec.strainAcc, rec.strainTerm),
             sex: rec.sex,
+            computedSex: rec.computedSex,
+            // The age bounds are "days from date of birth", so the cell value is the low bound -
+            // a number, so the column sorts by age instead of by its own formatted text ("7 days"
+            // ahead of "63 days"). formatAgeDays reads the high bound and the species off the row
+            // to build the label; neither is a column of its own, and a key no field names is
+            // carried by the row without being rendered.
+            ageDays: rec.ageDaysFromDobLowBound,
+            ageDaysHigh: rec.ageDaysFromDobHighBound,
+            species: rec.species,
             lifeStage: rec.lifeStage,
             tissue: ontTermLinks(rec.tissueAcc, rec.tissueTerm),
             condition: conditionStepLinks(rec.conditions),
@@ -913,7 +925,12 @@
             unit: rec.expressionUnit,
             level: rec.expressionLevel,
             assembly: ASSEMBLY_NAMES[rec.mapKey] || rec.mapKey,
-            geoStudyAcc: rec.geoSeriesAcc
+            geoStudyAcc: rec.geoSeriesAcc,
+            // The study's reference, carried on the record by the index itself - the old /rows
+            // path had to fetch it per record from /expression/study/references/{studyId}, which
+            // is why this column went away with that endpoint. 0 is how the index spells "no
+            // reference curated for this study", not an RGD id.
+            referenceRgdId: rec.referenceRgdId
         };
     }
         var tableVue = new Vue({
@@ -943,9 +960,13 @@
                 loadSeq: 0,
                 fields: [
                     // One column per field the expression index actually returns, so the table is
-                    // just the search response rendered. computedSex, age and the reference RGD ids
-                    // the old /rows endpoint pre-joined are not in the index and are gone; life
-                    // stage and the experimental condition come back in their place.
+                    // just the search response rendered. Computed sex, age and the reference were
+                    // dropped when the old /rows endpoint went, because the index did not carry
+                    // them; it does now, so they are columns again with no per-record fetch
+                    // behind them. Life stage and the experimental condition are index-only.
+                    //
+                    // The order follows the section's own download (Strain, Sex, Computed Sex,
+                    // Age, ...) so the table and the file read the same way.
                     {
                         key: 'strain',
                         label: 'Strain/CellLine',
@@ -963,6 +984,22 @@
                                 return "N/A";
                             return value;
                         },
+                        sortable: true
+                    },
+                    {
+                        key: 'computedSex',
+                        label: 'Computed Sex',
+                        formatter: value => {
+                            if (value == null || value === "")
+                                return "N/A";
+                            return value;
+                        },
+                        sortable: true
+                    },
+                    {
+                        key: 'ageDays',
+                        label: 'Age',
+                        formatter: 'formatAgeDays',
                         sortable: true
                     },
                     {
@@ -1031,6 +1068,12 @@
                         key: 'geoStudyAcc',
                         label: 'RGD Study Report',
                         formatter: 'createGEOLinks',
+                        sortable: true
+                    },
+                    {
+                        key: 'referenceRgdId',
+                        label: 'Reference',
+                        formatter: 'createReferenceLink',
                         sortable: true
                     }
                 ],
@@ -1464,6 +1507,52 @@
                 if (value2 == null || value2 === '')
                     return "N/A";
                 return value2;
+            },
+            // The sample's age. The index carries it as two bounds in days from date of birth,
+            // so a range is printed as a range and a single day as one number.
+            //
+            // Both bounds 0 is how an uncurated age is stored, not "born today" - every other
+            // place this is rendered (the section's download, ExpressionDataController) reads it
+            // that way too, so it is N/A here rather than "0 days".
+            //
+            // A negative bound is a sample taken before birth, which as "-2 days" means nothing
+            // to a reader: it is shifted onto the scale the curators use, days post conception
+            // for human and embryonic days otherwise, gestation being ~22 days in rat. That is
+            // the same conversion, and the same 22, as expressionDownload.jsp. Non-human means
+            // rat in practice - the only pre-birth records in the index are on rat assemblies -
+            // so no other species' gestation is being approximated by it today.
+            formatAgeDays(value, key, item){
+                var lo = Number(value);
+                if (!isFinite(lo)) {
+                    lo = 0;
+                }
+                var hi = Number(item == null ? lo : item.ageDaysHigh);
+                if (!isFinite(hi)) {
+                    hi = lo;
+                }
+                if (lo === 0 && hi === 0) {
+                    return "N/A";
+                }
+                var unit = " days";
+                if (lo < 0 || hi < 0) {
+                    var human = item != null && String(item.species).toLowerCase() === "human";
+                    var gestation = human ? 280 : 22;
+                    unit = human ? " days post conception" : " embryonic days";
+                    lo += gestation;
+                    hi += gestation;
+                }
+                return (lo === hi ? String(lo) : lo + " - " + hi) + unit;
+            },
+            // The record's reference as a link to its reference report. One scalar RGD id per
+            // record, so unlike createLinks - which took the array the old per-study fetch built -
+            // there is nothing to join. 0 is the index's "no reference curated", so it reads N/A
+            // the same as an absent field rather than linking RGD:0.
+            createReferenceLink(data){
+                var id = parseInt(data, 10);
+                if (!id) {
+                    return "N/A";
+                }
+                return '<a href="/rgdweb/report/reference/main.html?id=' + id + '">RGD:' + id + '</a>';
             },
             createGEOLinks(data){
                 // var valLen = data.length;
