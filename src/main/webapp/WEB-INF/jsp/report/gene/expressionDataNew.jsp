@@ -917,7 +917,6 @@
             ageDays: rec.ageDaysFromDobLowBound,
             ageDaysHigh: rec.ageDaysFromDobHighBound,
             species: rec.species,
-            lifeStage: rec.lifeStage,
             tissue: ontTermLinks(rec.tissueAcc, rec.tissueTerm),
             condition: conditionStepLinks(rec.conditions),
             GeoSampleId: rec.geoSampleAcc,
@@ -963,7 +962,8 @@
                     // just the search response rendered. Computed sex, age and the reference were
                     // dropped when the old /rows endpoint went, because the index did not carry
                     // them; it does now, so they are columns again with no per-record fetch
-                    // behind them. Life stage and the experimental condition are index-only.
+                    // behind them. The experimental condition is index-only. Life stage is not a
+                    // column: the age bounds next to it say the same thing in curated days.
                     //
                     // The order follows the section's own download (Strain, Sex, Computed Sex,
                     // Age, ...) so the table and the file read the same way.
@@ -1000,16 +1000,6 @@
                         key: 'ageDays',
                         label: 'Age',
                         formatter: 'formatAgeDays',
-                        sortable: true
-                    },
-                    {
-                        key: 'lifeStage',
-                        label: 'Life Stage',
-                        formatter: value => {
-                            if (value == null || value === "")
-                                return "N/A";
-                            return value;
-                        },
                         sortable: true
                     },
                     {
