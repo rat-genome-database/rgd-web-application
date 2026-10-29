@@ -8,7 +8,6 @@
 <%@ page import="java.time.Duration" %>
 <%@ page import="java.net.http.HttpClient" %>
 <%@ page import="java.net.http.HttpResponse" %>
-<%@ page import="org.biojava.ontology.OntologyTerm" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -181,7 +180,6 @@
                 prompt = "Extract the <Phenotype terms> in the following abstract. The maximum number of terms returned should be 100.  If you fine more than 100, please return the first 100 found.  <abstract>" + obj.getRefAbstract() + "</abstract> respond with a pipe delimited list of <symbol> and no other output";
                 String mp = model.generate(prompt);
 */
-                OntologyTermMatcher otm = new OntologyTermMatcher();
 
                 List<XdbId> pIds = xdbDAO.getXdbIdsByRgdId(2, obj.getRgdId());
                 String pId = "";
