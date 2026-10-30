@@ -114,6 +114,20 @@
     StudySampleMetadataDAO dao = new StudySampleMetadataDAO();
     List<StudySampleMetadata>metadata = dao.getStudySampleMetadata(obj.getId());
     if(metadata!=null&&!metadata.isEmpty()){
+
+    // The sample metadata rows carry no reference of their own, so the Reference column shows
+    // the study's associated references - the same ones info.jsp lists above the table - which
+    // are the references for every sample in the study. Built once, outside the row loop.
+    StringBuilder refLinkBuf = new StringBuilder();
+    if(obj.getRefRgdIds()!=null){
+        for(Integer sampleRefRgdId : obj.getRefRgdIds()){
+            if(refLinkBuf.length()>0)
+                refLinkBuf.append(", ");
+            refLinkBuf.append("<a href=\"/rgdweb/report/reference/main.html?id=").append(sampleRefRgdId)
+                      .append("\">RGD:").append(sampleRefRgdId).append("</a>");
+        }
+    }
+    String sampleRefLinks = refLinkBuf.toString();
 %>
 <hr>
 <div id="sampleMetadata" class="subTitle"><h2>Sample Metadata</h2></div>
@@ -220,6 +234,10 @@
             <input type="checkbox" id="col-notes">
             <label for="col-notes">Notes</label>
         </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="col-reference" checked>
+            <label for="col-reference">Reference</label>
+        </div>
     </div>
 </div>
 
@@ -241,6 +259,7 @@
             <th class="col-duration">Duration</th>
             <th class="col-application-method">Application Method</th>
             <th class="col-notes">Notes</th>
+            <th class="col-reference">Reference</th>
         </tr>
         <%for(StudySampleMetadata data:metadata){%>
         <tr>
@@ -353,6 +372,7 @@
 
             <td class="col-application-method"><%=data.getExpCondApplicationMethod()!=null?data.getExpCondApplicationMethod():""%></td>
             <td class="col-notes"><%=data.getExpCondNotes()!=null?data.getExpCondNotes():""%></td>
+            <td class="col-reference"><%=sampleRefLinks%></td>
         </tr>
         <%}%>
     </table>
@@ -391,7 +411,8 @@
             'col-dose': '.col-dose',
             'col-duration': '.col-duration',
             'col-application-method': '.col-application-method',
-            'col-notes': '.col-notes'
+            'col-notes': '.col-notes',
+            'col-reference': '.col-reference'
         };
 
         // Individual checkbox functionality
