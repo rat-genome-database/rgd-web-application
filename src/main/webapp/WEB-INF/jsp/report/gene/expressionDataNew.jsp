@@ -969,7 +969,7 @@
                     // Age, ...) so the table and the file read the same way.
                     {
                         key: 'strain',
-                        label: 'Strain/CellLine',
+                        label: 'Strain/Cell Line',
                         formatter: value => {
                             if (value == null || value === "")
                                 return "N/A";
@@ -1055,15 +1055,15 @@
                         sortable: true
                     },
                     {
-                        key: 'geoStudyAcc',
-                        label: 'RGD Study Report',
-                        formatter: 'createGEOLinks',
-                        sortable: true
-                    },
-                    {
                         key: 'referenceRgdId',
                         label: 'Reference',
                         formatter: 'createReferenceLink',
+                        sortable: true
+                    },
+                    {
+                        key: 'geoStudyAcc',
+                        label: 'RGD Study Report',
+                        formatter: 'createGEOLinks',
                         sortable: true
                     }
                 ],
