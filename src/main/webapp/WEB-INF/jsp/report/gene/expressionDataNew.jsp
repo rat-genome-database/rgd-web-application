@@ -692,7 +692,7 @@
                 <span>&mdash; {{ activeLevel ? activeLevelDescription : 'all expression levels' }}</span>
                 <span v-if="activeAssembly">&mdash; {{ activeAssembly }}</span>
                 <span class="exprCaptionCount">{{ rangeLabel }}</span>
-                <span class="exprCaptionHint">Click another square in the ribbon to change the system or the level. Sorting a column orders the page shown.</span>
+                <span class="exprCaptionHint">Click another square in the ribbon to change the system or the level. Sorting a column orders every matching record, not just the page shown.</span>
             </div>
             <%-- A system can hold more records than the index will page into; say so rather than
                  refusing to show anything, and point at the download that has no such limit. --%>
@@ -703,7 +703,14 @@
             </div>
             <div class="exprTableNote exprTableNote--error" v-if="loadError">{{ loadError }}</div>
             <template>
-                <b-table id="exprRecords" :items="expItems" :fields="fields" :busy.sync="isBusy" responsive="sm" sticky-header="475px">
+                <%-- no-local-sorting is what makes a sorted column mean the whole result: the table
+                     holds one page, so sorting it itself could only reorder those rows. The header
+                     click goes to onSortChanged instead, which asks the index to order every
+                     matching record and opens the first page of that ordering. --%>
+                <b-table id="exprRecords" :items="expItems" :fields="fields" :busy.sync="isBusy"
+                         no-local-sorting
+                         :sort-by="sortBy" :sort-desc="sortDesc" v-on:sort-changed="onSortChanged"
+                         responsive="sm" sticky-header="475px">
                     <template v-slot:table-busy>
                         <div class="text-center text-primary my-2">
                             <b-spinner class="align-middle"></b-spinner>
@@ -952,6 +959,11 @@
                 currentPage: 1,
                 perPage: EXPR_PAGE_SIZE,
                 pageSizes: EXPR_PAGE_SIZES,
+                // The column the index is ordering by, as its field key; '' is no sort, which is the
+                // index's own order. Sent with every page request, so paging stays inside the one
+                // ordering rather than each page arriving in an order of its own.
+                sortBy: '',
+                sortDesc: false,
                 totalRows: 0,     // matching records the index reports for the whole query
                 loadError: '',
                 // increments per load; a response whose stamp is stale (an older page, or the
@@ -1408,7 +1420,12 @@
                         + (this.activeLevel ? "&expressionLevel=" + encodeURIComponent(this.activeLevel.toLowerCase()) : "")
                         + (this.activeMapKey ? "&mapKey=" + encodeURIComponent(this.activeMapKey) : "")
                         + "&page=" + (page - 1)   // the endpoint pages from 0, the pager from 1
-                        + "&size=" + this.perPage,
+                        + "&size=" + this.perPage
+                        // Sorting is the endpoint's job: it orders all the matching records and
+                        // returns the requested page of that order. Omitted when no column is
+                        // sorted, so the index's own order is what comes back.
+                        + (this.sortBy ? "&sortBy=" + encodeURIComponent(this.sortBy)
+                                       + "&sortOrder=" + (this.sortDesc ? "desc" : "asc") : ""),
                     dataType: "json",
                     success: function (resp, status, xhr) {
                         if (seq !== vm.loadSeq) return;  // superseded by a newer square or page
@@ -1433,8 +1450,27 @@
             onPageChange(page){
                 this.currentPage = page;
                 this.loadPage();
-                // The table body is its own 475px scroller; without this the new page opens
-                // wherever the last one was left scrolled to, which reads as a missing first row.
+                this.scrollTableTop();
+            },
+            // A column header was clicked. The rows on screen are one page of the result, so the
+            // new order has to come from the index: re-issue the open query with the column and
+            // direction the header asked for.
+            //
+            // The values are read off the event's context rather than from sortBy/sortDesc, which
+            // are bound one way and so still hold the previous sort at this point.
+            onSortChanged(ctx){
+                this.sortBy = ctx.sortBy || '';
+                this.sortDesc = !!ctx.sortDesc;
+                // A different order is a different page 1: the record that was at the top of page 4
+                // is now wherever the whole result puts it, so staying on page 4 would open the
+                // table at an arbitrary place in the new ordering.
+                this.currentPage = 1;
+                this.loadPage();
+                this.scrollTableTop();
+            },
+            // The table body is its own 475px scroller; without this a new page or a new sort opens
+            // wherever the last one was left scrolled to, which reads as a missing first row.
+            scrollTableTop(){
                 this.$nextTick(function () {
                     var body = document.querySelector("#coolTable .b-table-sticky-header, #coolTable .table-responsive");
                     if (body) body.scrollTop = 0;
@@ -1476,6 +1512,12 @@
                 this.expItems = [];
                 this.totalRows = 0;
                 this.currentPage = 1;
+                // The sort is dropped with the query here, so the next square opens in the index's
+                // own order. It is deliberately kept across createTable and switchAssembly: those
+                // re-aim the same table at a different filter, where the column the user chose to
+                // order by still means the same thing.
+                this.sortBy = '';
+                this.sortDesc = false;
                 this.loadError = '';
                 this.isBusy = false;
             },
