@@ -22,28 +22,12 @@
 
     if(species != null) {
         speciesDisplay = species.replace("_"," ");
-        PhenominerDAO pdao = new PhenominerDAO();
-        records = pdao.getGeoStudies(speciesDisplay, request.getParameter("status"));
-        gseKeys = new ArrayList<>(records.keySet());
-
-        // Apply search filter if present
+        String status = request.getParameter("status");
         String searchTerm = request.getParameter("search");
-        if(searchTerm != null && !searchTerm.trim().isEmpty()) {
-            searchTerm = searchTerm.trim();
-            String searchLower = searchTerm.toLowerCase();
-            List<String> filtered = new ArrayList<>();
-            for(String gse : gseKeys) {
-                GeoRecord rec = records.get(gse);
-                if((rec.getGeoAccessionId() != null && rec.getGeoAccessionId().toLowerCase().contains(searchLower)) ||
-                   (rec.getPubmedId() != null && rec.getPubmedId().toLowerCase().contains(searchLower)) ||
-                   (rec.getStudyTitle() != null && rec.getStudyTitle().toLowerCase().contains(searchLower))) {
-                    filtered.add(gse);
-                }
-            }
-            gseKeys = filtered;
-        }
+        PhenominerDAO pdao = new PhenominerDAO();
 
-        totalRecords = gseKeys.size();
+        // only the current page of GEO series is read from RNA_SEQ (mouse and human have millions of sample rows)
+        totalRecords = pdao.getGeoStudyCount(speciesDisplay, status, searchTerm);
         totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
         String pageParam = request.getParameter("page");
@@ -58,7 +42,10 @@
         if(currentPage > totalPages && totalPages > 0) currentPage = totalPages;
 
         startIndex = (currentPage - 1) * recordsPerPage;
-        endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
+
+        records = pdao.getGeoStudiesPaged(speciesDisplay, status, searchTerm, startIndex, recordsPerPage);
+        gseKeys = new ArrayList<>(records.keySet());
+        endIndex = startIndex + gseKeys.size();
     }
 %>
 <% if(!isAjax) { %>
@@ -258,7 +245,7 @@
                 <tbody>
     <%
             for(int i = startIndex; i < endIndex; i++) {
-                String gse = gseKeys.get(i);
+                String gse = gseKeys.get(i - startIndex);
                 GeoRecord rec = records.get(gse);
                 String link = "<a href=/rgdweb/curation/expression/experiments.html?gse="+gse+"&species="+speciesDisplay+" >Edit</a>";
     %>
