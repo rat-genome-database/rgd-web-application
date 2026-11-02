@@ -355,7 +355,7 @@ p,li, a.here, span{
 }
 
 .hrdp-pilot h2, .hrdp-program h2 {
-    color: #0B8193;
+    color: #2865A3;
     font-size: 26pt;
     font-weight: bold;
     margin: 0 0 6px 0;
@@ -401,8 +401,8 @@ a.hrdp-pilot-btn {
     display: inline-block;
     width: 150px;
     padding: 8px 10px;
-    background-color: #0B8193;
-    border: 1px solid #1D4F5A;
+    background-color: #2865A3;
+    border: 1px solid #1E4C7A;
     border-radius: 5px;
     color: #fff;
     font-size: 11pt;
@@ -414,7 +414,7 @@ a.hrdp-pilot-btn {
 }
 
 a.hrdp-pilot-btn:hover {
-    background-color: #12A0B4;
+    background-color: #5289B5;
     color: #fff;
 }
 
