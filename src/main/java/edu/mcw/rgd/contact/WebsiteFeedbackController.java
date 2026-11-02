@@ -75,7 +75,7 @@ public class WebsiteFeedbackController implements Controller {
         MyRGDLookupController.send("rgd.data@mcw.edu", "Send message form from " + page, rgdMessage);
         MyRGDLookupController.send(sender, "Thanks for your comment", usrMsg);
 
-        String storedMessage = message + "\t Recipients email:"+sender;
+        String storedMessage = message + "\t Recipients email:"+sender + "\t Web page:"+page;
         fbdao.insertMessageForm("Send Message Form",storedMessage,1);
 
         return;
