@@ -223,6 +223,8 @@
                 <prop key="projects/project.html">ProjectController</prop>
                 <prop key="report/project/main.html">ProjectReportController</prop>
                 <prop key="/hrdp_panel.html">hrdpController</prop>
+                <prop key="/hrdp_distribution_pilot.html">hrdpDistributionPilotController</prop>
+                <prop key="/hrdp_phenotyping_pilot.html">hrdpPhenotypingPilotController</prop>
                 <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
                 <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
                 <prop key="report/expressionStudy/main.html">ExpressionStudyReportController</prop>
@@ -444,6 +446,12 @@
     <bean id="WebsiteFeedbackController" class="edu.mcw.rgd.contact.WebsiteFeedbackController"/>
     <bean id="ContactUsController" class="edu.mcw.rgd.contact.ContactUsController"/>
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
+    <bean id="hrdpDistributionPilotController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName" value="/WEB-INF/jsp/hrdp/hrdpDistributionPilot.jsp"/>
+    </bean>
+    <bean id="hrdpPhenotypingPilotController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName" value="/WEB-INF/jsp/hrdp/hrdpPhenotypingPilot.jsp"/>
+    </bean>
     <bean id="ctcProgramController" class="edu.mcw.rgd.ctcProgram.ctcProgramController"/>
     <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
     <bean id="ExpressionStudyReportController" class="edu.mcw.rgd.report.ExpressionStudyReportController"/>
