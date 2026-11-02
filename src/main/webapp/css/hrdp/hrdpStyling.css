@@ -383,6 +383,7 @@ p,li, a.here, span{
     float: right;
     max-width: 260px;
     margin: 30px 30px 0 20px;
+    mix-blend-mode: multiply; /* the photo's white background takes the panel color */
 }
 
 .hrdp-pilot-row {
