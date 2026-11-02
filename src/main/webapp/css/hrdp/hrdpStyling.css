@@ -346,8 +346,172 @@ p,li, a.here, span{
     }
 }
 
+/* HRDP Pilot Programs: section on the landing page and the two program pages */
+.hrdp-pilot, .hrdp-program {
+    color: #222;
+}
 
+.hrdp-pilot h2, .hrdp-program h2 {
+    color: #0B8193;
+    font-size: 26pt;
+    font-weight: bold;
+    margin: 0 0 6px 0;
+}
 
+.hrdp-pilot h4 {
+    font-size: 14pt;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
 
+.hrdp-pilot p, .hrdp-program p {
+    font-size: 12pt;
+    line-height: 1.4;
+}
 
+.hrdp-pilot {
+    overflow: hidden; /* contains the floated image */
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
 
+.hrdp-pilot-img {
+    float: right;
+    max-width: 260px;
+    margin: 30px 30px 0 20px;
+}
+
+.hrdp-pilot-row {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin: 20px 0;
+}
+
+.hrdp-pilot-row p {
+    width: 260px;
+    margin: 0;
+}
+
+a.hrdp-pilot-btn {
+    display: inline-block;
+    width: 150px;
+    padding: 8px 10px;
+    background-color: #0B8193;
+    border: 1px solid #1D4F5A;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 11pt;
+    font-weight: bold;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.25;
+}
+
+a.hrdp-pilot-btn:hover {
+    background-color: #12A0B4;
+    color: #fff;
+}
+
+.hrdp-program {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+    align-items: flex-start;
+}
+
+.hrdp-program-intro {
+    flex: 1 1 100%;
+}
+
+.hrdp-program-intro p {
+    margin: 0;
+}
+
+.hrdp-program-details {
+    flex: 0 1 620px;
+}
+
+.hrdp-program-details h4 {
+    font-size: 12pt;
+    font-weight: bold;
+    margin: 15px 0 5px 0;
+}
+
+.hrdp-program-details h4:first-child {
+    margin-top: 0;
+}
+
+.hrdp-program-details ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.hrdpContent .hrdp-program-details ul li,
+.hrdpContent .hrdp-program-details ul li:first-child {
+    font-size: 11pt;
+    margin: 0 0 3px 0;
+}
+
+.hrdp-program-details ul.two-columns {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: repeat(4, auto);
+    grid-auto-flow: column;
+    column-gap: 50px;
+}
+
+.hrdp-program-side {
+    flex: 0 0 240px;
+}
+
+.hrdp-application-info {
+    background-color: #E3EBEE;
+    border: 1px solid #C9D3D6;
+    border-radius: 6px;
+    padding: 10px 15px 15px 15px;
+}
+
+.hrdp-application-info h5 {
+    font-size: 11pt;
+    font-weight: bold;
+    margin: 0 0 12px 0;
+}
+
+.hrdp-application-info p {
+    font-size: 10.5pt;
+    font-weight: bold;
+    margin: 0 0 12px 15px;
+}
+
+.hrdp-application-info p:last-child {
+    margin-bottom: 0;
+}
+
+.hrdp-program-buttons {
+    display: flex;
+    gap: 35px;
+    margin: 20px 0 0 15px;
+}
+
+.hrdp-program-side .hrdp-program-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 40px 0 0 0;
+}
+
+.hrdp-program-note {
+    font-size: 11pt;
+    margin: 30px 0 0 15px;
+}
+
+.hrdp-program-side .hrdp-program-note {
+    margin-left: 0;
+}
+
+.hrdp-back {
+    margin-bottom: 10px;
+}

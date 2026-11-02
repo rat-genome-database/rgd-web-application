@@ -46,6 +46,21 @@ To change this template use File | Settings | File Templates.
             <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry" style="text-decoration: none">Contact HRDP</a>
         </button>
     </div>
+    <div class="hrdp-pilot">
+        <img src="/rgdweb/common/images/hrdp/hrdp-pilot-rats.png" alt="HRDP rats" class="hrdp-pilot-img">
+        <h2>HRDP Pilot Programs</h2>
+        <h4>Two opportunities to advance your research with the HRDP</h4>
+        <p>The HRDP Pilot Programs support innovative research by providing access to genetically diverse rats
+            and phenotyping resources. Choose the program that best fits your research needs.</p>
+        <div class="hrdp-pilot-row">
+            <p>Request a cohort of HRDP rats to conduct experiments in your own laboratory</p>
+            <a class="hrdp-pilot-btn" href="/rgdweb/hrdp_distribution_pilot.html">Distribution<br>Pilot Program</a>
+        </div>
+        <div class="hrdp-pilot-row">
+            <p>Request a cohort of HRDP rats and utilize MCW&rsquo;s core facilities to perform phenotyping</p>
+            <a class="hrdp-pilot-btn" href="/rgdweb/hrdp_phenotyping_pilot.html">Phenotyping<br>Pilot Program</a>
+        </div>
+    </div>
     <div class="hrdp-img-container">
         <a title="Click here to jump to strain listing" href="#strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image" class="hrdp-main-img"></a>
     </div>
