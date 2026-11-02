@@ -144,26 +144,25 @@
 <form action="experiments.html">
     <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
             <label for="species" style="color: #24609c; font-weight: bold;">Select a Species:</label>
+<%
+    // keep the species and curation status that were searched selected
+    String[][] speciesOptions = {{"Rattus_norvegicus","Rat"},{"Mus_musculus","Mouse"},{"Homo_sapiens","Human"},{"Chinchilla_lanigera","Chinchilla"},
+            {"Pan_paniscus","Bonobo"},{"Canis_lupus_familiaris","Dog"},{"Ictidomys_tridecemlineatus","Squirrel"},{"Sus_scrofa","Pig"},
+            {"Heterocephalus_glaber","Naked Mole-Rat"},{"Chlorocebus_sabaeus","Green Monkey"},{"Rattus_rattus","Black Rat"}};
+    String[][] statusOptions = {{"pending","Pending"},{"loaded","Loaded"},{"not4Curation","Not For Curation"},{"futureCuration","Future Curation"}};
+    String selectedStatus = request.getParameter("status");
+%>
     <select id="species" name="species" >
-        <option value="Rattus_norvegicus">Rat</option>
-        <option  value="Mus_musculus">Mouse</option>
-        <option  value="Homo_sapiens">Human</option>
-        <option  value="Chinchilla_lanigera">Chinchilla</option>
-        <option  value="Pan_paniscus">Bonobo</option>
-        <option  value="Canis_lupus_familiaris">Dog</option>
-        <option  value="Ictidomys_tridecemlineatus">Squirrel</option>
-        <option value="Sus_scrofa">Pig</option>
-        <option value="Heterocephalus_glaber">Naked Mole-Rat</option>
-        <option value="Chlorocebus_sabaeus">Green Monkey</option>
-        <option value="Rattus_rattus">Black Rat</option>
+<%  for(String[] o: speciesOptions) { %>
+        <option value="<%=o[0]%>"<%=o[0].equals(species) ? " selected" : ""%>><%=o[1]%></option>
+<%  } %>
     </select>
 
     <label for="status" style="color: #24609c; font-weight: bold;">Select Curation Status:</label>
     <select id="status" name="status" >
-        <option  value="pending">Pending</option>
-        <option value="loaded">Loaded</option>
-        <option  value="not4Curation">Not For Curation</option>
-        <option value="futureCuration">Future Curation</option>
+<%  for(String[] o: statusOptions) { %>
+        <option value="<%=o[0]%>"<%=o[0].equals(selectedStatus) ? " selected" : ""%>><%=o[1]%></option>
+<%  } %>
     </select>
 <br><br>
 
