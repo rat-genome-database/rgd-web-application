@@ -464,7 +464,7 @@ public class  MapDataFormatter {
 
         String noun = hiddenCount==1 ? " more assembly" : " more assemblies";
         String more = "Show " + hiddenCount + noun;
-        String less = "Hide " + hiddenCount + noun;
+        String less = "Show Reference Assembly";
 
         ret.append("<tr class=\"mapDataMoreRow\" data-cmap-species=\"").append(speciesRgdId).append("\">")
                 .append("<td class=\"cmapSpecies\"></td>")
