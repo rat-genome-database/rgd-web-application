@@ -15,6 +15,11 @@
 <link href="/rgdweb/common/tablesorter-2.18.4/css/filter.formatter.css" rel="stylesheet" type="text/css"/>
 <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.jui.css" rel="stylesheet" type="text/css"/>
 <link href="/rgdweb/common/tablesorter-2.18.4/css/theme.blue.css" rel="stylesheet" type="text/css"/>
+<style>
+    /* fit the table to the page: long origination URLs and strain symbols wrap instead of widening it */
+    #submittedStrains { width: 100%; }
+    #submittedStrains td { overflow-wrap: anywhere; }
+</style>
 <script>
     $(function() {
         $("#submittedStrains").tablesorter({
