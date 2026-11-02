@@ -28,7 +28,7 @@
                 <li>5 cohorts awarded per cycle</li>
             </ul>
             <div class="hrdp-program-buttons">
-                <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Distribution_Pilot_Application_Instructions.pdf">Application<br>Instructions</a>
+                <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Distribution_Pilot_Application_Information.pdf">Application<br>Instructions</a>
                 <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Distribution_Pilot_Application_Form.pdf">Apply for a Cohort</a>
             </div>
             <p class="hrdp-program-note">*The application instructions and application form are PDFs.</p>
