@@ -32,6 +32,9 @@ public class SelectedStrainController implements Controller{
     StrainDAO sdao=new StrainDAO();
     SampleDAO smdao = new SampleDAO();
 
+    // assemblies that have a column in the Damaging Variants table of strain.jsp
+    static final Set<String> DAMAGING_VARIANT_ASSEMBLIES = new HashSet<>(Arrays.asList("Rnor_6.0", "Rnor_5.0", "RGSC_v3.4"));
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         vdao.setDataSource(DataSourceFactory.getInstance().getCarpeNovoDataSource());
@@ -60,6 +63,9 @@ public class SelectedStrainController implements Controller{
                 Map assemblyMap = new HashMap<>();
                 Map details = new HashMap<>();
                 edu.mcw.rgd.datamodel.Map m = MapManager.getInstance().getMap(sample.getMapKey());
+                if (m == null || !DAMAGING_VARIANT_ASSEMBLIES.contains(m.getName())) {
+                    continue;
+                }
                     int count = vdao.getCountofDamagingVariantsForSample(sample.getId(), String.valueOf(sample.getMapKey()));
                     if (count != 0) {
                         details.put("count", count);
