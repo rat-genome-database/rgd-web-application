@@ -107,6 +107,7 @@ public class RgdContext {
         String indexName=null;
         try {
             switch(index){
+                case "expressiontool":
                 case "chromosome":
                 case "genome":
                 case "phenominer":
