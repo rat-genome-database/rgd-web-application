@@ -280,7 +280,6 @@ p,li, a.here, span{
 }
 
 .legend {
-    position: absolute;
     display: flex;
     flex-direction: column;
     gap: 15px; /* Space between legend items */
@@ -292,9 +291,8 @@ p,li, a.here, span{
     border-radius: 4px; /* Rounded corners */
     padding: 10px; /* Add padding inside the border */
     background-color: #f9f9f9;
-    top: 80px;
-    left: 75%; /* Position to the right of the table */
-    transform: translateX(13px); /* Add a small offset for spacing */
+    order: 1; /* after the table, which comes second in the markup */
+    margin-top: 70px; /* level with the first table rows */
 }
 
 .legend div {
@@ -304,13 +302,18 @@ p,li, a.here, span{
     white-space: nowrap;
 }
 
+/* Classic Inbred Strains table: left edge in line with the HXB/BXH table below it (side-by-side gives each 48% table 1% on either side), legend to its right */
 .centered {
     position: relative;
     display: flex;
-    /*justify-content: center;*/
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 25px;
     width: 100%;
+}
+
+.centered .hrdpTable {
+    margin-left: 1%;
 }
 
 #selectedStrainsList {
