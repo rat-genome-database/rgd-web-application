@@ -131,13 +131,6 @@ To change this template use File | Settings | File Templates.
                 </li>
                 <li>
                     Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org">PhenoGen Informatics</a>
-                    <ul>
-                        <li>
-                            <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
-                                UCSC&nbsp;Track&nbsp;Hubs
-                            </a>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </details>
