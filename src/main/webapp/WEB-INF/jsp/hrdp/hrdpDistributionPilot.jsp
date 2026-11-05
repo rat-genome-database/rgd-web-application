@@ -5,14 +5,14 @@
     String pageDescription = "Distribution Pilot Program of the Hybrid Rat Discovery Panel (HRDP)";
 %>
 <%@ include file="/common/headerarea.jsp"%>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=2">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
     <div class="hrdp-back"><a class="here" href="/rgdweb/hrdp_panel.html">&larr; Hybrid Rat Discovery Panel</a></div>
     <div class="hrdp-program">
         <div class="hrdp-program-intro">
-            <h2>Distribution Pilot Program</h2>
+            <h1>Distribution Pilot Program</h1>
             <p>Generate preliminary data, test novel hypotheses, and build competitive future funding applications
                 while expanding the scientific impact of the HRDP resource. Investigators can request up to 40
                 individual HRDP rats from different strains for pilot projects to be completed in the investigator&rsquo;s

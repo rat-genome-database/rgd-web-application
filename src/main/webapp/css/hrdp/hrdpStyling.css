@@ -51,18 +51,15 @@ p,li, a.here, span{
 }
 
 .hrdp-img-container {
-    float: right;
-    margin-left: 15px;
-    margin-right: 30px;
-    margin-bottom: 10px;
+    margin: 20px 0 10px 0;
     text-align: center;
 }
 
 .hrdp-main-img {
-    max-width: 520px;
+    display: inline-block !important;
+    max-width: 700px;
+    width: 100%;
     transition: transform 0.3s ease;
-    display: block;
-    margin-bottom: 10px;
 }
 
 .hrdp-main-img:hover {
@@ -349,65 +346,100 @@ p,li, a.here, span{
     }
 }
 
-/* HRDP Pilot Programs: section on the landing page and the two program pages */
-.hrdp-pilot, .hrdp-program {
-    color: #222;
+/* Top of the landing page: "What is the HRDP" on the left, HRDP Pilot Programs on the right */
+.hrdp-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+    align-items: flex-start;
 }
 
-.hrdp-pilot h2, .hrdp-program h2 {
-    color: #2865A3;
-    font-size: 26pt;
-    font-weight: bold;
-    margin: 0 0 6px 0;
-}
-
-.hrdp-pilot h4 {
-    font-size: 14pt;
-    font-weight: bold;
-    margin: 0 0 10px 0;
-}
-
-.hrdp-pilot p, .hrdp-program p {
-    font-size: 12pt;
-    line-height: 1.4;
+.hrdp-about {
+    flex: 1 1 480px;
 }
 
 .hrdp-pilot {
-    overflow: hidden; /* contains the floated image */
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #ddd;
+    flex: 1 1 480px;
 }
 
-.hrdp-pilot-img {
-    float: right;
-    max-width: 260px;
-    margin: 30px 30px 0 20px;
-    mix-blend-mode: multiply; /* the photo's white background takes the panel color */
+.hrdp-pilot-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hrdp-pilot-title h3 {
+    margin: 0;
+}
+
+/* "NOW OPEN" tag beside the Pilot Programs heading */
+span.hrdp-now-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 6px;
+    background-color: #D7262E;
+    border-radius: 6px;
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11pt;
+    font-weight: bold;
+    line-height: 1.05;
+    letter-spacing: 0.5px;
+    transform: rotate(-8deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+span.hrdp-now-open-icon {
+    display: inline-flex;
+    padding: 4px;
+    background-color: #A8141B;
+    border-radius: 50%;
+}
+
+.hrdp-pilot p {
+    margin: 8px 0;
+}
+
+.hrdp-pilot p.hrdp-pilot-subtitle {
+    margin-top: 12px;
+}
+
+.hrdp-pilot-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .hrdp-pilot-row {
     display: flex;
     align-items: center;
-    gap: 40px;
-    margin: 20px 0;
+    gap: 25px;
+    margin: 18px 0;
 }
 
-.hrdp-pilot-row p {
-    width: 260px;
+.hrdp-pilot .hrdp-pilot-row p {
+    width: 250px;
     margin: 0;
+}
+
+.hrdp-pilot-img {
+    width: 200px;
+    max-width: 30%;
+    mix-blend-mode: multiply; /* the photo's white background takes the panel color */
 }
 
 a.hrdp-pilot-btn {
     display: inline-block;
-    width: 150px;
-    padding: 8px 10px;
+    width: 140px;
+    padding: 6px 8px;
     background-color: #2865A3;
-    border: 1px solid #1E4C7A;
-    border-radius: 5px;
+    border: 2px solid #1E4C7A;
+    border-radius: 8px;
     color: #fff;
     font-size: 11pt;
-    font-weight: bold;
+    font-weight: normal;
     font-family: Helvetica, Arial, sans-serif;
     text-align: center;
     text-decoration: none;
@@ -419,6 +451,53 @@ a.hrdp-pilot-btn:hover {
     color: #fff;
 }
 
+/* collapsible sections: closed by default, the heading opens them */
+details.hrdp-section {
+    margin-top: 6px;
+}
+
+details.hrdp-section:last-of-type {
+    margin-bottom: 18px;
+}
+
+details.hrdp-section:first-of-type {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+details.hrdp-section summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    list-style: none;
+}
+
+details.hrdp-section summary::-webkit-details-marker {
+    display: none;
+}
+
+details.hrdp-section summary::before {
+    content: "";
+    border-style: solid;
+    border-width: 6px 0 6px 9px;
+    border-color: transparent transparent transparent #2865A3;
+    transition: transform 0.2s ease;
+}
+
+details.hrdp-section[open] summary::before {
+    transform: rotate(90deg);
+}
+
+details.hrdp-section summary h3 {
+    margin: 8px 0;
+}
+
+details.hrdp-section summary:hover h3 {
+    text-decoration: underline;
+}
+
+/* Distribution and Phenotyping program pages */
 .hrdp-program {
     display: flex;
     flex-wrap: wrap;
@@ -430,6 +509,10 @@ a.hrdp-pilot-btn:hover {
     flex: 1 1 100%;
 }
 
+.hrdp-program-intro h1 {
+    margin: 0 0 8px 0;
+}
+
 .hrdp-program-intro p {
     margin: 0;
 }
@@ -439,7 +522,8 @@ a.hrdp-pilot-btn:hover {
 }
 
 .hrdp-program-details h4 {
-    font-size: 12pt;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11pt;
     font-weight: bold;
     margin: 15px 0 5px 0;
 }
@@ -455,7 +539,6 @@ a.hrdp-pilot-btn:hover {
 
 .hrdpContent .hrdp-program-details ul li,
 .hrdpContent .hrdp-program-details ul li:first-child {
-    font-size: 11pt;
     margin: 0 0 3px 0;
 }
 
@@ -479,13 +562,13 @@ a.hrdp-pilot-btn:hover {
 }
 
 .hrdp-application-info h5 {
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 11pt;
     font-weight: bold;
     margin: 0 0 12px 0;
 }
 
 .hrdp-application-info p {
-    font-size: 10.5pt;
     font-weight: bold;
     margin: 0 0 12px 15px;
 }
@@ -508,7 +591,6 @@ a.hrdp-pilot-btn:hover {
 }
 
 .hrdp-program-note {
-    font-size: 11pt;
     margin: 30px 0 0 15px;
 }
 
