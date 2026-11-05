@@ -5,14 +5,14 @@
     String pageDescription = "In-house Phenotyping Pilot Program of the Hybrid Rat Discovery Panel (HRDP)";
 %>
 <%@ include file="/common/headerarea.jsp"%>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=2">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
     <div class="hrdp-back"><a class="here" href="/rgdweb/hrdp_panel.html">&larr; Hybrid Rat Discovery Panel</a></div>
     <div class="hrdp-program">
         <div class="hrdp-program-intro">
-            <h2>In-house Phenotyping Pilot Program</h2>
+            <h1>In-house Phenotyping Pilot Program</h1>
             <p>Combine the genetic diversity of the Hybrid Rat Discovery Panel with the expertise of MCW&rsquo;s core
                 facilities to generate robust preliminary data to support your future studies and grant applications.</p>
         </div>

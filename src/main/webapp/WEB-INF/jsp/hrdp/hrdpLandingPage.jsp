@@ -36,7 +36,7 @@ To change this template use File | Settings | File Templates.
     }
     catch (Exception ingore){}
 %>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=2">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
@@ -46,87 +46,101 @@ To change this template use File | Settings | File Templates.
             <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry" style="text-decoration: none">Contact HRDP</a>
         </button>
     </div>
-    <div class="hrdp-pilot">
-        <img src="/rgdweb/common/images/hrdp/hrdp-pilot-rats.png" alt="HRDP rats" class="hrdp-pilot-img">
-        <h2>HRDP Pilot Programs</h2>
-        <h4>Two opportunities to advance your research with the HRDP</h4>
-        <p>The HRDP Pilot Programs support innovative research by providing access to genetically diverse rats
-            and phenotyping resources. Choose the program that best fits your research needs.</p>
-        <div class="hrdp-pilot-row">
-            <p>Request a cohort of HRDP rats to conduct experiments in your own laboratory</p>
-            <a class="hrdp-pilot-btn" href="/rgdweb/hrdp_distribution_pilot.html">Distribution<br>Pilot Program</a>
+    <div class="hrdp-top">
+        <div class="hrdp-about">
+        <h3>What is the Hybrid Rat Discovery Panel (HRDP)?</h3>
+        <ul>
+            <li>Panel of 96 inbred rat strains with genetic and phenotypic diversity
+                <ul>
+                    <li>33 genetically diverse "classic" inbred strains</li>
+                    <li>Two recombinant inbred (RI) panels: FXLE/LEXF (33 strains, Japan) and HXB/BXH (30 strains, Czech Republic). To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml?#ris">click here</a>.
+                        <ul class="horizontal-list">
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=7244374">FXLE/Stm</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=629500">LEXF/Stm</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=61098">BXH/Ipcv</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=61099">HXB/Ipcv</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        A Mini-HRDP panel – 8 classic inbred strains including the RI progenitor strains.
+                        <ul class="horizontal-list">
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=631848">SHR/OlaIpcv</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=61498">BN/NHsdMcwi</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=1302686">F344/Stm</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=629485">LE/Stm</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=1358112">WKY/NCrl</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=10395297">GK/FarMcwi</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=61499">SS/JrHsdMcwi</a></li>
+                            <li><a class="here" href="/rgdweb/report/strain/main.html?id=7364991">ACI/EurMcwi</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
         </div>
-        <div class="hrdp-pilot-row">
-            <p>Request a cohort of HRDP rats and utilize MCW&rsquo;s core facilities to perform phenotyping</p>
-            <a class="hrdp-pilot-btn" href="/rgdweb/hrdp_phenotyping_pilot.html">Phenotyping<br>Pilot Program</a>
+        <div class="hrdp-pilot">
+            <div class="hrdp-pilot-title">
+                <span class="hrdp-now-open"><span class="hrdp-now-open-icon"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="#fff" d="M3 9.5v5a1 1 0 0 0 1 1h1.6l1.3 4.2a1 1 0 0 0 1 .7h1.4a.6.6 0 0 0 .6-.8L8.6 15.5H9l9 4.5V4L9 8.5H4a1 1 0 0 0-1 1zm17.5.2v4.6a2.6 2.6 0 0 0 0-4.6z"/></svg></span>NOW<br>OPEN</span>
+                <h3>HRDP Pilot Programs</h3>
+            </div>
+            <p class="hrdp-pilot-subtitle">Two opportunities to advance your research with the HRDP</p>
+            <p>The HRDP Pilot Programs support innovative research by providing access to genetically diverse rats
+                and phenotyping resources. Choose the program that best fits your research needs.</p>
+            <div class="hrdp-pilot-body">
+                <div>
+                    <div class="hrdp-pilot-row">
+                        <p>Request a cohort of HRDP rats to conduct experiments in your own laboratory</p>
+                        <a class="hrdp-pilot-btn" href="/rgdweb/hrdp_distribution_pilot.html">Distribution<br>Pilot Program</a>
+                    </div>
+                    <div class="hrdp-pilot-row">
+                        <p>Request a cohort of HRDP rats and utilize MCW&rsquo;s core facilities to perform phenotyping</p>
+                        <a class="hrdp-pilot-btn" href="/rgdweb/hrdp_phenotyping_pilot.html">Phenotyping<br>Pilot Program</a>
+                    </div>
+                </div>
+                <img src="/rgdweb/common/images/hrdp/hrdp-pilot-rats.png" alt="HRDP rats" class="hrdp-pilot-img">
+            </div>
         </div>
     </div>
     <div class="hrdp-img-container">
         <a title="Click here to jump to strain listing" href="#strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image" class="hrdp-main-img"></a>
     </div>
-    <h3>What is the Hybrid Rat Discovery Panel (HRDP)?</h3>
-    <ul>
-        <li>Panel of 96 inbred rat strains with genetic and phenotypic diversity
-            <ul>
-                <li>33 genetically diverse "classic" inbred strains</li>
-                <li>Two recombinant inbred (RI) panels: FXLE/LEXF (33 strains, Japan) and HXB/BXH (30 strains, Czech Republic). To learn more about recombinant inbred strains, <a class="here" href="https://www.informatics.jax.org/mgihome/nomen/strains.shtml?#ris">click here</a>.
-                    <ul class="horizontal-list">
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=7244374">FXLE/Stm</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=629500">LEXF/Stm</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=61098">BXH/Ipcv</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=61099">HXB/Ipcv</a></li>
-                    </ul>
-                </li>
-                <li>
-                    A Mini-HRDP panel – 8 classic inbred strains including the RI progenitor strains.
-                    <ul class="horizontal-list">
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=631848">SHR/OlaIpcv</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=61498">BN/NHsdMcwi</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=1302686">F344/Stm</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=629485">LE/Stm</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=1358112">WKY/NCrl</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=10395297">GK/FarMcwi</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=61499">SS/JrHsdMcwi</a></li>
-                        <li><a class="here" href="/rgdweb/report/strain/main.html?id=7364991">ACI/EurMcwi</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <h3>What resources are available for the HRDP?</h3>
-    <ul>
-        <li>
-            Many of the HRDP strains are currently available for experiments. <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry">Contact HRDP</a> for details.
-        </li>
-        <li>
-           Quantitative phenotype measurements can be explored through <a class="here" href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner</a>
-        </li>
-        <li>
-            Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
-        </li>
-        <li>
-            Gastrocnemius, kidney, retroperitoneal fat pad, and thymus RNA expression levels – RGD:
-            <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/">GRCr8</a>,
-            <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/mRatBN7_2_expression_data/">mRatBN7.2</a>
-            <ul>
-                <li>
-                    <a class="here" target="_blank" href="<%= (RgdContext.isDev() || RgdContext.isTest()) ? "https://pipelines.rgd.mcw.edu" : ""
-  %>/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Coverage Profiles on JBrowse 2</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org">PhenoGen Informatics</a>
-            <ul>
-                <li>
-                    <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
-                        UCSC&nbsp;Track&nbsp;Hubs
-                    </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-        <h3>How can the HRDP resources be leveraged for New Approach Methodologies (NAMs)?</h3>
+    <details class="hrdp-section">
+        <summary title="Show or hide this section"><h3>What resources are available for the HRDP?</h3></summary>
+        <ul>
+            <li>
+                Many of the HRDP strains are currently available for experiments. <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry">Contact HRDP</a> for details.
+            </li>
+            <li>
+               Quantitative phenotype measurements can be explored through <a class="here" href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner</a>
+            </li>
+            <li>
+                Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
+            </li>
+            <li>
+                Gastrocnemius, kidney, retroperitoneal fat pad, and thymus RNA expression levels – RGD:
+                <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/">GRCr8</a>,
+                <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/mRatBN7_2_expression_data/">mRatBN7.2</a>
+                <ul>
+                    <li>
+                        <a class="here" target="_blank" href="<%= (RgdContext.isDev() || RgdContext.isTest()) ? "https://pipelines.rgd.mcw.edu" : ""
+      %>/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Coverage Profiles on JBrowse 2</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org">PhenoGen Informatics</a>
+                <ul>
+                    <li>
+                        <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
+                            UCSC&nbsp;Track&nbsp;Hubs
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </details>
+    <details class="hrdp-section">
+        <summary title="Show or hide this section"><h3>How can the HRDP resources be leveraged for New Approach Methodologies (NAMs)?</h3></summary>
         <ul>
             <li>
                 <img src="/rgdweb/common/images/hrdp/Mini-HRDP.png" alt="Mini-HRDP and HS Founder Best Match" class="mini-hrdp-img">
@@ -150,6 +164,7 @@ To change this template use File | Settings | File Templates.
                 Data is available for download for use in <b>computational models</b>.
             </li>
         </ul>
+    </details>
     <h3>How do the HRDP strains relate to the Heterogenous Stock (HS) founder strains?</h3>
     <ul>
         <li>
