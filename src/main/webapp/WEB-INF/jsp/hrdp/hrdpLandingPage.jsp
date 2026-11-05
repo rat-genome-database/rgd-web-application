@@ -36,7 +36,7 @@ To change this template use File | Settings | File Templates.
     }
     catch (Exception ingore){}
 %>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=2">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=3">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
@@ -104,75 +104,79 @@ To change this template use File | Settings | File Templates.
     <div class="hrdp-img-container">
         <a title="Click here to jump to strain listing" href="#strainList"><img src="/rgdweb/common/images/hrdp/hrdp.png?1" alt="hrdp image" class="hrdp-main-img"></a>
     </div>
-    <details class="hrdp-section">
-        <summary title="Show or hide this section"><h3>What resources are available for the HRDP?</h3></summary>
+    <div class="hrdp-more">
+        <div class="hrdp-more-text">
+        <details class="hrdp-section">
+            <summary title="Show or hide this section"><h3>What resources are available for the HRDP?</h3></summary>
+            <ul>
+                <li>
+                    Many of the HRDP strains are currently available for experiments. <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry">Contact HRDP</a> for details.
+                </li>
+                <li>
+                   Quantitative phenotype measurements can be explored through <a class="here" href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner</a>
+                </li>
+                <li>
+                    Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
+                </li>
+                <li>
+                    Gastrocnemius, kidney, retroperitoneal fat pad, and thymus RNA expression levels – RGD:
+                    <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/">GRCr8</a>,
+                    <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/mRatBN7_2_expression_data/">mRatBN7.2</a>
+                    <ul>
+                        <li>
+                            <a class="here" target="_blank" href="<%= (RgdContext.isDev() || RgdContext.isTest()) ? "https://pipelines.rgd.mcw.edu" : ""
+          %>/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Coverage Profiles on JBrowse 2</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org">PhenoGen Informatics</a>
+                    <ul>
+                        <li>
+                            <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
+                                UCSC&nbsp;Track&nbsp;Hubs
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </details>
+        <details class="hrdp-section">
+            <summary title="Show or hide this section"><h3>How can the HRDP resources be leveraged for New Approach Methodologies (NAMs)?</h3></summary>
+            <ul>
+                <li>
+                    Well characterized subsets of HRDP strains can be used to complement, benchmark, and validate human disease mechanisms. Two important subsets include the mini-HRDP and the Heterogeneous Stock (HS) founder strains. <b>Use of these smaller panels can reduce the use of animals through focused pre-clinical studies</b>.
+                    <ul>
+                        <li>
+                            Both subsets capture genetic and phenotypic variability of the full HRDP.
+                        </li>
+                        <li>
+                            Mini-HRDP includes 8 strains suitable for most experimental protocols, including behavioral assays and the progenitors for the two recombinant inbred panels.
+                        </li>
+                        <li>
+                            The HS founder strains are the strains that most closely represent the 8 inbred strains used to create the Heterogeneous Stock outbred population.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    The wealth of available genomic and phenotypic data for the HRDP strains can be used to <b>validate NAMs data</b>. PhenoMiner and Variant Visualizer can be used to explore and access the data.
+                </li>
+                <li>
+                    Data is available for download for use in <b>computational models</b>.
+                </li>
+            </ul>
+        </details>
+        <h3>How do the HRDP strains relate to the Heterogenous Stock (HS) founder strains?</h3>
         <ul>
             <li>
-                Many of the HRDP strains are currently available for experiments. <a class="here" href="mailto:HRDP@mcw.edu?subject=HRDP inquiry">Contact HRDP</a> for details.
+                Based on sequence similarity, the best match from the HRDP inbred strains has been identified for each of the HS founder strains.
             </li>
-            <li>
-               Quantitative phenotype measurements can be explored through <a class="here" href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner</a>
-            </li>
-            <li>
-                Whole genome sequence data (<a class="here" target="_blank" href="https://download.rgd.mcw.edu/strain_specific_variants/Dwinell_MCW_HybridRatDiversityProgram/">VCF files for download</a>, variants integrated into <a class="here" target="_blank" href="/rgdweb/front/config.html">Variant Visualizer</a>)
-            </li>
-            <li>
-                Gastrocnemius, kidney, retroperitoneal fat pad, and thymus RNA expression levels – RGD:
-                <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/">GRCr8</a>,
-                <a class="here" target="_blank" href="https://download.rgd.mcw.edu/expression/HRDP/mRatBN7_2_expression_data/">mRatBN7.2</a>
-                <ul>
-                    <li>
-                        <a class="here" target="_blank" href="<%= (RgdContext.isDev() || RgdContext.isTest()) ? "https://pipelines.rgd.mcw.edu" : ""
-      %>/jbrowse2/?loc=Chr4:12315270-14781251&assembly=mRatBN7.2&tracklist=true&tracks=RNAseq_Gastrocnemius_BN_Lx_CubMcwi_F">HRDP Expression Coverage Profiles on JBrowse 2</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                Whole Brain, heart, liver and kidney RNA expression levels – <a class="here" target="_blank" href="https://phenogen.org">PhenoGen Informatics</a>
-                <ul>
-                    <li>
-                        <a class="here" target="_blank" href="https://genome.ucsc.edu/cgi-bin/hgTracks?db=rn7&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chr1%3A79348972%2D79379997&hgsid=3232894521_B0iMbE5Oq9ZuQpWJAmAGV0sJNEWk">
-                            UCSC&nbsp;Track&nbsp;Hubs
-                        </a>
-                    </li>
-                </ul>
+            <li>For more information about the HRDP strains matched to the HS founders, <a class="here" href="https://rgd.mcw.edu/wg/hrdp_panel/hrdp-to-hs-founder-strain-genetic-similarity/">click here</a>
             </li>
         </ul>
-    </details>
-    <details class="hrdp-section">
-        <summary title="Show or hide this section"><h3>How can the HRDP resources be leveraged for New Approach Methodologies (NAMs)?</h3></summary>
-        <ul>
-            <li>
-                <img src="/rgdweb/common/images/hrdp/Mini-HRDP.png" alt="Mini-HRDP and HS Founder Best Match" class="mini-hrdp-img">
-                Well characterized subsets of HRDP strains can be used to complement, benchmark, and validate human disease mechanisms. Two important subsets include the mini-HRDP and the Heterogeneous Stock (HS) founder strains. <b>Use of these smaller panels can reduce the use of animals through focused pre-clinical studies</b>.
-                <ul>
-                    <li>
-                        Both subsets capture genetic and phenotypic variability of the full HRDP.
-                    </li>
-                    <li>
-                        Mini-HRDP includes 8 strains suitable for most experimental protocols, including behavioral assays and the progenitors for the two recombinant inbred panels.
-                    </li>
-                    <li>
-                        The HS founder strains are the strains that most closely represent the 8 inbred strains used to create the Heterogeneous Stock outbred population.
-                    </li>
-                </ul>
-            </li>
-            <li>
-                The wealth of available genomic and phenotypic data for the HRDP strains can be used to <b>validate NAMs data</b>. PhenoMiner and Variant Visualizer can be used to explore and access the data.
-            </li>
-            <li>
-                Data is available for download for use in <b>computational models</b>.
-            </li>
-        </ul>
-    </details>
-    <h3>How do the HRDP strains relate to the Heterogenous Stock (HS) founder strains?</h3>
-    <ul>
-        <li>
-            Based on sequence similarity, the best match from the HRDP inbred strains has been identified for each of the HS founder strains.
-        </li>
-        <li>For more information about the HRDP strains matched to the HS founders, <a class="here" href="https://rgd.mcw.edu/wg/hrdp_panel/hrdp-to-hs-founder-strain-genetic-similarity/">click here</a>
-        </li>
-    </ul>
+        </div>
+        <img src="/rgdweb/common/images/hrdp/Mini-HRDP.png" alt="Mini-HRDP and HS Founder Best Match" class="mini-hrdp-img">
+    </div>
     </div>
     <br>
     <a id="strainList"></a>
