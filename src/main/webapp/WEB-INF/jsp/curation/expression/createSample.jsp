@@ -342,7 +342,7 @@
             if(samples.size() != 0) {
         %>
                 <colgroup>
-                    <col span="21">
+                    <col span="22">
                     <% for (int i = 0; i < 15; i ++){%>
                     <col span="3">
                     <col id="showMe<%=i%>" span="7" style="visibility: collapse">
@@ -372,6 +372,7 @@
                 <th>Public Notes:</th>
                 <th>Curator Notes:</th>
                 <th>Status/Action:</th>
+                <th>Study Control:</th>
                 <% int k = 0;
                     for (k = 0; k < conditions.size(); k++){%>
                 <th><b style="font-size: x-large"><%=k+1%></b> <input type="checkbox" name="checkAll<%=k%>" id="checkAll<%=k%>" value="<%=k%>" onclick="checkedAll('<%=k%>', this)" checked></th>
@@ -550,6 +551,9 @@ catch (Exception e){}
                         <option value="ignore" <%=(s.getCurationStatus().equals("not4Curation") || s.getCurationStatus().equals("futureCuration")) ? "selected":""%>>Ignore</option>
                         <option value="edit" <%=s.getCurationStatus().equals("loaded")  ? "selected":""%>>Edit</option><!-- || sample.getId()!=0  && sample.getId()==0 -->
                     </select>
+                </td>
+                <td align="center">
+                    <input type="checkbox" name="isStudyControl<%=count%>" id="isStudyControl<%=count%>" value="true" <%=(r!=null && r.getStudyControl()) ? "checked" : ""%>>
                 </td>
 
                 <%try{

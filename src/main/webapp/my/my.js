@@ -565,6 +565,7 @@ rgdModule.controller('RGDPageController', [
                     f.setAttribute('target', '_blank');
                     document.getElementsByTagName('body')[0].appendChild(f);
                     f.submit();
+                    $('#tools-modal').modal('hide');
 
                     //window.open(url);
 

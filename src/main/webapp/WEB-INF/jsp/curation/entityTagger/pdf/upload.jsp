@@ -211,6 +211,41 @@
             hasActiveUploads: ${hasActiveUploads},
             activeUploadsCount: ${activeUploadsCount}
         };
+
+        // Cross-window communication with launcher
+        window.launcherWindow = window.opener;
+
+        // Notify launcher that Ontomation is ready
+        if (window.launcherWindow) {
+            window.launcherWindow.postMessage({
+                type: 'ontomation-ready',
+                data: 'Ontomation initialized',
+                timestamp: new Date().toISOString()
+            }, '*');
+        }
+
+        // Listen for messages from launcher
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'launcher-message') {
+                console.log('Received from launcher:', event.data.data);
+                // Handle the message and optionally respond
+                sendToLauncher('Received: ' + event.data.data);
+            }
+        });
+
+        // Function to send messages back to launcher
+        function sendToLauncher(message) {
+            if (window.launcherWindow && !window.launcherWindow.closed) {
+                window.launcherWindow.postMessage({
+                    type: 'ontomation-message',
+                    data: message,
+                    timestamp: new Date().toISOString()
+                }, '*');
+            }
+        }
+
+        // Make sendToLauncher globally available
+        window.sendToLauncher = sendToLauncher;
     </script>
     <script src="${pageContext.request.contextPath}/js/entityTagger/pdf-upload.js"></script>
 </body>

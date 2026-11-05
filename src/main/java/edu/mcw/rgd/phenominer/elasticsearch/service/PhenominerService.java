@@ -114,10 +114,29 @@ public class PhenominerService {
             }
         }
 
+        // Conditions ticked in the "Exclude Conditions" group above the results table are
+        // dropped from the hits, and therefore from the table, the chart and the counts.
+        List<String> excludedConditions = getExcludedConditions(req);
+        if (!excludedConditions.isEmpty()) {
+            b.mustNot(termsFilterStr("xcoTerm.keyword", excludedConditions));
+        }
+
         if (speciesTypeKey > 0) {
             b.filter(Query.of(q -> q.term(t -> t.field("speciesTypeKey").value(FieldValue.of(speciesTypeKey)))));
         }
         return Query.of(q -> q.bool(b.build()));
+    }
+
+    /** Conditions (xcoTerm values) the user ticked to leave out of the results. */
+    public static List<String> getExcludedConditions(HttpRequestFacade req) {
+        List<String> excluded = new ArrayList<>();
+        for (String condition : req.getParameterValues("excludeXcoTerm")) {
+            String trimmed = condition.trim();
+            if (!trimmed.isEmpty() && !excluded.contains(trimmed)) {
+                excluded.add(trimmed);
+            }
+        }
+        return excluded;
     }
 
     public Map<String, List<String>> getSegregatedTerms(HttpRequestFacade req) {

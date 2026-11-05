@@ -94,7 +94,7 @@
         <input type="text" size="15" name="refRgdId<%=i%>" id="refRgdId<%=i%>" value="<%=dm.out("refRgdId"+i, study.getRefRgdIds().get(i))%>">
         <% }
         for (int j = i; j < 3; j++){%>
-            <input type="text" size="15" name="refRgdId<%=i%>" id="refRgdId<%=i%>" value="<%=dm.out("refRgdId"+i, "")%>">
+            <input type="text" size="15" name="refRgdId<%=j%>" id="refRgdId<%=j%>" value="<%=dm.out("refRgdId"+j, "")%>">
         <%  } %></td>
     </tr>
     <tr>

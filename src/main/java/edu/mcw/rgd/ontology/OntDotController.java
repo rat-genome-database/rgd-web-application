@@ -177,7 +177,7 @@ public class OntDotController implements Controller {
                 // this part of file name is suspicious: return rgd logo :-)
                 response.sendRedirect("/common/images/rgd_logo.gif");
                 return;
-            }
+            }        
         }
 
         File file = new File(getTmpFileDir()+"/"+imgId);

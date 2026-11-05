@@ -46,6 +46,7 @@
                 <prop key="pathway/chart.html">pathwayDiagramController</prop>
                 <prop key="pathway/pathwayRecord.html">PathwayNewRecordController</prop>
 
+                <prop key="search/search.html">searchController</prop>
                 <prop key="search/searchByPosition.html">searchByPosController</prop>
                 <prop key="search/variantCount.html">variantCountController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
@@ -85,6 +86,7 @@
                 <prop key="report/genomeInformation/chromosome.html">chromosomeController</prop>
                 <prop key="report/genomeInformation/diseaseGenes.html">diseaseGenesController</prop>
                 <prop key="report/proteinDomain/main.html">ProteinDomainReportController</prop>
+                <prop key="report/geneFamily/main.html">GeneFamilyReportController</prop>
                 <!--                <prop key="overgo/find.html">OvergoController</prop>-->
                 <prop key="seqretrieve/retrieve.html">SeqRetrieveController</prop>
 
@@ -277,11 +279,12 @@
     <bean id="VariantDownloadController" class="edu.mcw.rgd.report.VariantDownloadController"/>
     <bean id="CellLineReportController" class="edu.mcw.rgd.report.CellLineReportController"/>
     <bean id="DamagingVariantController" class="edu.mcw.rgd.report.DamagingVariantController"/>
-    <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>
+<!--    <bean id="ExpressionDataController" class="edu.mcw.rgd.report.ExpressionDataController"/>-->
     <bean id="genomeInformationController" class="edu.mcw.rgd.report.GenomeInformationController"/>
     <bean id="chromosomeController" class="edu.mcw.rgd.report.ChromosomeController"/>
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
     <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
+    <bean id="GeneFamilyReportController" class="edu.mcw.rgd.report.GeneFamilyReportController"/>
     <bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
     <bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
@@ -309,6 +312,7 @@
     <bean id="pathwayNodeVisitor" class="edu.mcw.rgd.pathway.PathwayNodeVisitor" parent="wwwDir"/>
     <bean id="diagramGenerator" class="edu.mcw.rgd.pathway.DiagramGenerator" parent="wwwDir"/>
 
+    <bean id="searchController" class="edu.mcw.rgd.search.SearchController"/>
     <bean id="geneSearchController" class="edu.mcw.rgd.search.GeneSearchController"/>
     <bean id="qtlSearchController" class="edu.mcw.rgd.search.QTLSearchController"/>
     <bean id="strainSearchController" class="edu.mcw.rgd.search.StrainSearchController"/>

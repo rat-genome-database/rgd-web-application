@@ -182,7 +182,7 @@ function toggleSynonyms(synType) {
               inHiddenSection = false;
               %>
               <tr>
-                  <td class="syn_type"><%=syn.getFriendlyType()%>:</td><td class="myDiv" style='padding:3px;'>
+                  <td class="syn_type"><%= "citation_id".equals(syn.getType()) ? "Citation ID" : syn.getFriendlyType() %>:</td><td class="myDiv" style='padding:3px;'>
 
               <%
               synonymsPerType = 0;
@@ -229,6 +229,11 @@ function toggleSynonyms(synType) {
               synLink = "<a href='" + XDBIndex.getInstance().getXDB(93).getUrl() + "EFO_" + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
           } else if( syn.getName().startsWith("OBA:") ) {
               synLink = "<a href='" + XDBIndex.getInstance().getXDB(159).getUrl() + "OBA_" + syn.getName().substring(4) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getName().startsWith("RRRC:") ) {
+              synLink = "<a href='" + XDBIndex.getInstance().getXDB(141).getUrl() + syn.getName().substring(5) + "'>" + syn.getName() + "</a>";
+          } else if( syn.getType().equals("citation_id") ) {
+              // Citation ID (RRID) -> link to the SciCrunch RRID resolver
+              synLink = "<a href='https://scicrunch.org/resolver/" + syn.getName() + "' target='_blank'>" + syn.getName() + "</a>";
           } else if( syn.getType().startsWith("omim_gene") ) {
               List<Gene> omimGenes = new GeneDAO().getActiveGenes(SpeciesType.HUMAN, syn.getName());
               if( !omimGenes.isEmpty() ) {
@@ -240,7 +245,10 @@ function toggleSynonyms(synType) {
               // create pattern based on ontology id
               int pos = syn.getName().indexOf(":");
               String ontId = !syn.getType().equals("alt_id") && pos>0 ? syn.getName().substring(0, pos) : null;
-              if( ontId!=null ) {
+              // only linkify when the prefix is a real ontology-id token; some synonyms (e.g. strain names
+              // like "LH.LH-Chr 17LN-( rn4_17:30894361 ...)") contain ':' in free text and would otherwise
+              // produce an invalid regex
+              if( ontId!=null && ontId.matches("\\w+") ) {
                   Pattern p = Pattern.compile("\\b("+ontId+"\\:\\d{7})\\b");
                   StringBuffer sb = new StringBuffer();
                   Matcher m = p.matcher(syn.getName());

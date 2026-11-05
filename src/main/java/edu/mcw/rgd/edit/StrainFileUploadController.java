@@ -21,11 +21,7 @@ public class StrainFileUploadController implements Controller {
     String login = "";
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // Debug logging
-        System.out.println("StrainFileUploadController: Method=" + request.getMethod());
-        System.out.println("StrainFileUploadController: Content-Type=" + request.getContentType());
-        System.out.println("StrainFileUploadController: Request URI=" + request.getRequestURI());
-        
+
         ArrayList error = new ArrayList();
         ArrayList warning = new ArrayList();
         ArrayList status = new ArrayList();

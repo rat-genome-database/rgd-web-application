@@ -1,4 +1,5 @@
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.Iterator" %>
 
 
@@ -294,7 +295,8 @@ if (location.href.indexOf("http://rgd.mcw.edu") == -1 &&
 <div class="wg-content-position">
 
 <%
-    ArrayList error = (ArrayList) request.getAttribute("error");
+    // List, not ArrayList - see the same block in headerarea.jsp
+    List error = (List) request.getAttribute("error");
     if (error != null) {
         Iterator errorIt = error.iterator();
         while (errorIt.hasNext()) {
@@ -304,7 +306,7 @@ if (location.href.indexOf("http://rgd.mcw.edu") == -1 &&
         out.println("<br>");
     }
 
-    ArrayList status = (ArrayList) request.getAttribute("status");
+    List status = (List) request.getAttribute("status");
     if (status !=null) {
         Iterator statusIt = status.iterator();
         while (statusIt.hasNext()) {

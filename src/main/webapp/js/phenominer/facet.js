@@ -283,6 +283,11 @@ function removeFilter(filter, name) {
         var _this=$(this);
         var val=_this.val();
 
+        // The "Exclude Conditions" boxes share their values with the condition filter,
+        // so leave them alone: removing a filter must not silently un-exclude a condition.
+        if(_this.attr('name')=='excludeXcoTerm')
+            return;
+
        if(val==filter){
            _this.prop('checked',false);
            $('#unchecked').val(val);

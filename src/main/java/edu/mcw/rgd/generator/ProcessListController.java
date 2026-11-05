@@ -135,6 +135,21 @@ public class ProcessListController implements Controller {
     }
 
 
+    /**
+     * What the Symbol column of the spreadsheet shows. A gene, strain or qtl has a symbol and
+     * that is what it has always shown; a marker (SSLP) has only a name, so the same column
+     * takes its name - which is what the marker tables on the report pages show as well.
+     */
+    static String listedSymbol(Object listed) {
+        if (listed instanceof ObjectWithSymbol) {
+            return Utils.defaultString(((ObjectWithSymbol) listed).getSymbol());
+        }
+        if (listed instanceof ObjectWithName) {
+            return Utils.defaultString(((ObjectWithName) listed).getName());
+        }
+        return "";
+    }
+
     public void writeExcelFile(int oKey, HashMap allObjects, OLGAResult or) throws Exception {
 
         HttpRequestFacade req = new HttpRequestFacade(request);
@@ -142,9 +157,11 @@ public class ProcessListController implements Controller {
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         String sheetName;
-        if (oKey == 5) {
+        if (oKey == RgdId.OBJECT_KEY_SSLPS) {
+            sheetName = "Markers";
+        } else if (oKey == RgdId.OBJECT_KEY_STRAINS) {
             sheetName = "Strains";
-        } else if (oKey == 6) {
+        } else if (oKey == RgdId.OBJECT_KEY_QTLS) {
             sheetName = "QTLs";
         } else {
             sheetName = "Genes";
@@ -214,151 +231,62 @@ public class ProcessListController implements Controller {
         cell.setCellValue("Stop Position");
         cell = row.createCell(cellnum++);
         cell.setCellValue("Assembly");
-
         Iterator it = allObjects.keySet().iterator();
         while (it.hasNext()) {
 
          try {
-
-             if (oKey == 1) {
-
-
-                 Gene gene = (Gene)allObjects.get(it.next());
-
-                 String assembly = req.getParameter("mapKey");
-                 if (assembly.equals("")) {
-                     assembly = mdao.getPrimaryRefAssembly(speciesTypeKey).getKey() + "";
-                 }
-
-                 List<MapData> mdList = mdao.getMapData(gene.getRgdId(),Integer.parseInt(assembly));
-
-                 cellnum=0;
-                 if (mdList.size() > 0) {
-                     MapData md = mdList.get(0);
-
-                     row = sheet.createRow(rownum++);
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(gene.getRgdId());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(gene.getSymbol());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getChromosome());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getStartPos());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getStopPos());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(MapManager.getInstance().getMap(md.getMapKey()).getName());
-
-                 }else {
-                     row = sheet.createRow(rownum++);
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(gene.getRgdId());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(gene.getSymbol());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-
-                 }
-             }else if (oKey == 5) {
-
-                 Strain strain = (Strain)allObjects.get(it.next());
-
-                 String assembly = req.getParameter("mapKey");
-                 if (assembly.equals("")) {
-                     assembly = mdao.getPrimaryRefAssembly(speciesTypeKey).getKey() + "";
-                 }
-
-                 List<MapData> mdList = mdao.getMapData(strain.getRgdId(),Integer.parseInt(assembly));
-
-                 cellnum=0;
-                 if (mdList.size() > 0) {
-                     MapData md = mdList.get(0);
-
-                     row = sheet.createRow(rownum++);
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(strain.getRgdId());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(strain.getSymbol());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getChromosome());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getStartPos());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getStopPos());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(MapManager.getInstance().getMap(md.getMapKey()).getName());
-
-                 }else {
-                     row = sheet.createRow(rownum++);
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(strain.getRgdId());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(strain.getSymbol());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-
-                 }
-
-             }else if (oKey == 6) {
-                //qtl
-
-                 QTL qtl = (QTL)allObjects.get(it.next());
-
-                 String assembly = req.getParameter("mapKey");
-                 if (assembly.equals("")) {
-                     assembly = mdao.getPrimaryRefAssembly(speciesTypeKey).getKey() + "";
-                 }
-
-                 List<MapData> mdList = mdao.getMapData(qtl.getRgdId(),Integer.parseInt(assembly));
-
-                 cellnum=0;
-                 if (mdList.size() > 0) {
-                     MapData md = mdList.get(0);
-
-                     row = sheet.createRow(rownum++);
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(qtl.getRgdId());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(qtl.getSymbol());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getChromosome());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getStartPos());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(md.getStopPos());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(MapManager.getInstance().getMap(md.getMapKey()).getName());
-
-                 }else {
-                     row = sheet.createRow(rownum++);
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(qtl.getRgdId());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue(qtl.getSymbol());
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-                     cell = row.createCell(cellnum++);
-                     cell.setCellValue("");
-
-                 }
+             // One body for every object type the generator lists. Genes, markers, strains and
+             // qtls differ only in where the symbol column comes from - the rgd id, the position
+             // and the assembly name are read the same way for all four - but this used to be
+             // three near-identical forty line blocks keyed on oKey, with none for a marker
+             // list. oKey 3 therefore wrote no rows at all, and because it.next() was called
+             // only inside those blocks, it never advanced either: a marker list spun here
+             // until the request timed out.
+             Object listed = allObjects.get(it.next());
+             if (!(listed instanceof Identifiable)) {
+                 continue;
              }
+             int objRgdId = ((Identifiable) listed).getRgdId();
+
+             String assembly = req.getParameter("mapKey");
+             if (assembly.equals("")) {
+                 assembly = mdao.getPrimaryRefAssembly(speciesTypeKey).getKey() + "";
+             }
+
+             List<MapData> mdList = mdao.getMapData(objRgdId, Integer.parseInt(assembly));
+             MapData md = mdList.isEmpty() ? null : mdList.get(0);
+
+             cellnum = 0;
+             row = sheet.createRow(rownum++);
+
+             cell = row.createCell(cellnum++);
+             cell.setCellValue(objRgdId);
+
+             cell = row.createCell(cellnum++);
+             cell.setCellValue(listedSymbol(listed));
+
+             cell = row.createCell(cellnum++);
+             cell.setCellValue(md == null ? "" : Utils.defaultString(md.getChromosome()));
+
+             // the position columns stay numeric where there is a position, and blank where
+             // there is not, exactly as the three blocks before them did
+             cell = row.createCell(cellnum++);
+             if (md == null || md.getStartPos() == null) {
+                 cell.setCellValue("");
+             } else {
+                 cell.setCellValue(md.getStartPos());
+             }
+
+             cell = row.createCell(cellnum++);
+             if (md == null || md.getStopPos() == null) {
+                 cell.setCellValue("");
+             } else {
+                 cell.setCellValue(md.getStopPos());
+             }
+
+             cell = row.createCell(cellnum++);
+             edu.mcw.rgd.datamodel.Map objMap = md == null ? null : MapManager.getInstance().getMap(md.getMapKey());
+             cell.setCellValue(objMap == null ? "" : Utils.defaultString(objMap.getName()));
 
          }catch (Exception e) {
              e.printStackTrace();

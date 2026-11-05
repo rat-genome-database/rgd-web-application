@@ -1,6 +1,6 @@
 package edu.mcw.rgd.web;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 public class DisplayMapper {
 
     private HttpRequestFacade req;
-    private ArrayList errors;    
+    private List errors;
 
-    public DisplayMapper(HttpRequestFacade req, ArrayList errors) {
+    public DisplayMapper(HttpRequestFacade req, List errors) {
         this.req = req;
         this.errors = errors;
     }

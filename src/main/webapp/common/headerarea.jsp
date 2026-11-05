@@ -1,8 +1,10 @@
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedObject" %>
 <%@ page import="edu.mcw.rgd.datamodel.WatchedTerm" %>
 <%@ page import="edu.mcw.rgd.web.RgdContext" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -18,14 +20,27 @@
     <%
         if (!pageDescription.equals("")) {
     %>
-    <meta name="description" content="<%=pageDescription%>" />
+    <meta name="description" content="<%=StringEscapeUtils.escapeHtml4(pageDescription)%>" />
+    <% } %>
+
+    <%
+        // Result pages echo a caller-supplied term back into the page, so any URL with one is a
+        // search result, not content of ours. Left crawlable on purpose: a robots.txt Disallow would
+        // stop Googlebot from ever reading this tag, freezing already-indexed junk in the index.
+        String searchTermForRobots = request.getParameter("term");
+        if (searchTermForRobots == null || searchTermForRobots.trim().equals("")) {
+            searchTermForRobots = request.getParameter("search");
+        }
+        if (searchTermForRobots != null && !searchTermForRobots.trim().equals("")) {
+    %>
+    <meta name="robots" content="noindex,follow" />
     <% } %>
 
     <%=headContent%>
 
 
 
-    <title><%=pageTitle%></title>
+    <title><%=StringEscapeUtils.escapeHtml4(pageTitle)%></title>
 
     <link rel="stylesheet" href="/rgdweb/css/jquery/jquery-ui-1.8.18.custom.css">
     <link rel="SHORTCUT ICON" href="/favicon.ico" />
@@ -190,6 +205,7 @@
 
                                             <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
                                             <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
+                                            <a href="/assistant/">Rat Chat</a>&nbsp;|&nbsp;
                                             <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
                                             <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
 
@@ -277,6 +293,7 @@
                                             <a href="/rgdweb/ortholog/start.html">Gene-Ortholog Location Finder (GOLF)</a>
                                             <a href="/rgdweb/cytoscape/query.html">InterViewer (Protein-Protein Interactions)</a>
                                             <a href="/rgdweb/phenominer/ontChoices.html?species=3">PhenoMiner (Quantitative Phenotypes)</a>
+                                            <a href="/rgdweb/expressMiner/config.html">Expression Miner</a>
                                             <a href="/rgdweb/ga/start.jsp">Gene Annotator</a>
                                             <a href="/rgdweb/generator/list.html">OLGA (Gene List Generator)</a>
                                             <a href="https://www.alliancegenome.org/bluegenes/alliancemine">AllianceMine</a>
@@ -440,20 +457,28 @@
 </table>
 
     <%
-    ArrayList error = (ArrayList) request.getAttribute("error");
+    // List, not ArrayList: both are only iterated, and the narrower cast meant a controller
+    // handing over anything else - Collections.singletonList, List.of - took the page down with
+    // a ClassCastException instead of showing its message. ElasticSearchController forwards here
+    // with a singletonList when it rejects a search term.
+    List error = (List) request.getAttribute("error");
     if (error != null) {
         Iterator errorIt = error.iterator();
         while (errorIt.hasNext()) {
-            String err = (String) errorIt.next();
+            // escaped: several controllers put e.getMessage() in here, and an exception message
+            // carries whatever was typed - "For input string: \"<img src=x onerror=...>\"" - so
+            // concatenating it raw into the span made any such page reflect it as markup. Every
+            // message in the codebase is plain text, so escaping changes none of them.
+            String err = StringEscapeUtils.escapeHtml4((String) errorIt.next());
             out.println("<br><span style=\"color:red;font-size:20px;\">&nbsp;&nbsp;&nbsp;&nbsp;" + err + "</span>");
         out.println("<br>");
         }
     }
-    ArrayList status = (ArrayList) request.getAttribute("status");
+    List status = (List) request.getAttribute("status");
     if (status !=null) {
         Iterator statusIt = status.iterator();
         while (statusIt.hasNext()) {
-            String stat = (String) statusIt.next();
+            String stat = StringEscapeUtils.escapeHtml4((String) statusIt.next());  // see the error block above
             out.println("<br><span style=\"color:blue;font-size:20px;\">&nbsp;&nbsp;&nbsp;&nbsp;" + stat + "</span>");
         out.println("<br>");
         }

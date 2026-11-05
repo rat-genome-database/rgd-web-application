@@ -7,10 +7,18 @@
 <!--    <bean id="RGDHandlerInterceptor" class="edu.mcw.rgd.web.RGDHandlerInterceptor">-->
 <!--    </bean>-->
 
+    <!-- Enable annotation-driven MVC configuration -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    
+    <!-- Enable annotation processing for controllers -->
+    <bean class="org.springframework.context.annotation.ConfigurationClassPostProcessor"/>
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
     </bean>
-
+    
     <!-- Multipart resolver for file uploads using standard servlet API -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
         <!-- This resolver uses the servlet container's built-in multipart support -->
@@ -28,28 +36,28 @@
                 <prop key="curation/home.html">CurationController</prop>
                 <prop key="curation/testPlan.html">TestPlanController</prop>
                 <prop key="curation/login.html">CurationLoginController</prop>
-		<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
-                
-                <!-- RGD Entity Tagger URL Mappings -->
-                <prop key="curation/entityTagger/index.html">PdfUploadController</prop>
-                <prop key="curation/entityTagger/main.html">PdfUploadController</prop>
-                <prop key="curation/pdf/upload.html">PdfUploadController</prop>
-                <prop key="curation/pdf/status.html">PdfUploadController</prop>
-                <prop key="curation/pdf/cancel.html">PdfUploadController</prop>
-                <prop key="curation/pdf/session-info.html">PdfUploadController</prop>
-                <prop key="curation/terminate-session.html">PdfUploadController</prop>
-                <prop key="curation/recover-session.html">PdfUploadController</prop>
-                <prop key="curation/annotation/view.html">PdfUploadController</prop>
-                <prop key="curation/entity/recognize.html">PdfUploadController</prop>
-
-
+				<prop key="curation/strainFileUpload.html">StrainFileUploadController</prop>
+				
+				<!-- RGD Entity Tagger URL Mappings -->
+				<prop key="curation/entityTagger/index.html">PdfUploadController</prop>
+				<prop key="curation/entityTagger/main.html">PdfUploadController</prop>
+				<prop key="curation/entityTagger/launcher.html">PdfUploadController</prop>
+				<prop key="curation/pdf/upload.html">PdfUploadController</prop>
+				<prop key="curation/pdf/status.html">PdfUploadController</prop>
+				<prop key="curation/pdf/cancel.html">PdfUploadController</prop>
+				<prop key="curation/pdf/session-info.html">PdfUploadController</prop>
+				<prop key="curation/terminate-session.html">PdfUploadController</prop>
+				<prop key="curation/recover-session.html">PdfUploadController</prop>
+				<prop key="curation/annotation/view.html">PdfUploadController</prop>
+				<prop key="curation/entity/recognize.html">PdfUploadController</prop>
                 <prop key="curation/pathway/home.html">PathwayHomeController</prop>
                 <prop key="curation/pathway/pathwayCreate.html">PathwayRecordController</prop>
 				<prop key="curation/expression/experiments.html">GeoExperimentController</prop>
                 <prop key="curation/expression/editSamples.html">SampleEditController</prop>
                 <prop key="curation/expression/downloadMetaData.html">DownloadExpressionMetaDataController</prop>
-                <prop key="report/expressionStudy/downloadMetadata.html">ExpressionStudyDownloadController</prop>
                 <prop key="curation/expression/missingStudyReferences.html">MissingStudyReferencesController</prop>
+
+
                 <prop key="curation/phenominer/reference.html">PhenominerReferenceController</prop>
                 <prop key="curation/phenominer/search.html">PhenominerSearchController</prop>
                 <prop key="curation/phenominer/home.html">PhenominerCurationController</prop>
@@ -142,6 +150,7 @@
                 <prop key="pathway/chart.html">pathwayDiagramController</prop>
                 <prop key="pathway/pathwayRecord.html">PathwayNewRecordController</prop>
 
+                <prop key="search/search.html">searchController</prop>
                 <prop key="search/searchByPosition.html">searchByPosController</prop>
                 <prop key="search/variantCount.html">variantCountController</prop>
                 <prop key="search/genes.html">geneSearchController</prop>
@@ -151,6 +160,8 @@
                 <prop key="search/references.html">referenceSearchController</prop>
                 <prop key="search/ge.html">genomicElementSearchController</prop>
                 <prop key="search/variants.html">variantSearchController</prop>
+                <!--<prop key="search/expression.html">expressionSearchController</prop>-->
+               <!-- <prop key="results/advancedExpressionSearchResults.html">advancedExpressionSearchController</prop>-->
                 <prop key="search/cellLines.html">cellLineSearchController</prop>
 
                 <prop key="report/strain/damagingVariants.html">DamagingVariantController</prop>
@@ -233,6 +244,12 @@
                 <prop key="front/geneList.html">nGeneListController</prop>
                 <prop key="front/config.html">nConfigController</prop>
 
+                <prop key="expressMiner/config.html">ExpressMinerController</prop>
+                <prop key="expressMiner/geneList.html">ExpressMineGeneList</prop>
+                <prop key="expressMiner/studyList.html">ExpressMineStudyList</prop>
+                <prop key="expressMiner/strainTissue.html">ExpressMineStrainTissue</prop>
+                <prop key="expressMiner/result.html">ExpressMineResult</prop>
+
                 <prop key="generator/list.html">ProcessListController</prop>
                 <prop key="generator/wizard.html">ListWizardController</prop>
                 <prop key="generator/preview.html">ListPreviewController</prop>
@@ -256,6 +273,7 @@
 
                 <prop key="webservice/refAnnots.html">PmidImageGenerator</prop>
                 <prop key="webservice/gene.html">GeneServiceController</prop>
+                <prop key="webservice/entity.html">EntityService</prop>
                 <prop key="webservice/ontology.html">OntologyServiceController</prop>
                 <prop key="webservice/my.html">MyRgdServiceController</prop>
 
@@ -316,15 +334,21 @@
                 <prop key="phenominer/phenominerExpectedRanges/views/strainOptions.html">strainOptionsController</prop>
                  <prop key="projects/project.html">ProjectController</prop>
                  <prop key="report/project/main.html">ProjectReportController</prop>
-                 <prop key="/hrdp_panel.html">hrdpController</prop>
-                 <prop key="/hrdp_distribution_pilot.html">hrdpDistributionPilotController</prop>
-                 <prop key="/hrdp_phenotyping_pilot.html">hrdpPhenotypingPilotController</prop>
-                 <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
-                 <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
-                 <prop key="report/expressionStudy/main.html">ExpressionStudyReportController</prop>
+                <prop key="ai/output.html">aiController</prop>
+
+                <prop key="/hrdp_panel.html">hrdpController</prop>
+                <prop key="/hrdp_distribution_pilot.html">hrdpDistributionPilotController</prop>
+                <prop key="/hrdp_phenotyping_pilot.html">hrdpPhenotypingPilotController</prop>
+                <prop key="/ctc-rg2024/program.html">ctcProgramController</prop>
+                <prop key="/ctc-rg2024/posters.html">ctcPosterController</prop>
+                <prop key="report/expressionStudy/main.html">ExpressionStudyReportController</prop>
+                <prop key="report/expressionStudy/downloadMetadata.html">ExpressionStudyDownloadController</prop>
+                <prop key="report/geneFamily/main.html">GeneFamilyReportController</prop>
             </props>
         </property>
     </bean>
+        <bean id="aiController" class="edu.mcw.rgd.ai.AIController"/>
+
     <bean id="strainExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.StrainExpectedRangeController"/>
     <bean id="phenominerERSelectedStrainController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.SelectedStrainController"/>
     <bean id="phenominerExpectedRangeController" class="edu.mcw.rgd.phenotype.phenotypeExpectedRanges.PhenotypeExpectedRangeController"/>
@@ -367,7 +391,7 @@
     <bean id="GeneDamagingVariantsController" class="edu.mcw.rgd.report.ajax.GeneDamagingVariantsController"/>
     <bean id="QTLReportController" class="edu.mcw.rgd.report.QTLReportController"/>
     <bean id="StrainReportController" class="edu.mcw.rgd.report.StrainReportController"/>
-    <bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>
+    <!--<bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>-->
     <bean id="MarkerReportController" class="edu.mcw.rgd.report.MarkerReportController"/>
     <bean id="ReferenceReportController" class="edu.mcw.rgd.report.ReferenceReportController"/>
     <bean id="AnnotationReportController" class="edu.mcw.rgd.report.AnnotationReportController"/>
@@ -387,6 +411,7 @@
     <bean id="diseaseGenesController" class="edu.mcw.rgd.report.DiseaseGenesController"/>
     <bean id="ProteinDomainReportController" class="edu.mcw.rgd.report.ProteinDomainReportController"/>
     <bean id="StrainFileDownloadController" class="edu.mcw.rgd.report.StrainFileDownloadController" />
+    <bean id="StrainRedirectController" class="edu.mcw.rgd.report.StrainRedirectController"/>
     <bean id="PipelineLogsHomeController" class="edu.mcw.rgd.pipeline.PipelineLogsHomeController"/>
     <bean id="PipelineListController" class="edu.mcw.rgd.pipeline.PipelineListController"/>
     <bean id="PipelineRecListController" class="edu.mcw.rgd.pipeline.PipelineRecListController"/>
@@ -459,6 +484,7 @@
     <bean id="pathwayNodeVisitor" class="edu.mcw.rgd.pathway.PathwayNodeVisitor" parent="wwwDir"/>
     <bean id="diagramGenerator" class="edu.mcw.rgd.pathway.DiagramGenerator" parent="wwwDir"/>
 
+    <bean id="searchController" class="edu.mcw.rgd.search.SearchController"/>
     <bean id="geneSearchController" class="edu.mcw.rgd.search.GeneSearchController"/>
     <bean id="qtlSearchController" class="edu.mcw.rgd.search.QTLSearchController"/>
     <bean id="strainSearchController" class="edu.mcw.rgd.search.StrainSearchController"/>
@@ -466,6 +492,8 @@
     <bean id="referenceSearchController" class="edu.mcw.rgd.search.ReferenceSearchController"/>
     <bean id="genomicElementSearchController" class="edu.mcw.rgd.search.GenomicElementSearchController"/>
     <bean id="variantSearchController" class="edu.mcw.rgd.search.VariantSearchController"/>
+   <!-- <bean id="expressionSearchController" class="edu.mcw.rgd.search.ExpressionSearchController"/>-->
+   <!-- <bean id="advancedExpressionSearchController" class="edu.mcw.rgd.search.elasticsearch1.controller.AdvancedExpressionSearchController"/>-->
     <bean id="cellLineSearchController" class="edu.mcw.rgd.search.CellLineSearchController"/>
     <bean id="searchByPosController" class="edu.mcw.rgd.search.SearchByPosController"/>
     <bean id="variantCountController" class="edu.mcw.rgd.search.VariantCountController"/>
@@ -506,6 +534,12 @@
     <bean id="nGeneListController" class="edu.mcw.rgd.vv.GeneListController" />
     <bean id="nConfigController" class="edu.mcw.rgd.vv.ConfigController" />
 
+    <bean id="ExpressMinerController" class="edu.mcw.rgd.expressMiner.ExpressMinerController"/>
+    <bean id="ExpressMineGeneList" class="edu.mcw.rgd.expressMiner.GeneListEMController"/>
+    <bean id="ExpressMineStudyList" class="edu.mcw.rgd.expressMiner.StudyListEMController"/>
+    <bean id="ExpressMineStrainTissue" class="edu.mcw.rgd.expressMiner.StrainTissueEMController"/>
+    <bean id="ExpressMineResult" class="edu.mcw.rgd.expressMiner.ExpressMinerResultController"/>
+
     <bean id="GviewerGenomeController" class="edu.mcw.rgd.gviewer.GenomeController" />
     <!--<bean id="GviewerDownloadController" class="edu.mcw.rgd.gviewer.DownloadController" />-->
     <bean id="GviewerWelcomeController" class="edu.mcw.rgd.gviewer.WelcomeController" />
@@ -545,6 +579,7 @@
     <bean id="PrimerCreateController" class="edu.mcw.rgd.primerCreate.PrimerCreateController" parent="primer3Dir"/>
 
     <bean id="GeneServiceController" class="edu.mcw.rgd.webservice.GeneServiceController"/>
+    <bean id="EntityService" class="edu.mcw.rgd.webservice.EntityService"/>
     <bean id="MyRgdServiceController" class="edu.mcw.rgd.webservice.MyRgdServiceController"/>
     <bean id="OntologyServiceController" class="edu.mcw.rgd.webservice.OntologyServiceController"/>
     <bean id="ContextMenuController" class="edu.mcw.rgd.jbrowse.ContextMenuController"/>
@@ -608,6 +643,7 @@
 
     <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
+
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
     <bean id="hrdpDistributionPilotController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
         <property name="viewName" value="/WEB-INF/jsp/hrdp/hrdpDistributionPilot.jsp"/>
@@ -619,5 +655,5 @@
     <bean id="ctcPosterController" class="edu.mcw.rgd.ctcProgram.ctcPosterController"/>
     <bean id="ExpressionStudyReportController" class="edu.mcw.rgd.report.ExpressionStudyReportController"/>
     <bean id="ExpressionStudyDownloadController" class="edu.mcw.rgd.report.ExpressionStudyDownloadController"/>
-
+    <bean id="GeneFamilyReportController" class="edu.mcw.rgd.report.GeneFamilyReportController"/>
     </beans>

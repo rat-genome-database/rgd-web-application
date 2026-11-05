@@ -247,6 +247,7 @@
 <%@ include file="aliasData.jsp" %>
 <%@ include file="strain2geneAssociationData.jsp" %>
 <%@ include file="strain2sslpAssociationData.jsp" %>
+<%@ include file="strain2VariantAssociationData.jsp"%>
 <%@ include file="strainAssociationData.jsp" %>
 <%@ include file="notesData.jsp" %>
 <%@ include file="externalLinksData.jsp" %>
