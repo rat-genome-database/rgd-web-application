@@ -159,7 +159,8 @@ To change this template use File | Settings | File Templates.
                 </li>
             </ul>
         </details>
-        <h3>How do the HRDP strains relate to the Heterogenous Stock (HS) founder strains?</h3>
+        <details class="hrdp-section">
+            <summary title="Show or hide this section"><h3>How do the HRDP strains relate to the Heterogenous Stock (HS) founder strains?</h3></summary>
         <ul>
             <li>
                 Based on sequence similarity, the best match from the HRDP inbred strains has been identified for each of the HS founder strains.
@@ -167,6 +168,7 @@ To change this template use File | Settings | File Templates.
             <li>For more information about the HRDP strains matched to the HS founders, <a class="here" href="https://rgd.mcw.edu/wg/hrdp_panel/hrdp-to-hs-founder-strain-genetic-similarity/">click here</a>
             </li>
         </ul>
+        </details>
         </div>
         <img src="/rgdweb/common/images/hrdp/Mini-HRDP.png" alt="Mini-HRDP and HS Founder Best Match" class="mini-hrdp-img">
     </div>
