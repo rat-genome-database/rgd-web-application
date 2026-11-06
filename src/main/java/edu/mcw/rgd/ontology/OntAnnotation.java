@@ -47,28 +47,26 @@ public class OntAnnotation  {
     private String referenceTurnedRGDRef = "";
     private String hiddenPmId = "";
 
-    private Set<String> xrefs = new TreeSet<String>(new Comparator<String>() {
+    // sorts PMIDs numerically; malformed PMIDs (e.g. two ids glued together, "PMID:2112094324448499")
+    // must not break the page, so anything that does not parse falls back to plain string order
+    private static final Comparator<String> XREF_COMPARATOR = new Comparator<String>() {
         @Override
         public int compare(String o1, String o2) {
             if( o1.startsWith("PMID:") && o2.startsWith("PMID:") ) {
-                int i1 = Integer.parseInt(o1.substring(5));
-                int i2 = Integer.parseInt(o2.substring(5));
-                return i1-i2;
+                try {
+                    int r = Long.compare(Long.parseLong(o1.substring(5)), Long.parseLong(o2.substring(5)));
+                    if( r!=0 ) {
+                        return r;
+                    }
+                } catch( NumberFormatException ignored ) {
+                }
             }
             return o1.compareTo(o2);
         }
-    });
-    private Set<String> rgdRefs = new TreeSet<String>(new Comparator<String>() {
-        @Override
-        public int compare(String o1, String o2) {
-            if( o1.startsWith("PMID:") && o2.startsWith("PMID:") ) {
-                int i1 = Integer.parseInt(o1.substring(5));
-                int i2 = Integer.parseInt(o2.substring(5));
-                return i1-i2;
-            }
-            return o1.compareTo(o2);
-        }
-    });
+    };
+
+    private Set<String> xrefs = new TreeSet<String>(XREF_COMPARATOR);
+    private Set<String> rgdRefs = new TreeSet<String>(XREF_COMPARATOR);
 
     public void addXrefs(String xrefString) throws Exception {
         int oldXrefCount = xrefs.size();
