@@ -590,6 +590,14 @@ details.hrdp-section summary:hover h3 {
     justify-content: center;
 }
 
+/* stacked buttons under the application box: same height, one- and two-line labels centered */
+.hrdp-program-side .hrdp-program-buttons a.hrdp-pilot-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 2.5em;
+}
+
 .hrdp-program-buttons {
     display: flex;
     gap: 35px;

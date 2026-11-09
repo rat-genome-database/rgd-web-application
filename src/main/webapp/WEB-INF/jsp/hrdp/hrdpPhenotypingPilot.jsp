@@ -5,7 +5,7 @@
     String pageDescription = "In-house Phenotyping Pilot Program of the Hybrid Rat Discovery Panel (HRDP)";
 %>
 <%@ include file="/common/headerarea.jsp"%>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=4">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=5">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
@@ -37,10 +37,11 @@
             </ul>
             <h4>Program Details</h4>
             <ul>
-                <li>One pilot project will be awarded in the first year</li>
                 <li>Request up to 40 rats (4 strains, 10 rats per strain)</li>
                 <li>Requests can vary by strain, age, sex &amp; protocol</li>
                 <li>Phenotyping completed by ~10 weeks of age</li>
+                <li>Two projects awarded per cycle</li>
+                <li>Two competitive application cycles per year</li>
             </ul>
         </div>
         <div class="hrdp-program-side">
@@ -49,12 +50,12 @@
                 <p>Applications Now Open</p>
                 <p>Deadline:<br>December 18, 2026</p>
                 <p>Phenotyping completed:<br>Spring-Summer 2027</p>
+                <p class="hrdp-questions">Questions? Contact the HRDP team at <a href="mailto:hrdp@mcw.edu">hrdp@mcw.edu</a></p>
             </div>
             <div class="hrdp-program-buttons">
-                <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Phenotyping_Pilot_Application_Information.pdf">Application<br>Instructions</a>
+                <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Phenotyping_Pilot_Application_Information.pdf">Instructions</a>
                 <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Phenotyping_Pilot_Application_Form.pdf">Apply for<br>Phenotyping</a>
             </div>
-            <p class="hrdp-program-note">*The application instructions and application form are PDFs.</p>
         </div>
     </div>
     </div>
