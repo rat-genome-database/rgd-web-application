@@ -51,7 +51,7 @@
                 <p>Phenotyping completed:<br>Spring-Summer 2027</p>
             </div>
             <div class="hrdp-program-buttons">
-                <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Phenotyping_Pilot_Application_Instructions.pdf">Application<br>Instructions</a>
+                <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Phenotyping_Pilot_Application_Information.pdf">Application<br>Instructions</a>
                 <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Phenotyping_Pilot_Application_Form.pdf">Apply for<br>Phenotyping</a>
             </div>
             <p class="hrdp-program-note">*The application instructions and application form are PDFs.</p>
