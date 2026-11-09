@@ -372,7 +372,8 @@
     <td style="padding:8px;">
         <table align="center">
             <tr>
-                <td ><span style="font-size:14px;color:black;">&nbsp;This repository is under review for potential modification in compliance with Administration directives.</span></td>
+                <%-- <td ><span style="font-size:14px;color:black;">&nbsp;This repository is under review for potential modification in compliance with Administration directives.</span></td> --%>
+                <td ><span style="font-size:14px;color:black;">&nbsp;CTC Rat Workshop &ndash; materials <a href="/rgdweb/common/workshops/VariantVisualizer_PAVI_JBrowse_Workshops_Handout.pdf" target="_blank">here</a></span></td>
             </tr>
         </table>
     </td>
