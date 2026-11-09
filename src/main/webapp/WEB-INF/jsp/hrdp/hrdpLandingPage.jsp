@@ -36,7 +36,7 @@ To change this template use File | Settings | File Templates.
     }
     catch (Exception ingore){}
 %>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=5">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=6">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">

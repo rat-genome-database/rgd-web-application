@@ -569,6 +569,10 @@ details.hrdp-section summary:hover h3 {
     margin: 0 0 12px 15px;
 }
 
+.hrdp-application-info .hrdp-info-value {
+    font-weight: normal;
+}
+
 .hrdp-application-info p:last-child {
     margin-bottom: 0;
 }

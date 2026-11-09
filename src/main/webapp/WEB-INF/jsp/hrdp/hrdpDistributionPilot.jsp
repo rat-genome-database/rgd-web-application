@@ -5,7 +5,7 @@
     String pageDescription = "Distribution Pilot Program of the Hybrid Rat Discovery Panel (HRDP)";
 %>
 <%@ include file="/common/headerarea.jsp"%>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=5">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=6">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
@@ -37,8 +37,8 @@
             <div class="hrdp-application-info">
                 <h5>APPLICATION INFORMATION</h5>
                 <p>Applications Now Open</p>
-                <p>Deadline:<br>December 18, 2026</p>
-                <p>Cohorts Available:<br>Spring-Summer 2027</p>
+                <p>Deadline:<br><span class="hrdp-info-value">December 18, 2026</span></p>
+                <p>Cohorts Available:<br><span class="hrdp-info-value">Spring-Summer 2027</span></p>
                 <p class="hrdp-questions">Questions? Contact the HRDP team at <a href="mailto:hrdp@mcw.edu">hrdp@mcw.edu</a></p>
             </div>
         </div>
