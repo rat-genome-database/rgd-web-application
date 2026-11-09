@@ -5,7 +5,7 @@
     String pageDescription = "In-house Phenotyping Pilot Program of the Hybrid Rat Discovery Panel (HRDP)";
 %>
 <%@ include file="/common/headerarea.jsp"%>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=3">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=4">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">

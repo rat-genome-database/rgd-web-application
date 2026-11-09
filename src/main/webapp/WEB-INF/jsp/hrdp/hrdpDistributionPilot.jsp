@@ -5,7 +5,7 @@
     String pageDescription = "Distribution Pilot Program of the Hybrid Rat Discovery Panel (HRDP)";
 %>
 <%@ include file="/common/headerarea.jsp"%>
-<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=3">
+<link rel="stylesheet" type="text/css" href="css/hrdp/hrdpStyling.css?v=4">
 
 <div style="margin-left: 15px;margin-top: 15px">
     <div class="hrdpContent">
@@ -26,12 +26,12 @@
                 <li>Shipping costs covered by receiving investigator</li>
                 <li>Cohorts shipped ~2-4 months after award</li>
                 <li>5 cohorts awarded per cycle</li>
+                <li>2 competitive application cycles per year</li>
             </ul>
             <div class="hrdp-program-buttons">
-                <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Distribution_Pilot_Application_Information.pdf">Application<br>Instructions</a>
+                <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Distribution_Pilot_Application_Information.pdf">Instructions</a>
                 <a class="hrdp-pilot-btn" target="_blank" href="/rgdweb/common/hrdp/HRDP_Distribution_Pilot_Application_Form.pdf">Apply for a Cohort</a>
             </div>
-            <p class="hrdp-program-note">*The application instructions and application form are PDFs.</p>
         </div>
         <div class="hrdp-program-side">
             <div class="hrdp-application-info">
@@ -39,6 +39,7 @@
                 <p>Applications Now Open</p>
                 <p>Deadline:<br>December 18, 2026</p>
                 <p>Cohorts Available:<br>Spring-Summer 2027</p>
+                <p class="hrdp-questions">Questions? Contact the HRDP team at <a href="mailto:hrdp@mcw.edu">hrdp@mcw.edu</a></p>
             </div>
         </div>
     </div>
