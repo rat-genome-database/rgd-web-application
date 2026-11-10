@@ -56,6 +56,38 @@ public class QueryService1 {
     private static final int MEDIUM_AGG_SIZE = 200;
     private static final int ASSEMBLY_AGG_SIZE = 100;
 
+    /**
+     * The _source fields the result tables actually read, so a page of hits does not carry the
+     * whole document back for every row.
+     *
+     * At 50 rows the difference is not worth noticing; at the 1000 the page size selector offers
+     * it is 1000 full documents serialized by Elasticsearch, pushed over the wire and turned into
+     * Maps by SearchService.getResultsMap(), when the JSPs read about two dozen fields.
+     *
+     * This is the complete set of keys the result tables look up - every sourceMap.get("...") under
+     * jsp/search/elasticsearch/elasticsearch1/, plus the four mapDataList entries mapDetails.jsp
+     * reads and the fields PhenominerSearchController and ElasticSearchController read off hit 0
+     * when they redirect a single result. A field added to a result table has to be added here too,
+     * or it comes back null and the column renders empty.
+     */
+    private static final List<String> SOURCE_INCLUDES = List.of(
+            // identity, and what every table builds its report link from
+            "term_acc", "category", "subcat", "species", "symbol", "name", "term", "title",
+            // gene, qtl, strain, sslp, promoter, cell line
+            "rsId", "annotationsCount", "pathwayDiagUrl", "strainsCrossed",
+            "sampleExists", "experimentRecordCount",
+            // ontology
+            "annotationsMatrix", "termAnnotsCount", "childTermsAnnotsCount",
+            // reference
+            "author", "citation",
+            // expression study
+            "geoSeriesAcc", "xdbIdentifiers",
+            // variant
+            "refNuc", "varNuc", "variantCategory",
+            // mapDetails.jsp reads only these four out of each mapDataList entry
+            "mapDataList.map", "mapDataList.chromosome", "mapDataList.startPos", "mapDataList.stopPos"
+    );
+
     private static final List<String> SEARCH_PRIMARY_FIELDS = Arrays.asList("name", "symbol");
     private static final List<String> AGG_FIELDS = Arrays.asList("species", "category", "type", "trait", "assembly");
     private static final Set<String> SPECIES_SET = Set.of("rat", "human", "mouse", "bonobo", "squirrel", "dog", "chinchilla");
@@ -71,7 +103,10 @@ public class QueryService1 {
         List<SortOptions> sort = (sb != null) ? buildSort(sb) : Collections.emptyList();
         Map<String, Aggregation> aggs = (sb != null && !sb.isPage()) ? buildAggregations() : Collections.emptyMap();
         Query postFilter = (sb != null) ? buildPostFilter(sb) : null;
-        Highlight highlight = (sb != null) ? buildHighlights() : null;
+        // highlights.jsp is the only thing that reads these, and it is only included when the site
+        // is not production - so on production Elasticsearch was analyzing every field of every hit
+        // to build fragments that were then thrown away.
+        Highlight highlight = (sb != null && !RgdContext.isProduction()) ? buildHighlights() : null;
         int from = (sb != null) ? sb.getFrom() : 0;
         int size = (sb != null) ? sb.getSize() : 10;
 
@@ -83,6 +118,7 @@ public class QueryService1 {
                     // reported total is capped, while the aggregation based results
                     // matrix shows the real (larger) counts
                     .trackTotalHits(t -> t.enabled(true))
+                    .source(src -> src.filter(f -> f.includes(SOURCE_INCLUDES)))
                     .from(from)
                     .size(size);
             if (!sort.isEmpty()) {
@@ -623,9 +659,17 @@ public class QueryService1 {
         return Aggregation.of(a -> a.terms(t -> t.field(field).size(size)));
     }
 
+    /**
+     * Bounded on purpose. "*" is kept because highlights.jsp shows whichever field matched and
+     * there is no list of those to name here, but the defaults around it are not: 5 fragments per
+     * field per hit, at 100 characters each, is a lot of output to build and ship for 1000 rows
+     * when the panel is a "Matched By" hint. One fragment per field says the same thing.
+     */
     public Highlight buildHighlights() {
-        return Highlight.of(h -> h.fields(List.of(
-                NamedValue.of("*", HighlightField.of(f -> f)))));
+        return Highlight.of(h -> h
+                .fields(List.of(NamedValue.of("*", HighlightField.of(f -> f))))
+                .numberOfFragments(1)
+                .fragmentSize(100));
     }
 
     public SearchResponse<Map> getSearchResponseByTermAcc(String term) throws Exception {

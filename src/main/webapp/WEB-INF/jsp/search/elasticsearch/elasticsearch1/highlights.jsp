@@ -2,29 +2,14 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script>
-    $('[data-toggle="popover"]').popover({
-    html: true,
-    content: function () {
-        var content = $(this).attr("data-popover-content");
-        return $(content).children(".popover-body").html();
-    }
-
-    })
-    .on("focus", function () {
-        $(this).popover("show");
-    }).on("focusout", function () {
-        var _this = this;
-    if (!$(".popover:hover").length) {
-        $(this).popover("hide");
-    } else {
-    $('.popover').mouseleave(function () {
-        $(_this).popover("hide");
-        $(this).off('mouseleave');
-    });
-    }
-    });
-</script>
+<%--
+  This page is included once per result row, so anything emitted here is emitted once per row.
+  The popover initialization that used to sit at the top of this file is now in results.jsp,
+  where it runs once for the whole table: as a script here it shipped 1000 copies of itself on a
+  1000 row page, each one re-scanning the document and re-initializing every popover already
+  parsed - around half a million initializations, and 1000 stacked focus handlers on the first
+  row. That was the bulk of the wait after the response arrived.
+--%>
 <div>
     <%
 

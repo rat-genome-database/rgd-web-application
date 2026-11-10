@@ -51,6 +51,30 @@
             $(this).text(this.innerHTML.includes("more") ? "See less..." : "See more...");
         });
 
+        // One pass over the finished table. This used to live in highlights.jsp, which is included
+        // once per row, so it ran once per row over a growing document. Runs on DOM ready for a
+        // full page load, and immediately after insertion for the AJAX paging in elasticsearch.js -
+        // the rows are in the document either way by the time jQuery executes this.
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            content: function () {
+                var content = $(this).attr("data-popover-content");
+                return $(content).children(".popover-body").html();
+            }
+        }).on("focus", function () {
+            $(this).popover("show");
+        }).on("focusout", function () {
+            var _this = this;
+            if (!$(".popover:hover").length) {
+                $(this).popover("hide");
+            } else {
+                $('.popover').mouseleave(function () {
+                    $(_this).popover("hide");
+                    $(this).off('mouseleave');
+                });
+            }
+        });
+
     })
 
 </script>
