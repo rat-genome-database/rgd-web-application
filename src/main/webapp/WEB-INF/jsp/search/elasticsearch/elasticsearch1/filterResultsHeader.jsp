@@ -6,9 +6,9 @@
   Time: 12:52 PM
   To change this template use File | Settings | File Templates.
 --%>
-<c:if test="${model.totalHits == 10000}">
-  <span style="font-weight: bold">Showing Top</span>
-</c:if>
+<%-- "Showing Top" used to appear here on exactly 10000 hits, which was how a capped count showed
+     itself: Elasticsearch stopped counting at 10000 and reported it as the total. The search now
+     sets track_total_hits, so 10000 means ten thousand and the label would be a lie. --%>
 <span style="color:#24609c;font-size:15px;"><span id="totalHits"><strong>${model.totalHits}</strong></span>
 
         results found for search.. <c:if test="${model.term!=''}"><strong>Term:${model.term}</strong></c:if>
@@ -62,5 +62,6 @@
 <c:if test="${model.searchBean.category=='Ontology' && model.searchBean.subCat==''}">
     &nbsp;|&nbsp;Filter: <span class="${model.searchBean.category}" style="color:mediumpurple;font-weight: bold;" > ${model.searchBean.category}</span>
 </c:if>
-<h4>Showing results <span id="showResultsFrom">1</span> - <span id="showResultsTo"><c:if test="${model.totalHits<50}">${model.totalHits}</c:if>
-        <c:if test="${model.totalHits>50}">50</c:if></span> of ${model.totalHits} results</h4>
+<%-- The page size was hardcoded as 50 here, so a first page of 500 still announced "1 - 50".
+     elasticsearch.js rewrites these two spans on every page change; this is the first render. --%>
+<h4>Showing results <span id="showResultsFrom">1</span> - <span id="showResultsTo">${model.totalHits lt model.searchBean.size ? model.totalHits : model.searchBean.size}</span> of ${model.totalHits} results</h4>

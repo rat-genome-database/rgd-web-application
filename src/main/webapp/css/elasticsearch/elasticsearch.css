@@ -372,3 +372,97 @@ td.three {
 .filter-list .moremaps {
     cursor: pointer;
 }
+
+/****************************************************************************************/
+/* Results action bar - actions.jsp                                                      */
+/* Was a layout table of inline styles with empty <td>&nbsp;</td> cells for spacing and a */
+/* float:right wrapper. One flex row instead, so the controls keep their spacing and wrap */
+/* onto a second line on a narrow window rather than running under the results table.     */
+
+.search-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 14px;
+    padding: 6px 2px;
+}
+
+.search-actions__field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.search-actions__field label {
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #5a6673;
+}
+
+.search-actions select {
+    min-width: 7em;
+    padding: 3px 6px;
+    border: 1px solid #cbd5e0;
+    border-radius: 3px;
+    background-color: white;
+    color: #2d3748;
+    font-size: 13px;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.search-actions select:hover {
+    border-color: #4484CE;
+}
+
+.search-actions select:focus {
+    outline: none;
+    border-color: #24609c;
+    box-shadow: 0 0 0 2px rgba(36, 96, 156, 0.2);
+}
+
+.search-actions__pager {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-bottom: 1px;
+}
+
+.search-actions__pageinfo {
+    font-size: 12px;
+    color: #5a6673;
+    white-space: nowrap;
+}
+
+.search-actions__pageinfo span {
+    font-weight: bold;
+    color: #24609c;
+}
+
+.search-actions__nav {
+    width: 28px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid #cbd5e0;
+    border-radius: 3px;
+    background-color: white;
+    color: #24609c;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s, color .15s;
+}
+
+.search-actions__nav:hover {
+    background-color: #4484CE;
+    border-color: #4484CE;
+    color: white;
+}
+
+.search-actions__nav:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(36, 96, 156, 0.2);
+}

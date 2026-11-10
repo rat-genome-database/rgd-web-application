@@ -1,90 +1,62 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
+  The results action bar. Styles live in css/elasticsearch/elasticsearch.css under .search-actions,
+  which headerarea.jsp already loads on every page.
 
-<style type="text/css">
-    #sortBy, #pageNumber, #pageSize{
-        border:solid 1px lightgrey;
-        -webkit-border-radius:2px;
-        -moz-border-radius:2px;
-        border-radius:2px;
-        padding:2px;
-    }
-</style>
-<div style="float:right">
+  There is no "Go To Page" box any more. Paging is from/size against Elasticsearch, which refuses
+  anything past index.max_result_window (10,000 by default), so most of the page numbers a jump box
+  invites you to type could not be served - and on a search with more hits than that, the page you
+  want is rarely the one you can name. Narrow the search with the facets instead.
+--%>
+<div class="search-actions">
 
+    <input type="hidden" value="${empty model.searchBean.assembly ? 'all' : model.searchBean.assembly}" id="objectAssembly"/>
+    <input type="hidden" id="objectSearch" value="${model.objectSearch}"/>
 
-    <table>
-        <tr>
-            <td><input type="hidden" value="${empty model.searchBean.assembly ? 'all' : model.searchBean.assembly}" id="objectAssembly"/></td>
-            <td><input type="hidden" id="objectSearch" value="${model.objectSearch}"/></td>
-
-            <td>
-                <c:choose>
-                    <c:when test="${!model.searchBean.category.equalsIgnoreCase('general')  && !model.searchBean.category.equalsIgnoreCase('Ontology') && !model.searchBean.category.equalsIgnoreCase('Reference') && !model.searchBean.category.equalsIgnoreCase('Variant')}">
-                        <label for="sortBy" style="font-size:x-small;font-weight: bold">Sort By</label><br>
-                        <select class="sortSelect" id="sortBy" onchange="sortFunction('change',this.value)" >
-                        <option selected="selected" value="0">Relevance</option>
-                        <option value="1">Symbol - ASC</option>
-                        <option value="2">Symbol - DESC</option>
-                        <!--option value="3">Chromosome - ASC</option>
-                    <option value="4">Chromosome - DESC</option>
-                        <option value="5">Start Position - ASC</option>
-                    <option value="6">Start Position - DESC</option>
-                        <option value="7">Stop Position - ASC</option>
-                    <option value="8">Stop Position - DESC</option-->
-                    </select>
-                    </c:when>
-                    <c:otherwise>
-                        <c:if test="${model.searchBean.category.equalsIgnoreCase('general')}">
-                            <label for="sortBy" style="font-size:x-small;font-weight: bold">Sort By</label><br><select class="sortSelect" id="sortBy" onchange="sortFunction('change',this.value)" >
-                            <option selected="selected" value="0">Relevance</option>
-                            <option value="1">Symbol - ASC</option>
-                            <option value="2">Symbol - DESC</option>
-                            <!--option value="3">Chromosome - ASC</option>
-                        <option value="4">Chromosome - DESC</option>
-                            <option value="5">Start Position - ASC</option>
-                        <option value="6">Start Position - DESC</option>
-                            <option value="7">Stop Position - ASC</option>
-                        <option value="8">Stop Position - DESC</option-->
-                        </select>
-                        </c:if>
-                    </c:otherwise>
-                </c:choose>
-            </td>
-
-            <td>
-                <label for="pageNumber" style="font-size:x-small;font-weight: bold">Go To Page:</label><br><input type="text" class="" id="pageNumber" name="currentPage" value="1" size="5" >
-            </td>
-
-            <td>
-                &nbsp;<br>
-                <span class=""><button type="submit" id="pagebtn" onclick="submitFunction('click')" style="background-color: #00b38f;color:white;font-weight: bold;">Go!</button></span></td>
-
-            <td>
-
-                <label for="pageSize" style="font-size:10px;font-weight: bold">View Results</label><br>
-                <select class="pageSize" id="pageSize" name="pageSize" onchange="pagesizeFunction('change', 'pageSize', this.value)">
-                <option   value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option  value="40">40</option>
-                <option selected="selected" value="50">50</option>
-                <option   value="100">100</option>
-                <option   value="500">500</option>
-                <option   value="1000">1000</option>
-                <!--option  value="9999">All Rows</option-->
-
+    <%-- Sorting is on symbol, which ontology, reference and variant results are not listed by.
+         This was two identical selects in a c:choose - one for "not general and not the three",
+         one for "general" - which is the single condition below. --%>
+    <c:set var="category" value="${model.searchBean.category}"/>
+    <c:if test="${!category.equalsIgnoreCase('Ontology') && !category.equalsIgnoreCase('Reference') && !category.equalsIgnoreCase('Variant')}">
+        <div class="search-actions__field">
+            <label for="sortBy">Sort By</label>
+            <select class="sortSelect" id="sortBy" onchange="sortFunction('change',this.value)">
+                <option selected="selected" value="0">Relevance</option>
+                <option value="1">Symbol - ASC</option>
+                <option value="2">Symbol - DESC</option>
+                <!--option value="3">Chromosome - ASC</option>
+                <option value="4">Chromosome - DESC</option>
+                <option value="5">Start Position - ASC</option>
+                <option value="6">Start Position - DESC</option>
+                <option value="7">Stop Position - ASC</option>
+                <option value="8">Stop Position - DESC</option-->
             </select>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>
-                Page <span id="currentPage">${model.searchBean.currentPage}</span> of <span id="totalPages"> ${model.totalPages}</span> <br>
+        </div>
+    </c:if>
 
-                <button id="prev" onclick="prevFunction('click', 'prev')">&#10094;</button>
-                <button id="next" onclick="nextFunction('click','next', '${model.searchBean.currentPage}', '${model.totalPages}', $('#pageSize').find('option:selected'))">&#10095;</button>
-            </td>
-        </tr>
-    </table>
+    <div class="search-actions__field">
+        <label for="pageSize">View Results</label>
+        <select class="pageSize" id="pageSize" name="pageSize" onchange="pagesizeFunction('change', 'pageSize', this.value)">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option selected="selected" value="50">50</option>
+            <option value="100">100</option>
+            <option value="500">500</option>
+        </select>
+    </div>
+
+    <div class="search-actions__pager">
+        <span class="search-actions__pageinfo">
+            Page <span id="currentPage">${model.searchBean.currentPage}</span> of <span id="totalPages">${model.totalPages}</span>
+        </span>
+        <button type="button" id="prev" class="search-actions__nav"
+                onclick="prevFunction('click', 'prev')"
+                title="Previous page" aria-label="Previous page">&#10094;</button>
+        <button type="button" id="next" class="search-actions__nav"
+                onclick="nextFunction('click','next', '${model.searchBean.currentPage}', '${model.totalPages}', $('#pageSize').find('option:selected'))"
+                title="Next page" aria-label="Next page">&#10095;</button>
+    </div>
+
 </div>

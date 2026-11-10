@@ -9,4 +9,7 @@
 
 </div>
 <script type="text/javascript" src="/rgdweb/js/elasticsearch/elasticsearch.js"></script>
-<link type="text/css" href="/rgdweb/css/elasticserch.css"/>
+<%-- The stylesheet link that was here pointed at /rgdweb/css/elasticserch.css: misspelled, in the
+     wrong directory and with no rel="stylesheet", so it was a 404 the browser ignored - re-fetched
+     on every AJAX page swap, since this file is what the paging calls replace. The real file is
+     css/elasticsearch/elasticsearch.css and headerarea.jsp already loads it. --%>

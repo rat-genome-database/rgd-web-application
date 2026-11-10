@@ -102,7 +102,6 @@ function getParameters() {
 
 }
 function setParameters(){
-    $('#pageNumber').val(currentPage);
     $('#currentPage').text(currentPage);
     $('#totalPages').text(totalPages);
     $('#sortBy').val(sortBy);
@@ -195,7 +194,6 @@ function sortFunction(e, value) {
     $totalPages.text(totalPages);
     $currentPage.text(1);
     currentPage=$currentPage.text();
-    $("#pageNumber").val(1);
    $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=1"  +"&size=" +pageSize +"&page=true&sortBy="+sortBy+"&assembly="+$assembly +"&"+$filterType+"="+ $type+"&subCat="+$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr +"&match_type="+matchType;
 
     if($objectSearch == "true") {
@@ -258,35 +256,6 @@ function getTotalPages(totalHits, pageSize){
         pageSize=totalHits;
     }
     return $totalPages
-}
-function submitFunction(e) {
-    getParameters();
-    currentPage=$('#pageNumber').val();
-   
-    if(currentPage>totalPages){
-        return 0;
-    }else{
-        $currentPage.val(currentPage);
-        $content.html('<div style="margin-left:50%"><i class="fa fa-spinner fa-spin" style="font-size:24px;color:dodgerblue"></i></div>');
-        $url="elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&assembly="+$assembly+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&match_type="+matchType;
-        if($objectSearch == "true") {
-            $url = "elasticResults.html?category=" + category + "&term=" + term +"&species=" + species + "&currentPage=" + currentPage  +"&size=" +pageSize +"&page=true&sortBy=" +sortBy+"&"+$filterType+"="+ $type+"&subCat=" +$subCat+ "&start="+$start+"&stop="+$stop+"&chr="+$chr+"&objectSearch=" + $objectSearch + "&assembly=" + encodeURIComponent($objectAssembly)+"&match_type="+matchType;
-        }
-        $.get($url, function (data, status) {
-            $content.html(data);
-            var displayFrom=((currentPage-1)* Number(pageSize) +1);
-            $('#showResultsFrom').text(displayFrom);
-            var displayTo= Number(pageSize) * Number(currentPage);
-            if(totalHits<pageSize || displayTo>totalHits){
-                $('#showResultsTo').text(totalHits);
-            }else{
-                $('#showResultsTo').text(displayTo);
-            }
-
-            setParameters();
-        })
-    }
-
 }
 
 function assemblyClick(category, species, assembly) {
