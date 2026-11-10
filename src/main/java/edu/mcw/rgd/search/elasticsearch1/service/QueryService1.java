@@ -79,6 +79,10 @@ public class QueryService1 {
         return client.search(s -> {
             s.index(RgdContext.getESIndexName("search"))
                     .query(mainQuery)
+                    // without this, Elasticsearch stops counting at 10,000 and the
+                    // reported total is capped, while the aggregation based results
+                    // matrix shows the real (larger) counts
+                    .trackTotalHits(t -> t.enabled(true))
                     .from(from)
                     .size(size);
             if (!sort.isEmpty()) {
