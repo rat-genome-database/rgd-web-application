@@ -62,6 +62,7 @@
         <%-- Only when the hits run past what Elasticsearch will page through. Without this the
              pager just stops, with no way to tell a short result set from a truncated one. --%>
         <c:if test="${model.allPages > model.totalPages}">
+
             <span class="search-actions__pagenote"
                   title="Only the first ${model.maxResultWindow} results of a search can be paged through.">
                 Showing ${model.totalPages} of ${model.allPages} pages &mdash; narrow the search to reach the rest
