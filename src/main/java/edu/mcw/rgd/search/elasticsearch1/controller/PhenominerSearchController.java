@@ -77,10 +77,14 @@ public class PhenominerSearchController implements Controller {
                 sb.setSize(defaultPageSize);
                 SearchResponse<java.util.Map> sr = service.getSearchResponse(request, term, sb);
                 int totalPages = 0;
+                int allPages = 0;
                 if (sr != null) {
                     TotalHits hits = sr.hits().total();
                     long hitCount = (hits != null) ? hits.value() : 0L;
-                    totalPages = (int) ((hitCount / defaultPageSize)) + (((int) (hitCount) % defaultPageSize > 0) ? 1 : 0);
+                    // see SearchService.reachablePageCount: the pager counts to the pages
+                    // Elasticsearch will serve, which at this page size is the first 10
+                    allPages = SearchService.pageCount(hitCount, defaultPageSize);
+                    totalPages = SearchService.reachablePageCount(hitCount, defaultPageSize);
                     ModelMap resultsMap = service.getResultsMap(sr, term);
                     if (log) {
                         this.logResults(term, sb.getCategory(), hitCount);
@@ -94,6 +98,8 @@ public class PhenominerSearchController implements Controller {
                 model.addAttribute("defaultAssembly", assembly);
                 model.addAttribute("mapKey", this.getMapKey(assembly, sb.getSpecies()));
                 model.addAttribute("totalPages", totalPages);
+                model.addAttribute("allPages", allPages);
+                model.addAttribute("maxResultWindow", SearchService.MAX_RESULT_WINDOW);
                 model.addAttribute("postCount", postCount);
                 model.addAttribute("cat1", cat1);
                 model.addAttribute("sp1", sp1);

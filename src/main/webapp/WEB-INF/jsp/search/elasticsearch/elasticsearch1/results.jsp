@@ -12,8 +12,13 @@
 
 
 <script>
-    let link=true;
-    let highlightTerm="${model.term}";
+    // var, not let. This file is re-inserted by every paging call in elasticsearch.js
+    // ($content.html(data)), and jQuery evaluates the scripts it finds in that markup - so these
+    // two lines run again on each page change. A second "let link" in the same global lexical
+    // scope is a SyntaxError ("Identifier 'link' has already been declared") that kills this
+    // script block and the rest of the insertion with it. var redeclaration is simply a reassign.
+    var link=true;
+    var highlightTerm="${model.term}";
 </script>
 <script>
     $(function () {

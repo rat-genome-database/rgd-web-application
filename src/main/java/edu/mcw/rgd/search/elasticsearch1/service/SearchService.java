@@ -27,6 +27,37 @@ public class SearchService {
 
     private static final Logger logger = Logger.getLogger(SearchService.class.getName());
 
+    /**
+     * Elasticsearch refuses a from + size deeper than index.max_result_window, so this has to match
+     * that setting on the search index. 10000 is the Elasticsearch default; if the index is ever
+     * configured otherwise, change it here or paging will stop early (too low) or hand the user an
+     * error on the last pages (too high).
+     */
+    public static final int MAX_RESULT_WINDOW = 10000;
+
+    /** Every page the hits would fill, whether or not Elasticsearch will serve it. */
+    public static int pageCount(long hitCount, int pageSize) {
+        if (pageSize <= 0 || hitCount <= 0) {
+            return 0;
+        }
+        return (int) ((hitCount + pageSize - 1) / pageSize);
+    }
+
+    /**
+     * The pages that can actually be fetched: page p asks for from=(p-1)*pageSize and size=pageSize,
+     * so it is served only while p * pageSize <= MAX_RESULT_WINDOW.
+     *
+     * This is what the pager counts to. Letting it count to pageCount() instead meant a search with
+     * more than 10000 hits advertised pages that Elasticsearch would reject - at 500 per page the
+     * Next button walked into an error on page 21.
+     */
+    public static int reachablePageCount(long hitCount, int pageSize) {
+        if (pageSize <= 0) {
+            return 0;
+        }
+        return Math.min(pageCount(hitCount, pageSize), MAX_RESULT_WINDOW / pageSize);
+    }
+
     public ModelMap getResultsMap(SearchResponse<Map> sr, String term) throws IOException {
         ModelMap model = new ModelMap();
 

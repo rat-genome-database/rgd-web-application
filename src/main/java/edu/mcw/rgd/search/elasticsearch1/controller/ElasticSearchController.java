@@ -225,11 +225,16 @@ public class ElasticSearchController implements Controller {
         int pageSize = (searchBean.getSize() > 0) ? searchBean.getSize() : DEFAULT_PAGE_SIZE;
         SearchResponse<java.util.Map> searchResponse = service.getSearchResponse(request, term, searchBean);
 
+        // totalPages is what the pager counts to, so it is the reachable count - Elasticsearch will
+        // not serve a page past max_result_window. allPages is what the hits would fill if it would,
+        // and the two differing is what actions.jsp reports to the user.
         int totalPages = 0;
+        int allPages = 0;
         if (searchResponse != null) {
             TotalHits hits = searchResponse.hits().total();
             long hitCount = (hits != null) ? hits.value() : 0L;
-            totalPages = (int) ((hitCount + pageSize - 1) / pageSize);
+            allPages = SearchService.pageCount(hitCount, pageSize);
+            totalPages = SearchService.reachablePageCount(hitCount, pageSize);
             model.putAll(service.getResultsMap(searchResponse, term));
 
             if (shouldLog) {
@@ -248,6 +253,8 @@ public class ElasticSearchController implements Controller {
         model.addAttribute("mapKey", getMapKey(searchBean.getAssembly(), species));
         model.addAttribute("defaultAssembly", searchBean.getAssembly());
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("allPages", allPages);
+        model.addAttribute("maxResultWindow", SearchService.MAX_RESULT_WINDOW);
         model.addAttribute("postCount", postCount);
         model.addAttribute("cat1", cat1);
         model.addAttribute("sp1", sp1);

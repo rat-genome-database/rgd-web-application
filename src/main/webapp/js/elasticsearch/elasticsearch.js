@@ -242,6 +242,10 @@ function pagesizeFunction(e, id){
     })
 
 }
+// Has to match SearchService.MAX_RESULT_WINDOW, which has to match index.max_result_window on the
+// search index. Page p asks for from=(p-1)*pageSize, so it is served only while p*pageSize fits.
+var MAX_RESULT_WINDOW = 10000;
+
 function getTotalPages(totalHits, pageSize){
     var $totalPages;
     if(totalHits>pageSize){
@@ -255,7 +259,9 @@ function getTotalPages(totalHits, pageSize){
         $totalPages=1;
         pageSize=totalHits;
     }
-    return $totalPages
+    // The server clamps the same way before it renders the pager; this keeps the two in step on
+    // the paths that recompute the count in the browser.
+    return Math.min($totalPages, Math.floor(MAX_RESULT_WINDOW / pageSize))
 }
 
 function assemblyClick(category, species, assembly) {
