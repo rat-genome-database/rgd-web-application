@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 
 public class SearchService {
 
-    private static final Logger logger = Logger.getLogger(SearchService.class.getName());
+//    private static final Logger logger = Logger.getLogger(SearchService.class.getName());
 
     /**
      * Elasticsearch refuses a from + size deeper than index.max_result_window, so this has to match
@@ -162,17 +162,17 @@ public class SearchService {
                 String bType = bucketType;
 
                 // Debug logging for Expression Study
-                if (bucketType.equalsIgnoreCase("Expression Study")) {
-                    logger.info("Expression Study bucket found with docCount: " + bucket.docCount());
-                    StringTermsAggregate subAgg = optSterms(bucket.aggregations(), "subspecies");
-                    if (subAgg != null) {
-                        for (StringTermsBucket b : subAgg.buckets().array()) {
-                            logger.info("  Subspecies: " + b.key().stringValue() + " count: " + b.docCount());
-                        }
-                    } else {
-                        logger.info("  No subspecies aggregation found for Expression Study");
-                    }
-                }
+//                if (bucketType.equalsIgnoreCase("Expression Study")) {
+//                    //logger.info("Expression Study bucket found with docCount: " + bucket.docCount());
+//                    StringTermsAggregate subAgg = optSterms(bucket.aggregations(), "subspecies");
+//                    if (subAgg != null) {
+//                        for (StringTermsBucket b : subAgg.buckets().array()) {
+//                            logger.info("  Subspecies: " + b.key().stringValue() + " count: " + b.docCount());
+//                        }
+//                    } else {
+//                        logger.info("  No subspecies aggregation found for Expression Study");
+//                    }
+//                }
 
                 if (bucketType.equalsIgnoreCase("ontology")) {
                     StringTermsAggregate ontologySubcatAgg = optSterms(bucket.aggregations(), "ontologies");
@@ -263,8 +263,8 @@ public class SearchService {
                 }
             }
 
-            // Debug: log Expression Study row before null-fill
-            logger.info("Expression Study row BEFORE null-fill: " + Arrays.toString(speciesCatArray[8]));
+//            // Debug: log Expression Study row before null-fill
+//            logger.info("Expression Study row BEFORE null-fill: " + Arrays.toString(speciesCatArray[8]));
 
             for (int j = 0; j < 9; j++) {
 
@@ -276,8 +276,8 @@ public class SearchService {
                 }
             }
 
-            // Debug: log Expression Study row after null-fill
-            logger.info("Expression Study row AFTER null-fill: " + Arrays.toString(speciesCatArray[8]));
+//            // Debug: log Expression Study row after null-fill
+//            logger.info("Expression Study row AFTER null-fill: " + Arrays.toString(speciesCatArray[8]));
 
 
             StringTermsAggregate typeAgg = optSterms(aggResults, "type");
