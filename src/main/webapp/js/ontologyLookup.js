@@ -58,7 +58,21 @@ function lookup_render(oid, objectType) {
 
 }
 
-function lookup_treeRender(oid, ontid, rootid) {
+/**
+ * Open the ontology tree browser next to an acc id box.
+ *
+ * oid    - id of the input holding the term accession id; the browser writes the selected acc id back into it
+ * ontid  - ontology id, used when the box is empty or holds free text
+ * rootid - acc id of the ontology root, used as the starting point when the box is empty
+ * termId - optional id of the element showing the term name next to the box (a <span> on the
+ *          phenominer curation forms); the browser writes the selected term name into it
+ *
+ * The browser is opened in popup mode with sel_acc_id/sel_term, which is what makes it show a
+ * 'select' button on every term -- the same way the Browse Disease Ontology popup does on the
+ * Find Models page. curationTool=1 keeps the button enabled for terms with no annotations, which
+ * is most of CMO/MMO/XCO/RS.
+ */
+function lookup_treeRender(oid, ontid, rootid, termId) {
     if (!oid) {
         oid=null;
     }
@@ -68,13 +82,18 @@ function lookup_treeRender(oid, ontid, rootid) {
         seed = document.getElementById(oid).value;
     }
 
+    var selectParams = "&curationTool=1&sel_acc_id=" + encodeURIComponent(oid);
+    if (termId) {
+        selectParams += "&sel_term=" + encodeURIComponent(termId);
+    }
+
     if (seed.length == 0) {
-        window.open("/rgdweb/ontology/view.html?acc_id=" + rootid, '', 'scrollbars=1,top=50,left=50,width=900,height=600');
+        window.open("/rgdweb/ontology/view.html?mode=popup&acc_id=" + encodeURIComponent(rootid) + selectParams, '', 'scrollbars=1,top=50,left=50,width=900,height=600');
     } else if (seed.indexOf(':')>=0)
     {
-        window.open("/rgdweb/ontology/view.html?acc_id=" + seed, '', 'scrollbars=1,top=50,left=50,width=900,height=600');
+        window.open("/rgdweb/ontology/view.html?mode=popup&acc_id=" + encodeURIComponent(seed) + selectParams, '', 'scrollbars=1,top=50,left=50,width=900,height=600');
     } else {
-        window.open("/rgdweb/ontology/search.html?term=" + seed + "&ont=" + ontid, '', 'scrollbars=1,top=50,left=50,width=900,height=600');
+        window.open("/rgdweb/ontology/search.html?term=" + encodeURIComponent(seed) + "&ont=" + encodeURIComponent(ontid), '', 'scrollbars=1,top=50,left=50,width=900,height=600');
     }
 
 }

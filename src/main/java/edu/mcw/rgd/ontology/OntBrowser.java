@@ -524,7 +524,9 @@ public class OntBrowser {
             selectTermFunction +=
                     "    var _t = _opener.document.getElementById('"+this.opener_sel_term+"')"
                     + " || _opener.document.querySelector('[name=\""+this.opener_sel_term+"\"]');\n"
-                    + "    if (_t) _t.value=termName;\n";
+                    // the term target is an input on most pages, but a plain <span> on the phenominer
+                    // curation forms, where the term name is displayed next to the acc id box
+                    + "    if (_t) { if ('value' in _t) _t.value=termName; else _t.textContent=termName; }\n";
         }
         selectTermFunction += "  }\n";
         selectTermFunction += "  window.close();\n";

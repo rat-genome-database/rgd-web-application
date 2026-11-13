@@ -386,7 +386,7 @@
     </script>
 
 
-    <a href="javascript:lookup_treeRender('sAccId', 'RS', 'RS:0000457' )"><img src="/rgdweb/common/images/tree.png"
+    <a href="javascript:lookup_treeRender('sAccId', 'RS', 'RS:0000457', 'sTerm')"><img src="/rgdweb/common/images/tree.png"
                                                                                border="0"/></a>
     <span id="sTerm" class="highlight"><%=sTerm%></span>
 
@@ -417,7 +417,7 @@
     <b>Clinical Measurement</b> <%=requiredFieldIndicator%>ACC ID: <input type="text" id="cmAccId" name="cmAccId"
                                                                           size="40"
                                                                           value="<%=dm.out("cmAccId", rec.getClinicalMeasurement().getAccId())%>"/>
-    <a href="javascript:lookup_treeRender('cmAccId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png"
+    <a href="javascript:lookup_treeRender('cmAccId', 'CMO', 'CMO:0000000', 'cmTerm')"><img src="/rgdweb/common/images/tree.png"
                                                                                  border="0"/></a>
     <span id="cmTerm" class="highlight"><%=cmTerm%></span>
     <table>
@@ -488,7 +488,7 @@
     <b>Measurement Method</b> <%=requiredFieldIndicator%>ACC ID: <input type="text" id="mmAccId" name="mmAccId"
                                                                         size="40"
                                                                         value="<%=dm.out("mmAccId", rec.getMeasurementMethod().getAccId())%>"/>
-    <a href="javascript:lookup_treeRender('mmAccId', 'MMO', 'MMO:0000000')"><img src="/rgdweb/common/images/tree.png"
+    <a href="javascript:lookup_treeRender('mmAccId', 'MMO', 'MMO:0000000', 'mmTerm')"><img src="/rgdweb/common/images/tree.png"
                                                                                  border="0"/></a>
     <span id="mmTerm" class="highlight"><%=mmTerm%></span>
 
@@ -587,7 +587,7 @@
         </b> <%=requiredFieldIndicator%>ACC ID: <input type="text" id="cAccId<%=conditionCount%>" name="cAccId"
                                                        size="40"
                                                        value="<%=dm.out("cAccId", cond.getOntologyId(),conditionCount)%>"/>
-        <a href="javascript:lookup_treeRender('cAccId<%=conditionCount%>', 'XCO', 'XCO:0000000')"><img
+        <a href="javascript:lookup_treeRender('cAccId<%=conditionCount%>', 'XCO', 'XCO:0000000', 'cTerm<%=conditionCount%>')"><img
                 src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;&nbsp;
         <span id="cTerm<%=conditionCount%>" class="highlight"><%=cTerm%></span>
         <% if (!multiEdit || enabledConditionInsDel) {%>
@@ -654,7 +654,7 @@
     <div id="condition<%=i%>" style="display:none;">
         <b>Experimental Condition <%=i + 1%>
         </b> *ACC ID: <input type="text" id="cAccId<%=i%>" name="cAccId" value=""/>
-        <a href="javascript:lookup_treeRender('cAccId<%=i%>', 'XCO', 'XCO:0000000')"><img
+        <a href="javascript:lookup_treeRender('cAccId<%=i%>', 'XCO', 'XCO:0000000', 'cTerm<%=i%>')"><img
                 src="/rgdweb/common/images/tree.png" border="0"/></a>
         <span id="cTerm<%=i%>" class="highlight"></span>
         <table>

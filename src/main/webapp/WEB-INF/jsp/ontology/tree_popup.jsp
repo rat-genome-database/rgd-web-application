@@ -39,10 +39,6 @@
     // url for browsing the tree should include 'sel_acc_id' and 'sel_term' parameters if available
     String selAccId = request.getParameter("sel_acc_id");
     String selTerm = request.getParameter("sel_term");
-    String termName="";
-    if (selTerm !=null && !selTerm.equals("")) {
-        termName = xdao.getTerm(accId).getTerm();
-    }
     String curationTool = request.getParameter("curation");
     String url = "/rgdweb/ontology/view.html?mode=popup";
     if( !Utils.isStringEmpty(selAccId) )
