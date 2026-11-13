@@ -205,7 +205,47 @@
 
                                             <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
                                             <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
+                                            <span id="askRatChat" style="display:none;"><a id="askRatChatLink" href="/assistant/" target="_blank" rel="noopener">Ask RatChat about this page</a>&nbsp;|&nbsp;</span>
                                             <a href="/assistant/">Rat Chat</a>&nbsp;|&nbsp;
+                                            <script>
+                                                // "Ask RatChat about this page" opens RatChat with this page as its context: the
+                                                // page type and, on a report page, the record's RGD ID or ontology accession.
+                                                // Shown only on the page types RatChat knows (rgd-ai-chatbot page-context.json).
+                                                (function () {
+                                                    var path = window.location.pathname.replace(/^\/rgdweb\//, '');
+                                                    var params = new URLSearchParams(window.location.search);
+                                                    // [path, page type, ID parameter, page type when the ID is absent]
+                                                    var pages = [
+                                                        [/^report\/gene\/main\.html$/, 'gene-report', 'id'],
+                                                        [/^report\/qtl\/main\.html$/, 'qtl-report', 'id'],
+                                                        [/^report\/strain\/main\.html$/, 'strain-report', 'id'],
+                                                        [/^report\/reference\/main\.html$/, 'reference-report', 'id'],
+                                                        [/^report\/marker\/main\.html$/, 'marker-report', 'id'],
+                                                        [/^report\/cellline\/main\.html$/, 'cellline-report', 'id'],
+                                                        [/^ontology\/(annot|view)\.html$/, 'ontology-report', 'acc_id', 'ontology-browser'],
+                                                        [/^ontology\/search\.html$/, 'ontology-browser'],
+                                                        [/^pathway\/pathwayRecord\.html$/, 'pathway-diagram', 'acc_id'],
+                                                        [/^search\/genes\.html$/, 'gene-search'],
+                                                        [/^search\/markers\.html$/, 'marker-search'],
+                                                        [/^elasticResults\.html$/, 'site-search'],
+                                                        [/^generator\//, 'olga'],
+                                                        [/^(gviewer\/|ga\/gviewer\.html$)/, 'gviewer'],
+                                                        [/^phenominer\//, 'phenominer'],
+                                                        [/^enrichment\//, 'moet'],
+                                                        [/^portal\//, 'disease-portal']
+                                                    ];
+                                                    for (var i = 0; i < pages.length; i++) {
+                                                        if (!pages[i][0].test(path)) continue;
+                                                        var id = pages[i][2] ? params.get(pages[i][2]) : null;
+                                                        var page = id || !pages[i][3] ? pages[i][1] : pages[i][3];
+                                                        var url = '/assistant/chat?page=' + encodeURIComponent(page);
+                                                        if (id && page === pages[i][1]) url += '&id=' + encodeURIComponent(id);
+                                                        document.getElementById('askRatChatLink').href = url;
+                                                        document.getElementById('askRatChat').style.display = '';
+                                                        break;
+                                                    }
+                                                })();
+                                            </script>
                                             <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
                                             <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
 
