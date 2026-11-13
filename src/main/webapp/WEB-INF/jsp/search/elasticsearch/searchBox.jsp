@@ -2,17 +2,27 @@
      searching. On the page types RatChat knows it also passes this page as the question's context:
      the page type and the record's RGD ID or ontology accession (see rgd-ai-chatbot's page-context.json). --%>
 <style>
-    .ai-mode-wrap { display: flex; align-items: center; padding: 0 6px; background: #fff;
-                    border-top: 1px solid gainsboro; border-bottom: 1px solid gainsboro; }
+    /* The text box, AI Mode and the search button read as one box: no borders between them, one
+       border around the three. Bootstrap's .border and .bg-light are !important, hence these. */
+    #elasticSearchForm .input-group { height: 34px; flex-wrap: nowrap; }
+    #elasticSearchForm #term { height: 34px; font-size: 14px; padding: 6px 12px;
+                               border-color: #ced4da !important; border-right: 0 !important; box-shadow: none; }
+    #elasticSearchForm .input-group-append > button[type=submit] { height: 34px; padding: 0 12px; font-size: 14px;
+                               border-color: #ced4da !important; border-left: 0 !important; background: #fff !important; }
+    #elasticSearchForm .input-group:focus-within #term,
+    #elasticSearchForm .input-group:focus-within .ai-mode-wrap,
+    #elasticSearchForm .input-group:focus-within button[type=submit] { border-color: #2865A3 !important; }
+    .ai-mode-wrap { display: flex; align-items: center; padding: 0 4px; background: #fff;
+                    border-top: 1px solid #ced4da; border-bottom: 1px solid #ced4da; }
     .ai-mode-wrap[hidden] { display: none; }
-    .ai-mode-button { display: flex; align-items: center; gap: 4px; padding: 3px 11px; border: 0; border-radius: 14px;
-                      background: #e3edf8; color: #1e4f82; font-size: 13px; font-weight: bold; line-height: 1.4;
+    .ai-mode-button { display: flex; align-items: center; gap: 5px; padding: 4px 12px; border: 0; border-radius: 14px;
+                      background: #e3edf8; color: #1e4f82; font-size: 13px; font-weight: bold; line-height: 1.3;
                       white-space: nowrap; cursor: pointer; }
     .ai-mode-button:hover, .ai-mode-button:focus { background: #cfe0f2; outline: none; }
     .ai-mode-button:focus-visible { box-shadow: 0 0 0 2px rgba(40, 101, 163, 0.4); }
     @media (max-width: 768px) {
         .ai-mode-label { display: none; }
-        .ai-mode-button { padding: 3px 8px; }
+        .ai-mode-button { padding: 4px 9px; }
     }
 </style>
    <div class="row" style="width: 100%;float: right;margin:0;">
