@@ -281,6 +281,12 @@ function findVariantBinIndexForPosition(variantBins,variant,buffer) {
       returnString += `<tr><th>RS ID</th><td>${description.rsId}</td></tr>`;
   }
   returnString += `<tr><th>Type</th><td>${description.type}</td></tr>`;
+  // the ref -> var nucleotides used to be worked out here from the allele fields, which is
+  // the block commented out above; callers that already know the change can just hand it
+  // over ready to print, and callers that do not are unaffected
+  if(description.sequenceChange){
+      returnString += `<tr><th>Sequence Change</th><td>${description.sequenceChange}</td></tr>`;
+  }
      if(description.targetLocus && description.targetLocus.trim() !== "") {
          returnString += `<tr><th>Target Locus</th><td>${description.targetLocus}</td></tr>`;
      }
@@ -383,6 +389,7 @@ function findVariantBinIndexForPosition(variantBins,variant,buffer) {
   returnObject.targetLocus =  variant.targetLocus;
   returnObject.tragetSequence= variant.targetSequence;
   returnObject.type =  variant.type;
+  returnObject.sequenceChange =  variant.sequenceChange;
   returnObject.name =  variant.name;
   returnObject.description =  variant.description;
   returnObject.pam =  variant.pam;

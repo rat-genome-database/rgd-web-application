@@ -17,18 +17,15 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
         this.end = track["end"];
     }
 
-  renderTooltipDescription(tooltipDiv, descriptionHtml,closeFunction){
-    tooltipDiv.transition()
-      .duration(200)
-      .style("width", 'auto')
-      .style("height", 'auto')
-      .style("opacity", 1)
-      .style('visibility', 'visible');
-
+  renderTooltipDescription(tooltipDiv, descriptionHtml,closeFunction,event){
+    // Content and size are set straight away rather than through the transition: the box
+    // is measured below so it can be kept on screen, and d3 cannot interpolate towards
+    // "auto", so a transitioned width would still measure as the 60px default here.
     tooltipDiv.html(descriptionHtml)
-      .style("left", 20 + "px")
-      .style("top", 100 + "px")
-      .append('button')
+      .style("width", 'auto')
+      .style("height", 'auto');
+
+    tooltipDiv.append('button')
       .attr("type","button")
       .text('Close')
       .on('click', () => closeFunction());
@@ -38,6 +35,13 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
       .html('&times;')
       .attr('class', "tooltipDivX")
       .on('click' , () => closeFunction());
+
+    positionTooltipAtPointer(tooltipDiv, event);
+
+    tooltipDiv.transition()
+      .duration(200)
+      .style("opacity", 1)
+      .style('visibility', 'visible');
   }
   // Draw our track on the viewer
   // TODO: Potentially seperate this large section of code
@@ -183,8 +187,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                                         return 'translate(' + transcript_start + ','+arrow_height+') rotate(180)';
                                     }
                                 })
-                              .on("click", d => {
-                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                              .on("click", event => {
+                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                               })
                             ;
 
@@ -195,8 +199,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                                 .attr("transform", "translate(" + transcript_start + ",0)")
                                 .attr('width', transcript_end - transcript_start)
                                 .datum({fmin: featureChild.fmin, fmax: featureChild.fmax})
-                              .on("click", d => {
-                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                              .on("click", event => {
+                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                               })
                             ;
                             let text_string = featureChild.name ;
@@ -212,8 +216,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                                 .attr("transform", "translate(" + label_offset+ ",0)")
                                 .text(text_string)
                                 .datum({fmin: featureChild.fmin})
-                              .on("click", d => {
-                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                              .on("click", event => {
+                                renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                               });
 
                               let symbol_string_width = text_label.node().getBBox().width;
@@ -307,8 +311,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                                         .attr('z-index', 10)
                                         .attr('width', inner_end - inner_start)
                                         .datum({fmin: innerChild.fmin, fmax: innerChild.fmax})
-                                        .on("click", d => {
-                                            renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                                        .on("click", event => {
+                                            renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                                           });
                                 }
                                 else if (CDS_feats.indexOf(innerType) >= 0) {
@@ -320,8 +324,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                                         .attr('height', cds_height)
                                         .attr('width', inner_end - inner_start)
                                         .datum({fmin: innerChild.fmin, fmax: innerChild.fmax})
-                                        .on("click", d => {
-                                            renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                                        .on("click", event => {
+                                            renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                                           });
                                 }
                                 else if (UTR_feats.indexOf(innerType) >= 0) {
@@ -333,8 +337,8 @@ import {renderTrackDescription,getJBrowseLink} from "../services/TrackService";
                                         .attr('height', utr_height)
                                         .attr('width', inner_end - inner_start)
                                         .datum({fmin: innerChild.fmin, fmax: innerChild.fmax})
-                                        .on("click", d => {
-                                          renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                                        .on("click", event => {
+                                          renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                                         })
                                     ;
                                 }

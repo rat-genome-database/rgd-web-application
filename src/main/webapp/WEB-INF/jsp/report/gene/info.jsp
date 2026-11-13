@@ -52,7 +52,17 @@
 }
 %>
 
-    function goToJBrowse() {
+    // Clicking the viewer opens the region in JBrowse, but the drawing inside it has its
+    // own click behaviour: a transcript, an exon or a variant opens a tooltip describing
+    // itself. Those clicks used to bubble out to here as well, so inspecting a feature
+    // tore the user off to JBrowse. Anything drawn inside the svg, and the tooltip it
+    // opens, now keeps its click; only the chrome around the drawing follows the link.
+    function goToJBrowse(event) {
+        var target = event && event.target;
+        if (target && (target.ownerSVGElement
+                || (target.closest && target.closest(".gfc-tooltip")))) {
+            return;
+        }
         window.open("<%=MapDataFormatter.generateJbrowse2URL( 1, currentAssemblyMapData)%>");
     }
 </script>
@@ -430,7 +440,7 @@
          class was the only thing painting a block white. Inside this card the white comes
          from the card, and a second bordered box around just the svg would read as a card
          inside a card. --%>
-    <div id="sequenceViewer" onclick="goToJBrowse()">
+    <div id="sequenceViewer" onclick="goToJBrowse(event)">
         <div class="container">
             <div id="range" style="text-align: center"></div>
             <%-- class, not className: className is the JSX property name and this block was

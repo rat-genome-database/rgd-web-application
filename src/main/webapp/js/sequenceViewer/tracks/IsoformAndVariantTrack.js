@@ -181,8 +181,8 @@ let apolloService = new ApolloService();
             .attr('fill', consequenceColor)
             .attr('height', VARIANT_HEIGHT)
             .attr('width', width)
-            .on("click", d => {
-              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            .on("click", event => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip,event);
           //    let viewer_height= viewer.node().getBBox().height-22.5;
             })
             .on("mouseover", function(d){
@@ -212,8 +212,8 @@ let apolloService = new ApolloService();
             .attr('x', x(fmin))
             .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("snv")+')')
             .attr('z-index', 30)
-            .on("click", d => {
-              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            .on("click", event => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip,event);
           //    let viewer_height= viewer.node().getBBox().height-22.5;
             })
             .on("mouseover", function(d){
@@ -243,8 +243,8 @@ let apolloService = new ApolloService();
               .attr('x', x(fmin))
               .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("grna")+')')
               .attr('z-index', 30)
-              .on("click", d => {
-                renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+              .on("click", event => {
+                renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip,event);
                 //    let viewer_height= viewer.node().getBBox().height-22.5;
               })
               .on("mouseover", function(d){
@@ -277,8 +277,8 @@ let apolloService = new ApolloService();
               .attr('x', x(fmin))
               .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("insertion")+')')
               .attr('z-index', 30)
-              .on("click", d => {
-                renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+              .on("click", event => {
+                renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip,event);
            //     let viewer_height= viewer.node().getBBox().height-22.5;
               })
               .on("mouseover", function(d){
@@ -309,8 +309,8 @@ let apolloService = new ApolloService();
             .attr('transform', 'translate(0,'+VARIANT_HEIGHT*distinctVariants.indexOf("delins")+')')
             .attr('fill', 'blue')
             .attr('z-index', 30)
-            .on("click", d => {
-              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            .on("click", event => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip,event);
           //    let viewer_height= viewer.node().getBBox().height-22.5;
             })
             .on("mouseover", function(d){
@@ -352,8 +352,8 @@ let apolloService = new ApolloService();
             .attr("transform", "translate("+label_offset+","+label_height+")")
             // if html, it cuts off the <sup> tag
             .text(symbol_string)
-            .on("click", d => {
-              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip);
+            .on("click", event => {
+              renderTooltipDescription(tooltipDiv,descriptionHtml,closeToolTip,event);
             })
             .datum({fmin: fmin, variant: symbol_string+fmin});
 
@@ -434,8 +434,8 @@ let apolloService = new ApolloService();
                   .attr('height', ISOFORM_TITLE_HEIGHT)
                   .attr("transform", "translate(" + x(featureChild.fmin) + `,-${GENE_LABEL_HEIGHT})`)
                   .text(text_string)
-                  .on("click", d => {
-                    renderTooltipDescription(tooltipDiv,renderTrackDescription(feature),closeToolTip);
+                  .on("click", event => {
+                    renderTooltipDescription(tooltipDiv,renderTrackDescription(feature),closeToolTip,event);
                   })
                   .datum({fmin: featureChild.fmin});
               }
@@ -453,8 +453,8 @@ let apolloService = new ApolloService();
                     return 'translate(' + Number(x(d.fmin)) + ',' + ARROW_HEIGHT + ') rotate(180)';
                   }
                 })
-                .on("click", d => {
-                  renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                .on("click", event => {
+                  renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                 })
               ;
 
@@ -464,8 +464,8 @@ let apolloService = new ApolloService();
                 .attr('height', TRANSCRIPT_BACKBONE_HEIGHT)
                 .attr("transform", "translate(" + x(featureChild.fmin) + ",0)")
                 .attr('width', x(featureChild.fmax) - x(featureChild.fmin))
-                .on("click", d => {
-                  renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                .on("click", event => {
+                  renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                 })
                 .datum({fmin: featureChild.fmin, fmax: featureChild.fmax});
 
@@ -477,8 +477,8 @@ let apolloService = new ApolloService();
                 .attr('height', ISOFORM_TITLE_HEIGHT)
                 .attr("transform", "translate(" + x(featureChild.fmin) + ",0)")
                 .text(text_string)
-                .on("click", d => {
-                  renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                .on("click", event => {
+                  renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                 })
                 .datum({fmin: featureChild.fmin});
 
@@ -563,8 +563,8 @@ let apolloService = new ApolloService();
                       .attr('height', EXON_HEIGHT)
                       .attr('z-index', 10)
                       .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                      .on("click", d => {
-                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                      .on("click", event => {
+                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                       })
                       .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
                   } else if (CDS_feats.indexOf(innerType) >= 0) {
@@ -576,8 +576,8 @@ let apolloService = new ApolloService();
                       .attr('z-index', 20)
                       .attr('height', CDS_HEIGHT)
                       .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                      .on("click", d => {
-                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                      .on("click", event => {
+                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                       })
                       .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
                   } else if (UTR_feats.indexOf(innerType) >= 0) {
@@ -589,8 +589,8 @@ let apolloService = new ApolloService();
                       .attr('z-index', 20)
                       .attr('height', UTR_HEIGHT)
                       .attr('width', x(innerChild.fmax) - x(innerChild.fmin))
-                      .on("click", d => {
-                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip);
+                      .on("click", event => {
+                        renderTooltipDescription(tooltipDiv,renderTrackDescription(featureChild),closeToolTip,event);
                       })
                       .datum({fmin: innerChild.fmin, fmax: innerChild.fmax});
                   }
@@ -664,18 +664,15 @@ let apolloService = new ApolloService();
     }
   }
 
-  renderTooltipDescription(tooltipDiv, descriptionHtml,closeFunction) {
-    tooltipDiv.transition()
-      .duration(200)
-      .style("width", 'auto')
-      .style("height", 'auto')
-      .style("opacity", 1)
-      .style('visibility', 'visible');
-
+  renderTooltipDescription(tooltipDiv, descriptionHtml,closeFunction,event) {
+    // Content and size are set straight away rather than through the transition: the box
+    // is measured below so it can be kept on screen, and d3 cannot interpolate towards
+    // "auto", so a transitioned width would still measure as the 60px default here.
     tooltipDiv.html(descriptionHtml)
-     .style("left", (event.pageX+10) + "px")
-      .style("top", (event.pageY +10) + "px")
-      .append('button')
+      .style("width", 'auto')
+      .style("height", 'auto');
+
+    tooltipDiv.append('button')
       .attr("type","button")
       .text('Close')
       .on('click', () => closeFunction());
@@ -686,6 +683,14 @@ let apolloService = new ApolloService();
       .attr('class', "tooltipDivX")
       .on('click' , () => closeFunction());
 
+    // this used to read the bare global "event", which only Chrome and Safari define -
+    // the click event now comes in as an argument, so Firefox positions it too
+    positionTooltipAtPointer(tooltipDiv, event);
+
+    tooltipDiv.transition()
+      .duration(200)
+      .style("opacity", 1)
+      .style('visibility', 'visible');
   }
 
   async populateTrack(track) {

@@ -336,7 +336,7 @@
      an <svg> has no background of its own, so the page ground showed through it.
      goToJBrowse() was defined below but never wired to anything; the gene report calls
      it from here, so the two viewers now behave the same --%>
-<div id="sequenceViewer" class="light-table-border" onclick="goToJBrowse()">
+<div id="sequenceViewer" class="light-table-border" onclick="goToJBrowse(event)">
     <div class="container">
         <div id="range" style="text-align: center"></div>
         <%-- class, not className: className is the JSX property name and this block was
@@ -372,7 +372,15 @@
     document.addEventListener("DOMContentLoaded", function() {
         loadSequenceViewer();
     });
-    function goToJBrowse() {
+    // Same guard as the gene report: the drawing inside the viewer has its own click
+    // behaviour - a feature opens a tooltip describing itself - and those clicks used to
+    // bubble out to here, tearing the user off to JBrowse mid-inspection.
+    function goToJBrowse(event) {
+        var target = event && event.target;
+        if (target && (target.ownerSVGElement
+                || (target.closest && target.closest(".gfc-tooltip")))) {
+            return;
+        }
         window.open("<%=jbrowse2Url%>");
     }
 </script>

@@ -221,3 +221,32 @@ function readableLabelColor(color)
   readableLabelColor.cache[key] = 'rgb(' + rgb.join(',') + ')';
   return readableLabelColor.cache[key];
 }
+
+/*
+  Put a tooltip next to the click that opened it.
+
+  .gfc-tooltip is position:absolute against the document, so a fixed left/top lands it at
+  the top of the PAGE rather than next to the feature - which is what the isoform track
+  used to do. The click event carries viewport coordinates, so the page scroll is added
+  back, and the box is nudged inside the window when the click lands near an edge.
+
+  The event has to be passed in: these tracks were written against d3 v5, where the
+  current event was the global d3.event, and the pages now load d3 v7, where a handler is
+  called as (event, datum) instead.
+*/
+function positionTooltipAtPointer(tooltipDiv, event)
+{
+  var PAD = 10;
+  var node = tooltipDiv.node();
+  var box = node ? node.getBoundingClientRect() : {width: 0, height: 0};
+  // no event (a programmatic open) just pins it near the top left of the current view
+  var x = event && event.clientX != null ? event.clientX : 0;
+  var y = event && event.clientY != null ? event.clientY : 0;
+
+  var left = Math.min(x + PAD, window.innerWidth - box.width - PAD);
+  var top = Math.min(y + PAD, window.innerHeight - box.height - PAD);
+
+  tooltipDiv
+    .style("left", (Math.max(PAD, left) + window.pageXOffset) + "px")
+    .style("top", (Math.max(PAD, top) + window.pageYOffset) + "px");
+}
