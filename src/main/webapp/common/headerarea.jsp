@@ -205,47 +205,7 @@
 
                                             <a href="https://download.rgd.mcw.edu">Download</a>&nbsp;|&nbsp;
                                             <a href="https://rest.rgd.mcw.edu/rgdws/swagger-ui/index.html">REST API</a>&nbsp;|&nbsp;
-                                            <span id="askRatChat" style="display:none;"><a id="askRatChatLink" href="/assistant/" target="_blank" rel="noopener">Ask RatChat about this page</a>&nbsp;|&nbsp;</span>
                                             <a href="/assistant/">Rat Chat</a>&nbsp;|&nbsp;
-                                            <script>
-                                                // "Ask RatChat about this page" opens RatChat with this page as its context: the
-                                                // page type and, on a report page, the record's RGD ID or ontology accession.
-                                                // Shown only on the page types RatChat knows (rgd-ai-chatbot page-context.json).
-                                                (function () {
-                                                    var path = window.location.pathname.replace(/^\/rgdweb\//, '');
-                                                    var params = new URLSearchParams(window.location.search);
-                                                    // [path, page type, ID parameter, page type when the ID is absent]
-                                                    var pages = [
-                                                        [/^report\/gene\/main\.html$/, 'gene-report', 'id'],
-                                                        [/^report\/qtl\/main\.html$/, 'qtl-report', 'id'],
-                                                        [/^report\/strain\/main\.html$/, 'strain-report', 'id'],
-                                                        [/^report\/reference\/main\.html$/, 'reference-report', 'id'],
-                                                        [/^report\/marker\/main\.html$/, 'marker-report', 'id'],
-                                                        [/^report\/cellline\/main\.html$/, 'cellline-report', 'id'],
-                                                        [/^ontology\/(annot|view)\.html$/, 'ontology-report', 'acc_id', 'ontology-browser'],
-                                                        [/^ontology\/search\.html$/, 'ontology-browser'],
-                                                        [/^pathway\/pathwayRecord\.html$/, 'pathway-diagram', 'acc_id'],
-                                                        [/^search\/genes\.html$/, 'gene-search'],
-                                                        [/^search\/markers\.html$/, 'marker-search'],
-                                                        [/^elasticResults\.html$/, 'site-search'],
-                                                        [/^generator\//, 'olga'],
-                                                        [/^(gviewer\/|ga\/gviewer\.html$)/, 'gviewer'],
-                                                        [/^phenominer\//, 'phenominer'],
-                                                        [/^enrichment\//, 'moet'],
-                                                        [/^portal\//, 'disease-portal']
-                                                    ];
-                                                    for (var i = 0; i < pages.length; i++) {
-                                                        if (!pages[i][0].test(path)) continue;
-                                                        var id = pages[i][2] ? params.get(pages[i][2]) : null;
-                                                        var page = id || !pages[i][3] ? pages[i][1] : pages[i][3];
-                                                        var url = '/assistant/chat?page=' + encodeURIComponent(page);
-                                                        if (id && page === pages[i][1]) url += '&id=' + encodeURIComponent(id);
-                                                        document.getElementById('askRatChatLink').href = url;
-                                                        document.getElementById('askRatChat').style.display = '';
-                                                        break;
-                                                    }
-                                                })();
-                                            </script>
                                             <a href="/wg/citing-rgd">Citing RGD</a>&nbsp;|&nbsp;
                                             <a href="/rgdweb/contact/contactus.html">Contact</a>&nbsp;&nbsp;&nbsp;
 
@@ -495,6 +455,97 @@
     </tr>
 
 </table>
+
+<%-- "Ask RatChat": a question box under the header on every page. It opens RatChat in a new tab with
+     the question and, on the page types RatChat knows, this page as its context: the page type and
+     the record's RGD ID or ontology accession (see rgd-ai-chatbot's page-context.json). --%>
+<style>
+    .ask-ratchat { display: flex; align-items: center; gap: 10px; padding: 7px 16px; background: #eaf1f9;
+                   border-bottom: 1px solid #c9d9ea; font-family: Arial, Helvetica, sans-serif; }
+    .ask-ratchat[hidden] { display: none; }
+    .ask-ratchat-label { flex: none; color: #2865A3; font-size: 14px; font-weight: bold; white-space: nowrap; }
+    .ask-ratchat-input { flex: 1; min-width: 0; max-width: 720px; padding: 6px 12px; border: 1px solid #b8c9dc;
+                         border-radius: 16px; background: #fff; color: #1f2937; font-size: 14px; }
+    .ask-ratchat-input:focus { outline: none; border-color: #2865A3; box-shadow: 0 0 0 2px rgba(40, 101, 163, 0.2); }
+    .ask-ratchat-button { flex: none; padding: 6px 16px; border: 0; border-radius: 16px; background: #2865A3;
+                          color: #fff; font-size: 14px; cursor: pointer; }
+    .ask-ratchat-button:hover { background: #1e4f82; }
+    @media (max-width: 768px) {
+        .ask-ratchat { padding: 6px 10px; }
+        .ask-ratchat-label { display: none; }
+        .ask-ratchat-input { max-width: none; }
+    }
+</style>
+<form id="askRatChat" class="ask-ratchat" action="/assistant/chat" method="get" target="_blank" rel="noopener" aria-label="Ask RatChat" hidden>
+    <span class="ask-ratchat-label">&#10022; Ask RatChat</span>
+    <input type="hidden" name="page" disabled>
+    <input type="hidden" name="id" disabled>
+    <input class="ask-ratchat-input" type="text" name="q" maxlength="1000" autocomplete="off"
+           placeholder="Ask RatChat a question about RGD data..." aria-label="Your question for RatChat">
+    <button class="ask-ratchat-button" type="submit">Ask</button>
+</form>
+<script>
+    (function () {
+        // A page shown inside another one (the ontology browser's mode=iframe) gets no box.
+        if (window.self !== window.top) return;
+        var form = document.getElementById('askRatChat');
+        var input = form.elements.q;
+        var path = window.location.pathname.replace(/^\/rgdweb\//, '');
+        var params = new URLSearchParams(window.location.search);
+        // [path, page type, ID parameter, page type when the ID is absent]
+        var pages = [
+            [/^report\/gene\/main\.html$/, 'gene-report', 'id'],
+            [/^report\/qtl\/main\.html$/, 'qtl-report', 'id'],
+            [/^report\/strain\/main\.html$/, 'strain-report', 'id'],
+            [/^report\/reference\/main\.html$/, 'reference-report', 'id'],
+            [/^report\/marker\/main\.html$/, 'marker-report', 'id'],
+            [/^report\/cellline\/main\.html$/, 'cellline-report', 'id'],
+            [/^ontology\/(annot|view)\.html$/, 'ontology-report', 'acc_id', 'ontology-browser'],
+            [/^ontology\/search\.html$/, 'ontology-browser'],
+            [/^pathway\/pathwayRecord\.html$/, 'pathway-diagram', 'acc_id'],
+            [/^search\/genes\.html$/, 'gene-search'],
+            [/^search\/markers\.html$/, 'marker-search'],
+            [/^elasticResults\.html$/, 'site-search'],
+            [/^generator\//, 'olga'],
+            [/^(gviewer\/|ga\/gviewer\.html$)/, 'gviewer'],
+            [/^phenominer\//, 'phenominer'],
+            [/^enrichment\//, 'moet'],
+            [/^portal\//, 'disease-portal']
+        ];
+        for (var i = 0; i < pages.length; i++) {
+            if (!pages[i][0].test(path)) continue;
+            var id = pages[i][2] ? params.get(pages[i][2]) : null;
+            var page = id || !pages[i][3] ? pages[i][1] : pages[i][3];
+            form.elements.page.value = page;
+            form.elements.page.disabled = false;
+            if (id && page === pages[i][1]) {
+                form.elements.id.value = id;
+                form.elements.id.disabled = false;
+            }
+            input.placeholder = 'Ask about this page...';
+            // Name the record or tool in the placeholder, as RatChat will see it.
+            var query = 'page=' + encodeURIComponent(page)
+                + (form.elements.id.disabled ? '' : '&id=' + encodeURIComponent(form.elements.id.value));
+            fetch('/assistant/chat-openai/page-context?' + query)
+                .then(function (r) { return r.ok ? r.json() : {}; })
+                .then(function (d) {
+                    if (d.subject) input.placeholder = 'Ask about ' + d.subject + ' or this page...';
+                    else if (d.label) input.placeholder = 'Ask about the ' + d.label + '...';
+                })['catch'](function () {});
+            break;
+        }
+        form.addEventListener('submit', function (e) {
+            if (!input.value.trim()) {
+                e.preventDefault();
+                input.focus();
+                return;
+            }
+            // Cleared once the new tab has the question, so the box is ready for the next one.
+            setTimeout(function () { input.value = ''; }, 0);
+        });
+        form.hidden = false;
+    })();
+</script>
 
     <%
     // List, not ArrayList: both are only iterated, and the narrower cast meant a controller
