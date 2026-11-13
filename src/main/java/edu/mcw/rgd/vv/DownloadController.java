@@ -60,31 +60,24 @@ public class DownloadController extends VariantController {
 
         if (request.getParameter("download") != null && request.getParameter("download").equals("1")) {
 
+            // Resolve the submitted symbols -- aliases and old names included -- into official gene symbols.
+            // The variant index is keyed by the official symbol, so raw user input silently matches nothing.
+            // Done before any response header is written, so an unusable gene list surfaces as an error page.
+            List<String> unmatchedSymbols = new ArrayList<>();
+            if (!geneList.equals("") && !geneList.contains("|") && !geneList.contains("*")) {
+                mapGeneSymbols(geneList, vsb, unmatchedSymbols);
+
+                if (vsb.getGenes().isEmpty()) {
+                    throw new VVException("No genes positioned on this assembly were found for: "
+                            + Utils.concatenate(unmatchedSymbols, ", ") + ". Please use official RGD gene symbols.");
+                }
+            }
+
             response.setHeader("content-type", "text/plain");
             response.setHeader("Content-disposition", "attachment;filename=\"rgd_strain_snv.tab\"");
             PrintWriter out = response.getWriter();
 
-            // handle single gene, or multiple genes in gene list parameter
-            boolean multipleGeneSymbols = false;
-            List<String> geneSymbols = null;
-            if (!geneList.equals("") && !geneList.contains("|") && !geneList.contains("*")) {
-                geneSymbols = Utils.symbolSplit(geneList);
-                vsb.setGenes(geneSymbols.stream().map(String::toLowerCase).collect(Collectors.toList()));
-                multipleGeneSymbols = geneSymbols.size()>1;
-            }
-//            if( !multipleGeneSymbols ) {
-//                mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
-//                generateReport(vsb, mappedGenes, request, out, true, isHuman);
-//            } else {
-              /*  for(int i=0; i<geneSymbols.size(); i++ ) {
-                    String geneSymbol = geneSymbols.get(i);
-                    System.out.println(geneSymbol);
-                    Position p = this.getPosition(geneSymbol, req.getParameter("geneStart"), req.getParameter("geneStop"), vsb.getMapKey());
-                    vsb.setPosition(p.getChromosome(), p.getStart() + "", p.getStop() + "");
-                    mappedGenes = gdao.getActiveMappedGenes(vsb.getChromosome(), vsb.getStartPosition(), vsb.getStopPosition(), vsb.getMapKey());
-                 */   generateReport(vsb, null, request, out, true, isHuman);
-                // }
-//            }
+            generateReport(vsb, null, request, out, true, isHuman, unmatchedSymbols);
             return null;
         }
         ModelAndView mv = new ModelAndView("/WEB-INF/jsp/vv/download.jsp");
@@ -95,6 +88,11 @@ public class DownloadController extends VariantController {
 
     void generateReport(VariantSearchBean vsb, List<MappedGene> mappedGenes, HttpServletRequest request, PrintWriter out,
                         boolean printHeader, boolean isHuman) throws Exception {
+        generateReport(vsb, mappedGenes, request, out, printHeader, isHuman, null);
+    }
+
+    void generateReport(VariantSearchBean vsb, List<MappedGene> mappedGenes, HttpServletRequest request, PrintWriter out,
+                        boolean printHeader, boolean isHuman, List<String> unmatchedSymbols) throws Exception {
 
 System.out.println("GENERATING REPORT....");
         SampleDAO sdao = new SampleDAO();
@@ -109,11 +107,18 @@ System.out.println("GENERATING REPORT....");
         String delim = "\t";
         HttpRequestFacade req = new HttpRequestFacade(request);
 
-        if( printHeader ) {
-            printHeader(req,out,delim,samples,isHuman);
-        }
         String assembly= MapManager.getInstance().getMap(vsb.getMapKey()).getDescription();
         String species= SpeciesType.getCommonName(SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey()));
+
+        if( printHeader ) {
+            // symbols that are not official RGD gene symbols simply produce no rows -- say so instead of dropping them silently
+            if( unmatchedSymbols!=null && !unmatchedSymbols.isEmpty() ) {
+                out.print("# NOTE: no data returned for these symbols -- not found in RGD for " + species
+                        + ", or not positioned on " + assembly + ": "
+                        + Utils.concatenate(unmatchedSymbols, ", ") + "\n");
+            }
+            printHeader(req,out,delim,samples,isHuman);
+        }
 
         long start = vsb.getStartPosition();
         long stop = vsb.getStopPosition();

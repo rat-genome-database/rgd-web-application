@@ -395,6 +395,17 @@ public abstract class HaplotyperController implements Controller {
         return vsb;
     }
     public void mapGeneSymbols(String geneList, VariantSearchBean vsb) throws Exception {
+        mapGeneSymbols(geneList, vsb, null);
+    }
+
+    /**
+     * Resolves the symbols supplied by the user -- aliases and old names included -- into official gene symbols
+     * positioned on the assembly of the search bean, and stores them in the bean.
+     *
+     * @param unmatched if not null, receives every submitted symbol that could not be resolved into a gene
+     *                  positioned on this assembly; the caller is expected to report them to the user
+     */
+    public void mapGeneSymbols(String geneList, VariantSearchBean vsb, List<String> unmatched) throws Exception {
         GeneDAO gdao=new GeneDAO();
         List<String> symbols=null;
         int speciesTypeKey=SpeciesType.getSpeciesTypeKeyForMap(vsb.getMapKey());
@@ -403,6 +414,9 @@ public abstract class HaplotyperController implements Controller {
         } else
             symbols= Collections.singletonList(geneList.toLowerCase());
         List<String> symbolsWithoutMutants= symbols.stream().filter(s->!s.contains("<")).collect(Collectors.toList());
+        if( unmatched!=null ) {
+            symbols.stream().filter(s->s.contains("<")).forEach(unmatched::add);
+        }
         edu.mcw.rgd.process.mapping.ObjectMapper om = new edu.mcw.rgd.process.mapping.ObjectMapper();
         om.mapSymbols(symbolsWithoutMutants, speciesTypeKey);
         List result= om.getMapped();
@@ -416,6 +430,9 @@ public abstract class HaplotyperController implements Controller {
                     gene.setSymbol(gene.getSymbol().replace("'", "''"));
                 }
                 genes.add((Gene) o);
+            } else if( unmatched!=null && o!=null ) {
+                // ObjectMapper returns the original string for symbols it could not match to a gene in RGD
+                unmatched.add(o.toString());
             }
         }
         List<MappedGene> mgs = new ArrayList<MappedGene>();
@@ -423,6 +440,15 @@ public abstract class HaplotyperController implements Controller {
         List<String> geneSymbols=new ArrayList<>();
         for(MappedGene gene:mgs){
             geneSymbols.add(gene.getGene().getSymbol());
+        }
+        if( unmatched!=null ) {
+            // genes known to RGD, but without a position on the assembly being searched
+            Set<String> positioned = geneSymbols.stream().map(String::toLowerCase).collect(Collectors.toSet());
+            for( Gene g: genes ) {
+                if( !positioned.contains(g.getSymbol().toLowerCase()) ) {
+                    unmatched.add(g.getSymbol());
+                }
+            }
         }
         vsb.setGenes(geneSymbols);
     }
