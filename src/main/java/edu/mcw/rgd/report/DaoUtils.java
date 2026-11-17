@@ -224,7 +224,8 @@ public class DaoUtils {
                                 .append(xref.getXrefValue())
                                 .append("</a>");
                     }
-                    else { // non-hyperlinked content
+                    else if( !buildOntologyTermLink(buf, xrefType, xrefAcc, formattedXrefValue) ) {
+                        // non-hyperlinked content
                         buf.append(formattedXrefValue);
                     }
                 }
@@ -236,6 +237,39 @@ public class DaoUtils {
             xrefs = buf.toString();
         }
         return xrefs;
+    }
+
+    // ontologies whose term ids resolve at purl.obolibrary.org/obo/PREFIX_ACC
+    private static final Set<String> OBO_PURL_ONTOLOGIES = new HashSet<>(Arrays.asList(
+        "GO", "MP", "HP", "CHEBI", "CL", "UBERON", "SO", "VT", "ZFA", "MA", "NBO", "CMO", "MMO", "XCO",
+        "PW", "MI", "OBA", "DOID", "MONDO", "NCIT", "BTO", "TAO", "AAO", "FMA"));
+
+    /**
+     * hyperlink a definition xref that is an ontology term id, like GO:0000045 or MONDO:0016836:
+     * to the RGD ontology report if RGD has the term, otherwise to the term's OBO purl
+     * @return true if a link was appended; false if the xref is not a linkable ontology term
+     */
+    private boolean buildOntologyTermLink(StringBuilder buf, String xrefType, String xrefAcc, String value) throws Exception {
+
+        // term ids only: an id part that is digits, optionally after one letter (NCIT:C100093)
+        if( !xrefAcc.matches("[A-Za-z]?\\d+") ) {
+            return false;
+        }
+        String termAcc = xrefType + ":" + xrefAcc;
+
+        if( ontologyDAO.getTermByAccId(termAcc) != null ) {
+            buf.append("<a href=\"").append(Link.ontView(termAcc)).append("\">")
+                .append(value)
+                .append("</a>");
+            return true;
+        }
+        if( OBO_PURL_ONTOLOGIES.contains(xrefType) ) {
+            buf.append("<a href=\"https://purl.obolibrary.org/obo/").append(xrefType).append("_").append(xrefAcc).append("\">")
+                .append(value)
+                .append("</a>");
+            return true;
+        }
+        return false;
     }
 
     private void buildHyperlink(StringBuilder buf, int xdbKey, String acc, String value) throws Exception {
