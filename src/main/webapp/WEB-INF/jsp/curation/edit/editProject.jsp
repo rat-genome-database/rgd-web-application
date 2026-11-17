@@ -44,14 +44,15 @@
 <h1>Edit Project: <%=title%></h1>
 <% } %>
 
-<form action="editProject.html" method="get">
-    <input type="hidden" name="rgdId" value="<%=rgdId%>" />
-    <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
-    <input type="hidden" name="act" value="<%=action%>" />
-
+<%-- idInfo.jsp has its own form (updateID.html), so the project form must close before it;
+     a form nested inside another is dropped by the browser and the status would post to editProject.html --%>
     <table>
         <tr>
             <td valign="top">
+                <form action="editProject.html" method="get">
+                <input type="hidden" name="rgdId" value="<%=rgdId%>" />
+                <input type="hidden" value="<%=request.getParameter("token")%>" name="token" />
+                <input type="hidden" name="act" value="<%=action%>" />
                 <table >
                     <tr>
                         <td class="label">Project ID:</td>
@@ -87,6 +88,7 @@
 
 
                 </table>
+                </form>
             </td>
             <td>&nbsp;</td>
             <td valign="top" align="center">
@@ -94,7 +96,6 @@
             </td>
         </tr>
     </table>
-</form>
 <br>
 <%@include file="projectAssociationData.jsp"%>
 <%if(!isNew){%>
