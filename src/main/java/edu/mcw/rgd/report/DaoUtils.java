@@ -212,11 +212,9 @@ public class DaoUtils {
                         buildHyperlink(buf, 47, xrefAcc, formattedXrefValue);
                     }
                     else if( xrefType.equals("LPT") ) {
-                        // Livestock Product Trait Ontology: link to the term report in NCBO BioPortal
-                        buf.append("<a href=\"https://bioportal.bioontology.org/ontologies/LPT?p=classes&amp;conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FLPT_")
-                            .append(xrefAcc).append("\">")
-                            .append(formattedXrefValue)
-                            .append("</a>");
+                        // Livestock Product Trait Ontology: link to the term in BioPortal (rgd_xdb 171);
+                        // the xdb url ends with the obo purl prefix, followed by the acc with ':' replaced by '_'
+                        buildHyperlink(buf, XDB_KEY_BIOPORTAL_LPT, "LPT_" + xrefAcc, formattedXrefValue);
                     }
                     else if( xrefType.equals("HTTP") || xrefType.equals("HTTPS") ) {
                         // just a hyperlink
@@ -238,6 +236,9 @@ public class DaoUtils {
         }
         return xrefs;
     }
+
+    // rgd_xdb entry 'BioPortal LPT'
+    private static final int XDB_KEY_BIOPORTAL_LPT = 171;
 
     // ontologies whose term ids resolve at purl.obolibrary.org/obo/PREFIX_ACC
     private static final Set<String> OBO_PURL_ONTOLOGIES = new HashSet<>(Arrays.asList(
