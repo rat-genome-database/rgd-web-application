@@ -144,7 +144,7 @@ To change this template use File | Settings | File Templates.
                             Both subsets capture genetic and phenotypic variability of the full HRDP.
                         </li>
                         <li>
-                            Mini-HRDP includes 8 strains suitable for most experimental protocols, including behavioral assays and 3 of the 4 progenitors for the two recombinant inbred panels.
+                            Mini-HRDP includes 8 strains suitable for most experimental protocols, including behavioral assays, and 3 of the 4 progenitors for the two recombinant inbred panels.
                         </li>
                         <li>
                             The HS founder strains are the strains that most closely represent the 8 inbred strains used to create the Heterogeneous Stock outbred population.
