@@ -21,15 +21,16 @@
 <h1>Edit Cell Line: <%=dm.out("symbol", cellLine.getSymbol())%></h1>
 <% } %>
 
-<form action="editCellLine.html" method="get">
- <input type="hidden" name="rgdId" value="<%=rgdId%>" />
- <input type="hidden" name="act" value="<%=rgdId<=0?"add":"upd"%>" />
- <input type="hidden" name="speciesType" value="<%=request.getParameter("speciesType")%>" />
- <input type="hidden" name="objectStatus" value="<%=request.getParameter("objectStatus")%>" />
-
+<%-- idInfo.jsp has its own form (updateID.html), so the cell line form must close before it;
+     a form nested inside another is dropped by the browser and the status would post to editCellLine.html --%>
 <table>
     <tr>
         <td valign="top">
+            <form action="editCellLine.html" method="get">
+            <input type="hidden" name="rgdId" value="<%=rgdId%>" />
+            <input type="hidden" name="act" value="<%=rgdId<=0?"add":"upd"%>" />
+            <input type="hidden" name="speciesType" value="<%=request.getParameter("speciesType")%>" />
+            <input type="hidden" name="objectStatus" value="<%=request.getParameter("objectStatus")%>" />
             <table >
                 <tr>
                     <td class="label">Rgd Id:</td>
@@ -100,6 +101,7 @@
                     </td>
                 </tr>
             </table>
+            </form>
         </td>
         <td>&nbsp;</td>
         <td valign="top" align="center">
@@ -107,7 +109,6 @@
         </td>
     </tr>
 </table>
-</form>
 
 <% if( rgdId>0 ) { %>
 <%@ include file="aliasData.jsp" %>

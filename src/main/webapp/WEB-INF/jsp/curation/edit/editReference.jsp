@@ -52,14 +52,15 @@
 <h1>Edit Reference: <%=title%></h1>
 <% } %>
 
-<form action="editReference.html" method="get">
-<input type="hidden" name="rgdId" value="<%=rgdId%>" />
-<input type="hidden" name="key" value="<%=key%>" />
-<input type="hidden" name="act" value="<%=action%>" />
-
+<%-- idInfo.jsp has its own form (updateID.html), so the reference form must close before it;
+     a form nested inside another is dropped by the browser and the status would post to editReference.html --%>
 <table>
     <tr>
         <td valign="top">
+            <form action="editReference.html" method="get">
+            <input type="hidden" name="rgdId" value="<%=rgdId%>" />
+            <input type="hidden" name="key" value="<%=key%>" />
+            <input type="hidden" name="act" value="<%=action%>" />
             <table >
                 <tr>
                     <td class="label">Key:</td>
@@ -171,6 +172,7 @@
                 </tr>
             <% } %>
             </table>
+            </form>
         </td>
         <td>&nbsp;</td>
         <td valign="top" align="center">
@@ -178,6 +180,5 @@
         </td>
     </tr>
 </table>
-</form>
 
 <%@ include file="/common/footerarea.jsp"%>

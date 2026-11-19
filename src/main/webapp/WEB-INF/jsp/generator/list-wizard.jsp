@@ -832,6 +832,7 @@ try {
                         <option value="18" <%= mapKey == 18 ? "selected" : "" %>>Build 37</option>
                     </optgroup>
                     <optgroup label="Other Species">
+                        <option value="1701" <%= mapKey == 1701 ? "selected" : "" %>>Black Rat Rrattus_CSIRO_v1</option>
                         <option value="44" <%= mapKey == 44 ? "selected" : "" %>>Chinchilla ChiLan1.0</option>
                         <option value="634" <%= mapKey == 634 ? "selected" : "" %>>Dog ROS_Cfam_1.0</option>
                         <option value="631" <%= mapKey == 631 ? "selected" : "" %>>Dog CanFam3.1</option>
@@ -1477,8 +1478,8 @@ function filterOntologyTabs() {
             allowed = {mp:1};
         }
     }
-    // Chinchilla (4), Dog (5), Squirrel (7), Green Monkey (13)
-    else if (speciesTypeKey === 4 || speciesTypeKey === 5 || speciesTypeKey === 7 || speciesTypeKey === 13) {
+    // Chinchilla (4), Dog (5), Squirrel (7), Green Monkey (13), Black Rat (17)
+    else if (speciesTypeKey === 4 || speciesTypeKey === 5 || speciesTypeKey === 7 || speciesTypeKey === 13 || speciesTypeKey === 17) {
         allowed = {rdo:1, pw:1, bp:1, mf:1, cc:1, vt:1};
     }
     // Bonobo (6), Pig (9), Naked Mole-Rat (14)
