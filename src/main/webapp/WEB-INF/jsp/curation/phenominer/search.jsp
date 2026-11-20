@@ -200,7 +200,7 @@
         <tr>
             <td><div class="highlight">Strain</div></td>
             <td>    ACC ID: <input type="text" id="sAccId" name="sAccId" value=""/>
-                <a href="javascript:lookup_treeRender('sAccId', 'RS', 'RS:0000457' )"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
+                <a href="javascript:lookup_treeRender('sAccId', 'RS', 'RS:0000457', 'sTerm')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
                 <span id="sTerm" class="highlight"></span>
             </td>
         </tr>
@@ -230,7 +230,7 @@
         <tr>
             <td><div class="highlight">Clinical Measurement</div></td>
             <td>ACC ID: <input type="text" id="cmAccId" name="cmAccId" value=""/>
-            <a href="javascript:lookup_treeRender('cmAccId', 'CMO', 'CMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
+            <a href="javascript:lookup_treeRender('cmAccId', 'CMO', 'CMO:0000000', 'cmTerm')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
             <span id="cmTerm" class="highlight"></span></td>
         </tr>
     </table>
@@ -262,7 +262,7 @@
         <tr>
             <td><div class="highlight">Measurement Method</div></td>
             <td>ACC ID: <input type="text" id="mmAccId" name="mmAccId" value="<%=dm.out("mmAccId", rec.getMeasurementMethod().getAccId())%>"/>
-                <a href="javascript:lookup_treeRender('mmAccId', 'MMO', 'MMO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
+                <a href="javascript:lookup_treeRender('mmAccId', 'MMO', 'MMO:0000000', 'mmTerm')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>
                 <span id="mmTerm" class="highlight"></span>
             </td>
         </tr>
@@ -291,7 +291,7 @@
         <tr>
             <td><div class="highlight">Experimental Condition</div></td>
             <td>    ACC ID: <input type="text" id="cAccId_1" name="cAccId" value="<%=dm.out("cAccId", cond.getOntologyId())%>"/>
-                <a href="javascript:lookup_treeRender('cAccId_1', 'XCO', 'XCO:0000000')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;&nbsp;
+                <a href="javascript:lookup_treeRender('cAccId_1', 'XCO', 'XCO:0000000', 'cTerm_1')"><img src="/rgdweb/common/images/tree.png" border="0"/></a>&nbsp;&nbsp;
                 <span id="cTerm_1" class="highlight"></span>
 </td>
         </tr>
