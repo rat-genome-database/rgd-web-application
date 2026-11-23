@@ -18,6 +18,11 @@ public class ContactUsController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        // a page load (GET) just shows the form; only a form submission (POST) carries a message
+        if (!"POST".equalsIgnoreCase(request.getMethod())) {
+            return new ModelAndView("/WEB-INF/jsp/contact/contactUs.jsp");
+        }
+
         boolean submit;
         try{
             StringBuilder buffer = new StringBuilder();
