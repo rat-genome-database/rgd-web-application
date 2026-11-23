@@ -982,8 +982,8 @@ function filterOntologyChips() {
             allowed = {mp:1};
         }
     }
-    // Chinchilla (4), Dog (5), Squirrel (7), Green Monkey (13)
-    else if (speciesKey === 4 || speciesKey === 5 || speciesKey === 7 || speciesKey === 13) {
+    // Chinchilla (4), Dog (5), Squirrel (7), Green Monkey (13), Black Rat (17)
+    else if (speciesKey === 4 || speciesKey === 5 || speciesKey === 7 || speciesKey === 13 || speciesKey === 17) {
         allowed = {rdo:1, pw:1, bp:1, mf:1, cc:1, vt:1};
     }
     // Bonobo (6), Pig (9), Naked Mole-Rat (14)
@@ -1295,6 +1295,7 @@ $(document).ready(function(){
             <option value="1311" <% if (mapKey==1311) out.print("selected");%>>Green Monkey - Vero_WHO_p1.0</option>
             <option value="1313" <% if (mapKey==1313) out.print("selected");%>>Green Monkey - ChlSab1.1</option>
             <option value="1410" <% if (mapKey==1410) out.print("selected");%>>Naked Mole-Rat - HetGla_1.0</option>
+            <option value="1701" <% if (mapKey==1701) out.print("selected");%>>Black Rat - Rrattus_CSIRO_v1</option>
         </select>
     </div>
 

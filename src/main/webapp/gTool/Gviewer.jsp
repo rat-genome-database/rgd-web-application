@@ -287,10 +287,14 @@ function updatePhenotypeOntology() {
                 opt.value = ont;
             }
         });
-        // Keep "Phenotype" selected across species switches even though its value changed
+        // Keep "Phenotype" selected across species switches even though its value changed.
+        // Fire 'change' (which clears the row's term) only when MP/HP actually switched:
+        // addCriteria() calls this too, and an unconditional change wiped every Phenotype row (RGDD-3124)
         if (prev === 'MP' || prev === 'HP') {
             sel.value = ont;
-            sel.dispatchEvent(new Event('change'));
+            if (prev !== ont) {
+                sel.dispatchEvent(new Event('change'));
+            }
         }
     });
 }
