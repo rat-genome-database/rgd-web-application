@@ -15,25 +15,27 @@
 %>
 <%@ include file="/common/headerarea.jsp"%>
 
-<link href="/rgdweb/css/cyStyle.css" rel="stylesheet" type="text/css">
+<link href="/rgdweb/css/searchForm.css" rel="stylesheet" type="text/css">
 
-<div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">Gene Search</div>
-</div>
-<div class="searchBox">
-    <%=pageDescription%>
-    <div class="searchExamples">
-        <b>Example searches:</b> <a href="javascript:document.adSearch.term.value='A2m';document.adSearch.chr.value='0';document.adSearch.submit();" >A2m</a>,<a href="javascript:document.adSearch.term.value='2004';document.adSearch.chr.value='0';document.adSearch.submit();" >2004</a> <a href="javascript:document.adSearch.term.value='serine threonine kinase';document.adSearch.chr.value='0';document.adSearch.submit();" > serine threonine kinase</a>, <a href="javascript:document.adSearch.term.value='NM_012488';document.adSearch.chr.value='0';document.adSearch.submit();" >NM_012488</a>, <a href="javascript:document.adSearch.term.value='Adora2a';document.adSearch.chr.value='0';document.adSearch.submit();" >Adora2a</a>
+<%-- class "rsm" opts this page into the modern search form styling, see /rgdweb/css/searchForm.css --%>
+<div class="rsm">
+    <h1 class="rsm-title">Gene Search</h1>
+    <p class="rsm-lead"><%=pageDescription%></p>
+
+    <div class="rsm-examples">
+        <span class="rsm-examples-label">Try an example:</span>
+        <button type="button" class="rsm-chip" data-term="A2m">A2m</button>
+        <button type="button" class="rsm-chip" data-term="2004">2004</button>
+        <button type="button" class="rsm-chip" data-term="serine threonine kinase">serine threonine kinase</button>
+        <button type="button" class="rsm-chip" data-term="NM_012488">NM_012488</button>
+        <button type="button" class="rsm-chip" data-term="Adora2a">Adora2a</button>
     </div>
-<br>
-
 
     <form name="adSearch" action="/rgdweb/elasticResults.html">
         <%@ include file="advancedSearchForm.jsp"%>
         <input type="hidden" name="category" id="objectSearchCat" value="Gene" />
         <input type="hidden" name="objectSearch" value="true"/>
     </form>
-
-
 </div>
+
 <%@ include file="/common/footerarea.jsp"%>
