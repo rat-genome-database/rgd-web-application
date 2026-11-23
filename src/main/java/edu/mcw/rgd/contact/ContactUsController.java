@@ -32,7 +32,10 @@ public class ContactUsController implements Controller {
             updateDatabase(obj);
         }
         catch (Exception e){
-            System.out.println(e);
+            // tell the page the message did not go through, instead of showing the thank-you message
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
         }
 
         return new ModelAndView("/WEB-INF/jsp/contact/contactUs.jsp");
@@ -44,18 +47,27 @@ public class ContactUsController implements Controller {
         fb.setLastName((String)obj.get("lastName"));
         fb.setEmail((String)obj.get("email"));
         fb.setInstitute((String)obj.get("institute"));
-        String phone = (String)obj.get("phone");
+        // phone is free text; a 10-digit number does not fit the int column, so it is stored only when it fits,
+        // and the text as entered always goes into the email to RGD
+        String phone = obj.optString("phone", "").trim();
+        String phoneDigits = phone.replaceAll("[^0-9]", "");
         int num = 0;
-        if (!phone.isEmpty())
-            num = Integer.parseInt(phone);
+        try {
+            if (!phoneDigits.isEmpty())
+                num = Integer.parseInt(phoneDigits);
+        } catch (NumberFormatException ignore) {
+        }
         fb.setPhoneNumber(num);
         fb.setAddress((String)obj.get("address"));
         fb.setInstitute((String)obj.get("institute"));
         fb.setCity((String)obj.get("city"));
-        String zip = (String)obj.get("zipCode");
+        String zip = obj.optString("zipCode", "").replaceAll("[^0-9]", "");
         int code = 0;
-        if (!zip.isEmpty())
-            code = Integer.parseInt(zip);
+        try {
+            if (!zip.isEmpty())
+                code = Integer.parseInt(zip);
+        } catch (NumberFormatException ignore) {
+        }
         fb.setZipCode(code);
         fb.setCountry((String)obj.get("country"));
         fb.setState((String)obj.get("state"));
@@ -64,34 +76,40 @@ public class ContactUsController implements Controller {
 //        String subject = (String)obj.get("subject");
         String subject = "Inquiry from "+fb.getFirstName()+" "+fb.getLastName();
 
-        List<FBPerson> senders = dao.getPersonByEmail(fb.getEmail());
-        if (!senders.isEmpty()) {
-            if (!fb.equals(senders.get(0))) {
-                FBPerson updated = mergePerson(fb, senders.get(0));
-                dao.updatePerson(updated);
-                fb = updated;
+        // the email to RGD is sent even if saving the message fails, so no request is lost
+        int messageId = 0;
+        try {
+            List<FBPerson> senders = dao.getPersonByEmail(fb.getEmail());
+            if (!senders.isEmpty()) {
+                if (!fb.equals(senders.get(0))) {
+                    FBPerson updated = mergePerson(fb, senders.get(0));
+                    dao.updatePerson(updated);
+                    fb = updated;
+                }
             }
-        }
-        else{
-            dao.insertPerson(fb);
-            senders = dao.getPersonByEmail(fb.getEmail());
+            else{
+                dao.insertPerson(fb);
+                senders = dao.getPersonByEmail(fb.getEmail());
+            }
+
+            messageId = dao.insertMessage(subject, message, 1, senders.get(0).getPersonId());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        int messageId = dao.insertMessage(subject, message, 1, senders.get(0).getPersonId());
-
-        sendMessage(fb, messageId, message, subject);
+        sendMessage(fb, phone, messageId, message, subject);
 
         return;
     }
-    public void sendMessage(FBPerson fb, int messageId, String message, String subject) throws Exception {
+    public void sendMessage(FBPerson fb, String phone, int messageId, String message, String subject) throws Exception {
 
         String senderEmail = "Dear " + fb.getFirstName() + ",\n" +
                 "\n" +
                 "Thank you for using RGD. Your comments/messages are very important to us." +
                 "We will reply or contact you as soon as possible.\n" +
                 "\n" +
-                "Your message ID is "+messageId+". Please refer to this number in any "+
-                "subsequent correspondence.\n" +
+                (messageId>0 ? "Your message ID is "+messageId+". Please refer to this number in any "+
+                "subsequent correspondence.\n" : "") +
                 "\n" +
                 "\n" +
                 "Your comments/messages are as follows:\n" +
@@ -108,14 +126,19 @@ public class ContactUsController implements Controller {
         String rgdMessage = message + "\n\n" +
                 "This message came from "+fb.getFirstName() + " "+fb.getLastName()+".\n" +
                 "Email: " + fb.getEmail() +"\n"+
-                "Phone Number: "+fb.getPhoneNumber()+"\n"+
+                "Phone Number: "+phone+"\n"+
                 "Institute: "+fb.getInstitute()+"\n"+
                 "City: "+ fb.getCity()+"\n"+
                 "State: "+ fb.getState()+"\n" +
                 "Country: "+fb.getCountry();
 
         MyRGDLookupController.send("rgd.data@mcw.edu", subject, rgdMessage); // to RGD rgd.data@mcw.edu
-        MyRGDLookupController.send(fb.getEmail(), "Thank you for your comment submission", senderEmail); // to sender
+        try {
+            MyRGDLookupController.send(fb.getEmail(), "Thank you for your comment submission", senderEmail); // to sender
+        } catch (Exception e) {
+            // RGD already has the message; a bad sender address should not report the submission as failed
+            e.printStackTrace();
+        }
         return;
     }
     public FBPerson mergePerson(FBPerson newPerson, FBPerson dbPerson) throws Exception{
