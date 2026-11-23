@@ -18,30 +18,25 @@
 <%@ include file="/common/headerarea.jsp"%>
  <script type="text/javascript" src="/QueryBuilder/js/jquery.autocomplete.js"></script>
 
+<link href="/rgdweb/css/searchForm.css" rel="stylesheet" type="text/css">
 
- <div class="rgd-panel rgd-panel-default">
-     <div class="rgd-panel-heading">QTL Search</div>
- </div>
+<%-- class "rsm" opts this page into the modern search form styling, see /rgdweb/css/searchForm.css --%>
+<div class="rsm">
+    <h1 class="rsm-title">QTL Search</h1>
+    <p class="rsm-lead"><%=pageDescription%></p>
 
-
- <div class="searchBox">
-     <%=pageDescription%>
-
-     <div class="searchExamples">
-        <b>Example searches:</b>
-        <a href="javascript:document.adSearch.term.value='Mcs';document.adSearch.chr.value='0';document.adSearch.submit();" >Mcs</a>,
-        <a href="javascript:document.adSearch.term.value='61387';document.adSearch.chr.value='0';document.adSearch.submit();" >61387</a>,
-        <a href="javascript:document.adSearch.term.value='renal function';document.adSearch.chr.value='0';document.adSearch.submit();" >renal function</a>,
-        <a href="javascript:document.adSearch.term.value='bp1';document.adSearch.chr.value='0';document.adSearch.submit();" >bp1</a>,
-
+    <div class="rsm-examples">
+        <span class="rsm-examples-label">Try an example:</span>
+        <button type="button" class="rsm-chip" data-term="Mcs">Mcs</button>
+        <button type="button" class="rsm-chip" data-term="61387">61387</button>
+        <button type="button" class="rsm-chip" data-term="renal function">renal function</button>
+        <button type="button" class="rsm-chip" data-term="bp1">bp1</button>
     </div>
-    <br>
-        <form name="adSearch" action="/rgdweb/elasticResults.html">
 
-            <%@ include file="advancedSearchForm.jsp"%>
-            <input type="hidden" name="category"  value="QTL" />
-            <input type="hidden" name="objectSearch" value="true"/>
-
-        </form>
+    <form name="adSearch" action="/rgdweb/elasticResults.html">
+        <%@ include file="advancedSearchForm.jsp"%>
+        <input type="hidden" name="category"  value="QTL" />
+        <input type="hidden" name="objectSearch" value="true"/>
+    </form>
 </div>
 <%@ include file="/common/footerarea.jsp"%>

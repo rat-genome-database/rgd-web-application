@@ -11,36 +11,30 @@
     String pageTitle = "Reference Search - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "Reference reports provide full citations, abstracts, and links to Pubmed.";
-    
+
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
 <% boolean includeMapping = false; %>
 <% String title="References"; %>
 
-<div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">Reference Search</div>
-</div>
+<link href="/rgdweb/css/searchForm.css" rel="stylesheet" type="text/css">
 
+<%-- class "rsm" opts this page into the modern search form styling, see /rgdweb/css/searchForm.css --%>
+<div class="rsm">
+    <h1 class="rsm-title">Reference Search</h1>
+    <p class="rsm-lead"><%=pageDescription%></p>
 
-<div class="searchBox">
+    <div class="rsm-examples">
+        <span class="rsm-examples-label">Try an example:</span>
+        <button type="button" class="rsm-chip" data-term="jacobsen 2004">jacobsen 2004</button>
+        <button type="button" class="rsm-chip" data-term="obesity smith nat genet">obesity smith nat genet</button>
+        <button type="button" class="rsm-chip" data-term="cardiomyopathy">cardiomyopathy</button>
+    </div>
 
-Reference reports provide full citations, abstracts, and links to Pubmed. <!--a href="/wg/searchHelp">(Search Help)</a--><br>
-
-
-<!--form name="adSearch" action="references.html"-->
     <form name="adSearch" action="/rgdweb/elasticResults.html">
-        <div class="searchExamples">
-
-            <b>Example searches:</b> <a href="javascript:document.adSearch.term.value='jacobsen 2004';document.adSearch.submit();" >jacobsen 2004</a>, <a href="javascript:document.adSearch.term.value='obesity smith nat genet';document.adSearch.submit();" >obesity smith nat genet</a>, <a href="javascript:document.adSearch.term.value='cardiomyopathy';document.adSearch.submit();" >cardiomyopathy</a>
-                </div>
-            <br>
- <%@ include file="advancedSearchForm.jsp"%>
-    <!--input type="hidden" name="obj" value="reference" /-->
+        <%@ include file="advancedSearchForm.jsp"%>
         <input type="hidden" name="category" id="objectSearchCat" value="Reference" />
-
-
-</form>
-    <!--a href="/wg/searchHelp">View all search features</a-->
+    </form>
 </div>
 <%@ include file="/common/footerarea.jsp"%>

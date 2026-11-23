@@ -33,6 +33,21 @@
             }
         }
     }
+
+    // example searches: <button class="rsm-chip" data-term="..."> anywhere on the page runs that
+    // keyword on its own, without a chromosome limit (not every search has a chromosome list)
+    document.addEventListener('click', function (e) {
+        var chip = e.target.closest ? e.target.closest('.rsm-chip[data-term]') : null;
+        if (!chip) {
+            return;
+        }
+        var form = document.adSearch;
+        form.term.value = chip.getAttribute('data-term');
+        if (form.chr) {
+            form.chr.value = '0';
+        }
+        form.submit();
+    });
 </script>
 <style>
     td b{
@@ -106,14 +121,16 @@
         }
     }
 %>
-<table border="1" cellspacing=0 cellpadding=10 style="background-color:white;">
+<%-- the asf-* classes are layout hooks for /rgdweb/css/searchForm.css, which only applies on pages
+     that wrap this form in class "rsm"; everywhere else they have no effect --%>
+<table class="asf-card" border="1" cellspacing=0 cellpadding=10 style="background-color:white;">
 <%--    <%if(title.equals("Variants")){%>--%>
     <tr><td>
         <table border='0' >
 
-            <tr>
+            <tr class="asf-row">
 
-                <td colspan="6" ><b style="font-size: 15px">Keyword:</b>
+                <td class="asf-keyword" colspan="6" ><b style="font-size: 15px">Keyword:</b>
                     <%if(pageTitle.toLowerCase().contains("gene") || pageTitle.toLowerCase().contains("qtl")){%>
                     <select id="match_type" name="match_type">
                     <option value="equals" <%=isPipelines?"selected":""%>>Equals</option>
@@ -122,11 +139,11 @@
                     <option value="ends">Ends with</option>
                 </select>
                 <%}%>
-                    <input name="term" id="objectSearchTerm" type="text" value="" size="85" style="font-size: 15px;height: 28px;"/>&nbsp;&nbsp;</td>
+                    <input name="term" id="objectSearchTerm" type="text" value="" size="85" style="font-size: 15px;height: 28px;" aria-label="Keyword"/></td>
             </tr>
-            <tr><td colspan=3>&nbsp;</td></tr>
+            <tr class="asf-spacer"><td colspan=3>&nbsp;</td></tr>
             <% if (!(title.equals("Strains") || title.equals("References"))) { %>
-            <tr>
+            <tr class="asf-row asf-scope-row">
                         <%
                         int species = 3;
 
@@ -138,7 +155,7 @@
 
                     %>
                 <td><b>Species:</b>
-                    <select name="speciesType" onChange='addParam("species",this.value)'>
+                    <select name="speciesType" aria-label="Species" onChange='addParam("species",this.value)'>
 <%--                        <% if (!request.getServletPath().endsWith("qtls.jsp")) { %>--%>
                         <option value="0" disabled hidden>All</option>
 <%--                        <% } %>--%>
@@ -172,7 +189,7 @@
 
                 %>
                 <td style="padding-right: 100px"><b>Assembly&nbsp;</b>
-                    <select  id="assembly" name="assembly" onChange='addParam("assembly",this.value)'>
+                    <select  id="assembly" name="assembly" aria-label="Assembly" onChange='addParam("assembly",this.value)'>
                         <%if(mapDefault!=null && (!isVariantSearch || variantMapKeys.contains(mapDefault.getKey()))){%>
                         <option  <%=fu.optionParams(selectedAssembly,String.valueOf( mapDefault.getDescription()))%>><%=mapDefault.getName()%></option>
                         <%}%>
@@ -187,19 +204,19 @@
                     </select>
                 </td>
             </tr>
-            <tr><td colspan=3>&nbsp;</td></tr>
+            <tr class="asf-spacer"><td colspan=3>&nbsp;</td></tr>
 <%--            <tr><td style="border: 1px solid black;">--%>
-            <tr>
+            <tr class="asf-row">
                 <td colspan="6">
-                    <table cellspacing="0" cellpadding="10" border="1" style="border-collapse: collapse;max-width: 60vw;">
+                    <table class="asf-limit" cellspacing="0" cellpadding="10" border="1" style="border-collapse: collapse;max-width: 60vw;">
             <tr><td colspan=3 style="border-bottom: 0;border-collapse: collapse;padding-bottom: 0"><div class="searchHeader">Limit Results (optional)</div></td></tr>
             <tr>
                 <td colspan='5' style="border-top: 0;border-collapse: collapse;padding-top: 3px">
-                    <table>
+                    <table class="asf-position">
                         <tr>
-                            <td><b>Chr</b>&nbsp;</td>
-                            <td>
-                            <select name="chr">
+                            <td class="asf-pos-chr-label"><b>Chr</b>&nbsp;</td>
+                            <td class="asf-pos-chr">
+                            <select name="chr" aria-label="Chromosome">
                                 <option <%=fu.optionParams(search.getChr(),"ALL")%> >All</option>
                                 <%
                                     List<Chromosome> chromosomes = MapManager.getInstance().getChromosomes(MapManager.getInstance().getReferenceAssembly(search.getSpeciesType()).getKey());
@@ -209,8 +226,8 @@
                                 <%  } %>
                             </select>
                         </td>
-                            <td>&nbsp;</td><td><b>Start</b></td><td><input name="start" type="text" size="30" value=""/>(bp)</td>
-                            <td>&nbsp;</td><td><b>Stop</b></td><td><input name="stop" type="text" size="30" value=""/>(bp)</td>
+                            <td class="asf-pos-gap">&nbsp;</td><td class="asf-pos-start-label"><b>Start</b></td><td class="asf-pos-start"><input name="start" type="text" size="30" value="" aria-label="Start position (bp)"/>(bp)</td>
+                            <td class="asf-pos-gap">&nbsp;</td><td class="asf-pos-stop-label"><b>Stop</b></td><td class="asf-pos-stop"><input name="stop" type="text" size="30" value="" aria-label="Stop position (bp)"/>(bp)</td>
                         </tr>
                     </table>
                 </td>
@@ -220,12 +237,12 @@
                     </table>
                </td>
             </tr>
-            <tr><td colspan=3>&nbsp;</td></tr>
+            <tr class="asf-spacer"><td colspan=3>&nbsp;</td></tr>
             <% }%>
 <%--                <%if (title.equals("Gene")){%>--%>
 <%--            <%@include file="advancedOptions.jsp"%>--%>
 <%--            <%}%>--%>
-            <tr>
+            <tr class="asf-row asf-submit-row">
 
                 <td colspan="4" align="center">
 <%--                    <input type="reset" name="reset" value="Reset">&nbsp;--%>

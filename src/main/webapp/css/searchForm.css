@@ -1,0 +1,380 @@
+/*
+ * Modern look for the object search pages (search/advanced/*.jsp).
+ *
+ * Opt-in: everything here is scoped to a wrapper with class "rsm", so a page that does not
+ * wrap its form keeps the legacy look. The form itself (advancedSearchForm.jsp) is still the
+ * old nested-table markup shared by all the search pages; the asf-* classes on it are hooks
+ * used only by this file, which turns those tables into block/grid layout.
+ */
+
+.rsm {
+    max-width: 920px;
+    margin: 28px auto 56px;
+    padding: 0 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #24292f;
+    text-align: left;
+}
+
+/* ---------- page header ---------- */
+
+.rsm .rsm-title {
+    margin: 0 0 8px;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #1f2d3d;
+}
+
+.rsm .rsm-lead {
+    max-width: 70ch;
+    margin: 0 0 20px;
+    font-size: 15px;
+    color: #57606a;
+}
+
+/* ---------- example searches ---------- */
+
+.rsm .rsm-examples {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 18px;
+}
+
+.rsm .rsm-examples-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #57606a;
+    margin-right: 2px;
+}
+
+.rsm .rsm-chip {
+    height: auto;
+    padding: 4px 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #2865A3;
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s;
+}
+
+.rsm .rsm-chip:hover {
+    background: #eef4fb;
+    border-color: #2865A3;
+}
+
+.rsm .rsm-chip:focus-visible,
+.rsm .asf-card input[type=submit]:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(40, 101, 163, .3);
+}
+
+/* ---------- the form: flatten the legacy tables ---------- */
+
+.rsm .asf-card,
+.rsm .asf-card table,
+.rsm .asf-card tbody,
+.rsm .asf-card tr,
+.rsm .asf-card td {
+    display: block;
+    width: auto;
+    margin: 0;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent;
+    text-align: left;
+}
+
+.rsm table.asf-card {
+    padding: 28px !important;
+    background: #fff !important;
+    border: 1px solid #d0d7de !important;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(31, 35, 40, .04), 0 8px 24px rgba(31, 35, 40, .06);
+}
+
+.rsm .asf-card tr.asf-spacer {
+    display: none;
+}
+
+.rsm .asf-card tr.asf-row {
+    margin-bottom: 22px;
+}
+
+.rsm .asf-card tr.asf-submit-row {
+    margin-bottom: 0;
+}
+
+/* ---------- labels and controls ---------- */
+
+.rsm .asf-card td b {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px !important;
+    font-weight: 600;
+    color: #24292f;
+}
+
+.rsm .asf-card select,
+.rsm .asf-card input[type=text] {
+    width: 100%;
+    height: 40px !important;
+    padding: 0 12px;
+    font-family: inherit;
+    font-size: 15px !important;
+    color: #24292f;
+    background-color: #fff;
+    border: 1px solid #c5ced8;
+    border-radius: 8px;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.rsm .asf-card select:hover,
+.rsm .asf-card input[type=text]:hover {
+    border-color: #8c98a6;
+}
+
+.rsm .asf-card select:focus,
+.rsm .asf-card input[type=text]:focus {
+    position: relative;
+    outline: 0;
+    border-color: #2865A3;
+    box-shadow: 0 0 0 3px rgba(40, 101, 163, .2);
+}
+
+/* ---------- keyword: match type + term joined into one control ---------- */
+
+.rsm .asf-card td.asf-keyword {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.rsm .asf-card td.asf-keyword b {
+    flex: 0 0 100%;
+}
+
+.rsm .asf-card td.asf-keyword select,
+.rsm .asf-card td.asf-keyword input[type=text] {
+    height: 46px !important;
+    font-size: 16px !important;
+}
+
+.rsm .asf-card td.asf-keyword select {
+    flex: 0 0 auto;
+    width: auto;
+    background-color: #f6f8fa;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.rsm .asf-card td.asf-keyword input[type=text] {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.rsm .asf-card td.asf-keyword select + input[type=text] {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* ---------- species + assembly ---------- */
+
+.rsm .asf-card tr.asf-scope-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* ---------- limit results (chromosome / start / stop) ---------- */
+
+.rsm .asf-card table.asf-limit {
+    max-width: none !important;
+    padding: 16px 18px 18px !important;
+    background: #f6f8fa;
+    border: 1px solid #e3e8ee !important;
+    border-radius: 10px;
+}
+
+.rsm .asf-card .searchHeader {
+    width: auto;
+    margin: 0 0 12px;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: #57606a;
+    background: none;
+    border: 0;
+}
+
+.rsm .asf-card table.asf-position tr {
+    display: grid;
+    grid-template-columns: 130px 1fr 1fr;
+    column-gap: 16px;
+    row-gap: 6px;
+}
+
+.rsm .asf-card table.asf-position td b {
+    margin-bottom: 0;
+}
+
+.rsm .asf-card td.asf-pos-gap { display: none; }
+
+.rsm .asf-card td.asf-pos-chr-label   { grid-column: 1; grid-row: 1; }
+.rsm .asf-card td.asf-pos-chr         { grid-column: 1; grid-row: 2; }
+.rsm .asf-card td.asf-pos-start-label { grid-column: 2; grid-row: 1; }
+.rsm .asf-card td.asf-pos-start       { grid-column: 2; grid-row: 2; }
+.rsm .asf-card td.asf-pos-stop-label  { grid-column: 3; grid-row: 1; }
+.rsm .asf-card td.asf-pos-stop        { grid-column: 3; grid-row: 2; }
+
+/* the "(bp)" unit that follows the start and stop inputs */
+.rsm .asf-card td.asf-pos-start,
+.rsm .asf-card td.asf-pos-stop {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #57606a;
+}
+
+.rsm .asf-card td.asf-pos-start input[type=text],
+.rsm .asf-card td.asf-pos-stop input[type=text] {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* ---------- submit ---------- */
+
+.rsm .asf-card input[type=submit] {
+    height: 44px !important;
+    padding: 0 26px;
+    font-family: inherit;
+    font-size: 15px !important;
+    font-weight: 600;
+    color: #fff;
+    background: #2865A3;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color .15s;
+}
+
+.rsm .asf-card input[type=submit]:hover {
+    background: #1a4a7a;
+}
+
+/* ---------- related links under the form (strain search) ---------- */
+
+.rsm .rsm-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.rsm a.rsm-link {
+    display: block;
+    padding: 16px 18px;
+    font-weight: 400;
+    text-decoration: none;
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 10px;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.rsm a.rsm-link:hover,
+.rsm a.rsm-link:focus-visible {
+    outline: 0;
+    text-decoration: none;
+    border-color: #2865A3;
+    box-shadow: 0 0 0 3px rgba(40, 101, 163, .15);
+}
+
+.rsm .rsm-link-title {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2865A3;
+}
+
+.rsm .rsm-link-text {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: #57606a;
+}
+
+.rsm .rsm-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    color: #9a3412;
+    background: #ffedd5;
+    border-radius: 999px;
+}
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 600px) {
+    .rsm .rsm-links {
+        grid-template-columns: 1fr;
+    }
+
+    .rsm {
+        margin-top: 16px;
+    }
+
+    .rsm .rsm-title {
+        font-size: 24px;
+    }
+
+    .rsm table.asf-card {
+        padding: 18px !important;
+    }
+
+    .rsm .asf-card td.asf-keyword select {
+        flex: 0 0 100%;
+        width: 100%;
+        margin-bottom: 8px;
+        border-radius: 8px;
+    }
+
+    .rsm .asf-card td.asf-keyword input[type=text],
+    .rsm .asf-card td.asf-keyword select + input[type=text] {
+        flex: 0 0 100%;
+        margin-left: 0;
+        border-radius: 8px;
+    }
+
+    .rsm .asf-card tr.asf-scope-row,
+    .rsm .asf-card table.asf-position tr {
+        grid-template-columns: 1fr;
+    }
+
+    .rsm .asf-card td.asf-pos-chr-label   { grid-column: 1; grid-row: 1; }
+    .rsm .asf-card td.asf-pos-chr         { grid-column: 1; grid-row: 2; margin-bottom: 8px; }
+    .rsm .asf-card td.asf-pos-start-label { grid-column: 1; grid-row: 3; }
+    .rsm .asf-card td.asf-pos-start       { grid-column: 1; grid-row: 4; margin-bottom: 8px; }
+    .rsm .asf-card td.asf-pos-stop-label  { grid-column: 1; grid-row: 5; }
+    .rsm .asf-card td.asf-pos-stop        { grid-column: 1; grid-row: 6; }
+
+    .rsm .asf-card input[type=submit] {
+        width: 100%;
+    }
+}
