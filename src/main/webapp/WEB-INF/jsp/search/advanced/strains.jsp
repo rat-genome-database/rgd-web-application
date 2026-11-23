@@ -11,46 +11,43 @@
     String pageTitle = "Strain Search";
     String headContent = "";
     String pageDescription = "";
-    
+
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
 <% boolean includeMapping = false; %>
 <% String title="Strains"; %>
 
-<div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">Strain Search</div>
-</div>
+<link href="/rgdweb/css/searchForm.css" rel="stylesheet" type="text/css">
 
+<%-- class "rsm" opts this page into the modern search form styling, see /rgdweb/css/searchForm.css --%>
+<div class="rsm">
+    <h1 class="rsm-title">Strain Search</h1>
+    <p class="rsm-lead">Strain reports include a comprehensive description of strain origin, disease, phenotype, genetics, immunology, behavior with links to related genes, QTLs, sub-strains, and strain sources.</p>
 
-<div class="searchBox">
+    <div class="rsm-examples">
+        <span class="rsm-examples-label">Try an example:</span>
+        <button type="button" class="rsm-chip" data-term="fhl">fhl</button>
+        <button type="button" class="rsm-chip" data-term="wild">wild</button>
+        <button type="button" class="rsm-chip" data-term="Adora2a">Adora2a</button>
+        <button type="button" class="rsm-chip" data-term="hypertension">hypertension</button>
+        <button type="button" class="rsm-chip" data-term="d16rat31">d16rat31</button>
+    </div>
 
-    Strain reports include a comprehensive description of strain origin, disease, phenotype, genetics, immunology, behavior with links to related genes, QTLs, sub-strains, and strain sources. <!--a href="/wg/searchHelp">(Search Help)</a--><br>
-
-
-<!--form name="adSearch" action="strains.html"-->
     <form name="adSearch" action="/rgdweb/elasticResults.html">
-        <div class="searchExamples">
-
-            <b>Example searches:</b> <a href="javascript:document.adSearch.term.value='fhl';document.adSearch.submit();" >fhl</a>,
-            <a href="javascript:document.adSearch.term.value='wild';document.adSearch.submit();" > wild</a>,
-             <a href="javascript:document.adSearch.term.value='Adora2a';document.adSearch.submit();" >Adora2a</a>,
-            <a href="javascript:document.adSearch.term.value=' hypertension';document.adSearch.submit();" > hypertension</a>,
-            <a href="javascript:document.adSearch.term.value='d16rat31';document.adSearch.submit();" >d16rat31</a>
-                </div>
-       <br>
-    <%@ include file="advancedSearchForm.jsp"%>
-    <!--input type="hidden" name="obj" value="strain" /-->
+        <%@ include file="advancedSearchForm.jsp"%>
         <input type="hidden" name="category" id="objectSearchCat" value="Strain" />
+    </form>
 
-
-</form>
-<br>
-    <a href="/rgdweb/ontology/view.html?acc_id=RS:0000457" style="font-weight: bold; font-size: large">Browse All Strains Using Rat Strain Ontology</a>&nbsp;<br>
-<br>
-    <a href="/rgdweb/models/findModels.html" style="font-weight: bold; font-size: large">Find Models by Disease or Phenotype</a>&nbsp;&nbsp;&nbsp;<span style="color:red;font-weight: bold;font-size: large">new</span> <br><br>
-
-    <!--a href="/wg/searchHelp">View all search features</a-->
-    
+    <div class="rsm-links">
+        <a class="rsm-link" href="/rgdweb/ontology/view.html?acc_id=RS:0000457">
+            <span class="rsm-link-title">Browse all strains</span>
+            <span class="rsm-link-text">Explore the Rat Strain Ontology</span>
+        </a>
+        <a class="rsm-link" href="/rgdweb/models/findModels.html">
+            <span class="rsm-link-title">Find models <span class="rsm-badge">New</span></span>
+            <span class="rsm-link-text">Search rat models by disease or phenotype</span>
+        </a>
+    </div>
 </div>
 <%@ include file="/common/footerarea.jsp"%>

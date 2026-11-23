@@ -11,7 +11,7 @@
     String pageTitle = "Marker Search (SSLP and SNP) - " + RgdContext.getLongSiteName(request);
     String headContent = "";
     String pageDescription = "SSLP and SNP reports provide mapping data, primer information, and size variations among strains.";
-    
+
 %>
 
 <%@ include file="/common/headerarea.jsp"%>
@@ -19,33 +19,25 @@
 <% boolean includeMapping = true; %>
 <% String title="Markers"; %>
 
-<div class="rgd-panel rgd-panel-default">
-    <div class="rgd-panel-heading">Marker Search</div>
-</div>
+<link href="/rgdweb/css/searchForm.css" rel="stylesheet" type="text/css">
 
+<%-- class "rsm" opts this page into the modern search form styling, see /rgdweb/css/searchForm.css --%>
+<div class="rsm">
+    <h1 class="rsm-title">Marker Search</h1>
+    <p class="rsm-lead"><%=pageDescription%></p>
 
-<div class="searchBox">
+    <div class="rsm-examples">
+        <span class="rsm-examples-label">Try an example:</span>
+        <button type="button" class="rsm-chip" data-term="d16rat31">d16rat31</button>
+        <button type="button" class="rsm-chip" data-term="36199">36199</button>
+        <button type="button" class="rsm-chip" data-term="D5Rhw">D5Rhw</button>
+        <button type="button" class="rsm-chip" data-term="oxsts7961">oxsts7961</button>
+    </div>
 
-SSLP and SNP reports provide mapping data, primer information, and size variations among strains.
-<% if( !RgdContext.isChinchilla(request) ) { %>
-    <!--a href="/wg/searchHelp">(Search Help)</a--><br>
-<% } %>
-
-<!--form name="adSearch" action="markers.html"-->
     <form name="adSearch" action="/rgdweb/elasticResults.html">
-
-        <div class="searchExamples">
-
-            <b>Example searches:</b> <a href="javascript:document.adSearch.term.value='d16rat31';document.adSearch.chr.value='0';document.adSearch.submit();" >d16rat31</a>, <a href="javascript:document.adSearch.term.value='36199';document.adSearch.chr.value='0';document.adSearch.submit();" > 36199</a>,<a href="javascript:document.adSearch.term.value='D5Rhw';document.adSearch.chr.value='0';document.adSearch.submit();" >D5Rhw</a>, <a href="javascript:document.adSearch.term.value='oxsts7961';document.adSearch.chr.value='0';document.adSearch.submit();" >oxsts7961</a>
-                </div>
-    <br>
-
-<%@ include file="advancedSearchForm.jsp"%> 
-
-    <!--input type="hidden" name="obj" value="marker" /-->
+        <%@ include file="advancedSearchForm.jsp"%>
         <input type="hidden" name="category" id="objectSearchCat" value="SSLP" />
         <input type="hidden" name="objectSearch" value="true"/>
-
-</form>
+    </form>
 </div>
 <%@ include file="/common/footerarea.jsp"%>

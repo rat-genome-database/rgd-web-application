@@ -15,25 +15,26 @@
 %>
 <%@ include file="/common/headerarea.jsp"%>
 
-<link href="/rgdweb/css/cyStyle.css" rel="stylesheet" type="text/css">
+<link href="/rgdweb/css/searchForm.css" rel="stylesheet" type="text/css">
 
-<div class="rgd-panel rgd-panel-default">
-  <div class="rgd-panel-heading">Variant Search</div>
-</div>
-<div class="searchBox">
-  <%=pageDescription%>
-  <div class="searchExamples">
-    <b>Example searches:</b> <a href="javascript:document.adSearch.term.value='rs8154608';document.adSearch.chr.value='0';document.adSearch.submit();" >rs8154608</a>, <a href="javascript:document.adSearch.term.value='RGD:9692267';document.adSearch.chr.value='0';document.adSearch.submit();" >RGD:9692267</a>, <a href="javascript:document.adSearch.term.value='A2m';document.adSearch.chr.value='0';document.adSearch.submit();" >A2m</a>, <a href="javascript:document.adSearch.term.value='lepr';document.adSearch.chr.value='0';document.adSearch.submit();" >lepr</a>, <a href="javascript:document.adSearch.term.value='Adora2a';document.adSearch.chr.value='0';document.adSearch.submit();" >Adora2a</a>
+<%-- class "rsm" opts this page into the modern search form styling, see /rgdweb/css/searchForm.css --%>
+<div class="rsm">
+  <h1 class="rsm-title">Variant Search</h1>
+  <p class="rsm-lead"><%=pageDescription%></p>
+
+  <div class="rsm-examples">
+    <span class="rsm-examples-label">Try an example:</span>
+    <button type="button" class="rsm-chip" data-term="rs8154608">rs8154608</button>
+    <button type="button" class="rsm-chip" data-term="RGD:9692267">RGD:9692267</button>
+    <button type="button" class="rsm-chip" data-term="A2m">A2m</button>
+    <button type="button" class="rsm-chip" data-term="lepr">lepr</button>
+    <button type="button" class="rsm-chip" data-term="Adora2a">Adora2a</button>
   </div>
-  <br>
-
 
   <form name="adSearch" action="/rgdweb/elasticResults.html">
     <%@ include file="advancedSearchForm.jsp"%>
     <input type="hidden" name="category" id="objectSearchCat" value="Variant" />
     <input type="hidden" name="objectSearch" value="true"/>
   </form>
-
-
 </div>
 <%@ include file="/common/footerarea.jsp"%>
