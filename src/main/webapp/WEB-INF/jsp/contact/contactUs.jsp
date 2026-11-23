@@ -624,6 +624,7 @@
                         // alert("Thank you for the message! We will try and get back to you as soon as possible.");
                     }).catch(function (error) {
                     console.log(error)
+                    alert("Sorry, your message could not be sent. Please try again later, or email us at rgd.data@mcw.edu.");
                 })
             },
             resetForm: function (){
