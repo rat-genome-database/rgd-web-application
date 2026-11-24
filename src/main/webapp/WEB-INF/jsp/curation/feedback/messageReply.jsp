@@ -1,6 +1,7 @@
 <%@ page import="edu.mcw.rgd.datamodel.FBAnswer" %>
 <%@ page import="edu.mcw.rgd.datamodel.FBPerson" %>
 <%@ page import="edu.mcw.rgd.datamodel.FBQuestion" %>
+<%@ page import="edu.mcw.rgd.feedback.FeedbackCannedResponses" %>
 <%@ page import="edu.mcw.rgd.feedback.FeedbackMessageReplyController" %>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.mcw.rgd.process.Utils" %>
@@ -40,6 +41,8 @@
         background-color: #f8f8f8; padding: 10px; margin: 5px 0 20px 0; }
     .fb-add-curator { border: 1px solid #ccc; background-color: #f8f8f8; padding: 10px; margin-top: 10px; }
     .fb-add-curator label { margin-right: 15px; font-weight: normal; }
+    .fb-canned { margin-bottom: 8px; }
+    .fb-canned label { font-weight: normal; margin-right: 8px; }
     .fb-add-curator-error { color: #b94a48; margin-top: 5px; }
 </style>
 
@@ -128,6 +131,51 @@
     <br><br>
 
     <h4><label for="reply">Reply</label></h4>
+    <%-- canned responses: the chosen one is copied into the reply box, where it can still be edited --%>
+    <div class="fb-canned">
+        <label for="cannedResponse">Canned response</label>
+<%
+        List<FeedbackCannedResponses.CannedResponse> cannedResponses = FeedbackCannedResponses.getResponses();
+        org.json.JSONArray cannedTexts = new org.json.JSONArray();
+        if( cannedResponses.isEmpty() ) {
+%>
+        <select id="cannedResponse" disabled><option value="">-- none available yet --</option></select>
+<%
+        } else {
+%>
+        <select id="cannedResponse">
+            <option value="">-- select a canned response --</option>
+<%
+            for( int i=0; i<cannedResponses.size(); i++ ) {
+                cannedTexts.put(cannedResponses.get(i).getText());
+%>
+            <option value="<%=i%>"><%=StringEscapeUtils.escapeHtml4(cannedResponses.get(i).getTitle())%></option>
+<%
+            }
+%>
+        </select>
+        <button type="button" id="useCannedResponse" class="btn btn-info btn-sm" style="margin-left:10px;">Use Response</button>
+<%
+        }
+%>
+    </div>
+    <script>
+        $(function() {
+            var cannedTexts = <%=cannedTexts.toString().replace("</", "<\\/")%>;
+
+            $('#useCannedResponse').click(function() {
+                var index = $('#cannedResponse').val();
+                if( index === '' ) {
+                    return;
+                }
+                var reply = $('#reply');
+                if( $.trim(reply.val()) !== '' && !confirm('Replace the reply typed so far with the canned response?') ) {
+                    return;
+                }
+                reply.val(cannedTexts[index]).focus();
+            });
+        });
+    </script>
     <textarea id="reply" name="reply" rows="12" form="replyForm" maxlength="<%=FeedbackMessageReplyController.MAX_ANSWER%>" required><%=StringEscapeUtils.escapeHtml4(replyText)%></textarea>
 
     <form id="replyForm" method="post" action="messageReply.html" style="margin-top:10px;"

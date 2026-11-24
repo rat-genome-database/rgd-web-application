@@ -142,16 +142,35 @@ public class FeedbackMessageReplyController implements Controller {
         if( !errors.isEmpty() ) {
             return false;
         }
+        return saveAnswer(dao, question, curator, reply, true, errors);
+    }
+
+    /** @return true if the text looks like an email address */
+    public static boolean isValidEmail(String email) {
+        return email != null && email.matches(EMAIL_PATTERN);
+    }
+
+    /**
+     * Saves an answer to a message in FB_ANSWER and, if sendEmail is true, emails it to the sender of the message
+     * (see getReplyEmail). With sendEmail, the answer is not kept if the email cannot be sent.
+     * Used by the reply page and by the list of messages, which answers the selected messages together.
+     * @return true if the answer was saved (and emailed); otherwise the reasons are added to errors
+     */
+    public static boolean saveAnswer(RgdFbDAO dao, FBQuestion question, FBPerson curator, String reply, boolean sendEmail, List<String> errors) {
 
         int answerId;
         try {
             answerId = dao.insertAnswer(question.getMessageId(), curator.getPersonId(), reply);
         } catch( Exception e ) {
             e.printStackTrace();
-            errors.add("The reply could not be saved, so it was not sent: " + e.getMessage());
+            errors.add("The reply could not be saved" + (sendEmail ? ", so it was not sent" : "") + ": " + e.getMessage());
             return false;
         }
+        if( !sendEmail ) {
+            return true;
+        }
 
+        String email = getReplyEmail(question);
         try {
             String subject = "Re: " + Utils.defaultString(question.getSubject()) + " (RGD message ID " + question.getMessageId() + ")";
             String body = reply + "\n" +
