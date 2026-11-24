@@ -74,8 +74,9 @@ public class TermEditObjectController implements Controller {
         else {
             if( !(termAcc.startsWith("DOID:") || termAcc.startsWith("CHEBI:") || termAcc.startsWith("MP:")
                     || termAcc.startsWith("PW:") || termAcc.startsWith("CMO:") || termAcc.startsWith("MMO:")
-                    || termAcc.startsWith("XCO:") || termAcc.startsWith("RS:") || termAcc.startsWith("HP:")) ) {
-                throw new Exception("Term Edit is allowed only for DO+ (RDO), PW, MP, HP, RS, CMO, MMO, XCO and CHEBI ontologies!");
+                    || termAcc.startsWith("XCO:") || termAcc.startsWith("RS:") || termAcc.startsWith("HP:")
+                    || termAcc.startsWith("EFO:") || termAcc.startsWith("MONDO:")) ) {
+                throw new Exception("Term Edit is allowed only for DO+ (RDO), PW, MP, HP, RS, CMO, MMO, XCO, CHEBI, EFO and MONDO ontologies!");
             }
 
             if( action.equals("update") ) {
