@@ -27,6 +27,7 @@
             <mvc:mapping path="/curation/phenominer/*" />
             <mvc:mapping path="/curation/pipeline/*" />
             <mvc:mapping path="/curation/gene_binning/*" />
+            <mvc:mapping path="/curation/feedback/*" />
 
             <mvc:mapping path="/curation/strainFileUpload*" />
             <beans:bean id="authInterceptor" class="edu.mcw.rgd.web.AuthenticationInterceptor"></beans:bean>

@@ -122,6 +122,9 @@
                 <prop key="curation/geneBinning/index.html">GeneBinningController</prop>
                 <prop key="curation/geneBinning/bins.html">PerformBinningController</prop>
 
+                <prop key="curation/feedback/home.html">FeedbackQuestionsController</prop>
+                <prop key="curation/feedback/messageReply.html">FeedbackMessageReplyController</prop>
+
                 <prop key="pipeline/home.html">PipelineLogsHomeController</prop>
                 <prop key="pipeline/ensembl.html">PipelineEnsemblController</prop>
                 <prop key="pipeline/list.html">PipelineListController</prop>
@@ -643,6 +646,8 @@
 
     <bean id="GeneBinningController" class="edu.mcw.rgd.genebinning.GeneBinningController"/>
     <bean id="PerformBinningController" class="edu.mcw.rgd.genebinning.PerformBinningController"/>
+    <bean id="FeedbackQuestionsController" class="edu.mcw.rgd.feedback.FeedbackQuestionsController"/>
+    <bean id="FeedbackMessageReplyController" class="edu.mcw.rgd.feedback.FeedbackMessageReplyController"/>
 
     <bean id="hrdpController" class="edu.mcw.rgd.hrdp.hrdpController"/>
     <bean id="hrdpDistributionPilotController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">

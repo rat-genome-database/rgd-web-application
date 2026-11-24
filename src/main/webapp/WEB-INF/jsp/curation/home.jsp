@@ -92,6 +92,11 @@ Current Server: <span style="color:purple; font-size:18px;">LOCALHOST</span>&nbs
             </tr>
             <tr>
                 <td>
+                    <a v-bind:href="'/rgdweb/curation/feedback/home.html?token='+token+'&login='+name">User Messages</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <a v-bind:href="'/rgdweb/curation/geneBinning/index.html?accessToken='+token">Gene Binning</a>
                 </td>
             </tr>
